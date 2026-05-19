@@ -112,6 +112,15 @@ const AGG={};
   AGG[-1]=build(K.slice(),-1,'Nord-Norge \u2014 hele landsdelen','Alle');
 })();
 function resolveSel(){ return K.find(x=>x.nr===state.sel) || AGG[state.sel] || null; }
+// Returnerer aggregat for valgt fylke (eller landsdel hvis state.fylke = 'Alle').
+// Brukes av render-funksjoner som ellers hardkodet AGG[-1].
+function currentAgg(){
+  return (state.fylke && state.fylke !== 'Alle' && AGG[FYNR[state.fylke]]) || AGG[-1];
+}
+// Returnerer kommune-array filtrert til valgt fylke (eller alle hvis 'Alle')
+function currentK(){
+  return state.fylke === 'Alle' ? K : K.filter(x => x.fylke === state.fylke);
+}
 function MW(o){ return (o&&o.mw)?o.mw[state.mw]:null; }
 function LMW(){ const L=DATA.proj&&DATA.proj.landsdel; return (L&&L.mw)?L.mw[state.mw]:{}; }
 
@@ -1508,7 +1517,7 @@ function renderBigPicture(){
   const host=document.getElementById('bigPicGraph');
   const tldrHost=document.getElementById('bigPicTldr');
   if(!host&&!tldrHost) return;
-  const agg=AGG[-1]; // hele landsdelen
+  const agg=currentAgg(); // valgt fylke eller hele landsdelen
   if(!agg) return;
   // Tegn projChart for hele landsdelen i 'tot'-modus
   if(host){
@@ -1553,7 +1562,7 @@ function renderBigPicture(){
   }
 }
 function renderComposition(){
-  const agg=AGG[-1]; if(!agg) return;
+  const agg=currentAgg(); if(!agg) return;
   // Klartekst
   const tldrHost=document.getElementById('compTldr');
   if(tldrHost){
@@ -1615,7 +1624,8 @@ function renderComposition(){
 function renderLevekar(){
   if(typeof LEVEKAR_DATA==='undefined') return;
   // Aggregér landsdelen (vektet etter antall husholdninger / personer der relevant)
-  const ks = Object.entries(LEVEKAR_DATA.kommuner);
+  const _kFylkeNr = state.fylke==='Alle' ? null : new Set(K.filter(x=>x.fylke===state.fylke).map(x=>String(x.nr)));
+  const ks = Object.entries(LEVEKAR_DATA.kommuner).filter(([n,r])=>!_kFylkeNr||_kFylkeNr.has(n));
   // ---- A. Husholdningsinntekt ----
   // Median = vektet snitt av kommune-medianene, vektet med antall husholdninger
   let medSum=0, medW=0, totalHush=0;
@@ -1883,7 +1893,7 @@ function renderLevekar(){
 }
 
 function renderBurden(){
-  const agg=AGG[-1]; if(!agg) return;
+  const agg=currentAgg(); if(!agg) return;
   const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[agg.nr];
   const tldrHost=document.getElementById('burdenTldr');
   const graphHost=document.getElementById('burdenGraph');
@@ -1938,7 +1948,7 @@ function renderBurden(){
   }
 }
 function renderEconomy(){
-  const agg=AGG[-1]; if(!agg) return;
+  const agg=currentAgg(); if(!agg) return;
   const P=DATA.proj, B=(P&&P.kostra_bench&&P.kostra_bench['Alle'])||{};
   const num=v=>v==null?null:+v;
   const ndr=num(B.ndr), fond=num(B.fond), gj=num(B.gjeld), yr=B.yr||'';
@@ -1975,7 +1985,7 @@ function renderRente(){
     if(r.ndr_kr!=null){ sumNdrKr+=r.ndr_kr; validKom++; }
     if(r.rxp_kr!=null){ sumRxpKr+=r.rxp_kr; if(r.proxy) proxyKom++; }
   });
-  const aggPop=AGG[-1]?AGG[-1].pop:0;
+  const aggPop=currentAgg()?currentAgg().pop:0;
   const perPpKr = sumRxpKr * 0.01 * 1000;
   const ppPerInnb = aggPop?perPpKr/aggPop:0;
   const dRate = state.renteCur - state.renteNew;
