@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if(Math.abs(ppDiff) >= 15){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
           sanityHTML = '<div class="mvp-sanity">'+
-            '<b>TF-MVP forlenger flyttenivåer fra «'+currentMw.title+»-perioden i 26 år.</b> '+
+            '<b>TF-MVP forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 26 år.</b> '+
             'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+ppDiff.toFixed(0)+' % '+dir+' enn SSB MMMM ved 2050. '+
             (o.tfattr ? 'Bredere vindu eller <b>TF-ATTR</b> gir et mindre dramatisk anslag. TF-ATTR slo TF-MVP i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
           '</div>';
