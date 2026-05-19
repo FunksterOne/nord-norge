@@ -814,6 +814,11 @@ function robekOverviewHTML(fylke){
   const pill=l=>'<span style="display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;color:#fff;background:'+LC[l]+'">'+LV[l]+'</span>';
   const fmtp=(v,unit)=> v==null?'\u2013':(v<0?'\u2212':'')+Math.abs(v).toFixed(unit==='0'?0:1)+(unit==='%'?'\u2009%':'');
   const showFylke=fylke==='Alle';
+  const headerTitle = fylke === 'Alle' ? 'ROBEK — landsdelsoversikt (Nord-Norge)' : 'ROBEK — fylkesoversikt (' + fylke + ')';
+  const scopeText = fylke === 'Alle' ? 'Nord-Norge' : fylke;
+  const totalReg = K.filter(x => RB.kommuner[x.nr]).length;
+  const totalPnd = K.filter(x => (RB.pending||{})[x.nr]).length;
+  const totalAffected = totalReg + totalPnd;
   const head='<tr style="color:var(--ink3);font-size:10.5px;text-align:left">'+
     '<td style="padding:3px 0">Kommune</td>'+(showFylke?'<td>Fylke</td>':'')+
     '<td>Status</td><td>Risiko</td>'+
@@ -834,17 +839,17 @@ function robekOverviewHTML(fylke){
     '<b>a)</b> driftsbudsjett vedtatt med merforbruk \u00b7 <b>b)</b> \u00f8konomiplanens driftsdel vedtatt med merforbruk \u00b7 '+
     '<b>c)</b> merforbruk som dekkes inn over mer enn to \u00e5r \u00b7 <b>d)</b> oppsamlet merforbruk &gt; <b>3 % av driftsinntektene</b> \u00b7 '+
     '<b>e/f)</b> plan/budsjett/regnskap ikke vedtatt innen frist. Nasjonale kriterier; '+sf(fylke)+' f\u00f8rer kontrollen p\u00e5 vegne av KDD.</p></details>';
-  return '<div class="card"><div class="ch"><h3 class="serif">ROBEK \u2014 landsdelsoversikt ('+scope+')</h3></div>'+
-    '<p class="hint">Faktisk registerstatus per <b>'+RB.oppdatert+'</b> (kilde: '+RB.kilde+'), satt mot den kalibrerte risikoproxyen p\u00e5 KOSTRA-fundamentene for alle '+inF.length+' kommuner.</p>'+
+  return '<div class="card"><div class="ch"><h3 class="serif">'+headerTitle+'</h3></div>'+
+    '<p class="hint">Faktisk registerstatus per <b>'+RB.oppdatert+'</b> (kilde: '+RB.kilde+'), satt mot den kalibrerte risikoproxyen p\u00e5 KOSTRA-fundamentene for alle '+inF.length+' kommuner i '+scopeText+'.</p>'+
     '<div style="display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin:8px 0 4px">'+
     '<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:'+(reg.length?'#B23B3B':'#2E7D5B')+'">'+reg.length+'</span> <span style="color:var(--ink2);font-size:12.5px">i ROBEK ('+pctv.toFixed(0)+' %)</span></div>'+
     (pendF.length?'<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:var(--amber)">'+pendF.length+'</span> <span style="color:var(--ink2);font-size:12.5px">over grensen (behandles)</span></div>':'')+
     '<div style="font-size:11.5px;color:var(--ink2)">Proxy: <b style="color:'+LC[3]+'">'+dist[3]+'</b> H\u00f8y \u00b7 <b style="color:'+LC[2]+'">'+dist[2]+'</b> Forh\u00f8yet \u00b7 <b style="color:'+LC[1]+'">'+dist[1]+'</b> Moderat \u00b7 <b style="color:'+LC[0]+'">'+dist[0]+'</b> Lav</div></div>'+
-    '<div class="minseg" id="rbk" style="margin:6px 0 4px">'+seg('risk','Risiko')+seg('status','Status')+seg('navn','Navn')+seg('fylke','Fylke')+'</div>'+
+    '<div class="minseg" id="rbk" style="margin:6px 0 4px">'+seg('risk','Risiko')+seg('status','Status')+seg('navn','Navn')+(showFylke?seg('fylke','Fylke'):'')+'</div>'+
     '<div style="max-height:460px;overflow:auto;border:1px solid var(--line2);border-radius:8px;padding:2px 10px"><table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead style="position:sticky;top:0;background:var(--paper2)">'+head+'</thead><tbody>'+body+'</tbody></table></div>'+
     '<p class="hint" style="margin:6px 0 0;font-size:11px">Sorter med knappene over. <b>Risiko</b> = kalibrert proxy: disposisjonsfond (tyngst vektet \u2014 direkte utl\u00f8sende for bokstav d), driftsresultat, kronisk svakhet, l\u00e5negjeld kun som svak forsterker. Ikke de juridiske vilkårene.</p>'+
     crit+
-    '<p class="hint" style="margin:10px 0 0;font-size:11px;opacity:.75">Kalibrert mot fasiten: alle 12 faktisk i/over ROBEK fanges (Forh\u00f8yet/H\u00f8y). Proxyen overvarsler fortsatt bevisst \u2014 mange kommuner har reelt svake fundamenter men unng\u00e5r registeret ved \u00e5 saldere budsjettet (vilkår a\u2013c er vedtak, ikke n\u00f8kkeltall). Registerstatus er et \u00f8yeblikksbilde og endres l\u00f8pende.</p></div>';
+    '<p class="hint" style="margin:10px 0 0;font-size:11px;opacity:.75">Kalibrert mot fasiten: alle '+totalAffected+' kommuner i/over ROBEK i Nord-Norge fanges (Forh\u00f8yet/H\u00f8y). Proxyen overvarsler fortsatt bevisst \u2014 mange kommuner har reelt svake fundamenter men unng\u00e5r registeret ved \u00e5 saldere budsjettet (vilkår a\u2013c er vedtak, ikke n\u00f8kkeltall). Registerstatus er et \u00f8yeblikksbilde og endres l\u00f8pende.</p></div>';
 }
 function robekCard(k){
   const P=DATA.proj; if(!P||!P.robek) return '';
@@ -2281,7 +2286,9 @@ function render(){renderList(); if(!renderCompare())detail();
   if(typeof attachHelpPops==='function')attachHelpPops();}
 function renderRobek(){
   const host=document.getElementById('robekview'); if(!host) return;
-  host.innerHTML=robekOverviewHTML(state.robekFylke||'Alle');
+  // Synkroniser med valgt fylke: når brukeren er på fylke.html, vis bare det fylkets kommuner
+  const f = (state.fylke && state.fylke !== 'Alle') ? state.fylke : (state.robekFylke || 'Alle');
+  host.innerHTML=robekOverviewHTML(f);
   host.querySelectorAll('#rbk button').forEach(b=>b.onclick=()=>{state.robekSort=b.dataset.s;renderRobek();});
   const fb=document.getElementById('rbkf');
   if(fb) fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{
