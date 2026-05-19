@@ -469,28 +469,42 @@ document.addEventListener('DOMContentLoaded', function(){
   // Bruker tekstnode-erstatning sa lenker og struktur bevares.
   var fGen = (fylke === 'Troms') ? fylke + "'" : fylke + 's';
   var fHele = 'hele ' + fylke;
+  var fHeleCap = 'Hele ' + fylke;
   function replaceText(text){
     if(!text) return text;
     return text
       .replace(/Nord-Norges/g, fGen)
       .replace(/Nord-Norge/g, fylke)
+      .replace(/Hele landsdelen/g, fHeleCap)
       .replace(/hele landsdelen/g, fHele)
       .replace(/Landsdelens/g, 'Fylkets')
       .replace(/landsdelens/g, 'fylkets')
+      .replace(/Landsdelen/g, 'Fylket')
       .replace(/landsdelen/g, 'fylket')
-      .replace(/landsdels-/g, 'fylkes-');
+      .replace(/Landsdels-/g, 'Fylkes-')
+      .replace(/landsdels-/g, 'fylkes-')
+      .replace(/landsdelsmedian/g, 'fylkesmedian')
+      .replace(/Landsdelsmedian/g, 'Fylkesmedian');
   }
+  // Walk ALLE tekstnoder inni de relevante seksjonene (også inni <b>, <i>, <span>)
+  // ved hjelp av TreeWalker. Den gamle childNodes-loopen fanget bare direkte tekst.
   function walkText(root){
     if(!root) return;
-    root.querySelectorAll('h1, h2, h3, h4, p, .ns-h, .ns-t, .sq, .hint, summary, label, td').forEach(function(el){
-      // Hopp over breadcrumb og navigasjonsknapper
+    var containers = root.querySelectorAll(
+      'h1, h2, h3, h4, h5, p, li, summary, label, td, blockquote, ' +
+      '.ns-h, .ns-t, .sq, .hint, .sub, .essence, .note, .tldr-text'
+    );
+    containers.forEach(function(el){
+      // Hopp over toppnav, breadcrumb, seksjons-velger
       if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top')) return;
-      el.childNodes.forEach(function(node){
-        if(node.nodeType === 3){
-          var newText = replaceText(node.textContent);
-          if(newText !== node.textContent) node.textContent = newText;
-        }
-      });
+      // Gå rekursivt gjennom ALLE tekstnoder under el (inkl. inni <b>, <i>, <span>)
+      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      var node;
+      while((node = walker.nextNode())){
+        if(!node.textContent.trim()) continue;
+        var newText = replaceText(node.textContent);
+        if(newText !== node.textContent) node.textContent = newText;
+      }
     });
   }
   walkText(document.body);
