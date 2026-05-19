@@ -24,14 +24,12 @@
 .bofast-bar{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin:4px 0 6px}
 .bofast-bar > div{height:100%;background:var(--aurora)}
 
-.ukraine-card{margin:20px 0 0;padding:22px 24px;background:linear-gradient(135deg, rgba(139,92,246,0.10), rgba(139,92,246,0.02));border:1px solid rgba(139,92,246,0.30);border-left:4px solid #8B5CF6;border-radius:0 12px 12px 0;display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:center}
+.ukraine-card{margin:20px 0 0;padding:22px 24px;background:linear-gradient(135deg, rgba(139,92,246,0.10), rgba(139,92,246,0.02));border:1px solid rgba(139,92,246,0.30);border-left:4px solid #8B5CF6;border-radius:0 12px 12px 0}
 .ukraine-card .ukc-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#8B5CF6;font-weight:700;margin-bottom:4px}
 .ukraine-card h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 6px;color:var(--ink)}
-.ukraine-card p{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink2)}
-.ukraine-card .ukc-graph{min-width:0}
-@media (max-width: 720px){
-  .ukraine-card{grid-template-columns:1fr}
-}
+.ukraine-card p{margin:0 0 16px;font-size:13.5px;line-height:1.55;color:var(--ink2);max-width:78ch}
+.ukraine-card .ukc-graph{min-width:0;margin-top:6px}
+.ukraine-card .ukc-caption{margin-top:8px;font-size:11.5px;color:var(--ink3);font-style:italic}
 
 .kvote-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);border-radius:10px;overflow:hidden}
 .kvote-tabell th{text-align:left;padding:11px 14px;background:var(--paper);color:var(--ink2);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2)}
@@ -85,6 +83,7 @@
       <p>Ukrainere som har bosatt seg i Nord-Norge etter den russiske invasjonen i 2022 utgjør i dag <b id="ukcStock">—</b> personer (per 1.1.2025, SSB tabell 11366). Antall ankommet per år har gått ned fra toppen i 2023.</p>
     </div>
     <div class="ukc-graph" id="ukrSparkline"></div>
+    <div class="ukc-caption">Per-år netto-tilstrømning til Nord-Norge. Beregnet som endring i beholdning av ukrainske statsborgere fra år til år (SSB 11366). Beholdning per 1.1.2025: <b id="ukcStockCap">—</b>.</div>
   </div>
 </section>
 
@@ -296,45 +295,60 @@ document.addEventListener('DOMContentLoaded', function(){
   svg += '</svg>';
     document.getElementById('traktGraf').innerHTML = svg;
 
-  // ─── Ukraina-sparkline (separat liten graf, ikke overlapp med hovedgraf) ───
+  // ─── Ukraina per-år stolpegraf (netto-tilstrømning per år, basert på endring i beholdning) ───
   var spHost = document.getElementById('ukrSparkline');
   if(spHost){
-    var spW = 380, spH = 110, spPad = {l:36, r:10, t:14, b:24};
+    // Bruk ukraineDelta (per-år endring i beholdning ≈ per-år netto-tilstrømning).
+    // Falback: regn det ut fra ukraineStock om delta mangler.
+    var deltas = (nn.ukraineDelta && nn.ukraineDelta.length === yrs.length)
+      ? nn.ukraineDelta.slice()
+      : nn.ukraineStock.map(function(v,i){ return i===0 ? null : (v - nn.ukraineStock[i-1]); });
+    // Vis bare år hvor delta > 0 (filtrer bort null og nær-null pre-2022)
+    var spW = 760, spH = 240, spPad = {l:52, r:18, t:20, b:38};
     var sw = spW - spPad.l - spPad.r, sh = spH - spPad.t - spPad.b;
-    var spMax = Math.max.apply(null, nn.ukraineStock) || 1;
-    var spX = function(i){ return spPad.l + (sw / (yrs.length-1)) * i; };
-    var spY = function(v){ return spPad.t + (1 - v/spMax) * sh; };
-    var sp = '<svg viewBox="0 0 ' + spW + ' ' + spH + '" style="display:block;width:100%;height:auto">';
-    // Y-aksen
-    for(var v = 0; v <= spMax; v += 5000){
-      var yy = spY(v);
+    var maxD = 0;
+    deltas.forEach(function(d){ if(d && d > maxD) maxD = d; });
+    // Rund av maxD opp til nærmeste 1000 for pen y-aksen
+    var yTop = Math.ceil(maxD / 1000) * 1000;
+    if(yTop < 1000) yTop = 1000;
+    var bw = sw / yrs.length * 0.72;
+    var bx = function(i){ return spPad.l + (sw / yrs.length) * (i + 0.5) - bw/2; };
+    var by = function(v){ return spPad.t + (1 - v/yTop) * sh; };
+    var sp = '<svg viewBox="0 0 ' + spW + ' ' + spH + '" style="display:block;width:100%;height:auto" aria-label="Ukrainsk netto-tilstrømning per år">';
+    // Y-aksens linjer og tall (5 trinn)
+    var step = yTop / 4;
+    for(var v = 0; v <= yTop; v += step){
+      var yy = by(v);
       sp += '<line x1="' + spPad.l + '" y1="' + yy + '" x2="' + (spPad.l+sw) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
-      sp += '<text x="' + (spPad.l-6) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (v/1000) + 'k</text>';
+      sp += '<text x="' + (spPad.l-8) + '" y="' + (yy+4) + '" text-anchor="end" style="font-size:11px;fill:var(--ink3)">' + fmt(Math.round(v)) + '</text>';
     }
-    // X-akse: hvert år 2022-25
-    var ukrStart = nn.ukraineStock.findIndex(function(v){return v>0;});
-    for(var i = ukrStart; i < yrs.length; i++){
-      sp += '<text x="' + spX(i) + '" y="' + (spPad.t + sh + 14) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yrs[i] + '</text>';
-    }
-    // Areal under kurven (lilla)
-    var pts = nn.ukraineStock.map(function(v,i){return v>0 ? (spX(i)+','+spY(v)) : null;}).filter(Boolean);
-    if(pts.length){
-      var firstIdx = ukrStart;
-      var area = 'M' + spX(firstIdx) + ' ' + spY(0);
-      pts.forEach(function(pt){ area += ' L' + pt; });
-      area += ' L' + spX(yrs.length-1) + ' ' + spY(0) + ' Z';
-      sp += '<path d="' + area + '" fill="#8B5CF6" fill-opacity="0.25"/>';
-      sp += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#8B5CF6" stroke-width="2"/>';
-      // Endepunkt-label
-      var lastVal = nn.ukraineStock[yrs.length-1];
-      sp += '<circle cx="' + spX(yrs.length-1) + '" cy="' + spY(lastVal) + '" r="3.5" fill="#8B5CF6"/>';
-      sp += '<text x="' + (spX(yrs.length-1)-6) + '" y="' + (spY(lastVal)-8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:#8B5CF6">' + fmt(lastVal) + '</text>';
-    }
+    // Stolper + verditall + årsetiketter
+    yrs.forEach(function(yr, i){
+      var d = deltas[i];
+      var labelY = spPad.t + sh + 18;
+      // X-akse: alle år
+      sp += '<text x="' + (bx(i)+bw/2) + '" y="' + labelY + '" text-anchor="middle" style="font-size:11px;fill:var(--ink3)">' + yr + '</text>';
+      if(d == null || d <= 0) return;
+      var h = sh * (d/yTop);
+      var y0 = by(d);
+      // Sterkere farge for 2022-2025, blass for resten
+      var isWar = yr >= 2022;
+      var fill = isWar ? '#8B5CF6' : 'rgba(139,92,246,0.30)';
+      sp += '<rect x="' + bx(i) + '" y="' + y0 + '" width="' + bw + '" height="' + h + '" fill="' + fill + '" rx="2"/>';
+      // Verditall over stolpen (kun synlig på stolper > ~3 % av maks)
+      if(d > yTop * 0.04){
+        sp += '<text x="' + (bx(i)+bw/2) + '" y="' + (y0-6) + '" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:' + (isWar ? '#5b3aa8' : 'var(--ink3)') + '">' + fmt(d) + '</text>';
+      }
+    });
+    // Y-akse-tittel
+    sp += '<text x="14" y="' + (spPad.t + sh/2) + '" text-anchor="middle" transform="rotate(-90 14 ' + (spPad.t + sh/2) + ')" style="font-size:10.5px;fill:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Personer per år</text>';
     sp += '</svg>';
     spHost.innerHTML = sp;
   }
   var ukcStockEl = document.getElementById('ukcStock');
   if(ukcStockEl) ukcStockEl.textContent = fmt(ukrStock);
+  var ukcStockCapEl = document.getElementById('ukcStockCap');
+  if(ukcStockCapEl) ukcStockCapEl.textContent = fmt(ukrStock);
 
   // Akt 04: dynamiske tall i intro-tekst
   var aktNetto = document.getElementById('aktNetto');
