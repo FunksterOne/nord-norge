@@ -223,22 +223,12 @@ document.addEventListener('DOMContentLoaded', function(){
     } else if(sec === 'sammensetning'){
       renderSammensetningPanel(k, host);
     } else if(sec === 'arbeid'){
-      // 3. Arbeid og forsørgelse: forsørgerbyrde-graf (egen lokalt projMode='fb') + sysselsetting
-      var savedProjMode = state.projMode;
-      state.projMode = 'fb';
-      var fbHtml = projCard(k);
-      state.projMode = savedProjMode;  // gjenopprett, så Befolkning beholder sitt valg
-      var html = fbHtml;
-      if(k.syss){
-        html += sysCard(k.syss);
-      }
-      host.innerHTML = html;
+      renderArbeidPanel(k, host);
     } else if(sec === 'levekar'){
       // 4. Levekår: husholdning + bolig
       host.innerHTML = levekarKommuneCard(k);
     } else if(sec === 'okonomi'){
-      // 5. Økonomi: KOSTRA + ROBEK
-      host.innerHTML = kostraCard(k) + robekCard(k);
+      renderOkonomiPanel(k, host);
     } else if(sec === 'barekraft'){
       // 6. Bærekraft: indikatorer mot eksterne normer
       host.innerHTML = sustKommuneCard(k);
@@ -468,6 +458,130 @@ document.addEventListener('DOMContentLoaded', function(){
     host.querySelectorAll('#amModes button').forEach(function(b){
       b.onclick = function(){ state.ageMode = this.dataset.am; renderSection('sammensetning'); };
     });
+  }
+
+  // ─── Dedikert Arbeid og forsørgelse-panel ───
+  // Forsørgerbyrde-graf øverst → KPI-rad → sysselsettings-kort → Norman-tolkning
+  function renderArbeidPanel(k, host){
+    // Bruk lokalt projMode='fb' for grafen — påvirker ikke Befolkning
+    var savedProjMode = state.projMode;
+    state.projMode = 'fb';
+    var chartSvg = projChart(k);
+    state.projMode = savedProjMode;
+
+    // KPI-er
+    var P = DATA.proj, o = P && P.kommuner[k.nr];
+    var mw = (o && o.mw) ? o.mw[state.mw] : null;
+    var yrs = P.years, n = yrs ? yrs.length : 0;
+    var sj = k.syss, sjr = sj ? sj.rate : null;
+    var sysRate = (typeof getSysselsRate === 'function') ? getSysselsRate(k.nr) : null;
+    var uforePct = (typeof getUforePct === 'function') ? getUforePct(k.nr) : null;
+    var oad0 = null, oad1 = null;
+    if(o && mw && n >= 2 && mw.a65 && mw.a2064){
+      oad0 = mw.a2064[0] ? 100*mw.a65[0]/mw.a2064[0] : null;
+      oad1 = mw.a2064[n-1] ? 100*mw.a65[n-1]/mw.a2064[n-1] : null;
+    }
+    var sysInnv = sjr && sjr.zzz != null ? sjr.zzz : null;
+    var sysGap = (sjr && sjr.zzz != null && sjr.tot != null) ? (sjr.tot - sjr.zzz) : null;
+    var fmtP = function(v, d){ return v == null ? '–' : v.toFixed(d == null ? 1 : d) + ' %'; };
+
+    // Tolkning
+    var aldring = (oad0 != null && oad1 != null) ? (oad1 - oad0) : null;
+    var presset = aldring == null ? 'ukjent' :
+      aldring > 25 ? 'svært stort' :
+      aldring > 15 ? 'stort' :
+      aldring > 8 ? 'moderat' : 'beskjedent';
+    var tolkning = '<b>' + k.navn + '</b> har et <b>' + presset + '</b> aldringspress fram mot 2050. ';
+    if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbyrden går fra <b>' + oad0.toFixed(0) + '</b> til <b>' + oad1.toFixed(0) + '</b> eldre per 100 i yrkesaktiv alder (20–64). ';
+    if(sysRate != null) tolkning += 'Sysselsettingsraten er <b>' + (sysRate*100).toFixed(0) + ' %</b> i 2024. ';
+    if(uforePct != null && uforePct > 12) tolkning += 'Uføreandelen på <b>' + uforePct.toFixed(1) + ' %</b> er over nasjonalt snitt (~10,5 %) — det forsterker presset. ';
+    else if(uforePct != null) tolkning += 'Uføreandelen på <b>' + uforePct.toFixed(1) + ' %</b> er rundt nasjonalt snitt. ';
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        // Forsørgerbyrde-graf
+        '<div class="bf-graph">'+
+          '<p class="chart-title">Forsørgerbyrde 2024 → 2050 — eldre per 100 i yrkesaktiv alder (20–64)</p>'+
+          chartSvg+
+        '</div>'+
+        // KPI-rad
+        '<div class="bf-kpis">'+
+          '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0)+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 (2024)</div></div>'+
+          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1)+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 (2024)</div></div>'+
+          (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0)+'</div><div class="l">Forsørgerbyrde i dag</div><div class="h">65+ per 100 yrkesaktive</div></div>' : '')+
+          (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0)+'</div><div class="l">Forsørgerbyrde 2050</div><div class="h">'+(aldring != null ? '+'+aldring.toFixed(0)+' fra i dag' : '')+'</div></div>' : '')+
+        '</div>'+
+        // Sysselsetting fordeling (innvandrere/hele)
+        (sj ? '<div style="margin-top:4px">' + sysCard(sj) + '</div>' : '')+
+        // Tolkning
+        '<div class="bf-diagnose" style="border-left-color:#B23B3B">'+
+          '<div class="h-row"><h3>Hva betyr dette?</h3>'+
+          '<span class="tag" style="color:#B23B3B;background:rgba(178,59,59,0.15)">'+presset+' press</span></div>'+
+          '<p>'+tolkning+'</p>'+
+          '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon adapteres — ikke bare bygges ut.</p>'+
+        '</div>'+
+      '</div>';
+  }
+
+  // ─── Dedikert Økonomi-panel ───
+  // KPI-rad med 4 KOSTRA-tall mot eksterne normer → KOSTRA-detalj → ROBEK-status
+  function renderOkonomiPanel(k, host){
+    var P = DATA.proj;
+    var ks = (P && P.kostra) ? P.kostra[k.nr] : null;
+    var num = function(v){ return v == null ? null : +v; };
+    var ndr = ks ? num(ks.ndr) : null;
+    var fond = ks ? num(ks.fond) : null;
+    var gj = ks ? num(ks.gjeld) : null;
+    var yr = (ks && ks.yr) || '';
+    var RB = (P && P.robek) || {kommuner:{},pending:{}};
+    var inROBEK = !!(RB.kommuner && RB.kommuner[k.nr]);
+    var pending = !!(RB.pending && RB.pending[k.nr]);
+    var robekStatus = inROBEK ? 'I ROBEK' : pending ? 'Over grensen' : 'Trygg';
+    var robekColor = inROBEK ? '#B23B3B' : pending ? 'var(--amber)' : '#2E7D5B';
+
+    // Sjekk mot eksterne normer
+    var ndrOK = ndr != null && ndr >= 1.75;
+    var fondOK = fond != null && fond >= 5;
+    var gjeldOK = gj != null && gj <= 75;
+    var statColor = function(ok){ return ok === true ? '#2E7D5B' : ok === false ? '#B23B3B' : 'var(--ink2)'; };
+
+    var fmtP = function(v, d){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(d == null ? 1 : d) + ' %'; };
+
+    // Tolkning
+    var fails = 0;
+    if(ndr != null && ndr < 1.75) fails++;
+    if(fond != null && fond < 5) fails++;
+    if(gj != null && gj > 75) fails++;
+    if(inROBEK || pending) fails++;
+    var verdict = fails === 0 ? 'solid' : fails === 1 ? 'innenfor med ett varsel' : fails === 2 ? 'flere brutte normer' : fails >= 3 ? 'svake fundamenter' : 'ukjent';
+    var verdictColor = fails === 0 ? '#2E7D5B' : fails <= 1 ? 'var(--amber)' : '#B23B3B';
+    var verdictTekst = '<b>' + k.navn + '</b>s kommuneøkonomi er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
+    if(ndr != null) verdictTekst += 'Netto driftsresultat ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-norm +1¾ %). ';
+    if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
+    if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 0) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på 75 %). ';
+    if(inROBEK) verdictTekst += 'Kommunen er <b>registrert i ROBEK</b> (kommuneloven §28-1) — Statsforvalteren fører tilsyn. ';
+    else if(pending) verdictTekst += 'Kommunen er <b>over ROBEK-grensen</b> og er under behandling.';
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        // KPI-rad: 4 KOSTRA-indikatorer mot eksterne normer
+        '<div class="bf-kpis">'+
+          '<div class="k"><div class="v" style="color:'+statColor(ndrOK)+'">'+fmtP(ndr)+'</div><div class="l">Netto driftsresultat</div><div class="h">TBU-norm: +1¾ % '+(ndr!=null?'· '+(ndrOK?'innenfor':'under'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+statColor(fondOK)+'">'+fmtP(fond)+'</div><div class="l">Disposisjonsfond</div><div class="h">KS-anbefaling: ≥5 % '+(fond!=null?'· '+(fondOK?'innenfor':'under'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+statColor(gjeldOK)+'">'+fmtP(gj, 0)+'</div><div class="l">Netto lånegjeld</div><div class="h">KS-grense: ≤75 % '+(gj!=null?'· '+(gjeldOK?'innenfor':'over'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+robekColor+'">'+robekStatus+'</div><div class="l">ROBEK-status</div><div class="h">§28-1 (Statsforvalteren)</div></div>'+
+        '</div>'+
+        // Tolkning
+        '<div class="bf-diagnose" style="border-left-color:'+verdictColor+'">'+
+          '<div class="h-row"><h3>Hva sier KOSTRA?</h3>'+
+          '<span class="tag" style="color:'+verdictColor+';background:'+(fails === 0 ? 'rgba(46,125,91,0.15)' : fails <= 1 ? 'rgba(201,162,59,0.15)' : 'rgba(178,59,59,0.15)')+'">'+verdict+'</span></div>'+
+          '<p>'+verdictTekst+'</p>'+
+        '</div>'+
+        // KOSTRA-detalj-kort (eksisterende kostraCard)
+        '<div>' + kostraCard(k) + '</div>'+
+        // ROBEK-status-kort
+        '<div>' + robekCard(k) + '</div>'+
+      '</div>';
   }
 
   renderHero();
