@@ -1486,9 +1486,9 @@ function renderNatTS(){
 }
 function renderModelEval(){
   const B=DATA.proj&&DATA.proj.backtest; if(!B) return;
-  const hosts=[document.getElementById('bteval'),document.getElementById('bteval_intro')].filter(Boolean);
+  const hosts=[document.getElementById('bteval'),document.getElementById('bteval_intro'),document.getElementById('bteval_metode')].filter(Boolean);
   if(!hosts.length) return;
-  [document.getElementById('btcav'),document.getElementById('btcav_intro')].filter(Boolean).forEach(el=>{el.textContent=B.caveat||'';});
+  [document.getElementById('btcav'),document.getElementById('btcav_intro'),document.getElementById('btcav_metode')].filter(Boolean).forEach(el=>{el.textContent=B.caveat||'';});
   const groups=B.classes.map(c=>({lab:c.name,sub:'klasse '+c.cls+' · n='+c.n,
       v:[c.ssb,c.mvp,c.attr],hl:(c.cls===5||c.cls===6)}))
     .concat([{lab:'Alle 80',sub:'n='+B.all.n,v:[B.all.ssb,B.all.mvp,B.all.attr],hl:false,div:true},

@@ -71,6 +71,21 @@
 .topp-liste .nm{font-family:'Fraunces',serif;font-size:14px;font-weight:600}
 .topp-liste .pp{font-family:'Spline Sans Mono',monospace;font-size:13px;color:#B23B3B;font-weight:700}
 .topp-liste .fy{font-size:10.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em}
+
+.neste-tema-blokk{margin:48px 0 24px;padding:32px;border-radius:14px;background:linear-gradient(135deg, rgba(17,32,58,0.04), rgba(17,32,58,0.01));border:1px solid var(--line2)}
+.neste-tema-blokk .ntb-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink3);font-weight:700;margin-bottom:8px}
+.neste-tema-blokk h3{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:0 0 16px;color:var(--ink)}
+.neste-tema-blokk .ntb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.neste-tema-blokk a.ntb-card{padding:20px 22px;border-radius:10px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line2);transition:transform .15s ease,box-shadow .15s ease;display:flex;flex-direction:column}
+.neste-tema-blokk a.ntb-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(17,32,58,.08)}
+.neste-tema-blokk .ntb-num{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.12em;margin-bottom:6px}
+.neste-tema-blokk h4{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 4px}
+.neste-tema-blokk .ntb-sub{font-style:italic;color:var(--ink2);font-size:14px;margin:0 0 10px}
+.neste-tema-blokk .ntb-body{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 12px;flex:1}
+.neste-tema-blokk .ntb-arr{font-size:13px;color:var(--ink);font-weight:600}
+.neste-tema-blokk a.ntb-flyk{border-left:4px solid var(--aurora)}
+.neste-tema-blokk a.ntb-o6{border-left:4px solid var(--amber)}
+.neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
 </style>
 </head>
 <body>
@@ -182,6 +197,27 @@
 
   <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">Tallet — <b>7 000 manglende kvinner i alder 18–44</b> — er ikke en feilstilt statistikk. Det er en strukturell utfordring som verken bygger seg ut eller ned uten målrettet handling. Det er kanskje den enkleste måten å oppsummere hva Norman-utvalget kalte «den nye distriktspolitikken på».</p>
 </section>
+
+<div class="neste-tema-blokk">
+  <div class="ntb-kicker">Fortsett reisen</div>
+  <h3>To andre temasider du bør lese</h3>
+  <div class="ntb-grid">
+    <a class="ntb-card ntb-flyk" href="tema-flyktning.html">
+      <div class="ntb-num">Temaserie 01</div>
+      <h4>Trakten</h4>
+      <p class="ntb-sub">Flyktningestrømmen 2000–2024</p>
+      <p class="ntb-body">Av rundt 32 000 som kom har over 27 000 flyttet sør. Hvem blir værende — og hva betyr det for landsdelens reproduksjon?</p>
+      <span class="ntb-arr">Les videre →</span>
+    </a>
+    <a class="ntb-card ntb-o6" href="tema-o6.html">
+      <div class="ntb-num">Temaserie 02</div>
+      <h4>Tyngdeloven</h4>
+      <p class="ntb-sub">O6 mot de 74</p>
+      <p class="ntb-body">Seks kommuner bærer 46,6 % av folket. De øvrige 74 deler resten. Norman-utvalget viser hvor politikken må endre seg.</p>
+      <span class="ntb-arr">Les videre →</span>
+    </a>
+  </div>
+</div>
 
 <footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
   <p>Nord-Norge dashboard · Temaserie 03 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a></p>
