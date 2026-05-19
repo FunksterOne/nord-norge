@@ -278,10 +278,12 @@ document.addEventListener('DOMContentLoaded', function(){
       {key:'sentral', title:'Middel',      sub:'Bredere vindu, inkluderer 2022–23'},
       {key:'opt',     title:'Optimistisk', sub:'Vektlegger 2022–23-toppen'}
     ];
+    // Data-semantikk: state.ukr = % av ukrainere som FORLATER landsdelen (ikke som blir).
+    // 0 % = ingen forlater (grunnscenario), 100 % = alle forlater (verstcase).
     var ukrOpts = [
-      {key:0,   title:'Standard',          sub:'Samme retensjon som andre kohorter'},
-      {key:50,  title:'+50 % blir',         sub:'Halvparten av nedgangen reverseres'},
-      {key:100, title:'Alle ukrainere blir',sub:'Antakelse om 100 % bofasthet'}
+      {key:0,   title:'Ingen forlater',  sub:'Grunnscenario — ukrainere blir værende'},
+      {key:50,  title:'Halvparten forlater', sub:'50 % av kohorten flytter i løpet av 2025'},
+      {key:100, title:'Alle forlater',   sub:'Verstcase — full retur av Ukraina-kohorten'}
     ];
     state.projMode = state.projMode || 'tot';
     state.mw = state.mw || 'kons';
@@ -306,8 +308,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }).join('');
     var currentUkr = ukrOpts.find(function(o){return o.key===state.ukr;}) || ukrOpts[0];
     var ukrExplainer = state.ukr === 0
-      ? '<b>Standard-scenario:</b> ukrainere antas å følge samme bofasthetsmønster som andre flyktning-kohorter (≈80 % blir første 5 år, så fallende).'
-      : '<b>Justering aktiv:</b> ' + currentUkr.sub + '. Effekten legges oppå framskrivingen.';
+      ? '<b>Grunnscenario:</b> ukrainere antas å bli værende — framskrivingen følger sin valgte flyttebane uten Ukraina-justering.'
+      : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2025. Folketallet faller tilsvarende fra grunnscenarioet.';
 
     // KPI-er fra valgt modus
     var P = DATA.proj, o = P && P.kommuner[k.nr];
