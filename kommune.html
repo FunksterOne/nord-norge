@@ -19,54 +19,256 @@
 .nn-actions select,.nn-actions input{font-family:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--paper);color:var(--ink)}
 .nn-actions a.btn{padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:6px}
 .nn-actions a.btn:hover{background:var(--paper2)}
+.nn-secnav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--line2)}
+.nn-secnav button{font-family:inherit;font-size:12.5px;padding:6px 12px;border:1px solid var(--line2);border-radius:999px;background:var(--paper);color:var(--ink2);cursor:pointer}
+.nn-secnav button[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nn-secnav button:hover:not([aria-current="true"]){border-color:var(--ink2);color:var(--ink)}
+.tab{display:none}
+.tab.active{display:block}
+.k-hero{padding:20px 0 24px;margin-bottom:18px;border-bottom:1px solid var(--line2)}
+.k-hero h1{font-family:'Fraunces',serif;font-size:42px;font-weight:600;margin:6px 0 6px;color:var(--ink)}
+.k-hero .fy{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:9px;border:1px solid;color:#fff}
+.k-hero .k-nav-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.k-hero .k-prev,.k-hero .k-next{font-size:18px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);border-radius:50%;text-decoration:none;color:var(--ink);background:var(--paper)}
+.k-hero .k-prev:hover,.k-hero .k-next:hover{border-color:var(--ink2);background:var(--paper2)}
+.k-hero .k-cmp{margin-left:auto;font-size:13px;padding:6px 12px;border:1px solid var(--line2);border-radius:6px;text-decoration:none;color:var(--ink);background:var(--paper)}
+.k-hero .k-cmp:hover{border-color:var(--ink2);background:var(--paper2)}
+.section-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.section-sub{color:var(--ink2);font-size:14px;margin:0 0 18px;max-width:60ch}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header class="nn-top">
-  <nav class="nn-bc" aria-label="Brødsmuler">
+  <nav class="nn-bc" aria-label="Brodsmuler">
     <a href="index.html">Hjem</a>
-    <span class="sep">›</span>
+    <span class="sep">&rsaquo;</span>
     <a href="nord-norge.html">Nord-Norge</a>
-    <span class="sep">›</span>
+    <span class="sep">&rsaquo;</span>
     <a id="bcFylke" href="#">Fylke</a>
-    <span class="sep">›</span>
+    <span class="sep">&rsaquo;</span>
     <span class="now" id="bcKommune">Kommune</span>
   </nav>
   <div class="nn-actions">
-    <select id="kommunePicker" aria-label="Velg kommune"></select>
+    <select id="kommunePicker" aria-label="Bytt kommune"></select>
     <a class="btn" href="metode.html">Metode</a>
   </div>
 </header>
 
-<!-- Hovedinnhold: kommunekortet (hero + 3 linser via app.js → detail()) -->
-<main class="detail" id="detail"></main>
+<!-- Kommune-hero: tittel, fylke, KPIs, navigasjon -->
+<div class="k-hero" id="kommuneHero"></div>
+
+<!-- Seksjons-nav -->
+<nav class="nn-secnav" id="secnav">
+  <button data-sec="befolkning" aria-current="true">1 · Befolkning</button>
+  <button data-sec="sammensetning" aria-current="false">2 · Sammensetning</button>
+  <button data-sec="arbeid" aria-current="false">3 · Arbeid og forsørgelse</button>
+  <button data-sec="levekar" aria-current="false">4 · Levekår</button>
+  <button data-sec="okonomi" aria-current="false">5 · Økonomi</button>
+  <button data-sec="barekraft" aria-current="false">6 · Bærekraft</button>
+</nav>
+
+<!-- 6 seksjoner -->
+<section class="tab active" data-tab="befolkning">
+  <h2 class="section-title">Befolkning</h2>
+  <p class="section-sub">Folketall i dag og framskriving mot 2050. Hvilken retning peker kommunen?</p>
+  <div id="kBefolkning"></div>
+</section>
+
+<section class="tab" data-tab="sammensetning">
+  <h2 class="section-title">Sammensetning</h2>
+  <p class="section-sub">Aldersstruktur, opprinnelse og innvandrerbakgrunn — hvem bor her i dag?</p>
+  <div id="kSammensetning"></div>
+</section>
+
+<section class="tab" data-tab="arbeid">
+  <h2 class="section-title">Arbeid og forsørgelse</h2>
+  <p class="section-sub">Sysselsetting, uføretrygd og hvor mange eldre hver arbeidsfør skal bære i 2050.</p>
+  <div id="kArbeid"></div>
+</section>
+
+<section class="tab" data-tab="levekar">
+  <h2 class="section-title">Levekår</h2>
+  <p class="section-sub">Husholdningsinntekt, personinntekt og boligstruktur.</p>
+  <div id="kLevekar"></div>
+</section>
+
+<section class="tab" data-tab="okonomi">
+  <h2 class="section-title">Økonomi</h2>
+  <p class="section-sub">KOSTRA-nøkkeltall og ROBEK-status — hvor solid står kommuneøkonomien?</p>
+  <div id="kOkonomi"></div>
+</section>
+
+<section class="tab" data-tab="barekraft">
+  <h2 class="section-title">Bærekraft</h2>
+  <p class="section-sub">Kommunen vurdert mot eksterne normer fra OECD, TBU, KS og kommuneloven §28-1.</p>
+  <div id="kBarekraft"></div>
+</section>
+
+<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
+  Nord-Norge dashboard &middot; Data fra SSB, KOSTRA, KS &middot; <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a>
+</footer>
 
 </div>
 
 <script src="assets/data.js"></script>
 <script src="assets/app.js" defer></script>
 <script defer>
-// Etter app.js er ferdig: oppdater breadcrumb + dropdown
 document.addEventListener('DOMContentLoaded', function(){
-  const k = K.find(x => x.nr === state.sel);
-  if(k){
-    document.getElementById('bcKommune').textContent = k.navn;
-    const fLink = document.getElementById('bcFylke');
-    fLink.textContent = k.fylke;
-    fLink.href = 'fylke.html?f=' + encodeURIComponent(k.fylke);
-    document.title = k.navn + ' — Nord-Norge dashboard';
-  }
-  // Bygg kommune-velger
-  const picker = document.getElementById('kommunePicker');
+  if(typeof K === 'undefined') return;
+  // Finn valgt kommune
+  var k = K.find(function(x){ return x.nr === state.sel; }) || K.slice().sort(function(a,b){return b.pop-a.pop;})[0];
+  state.sel = k.nr;
+  state.fylke = k.fylke;
+
+  // Oppdater header
+  document.getElementById('bcKommune').textContent = k.navn;
+  var fLink = document.getElementById('bcFylke');
+  fLink.textContent = k.fylke;
+  fLink.href = 'fylke.html?f=' + encodeURIComponent(k.fylke);
+  document.title = k.navn + ' — Nord-Norge dashboard';
+
+  // Kommune-velger (alle 80, alfabetisk)
+  var picker = document.getElementById('kommunePicker');
   if(picker){
-    const sortedK = K.slice().sort((a,b) => a.navn.localeCompare(b.navn,'nb'));
+    var sortedK = K.slice().sort(function(a,b){ return a.navn.localeCompare(b.navn,'nb'); });
     picker.innerHTML = '<option value="">Bytt kommune…</option>' +
-      sortedK.map(x => `<option value="${x.nr}" ${x.nr===state.sel?'selected':''}>${x.navn} (${x.fylke})</option>`).join('');
-    picker.onchange = function(){
-      if(this.value) window.location.search = '?k=' + this.value;
-    };
+      sortedK.map(function(x){ return '<option value="' + x.nr + '" ' + (x.nr===k.nr?'selected':'') + '>' + x.navn + ' (' + x.fylke + ')</option>'; }).join('');
+    picker.onchange = function(){ if(this.value) window.location.search = '?k=' + this.value; };
+  }
+
+  // Hero med statusBadges + KPIs + forrige/neste-nav
+  function renderHero(){
+    var st = kommuneStatus(k);
+    var med = medianAge(k.alder);
+    var barn = k.alder.slice(0,18).reduce(function(s,x){return s+x;},0);
+    var eldre = k.alder.slice(67).reduce(function(s,x){return s+x;},0);
+    var sj = k.syss, sjr = sj?sj.rate:null;
+    var sjVal = sjr && sjr.zzz!=null ? sjr.zzz.toFixed(1)+'%' : '–';
+    var sjGap = (sjr && sjr.zzz!=null && sjr.tot!=null) ? (sjr.tot-sjr.zzz).toFixed(1) : null;
+    // Forrige/neste innen samme fylke
+    var fk = K.filter(function(x){return x.fylke===k.fylke;}).sort(function(a,b){return b.pop-a.pop;});
+    var idx = fk.findIndex(function(x){return x.nr===k.nr;});
+    var prev = idx > 0 ? fk[idx-1] : null;
+    var next = idx >= 0 && idx < fk.length-1 ? fk[idx+1] : null;
+    var fyColor = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+    var hero = document.getElementById('kommuneHero');
+    hero.innerHTML =
+      '<div class="k-nav-row">' +
+        (prev ? '<a class="k-prev" href="kommune.html?k=' + prev.nr + '" title="' + prev.navn + '">←</a>' : '<span class="k-prev" style="opacity:.3">←</span>') +
+        '<span class="fy" style="background:' + (fyColor[k.fylke]||'var(--ink2)') + ';border-color:' + (fyColor[k.fylke]||'var(--ink2)') + '">' + k.fylke + '</span>' +
+        (next ? '<a class="k-next" href="kommune.html?k=' + next.nr + '" title="' + next.navn + '">→</a>' : '<span class="k-next" style="opacity:.3">→</span>') +
+        '<a class="k-cmp" href="sammenlign.html?k=' + k.nr + '">+ Sammenlign</a>' +
+      '</div>' +
+      '<h1 class="serif">' + k.navn + '</h1>' +
+      statusBadges(k, st) +
+      '<div class="kpis">' +
+        '<div class="kpi"><div class="v">' + fmt(k.pop) + '</div><div class="l">Folketall</div><div class="s">per 1.1.2026</div></div>' +
+        '<div class="kpi"><div class="v">' + k.andel.toFixed(1) + '%</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
+        '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
+        '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0) + '/' + (eldre/k.pop*100).toFixed(0) + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
+        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatt · innv.</div><div class="s">' + (sjGap!=null ? sjGap + ' p.e. under hele bef.' : '20–66 år, 2025') + '</div></div>' +
+      '</div>';
+  }
+
+  // Render hver seksjon med relevante fragmenter fra app.js
+  function renderSection(sec){
+    var host = document.getElementById('k' + sec.charAt(0).toUpperCase() + sec.slice(1));
+    if(!host) return;
+    if(sec === 'befolkning'){
+      // 1. Befolkning: framskrivings-graf (total) + diagnose-tekst
+      state.projMode = 'tot';
+      host.innerHTML = projCard(k) + diagnoseCard(k);
+    } else if(sec === 'sammensetning'){
+      // 2. Sammensetning: alderspyramide + landbakgrunn
+      var vesP = k.bc ? Math.round(k.ves/k.bc*100) : 0;
+      var iveP = 100 - vesP;
+      var lands = k.land.filter(function(l){return l[1]>0;});
+      var shown = lands.slice(0, state.topN || 12);
+      host.innerHTML =
+        '<div class="card"><div class="ch"><h3 class="serif">Aldersstruktur i dag</h3>' +
+          '<div class="minseg" id="agm">' +
+            '<button data-m="1" aria-selected="' + (state.ageMode==='1') + '">Ettårig</button>' +
+            '<button data-m="5" aria-selected="' + (state.ageMode==='5') + '">5-årig</button>' +
+            '<button data-m="L" aria-selected="' + (state.ageMode==='L') + '">Livsfaser</button>' +
+          '</div></div>' +
+          '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder ' + medianAge(k.alder) + ' år.</p>' +
+          barChart(ageGroups(k.alder, state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'), 'var(--aurora)') +
+        '</div>' +
+        originCard(k, vesP, iveP, lands, shown);
+      // Bind age-mode bytte
+      host.querySelectorAll('#agm button').forEach(function(b){
+        b.onclick = function(){ state.ageMode = this.dataset.m; renderSection('sammensetning'); };
+      });
+    } else if(sec === 'arbeid'){
+      // 3. Arbeid og forsørgelse: forsørgerbyrde-graf + sysselsetting
+      state.projMode = 'fb';
+      var html = projCard(k);
+      if(k.syss){
+        html += sysCard(k.syss);
+      }
+      host.innerHTML = html;
+    } else if(sec === 'levekar'){
+      // 4. Levekår: husholdning + bolig
+      host.innerHTML = levekarKommuneCard(k);
+    } else if(sec === 'okonomi'){
+      // 5. Økonomi: KOSTRA + ROBEK
+      host.innerHTML = kostraCard(k) + robekCard(k);
+    } else if(sec === 'barekraft'){
+      // 6. Bærekraft: indikatorer mot eksterne normer
+      host.innerHTML = sustKommuneCard(k);
+    }
+    // Bind eventuelle interaktive elementer (slidere/modus-bytter inni rendered HTML)
+    bindRenderedControls(host);
+    if(typeof attachMethodBadges === 'function') attachMethodBadges();
+  }
+
+  // Bind events for kontroller som dukker opp i rendert HTML (modus-bytter osv.)
+  function bindRenderedControls(host){
+    host.querySelectorAll('#pjm button').forEach(function(b){
+      b.onclick = function(){ state.projMode = this.dataset.p; renderAllSections(); };
+    });
+    host.querySelectorAll('#mw button').forEach(function(b){
+      b.onclick = function(){ state.mw = this.dataset.w; renderAllSections(); };
+    });
+    host.querySelectorAll('#ukr button').forEach(function(b){
+      b.onclick = function(){ state.ukr = +this.dataset.u; renderAllSections(); };
+    });
+    host.querySelectorAll('#ukrb button').forEach(function(b){
+      b.onclick = function(){ state.ukrbase = this.dataset.b; renderAllSections(); };
+    });
+    host.querySelectorAll('#sens button').forEach(function(b){
+      b.onclick = function(){ state.sens = +this.dataset.s; renderAllSections(); };
+    });
+    host.querySelectorAll('#sxs button').forEach(function(b){
+      b.onclick = function(){ state.sysSex = this.dataset.x; renderSection('arbeid'); };
+    });
+  }
+
+  function renderAllSections(){
+    ['befolkning','sammensetning','arbeid','levekar','okonomi','barekraft'].forEach(renderSection);
+  }
+
+  renderHero();
+  renderAllSections();
+
+  // Seksjons-nav (vis én seksjon av gangen)
+  var secnav = document.getElementById('secnav');
+  if(secnav){
+    secnav.querySelectorAll('button').forEach(function(btn){
+      btn.onclick = function(){
+        var sec = this.dataset.sec;
+        var self = this;
+        secnav.querySelectorAll('button').forEach(function(x){
+          x.setAttribute('aria-current', x===self ? 'true':'false');
+        });
+        document.querySelectorAll('.tab').forEach(function(t){
+          t.classList.toggle('active', t.dataset.tab===sec);
+        });
+        window.scrollTo({top:0, behavior:'smooth'});
+      };
+    });
   }
 });
 </script>
