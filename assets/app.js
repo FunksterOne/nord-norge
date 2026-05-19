@@ -741,9 +741,8 @@ function diagnoseCard(k){
   // Bruk faktisk folketall per 1.1.2026 (k.pop) som dagens tall, ikke projeksjonens startår 2024 (mw.pop[0])
   const pop0=k.pop, pop1=mw.pop[n-1], pp=pct(pop1,pop0);
   const a6=mw.a65,a2=mw.a2064;
-  // Sysselsetting-justert forsørgerbyrde (samme metode som i bærekraft-analysen) — eldre per 100 sysselsatte 20–64
-  const syssR = (typeof getSysselsRate==='function' ? getSysselsRate(k.nr) : null) || (typeof landsdelSysselsRate==='function' ? landsdelSysselsRate() : 0.7);
-  const oad0=a6&&a2&&a2[0]&&syssR>0?100*a6[0]/(a2[0]*syssR):null, oad1=a6&&a2&&a2[n-1]&&syssR>0?100*a6[n-1]/(a2[n-1]*syssR):null;
+  // Standard forsørgerbyrde (OECD 65+/20-64) — konsistent med KPI-er og bærekraftindikatorer
+  const oad0=a6&&a2&&a2[0]?100*a6[0]/a2[0]:null, oad1=a6&&a2&&a2[n-1]?100*a6[n-1]/a2[n-1]:null;
   const a8=mw.a80, g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
   const isA=k.isAgg;
   const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
@@ -761,7 +760,7 @@ function diagnoseCard(k){
     spread=' Hvor sterkt avhenger av flyttebanen \u2014 folketall 2050 spenner fra <b>'+f(Math.min(lo,hi))+'</b> til <b>'+f(Math.max(lo,hi))+'</b>.'; }
   let s='';
   s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). Med '+wlab+'-flyttebanen '+(pp>=0?'vokser folketallet til':'krymper folketallet til')+' <b>'+f(pop1)+'</b> innen 2050 (<b>'+sgn1(pp)+'\u2009%</b>). ';
-  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 sysselsatte (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
+  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
   if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det \u00f8konomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'\u2013':(ndr>=0?'':'\u2212')+Math.abs(ndr).toFixed(1))+'\u2009%</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'\u2013':fond.toFixed(1))+'\u2009%</b>, netto l\u00e5negjeld <b>'+(gj==null?'\u2013':gj.toFixed(0))+'\u2009%</b>. ';
   s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg \u2014 vist i grafene under.'+spread;
   return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0 10px 10px 0">'+
@@ -1066,7 +1065,7 @@ function tldrBanner(k, view){
     nums.push({nv:fmt0(k.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
     if(projMain&&futurePct!=null) nums.push({nv:pctF(futurePct),cls:futurePct>=0?'up':'down',nl:'mot '+projYear,nh:'SSB MMMM'});
     return '<div class="tldr">'+
-      '<div class="tldr-tag">Linse 01 · Reisen 2000–2050</div>'+
+      '<div class="tldr-tag">Seksjon 1 · Befolkning 2000–2050</div>'+
       '<h3>Hva har skjedd — og hva kan komme?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+nums.map(n=>'<div class="tldr-num"><div class="nv '+n.cls+'">'+n.nv+'</div><div class="nl">'+n.nl+'</div><div class="nh">'+n.nh+'</div></div>').join('')+'</div>'+
@@ -1084,7 +1083,7 @@ function tldrBanner(k, view){
     text+='<b>'+pctInnv.toFixed(1)+' %</b> har innvandrerbakgrunn (vestlig + ikke-vestlig). ';
     text+='<i>Aldringen i dag er forhåndsvarselet for press på omsorg og bemanning de neste tjue årene.</i>';
     return '<div class="tldr t-people">'+
-      '<div class="tldr-tag">Linse 02 · Folket i dag</div>'+
+      '<div class="tldr-tag">Seksjon 2 · Sammensetning</div>'+
       '<h3>Hvem bor her nå?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -1122,7 +1121,7 @@ function tldrBanner(k, view){
     text+='ROBEK-status: <b'+(inRobek?' style="color:#B23B3B"':pending?' style="color:var(--amber)"':' style="color:var(--aurora)"')+'>'+robekTxt+'</b>. ';
     text+='<i>Hvor tungt blir aldringen å bære for kommunens budsjett?</i>';
     return '<div class="tldr t-burden">'+
-      '<div class="tldr-tag">Linse 03 · Tyngden å bære</div>'+
+      '<div class="tldr-tag">Seksjon 3 · Arbeid og forsørgerbyrde</div>'+
       '<h3>Hva betyr demografien for kommuneøkonomien?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -1182,7 +1181,7 @@ function detail(){
 
   let viewHTML='';
   if(view==='history'){
-    // Linse 01: befolkningen over tid + framskriving + drivkrefter
+    // Seksjon 1: befolkningen over tid + framskriving + drivkrefter
     const savedMode=state.projMode;
     state.projMode='tot';
     const histChart=projCard(k);
@@ -1191,7 +1190,7 @@ function detail(){
       '<div class="hero-chart">'+histChart+'</div>'+
       diagnoseCard(k);
   } else if(view==='people'){
-    // Linse 02: alder + opprinnelse + sysselsetting
+    // Seksjon 2: alder + opprinnelse + sysselsetting
     viewHTML=tldrBanner(k,'people')+
       '<div class="card">'+
         '<div class="ch"><h3 class="serif">Aldersstruktur i dag</h3>'+
@@ -1207,7 +1206,7 @@ function detail(){
       (sj? sysCard(sj) : '')+
       levekarKommuneCard(k);
   } else if(view==='burden'){
-    // Linse 03: bærekrafts-sammenstilling → forsørgerbyrde → KOSTRA → ROBEK
+    // Seksjon 3: bærekrafts-sammenstilling → forsørgerbyrde → KOSTRA → ROBEK
     const savedMode=state.projMode;
     state.projMode='fb';
     const fbChart=projCard(k);
