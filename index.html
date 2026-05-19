@@ -1023,6 +1023,14 @@ footer a{color:var(--aurora);text-decoration:none}
     <div id="levekarBoligGraph"></div>
   </div>
 
+  <!-- Kort E: Inntektsspennvidde mellom kommuner -->
+  <div class="card hero-chart" id="levekarSpennCard">
+    <div class="ch"><h3 class="serif">Inntektsspennvidde mellom kommunene</h3></div>
+    <p class="hint">Hver søyle er én kommune, sortert etter median husholdningsinntekt etter skatt (2024). Fylkesfarger: <span style="color:var(--nl);font-weight:700">Nordland</span>, <span style="color:var(--tr);font-weight:700">Troms</span>, <span style="color:var(--fi);font-weight:700">Finnmark</span>. Landsdelens vektede median og nasjonalt snitt vises som horisontale referanselinjer. Forskjellen mellom rikeste og fattigste kommune er det landsdels-snittet skjuler.</p>
+    <div id="levekarSpennGraph"></div>
+    <div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>
+  </div>
+
 <button class="nextstep" data-next="refugees">
   <div class="ns-l">
     <div class="ns-n">→ Akt 3 · Kapittel 3.1</div>
@@ -2241,6 +2249,78 @@ function statusBadges(k,s){
     '<span class="badge b-age-'+s.aging+'" title="Medianalder i dag">'+atxt+'</span>'+
   '</div>';
 }
+/* Pre-beregner rang i landsdelen for median husholdningsinntekt */
+let _inntektRangCache=null;
+function inntektRang(nr){
+  if(!_inntektRangCache && typeof LEVEKAR_DATA!=='undefined'){
+    const arr=[];
+    Object.entries(LEVEKAR_DATA.kommuner).forEach(([n,r])=>{
+      if(r.medianInntektEtterSkatt) arr.push({nr:n, m:r.medianInntektEtterSkatt});
+    });
+    arr.sort((a,b)=>b.m-a.m);
+    _inntektRangCache={};
+    arr.forEach((x,i)=>{ _inntektRangCache[x.nr] = {rang:i+1, total:arr.length}; });
+  }
+  return _inntektRangCache ? (_inntektRangCache[String(nr)]||null) : null;
+}
+
+function levekarKommuneCard(k){
+  if(typeof LEVEKAR_DATA==='undefined') return '';
+  const r = LEVEKAR_DATA.kommuner[String(k.nr)];
+  if(!r) return '';
+  const fmt0 = n => n==null ? '–' : (n>=1e6?(n/1e6).toFixed(2)+' mill':(n>=1000?Math.round(n).toLocaleString('nb-NO'):Math.round(n)));
+  const rang = inntektRang(k.nr);
+  // Landsdelens vektede median for sammenligning
+  let sumW=0, sumMW=0;
+  Object.values(LEVEKAR_DATA.kommuner).forEach(x=>{
+    if(x.medianInntektEtterSkatt && x.hush_total){ sumMW += x.medianInntektEtterSkatt * x.hush_total; sumW += x.hush_total; }
+  });
+  const landsdelMed = sumW ? sumMW/sumW : null;
+  const NORGE_MED = 615000;
+  const diffLandsdel = (r.medianInntektEtterSkatt && landsdelMed) ? (r.medianInntektEtterSkatt/landsdelMed-1)*100 : null;
+  const diffNorge = r.medianInntektEtterSkatt ? (r.medianInntektEtterSkatt/NORGE_MED-1)*100 : null;
+  // Personinntekt-sammensetning
+  const totL=r.totalLonn_mill||0, totP=r.totalPensjon_mill||0, totU=r.totalUfore_mill||0;
+  const sumK = totL+totP+totU;
+  const pctL = sumK?totL/sumK*100:0, pctP = sumK?totP/sumK*100:0, pctU = sumK?totU/sumK*100:0;
+  // Boliger
+  const bolTot = r.boliger_total||0;
+  const eneP = bolTot ? r.boliger_enebolig/bolTot*100 : 0;
+  const blokkP = bolTot ? r.boliger_boligblokk/bolTot*100 : 0;
+  return '<div class="card">'+
+    '<div class="ch"><h3 class="serif">Levekår og inntekt</h3></div>'+
+    '<p class="hint">Hva tjener husholdningene i '+k.navn+', hvor kommer pengene fra, hvordan bor de? Kilder: SSB 12558 (inntekt 2024), 14780 (personinntekt 2025), 11084 (eierstatus 2024), 06265 (boliger 2026).</p>'+
+    '<div class="kpis" style="margin-top:14px">'+
+      '<div class="kpi"><div class="v">'+(r.medianInntektEtterSkatt?Math.round(r.medianInntektEtterSkatt/1000)+'k':'–')+'</div><div class="l">Median hush.-inntekt</div><div class="s">etter skatt'+(diffLandsdel!=null?' · '+(diffLandsdel>=0?'+':'−')+Math.abs(diffLandsdel).toFixed(0)+' % vs landsdel':'')+'</div></div>'+
+      '<div class="kpi"><div class="v">'+fmt0(r.hush_total)+'</div><div class="l">Husholdninger</div><div class="s">'+(r.pct_selveier!=null?r.pct_selveier.toFixed(0)+' % selveiere':'')+'</div></div>'+
+      '<div class="kpi"><div class="v">'+fmt0(bolTot)+'</div><div class="l">Boliger</div><div class="s">'+eneP.toFixed(0)+' % enebolig · '+blokkP.toFixed(0)+' % blokk</div></div>'+
+      (rang?'<div class="kpi"><div class="v">'+rang.rang+'</div><div class="l">Rang i Nord-Norge</div><div class="s">av '+rang.total+' kommuner, høyest inntekt = 1</div></div>':'')+
+    '</div>'+
+    (sumK?
+      '<div class="origin-section">'+
+        '<h3 class="serif" style="font-size:15px;font-weight:600;margin-bottom:6px">Hvor kommer personinntekten fra?</h3>'+
+        '<p class="hint" style="font-size:12px">Lønn, pensjon og uføretrygd som andel av samlet personinntekt for bosatte 17+ år. Totalt '+(sumK>1000?(sumK/1000).toFixed(1)+' mrd kr':sumK.toFixed(0)+' mill kr')+'.</p>'+
+        '<div class="split" style="margin:8px 0">'+
+          '<div style="width:'+pctL.toFixed(1)+'%;background:var(--aurora);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctL>=8?pctL.toFixed(0)+' %':'')+'</div>'+
+          '<div style="width:'+pctP.toFixed(1)+'%;background:var(--nl);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctP>=8?pctP.toFixed(0)+' %':'')+'</div>'+
+          '<div style="width:'+pctU.toFixed(1)+'%;background:var(--amber);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctU>=8?pctU.toFixed(0)+' %':'')+'</div>'+
+        '</div>'+
+        '<div class="legend">'+
+          '<span><i style="background:var(--aurora)"></i>Lønn '+pctL.toFixed(0)+' %</span>'+
+          '<span><i style="background:var(--nl)"></i>Pensjon '+pctP.toFixed(0)+' %</span>'+
+          '<span><i style="background:var(--amber)"></i>Uføretrygd '+pctU.toFixed(0)+' %</span>'+
+        '</div>'+
+      '</div>'
+    :'')+
+    (r.desil1 && r.desil9?
+      '<div class="origin-section">'+
+        '<h3 class="serif" style="font-size:15px;font-weight:600;margin-bottom:6px">Inntektsspennvidde</h3>'+
+        '<p class="hint" style="font-size:12px">10 % laveste husholdninger har inntil <b>'+Math.round(r.desil1/1000)+' 000 kr</b> etter skatt. Median er '+Math.round(r.medianInntektEtterSkatt/1000)+' 000 kr. 10 % høyeste har over <b>'+Math.round(r.desil9/1000)+' 000 kr</b>. Forholdet høy/lav: <b>'+(r.desil9/r.desil1).toFixed(1)+'×</b>'+(diffNorge!=null?' · '+(diffNorge>=0?'+':'−')+Math.abs(diffNorge).toFixed(0)+' % vs norgesnitt':'')+'.</p>'+
+      '</div>'
+    :'')+
+  '</div>';
+}
+
 function originCard(k,vesP,iveP,lands,shown){
   return '<div class="card">'+
     '<h3 class="serif">Opprinnelse — vestlig/ikke-vestlig og land</h3>'+
@@ -2436,7 +2516,8 @@ function detail(){
         barChart(ageGroups(k.alder,state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'),'var(--aurora)')+
       '</div>'+
       originCard(k,vesP,iveP,lands,shown)+
-      (sj? sysCard(sj) : '');
+      (sj? sysCard(sj) : '')+
+      levekarKommuneCard(k);
   } else if(view==='burden'){
     // Linse 03: forsørgerbyrde først, deretter KOSTRA og ROBEK
     const savedMode=state.projMode;
@@ -3045,6 +3126,82 @@ function renderLevekar(){
       '</div>'+
       rowsH +
       '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Nord-Norge har høyere eneboligandel enn nasjonalt — typisk for distriktskommuner. Boligblokk-andelen er størst i Bodø og Tromsø.</p>';
+  }
+  // ---- Graf E: Inntektsspennvidde mellom kommuner ----
+  const spennHost=document.getElementById('levekarSpennGraph');
+  if(spennHost){
+    // Bygg liste av kommuner med median inntekt, sortert
+    const items = [];
+    ks.forEach(([nr,r])=>{
+      if(r.medianInntektEtterSkatt){
+        const k = K.find(x=>x.nr===+nr);
+        items.push({nr, navn:k?k.navn:nr, fylke:k?k.fylke:'', med:r.medianInntektEtterSkatt, hush:r.hush_total});
+      }
+    });
+    items.sort((a,b)=>a.med-b.med); // laveste først → høyeste til høyre
+    const n = items.length;
+    const VB=760, L=42, R=46, Tp=26, B=92, W=VB-L-R, H=320-Tp-B;
+    const minV = items[0].med, maxV = items[n-1].med;
+    const padTop = (maxV-minV)*0.08;
+    const yMin = Math.floor((minV - padTop)/50000)*50000;
+    const yMax = Math.ceil((maxV + padTop)/50000)*50000;
+    const Y = v => Tp+(1-(v-yMin)/((yMax-yMin)||1))*H;
+    const barW = W/n * 0.85, gap = W/n * 0.15;
+    const xOf = i => L + i*(W/n) + gap/2;
+    const fyColor = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+    let svg = `<svg class="chart" viewBox="0 0 ${VB} 320" preserveAspectRatio="xMidYMid meet" style="height:320px">`;
+    // Grid + Y-akse
+    for(let g=0;g<=4;g++){
+      const v = yMin + (yMax-yMin)*g/4;
+      const y = Tp+(1-g/4)*H;
+      svg += `<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.07)"/>`;
+      svg += `<text class="axis" x="${L-6}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${Math.round(v/1000)}k</text>`;
+    }
+    // Referanselinjer
+    if(landsdelMedian){
+      const yL = Y(landsdelMedian);
+      svg += `<line x1="${L}" y1="${yL}" x2="${L+W}" y2="${yL}" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+      svg += `<text x="${L+W+4}" y="${yL+3}" style="font-size:10px;font-weight:700;fill:var(--ink2)">Landsdel ${Math.round(landsdelMedian/1000)}k</text>`;
+    }
+    const yN = Y(NORGE_MED_INNT);
+    if(yN >= Tp && yN <= Tp+H){
+      svg += `<line x1="${L}" y1="${yN}" x2="${L+W}" y2="${yN}" stroke="var(--aurora)" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/>`;
+      svg += `<text x="${L+W+4}" y="${yN-2}" style="font-size:10px;font-weight:700;fill:var(--aurora)">Norge ${Math.round(NORGE_MED_INNT/1000)}k</text>`;
+    }
+    // Søyler per kommune
+    items.forEach((it,i)=>{
+      const x = xOf(i);
+      const y = Y(it.med);
+      const h = (Tp+H) - y;
+      const col = fyColor[it.fylke]||'var(--ink2)';
+      svg += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" rx="1"><title>${it.navn} (${it.fylke}) · ${Math.round(it.med/1000)}k kr · ${fmt(it.hush||0)} hush.</title></rect>`;
+    });
+    // Markér topp 3 og bunn 3 med navn
+    const lab = (i, anchor) => {
+      const it = items[i];
+      const x = xOf(i) + barW/2;
+      const y = Y(it.med);
+      svg += `<text x="${x.toFixed(1)}" y="${(y-6).toFixed(1)}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--ink2)">${it.navn}</text>`;
+    };
+    lab(0); lab(1); lab(2);
+    lab(n-1); lab(n-2); lab(n-3);
+    // X-akse labels
+    svg += `<text x="${L}" y="${Tp+H+18}" style="font-size:10px;fill:var(--ink3)">← Lavest</text>`;
+    svg += `<text x="${L+W}" y="${Tp+H+18}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">Høyest →</text>`;
+    svg += '</svg>';
+    // Statistikk under
+    const lo3 = items.slice(0,3).map(x=>x.navn).join(', ');
+    const hi3 = items.slice(-3).reverse().map(x=>x.navn).join(', ');
+    const spread = items[n-1].med - items[0].med;
+    const ratio = items[n-1].med / items[0].med;
+    spennHost.innerHTML = svg +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:14px">'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--ink)">'+Math.round(items[0].med/1000)+'k → '+Math.round(items[n-1].med/1000)+'k</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--amber)">'+ratio.toFixed(2)+'×</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Høyest / lavest</div></div>'+
+        '<div><div style="font-size:13px;color:var(--ink)">'+hi3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Topp 3</div></div>'+
+        '<div><div style="font-size:13px;color:var(--ink)">'+lo3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Bunn 3</div></div>'+
+      '</div>'+
+      '<p class="hint" style="margin-top:12px;font-size:11.5px;font-style:italic">Spennvidden mellom høyeste og laveste nord-norske kommune er '+Math.round(spread/1000)+'k kr. Hovedforklaringen er sammensetningen av lønn vs. pensjon — kommuner med mange yrkesaktive husholdninger (sentre, oljerelaterte) ligger over snittet; aldrende distriktskommuner med høy pensjons- og uføretrygdandel ligger under.</p>';
   }
   attachMethodBadges();
 }
