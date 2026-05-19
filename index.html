@@ -53,10 +53,10 @@
     <p>De seks store spørsmålene besvart for Nord-Norge totalt: hvor mange blir vi, hvem bor her, hvor er aldringen sterkest, og hvor presset er kommuneøkonomien.</p>
     <span class="larr">→ Start her</span>
   </a>
-  <a class="landing-card" data-nivå="fylke" href="fylke.html?f=Nordland">
+  <div class="landing-card" data-nivå="fylke">
     <div class="lnum">Nivå 2</div>
     <h2>Per fylke</h2>
-    <p>Nordland, Troms og Finnmark sammenlignet. Filtrerte tall, ranger­ing av kommuner, og indikatorer mot fylkesnivåets eksterne normer.</p>
+    <p>Nordland, Troms og Finnmark sammenlignet. Filtrerte tall, rangering av kommuner, og indikatorer mot fylkesnivåets eksterne normer.</p>
     <div class="landing-search">
       <select id="landFylke" aria-label="Velg fylke">
         <option value="">Velg fylke…</option>
@@ -65,8 +65,8 @@
         <option value="Finnmark">Finnmark (18 kommuner)</option>
       </select>
     </div>
-  </a>
-  <a class="landing-card" data-nivå="kommune" href="#">
+  </div>
+  <div class="landing-card" data-nivå="kommune">
     <div class="lnum">Nivå 3</div>
     <h2>Enkeltkommune</h2>
     <p>Drill ned i en spesifikk kommune. Befolkningsreise 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
@@ -75,7 +75,7 @@
         <option value="">Velg kommune…</option>
       </select>
     </div>
-  </a>
+  </div>
 </div>
 
 <div class="landing-teaser">
@@ -105,10 +105,9 @@ document.addEventListener('DOMContentLoaded', function(){
   // Fylke-velger på landing
   var landFylke = document.getElementById('landFylke');
   if(landFylke){
-    landFylke.onchange = function(e){
-      if(this.value){ e.preventDefault(); window.location.href = 'fylke.html?f=' + encodeURIComponent(this.value); }
+    landFylke.onchange = function(){
+      if(this.value) window.location.href = 'fylke.html?f=' + encodeURIComponent(this.value);
     };
-    landFylke.onclick = function(e){ e.preventDefault(); e.stopPropagation(); };
   }
   // Kommune-velger på landing
   var landKommune = document.getElementById('landKommune');
@@ -116,10 +115,9 @@ document.addEventListener('DOMContentLoaded', function(){
     var sortedK = K.slice().sort(function(a,b){ return a.navn.localeCompare(b.navn,'nb'); });
     landKommune.innerHTML = '<option value="">Velg kommune…</option>' +
       sortedK.map(function(x){ return '<option value="' + x.nr + '">' + x.navn + ' (' + x.fylke + ')</option>'; }).join('');
-    landKommune.onchange = function(e){
-      if(this.value){ e.preventDefault(); window.location.href = 'kommune.html?k=' + this.value; }
+    landKommune.onchange = function(){
+      if(this.value) window.location.href = 'kommune.html?k=' + this.value;
     };
-    landKommune.onclick = function(e){ e.preventDefault(); e.stopPropagation(); };
   }
   // Hurtigvalg: 6 største kommuner
   var topK = document.getElementById('topKommuner');

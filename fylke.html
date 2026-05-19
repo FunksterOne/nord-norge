@@ -495,6 +495,31 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   walkText(document.body);
 
+  // MutationObserver: re-apply tekst-erstatning når render-funksjoner skriver nytt innhold
+  // (slidere, modus-bytter, tab-bytting i kommunekort osv.)
+  var pendingWalk = null;
+  var observer = new MutationObserver(function(mutations){
+    // Debounce: kjør walkText én gang etter alle samtidige mutasjoner
+    if(pendingWalk) return;
+    pendingWalk = setTimeout(function(){
+      pendingWalk = null;
+      // Walk bare endrede subtrees for å unngå unødvendig arbeid
+      var seen = new WeakSet();
+      mutations.forEach(function(m){
+        var target = m.target;
+        // Finn nærmeste relevante container (.tab eller .tldr eller .card)
+        var container = target.closest ? target.closest('section.tab, .tldr, .card') : null;
+        if(container && !seen.has(container)){
+          seen.add(container);
+          walkText(container);
+        }
+      });
+    }, 30);
+  });
+  document.querySelectorAll('section.tab').forEach(function(sec){
+    observer.observe(sec, {childList:true, subtree:true, characterData:false});
+  });
+
   // Seksjons-nav
   var secnav = document.getElementById('secnav');
   if(secnav){

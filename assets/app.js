@@ -2200,7 +2200,8 @@ function sustKommuneCard(k){
 function renderSustainability(){
   const N = EXT_NORMS;
   // Vurder alle kommuner mot eksterne normer
-  const results = K.map(evaluateKommune).filter(Boolean);
+  // Fylke-filter: bruk valgt fylke når state.fylke != 'Alle', ellers hele landsdelen
+  const results = currentK().map(evaluateKommune).filter(Boolean);
   const total = results.length;
   const pct = (n,t)=>t?Math.round(100*n/t):0;
   // Per-indikator tellinger mot ekstern norm
@@ -2239,7 +2240,8 @@ function renderSustainability(){
   // Per-fylke: distribusjon over hver indikator
   const fylkeHost=document.getElementById('sustFylkeBars');
   if(fylkeHost){
-    const fylker=['Nordland','Troms','Finnmark'];
+    // Fylke-filter: hvis state.fylke er satt, vis bare det valgte fylket
+    const fylker = (state.fylke && state.fylke !== 'Alle') ? [state.fylke] : ['Nordland','Troms','Finnmark'];
     const indicators = [
       {key:'popDecl', lab:'Shrinking (OECD SCIRN)', test:r=>r.annualPct!=null && r.annualPct <= N.scirnAnnual},
       {key:'oadOver', lab:'Forsørgerbyrde 2050 over OECD-snitt', test:r=>r.oad2050!=null && r.oad2050 > N.oecd2050},
