@@ -698,6 +698,14 @@ footer a{color:var(--aurora);text-decoration:none}
 .akt h2 em{font-style:italic}
 .akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);line-height:1.6;margin:0 0 24px}
 
+/* Kanon-anker: Hammerfest som gjennomgangs-eksempel — bro fra essay-tema til kommune-dykk */
+.kanon-anker{margin:32px 0 0;padding:20px 22px;background:linear-gradient(135deg,rgba(156,91,160,0.08),rgba(156,91,160,0.02));border:1px solid rgba(156,91,160,0.22);border-left:4px solid var(--fi);border-radius:0 10px 10px 0}
+.kanon-anker .ka-kicker{font-family:'Spline Sans Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--fi);font-weight:700;margin-bottom:6px}
+.kanon-anker h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.kanon-anker p{font-family:'Fraunces',serif;font-size:15px;color:var(--ink2);line-height:1.55;margin:0 0 12px}
+.kanon-anker a.ka-link{display:inline-block;font-size:13px;font-weight:600;color:var(--fi);text-decoration:none;border-bottom:1px solid rgba(156,91,160,0.4);padding-bottom:1px;transition:border-color .15s}
+.kanon-anker a.ka-link:hover{border-color:var(--fi)}
+
 .kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
 .kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
 .kpi-rad .kpi .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}

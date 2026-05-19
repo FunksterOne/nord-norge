@@ -185,6 +185,11 @@
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof K === 'undefined') return;
+  // Kanon-eksempel: Hammerfest (5603) er gjennomgangs-kommunen i hele essay-løypa.
+  // Velges automatisk når kommune.html åpnes uten ?k=, slik at leseren lander på en
+  // konkret kommune i stedet for tomt panel eller den største (Tromsø).
+  var hasK = new URLSearchParams(window.location.search).get('k');
+  if(!hasK && K.some(function(x){return x.nr===5603;})) state.sel = 5603;
   // Finn valgt kommune
   var k = K.find(function(x){ return x.nr === state.sel; }) || K.slice().sort(function(a,b){return b.pop-a.pop;})[0];
   state.sel = k.nr;
