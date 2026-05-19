@@ -324,31 +324,42 @@ function projChart(k,mode){
   } else if(mode==='dec'){
     const p0=(mw?mw.pop[0]:o.main[0]);
     const nat=mw?mw.nat[n-1]:0, mig=mw?mw.mig[n-1]:0;
-    const pAfterNat=p0+nat, p1=p0+nat+mig;
-    const vals=[p0,pAfterNat,p1,0]; let mn=Math.min(p0,pAfterNat,p1), mx=Math.max(p0,pAfterNat,p1);
-    const span=(mx-mn)||1; mn-=span*0.18; mx+=span*0.12;
+    const tot=nat+mig, p1=p0+tot;
+    // Symmetrisk skala rundt null slik at små og store endringer blir sammenlignbare
+    const maxMag=Math.max(Math.abs(nat),Math.abs(mig),Math.abs(tot),1);
+    const yRange=maxMag*1.25, mn=-yRange, mx=yRange;
     const Y=v=>Tp+(1-(v-mn)/((mx-mn)||1))*H;
+    const zeroY=Y(0);
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+    // Folketall start → slutt som annotasjon øverst
+    svg+=`<text x="${L+W-2}" y="11" text-anchor="end" style="font-size:11px;fill:var(--ink2)">Folketall <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:var(--ink)">${fmt(p0)}</tspan> → <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:${tot<0?'#B23B3B':'var(--aurora)'}">${fmt(p1)}</tspan></text>`;
+    // Y-akse: +/- gridlines
     for(let g=0;g<=4;g++){const val=mn+(mx-mn)*g/4,y=Tp+(1-g/4)*H;
       svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
-      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
+      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${(val>=0?'+':'−')+fmt(Math.round(Math.abs(val)))}</text>`;}
+    // Nullinje markeres tydeligere
+    svg+=`<line x1="${L}" y1="${zeroY}" x2="${L+W}" y2="${zeroY}" stroke="var(--ink2)" stroke-width="1.4"/>`;
+    // Tre rene endrings-stolper fra null
     const cols=[
-      {lab:'Folketall 2024',base:0,top:p0,col:'var(--ink)',val:p0,abs:true},
-      {lab:'Naturlig endring',base:Math.min(p0,pAfterNat),top:Math.max(p0,pAfterNat),col:(nat<0?'#B23B3B':'var(--aurora)'),val:nat},
-      {lab:'Netto flytting',base:Math.min(pAfterNat,p1),top:Math.max(pAfterNat,p1),col:(mig<0?'#B23B3B':'var(--aurora)'),val:mig},
-      {lab:'Folketall 2050',base:0,top:p1,col:'var(--amber)',val:p1,abs:true}];
-    const bw=86, gap=(W-cols.length*bw)/(cols.length+1);
-    cols.forEach((c,ci)=>{const x=L+gap+ci*(bw+gap);
-      const yT=Y(c.top), yB=(c.abs?Y(mn):Y(c.base)), h=Math.max(2,yB-yT);
-      svg+=`<rect x="${x}" y="${yT}" width="${bw}" height="${h}" rx="3" fill="${c.col}" ${c.abs?'':'opacity="0.92"'}/>`;
-      svg+=`<text x="${x+bw/2}" y="${yT-7}" text-anchor="middle" style="font-family:'Spline Sans Mono',monospace;font-size:12px;font-weight:700;fill:${c.col}">${(!c.abs&&c.val>=0?'+':'')}${fmt(Math.round(c.val))}</text>`;
-      svg+=`<text x="${x+bw/2}" y="${300-B+15}" text-anchor="middle" class="axis" style="font-size:10.5px">${c.lab}</text>`;
-      if(ci<cols.length-1){const nx=L+gap+(ci+1)*(bw+gap);
-        const conY=(ci===0?Y(p0):ci===1?Y(pAfterNat):Y(p1));
-        svg+=`<line x1="${x+bw}" y1="${conY}" x2="${nx}" y2="${conY}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>`;}
+      {lab:'Naturlig endring',sub:'(fødsler − dødsfall)',val:nat,col:(nat<0?'#B23B3B':'var(--aurora)')},
+      {lab:'Netto flytting',sub:'(inn − ut)',val:mig,col:(mig<0?'#B23B3B':'var(--aurora)')},
+      {lab:'Sum 2024–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'#B23B3B':'var(--aurora)')}
+    ];
+    const bw=120, gap=(W-cols.length*bw)/(cols.length+1);
+    cols.forEach((c,ci)=>{
+      const x=L+gap+ci*(bw+gap);
+      const yT=c.val>=0?Y(c.val):zeroY;
+      const yB=c.val>=0?zeroY:Y(c.val);
+      const h=Math.max(2,yB-yT);
+      svg+=`<rect x="${x}" y="${yT}" width="${bw}" height="${h}" rx="3" fill="${c.col}"/>`;
+      // Verditall over (positiv) eller under (negativ) stolpen
+      const labelY=c.val>=0?yT-7:yB+15;
+      svg+=`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" style="font-family:'Spline Sans Mono',monospace;font-size:14px;font-weight:700;fill:${c.col}">${(c.val>=0?'+':'−')}${fmt(Math.abs(Math.round(c.val)))}</text>`;
+      // Kategori-etikett under
+      svg+=`<text x="${x+bw/2}" y="${300-B+13}" text-anchor="middle" class="axis" style="font-size:11px;font-weight:600;fill:var(--ink)">${c.lab}</text>`;
     });
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:#B23B3B"></i>trekker ned</span><span><i style="background:var(--ink)"></i>start/slutt</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
+    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:#B23B3B"></i>trekker ned</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
   } else if(mode==='fb'){
     const A6=(mw?mw.a65:o.a65), A2=(mw?mw.a2064:o.a2064);
     const r=A6.map((v,i)=>A2[i]?100*v/A2[i]:0);
@@ -395,21 +406,46 @@ function projChart(k,mode){
     s+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--amber)"></i>Forsørgerbyrde / 65+</span><span><i style="background:var(--nl)"></i>20–64 år</span> <span style="color:var(--ink3)">TF-MVP, '+(state.mw)+'-flyttebane — bytt flyttebane for å se hvor følsom byrden er for innflytting</span></div>';
     svg=s;
   } else {
+    // Aldring: grupperte stolper på 6 tidspunkter (2024, 2030, 2035, 2040, 2045, 2050)
+    // — endringene mellom de tre aldersgruppene blir tydeligere som stolper enn som linjer.
     const S=[['a019','0–19 år','var(--nl)'],['a2064','20–64 år','var(--ink)'],['a65','65+ år','var(--amber)']];
-    lo=0;hi=-Infinity;S.forEach(s=>o[s[0]].forEach(v=>{if(v!=null)hi=Math.max(hi,v);}));
+    const wantYears=[2024,2030,2035,2040,2045,2050];
+    let tps=wantYears.map(y=>yrs.indexOf(y)).filter(i=>i>=0);
+    if(tps.length===0) tps=[0,n-1];
+    lo=0;hi=-Infinity;
+    S.forEach(s=>tps.forEach(i=>{const v=o[s[0]][i]; if(v!=null) hi=Math.max(hi,v);}));
     hi=Math.ceil(hi/1000)*1000;
     const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+    // Y-gridlines
     for(let g=0;g<=4;g++){const val=hi*g/4,y=Tp+(1-g/4)*H;
       svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
       svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
-    yrs.forEach((yr,i)=>{if(i%4===0||i===n-1)svg+=`<text class="axis" x="${X(i)}" y="${300-B+15}" text-anchor="middle">${yr}</text>`;});
-    S.forEach(s=>{let d='';o[s[0]].forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      svg+=`<path d="${d}" fill="none" stroke="${s[2]}" stroke-width="2.2" stroke-linejoin="round"/>`;
-      const lv=o[s[0]][n-1];
-      svg+=`<text x="${L+W+4}" y="${Y(lv)+3}" style="font-size:10px;font-weight:700;fill:${s[2]}">${fmt(lv)}</text>`;});
+    // Grupperte stolper per tidspunkt
+    const groupW=W/tps.length;
+    const groupPad=groupW*0.16;
+    const innerW=groupW-groupPad*2;
+    const barW=innerW/S.length;
+    tps.forEach((tpIdx,ti)=>{
+      const groupX=L+ti*groupW+groupPad;
+      const yr=yrs[tpIdx];
+      svg+=`<text class="axis" x="${groupX+innerW/2}" y="${300-B+15}" text-anchor="middle" style="font-size:11px;font-weight:600;fill:var(--ink2)">${yr}</text>`;
+      S.forEach((s,si)=>{
+        const v=o[s[0]][tpIdx];
+        if(v==null) return;
+        const bx=groupX+si*barW+1;
+        const bbw=Math.max(2,barW-2);
+        const by=Y(v);
+        const bh=Math.max(2,Tp+H-by);
+        svg+=`<rect x="${bx}" y="${by}" width="${bbw}" height="${bh}" rx="2" fill="${s[2]}"/>`;
+        // Verditall kun på 2024 og 2050 for å unngå rot
+        if(ti===0||ti===tps.length-1){
+          svg+=`<text x="${bx+bbw/2}" y="${by-4}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:${s[2]}">${fmt(v)}</text>`;
+        }
+      });
+    });
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+'</div>';
+    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+' <span style="color:var(--ink3)">SSB MMMM hovedalternativ. Tall vist for 2024 og 2050.</span></div>';
   }
   return svg;
 }
