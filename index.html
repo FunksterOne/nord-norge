@@ -3,605 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nord-Norge · befolkning, alder og opprinnelse</title>
+<title>Nord-Norge mot 2050 — landingsside</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+.landing-hero{padding:60px 0 40px;text-align:center}
+.landing-hero .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin-bottom:14px}
+.landing-hero h1{font-family:'Fraunces',serif;font-size:clamp(36px,5vw,68px);font-weight:600;line-height:1.06;margin:0 0 18px;color:var(--ink);max-width:18ch;margin-left:auto;margin-right:auto}
+.landing-hero h1 em{font-style:italic;color:var(--aurora)}
+.landing-hero p.essence{font-family:'Fraunces',serif;font-size:clamp(17px,1.6vw,22px);font-weight:400;color:var(--ink2);max-width:60ch;margin:0 auto 32px;line-height:1.55}
+.landing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:30px 0 50px}
+.landing-card{padding:30px 26px 26px;border-radius:14px;background:var(--paper);border:1px solid var(--line2);transition:all .15s ease;display:flex;flex-direction:column;text-decoration:none;color:var(--ink);position:relative;overflow:hidden}
+.landing-card:hover{border-color:var(--ink2);transform:translateY(-2px);box-shadow:0 10px 24px rgba(17,32,58,.08)}
+.landing-card .lnum{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.landing-card h2{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:0 0 10px}
+.landing-card p{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 18px;flex:1}
+.landing-card .larr{font-size:18px;color:var(--ink2);margin-top:auto}
+.landing-card[data-nivå="nn"]{border-top:4px solid var(--aurora)}
+.landing-card[data-nivå="fylke"]{border-top:4px solid var(--nl)}
+.landing-card[data-nivå="kommune"]{border-top:4px solid var(--amber)}
+.landing-search{display:flex;gap:8px;margin-top:14px}
+.landing-search select{flex:1;font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--paper);color:var(--ink)}
+.landing-foot{margin-top:50px;padding:24px 0;border-top:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;color:var(--ink3);font-size:12px}
+.landing-foot a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2)}
+.landing-foot a:hover{color:var(--ink);border-color:var(--ink2)}
+.landing-teaser{margin:40px 0 0;padding:24px;background:var(--paper2);border-radius:12px;border:1px solid var(--line2)}
+.landing-teaser h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.landing-teaser .ts-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.landing-teaser .ts-list a{padding:9px 12px;background:var(--paper);border:1px solid var(--line2);border-radius:6px;text-decoration:none;color:var(--ink);font-size:13px;display:flex;justify-content:space-between;align-items:baseline}
+.landing-teaser .ts-list a:hover{border-color:var(--ink2);background:#fff}
+.landing-teaser .ts-list .lbl{color:var(--ink3);font-size:10.5px;font-family:'Spline Sans Mono',monospace}
+</style>
 </head>
 <body>
 <div class="wrap">
-<header class="top">
-  <div class="headerbar">
-    <div style="flex:1;min-width:260px">
-      <div class="kicker">SSB · Folketall 1.1.2026 · 80 kommuner</div>
-      <h1 class="serif">Hva skjer i Nord-Norge — og <em>hvem blir igjen?</em></h1>
-    </div>
-    <button class="tour-btn" id="tourstart" title="Guidet gjennomgang av dashboardet">
-      <span>▶</span><span>Ta meg gjennom<span class="tt"> · 90 sek</span></span>
-    </button>
-  </div>
-  <p class="essence">To av tre kommuner mister mer enn 15 % av befolkningen og den arbeidsføre gruppen mot 2050. <em>Rundt 4 % av kommunene er bærekraftige på egne demografiske og økonomiske fundamenter</em> — resten lener seg på statlige overføringer. Spørsmålet er ikke hvilke som forsvinner, men hvor lenge dagens system bærer.</p>
-  <details class="metainfo">
-    <summary>Om kildene og metoden</summary>
-    <div class="mbody">
-      <p>Et frittstående analyseverktøy for de 80 kommunene i Nord-Norge — Nordland, Troms og Finnmark, kommuneinndelingen fra 2024. Det kobler fem SSB-kilder: folketall etter alder og kjønn (07459, 1.1.2026), innvandrerbakgrunn og opprinnelsesland (09817), sysselsetting (11607, 4. kv. 2025), årlige befolkningskomponenter (06913, 2017–2025) og kommuneøkonomi via KOSTRA (2015–2025).</p>
-      <p>For hver kommune får du tre lag. <b>I dag:</b> alderstruktur, innvandrerbakgrunn og arbeidsmarkedstilknytning. <b>Mot 2050:</b> en befolkningsframskriving der SSBs offisielle bane (MMMM, 2024-basert) vises side om side med en reprodusert kohort-komponent-modell (TF-MVP) med justerbart flyttevindu, Ukraina-scenario og følsomhet. <b>Kommuneøkonomi:</b> økonomisk handlingsrom målt mot landsdelen, faktisk KOSTRA-utvikling 2015–2025, og en demografidrevet framskriving av sektorandelene til 2050.</p>
-      <p>Alle historiske tall er hentet direkte fra SSBs statistikkbank. Framskrivingene er tydelig merket som framskrivinger, <b>ikke prognoser</b>: de viser hva demografien alene gir «alt annet likt», og forutsetningene kan skrus på og etterprøves.</p>
-    </div>
-  </details>
-</header>
 
-<nav class="journey journey-acts" id="journey" role="tablist" aria-label="Reisen gjennom dashboardet">
-  <div class="act-group" data-act="1">
-    <div class="act-label">
-      <span class="act-num">AKT 1</span>
-      <span class="act-name">Hva skjer</span>
-      <span class="act-tag">Befolkningen i bevegelse</span>
-    </div>
-    <button role="tab" data-tab="intro" aria-current="true">
-      <span class="jn">1.1</span>
-      <span class="jt">Det store bildet</span>
-      <span class="jq">Hvor mange blir vi i Nord-Norge mot 2050, og hvilke krefter driver det?</span>
-    </button>
-    <button role="tab" data-tab="explore" aria-current="false">
-      <span class="jn">1.2</span>
-      <span class="jt">Utforsk kommuner</span>
-      <span class="jq">Bak landsdelens linje ligger 80 ulike skjebner — utforsk hver enkelt.</span>
-    </button>
-  </div>
-  <div class="act-group" data-act="2">
-    <div class="act-label">
-      <span class="act-num">AKT 2</span>
-      <span class="act-name">Hvem blir igjen</span>
-      <span class="act-tag">Folk, jobb og levekår</span>
-    </div>
-    <button role="tab" data-tab="model" aria-current="false">
-      <span class="jn">2.1</span>
-      <span class="jt">Befolkningssammensetningen</span>
-      <span class="jq">Hvem bor her — alder, opprinnelse, og hvor lenge blir flyktningene?</span>
-    </button>
-    <button role="tab" data-tab="nat" aria-current="false">
-      <span class="jn">2.2</span>
-      <span class="jt">Forsørgerbyrden</span>
-      <span class="jq">Hvor tungt blir aldringen å bære for de som er igjen i arbeid?</span>
-    </button>
-    <button role="tab" data-tab="levekar" aria-current="false">
-      <span class="jn">2.3</span>
-      <span class="jt">Levekår og inntekt</span>
-      <span class="jq">Hva tjener folk, hvordan bor de — og hvor kommer pengene fra?</span>
-    </button>
-  </div>
-  <div class="act-group" data-act="3">
-    <div class="act-label">
-      <span class="act-num">AKT 3</span>
-      <span class="act-name">Kan vi bære det?</span>
-      <span class="act-tag">Økonomien som test</span>
-    </div>
-    <button role="tab" data-tab="refugees" aria-current="false">
-      <span class="jn">3.1</span>
-      <span class="jt">Økonomien i dag</span>
-      <span class="jq">Hvor solid står kommuneøkonomien — og hva betyr renta?</span>
-    </button>
-    <button role="tab" data-tab="robek" aria-current="false">
-      <span class="jn">3.2</span>
-      <span class="jt">Indikatorer 2050</span>
-      <span class="jq">Hvor står kommunene mot etablerte normer fra OECD, TBU, KS og loven?</span>
-    </button>
-  </div>
-  <div class="act-group" data-act="end">
-    <div class="act-label">
-      <span class="act-num">SLUTT</span>
-      <span class="act-name">Konklusjon</span>
-      <span class="act-tag">Det du nå vet</span>
-    </div>
-    <button role="tab" data-tab="summary" aria-current="false">
-      <span class="jn">📍</span>
-      <span class="jt">Sammendrag</span>
-      <span class="jq">Fem innsikter fra reisen, hver med lenke tilbake til kapittelet.</span>
-    </button>
-  </div>
-</nav>
-
-<section class="tab active" data-tab="intro">
-  <div class="stepcard" data-color="aurora">
-    <div class="sn">Akt 1 · Hva skjer · Kapittel 1.1</div>
-    <h2>Det store bildet</h2>
-    <p class="sq">Hvor mange blir vi i Nord-Norge mot 2050 — og hvilke krefter driver det?</p>
-  </div>
-
-  <!-- Klartekst-banner -->
-  <div class="tldr" id="bigPicTldr"></div>
-
-  <!-- Hero-graf: hele landsdelen 2000-2050 -->
-  <div class="card hero-chart" id="bigPicChart">
-    <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000 → 2050</h3></div>
-    <p class="hint">Heltrukken mørk linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Auroragrønn = SSBs offisielle bane 2024 → 2050 (MMMM, tabell 14288), med lav–høy-bånd. Amber/lilla = Telemarksforskning-banene (TF-MVP og TF-ATTR). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
-    <div id="bigPicGraph"></div>
-  </div>
-
-  <!-- Drilldown: modeller, kildedata, backtest -->
-  <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og backtest</summary>
-    <div style="margin-top:18px">
-      <h3 class="serif" style="font-size:18px;margin-bottom:10px">Tre baner mot 2050 — én forskjell mellom dem</h3>
-      <p class="sub">Alle tre rulles fram til 2050 med <b>samme regnemaskin</b>: fødsler, dødsfall og aldring regnes likt. Det eneste som skiller dem, er <b>hvordan flytteleddet anslås</b> — altså hvor mye folk flytter inn og ut av hver kommune.</p>
-      <div class="flow">
-      <div class="src">
-        <div class="tag">SSB MMMM</div>
-        <h3 class="serif">Den offisielle banen</h3>
-        <p style="font-size:12.5px"><b>Tabell 14288, 2024-basert.</b> Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. Navnet «MMMM» kommer fra fire nasjonale forutsetninger, alle satt på <b>M</b>iddels nivå:</p>
-        <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
-          <li><b>1. M</b> — fruktbarhet</li>
-          <li><b>2. M</b> — levealder</li>
-          <li><b>3. M</b> — innenlands flytting</li>
-          <li><b>4. M</b> — nettoinnvandring</li>
-        </ul>
-        <p style="font-size:12.5px">SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men låst — kan ikke skrus på her.</p>
-        <div class="dims"><span class="chip">autoritativ</span><span class="chip">låst</span><span class="chip x">ikke skrubar</span></div>
-      </div>
-      <div class="src">
-        <div class="tag">TF-MVP</div>
-        <h3 class="serif">Flytting fra historikken</h3>
-        <p style="font-size:12.5px"><b>Flyttingen settes til snittet av et valgt historisk vindu.</b> Tre vinduer kan velges i framskrivingskortet:</p>
-        <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
-          <li><b>Konservativ</b> — snitt 2017–2021 (før korona-boom). Standard.</li>
-          <li><b>Middel</b> — bredere vindu, inkluderer 2022–2023-toppen</li>
-          <li><b>Optimistisk</b> — vektlegger boom-årene tyngst</li>
-        </ul>
-        <p style="font-size:12.5px">Alle vinduene inkluderer 2024 og 2025. Helt gjennomsiktig — du ser hvilke år antagelsene hviler på.</p>
-        <div class="dims"><span class="chip">tre vinduer</span><span class="chip">skrubar</span><span class="chip">transparent</span></div>
-      </div>
-      <div class="src">
-        <div class="tag">TF-ATTR</div>
-        <h3 class="serif">Flytting fra struktur</h3>
-        <p style="font-size:12.5px"><b>Flyttingen anslås fra struktur, ikke historikk.</b> En regresjon på to lokale variabler:</p>
-        <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
-          <li><b>Jobbvekst</b> — lokal endring i sysselsetting</li>
-          <li><b>Sentralitet</b> — SSBs 1–6-skala (1 = mest sentral, 6 = minst)</li>
-        </ul>
-        <p style="font-size:12.5px">Spørsmålet skifter fra «hva gjorde folk i fjor?» til «hvor mye flytting tilsier næringsgrunnlaget og geografien?» — robust mot uvanlige år, og <b>påvirkes ikke av flyttevindu-bryteren</b>.</p>
-        <div class="dims"><span class="chip">strukturbasert</span><span class="chip">attribusjon</span><span class="chip">treffer utkant</span></div>
-      </div>
-    </div>
-    <div class="note" style="margin-top:18px;background:rgba(24,117,103,.06);border-color:rgba(24,117,103,.22)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
-    <p class="sub" style="margin-top:18px">Begge Telemarksforskning-banene vises ved siden av SSB fordi SSB er <b>fasiten</b>, mens Telemarksforskning er <b>gjennomsiktig</b> og kan skrus på (flyttevindu, Ukraina-scenarier, følsomhet). I backtesten 2020 → 2024 traff Telemarksforskning — særlig TF-ATTR — bedre enn SSB nettopp i de små, minst sentrale kommunene, der prognoser pleier å bomme mest.</p>
-
-      <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020 → 2024</h3>
-      <p class="sub">For å teste modellen ga vi alle banene 2020 som utgangspunkt, rullet fram til 2024, og sammenlignet med faktisk registrert folketall. Tabellen under bryter feilen ned per sentralitetsklasse (SSBs egen skala, 1 = mest sentral, 6 = minst).</p>
-      <div id="bteval_intro" data-helpfor="<b>Slik leser du backtesten.</b> Vi gir SSB og Telemarksforskning basis i 2020, ruller fram til 2024, og sammenligner med faktisk registrert folketall. Lavere prosent = mindre feil. Sentralitet 1 er Oslo-typen, 6 er minst sentralt — der det er vanskeligst å treffe."></div>
-      <p class="hint" id="btcav_intro" style="margin-top:10px;opacity:.75;font-size:11.5px;max-width:62em"></p>
-    </div>
-  </details>
-
-  <details class="explain" style="margin-top:14px">
-  <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Datakildene — hvorfor splittet i tre SSB-tabeller?</summary>
-  <div style="margin-top:14px">
-  <h3 class="serif" style="font-size:18px;margin-bottom:8px">Hvorfor må vi splitte dataene på tre kilder?</h3>
-  <p class="sub">Den fulle krysstabuleringen <i>kommune × alder × opprinnelsesland</i> finnes ikke hos SSB. Av personvernhensyn undertrykkes så små celler. Derfor er dimensjonene delt på tre kilder:</p>
-  <div class="flow">
-    <div class="src">
-      <div class="tag">Tabell 07459</div>
-      <h3 class="serif">Hele befolkningen</h3>
-      <p>Alle innbyggere etter alder. Grunnlaget for folketall og aldersprofil.</p>
-      <div class="dims"><span class="chip">kommune</span><span class="chip">ettårig alder</span><span class="chip x">ikke opprinnelse</span></div>
-    </div>
-    <div class="src">
-      <div class="tag">Tabell 09817</div>
-      <h3 class="serif">Innvandrerbakgrunn</h3>
-      <p>Innvandrere + norskfødte med innvandrerforeldre, etter alle 247 land.</p>
-      <div class="dims"><span class="chip">kommune</span><span class="chip">land</span><span class="chip x">ikke alder</span></div>
-    </div>
-    <div class="src">
-      <div class="tag">Tabell 11607</div>
-      <h3 class="serif">Sysselsetting</h3>
-      <p>Kun <i>sysselsatte</i> (20–66 år), etter landgruppe. Brukes i «Sysselsetting»-panelet — en delmengde, egen årgang (2025).</p>
-      <div class="dims"><span class="chip">kommune</span><span class="chip">aldersbånd</span><span class="chip">landgruppe</span></div>
-    </div>
-  </div>
-  <div class="note"><span>⚠</span><div>Befolkningstall (07459) og innvandrertall (09817) teller <b>ulike populasjoner</b> og skal ikke summeres mot hverandre. «Andel med innvandrerbakgrunn» under er 09817 dividert på 07459 — en korrekt brøk, men de to dimensjonene kan ikke krysses videre på kommunenivå.</div></div>
-  </div>
-</details>
-
-<button class="nextstep" data-next="explore">
-  <div class="ns-l">
-    <div class="ns-n">→ Kapittel 1.2</div>
-    <div class="ns-t">Utforsk kommunene</div>
-    <div class="ns-h">Den store linja for hele landsdelen skjuler enorme forskjeller. Bodø vokser; mange utkantkommuner krymper med en fjerdedel mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
+<section class="landing-hero">
+  <div class="kicker">SSB · KOSTRA · KS · OECD · Kommuneloven §28-1</div>
+  <h1>Hva skjer i Nord-Norge — og <em>hvem blir igjen?</em></h1>
+  <p class="essence">Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Folketall, sysselsetting, levekår og kommuneøkonomi — i tre nivåer.</p>
 </section>
 
-<section class="tab" data-tab="explore">
-  <div class="stepcard" data-color="nl">
-    <div class="sn">Akt 1 · Hva skjer · Kapittel 1.2</div>
-    <h2>Utforsk kommunene</h2>
-    <p class="sq">Landsdelens linje skjuler 80 ulike skjebner. Hvem vokser, hvem krymper — og med hvilken hastighet?</p>
-    <details>
-      <summary>Slik bruker du denne siden</summary>
-      <div class="hbody">
-        <p>Filtrér på fylke eller status (<kbd>vekst</kbd>, <kbd>krymper</kbd>, <kbd>aldring</kbd>, <kbd>ROBEK</kbd>) i søkefeltet. Klikk en kommune i lista for full dybde. <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>-klikk legger til opp til fire kommuner for sammenligning.</p>
-        <p>I kommunekortet er det tre linser: <b>Reisen 2000→2050</b> (befolkningsutviklingen), <b>Folket i dag</b> (alder/opprinnelse/jobb), <b>Hva må kommunen bære?</b> (forsørgerbyrde, KOSTRA, ROBEK).</p>
-      </div>
-    </details>
-  </div>
-<div class="controls">
-  <div class="seg" id="fylke" role="tablist">
-    <button role="tab" aria-selected="true" data-f="Alle">Alle</button>
-    <button role="tab" aria-selected="false" data-f="Nordland"><span class="dot" style="background:var(--nl)"></span>Nordland</button>
-    <button role="tab" aria-selected="false" data-f="Troms"><span class="dot" style="background:var(--tr)"></span>Troms</button>
-    <button role="tab" aria-selected="false" data-f="Finnmark"><span class="dot" style="background:var(--fi)"></span>Finnmark</button>
-  </div>
-  <div class="search">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-    <input id="q" type="text" placeholder="Søk kommune eller filter (Bodø, ROBEK, vekst, aldring …)" autocomplete="off">
-  </div>
+<div class="landing-cards">
+  <a class="landing-card" data-nivå="nn" href="nord-norge.html">
+    <div class="lnum">Nivå 1</div>
+    <h2>Hele landsdelen</h2>
+    <p>De seks store spørsmålene besvart for Nord-Norge totalt: hvor mange blir vi, hvem bor her, hvor er aldringen sterkest, og hvor presset er kommuneøkonomien.</p>
+    <span class="larr">→ Start her</span>
+  </a>
+  <a class="landing-card" data-nivå="fylke" href="fylke.html?f=Nordland">
+    <div class="lnum">Nivå 2</div>
+    <h2>Per fylke</h2>
+    <p>Nordland, Troms og Finnmark sammenlignet. Filtrerte tall, ranger­ing av kommuner, og indikatorer mot fylkesnivåets eksterne normer.</p>
+    <div class="landing-search">
+      <select id="landFylke" aria-label="Velg fylke">
+        <option value="">Velg fylke…</option>
+        <option value="Nordland">Nordland (40 kommuner)</option>
+        <option value="Troms">Troms (24 kommuner)</option>
+        <option value="Finnmark">Finnmark (18 kommuner)</option>
+      </select>
+    </div>
+  </a>
+  <a class="landing-card" data-nivå="kommune" href="#">
+    <div class="lnum">Nivå 3</div>
+    <h2>Enkeltkommune</h2>
+    <p>Drill ned i en spesifikk kommune. Befolkningsreise 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
+    <div class="landing-search">
+      <select id="landKommune" aria-label="Velg kommune">
+        <option value="">Velg kommune…</option>
+      </select>
+    </div>
+  </a>
 </div>
-<div class="searchhint">Filter:
-  <button class="shchip" data-shq="ROBEK">ROBEK</button>
-  <button class="shchip" data-shq="vekst">vekst</button>
-  <button class="shchip" data-shq="krymper">krymper</button>
-  <button class="shchip" data-shq="aldring">aldrende</button>
-  <button class="shchip" data-shq="ung">ung profil</button>
+
+<div class="landing-teaser">
+  <h3>Hurtigvalg — de største kommunene</h3>
+  <div class="ts-list" id="topKommuner"></div>
 </div>
-<div class="controls" style="margin:0 0 18px">
-  <div class="sortbar">Sortér:
-    <button data-s="folketall" aria-pressed="true">Folketall</button>
-    <button data-s="andel" aria-pressed="false">Andel innvandrere</button>
-    <button data-s="syss" aria-pressed="false">Sysselsetting innv.</button>
-    <button data-s="navn" aria-pressed="false">Navn</button>
+
+<div class="landing-teaser" style="margin-top:18px">
+  <h3>Andre veier inn</h3>
+  <div class="ts-list">
+    <a href="sammenlign.html?k=1804,5401,5403"><span>Sammenlign 2-4 kommuner</span><span class="lbl">verktøy</span></a>
+    <a href="metode.html"><span>Metode og kilder</span><span class="lbl">referanse</span></a>
   </div>
 </div>
 
-<!-- Horisontal kommune-velger -->
-<div class="kstrip-wrap">
-  <div class="kstrip-head">
-    <span id="cnt">80 kommuner</span>
-    <span class="kstrip-hint">← scroll for å se alle, eller filtrer over →</span>
-    <span id="cmpinfo">+ for å sammenligne</span>
-  </div>
-  <div class="kstrip-scroller">
-    <button class="kstrip-arrow prev" data-knav="stripPrev" aria-label="Scroll til venstre">‹</button>
-    <div class="kstrip" id="klist"></div>
-    <button class="kstrip-arrow next" data-knav="stripNext" aria-label="Scroll til høyre">›</button>
-  </div>
-</div>
-
-<!-- Full-bredde detalj -->
-<main class="detail" id="detail"></main>
-
-<button class="nextstep" data-next="model">
-  <div class="ns-l">
-    <div class="ns-n">→ Akt 2 · Kapittel 2.1</div>
-    <div class="ns-t">Befolkningssammensetningen</div>
-    <div class="ns-h">Tallene over forteller hvor mange. Neste kapittel forteller hvem — alder, opprinnelse, og hvor lenge folk blir værende.</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="model">
-  <div class="stepcard" data-color="tr">
-    <div class="sn">Akt 2 · Hvem blir igjen · Kapittel 2.1</div>
-    <h2>Befolkningssammensetningen</h2>
-    <p class="sq">Hvem bor i Nord-Norge — alder, opprinnelse — og hvor lenge blir flyktningene?</p>
-  </div>
-
-  <!-- Klartekst-banner for sammensetning -->
-  <div class="tldr t-people" id="compTldr"></div>
-
-  <!-- Hovedgraf: aldersstruktur for hele landsdelen -->
-  <div class="card hero-chart" id="compAgeCard">
-    <div class="ch"><h3 class="serif">Aldersstruktur · Nord-Norge totalt</h3>
-      <div class="minseg" id="cAgm">
-        <button data-m="1" aria-pressed="false">Ettårig</button>
-        <button data-m="5" aria-pressed="true">5-årig</button>
-        <button data-m="L" aria-pressed="false">Livsfaser</button>
-      </div>
-    </div>
-    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de 80 kommunene i Nordland, Troms og Finnmark.</p>
-    <div id="compAgeGraph"></div>
-  </div>
-
-  <!-- Landbakgrunn -->
-  <div class="card" id="compOriginCard">
-    <div class="ch"><h3 class="serif">Landbakgrunn — vestlig og ikke-vestlig</h3></div>
-    <p class="hint">Av innvandrere + norskfødte med innvandrerforeldre (SSB tabell 09817). Topp-land er sortert.</p>
-    <div id="compOriginGraph"></div>
-  </div>
-
-  <!-- Bofasthet for flyktninger -->
-  <div class="card" id="compBofastCard">
-    <div class="ch"><h3 class="serif">Hvor lenge blir flyktningene?</h3></div>
-    <p class="hint">SSBs <b>kohort-monitor</b> følger flyktninger bosatt i et gitt år, og måler hvor stor andel som fortsatt bor i sin <b>1. bostedskommune</b> etter 5 år. Måler integreringskommunens evne til å holde på folk — <b>ekskl. utvandring</b>. Finnmark fremhevet.</p>
-    <div id="compBofastGraph"></div>
-    <div style="margin-top:12px" data-methodbadge="SSB_MONITOR"></div>
-    <details style="margin-top:12px;font-size:13px">
-      <summary style="cursor:pointer;font-weight:600;color:var(--ink2)">▾ Hvordan henger dette sammen med landsdelens samlede flyt?</summary>
-      <div style="margin-top:10px;color:var(--ink2);line-height:1.6">
-        <p>To ulike måter å telle på: <b>kortsiktig bofasthet</b> (Monitor) sier at 80–90 % blir værende første 5 år. <b>Akkumulert nettoflytting</b> (KBNN/Telemarksforskning) sier at over 25 år har 5 av 6 flyktninger flyttet videre sør. Begge er sanne. Spørsmålene er ulike: «hvor godt forankrer kommunen i begynnelsen?» vs. «hvor er folk om 25 år?».</p>
-        <p>SSBs flyttestatistikk for hele landsdelen 2002–2025 (tabell 09588) viser at nettoinnvandring fra utlandet i de fleste år er positiv, mens innenlandsk nettoflytting er negativ — folk drar sørover. Ukraina-invasjonen i 2022 ga et midlertidig løft i nettoinnvandring.</p>
-      </div>
-    </details>
-  </div>
-
-<button class="nextstep" data-next="nat">
-  <div class="ns-l">
-    <div class="ns-n">→ Akt 2 · Kapittel 2.2</div>
-    <div class="ns-t">Forsørgerbyrden</div>
-    <div class="ns-h">Når andelen 67+ vokser raskere enn arbeidsstyrken, øker forsørgerbyrden. Hvor tungt blir det å bære i 2050?</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="nat">
-  <div class="stepcard" data-color="fi">
-    <div class="sn">Akt 2 · Hvem blir igjen · Kapittel 2.2</div>
-    <h2>Forsørgerbyrden</h2>
-    <p class="sq">Når aldringen vokser raskere enn arbeidsstyrken — hvor tungt blir det å bære i 2050?</p>
-  </div>
-
-  <!-- Klartekst -->
-  <div class="tldr t-burden" id="burdenTldr"></div>
-
-  <!-- Hero: forsørgerbyrde for landsdelen -->
-  <div class="card hero-chart" id="burdenChart">
-    <div class="ch"><h3 class="serif">Forsørgerbyrde 2024 → 2050 · Nord-Norge totalt</h3></div>
-    <p class="hint">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Heltrukken linje viser hvor mange eldre arbeidstakerne må bære. Indekspanelet under viser hvorfor — eldregruppen vokser mens arbeidsføre står stille eller faller. Standard flyttebane: konservativ.</p>
-    <div id="burdenGraph"></div>
-  </div>
-
-  <!-- Bakteppe: nasjonal sysselsetting -->
-  <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Bakteppe: Hvem fyller jobbene i Norge — etter verdensregion og kjønn?</summary>
-    <div style="margin-top:14px">
-      <p class="sub">Dette er <b>nasjonale</b> tall, ikke per kommune. SSB publiserer ikke sysselsetting per enkeltland — derfor er åtte verdensregioner det fineste landnivået som finnes. Bytt mellom <b>Andel %</b> og <b>Antall</b>, og mellom kjønn. Klikk tegnforklaringen i tidsserien for å vise/skjule linjer.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <div class="minseg" id="nmt">
-          <button data-m="rate" aria-selected="true">Andel %</button>
-          <button data-m="cnt" aria-selected="false">Antall</button>
-        </div>
-        <div class="minseg" id="nxs">
-          <button data-x="begge" aria-selected="true">Begge</button>
-          <button data-x="menn" aria-selected="false">Menn</button>
-          <button data-x="kvinner" aria-selected="false">Kvinner</button>
-        </div>
-      </div>
-      <p class="hint" style="margin-top:10px">Hele landet, 20–66 år, 4. kv. 2025 (tabell 09837).</p>
-      <div id="natbars" data-helpfor="<b>Slik leser du søylene.</b> Hver søyle er én verdensregion. Lengden viser <b>andel sysselsatte</b> (20–66 år) i den gruppa, eller antall personer hvis du bytter modus."></div>
-      <div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Utvikling 2015–2025</h3></div>
-      <div id="natts" data-helpfor="<b>Slik leser du tidsserien.</b> Hver linje er sysselsettingsraten for en verdensregion 2015–2025."></div>
-    </div>
-  </details>
-
-<button class="nextstep" data-next="levekar">
-  <div class="ns-l">
-    <div class="ns-n">→ Akt 2 · Kapittel 2.3</div>
-    <div class="ns-t">Levekår og inntekt</div>
-    <div class="ns-h">Hva tjener folk i Nord-Norge, hvordan bor de, og hvor stor andel av inntekten kommer fra lønn versus pensjon og uføretrygd?</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="levekar">
-  <div class="stepcard" data-color="tr">
-    <div class="sn">Akt 2 · Hvem blir igjen · Kapittel 2.3</div>
-    <h2>Levekår og inntekt</h2>
-    <p class="sq">Hva tjener husholdningene, hvordan bor de, og hvor stor andel av inntektene kommer fra lønn versus pensjon og uføretrygd?</p>
-    <details>
-      <summary>Slik bruker du denne siden</summary>
-      <div class="hbody">
-        <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 12558), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (11084), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
-        <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (drill-down kommer i en senere runde).</p>
-      </div>
-    </details>
-  </div>
-
-  <!-- Klartekst -->
-  <div class="tldr t-people" id="levekarTldr"></div>
-
-  <!-- Kort A: Husholdningsinntekt -->
-  <div class="card" id="levekarInntektCard">
-    <div class="ch"><h3 class="serif">Husholdningsinntekt — median og spennvidde</h3></div>
-    <p class="hint">Median husholdningsinntekt etter skatt per kommune (SSB tabell 06944, 2024). Søylene viser kommunen med lavest og høyest median, landsdelens vektede median, og nasjonalt snitt som referanse.</p>
-    <div id="levekarInntektGraph"></div>
-    <div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>
-  </div>
-
-  <!-- Kort B: Personinntekt-komponenter -->
-  <div class="card" id="levekarKomponentCard">
-    <div class="ch"><h3 class="serif">Hvor kommer inntektene fra?</h3></div>
-    <p class="hint">Hovedinntektsstrømmene for bosatte 17 år og eldre i Nord-Norge: lønn, pensjon og uføretrygd. Median og samlet beløp per komponent. SSB tabell 14780, 2025. Tallene viser hvor stor del av landsdelens samlede personinntekt som kommer fra hver kilde — direkte koblet til aldring og uføre-narrativet i Akt 2.2.</p>
-    <div id="levekarKomponentGraph"></div>
-  </div>
-
-  <!-- Kort C: Eierstatus + antall husholdninger -->
-  <div class="card" id="levekarEierCard">
-    <div class="ch"><h3 class="serif">Hvordan bor de — selveiere eller leiere?</h3></div>
-    <p class="hint">Antall husholdninger og hvordan de eier boligen sin (selveier, andels-/aksjeeier i borettslag eller sameie, eller leier). SSB tabell 11084, 2024.</p>
-    <div id="levekarEierGraph"></div>
-  </div>
-
-  <!-- Kort D: Bolig-typer -->
-  <div class="card" id="levekarBoligCard">
-    <div class="ch"><h3 class="serif">Hva slags boliger finnes?</h3></div>
-    <p class="hint">Boliger fordelt på bygningstype — enebolig, tomannsbolig, rekkehus, blokk, bofellesskap. SSB tabell 06265, 2026.</p>
-    <div id="levekarBoligGraph"></div>
-  </div>
-
-  <!-- Kort E: Inntektsspennvidde mellom kommuner -->
-  <div class="card hero-chart" id="levekarSpennCard">
-    <div class="ch"><h3 class="serif">Inntektsspennvidde mellom kommunene</h3></div>
-    <p class="hint">Hver søyle er én kommune, sortert etter median husholdningsinntekt etter skatt (2024). Fylkesfarger: <span style="color:var(--nl);font-weight:700">Nordland</span>, <span style="color:var(--tr);font-weight:700">Troms</span>, <span style="color:var(--fi);font-weight:700">Finnmark</span>. Landsdelens vektede median og nasjonalt snitt vises som horisontale referanselinjer. Forskjellen mellom rikeste og fattigste kommune er det landsdels-snittet skjuler.</p>
-    <div id="levekarSpennGraph"></div>
-    <div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>
-  </div>
-
-<button class="nextstep" data-next="refugees">
-  <div class="ns-l">
-    <div class="ns-n">→ Akt 3 · Kapittel 3.1</div>
-    <div class="ns-t">Økonomien i dag</div>
-    <div class="ns-h">Demografien presser kommunenes utgifter framover. Neste kapittel ser på det økonomiske grunnlaget: KOSTRA-fundamentene, ROBEK-status og rentekostnadene.</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="refugees">
-  <div class="stepcard" data-color="amber">
-    <div class="sn">Akt 3 · Kan vi bære det? · Kapittel 3.1</div>
-    <h2>Økonomien i dag</h2>
-    <p class="sq">Hvor solid står kommunenes økonomi når aldringskostnaden kommer?</p>
-  </div>
-
-  <!-- Klartekst-banner -->
-  <div class="tldr t-burden" id="econTldr"></div>
-
-  <!-- ROBEK-oversikt -->
-  <div class="card hero-chart" id="econRobekCard">
-    <div class="ch"><h3 class="serif">ROBEK — register og kalibrert risikoproxy</h3>
-      <div class="seg" id="rbkf">
-        <button role="tab" aria-selected="true" data-f="Alle">Hele Nord-Norge</button>
-        <button role="tab" aria-selected="false" data-f="Nordland"><span class="dot" style="background:var(--nl)"></span>Nordland</button>
-        <button role="tab" aria-selected="false" data-f="Troms"><span class="dot" style="background:var(--tr)"></span>Troms</button>
-        <button role="tab" aria-selected="false" data-f="Finnmark"><span class="dot" style="background:var(--fi)"></span>Finnmark</button>
-      </div>
-    </div>
-    <p class="hint">Hvilke kommuner er faktisk i ROBEK, og hvilke har KOSTRA-fundamenter som indikerer økonomisk klem. Sortér tabellen på risiko, status, navn eller fylke.</p>
-    <div id="robekview" data-helpfor="<b>Slik leser du oversikten.</b> Hver rad er en kommune. <b>Risk</b> er den kalibrerte proxyen (rødt = høy, grønt = lav). <b>ROBEK</b>-kolonnen er faktisk registerstatus per dato vist i overskriften."></div>
-  </div>
-
-  <!-- Rentefølsomhet drill-down -->
-  <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Rentefølsomhet — hva betyr en endring i kommunalbank-renten?</summary>
-    <div style="margin-top:14px" id="renteCard">
-      <p class="sub">Norske kommuner låner hovedsakelig fra Kommunalbanken til flytende rente (3 mnd NIBOR + margin). Når Norges Bank endrer styringsrenten, gjør det utslag i kommunenes rentekostnader. Skyvekontrollene under viser sensitiviteten: <b>per prosentpoeng</b>-effekten er den robuste — målrenten avhenger av antagelsene dine.</p>
-      <div id="renteContent" style="margin-top:14px"></div>
-    </div>
-  </details>
-
-<button class="nextstep" data-next="robek">
-  <div class="ns-l">
-    <div class="ns-n">→ Akt 3 · Kapittel 3.2</div>
-    <div class="ns-t">Bærekraftsindikatorer 2050</div>
-    <div class="ns-h">Demografi og økonomi sett mot etablerte normer fra OECD, TBU, KS og kommuneloven. Hvor står kommunene mot hver enkelt standard?</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="robek">
-  <div class="stepcard" data-color="ink">
-    <div class="sn">Akt 3 · Kan vi bære det? · Kapittel 3.2</div>
-    <h2>Bærekraftsindikatorer 2050</h2>
-    <p class="sq">Hvordan står Nord-Norges kommuner mot etablerte normer fra OECD, TBU, KS, SSB og kommuneloven?</p>
-    <details>
-      <summary>Indikatorene og kildene som brukes</summary>
-      <div class="hbody">
-        <p>Åtte indikatorer, hver med sin egen autoritative norm:</p>
-        <ul style="margin:6px 0 6px 22px;list-style:disc;color:var(--ink2)">
-          <li><b>Befolkningsendring 2024–2050</b> — OECD SCIRN definerer befolkningsnedgang ≥ 0,15 %/år som «shrinking».</li>
-          <li><b>Forsørgerbyrde 2050 (65+/20–64)</b> — OECD-standardratio. OECD-snitt 2050 ≈ 58 eldre per 100 i yrkesaktiv alder.</li>
-          <li><b>Sysselsettingsrate 20–66</b> — SSB tabell 13563. Nasjonalt snitt ~79 %.</li>
-          <li><b>Uføreandel 18–67</b> — SSB tabell 11715. Nasjonalt snitt ~10,5 %.</li>
-          <li><b>Netto driftsresultat</b> — TBU-norm +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget).</li>
-          <li><b>Disposisjonsfond</b> — KS FoU mai 2025: minst 5 % av driftsinntektene anbefales.</li>
-          <li><b>Netto lånegjeld</b> — KS/Riksrevisjonen: ikke over 75 % av driftsinntektene.</li>
-          <li><b>ROBEK-status</b> — kommuneloven §28-1. Statsforvalteren fører kontrollen.</li>
-        </ul>
-        <p>Hver indikator står på egne ben. Det er ingen sammensatt dom — bare en oversikt over hvor kommunene ligger mot hver enkelt norm. Demografiske tall er framskrevet fra TF-MVP konservativ flyttebane (Kapittel 02).</p>
-      </div>
-    </details>
-  </div>
-
-  <!-- Klartekst -->
-  <div class="tldr" id="sustTldr"></div>
-
-  <!-- Per fylke fordeling per indikator -->
-  <div class="card" id="sustFylkeCard">
-    <div class="ch"><h3 class="serif">Per fylke — andel kommuner som ligger utenfor hver norm</h3></div>
-    <p class="hint">Søylene viser hvor mange kommuner i hvert fylke som ligger utenfor den eksterne normen for hver indikator. Grønn under 30 %, oker 30–60 %, rød over 60 %.</p>
-    <div id="sustFylkeBars"></div>
-  </div>
-
-  <p class="hint" style="margin:14px 0 0;font-size:12.5px">→ Per-kommune-detaljer ligger i kommunekortet, under linsen <b>«Hva må kommunen bære?»</b> (Kapittel 1.2 · Utforsk kommunene).</p>
-
-<button class="nextstep" data-next="summary">
-  <div class="ns-l">
-    <div class="ns-n">→ Sammendrag</div>
-    <div class="ns-t">Det du nå vet</div>
-    <div class="ns-h">Reisen er over. Fem innsikter — og lenker tilbake til kapittelet om du vil etterprøve.</div>
-  </div>
-  <div class="ns-arr">→</div>
-</button>
-</section>
-
-<section class="tab" data-tab="summary">
-  <div class="summary-hero">
-    <div class="sh-k">Sammendrag · Det du nå vet</div>
-    <h2>Hva skjer i Nord-Norge — og hvem blir igjen?</h2>
-    <p>Reisen er over. Fem innsikter fra de tre aktene, hver med direkte lenke tilbake til kapittelet om du vil etterprøve. Det gjennomgående bildet er at Nord-Norges kommuner møter et betydelig press målt mot etablerte normer fra OECD, TBU, KS og kommuneloven.</p>
-  </div>
-
-  <div class="summary-grid">
-    <div class="insight i1">
-      <div class="ik">Akt 1 · Innsikt 01</div>
-      <h3>Nord-Norge krymper — men ujevnt</h3>
-      <p>Landsdelens samlede linje skjuler 80 ulike skjebner. To av tre kommuner mister mer enn 15 % av befolkningen mot 2050; to-tre vokser. <b>Flyttingen</b> — ikke fødsler og dødsfall — er det som skiller modellene fra hverandre.</p>
-      <button class="src" data-goto="intro">→ Tilbake til Kapittel 1.1</button>
-    </div>
-    <div class="insight i2">
-      <div class="ik">Akt 1 · Innsikt 02</div>
-      <h3>Modellene er åpne og etterprøvbare</h3>
-      <p>SSBs MMMM er den offisielle banen. Telemarksforsknings TF-MVP og TF-ATTR vises ved siden av som transparente alternativer — du kan skru på flyttevindu, Ukraina-scenarier og følsomhet. Backtest 2020 → 2024 viser at Telemarksforskning traff bedre i utkantkommuner.</p>
-      <button class="src" data-goto="explore">→ Tilbake til Kapittel 1.2</button>
-    </div>
-    <div class="insight i3">
-      <div class="ik">Akt 2 · Innsikt 03</div>
-      <h3>Folket aldres — og flyktningene flytter videre</h3>
-      <p>Medianalderen øker, og andelen 80+ vokser raskest mot 2050. Av >32 000 flyktninger som kom 2000–2024, har >27 000 flyttet sør — selv om 80–90 % er bofaste de første 5 årene. To ulike måler, samme bilde: arbeidsstyrken eroderer mens omsorgsbehovet vokser.</p>
-      <button class="src" data-goto="model">→ Tilbake til Kapittel 2.1</button>
-    </div>
-    <div class="insight i4">
-      <div class="ik">Akt 2 · Innsikt 04</div>
-      <h3>Forsørgerbyrden vokser strukturelt</h3>
-      <p>I dag bærer 100 yrkesaktive (20–64) rundt 30 eldre over 65 i landsdelen. I 2050 nærmer dette tallet seg 50. Andelen eldre øker mens den arbeidsføre gruppen er flat eller faller — det er denne forskyvningen som setter kommuneøkonomien under økende press.</p>
-      <button class="src" data-goto="nat">→ Tilbake til Kapittel 2.2</button>
-    </div>
-    <div class="insight i5">
-      <div class="ik">Akt 3 · Innsikt 05</div>
-      <h3>Kommunene mot etablerte normer</h3>
-      <p>Hver indikator vurdert mot sin kilde: <b>OECD SCIRN</b> (befolkningsnedgang ≥ 0,15 %/år), <b>OECD-standard</b> (forsørgerbyrde 65+/20–64), <b>TBU</b> (NDR +1¾ %), <b>KS FoU mai 2025</b> (disposisjonsfond ≥ 5 %), <b>kommuneloven §28-1</b> (ROBEK). Klartekst-banneret i Kapittel 3.2 viser hvor mange kommuner som ligger utenfor hver enkelt norm.</p>
-      <button class="src" data-goto="robek">→ Tilbake til Kapittel 3.2</button>
-    </div>
-    <div class="insight" style="background:linear-gradient(135deg,rgba(24,117,103,.08),rgba(28,111,168,.05));border-style:dashed">
-      <div class="ik">Reisen er over</div>
-      <h3>Hvor går du videre?</h3>
-      <p>Åpne en kommune du kjenner i Steg 02, kjør backtest-tabellen i Steg 03, eller print sammendraget under for en PDF til møtet.</p>
-      <button class="src" data-goto="explore">→ Tilbake til Steg 02 og en kommune</button>
-    </div>
-  </div>
-
-  <div class="share-card">
-    <div class="sl">
-      <h4>Vil du dele eller laste ned?</h4>
-      <p>Print fra nettleseren gir et rent PDF-sammendrag av alle stegene. Lenken under kopierer adressen til denne siden.</p>
-    </div>
-    <button class="sbtn" id="prntbtn">Print / lagre PDF</button>
-    <button class="sbtn" id="copybtn">Kopier lenke</button>
-  </div>
-</section>
-
-<footer>
-  <b>Kilde:</b> Statistisk sentralbyrå (SSB), StatBank-tabeller 07459 (folketall 1.1.2026), 09817 (innvandrere/norskfødte 1.1.2026), 11607 (sysselsatte 4. kv. 2025). Hentet via SSB PxWebApi v2.
-  <b>Definisjon:</b> «Innvandrerbakgrunn» = innvandrere + norskfødte med to innvandrerforeldre. «Vestlig» = Norden, EU/EFTA, Storbritannia, USA, Canada, Australia, NZ; «ikke-vestlig» = øvrige.
-  <b>Forbehold:</b> ekte kommune×alder×land er ikke offentlig grunnet celleundertrykking.
+<footer class="landing-foot">
+  <div>Data fra Statistisk sentralbyrå, KOSTRA, KS FoU mai 2025, OECD SCIRN/2050. Oppdatert: <span id="dataDate">—</span></div>
+  <div><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></div>
 </footer>
+
 </div>
+
 <script src="assets/data.js"></script>
-<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof K === 'undefined') return;
+  // Fylke-velger på landing
+  var landFylke = document.getElementById('landFylke');
+  if(landFylke){
+    landFylke.onchange = function(e){
+      if(this.value){ e.preventDefault(); window.location.href = 'fylke.html?f=' + encodeURIComponent(this.value); }
+    };
+    landFylke.onclick = function(e){ e.preventDefault(); e.stopPropagation(); };
+  }
+  // Kommune-velger på landing
+  var landKommune = document.getElementById('landKommune');
+  if(landKommune){
+    var sortedK = K.slice().sort(function(a,b){ return a.navn.localeCompare(b.navn,'nb'); });
+    landKommune.innerHTML = '<option value="">Velg kommune…</option>' +
+      sortedK.map(function(x){ return '<option value="' + x.nr + '">' + x.navn + ' (' + x.fylke + ')</option>'; }).join('');
+    landKommune.onchange = function(e){
+      if(this.value){ e.preventDefault(); window.location.href = 'kommune.html?k=' + this.value; }
+    };
+    landKommune.onclick = function(e){ e.preventDefault(); e.stopPropagation(); };
+  }
+  // Hurtigvalg: 6 største kommuner
+  var topK = document.getElementById('topKommuner');
+  if(topK){
+    var sorted = K.slice().sort(function(a,b){return b.pop - a.pop;}).slice(0,6);
+    topK.innerHTML = sorted.map(function(x){
+      var pop = x.pop ? x.pop.toLocaleString('nb-NO') : '–';
+      return '<a href="kommune.html?k=' + x.nr + '"><span>' + x.navn + '</span><span class="lbl">' + pop + '</span></a>';
+    }).join('');
+  }
+  // Data-dato fra LEVEKAR_DATA
+  var dd = document.getElementById('dataDate');
+  if(dd && typeof LEVEKAR_DATA !== 'undefined' && LEVEKAR_DATA.retrieved_at){
+    dd.textContent = LEVEKAR_DATA.retrieved_at;
+  }
+});
+</script>
 </body>
 </html>

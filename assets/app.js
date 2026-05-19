@@ -40,12 +40,19 @@ const SGROUPS=[['tot','Hele befolkningen'],['abc','Befolkningen ekskl. innvandre
 const AGES = DATA.age_labels; // 0..105+
 let state={fylke:'Alle',q:'',sort:'folketall',sel:K.slice().sort((a,b)=>b.pop-a.pop)[0].nr,
   ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'kons', robekSort:'risk', robekFylke:'Alle', kView:'history'};
-// URL-param-overstyringer for flersides oppsett: kommune.html?k=1804&view=people, fylke.html?f=Nordland
+// URL-param-overstyringer for flersides oppsett:
+//   kommune.html?k=1804&view=people  ·  fylke.html?f=Nordland  ·  sammenlign.html?k=1804,5401,1860
 (function applyUrlParams(){
   try{
     const p = new URLSearchParams(window.location.search);
-    const k = parseInt(p.get('k'), 10);
-    if(k && K.some(x => x.nr === k)) state.sel = k;
+    const kRaw = p.get('k') || '';
+    if(kRaw.includes(',')){
+      const ks = kRaw.split(',').map(x=>parseInt(x,10)).filter(n => K.some(y => y.nr === n)).slice(0,4);
+      if(ks.length >= 2){ state.compare = ks; state.sel = ks[0]; }
+    } else {
+      const k = parseInt(kRaw, 10);
+      if(k && K.some(x => x.nr === k)) state.sel = k;
+    }
     const f = p.get('f');
     if(f && ['Alle','Nordland','Troms','Finnmark'].includes(f)) state.fylke = f;
     const view = p.get('view');

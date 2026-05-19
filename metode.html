@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metode og kilder — Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.nn-top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:24px;flex-wrap:wrap}
+.nn-bc{font-size:13px;color:var(--ink2)}
+.nn-bc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:1px}
+.nn-bc a:hover{color:var(--ink)}
+.nn-bc .sep{margin:0 6px;color:var(--ink3)}
+.nn-bc .now{color:var(--ink);font-weight:600}
+.metode-card{padding:24px;margin-bottom:18px;background:var(--paper);border:1px solid var(--line2);border-radius:10px}
+.metode-card h2{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 12px;color:var(--ink)}
+.metode-card h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:18px 0 6px;color:var(--ink)}
+.kildetabell{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.kildetabell th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2);font-weight:600;color:var(--ink2);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+.kildetabell td{padding:10px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
+.kildetabell td.kode{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink)}
+.norm-list{list-style:none;padding:0;margin:14px 0}
+.norm-list li{padding:12px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;margin-bottom:8px}
+.norm-list .norm-tag{font-size:11px;font-weight:700;color:#fff;background:var(--ink);padding:2px 8px;border-radius:9px;margin-right:8px;display:inline-block;text-transform:uppercase;letter-spacing:.04em}
+.norm-list b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brodsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Metode og kilder</span>
+  </nav>
+</header>
+
+<div style="margin-bottom:24px">
+  <div class="kicker">Referanseside · Kilder og definisjoner</div>
+  <h1 class="serif">Metode og kilder</h1>
+  <p class="essence">Hva dashbordet bygger på, og hvilke eksterne normer som brukes for å vurdere indikatorene.</p>
+</div>
+
+<div class="metode-card">
+  <h2>SSB-tabeller</h2>
+  <p class="hint">Alle tall hentes direkte fra SSBs statistikkbank (PxWebApi v0) via Python build-scripts. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring.</p>
+  <table class="kildetabell">
+    <thead><tr><th>Kode</th><th>Innhold</th><th>Periode</th></tr></thead>
+    <tbody>
+      <tr><td class="kode">07459</td><td>Folketall etter alder og kjønn per kommune</td><td>1.1.2000–2026</td></tr>
+      <tr><td class="kode">14288</td><td>Befolkningsframskriving, MMMM-banen + lav/høy</td><td>2024 → 2050</td></tr>
+      <tr><td class="kode">09817</td><td>Innvandrere og norskfødte med innvandrerforeldre, etter opprinnelsesland</td><td>2026</td></tr>
+      <tr><td class="kode">11607</td><td>Sysselsetting etter landgruppe, alder 20–66</td><td>4. kv. 2025</td></tr>
+      <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting)</td><td>2017–2025</td></tr>
+      <tr><td class="kode">09588</td><td>Innenlands flyttinger</td><td>2002–2025</td></tr>
+      <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
+      <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2024</td></tr>
+      <tr><td class="kode">13563</td><td>Arbeidsstyrkestatus 20–66 år</td><td>2024</td></tr>
+      <tr><td class="kode">12143</td><td>KOSTRA: netto driftsresultat, renteeksp. gjeld</td><td>2015–2025</td></tr>
+      <tr><td class="kode">06944</td><td>Husholdningsinntekt etter skatt, median</td><td>2024</td></tr>
+      <tr><td class="kode">14780</td><td>Personinntekt (lønn, pensjon, uføretrygd)</td><td>2025</td></tr>
+      <tr><td class="kode">11084</td><td>Eierstatus husholdninger</td><td>2024</td></tr>
+      <tr><td class="kode">06265</td><td>Boliger etter bygningstype</td><td>2026</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="metode-card">
+  <h2>Framskrivingsmodeller</h2>
+  <h3>SSB MMMM (offisiell bane)</h3>
+  <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på Middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke skrubar her.</p>
+  <h3>TF-MVP (flyttehistorikk)</h3>
+  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: konservativ (2017–2021), middel (bredere), optimistisk (vektlegger 2022–2023). Helt gjennomsiktig — vises ved siden av SSB MMMM som transparent alternativ.</p>
+  <h3>TF-ATTR (strukturbasert flytting)</h3>
+  <p>Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, traff særlig bra i utkantkommuner i backtesten 2020→2024.</p>
+</div>
+
+<div class="metode-card">
+  <h2>Eksterne normer for indikatorer</h2>
+  <p class="hint">Hver indikator i kommunekortet vurderes mot sin autoritative eksterne norm. Ingen interne terskler eller sammensatte klassifiseringer.</p>
+  <ul class="norm-list">
+    <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2024→2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som «shrinking».</li>
+    <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbyrde (65+/20–64) i 2050.</b> OECD-snitt ≈ 58 eldre per 100 i yrkesaktiv alder.</li>
+    <li><span class="norm-tag">SSB</span><b>Sysselsettingsrate 20–66.</b> Nasjonalt snitt ~79 % i 2024 (SSB 13563).</li>
+    <li><span class="norm-tag">SSB</span><b>Uføreandel 18–67.</b> Nasjonalt snitt ~10,5 % i 2024 (SSB 11715).</li>
+    <li><span class="norm-tag">TBU</span><b>Netto driftsresultat.</b> TBU-norm: +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi).</li>
+    <li><span class="norm-tag">KS</span><b>Disposisjonsfond.</b> KS FoU mai 2025 anbefaler minimum 5 % av driftsinntektene.</li>
+    <li><span class="norm-tag">KS</span><b>Netto lånegjeld.</b> KS/Riksrevisjonen: maks 75 % av driftsinntektene.</li>
+    <li><span class="norm-tag">Kommuneloven §28-1</span><b>ROBEK.</b> Statsforvalteren registrerer kommuner som bryter vilkår a-f. Påvirker låneopptak, budsjetter og lengre leieavtaler.</li>
+  </ul>
+</div>
+
+<div class="metode-card">
+  <h2>Backtest 2020 → 2024</h2>
+  <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Telemarksforskning — særlig TF-ATTR — traff bedre enn SSB i de små, minst sentrale kommunene, der prognoser pleier å bomme mest.</p>
+  <div id="bteval_metode" style="margin-top:14px"></div>
+</div>
+
+<div class="metode-card">
+  <h2>Forbehold</h2>
+  <ul style="margin:0;padding-left:20px;color:var(--ink2);font-size:13.5px;line-height:1.65">
+    <li>Framskrivinger er <b>ikke prognoser</b>. De viser hva demografien alene gir «alt annet likt», og forutsetningene kan etterprøves.</li>
+    <li>Den fulle krysstabuleringen <i>kommune × alder × opprinnelsesland</i> finnes ikke hos SSB — dimensjonene er delt på tre kilder (07459, 09817, 11607).</li>
+    <li>SSB 12558 (desiler husholdningsinntekt) gir nasjonale grenser også for kommune-spørringer — derfor brukes 06944 for per-kommune median.</li>
+    <li>«Renteeksponert gjeld» (KG39) manglet i KOSTRA for 14 kommuner — netto lånegjeld (KG31) brukes som proxy der.</li>
+  </ul>
+</div>
+
+<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
+  <a href="index.html" style="color:var(--ink2)">Tilbake til forsiden</a>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
