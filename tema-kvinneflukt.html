@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kvinneflukten — den tidligste avgangen · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.nn-top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:24px;flex-wrap:wrap}
+.nn-bc{font-size:13px;color:var(--ink2);font-family:'Hanken Grotesk',sans-serif}
+.nn-bc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:1px}
+.nn-bc a:hover{color:var(--ink);border-color:var(--ink2)}
+.nn-bc .sep{margin:0 6px;color:var(--ink3)}
+.nn-bc .now{color:var(--ink);font-weight:600}
+.nn-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nn-actions a.btn{padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:6px}
+.nn-actions a.btn:hover{background:var(--paper2)}
+
+.tema-hero{padding:36px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:36px}
+.tema-hero .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#B23B3B;font-weight:700;margin-bottom:10px}
+.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink);max-width:18ch}
+.tema-hero h1 em{font-style:italic;color:#B23B3B}
+.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);max-width:62ch;line-height:1.55;margin:0}
+
+.akt{margin-bottom:64px;position:relative}
+.akt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px}
+.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink);max-width:24ch}
+.akt h2 em{font-style:italic;color:#B23B3B}
+.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);max-width:60ch;line-height:1.6;margin:0 0 24px}
+
+.kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.kpi-rad .kpi .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.kpi-rad .kpi .v.down{color:#B23B3B}
+.kpi-rad .kpi .v.up{color:#2E7D5B}
+.kpi-rad .kpi .l{font-size:11.5px;color:var(--ink2)}
+.kpi-rad .kpi .nh{font-size:10.5px;color:var(--ink3);margin-top:2px}
+
+.scatter-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.scatter-wrap svg{display:block;width:100%;height:auto}
+.scatter-leg{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin-top:10px;align-items:center}
+.scatter-leg .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+.brutt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.brutt-card{padding:20px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.brutt-card h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0 0 10px;color:var(--ink)}
+.brutt-card .agg-bars > div{display:grid;grid-template-columns:90px 1fr 60px;gap:8px;align-items:center;margin-bottom:6px;font-size:12.5px}
+.brutt-card .agg-bars .lab{color:var(--ink2)}
+.brutt-card .agg-bars .bar{height:10px;background:var(--line2);border-radius:3px;overflow:hidden;position:relative}
+.brutt-card .agg-bars .bar > div{height:100%}
+.brutt-card .agg-bars .val{font-family:'Spline Sans Mono',monospace;color:var(--ink);font-weight:600;text-align:right;font-size:11.5px}
+.brutt-card .agg-bars .bar .ref{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--ink2);left:50%}
+@media (max-width: 720px){ .brutt-grid{grid-template-columns:1fr} }
+
+.kvinne-mangel{padding:28px;background:linear-gradient(135deg, rgba(178,59,59,0.10), rgba(178,59,59,0.02));border:1px solid rgba(178,59,59,0.3);border-left:4px solid #B23B3B;border-radius:0 10px 10px 0;margin:14px 0}
+.kvinne-mangel .big{font-family:'Fraunces',serif;font-size:72px;font-weight:600;line-height:1;color:#B23B3B;margin-bottom:6px;letter-spacing:-0.02em}
+.kvinne-mangel .sub{font-family:'Fraunces',serif;font-size:17px;color:var(--ink2);max-width:54ch;line-height:1.55;font-style:italic}
+.kvinne-mangel .calc{font-size:13px;color:var(--ink3);margin-top:14px;font-family:'Spline Sans Mono',monospace}
+
+.sitat{padding:24px 28px;margin:18px 0;border-left:4px solid #B23B3B;background:var(--paper2);border-radius:0 10px 10px 0}
+.sitat blockquote{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:var(--ink);line-height:1.5;margin:0 0 10px}
+.sitat .kilde{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.sitat .kilde b{color:var(--ink2)}
+
+.topp-liste{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:14px 0}
+.topp-liste a{padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;text-decoration:none;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.topp-liste a:hover{border-color:#B23B3B;background:var(--paper)}
+.topp-liste .nm{font-family:'Fraunces',serif;font-size:14px;font-weight:600}
+.topp-liste .pp{font-family:'Spline Sans Mono',monospace;font-size:13px;color:#B23B3B;font-weight:700}
+.topp-liste .fy{font-size:10.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Kvinneflukten</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-flyktning.html">← Trakten</a>
+    <a class="btn" href="tema-o6.html">Tyngdeloven →</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 03 · Kjønnsmønsteret</div>
+  <h1>Kvinneflukten — <em>den tidligste avgangen</em></h1>
+  <p class="lede">Norman-utvalget konkluderte tydelig: kvinner flytter ikke <i>mer</i> enn menn fra distriktene — de flytter <i>tidligere</i>. Resultatet er at 50 av 80 nord-norske kommuner i dag har sterk overrepresentasjon av menn i fertil alder. Det er kanskje den mest selvforsterkende mekanismen i hele befolkningsregnskapet.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Sjokket</div>
+  <h2>I aldersgruppen 18–44 år mangler det <em>over 7 000 kvinner</em> i Nord-Norge.</h2>
+  <p class="akt-intro">Det er ikke at de aldri ble født. Det er at de har flyttet sør. Per 1.1.2026 bor det 108,8 menn per 100 kvinner i denne aldersgruppen i Nord-Norge — i Loppa er forholdet 160 til 100. Det er et tap som hverken arbeidsmarkedet eller fødselskull­ene tåler.</p>
+  <div class="kpi-rad" id="sjokkKPI"></div>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>Kjønnsbalansen <em>per kommune</em> — der det er små samfunn, er det færrest kvinner</h2>
+  <p class="akt-intro">Hver boble er én kommune. Y-aksen: menn per 100 kvinner i alder 18–44. X-aksen: kommunens folketall (logaritmisk). Den stiplede linjen er perfekt balanse (100). Alt over er menn-overskudd. Mønsteret er konsekvent: jo mindre kommunen er, jo større spennvidde — og overvekten går nesten alltid mot menn.</p>
+  <div class="scatter-wrap">
+    <div id="scatterGraf"></div>
+    <div class="scatter-leg">
+      <span><i class="dot" style="background:var(--nl)"></i>Nordland</span>
+      <span><i class="dot" style="background:var(--tr)"></i>Troms</span>
+      <span><i class="dot" style="background:var(--fi)"></i>Finnmark</span>
+      <span style="margin-left:auto;color:var(--ink3)">— stiplet linje = perfekt kjønnsbalanse (100/100)</span>
+    </div>
+  </div>
+  <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:24px 0 10px">10 kommuner med sterkest menn-overrepresentasjon</h3>
+  <div class="topp-liste" id="toppListe"></div>
+</section>
+
+<!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Brutt opp</div>
+  <h2>Når flytter de — og hvor er det verst?</h2>
+  <p class="akt-intro">Norman-utvalget pekte på at det ikke er volumet av kvinneflyttingen som er forskjellig, men <i>timingen</i>. Kvinner flytter sør tidligere — særlig i overgangen til høyere utdanning. Brutt ned på fem aldersgrupper viser dette mønsteret klart. Gapet er størst akkurat i de årene da familieetablering vanligvis skjer.</p>
+  <div class="brutt-grid">
+    <div class="brutt-card">
+      <h3>Per aldersgruppe — hele Nord-Norge</h3>
+      <p class="hint" style="font-size:11.5px;margin:0 0 10px">Menn per 100 kvinner i hver aldersgruppe (1.1.2026)</p>
+      <div class="agg-bars" id="alderBars"></div>
+    </div>
+    <div class="brutt-card">
+      <h3>Per fylke — alder 18–44 samlet</h3>
+      <p class="hint" style="font-size:11.5px;margin:0 0 10px">Vektet snitt per fylke. Vertikal linje = 100 (perfekt balanse)</p>
+      <div class="agg-bars" id="fylkeBars"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <h2>Når kvinnene drar, <em>drar fremtiden med dem</em></h2>
+  <p class="akt-intro">Det dypeste pedagogiske poenget i kvinneflukten er ikke at det er færre kvinner, men hva det betyr for landsdelens reproduksjon. Hver kvinne som ikke bor i Nord-Norge får i hovedsak sine barn et annet sted. Mangel på 7 000 kvinner i alder 18–44 oversettes direkte til mangel på framtidige fødselskull — og det forsterker krympet.</p>
+  <div class="kvinne-mangel">
+    <div class="big" id="mangelTall">—</div>
+    <div class="sub">«manglende» kvinner i alder 18–44 — hvis kjønnsbalansen var 100/100 ville Nord-Norge hatt så mange flere unge kvinner enn det landsdelen faktisk har.</div>
+    <div class="calc" id="mangelCalc"></div>
+  </div>
+  <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:24px 0 10px">Tre koblede effekter</h3>
+  <ul style="margin:0;padding-left:22px;font-size:14px;color:var(--ink2);line-height:1.7">
+    <li><b>Lavere fødselsrate i landsdelen</b> — selv om hver kvinne får like mange barn som ellers i Norge, blir antall fødte færre fordi antall fertile kvinner er færre.</li>
+    <li><b>Strukturell selvforsterking</b> — barna som ikke fødes her, vokser ikke opp her, og kan ikke selv bli foreldre her. Effekten ruller framover i tid med 25–30 år lag.</li>
+    <li><b>Endret arbeidsmarked</b> — yrker med høy kvinneandel (helse, undervisning, offentlig tjeneste) får rekrutteringsutfordringer som ikke kan løses med flere menn. Distriktene mister både folk og bestemte yrkesgrupper.</li>
+  </ul>
+</section>
+
+<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier kildene?</h2>
+
+  <div class="sitat">
+    <blockquote>«Kvinner flytter ikke mer enn menn fra distriktene — de flytter tidligere. Dette gir lavere fødselsrater og forsterker den demografiske ubalansen.»</blockquote>
+    <div class="kilde"><b>Norman-utvalget</b> · NOU 2020:15 <i>Det handler om Norge</i> · Distriktsdemografi­utvalget</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Andelen kvinner i full stilling er lavere i distriktskommuner, deltidsarbeid er mer utbredt, og høyere utdanning drar unge kvinner tidlig sør. Disse mønstrene reproduserer seg ikke automatisk i neste generasjon — de må brytes.»</blockquote>
+    <div class="kilde">Sammenstilling av <b>Norman-utvalgets analyser</b> · kjønnsperspektivet i distrikts­politikken</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Over 80 prosent av kommuner under 5 000 innbyggere har mindre enn ett årsverk dedikert til planleggings­arbeid. Disse strukturelle kapasitets­utfordringene gjør det vanskelig å designe tiltak som faktisk treffer kvinner i fertil alder.»</blockquote>
+    <div class="kilde">Norman-utvalget · Om <i>kommunal kapasitet og kjønnssensitiv distriktspolitikk</i></div>
+  </div>
+
+  <p style="margin-top:24px;font-size:14px;color:var(--ink2);line-height:1.6">Implikasjonen er at distriktspolitikken må <b>endre tidsperspektivet</b>. Tradisjonelle vekststrategier (arbeids­plasser, infrastruktur, bolig) treffer ofte etter at unge kvinner allerede har flyttet for utdanning. Norman-utvalget peker mot mer kjønnssensitive tiltak: muligheter for fjernarbeid og høyere utdanning lokalt, kvalitet på barnehage- og skoletjenester, og kulturelt mangfold som gjør distriktene mer attraktive også for kvinner i etableringsfasen.</p>
+
+  <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">Tallet — <b>7 000 manglende kvinner i alder 18–44</b> — er ikke en feilstilt statistikk. Det er en strukturell utfordring som verken bygger seg ut eller ned uten målrettet handling. Det er kanskje den enkleste måten å oppsummere hva Norman-utvalget kalte «den nye distriktspolitikken på».</p>
+</section>
+
+<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
+  <p>Nord-Norge dashboard · Temaserie 03 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a></p>
+  <p style="margin-top:6px;opacity:.7">Kilder: SSB tabell 07459 (befolkning etter kjønn og alder per kommune, 1.1.2026), NOU 2020:15 (Norman-utvalget).</p>
+</footer>
+
+</div>
+
+<script src="assets/data.js"></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof KJONN_DATA === 'undefined' || typeof DATA === 'undefined') return;
+  var fmt = function(n){ return n.toLocaleString('nb-NO'); };
+
+  // Bygg K-array med navn + fylke
+  var K = Object.entries(DATA.kommuner).map(function(e){
+    var nr = e[0], o = e[1];
+    var alder = o.alder.reduce(function(s,x){return s+x;}, 0);
+    return {nr: +nr, navn: o.navn, fylke: o.fylke, pop: alder};
+  });
+
+  var kjonnByNr = KJONN_DATA.kommuner;
+
+  // ─── Beregne nasjonal/landsdels-balanse ───
+  var totM18_44 = 0, totK18_44 = 0;
+  Object.values(kjonnByNr).forEach(function(r){
+    totM18_44 += r.menn.sum_18_44 || 0;
+    totK18_44 += r.kvinner.sum_18_44 || 0;
+  });
+  var landsdelBalanse = totK18_44 ? (totM18_44 / totK18_44 * 100) : 0;
+  // "Manglende" kvinner ved balanse 100
+  var mangelKvinner = totM18_44 - totK18_44;
+
+  // ─── Akt 01: KPI ───
+  var over110 = 0, over120 = 0;
+  Object.values(kjonnByNr).forEach(function(r){
+    if(r.mpr100k_18_44 != null){
+      if(r.mpr100k_18_44 > 110) over110++;
+      if(r.mpr100k_18_44 > 120) over120++;
+    }
+  });
+  document.getElementById('sjokkKPI').innerHTML =
+    '<div class="kpi"><div class="v down">' + landsdelBalanse.toFixed(1) + '</div><div class="l">Menn per 100 kvinner</div><div class="nh">i alder 18–44 i Nord-Norge</div></div>' +
+    '<div class="kpi"><div class="v down">' + over110 + '</div><div class="l">av 80 kommuner</div><div class="nh">har M/100K > 110</div></div>' +
+    '<div class="kpi"><div class="v down">' + over120 + '</div><div class="l">av 80 kommuner</div><div class="nh">har M/100K > 120</div></div>' +
+    '<div class="kpi"><div class="v down">~' + fmt(Math.round(mangelKvinner/100)*100) + '</div><div class="l">«Manglende» kvinner</div><div class="nh">vs perfekt 100/100-balanse</div></div>';
+
+  // ─── Akt 02: Scatter ───
+  var fyColors = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+  var pts = K.map(function(k){
+    var r = kjonnByNr[String(k.nr)];
+    if(!r || r.mpr100k_18_44 == null) return null;
+    return {nr: k.nr, navn: k.navn, fylke: k.fylke, pop: k.pop, m100k: r.mpr100k_18_44};
+  }).filter(Boolean);
+
+  var VB = 800, H = 440, PAD = {l:60, r:40, t:30, b:50};
+  var W = VB - PAD.l - PAD.r, IH = H - PAD.t - PAD.b;
+  var minLogPop = Math.log10(Math.min.apply(null, pts.map(function(p){return p.pop;})));
+  var maxLogPop = Math.log10(Math.max.apply(null, pts.map(function(p){return p.pop;})));
+  var minY = Math.min(95, Math.min.apply(null, pts.map(function(p){return p.m100k;})) - 3);
+  var maxY = Math.max.apply(null, pts.map(function(p){return p.m100k;})) + 5;
+  var x = function(p){ return PAD.l + (Math.log10(p.pop) - minLogPop) / (maxLogPop - minLogPop) * W; };
+  var y = function(v){ return PAD.t + (1 - (v - minY) / (maxY - minY)) * IH; };
+  var rOf = function(p){ return 5 + Math.min(14, Math.sqrt(p.pop)/40); };
+
+  var svg = '<svg viewBox="0 0 ' + VB + ' ' + H + '" style="display:block;width:100%;height:auto">';
+  // Grid
+  for(var v = Math.ceil(minY/10)*10; v <= maxY; v += 10){
+    var yy = y(v);
+    svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+    svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + v + '</text>';
+  }
+  // 100-linje (perfekt balanse)
+  var y100 = y(100);
+  svg += '<line x1="' + PAD.l + '" y1="' + y100 + '" x2="' + (PAD.l+W) + '" y2="' + y100 + '" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="6 3"/>';
+  svg += '<text x="' + (PAD.l+W-8) + '" y="' + (y100-6) + '" text-anchor="end" style="font-size:10.5px;font-weight:700;fill:var(--ink2)">Balanse 100/100</text>';
+  // X-akse (logaritmiske ticks: 500, 1k, 5k, 10k, 50k)
+  [500, 1000, 5000, 10000, 50000].forEach(function(t){
+    if(t < Math.pow(10, minLogPop) || t > Math.pow(10, maxLogPop)) return;
+    var xt = PAD.l + (Math.log10(t) - minLogPop) / (maxLogPop - minLogPop) * W;
+    svg += '<line x1="' + xt + '" y1="' + PAD.t + '" x2="' + xt + '" y2="' + (PAD.t+IH) + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+    svg += '<text x="' + xt + '" y="' + (PAD.t+IH+16) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + (t >= 1000 ? (t/1000)+'k' : t) + '</text>';
+  });
+  svg += '<text x="' + (PAD.l + W/2) + '" y="' + (PAD.t+IH+38) + '" text-anchor="middle" style="font-size:11px;fill:var(--ink2)">Folketall (logaritmisk skala) →</text>';
+  svg += '<text x="' + (PAD.l-46) + '" y="' + (PAD.t + IH/2) + '" text-anchor="middle" transform="rotate(-90 ' + (PAD.l-46) + ',' + (PAD.t+IH/2) + ')" style="font-size:11px;fill:var(--ink2)">Menn per 100 kvinner (18–44) →</text>';
+  // Bobler
+  pts.forEach(function(p){
+    var c = fyColors[p.fylke] || 'var(--ink2)';
+    var isExtreme = p.m100k > 130;
+    svg += '<circle cx="' + x(p).toFixed(1) + '" cy="' + y(p.m100k).toFixed(1) + '" r="' + rOf(p).toFixed(1) + '" fill="' + c + '" fill-opacity="' + (isExtreme ? 0.85 : 0.55) + '" stroke="' + c + '" stroke-width="1"><title>' + p.navn + ' (' + p.fylke + '): ' + p.m100k.toFixed(1) + ' menn per 100 kvinner, ' + fmt(p.pop) + ' innbyggere</title></circle>';
+    if(isExtreme || p.pop > 20000){
+      var ay = y(p.m100k) + (p.m100k > 130 ? -rOf(p) - 4 : rOf(p) + 12);
+      svg += '<text x="' + x(p).toFixed(1) + '" y="' + ay.toFixed(1) + '" text-anchor="middle" style="font-size:10.5px;font-weight:700;fill:' + c + '">' + p.navn.split(' ')[0].split('-')[0] + '</text>';
+    }
+  });
+  svg += '</svg>';
+  document.getElementById('scatterGraf').innerHTML = svg;
+
+  // ─── Topp 10 menn-tunge ───
+  var top10 = pts.slice().sort(function(a,b){return b.m100k - a.m100k;}).slice(0,10);
+  document.getElementById('toppListe').innerHTML = top10.map(function(p){
+    return '<a href="kommune.html?k=' + p.nr + '"><div><div class="nm">' + p.navn + '</div><div class="fy">' + p.fylke + '</div></div><div class="pp">' + p.m100k.toFixed(0) + ' / 100</div></a>';
+  }).join('');
+
+  // ─── Akt 03: Per aldersgruppe ───
+  var grupper = [
+    {key:'a18_24', lab:'18–24 år'},
+    {key:'a25_29', lab:'25–29 år'},
+    {key:'a30_34', lab:'30–34 år'},
+    {key:'a35_39', lab:'35–39 år'},
+    {key:'a40_44', lab:'40–44 år'}
+  ];
+  var alderHTML = '';
+  grupper.forEach(function(g){
+    var sumM = 0, sumK = 0;
+    Object.values(kjonnByNr).forEach(function(r){
+      sumM += r.menn[g.key] || 0;
+      sumK += r.kvinner[g.key] || 0;
+    });
+    var bal = sumK ? (sumM/sumK*100) : 0;
+    var pct = Math.min(100, Math.max(0, (bal - 90) / 30 * 100)); // 90→0%, 120→100%
+    var col = bal > 115 ? '#B23B3B' : bal > 105 ? 'var(--amber)' : 'var(--ink2)';
+    alderHTML += '<div><span class="lab">' + g.lab + '</span><div class="bar"><div style="width:' + pct.toFixed(0) + '%;background:' + col + '"></div><div class="ref" style="left:' + ((100-90)/30*100).toFixed(0) + '%"></div></div><span class="val">' + bal.toFixed(1) + '</span></div>';
+  });
+  document.getElementById('alderBars').innerHTML = alderHTML;
+
+  // ─── Per fylke ───
+  var fylkeAgg = {Nordland:{m:0,k:0}, Troms:{m:0,k:0}, Finnmark:{m:0,k:0}};
+  K.forEach(function(k){
+    var r = kjonnByNr[String(k.nr)];
+    if(!r || !fylkeAgg[k.fylke]) return;
+    fylkeAgg[k.fylke].m += r.menn.sum_18_44 || 0;
+    fylkeAgg[k.fylke].k += r.kvinner.sum_18_44 || 0;
+  });
+  var fylkeHTML = '';
+  ['Nordland','Troms','Finnmark'].forEach(function(fy){
+    var a = fylkeAgg[fy];
+    var bal = a.k ? (a.m/a.k*100) : 0;
+    var pct = Math.min(100, Math.max(0, (bal - 90) / 30 * 100));
+    var col = bal > 115 ? '#B23B3B' : bal > 105 ? 'var(--amber)' : 'var(--ink2)';
+    fylkeHTML += '<div><span class="lab">' + fy + '</span><div class="bar"><div style="width:' + pct.toFixed(0) + '%;background:' + col + '"></div><div class="ref" style="left:33.3%"></div></div><span class="val">' + bal.toFixed(1) + '</span></div>';
+  });
+  document.getElementById('fylkeBars').innerHTML = fylkeHTML;
+
+  // ─── Akt 04: Manglende kvinner ───
+  document.getElementById('mangelTall').textContent = '~' + fmt(Math.round(mangelKvinner/100)*100);
+  document.getElementById('mangelCalc').textContent = totM18_44.toLocaleString('nb-NO') + ' menn − ' + totK18_44.toLocaleString('nb-NO') + ' kvinner = ' + mangelKvinner.toLocaleString('nb-NO') + ' i forskjell (alder 18–44, 1.1.2026)';
+});
+</script>
+</body>
+</html>
