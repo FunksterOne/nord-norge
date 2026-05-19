@@ -1184,18 +1184,7 @@ footer a{color:var(--aurora);text-decoration:none}
     <div id="sustFylkeBars"></div>
   </div>
 
-  <!-- Kommune-tabell -->
-  <div class="card" id="sustTableCard">
-    <div class="ch"><h3 class="serif">Per kommune — sorterbar</h3>
-      <div class="seg" id="sustSort" style="font-size:11.5px">
-        <button data-s="risk" aria-selected="true">Sortér: bæreevne</button>
-        <button data-s="navn" aria-selected="false">Navn</button>
-        <button data-s="fylke" aria-selected="false">Fylke</button>
-      </div>
-    </div>
-    <p class="hint">Klassifisering basert på dine terskelvalg. Grønn = bærekraftig (begge ben). Blå = demografisk robust. Oker = økonomisk robust. Rød = svak på begge.</p>
-    <div id="sustTable"></div>
-  </div>
+  <p class="hint" style="margin:14px 0 0;font-size:12.5px">→ Per-kommune-detaljer ligger nå i kommunekortet, under linsen <b>«Hva må kommunen bære?»</b> (Kapittel 1.2 · Utforsk kommunene). Terskelvalgene over styrer status og fargene der.</p>
 
 <button class="nextstep" data-next="summary">
   <div class="ns-l">
@@ -2130,9 +2119,12 @@ function diagnoseCard(k){
   const f=v=>fmt(Math.round(v));
   const pct=(a,b)=>b?((a/b-1)*100):0;
   const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
-  const pop0=mw.pop[0],pop1=mw.pop[n-1],pp=pct(pop1,pop0);
+  // Bruk faktisk folketall per 1.1.2026 (k.pop) som dagens tall, ikke projeksjonens startår 2024 (mw.pop[0])
+  const pop0=k.pop, pop1=mw.pop[n-1], pp=pct(pop1,pop0);
   const a6=mw.a65,a2=mw.a2064;
-  const oad0=a6&&a2&&a2[0]?100*a6[0]/a2[0]:null, oad1=a6&&a2&&a2[n-1]?100*a6[n-1]/a2[n-1]:null;
+  // Sysselsetting-justert forsørgerbyrde (samme metode som i bærekraft-analysen) — eldre per 100 sysselsatte 20–64
+  const syssR = (typeof getSysselsRate==='function' ? getSysselsRate(k.nr) : null) || (typeof landsdelSysselsRate==='function' ? landsdelSysselsRate() : 0.7);
+  const oad0=a6&&a2&&a2[0]&&syssR>0?100*a6[0]/(a2[0]*syssR):null, oad1=a6&&a2&&a2[n-1]&&syssR>0?100*a6[n-1]/(a2[n-1]*syssR):null;
   const a8=mw.a80, g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
   const isA=k.isAgg;
   const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
@@ -2149,8 +2141,8 @@ function diagnoseCard(k){
   if(o.mw&&o.mw.kons&&o.mw.opt){ const lo=o.mw.kons.pop[n-1],hi=o.mw.opt.pop[n-1];
     spread=' Hvor sterkt avhenger av flyttebanen \u2014 folketall 2050 spenner fra <b>'+f(Math.min(lo,hi))+'</b> til <b>'+f(Math.max(lo,hi))+'</b>.'; }
   let s='';
-  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere. Med '+wlab+'-flyttebanen '+(pp>=0?'vokser folketallet til':'krymper folketallet til')+' <b>'+f(pop1)+'</b> innen 2050 (<b>'+sgn1(pp)+'\u2009%</b>). ';
-  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
+  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). Med '+wlab+'-flyttebanen '+(pp>=0?'vokser folketallet til':'krymper folketallet til')+' <b>'+f(pop1)+'</b> innen 2050 (<b>'+sgn1(pp)+'\u2009%</b>). ';
+  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 sysselsatte (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
   if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det \u00f8konomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'\u2013':(ndr>=0?'':'\u2212')+Math.abs(ndr).toFixed(1))+'\u2009%</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'\u2013':fond.toFixed(1))+'\u2009%</b>, netto l\u00e5negjeld <b>'+(gj==null?'\u2013':gj.toFixed(0))+'\u2009%</b>. ';
   s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg \u2014 vist i grafene under.'+spread;
   return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0 10px 10px 0">'+
@@ -2596,12 +2588,13 @@ function detail(){
       (sj? sysCard(sj) : '')+
       levekarKommuneCard(k);
   } else if(view==='burden'){
-    // Linse 03: forsørgerbyrde først, deretter KOSTRA og ROBEK
+    // Linse 03: bærekrafts-sammenstilling → forsørgerbyrde → KOSTRA → ROBEK
     const savedMode=state.projMode;
     state.projMode='fb';
     const fbChart=projCard(k);
     state.projMode=savedMode;
     viewHTML=tldrBanner(k,'burden')+
+      sustKommuneCard(k)+
       '<div class="hero-chart">'+fbChart+'</div>'+
       kostraCard(k)+
       robekCard(k);
@@ -3559,6 +3552,44 @@ function classifySust(k){
     dataIssue: !fullClassified
   };
 }
+/* Per-kommune bærekrafts-sammenstilling — den gamle 80-radstabellen, distribuert til kommunekortet */
+function sustKommuneCard(k){
+  if(k.isAgg) return '';
+  const c = classifySust(k);
+  if(!c) return '';
+  let statusTxt, statusColor;
+  if(c.both){ statusTxt='Bærekraftig — begge ben'; statusColor='#2E7D5B'; }
+  else if(c.onlyDemo){ statusTxt='Demografisk robust — økonomisk svak'; statusColor='#3B6E9C'; }
+  else if(c.onlyEcon){ statusTxt='Økonomisk robust — demografisk svak'; statusColor='#C9A23B'; }
+  else if(c.weak){ statusTxt='Svak — begge ben'; statusColor='#B23B3B'; }
+  else { statusTxt='Delvis data'; statusColor='var(--ink3)'; }
+  const T = Object.assign({}, SUST_DEFAULTS, state.sustT||{});
+  const sgn = v => (v>=0?'+':'−')+Math.abs(v).toFixed(0);
+  const valCol = ok => (ok===null||ok===undefined) ? 'var(--ink2)' : ok ? '#2E7D5B' : '#B23B3B';
+  const row = (lab, valHtml, ok, hint) =>
+    '<tr style="border-top:1px solid var(--line2)">'+
+      '<td style="padding:5px 0;color:var(--ink2)">'+lab+'</td>'+
+      '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;font-weight:600;color:'+valCol(ok)+'">'+valHtml+'</td>'+
+      '<td style="text-align:right;color:var(--ink3);font-size:10.5px;padding-left:12px">'+hint+'</td>'+
+    '</tr>';
+  const tbl='<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 0">'+
+    row('Bef.endring 2024→2050', c.popFall!=null?sgn(-c.popFall)+' %':'–', c.dPop, 'maks fall '+T.maxPopFall+' %')+
+    row('20–64 endring 2024→2050', c.workFall!=null?sgn(-c.workFall)+' %':'–', c.dWork, 'maks fall '+T.maxWorkFall+' %')+
+    row('Eldre per 100 sysselsatte 2050', c.oad2050_yrk!=null?c.oad2050_yrk.toFixed(0):'–', c.dOAD, 'maks '+T.maxOADyrk+' · std. 65+/20–64: '+(c.oad2050!=null?c.oad2050.toFixed(0):'–'))+
+    row('Sysselsettingsrate 20–66 (2024)', c.syssRate!=null?c.syssRate.toFixed(0)+' %':'–', null, 'antas konstant — SSB 13563')+
+    row('Uføreandel 18–67 (2024)', c.uforePct!=null?c.uforePct.toFixed(1)+' %':'–', null, 'SSB 11715')+
+    row('Risikonivå (KOSTRA-proxy)', c.riskLabel||'–', c.eRisk, 'maks '+RISK_LABELS[T.maxRiskLevel])+
+    row('ROBEK-status', c.inROBEK?'I ROBEK':(c.pendingROBEK?'Behandles':'Trygg'), c.eROBEK, 'krav: ikke registrert')+
+    '</table>';
+  return '<div class="card" style="border-left:4px solid '+statusColor+'">'+
+    '<div class="ch" style="margin-bottom:4px;flex-wrap:wrap;gap:8px">'+
+      '<h3 class="serif">Bærekraft 2050 — sammenstilling</h3>'+
+      '<span style="font-size:11px;font-weight:700;color:#fff;background:'+statusColor+';padding:3px 10px;border-radius:10px;white-space:nowrap">'+statusTxt+'</span>'+
+    '</div>'+
+    '<p class="hint" style="margin:0 0 2px">Klassifisering basert på terskelvalg fra <a href="#" onclick="setTab(\'robek\');return false;" style="color:var(--ink);text-decoration:underline">Kapittel 3.2 Bærekraft 2050</a>. Grønt tall = innen krav, rødt = brutt. Demografi fra TF-MVP konservativ flyttebane.</p>'+
+    tbl+
+  '</div>';
+}
 function renderSustainability(){
   if(!state.sustT) state.sustT = Object.assign({}, SUST_DEFAULTS);
   if(!state.sustSort) state.sustSort = 'risk';
@@ -3587,6 +3618,8 @@ function renderSustainability(){
         const s=SUST_SLIDERS.find(x=>x.key===k);
         slidersHost.querySelector('[data-val="'+k+'"]').textContent = fmtVal(s, v);
         renderSustainability();
+        // Også oppdater kommunekortets bærekrafts-sammenstilling så fargene reflekterer nye terskler
+        if(typeof detail==='function') detail();
       };
     });
   } else if(slidersHost){
