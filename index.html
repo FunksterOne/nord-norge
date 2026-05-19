@@ -38,6 +38,20 @@
 .landing-teaser .ts-list a{padding:9px 12px;background:var(--paper);border:1px solid var(--line2);border-radius:6px;text-decoration:none;color:var(--ink);font-size:13px;display:flex;justify-content:space-between;align-items:baseline}
 .landing-teaser .ts-list a:hover{border-color:var(--ink2);background:#fff}
 .landing-teaser .ts-list .lbl{color:var(--ink3);font-size:10.5px;font-family:'Spline Sans Mono',monospace}
+.landing-temaer{margin:40px 0 0}
+.landing-temaer .lt-head{margin-bottom:14px}
+.landing-temaer .lt-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);font-weight:600;margin-bottom:4px}
+.landing-temaer .lt-title{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0;color:var(--ink)}
+.landing-temaer .lt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.landing-temaer .lt-card{padding:24px 22px 22px;border-radius:12px;text-decoration:none;color:var(--ink);position:relative;overflow:hidden;border:1px solid var(--line2);transition:transform .15s ease, box-shadow .15s ease}
+.landing-temaer .lt-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(17,32,58,.08)}
+.landing-temaer .lt-flyk{background:linear-gradient(135deg, rgba(24,117,103,0.10), rgba(24,117,103,0.02));border-left:4px solid var(--aurora)}
+.landing-temaer .lt-o6{background:linear-gradient(135deg, rgba(201,162,59,0.12), rgba(201,162,59,0.02));border-left:4px solid var(--amber)}
+.landing-temaer .lt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.12em;margin-bottom:6px}
+.landing-temaer .lt-card h4{font-family:'Fraunces',serif;font-size:28px;font-weight:600;margin:0 0 2px;line-height:1.05}
+.landing-temaer .lt-sub{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--ink2);margin:0 0 12px}
+.landing-temaer .lt-body{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 12px}
+.landing-temaer .lt-arr{font-size:13px;color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -81,6 +95,30 @@
         <option value="">Eller hopp direkte til…</option>
       </select>
     </div>
+  </div>
+</div>
+
+<!-- Temasider — to dedikerte pedagogiske dypdykk -->
+<div class="landing-temaer">
+  <div class="lt-head">
+    <div class="lt-kicker">Temasider · pedagogiske dypdykk</div>
+    <h3 class="lt-title">To historier verdt å lese hele veien</h3>
+  </div>
+  <div class="lt-grid">
+    <a class="lt-card lt-flyk" href="tema-flyktning.html">
+      <div class="lt-num">01</div>
+      <h4>Trakten</h4>
+      <p class="lt-sub">Flyktningestrømmen 2000–2024</p>
+      <p class="lt-body">Av rundt 32 000 som kom har over 27 000 flyttet videre. Hvem ble igjen — og hva betyr det for landsdelen?</p>
+      <span class="lt-arr">Les videre →</span>
+    </a>
+    <a class="lt-card lt-o6" href="tema-o6.html">
+      <div class="lt-num">02</div>
+      <h4>Tyngdeloven</h4>
+      <p class="lt-sub">O6 mot de 74</p>
+      <p class="lt-body">Seks kommuner bærer 46,6 % av folket. De øvrige 74 deler resten. Norman-utvalget viser veien videre.</p>
+      <span class="lt-arr">Les videre →</span>
+    </a>
   </div>
 </div>
 

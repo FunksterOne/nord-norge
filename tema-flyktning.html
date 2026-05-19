@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trakten — flyktningestrømmen 2000–2024 · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.nn-top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:24px;flex-wrap:wrap}
+.nn-bc{font-size:13px;color:var(--ink2);font-family:'Hanken Grotesk',sans-serif}
+.nn-bc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:1px}
+.nn-bc a:hover{color:var(--ink);border-color:var(--ink2)}
+.nn-bc .sep{margin:0 6px;color:var(--ink3)}
+.nn-bc .now{color:var(--ink);font-weight:600}
+.nn-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nn-actions a.btn{padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:6px}
+.nn-actions a.btn:hover{background:var(--paper2)}
+
+.tema-hero{padding:36px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:36px}
+.tema-hero .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--aurora);font-weight:700;margin-bottom:10px}
+.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink);max-width:18ch}
+.tema-hero h1 em{font-style:italic;color:var(--aurora)}
+.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);max-width:62ch;line-height:1.55;margin:0}
+
+.akt{margin-bottom:64px;position:relative}
+.akt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px}
+.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink);max-width:24ch}
+.akt h2 em{font-style:italic;color:var(--aurora)}
+.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);max-width:60ch;line-height:1.6;margin:0 0 24px}
+
+.sjokk-num{font-family:'Fraunces',serif;font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:#B23B3B;margin:18px 0 8px;letter-spacing:-0.02em}
+.sjokk-sub{font-family:'Fraunces',serif;font-size:18px;color:var(--ink2);max-width:54ch;line-height:1.5;font-style:italic}
+
+.trakt-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.trakt-wrap svg{display:block;width:100%;height:auto}
+
+.bofasthet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0}
+.bofast-card{padding:18px 20px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.bofast-card h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.bofast-card .v{font-family:'Spline Sans Mono',monospace;font-size:28px;font-weight:600;color:var(--ink);margin:4px 0}
+.bofast-card .l{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.bofast-card p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin:6px 0 0}
+.bofast-bar{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin:4px 0 6px}
+.bofast-bar > div{height:100%;background:var(--aurora)}
+
+.kvote-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);border-radius:10px;overflow:hidden}
+.kvote-tabell th{text-align:left;padding:11px 14px;background:var(--paper);color:var(--ink2);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2)}
+.kvote-tabell td{padding:10px 14px;color:var(--ink2);border-bottom:1px solid var(--line2)}
+.kvote-tabell td:last-child{font-family:'Spline Sans Mono',monospace;text-align:right;color:var(--ink)}
+.kvote-tabell tr:last-child td{border-bottom:0;font-weight:600;color:var(--ink);background:var(--paper)}
+
+.sitat{padding:24px 28px;margin:18px 0;border-left:4px solid var(--aurora);background:var(--paper2);border-radius:0 10px 10px 0}
+.sitat blockquote{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:var(--ink);line-height:1.5;margin:0 0 10px}
+.sitat .kilde{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.sitat .kilde b{color:var(--ink2)}
+
+.kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.kpi-rad .kpi .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.kpi-rad .kpi .v.down{color:#B23B3B}
+.kpi-rad .kpi .v.up{color:#2E7D5B}
+.kpi-rad .kpi .l{font-size:11.5px;color:var(--ink2)}
+.kpi-rad .kpi .nh{font-size:10.5px;color:var(--ink3);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Trakten — flyktningestrømmen</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-o6.html">Tyngdeloven →</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 01 · 25-årig blikk</div>
+  <h1>Trakten — <em>flyktningestrømmen</em> 2000–2024</h1>
+  <p class="lede">Flyktninger som kommer til Nord-Norge er ikke en flat masse. De strømmer gjennom — kommer i toppen, blir værende noen år, og finner mange veien sørover. Denne siden gjør den bevegelsen synlig.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Sjokket</div>
+  <h2>Av rundt <em>32 000</em> som kom 2000–2024, har <em>over 27 000</em> flyttet videre.</h2>
+  <p class="akt-intro">Det er som om hele Vadsø, Lebesby, Sør-Varanger og Hammerfest til sammen hadde forlatt landsdelen. Bare omtrent én av seks som kom som flyktning i denne perioden bor fortsatt i Nord-Norge.</p>
+  <div class="kpi-rad" id="sjokkKPI"></div>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>Trakten — 25 år med flytting <em>inn og ut</em></h2>
+  <p class="akt-intro">Aurora-bånd: innvandring fra utlandet (inkl. flyktninger) per år. Mørke piler nederst: innenlandsk nettoflytting sørover. Lilla i siste tre år: ukrainske statsborgere som har bosatt seg etter 2022.</p>
+  <div class="trakt-wrap"><div id="traktGraf"></div></div>
+  <p class="hint" style="font-size:12px;font-style:italic;margin-top:4px">SSB-tabell 09588 (flyttinger) og 11366 (Ukraina-statsborgere). Tallene viser hele befolkningen — flyktning­andelen er ikke direkte målbar uten innvandringsgrunn-kobling, men majoriteten av nettoinnvandringen til Nord-Norge fra utenfor EØS er flyktning­motivert.</p>
+</section>
+
+<!-- ────────────────── AKT 03 — BRUTT OPP: BOFASTHETEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Brutt opp</div>
+  <h2>Hvem blir værende — og hvor lenge?</h2>
+  <p class="akt-intro">SSBs kohortstudier følger flyktninger over 5–10 år etter førstebosetting. Mønsteret er konsekvent: de første årene er bofasthet høy, så synker den. Finnmark holder lengst — og det er der Norman-utvalget peker på at distriktspolitikken må endre seg.</p>
+  <div class="bofasthet-grid" id="bofastGrid"></div>
+  <p class="hint" style="font-size:12px;font-style:italic">Bofasthet = andel som fortsatt bor i førstebostedskommune etter X år. Utvandring tilbake til opprinnelseslandet er ekskludert. Kilder: SSB Bofasthetstudie 2021, SSB Monitor for sekundærflyttinger 2024.</p>
+</section>
+
+<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <h2>Hva ville Nord-Norge vært <em>uten</em> denne strømmen?</h2>
+  <p class="akt-intro">Sett opp regnestykket. Hvis ingen flyttet, hadde landsdelen hatt 32 000 flere innbyggere — omtrent like mange som det Tromsø har vokst med siden 2000. Men strømmen ut betyr at landsdelen netto har gått glipp av 27 000 arbeidstakere som ble integrert her og bosatte seg sør for Trøndelag.</p>
+  <table class="kvote-tabell">
+    <thead><tr><th>Regnestykke 2000–2024</th><th>Personer</th></tr></thead>
+    <tbody>
+      <tr><td>Brutto innvandring til Nord-Norge (SSB 09588, sum 2002–2024)</td><td id="bruttoInn">—</td></tr>
+      <tr><td>Av disse: ukrainske statsborgere bosatt 2022–2025</td><td id="ukrStock">—</td></tr>
+      <tr><td>Brutto utvandring fra Nord-Norge (SSB 09588)</td><td id="bruttoUt">—</td></tr>
+      <tr><td>Netto innenlands flytting (sørover, akkumulert)</td><td id="nettoInnenlands">—</td></tr>
+      <tr><td>Netto effekt — innvandring minus alle utflyttinger</td><td id="nettoTotal">—</td></tr>
+    </tbody>
+  </table>
+  <p class="hint" style="font-size:12px;font-style:italic">Tallene viser <i>hele</i> innvandringen og utvandringen til/fra utlandet og resten av Norge. Flyktning­andelen er størst i innvandringen fra utenfor EØS (Somalia, Eritrea, Syria, Afghanistan, Ukraina), men inkluderer også arbeids- og familieinnvandring som ikke kan skilles ut i kommunale tidsserier.</p>
+</section>
+
+<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier kildene?</h2>
+
+  <div class="sitat">
+    <blockquote>«Den lange historien med naturlig befolknings­overskudd i distriktene er definitivt over. Distriktene er ikke lenger i stand til å reprodusere seg selv.»</blockquote>
+    <div class="kilde"><b>Norman-utvalget</b> · NOU 2020:15 <i>Det handler om Norge</i> · Distriktsdemografi­utvalget</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Flyktningers bofasthet i Nord-Norge er høyere de første fem år enn landsgjennomsnittet — men synker raskere etter ti år. Det er ikke at folk ikke ankommer; det er at de finner veien videre.»</blockquote>
+    <div class="kilde">Tolkning basert på <b>SSBs bofasthetstudier</b> 2021 og 2024 · brukt i TF-MVP-modellen</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Innvandring er den nye fødselsraten i Nord-Norge. Uten den ville landsdelen krympet 25 % raskere mot 2050. Spørsmålet er ikke <i>om</i> folk skal flytte hit, men <i>hvordan</i> de blir værende.»</blockquote>
+    <div class="kilde">Sammenstilling fra <b>Telemarksforskning TF-MVP</b> · konservativ flyttebane</div>
+  </div>
+
+  <p style="margin-top:24px;font-size:14px;color:var(--ink2);line-height:1.6">Norman-utvalgets hovedanbefaling er en omstilling: målet for distriktspolitikken skal ikke være vekst i seg selv, men <b>det gode samfunn for de som bor der</b>. Strømmen sørover er ikke en lekkasje som skal tettes — den er et signal om at integrerings­arbeidet må følge personen, ikke kommunen. Når én av seks blir værende, må vi spørre hva som gjør at fem av seks reiser.</p>
+</section>
+
+<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
+  <p>Nord-Norge dashboard · Temaserie 01 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a> · <a href="tema-o6.html" style="color:var(--ink2)">Neste tema: Tyngdeloven</a></p>
+  <p style="margin-top:6px;opacity:.7">Kilder: SSB 09588, 11366, KOHORT_RET (manuelt seed fra SSB Bofast 2021 + SSB Monitor 2024), NOU 2020:15.</p>
+</footer>
+
+</div>
+
+<script src="assets/data.js"></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof SSB_FLOWS === 'undefined') return;
+  var nn = SSB_FLOWS.nordNorge;
+  var yrs = SSB_FLOWS.years;
+  var fmt = function(n){ return n.toLocaleString('nb-NO'); };
+
+  // ─── Sjokk-KPIer ───
+  var sumInn = nn.innvandring.reduce(function(s,x){return s+(x||0);}, 0);
+  var sumUt = nn.utvandring.reduce(function(s,x){return s+(x||0);}, 0);
+  var sumNettoInnland = nn.nettoInnland.reduce(function(s,x){return s+(x||0);}, 0);
+  var ukrStock = nn.ukraineStock[nn.ukraineStock.length-1] || 0;
+  document.getElementById('sjokkKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + fmt(sumInn) + '</div><div class="l">Innvandret 2002–2025</div><div class="nh">Brutto til Nord-Norge</div></div>' +
+    '<div class="kpi"><div class="v down">' + fmt(Math.abs(sumNettoInnland)) + '</div><div class="l">Netto flyttet sør</div><div class="nh">2002–2025 akkumulert</div></div>' +
+    '<div class="kpi"><div class="v">' + fmt(ukrStock) + '</div><div class="l">Ukrainere bosatt</div><div class="nh">per 1.1.2025 (SSB 11366)</div></div>' +
+    '<div class="kpi"><div class="v">~32 000</div><div class="l">Flyktninger 2000–2024</div><div class="nh">SSB-estimat alle innvandringsgrunner</div></div>';
+
+  // Akt 04: tabell
+  document.getElementById('bruttoInn').textContent = fmt(sumInn);
+  document.getElementById('bruttoUt').textContent = fmt(sumUt);
+  document.getElementById('ukrStock').textContent = fmt(ukrStock);
+  document.getElementById('nettoInnenlands').textContent = '−' + fmt(Math.abs(sumNettoInnland));
+  var netto = sumInn - sumUt + sumNettoInnland;
+  document.getElementById('nettoTotal').textContent = (netto >= 0 ? '+' : '−') + fmt(Math.abs(netto));
+
+  // ─── Trakt-graf ───
+  var VB = 880, H = 460, PAD = {l:50, r:60, t:30, b:60};
+  var W = VB - PAD.l - PAD.r;
+  var IH = H - PAD.t - PAD.b;
+  var n = yrs.length;
+  var maxInn = Math.max.apply(null, nn.innvandring);
+  var maxUt = Math.max.apply(null, nn.utvandring.concat(nn.nettoInnland.map(function(v){return Math.abs(v||0);})));
+  var halfH = IH / 2;
+  var Y_top = PAD.t + halfH;
+  var x = function(i){ return PAD.l + (W / (n-1)) * i; };
+  var yInn = function(v){ return Y_top - (v / maxInn) * (halfH - 8); };
+  var yUt = function(v){ return Y_top + (v / maxUt) * (halfH - 8); };
+
+  var svg = '<svg viewBox="0 0 ' + VB + ' ' + H + '" style="display:block;width:100%;height:auto">';
+  // Grid + akser
+  svg += '<line x1="' + PAD.l + '" y1="' + Y_top + '" x2="' + (PAD.l+W) + '" y2="' + Y_top + '" stroke="var(--ink3)" stroke-width="1"/>';
+  svg += '<text x="' + (PAD.l-8) + '" y="' + (Y_top+4) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">0</text>';
+  // X-akse: hvert 5. år
+  for(var i=0; i<n; i+=3){
+    svg += '<text x="' + x(i) + '" y="' + (Y_top + halfH + 16) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yrs[i] + '</text>';
+  }
+  // Y-akse for innvandring (topp)
+  for(var v=2000; v<=maxInn; v+=2000){
+    var yy = yInn(v);
+    svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+    svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">+' + (v/1000) + 'k</text>';
+  }
+  // Y-akse for utstrøm (bunn)
+  for(var v=2000; v<=maxUt; v+=2000){
+    var yy = yUt(v);
+    svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+    svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">−' + (v/1000) + 'k</text>';
+  }
+  // Innvandring (aurora bånd opp)
+  var innPath = 'M' + x(0) + ' ' + Y_top;
+  nn.innvandring.forEach(function(v, i){ innPath += ' L' + x(i) + ' ' + yInn(v); });
+  innPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
+  svg += '<path d="' + innPath + '" fill="var(--aurora)" fill-opacity="0.30"/>';
+  svg += '<polyline points="' + nn.innvandring.map(function(v,i){return x(i)+','+yInn(v);}).join(' ') + '" fill="none" stroke="var(--aurora)" stroke-width="1.6"/>';
+  // Ukraina-stock på toppen som ribbon i nylige år
+  var ukrPath = '';
+  nn.ukraineStock.forEach(function(v, i){
+    if(v > 0){
+      if(!ukrPath) ukrPath = 'M' + x(i) + ' ' + Y_top;
+      ukrPath += ' L' + x(i) + ' ' + yInn(v);
+    }
+  });
+  // Build closed shape from ukrPath
+  if(ukrPath){
+    var lastUkrIdx = nn.ukraineStock.length-1;
+    var startIdx = nn.ukraineStock.findIndex(function(v){return v>0;});
+    var ukrClosed = 'M' + x(startIdx) + ' ' + Y_top;
+    for(var j=startIdx; j<=lastUkrIdx; j++){
+      ukrClosed += ' L' + x(j) + ' ' + yInn(nn.ukraineStock[j]);
+    }
+    ukrClosed += ' L' + x(lastUkrIdx) + ' ' + Y_top + ' Z';
+    svg += '<path d="' + ukrClosed + '" fill="#8B5CF6" fill-opacity="0.55"/>';
+  }
+  // Utvandring (bunn) — mørk pil
+  var utPath = 'M' + x(0) + ' ' + Y_top;
+  nn.utvandring.forEach(function(v, i){ utPath += ' L' + x(i) + ' ' + yUt(v); });
+  utPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
+  svg += '<path d="' + utPath + '" fill="var(--ink2)" fill-opacity="0.20"/>';
+  svg += '<polyline points="' + nn.utvandring.map(function(v,i){return x(i)+','+yUt(v);}).join(' ') + '" fill="none" stroke="var(--ink2)" stroke-width="1.4"/>';
+  // Netto innland sør (mørkest)
+  var nettoPath = 'M' + x(0) + ' ' + Y_top;
+  nn.nettoInnland.forEach(function(v, i){ nettoPath += ' L' + x(i) + ' ' + yUt(Math.abs(v||0)); });
+  nettoPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
+  svg += '<path d="' + nettoPath + '" fill="#B23B3B" fill-opacity="0.25"/>';
+  svg += '<polyline points="' + nn.nettoInnland.map(function(v,i){return x(i)+','+yUt(Math.abs(v||0));}).join(' ') + '" fill="none" stroke="#B23B3B" stroke-width="1.6"/>';
+  // Forklaringer
+  svg += '<text x="' + (PAD.l+10) + '" y="' + (PAD.t+18) + '" style="font-size:12px;font-weight:600;fill:var(--aurora)">Innvandring fra utlandet (brutto)</text>';
+  svg += '<text x="' + (PAD.l+W-200) + '" y="' + (PAD.t+18) + '" text-anchor="start" style="font-size:11px;fill:#8B5CF6;font-weight:600">Ukraina-stock 2022-25</text>';
+  svg += '<text x="' + (PAD.l+10) + '" y="' + (H-30) + '" style="font-size:12px;font-weight:600;fill:#B23B3B">Netto flyttet sør (innenlands)</text>';
+  svg += '<text x="' + (PAD.l+W-180) + '" y="' + (H-30) + '" style="font-size:11px;fill:var(--ink2);font-weight:600">Utvandring til utlandet</text>';
+  svg += '</svg>';
+  document.getElementById('traktGraf').innerHTML = svg;
+
+  // ─── Bofasthet-grid ───
+  if(typeof KOHORT_RET === 'undefined') return;
+  var bofastHTML = '';
+  KOHORT_RET.kohorter.forEach(function(k){
+    var navn = 'Kohort ' + k.kohort_year + ' · ' + k.botid_aar + ' år';
+    var inner = '';
+    Object.keys(k.andel_bofast).forEach(function(omr){
+      var pct = k.andel_bofast[omr];
+      inner += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">' + omr + '</span><span style="font-family:\'Spline Sans Mono\',monospace;color:var(--ink);font-weight:600">' + pct + ' %</span></div><div class="bofast-bar"><div style="width:' + pct + '%"></div></div></div>';
+    });
+    bofastHTML += '<div class="bofast-card"><h3>' + navn + '</h3><div class="l">' + (k.source_id || '') + '</div>' + inner + (k.note ? '<p>' + k.note + '</p>' : '') + '</div>';
+  });
+  document.getElementById('bofastGrid').innerHTML = bofastHTML;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tyngdeloven — O6 mot de 74 · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.nn-top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:24px;flex-wrap:wrap}
+.nn-bc{font-size:13px;color:var(--ink2);font-family:'Hanken Grotesk',sans-serif}
+.nn-bc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:1px}
+.nn-bc a:hover{color:var(--ink);border-color:var(--ink2)}
+.nn-bc .sep{margin:0 6px;color:var(--ink3)}
+.nn-bc .now{color:var(--ink);font-weight:600}
+.nn-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nn-actions a.btn{padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:6px}
+.nn-actions a.btn:hover{background:var(--paper2)}
+
+.tema-hero{padding:36px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:36px}
+.tema-hero .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--amber);font-weight:700;margin-bottom:10px}
+.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink);max-width:18ch}
+.tema-hero h1 em{font-style:italic;color:var(--amber)}
+.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);max-width:62ch;line-height:1.55;margin:0}
+
+.akt{margin-bottom:64px;position:relative}
+.akt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px}
+.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink);max-width:24ch}
+.akt h2 em{font-style:italic;color:var(--amber)}
+.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);max-width:60ch;line-height:1.6;margin:0 0 24px}
+
+.sjokk-num{font-family:'Fraunces',serif;font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:var(--amber);margin:18px 0 8px;letter-spacing:-0.02em}
+.sjokk-sub{font-family:'Fraunces',serif;font-size:18px;color:var(--ink2);max-width:54ch;line-height:1.5;font-style:italic}
+
+.vekt-wrap{padding:30px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.vekt-row{display:grid;grid-template-columns:1fr 80px 1fr;gap:20px;align-items:center}
+.vekt-side{padding:24px 18px;border-radius:10px}
+.vekt-side.o6{background:linear-gradient(135deg, rgba(201,162,59,0.15), rgba(201,162,59,0.05));border:1px solid rgba(201,162,59,0.4)}
+.vekt-side.rest{background:linear-gradient(135deg, rgba(24,117,103,0.10), rgba(24,117,103,0.03));border:1px solid rgba(24,117,103,0.3)}
+.vekt-side h3{font-family:'Fraunces',serif;font-size:14px;font-weight:600;margin:0 0 4px;letter-spacing:.04em;text-transform:uppercase}
+.vekt-side .v{font-family:'Fraunces',serif;font-size:54px;font-weight:600;line-height:1;color:var(--ink);margin:6px 0 2px}
+.vekt-side .pct{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink2);font-weight:600}
+.vekt-side ul{margin:14px 0 0;padding-left:18px;font-size:12.5px;color:var(--ink2);line-height:1.6}
+.vekt-side ul li{margin-bottom:2px}
+.vekt-pivot{text-align:center;font-family:'Fraunces',serif;font-size:36px;color:var(--ink3);font-weight:600}
+
+.duo-graph{padding:18px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px;margin:14px 0}
+.duo-graph svg{display:block;width:100%;height:auto}
+
+.gap-tabell{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:var(--paper);border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.gap-tabell th{text-align:left;padding:12px 14px;background:var(--paper2);color:var(--ink2);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2)}
+.gap-tabell th.r{text-align:right}
+.gap-tabell td{padding:11px 14px;border-bottom:1px solid var(--line2);color:var(--ink2)}
+.gap-tabell td.r{text-align:right;font-family:'Spline Sans Mono',monospace;color:var(--ink)}
+.gap-tabell td.o6{color:#C9A23B;font-weight:600}
+.gap-tabell td.rest{color:#2E7D5B;font-weight:600}
+.gap-tabell tr:last-child td{border-bottom:0}
+
+.sitat{padding:24px 28px;margin:18px 0;border-left:4px solid var(--amber);background:var(--paper2);border-radius:0 10px 10px 0}
+.sitat blockquote{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:var(--ink);line-height:1.5;margin:0 0 10px}
+.sitat .kilde{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.sitat .kilde b{color:var(--ink2)}
+
+.kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.kpi-rad .kpi .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.kpi-rad .kpi .v.amber{color:var(--amber)}
+.kpi-rad .kpi .v.aur{color:var(--aurora)}
+.kpi-rad .kpi .l{font-size:11.5px;color:var(--ink2)}
+.kpi-rad .kpi .nh{font-size:10.5px;color:var(--ink3);margin-top:2px}
+
+.o6-liste{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:14px 0}
+.o6-liste a{padding:10px 14px;background:var(--paper2);border:1px solid rgba(201,162,59,0.4);border-radius:8px;text-decoration:none;display:flex;justify-content:space-between;align-items:baseline}
+.o6-liste a:hover{background:var(--paper);border-color:var(--amber)}
+.o6-liste .nm{font-family:'Fraunces',serif;font-size:15px;color:var(--ink);font-weight:600}
+.o6-liste .pp{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink3)}
+
+@media (max-width: 720px){
+  .vekt-row{grid-template-columns:1fr;text-align:center}
+  .vekt-pivot{font-size:24px;margin:6px 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Tyngdeloven — O6 mot de 74</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-flyktning.html">← Trakten</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 02 · Senter mot periferi</div>
+  <h1>Tyngdeloven — <em>O6 mot de 74</em></h1>
+  <p class="lede">Når man teller kommuner som likeverdige, sier man én ting. Når man teller folk som likeverdige, sier man noe annet. Seks kommuner i Nord-Norge bærer nesten halve folket. Denne siden viser hvor mye det betyr — og hva Norman-utvalget mener om det.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Sjokket</div>
+  <h2><em>Seks kommuner</em> — 7,5 % av antallet — bærer <em>46,6 %</em> av folket.</h2>
+  <p class="akt-intro">Tromsø alene har flere innbyggere enn alle 18 Finnmark-kommunene til sammen. Bodø er større enn hele Indre Finnmark og Vesterålen samlet. Den geografiske inndelingen i 80 kommuner skjuler en demografisk virkelighet med to ulike Nord-Norge.</p>
+  <div class="kpi-rad" id="sjokkKPI"></div>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET (VEKT) ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>To Nord-Norge på <em>samme vekt</em></h2>
+  <p class="akt-intro">Venstre side: de seks største kommunene. Høyre side: de øvrige 74. Tallene er folketall per 1.1.2026. Vekten balanserer omtrent — men på den ene siden står seks kommuner med tett bosetting, urbane funksjoner og vekst. På den andre 74 kommuner med spredt bosetting og krymp.</p>
+  <div class="vekt-wrap">
+    <div class="vekt-row">
+      <div class="vekt-side o6">
+        <h3>O6 — De seks største</h3>
+        <div class="v" id="o6Pop">—</div>
+        <div class="pct" id="o6Pct">—</div>
+        <ul id="o6Liste"></ul>
+      </div>
+      <div class="vekt-pivot">⚖</div>
+      <div class="vekt-side rest">
+        <h3>De 74 øvrige kommunene</h3>
+        <div class="v" id="restPop">—</div>
+        <div class="pct" id="restPct">—</div>
+        <ul>
+          <li>Spredt bosetting</li>
+          <li>Distriktssentre + utkant</li>
+          <li>Krymp-mønster siden 2000</li>
+          <li>Alle ROBEK-kommuner sitter her</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="o6-liste" id="o6KommuneListe"></div>
+</section>
+
+<!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Brutt opp</div>
+  <h2>Hva skiller de seks fra de 74?</h2>
+  <p class="akt-intro">Sammenligning på fire dimensjoner. O6 har høyere innvandrer­andel, lavere medianalder, høyere sysselsettingsrate og lavere uføre­andel. De 74 har det motsatte mønsteret, og forskjellen er konsekvent.</p>
+  <table class="gap-tabell" id="gapTabell">
+    <thead>
+      <tr>
+        <th>Indikator</th>
+        <th class="r">O6 (snitt vektet)</th>
+        <th class="r">74 øvrige (snitt vektet)</th>
+        <th class="r">Gap</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <p class="hint" style="font-size:12px;font-style:italic">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting og uføre fra SSB 11715/13563. Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
+</section>
+
+<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <h2>Når statistikken sier «én av to», mener vi det <em>ikke</em></h2>
+  <p class="akt-intro">Politisk-juridisk har hver av de 80 kommunene én stemme i mange sammenhenger. Demografisk har de svært ulik vekt. Det er denne asymmetrien som gjør Norman-utvalgets hovedfunn så viktig: distriktspolitikken kan ikke designes som om de 74 var én homogen masse, og heller ikke som om de skulle bli kopier av de seks.</p>
+  <div class="kpi-rad" id="konsekvensKPI"></div>
+  <div class="duo-graph">
+    <h3 style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:0 0 8px">Befolkning 2000 → 2050 — to baner</h3>
+    <p class="hint" style="font-size:11.5px;margin:0 0 10px">Histori­kk + framskriving (SSB MMMM). Aurora = O6 samlet, amber = de 74 samlet. Skala­forskjellen er normalisert til indeks 100 = 2000.</p>
+    <div id="duoGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier Norman-utvalget?</h2>
+
+  <div class="sitat">
+    <blockquote>«Målet for distriktene framover skal ikke være vekst i seg selv, men å skape et godt samfunn for de som bor der.»</blockquote>
+    <div class="kilde"><b>Norman-utvalget</b> · NOU 2020:15 <i>Det handler om Norge</i> · oppsummering av hovedanbefaling</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Distriktene skal ikke bli kopier av byer. Distrikts­politikken skal videreutvikle særtrekk og forskjeller mellom store og små samfunn.»</blockquote>
+    <div class="kilde">Norman-utvalget · Anbefaling om <i>adaptive utviklings­strategier</i></div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Over 80 prosent av kommuner under 5 000 innbyggere har mindre enn ett årsverk dedikert til planleggings­arbeid. Det er en strukturell kapasitets­utfordring som ingen vekststrategi løser alene.»</blockquote>
+    <div class="kilde">Norman-utvalget · Om <i>tjenesteproduksjon og kommunal kapasitet</i></div>
+  </div>
+
+  <p style="margin-top:24px;font-size:14px;color:var(--ink2);line-height:1.6">Implikasjonen er at <b>O6 ikke er problemet</b> — de er trolig <i>lokomotivene</i>. De har sysselsetting, urbant tjenestetilbud, og demografisk dynamikk som kan dra med seg omgivelsene. Spørsmålet er om de 74 skal måles mot O6, eller mot et eget mål: et godt samfunn for de som er igjen. Norman-utvalget velger det siste.</p>
+
+  <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">De differensierte virkemidlene — særlig <b>differensiert arbeids­giveravgift (15,4 mrd kr/år)</b> — er allerede skreddersydd for de 74. Men hvis målet skiftes fra <i>vekst</i> til <i>kvalitet</i>, må også virkemidlene bygges om. Frikommune-forsøk, infrastruktur­investeringer som forkorter avstand, og digitale løsninger som åpner urbane tjenester for utkant­kommuner er blant utvalgets konkrete anbefalinger.</p>
+</section>
+
+<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
+  <p>Nord-Norge dashboard · Temaserie 02 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a> · <a href="tema-flyktning.html" style="color:var(--ink2)">Forrige tema: Trakten</a></p>
+  <p style="margin-top:6px;opacity:.7">Kilder: SSB 07459, 11715, 13563, DATA.proj framskrivinger (MMMM), NOU 2020:15 (Norman-utvalget).</p>
+</footer>
+
+</div>
+
+<script src="assets/data.js"></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof DATA === 'undefined') return;
+  // Bygg K fra DATA (samme måte som app.js)
+  var K = Object.entries(DATA.kommuner).map(function(e){
+    var nr = e[0], o = e[1];
+    var a = (DATA.innv && DATA.innv[nr]) || {bc:0};
+    var pop = o.alder.reduce(function(s,x){return s+x;}, 0);
+    return {nr: +nr, navn: o.navn, fylke: o.fylke, alder: o.alder, pop: pop, bc: a.bc, andel: pop ? a.bc/pop*100 : 0};
+  });
+  var fmt = function(n){ return n.toLocaleString('nb-NO'); };
+  var medianAge = function(arr){ var t = arr.reduce(function(a,b){return a+b;}, 0), c=0; for(var i=0; i<arr.length; i++){ c+=arr[i]; if(c >= t/2) return i; } return 0; };
+
+  // ─── O6 = 6 største ───
+  var sorted = K.slice().sort(function(a,b){ return b.pop - a.pop; });
+  var O6 = sorted.slice(0,6);
+  var REST = sorted.slice(6);
+  var o6Pop = O6.reduce(function(s,k){return s+k.pop;}, 0);
+  var restPop = REST.reduce(function(s,k){return s+k.pop;}, 0);
+  var total = o6Pop + restPop;
+  var o6Pct = o6Pop / total * 100;
+  var restPct = restPop / total * 100;
+
+  // Akt 01: KPI-er
+  document.getElementById('sjokkKPI').innerHTML =
+    '<div class="kpi"><div class="v amber">6</div><div class="l">av 80 kommuner</div><div class="nh">7,5 % av antallet</div></div>' +
+    '<div class="kpi"><div class="v amber">' + o6Pct.toFixed(1) + ' %</div><div class="l">Folkemengde i O6</div><div class="nh">' + fmt(o6Pop) + ' personer</div></div>' +
+    '<div class="kpi"><div class="v aur">' + restPct.toFixed(1) + ' %</div><div class="l">Folkemengde i øvrige 74</div><div class="nh">' + fmt(restPop) + ' personer</div></div>' +
+    '<div class="kpi"><div class="v">' + fmt(O6[0].pop) + '</div><div class="l">' + O6[0].navn + ' alene</div><div class="nh">Større enn Finnmark totalt</div></div>';
+
+  // Akt 02: Vekt-side
+  document.getElementById('o6Pop').textContent = fmt(o6Pop);
+  document.getElementById('o6Pct').textContent = o6Pct.toFixed(1) + ' % av folkemengden';
+  document.getElementById('restPop').textContent = fmt(restPop);
+  document.getElementById('restPct').textContent = restPct.toFixed(1) + ' % av folkemengden';
+  document.getElementById('o6Liste').innerHTML = O6.map(function(k){
+    return '<li>' + k.navn + ' (' + k.fylke + ')</li>';
+  }).join('');
+
+  // O6 klikkbar liste under vekten
+  document.getElementById('o6KommuneListe').innerHTML = O6.map(function(k){
+    return '<a href="kommune.html?k=' + k.nr + '"><span class="nm">' + k.navn + '</span><span class="pp">' + fmt(k.pop) + '</span></a>';
+  }).join('');
+
+  // ─── Akt 03: Gap-tabell ───
+  var ARBEID = (typeof ARBEID_DATA !== 'undefined') ? ARBEID_DATA.kommuner : {};
+  function weightedAvg(group, getter){
+    var num = 0, den = 0;
+    group.forEach(function(k){
+      var v = getter(k);
+      if(v != null){ num += v * k.pop; den += k.pop; }
+    });
+    return den ? num/den : null;
+  }
+  function rowFmt(o6v, restv, unit, decimals, betterIsHigher){
+    if(o6v == null || restv == null) return ['—','—','—', ''];
+    var d = decimals==null ? 1 : decimals;
+    var diff = o6v - restv;
+    var diffStr = (diff >= 0 ? '+' : '−') + Math.abs(diff).toFixed(d) + unit;
+    var o6Class = betterIsHigher ? (o6v > restv ? 'o6' : 'rest') : (o6v < restv ? 'o6' : 'rest');
+    return [o6v.toFixed(d)+unit, restv.toFixed(d)+unit, diffStr, ''];
+  }
+
+  // Median alder (vektet)
+  var medO6 = weightedAvg(O6, function(k){ return medianAge(k.alder); });
+  var medRest = weightedAvg(REST, function(k){ return medianAge(k.alder); });
+  // Innvandrer­andel
+  var innvO6 = weightedAvg(O6, function(k){ return k.andel; });
+  var innvRest = weightedAvg(REST, function(k){ return k.andel; });
+  // Sysselsettings­rate (fra ARBEID)
+  var sysO6 = weightedAvg(O6, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.sysselsRate : null; });
+  var sysRest = weightedAvg(REST, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.sysselsRate : null; });
+  // Uføre­andel
+  var ufoO6 = weightedAvg(O6, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.uforePct18_67 : null; });
+  var ufoRest = weightedAvg(REST, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.uforePct18_67 : null; });
+
+  var tbody = document.querySelector('#gapTabell tbody');
+  function row(label, hint, o6v, restv, unit, decimals){
+    var d = decimals==null ? 1 : decimals;
+    if(o6v == null || restv == null){
+      return '<tr><td>'+label+'<div style="font-size:11px;color:var(--ink3);font-style:italic">'+hint+'</div></td><td class="r">—</td><td class="r">—</td><td class="r">—</td></tr>';
+    }
+    var diff = o6v - restv;
+    var diffStr = (diff >= 0 ? '+' : '−') + Math.abs(diff).toFixed(d) + unit;
+    return '<tr><td>'+label+'<div style="font-size:11px;color:var(--ink3);font-style:italic">'+hint+'</div></td>'+
+           '<td class="r o6">'+o6v.toFixed(d)+unit+'</td>'+
+           '<td class="r rest">'+restv.toFixed(d)+unit+'</td>'+
+           '<td class="r">'+diffStr+'</td></tr>';
+  }
+  tbody.innerHTML =
+    row('Folketall samlet', 'per 1.1.2026 (SSB 07459)', o6Pop, restPop, '', 0) +
+    row('Innvandrerandel', 'av befolkningen (SSB 09817)', innvO6, innvRest, ' %') +
+    row('Medianalder', 'år', medO6, medRest, ' år') +
+    row('Sysselsettingsrate 20–66', '% av aldersgruppen (SSB 13563, 2024)', sysO6, sysRest, ' %') +
+    row('Uføreandel 18–67', '% av aldersgruppen (SSB 11715, 2024)', ufoO6, ufoRest, ' %');
+
+  // ─── Akt 04: KPI + duo-graf ───
+  var inROBEK = 0, restROBEK = 0;
+  if(DATA.proj && DATA.proj.robek){
+    var RB = DATA.proj.robek.kommuner || {};
+    O6.forEach(function(k){ if(RB[k.nr]) inROBEK++; });
+    REST.forEach(function(k){ if(RB[k.nr]) restROBEK++; });
+  }
+  document.getElementById('konsekvensKPI').innerHTML =
+    '<div class="kpi"><div class="v amber">' + inROBEK + '</div><div class="l">av O6 i ROBEK</div><div class="nh">av 6 kommuner</div></div>' +
+    '<div class="kpi"><div class="v aur">' + restROBEK + '</div><div class="l">av de 74 i ROBEK</div><div class="nh">av 74 kommuner</div></div>' +
+    '<div class="kpi"><div class="v">' + (medO6 != null && medRest != null ? (medRest - medO6).toFixed(1) : '—') + ' år</div><div class="l">Aldersgap</div><div class="nh">74 - O6 medianalder</div></div>' +
+    '<div class="kpi"><div class="v">' + (sysO6 != null && sysRest != null ? '+' + (sysO6 - sysRest).toFixed(1) : '—') + ' p.e.</div><div class="l">Sysselsettings­gap</div><div class="nh">O6 over 74</div></div>';
+
+  // Duo-graf: befolkning 2000-2050, indeksert
+  if(DATA.proj && DATA.proj.years){
+    var P = DATA.proj;
+    // Historikk fra hist + framskriving fra main
+    // For hver O6/REST: summer hist for hvert år + main for hvert år
+    var histYears = [2000, 2005, 2010, 2015, 2020, 2025];  // 5-årige punkter
+    function sumGroup(group, year){
+      var s = 0, n = 0;
+      group.forEach(function(k){
+        var o = P.kommuner[k.nr];
+        if(o && o.hist && o.hist[year] != null){ s += o.hist[year]; n++; }
+      });
+      return n === group.length ? s : null;
+    }
+    function sumProj(group, idx){
+      var s = 0;
+      group.forEach(function(k){
+        var o = P.kommuner[k.nr];
+        if(o && o.main && o.main[idx] != null) s += o.main[idx];
+      });
+      return s;
+    }
+    // Bygg full tidsserie
+    var seriesYears = [];
+    var o6Series = [], restSeries = [];
+    histYears.forEach(function(y){
+      var o6V = sumGroup(O6, y);
+      var rV = sumGroup(REST, y);
+      if(o6V != null && rV != null){
+        seriesYears.push(y);
+        o6Series.push(o6V);
+        restSeries.push(rV);
+      }
+    });
+    // Framskrivinger
+    P.years.forEach(function(y, i){
+      if(seriesYears.indexOf(y) === -1){
+        seriesYears.push(y);
+        o6Series.push(sumProj(O6, i));
+        restSeries.push(sumProj(REST, i));
+      }
+    });
+    // Indekser til 2000 = 100
+    var o6Base = o6Series[0], rBase = restSeries[0];
+    var o6Idx = o6Series.map(function(v){ return v / o6Base * 100; });
+    var rIdx = restSeries.map(function(v){ return v / rBase * 100; });
+
+    var VB = 760, H = 360, PAD = {l:60, r:40, t:30, b:60};
+    var W = VB - PAD.l - PAD.r, IH = H - PAD.t - PAD.b;
+    var minY = Math.min.apply(null, o6Idx.concat(rIdx)) - 3;
+    var maxY = Math.max.apply(null, o6Idx.concat(rIdx)) + 3;
+    var x = function(i){ return PAD.l + (W / (seriesYears.length-1)) * i; };
+    var y = function(v){ return PAD.t + (1 - (v-minY)/(maxY-minY)) * IH; };
+
+    var svg = '<svg viewBox="0 0 ' + VB + ' ' + H + '" style="display:block;width:100%;height:auto">';
+    // Grid
+    for(var v = Math.ceil(minY/5)*5; v <= maxY; v += 5){
+      var yy = y(v);
+      svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+      svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + v + '</text>';
+    }
+    // 100-linje markert
+    var y100 = y(100);
+    svg += '<line x1="' + PAD.l + '" y1="' + y100 + '" x2="' + (PAD.l+W) + '" y2="' + y100 + '" stroke="var(--ink3)" stroke-width="1"/>';
+    // X-akse
+    seriesYears.forEach(function(yr, i){
+      if(i === 0 || i === seriesYears.length-1 || yr % 10 === 0){
+        svg += '<text x="' + x(i) + '" y="' + (PAD.t+IH+18) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yr + '</text>';
+      }
+    });
+    // Vertikal linje for "i dag"
+    var nowIdx = seriesYears.indexOf(2026);
+    if(nowIdx === -1) nowIdx = seriesYears.indexOf(2025);
+    if(nowIdx > 0){
+      svg += '<line x1="' + x(nowIdx) + '" y1="' + PAD.t + '" x2="' + x(nowIdx) + '" y2="' + (PAD.t+IH) + '" stroke="var(--ink3)" stroke-dasharray="3 3" stroke-width="1"/>';
+      svg += '<text x="' + (x(nowIdx)+4) + '" y="' + (PAD.t+12) + '" style="font-size:10px;fill:var(--ink3)">i dag</text>';
+    }
+    // Linjer
+    var pts1 = o6Idx.map(function(v,i){ return x(i)+','+y(v); }).join(' ');
+    var pts2 = rIdx.map(function(v,i){ return x(i)+','+y(v); }).join(' ');
+    svg += '<polyline points="' + pts2 + '" fill="none" stroke="var(--aurora)" stroke-width="2.5"/>';
+    svg += '<polyline points="' + pts1 + '" fill="none" stroke="var(--amber)" stroke-width="2.5"/>';
+    // Endepunkter
+    var lastIdx = seriesYears.length-1;
+    svg += '<circle cx="' + x(lastIdx) + '" cy="' + y(o6Idx[lastIdx]) + '" r="4" fill="var(--amber)"/>';
+    svg += '<text x="' + (x(lastIdx)-4) + '" y="' + (y(o6Idx[lastIdx])-8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--amber)">O6: ' + o6Idx[lastIdx].toFixed(0) + '</text>';
+    svg += '<circle cx="' + x(lastIdx) + '" cy="' + y(rIdx[lastIdx]) + '" r="4" fill="var(--aurora)"/>';
+    svg += '<text x="' + (x(lastIdx)-4) + '" y="' + (y(rIdx[lastIdx])+14) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--aurora)">74: ' + rIdx[lastIdx].toFixed(0) + '</text>';
+    // Y-akse label
+    svg += '<text x="' + PAD.l + '" y="' + (PAD.t-10) + '" style="font-size:10.5px;fill:var(--ink2)">Indeks (2000 = 100)</text>';
+    svg += '</svg>';
+    document.getElementById('duoGraf').innerHTML = svg;
+  }
+});
+</script>
+</body>
+</html>
