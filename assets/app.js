@@ -934,8 +934,7 @@ function robekCard(k){
             :(lvl>=2?'Kommunen er ikke i registeret i dag, men fundamentene viser \u00f8kende press.':'Kommunen er ikke i registeret, og fundamentene st\u00f8tter det.'));
   return '<div class="card"><div class="ch"><h3 class="serif">ROBEK \u2014 status og \u00f8konomisk risiko</h3></div>'+
     badge+
-    '<div style="font-weight:600;color:var(--ink);margin:10px 0 0">Risikoproxy fra KOSTRA-fundamentene</div>'+
-    '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Tidligvarsel p\u00e5 det som <i>g\u00e5r forut for</i> ROBEK \u2014 ikke de juridiske vilkårene.</p>'+
+    '<p class="hint" style="margin:12px 0 0;font-size:12px">Under: risikoproxy basert p\u00e5 KOSTRA-fundamentene \u2014 tidligvarsel p\u00e5 det som <i>g\u00e5r forut for</i> ROBEK, ikke de juridiske vilkårene.</p>'+
     gauge+tbl+
     '<p style="margin:8px 0 0;font-size:12.5px;color:var(--ink)">'+read+'</p>'+
     crit+
