@@ -689,14 +689,14 @@ footer a{color:var(--aurora);text-decoration:none}
 /* --- Felles tema-side-stiler --- */
 .tema-hero{padding:36px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:36px}
 .tema-hero .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:10px}
-.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink);max-width:18ch}
+.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink)}
 .tema-hero h1 em{font-style:italic}
-.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);max-width:62ch;line-height:1.55;margin:0}
+.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);line-height:1.55;margin:0}
 .akt{margin-bottom:64px;position:relative}
 .akt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px}
-.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink);max-width:24ch}
+.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink)}
 .akt h2 em{font-style:italic}
-.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);max-width:60ch;line-height:1.6;margin:0 0 24px}
+.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);line-height:1.6;margin:0 0 24px}
 
 .kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
 .kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}

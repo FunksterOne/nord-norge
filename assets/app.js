@@ -1788,7 +1788,7 @@ function renderLevekar(){
       '<div class="legend"><span><i style="background:var(--aurora)"></i>Selveier '+fmt(hushSelv)+'</span>'+
         '<span><i style="background:var(--nl)"></i>Andels-/aksjeeier '+fmt(hushAndels)+'</span>'+
         '<span><i style="background:var(--amber)"></i>Leier '+fmt(hushLeier)+'</span></div>'+
-      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Selveierandelen i Nord-Norge ligger nær nasjonalt snitt på ca. 70 %, men varierer kraftig mellom kommuner. Sentrale byer (Bodø, Tromsø, Hammerfest) har mer leie og borettslag enn distriktskommuner.</p>';
+      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Selveierandelen i Nord-Norge ligger nær nasjonalt snitt på ca. 70 %, men varierer kraftig mellom kommuner. Sentrale kommuner (Bodø, Tromsø, Hammerfest) har mer leie og borettslag enn distriktskommuner.</p>';
   }
   // ---- Graf D: Boliger ----
   const boligHost=document.getElementById('levekarBoligGraph');
