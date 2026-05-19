@@ -180,7 +180,7 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Konsekvens</div>
   <h2>Når statistikken sier «én av to», mener vi det <em>ikke</em></h2>
-  <p class="akt-intro">Politisk-juridisk har hver av de 80 kommunene én stemme i mange sammenhenger. Demografisk har de svært ulik vekt. Det er denne asymmetrien som gjør Norman-utvalgets hovedfunn så viktig: distriktspolitikken kan ikke designes som om de 74 var én homogen masse, og heller ikke som om de skulle bli kopier av de seks.</p>
+  <p class="akt-intro">Politisk-juridisk har hver av de 80 kommunene én stemme i mange sammenhenger. Demografisk har de svært ulik vekt. Det er denne asymmetrien som gjør Norman-utvalgets hovedfunn så viktig: distriktspolitikken kan ikke utformes som om de 74 var én homogen masse, og heller ikke som om de skulle bli kopier av de seks.</p>
   <div class="kpi-rad" id="konsekvensKPI"></div>
   <div class="duo-graph">
     <h3 style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:0 0 8px">Befolkning 2000 → 2050 — to baner</h3>
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v amber">' + inROBEK + '</div><div class="l">av O6 i ROBEK</div><div class="nh">av 6 kommuner</div></div>' +
     '<div class="kpi"><div class="v aur">' + restROBEK + '</div><div class="l">av de 74 i ROBEK</div><div class="nh">av 74 kommuner</div></div>' +
     '<div class="kpi"><div class="v">' + (medO6 != null && medRest != null ? (medRest - medO6).toFixed(1) : '—') + ' år</div><div class="l">Aldersgap</div><div class="nh">74 - O6 medianalder</div></div>' +
-    '<div class="kpi"><div class="v">' + (sysO6 != null && sysRest != null ? '+' + (sysO6 - sysRest).toFixed(1) : '—') + ' p.e.</div><div class="l">Sysselsettings­gap</div><div class="nh">O6 over 74</div></div>';
+    '<div class="kpi"><div class="v">' + (sysO6 != null && sysRest != null ? '+' + (sysO6 - sysRest).toFixed(1) : '—') + ' prosentenheter</div><div class="l">Sysselsettings­gap</div><div class="nh">O6 over 74</div></div>';
 
   // Duo-graf: befolkning 2000-2050, indeksert
   if(DATA.proj && DATA.proj.years){

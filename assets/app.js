@@ -225,7 +225,7 @@ function sysCard(sj){
   if(R.zzz!=null && R.tot!=null){
     foot='Innvandrere ligger <b>'+(R.tot-R.zzz).toFixed(1)+' prosentpoeng</b> under hele befolkningen her';
     if(R.ddd!=null && R.eee!=null)
-      foot+=', og forskjellen vestlig ('+R.ddd.toFixed(1)+'%) vs. ikke-vestlig ('+R.eee.toFixed(1)+'%) er '+(R.ddd-R.eee).toFixed(1)+' p.e.';
+      foot+=', og forskjellen vestlig ('+R.ddd.toFixed(1)+'%) vs. ikke-vestlig ('+R.eee.toFixed(1)+'%) er '+(R.ddd-R.eee).toFixed(1)+' prosentenheter';
     foot+='.';
   } else { foot='Antall sysselsatte innvandrere: '+(sj.cnt&&sj.cnt.zzz!=null?fmt(sj.cnt.zzz):'\u2013')+'.'; }
   const sel=x=>state.sysSex===x?'true':'false';
@@ -1170,7 +1170,7 @@ function detail(){
       '<div class="kpi"><div class="v">'+k.andel.toFixed(1)+'%</div><div class="l">Innvandrerbakgrunn</div><div class="s">'+fmt(k.bc)+' personer</div></div>'+
       '<div class="kpi"><div class="v">'+med+'</div><div class="l">Medianalder</div><div class="s">år</div></div>'+
       '<div class="kpi"><div class="v">'+(barn/k.pop*100).toFixed(0)+'/'+(eldre/k.pop*100).toFixed(0)+'</div><div class="l">0–17 / 67+ %</div><div class="s">'+fmt(barn)+' / '+fmt(eldre)+'</div></div>'+
-      '<div class="kpi"><div class="v" style="color:var(--syss)">'+sjVal+'</div><div class="l">Sysselsatt · innv.</div><div class="s">'+(sjGap!=null?sjGap+' p.e. under hele bef.':'20–66 år, 2025')+'</div></div>'+
+      '<div class="kpi"><div class="v" style="color:var(--syss)">'+sjVal+'</div><div class="l">Sysselsatt · innv.</div><div class="s">'+(sjGap!=null?sjGap+' prosentenheter under hele bef.':'20–66 år, 2025')+'</div></div>'+
     '</div>'+
   '</div>';
 
@@ -1254,7 +1254,7 @@ function _oldDetailUnused(){
     <div class="kpi"><div class="v">${k.andel.toFixed(1)}%</div><div class="l">Innvandrerbakgrunn</div><div class="s">${fmt(k.bc)} personer</div></div>
     <div class="kpi"><div class="v">${med}</div><div class="l">Medianalder</div><div class="s">år</div></div>
     <div class="kpi"><div class="v">${(barn/k.pop*100).toFixed(0)}/${(eldre/k.pop*100).toFixed(0)}</div><div class="l">0-17 / 67+ %</div><div class="s">${fmt(barn)} / ${fmt(eldre)}</div></div>
-    <div class="kpi"><div class="v" style="color:var(--syss)">${sjVal}</div><div class="l">Sysselsatt · innv.</div><div class="s">${sjGap!=null?sjGap+' p.e. under hele bef.':'20–66 år, 2025'}</div></div>
+    <div class="kpi"><div class="v" style="color:var(--syss)">${sjVal}</div><div class="l">Sysselsatt · innv.</div><div class="s">${sjGap!=null?sjGap+' prosentenheter under hele bef.':'20–66 år, 2025'}</div></div>
   </div>
 
   ${diagnoseCard(k)}

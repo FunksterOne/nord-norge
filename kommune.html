@@ -105,7 +105,7 @@
 <nav class="nn-secnav" id="secnav">
   <button data-sec="befolkning" aria-current="true">1 · Befolkning</button>
   <button data-sec="sammensetning" aria-current="false">2 · Sammensetning</button>
-  <button data-sec="arbeid" aria-current="false">3 · Arbeid og forsørgelse</button>
+  <button data-sec="arbeid" aria-current="false">3 · Arbeid og forsørgerbyrde</button>
   <button data-sec="levekar" aria-current="false">4 · Levekår</button>
   <button data-sec="okonomi" aria-current="false">5 · Økonomi</button>
   <button data-sec="barekraft" aria-current="false">6 · Bærekraft</button>
@@ -125,7 +125,7 @@
 </section>
 
 <section class="tab" data-tab="arbeid">
-  <h2 class="section-title">Arbeid og forsørgelse</h2>
+  <h2 class="section-title">Arbeid og forsørgerbyrde</h2>
   <p class="section-sub">Sysselsetting, uføreandel og forsørgerbyrden mot 2050.</p>
   <div id="kArbeid"></div>
 </section>
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="kpi"><div class="v">' + k.andel.toFixed(1) + '%</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
         '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0) + '/' + (eldre/k.pop*100).toFixed(0) + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
-        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatt · innv.</div><div class="s">' + (sjGap!=null ? sjGap + ' p.e. under hele bef.' : '20–66 år, 2025') + '</div></div>' +
+        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatt · innv.</div><div class="s">' + (sjGap!=null ? sjGap + ' prosentenheter under hele bef.' : '20–66 år, 2025') + '</div></div>' +
       '</div>';
   }
 
@@ -279,11 +279,11 @@ document.addEventListener('DOMContentLoaded', function(){
       {key:'opt',     title:'Optimistisk', sub:'Vektlegger 2022–23-toppen'}
     ];
     // Data-semantikk: state.ukr = % av ukrainere som FORLATER landsdelen (ikke som blir).
-    // 0 % = ingen forlater (grunnscenario), 100 % = alle forlater (verstcase).
+    // 0 % = ingen forlater (grunnscenario), 100 % = alle forlater (ytterpunkt).
     var ukrOpts = [
       {key:0,   title:'Ingen forlater',  sub:'Grunnscenario — ukrainere blir værende'},
       {key:50,  title:'Halvparten forlater', sub:'50 % av kohorten flytter i løpet av 2025'},
-      {key:100, title:'Alle forlater',   sub:'Verstcase — full retur av Ukraina-kohorten'}
+      {key:100, title:'Alle forlater',   sub:'Ytterpunkt — full retur av Ukraina-kohorten'}
     ];
     state.projMode = state.projMode || 'tot';
     state.mw = state.mw || 'kons';
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  // ─── Dedikert Arbeid og forsørgelse-panel ───
+  // ─── Dedikert Arbeid og forsørgerbyrde-panel ───
   // Forsørgerbyrde-graf øverst → KPI-rad → sysselsettings-kort → Norman-tolkning
   function renderArbeidPanel(k, host){
     // Bruk lokalt projMode='fb' for grafen — påvirker ikke Befolkning
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<div class="h-row"><h3>Hva betyr dette?</h3>'+
           '<span class="tag" style="color:#B23B3B;background:rgba(178,59,59,0.15)">'+presset+' press</span></div>'+
           '<p>'+tolkning+'</p>'+
-          '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon adapteres — ikke bare bygges ut.</p>'+
+          '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
       '</div>';
   }
