@@ -114,37 +114,37 @@
 <!-- 6 seksjoner -->
 <section class="tab active" data-tab="befolkning">
   <h2 class="section-title">Befolkning</h2>
-  <p class="section-sub">Folketall i dag og framskriving mot 2050. Hvilken retning peker kommunen?</p>
+  <p class="section-sub">Hvor mange er vi, hvor er vi på vei, og hva driver bevegelsen?</p>
   <div id="kBefolkning"></div>
 </section>
 
 <section class="tab" data-tab="sammensetning">
   <h2 class="section-title">Sammensetning</h2>
-  <p class="section-sub">Aldersstruktur, opprinnelse og innvandrerbakgrunn — hvem bor her i dag?</p>
+  <p class="section-sub">Aldersfordeling, opprinnelse og landbakgrunn — hvem bor i kommunen i dag.</p>
   <div id="kSammensetning"></div>
 </section>
 
 <section class="tab" data-tab="arbeid">
   <h2 class="section-title">Arbeid og forsørgelse</h2>
-  <p class="section-sub">Sysselsetting, uføretrygd og hvor mange eldre hver arbeidsfør skal bære i 2050.</p>
+  <p class="section-sub">Sysselsetting, uføreandel og forsørgerbyrden mot 2050.</p>
   <div id="kArbeid"></div>
 </section>
 
 <section class="tab" data-tab="levekar">
   <h2 class="section-title">Levekår</h2>
-  <p class="section-sub">Husholdningsinntekt, personinntekt og boligstruktur.</p>
+  <p class="section-sub">Husholdningsinntekt, lønn vs. pensjon, og boligforhold.</p>
   <div id="kLevekar"></div>
 </section>
 
 <section class="tab" data-tab="okonomi">
   <h2 class="section-title">Økonomi</h2>
-  <p class="section-sub">KOSTRA-nøkkeltall og ROBEK-status — hvor solid står kommuneøkonomien?</p>
+  <p class="section-sub">KOSTRA-nøkkeltall målt mot TBU-, KS- og kommuneloven-normer.</p>
   <div id="kOkonomi"></div>
 </section>
 
 <section class="tab" data-tab="barekraft">
   <h2 class="section-title">Bærekraft</h2>
-  <p class="section-sub">Kommunen vurdert mot eksterne normer fra OECD, TBU, KS og kommuneloven §28-1.</p>
+  <p class="section-sub">Åtte indikatorer mot etablerte normer fra OECD, TBU, KS og §28-1.</p>
   <div id="kBarekraft"></div>
 </section>
 
@@ -225,8 +225,7 @@ document.addEventListener('DOMContentLoaded', function(){
     } else if(sec === 'arbeid'){
       renderArbeidPanel(k, host);
     } else if(sec === 'levekar'){
-      // 4. Levekår: husholdning + bolig
-      host.innerHTML = levekarKommuneCard(k);
+      renderLevekarPanel(k, host);
     } else if(sec === 'okonomi'){
       renderOkonomiPanel(k, host);
     } else if(sec === 'barekraft'){
@@ -581,6 +580,60 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div>' + kostraCard(k) + '</div>'+
         // ROBEK-status-kort
         '<div>' + robekCard(k) + '</div>'+
+      '</div>';
+  }
+
+  // ─── Dedikert Levekår-panel ───
+  // KPI-rad med hovedtall → eksisterende levekarKommuneCard som detalj
+  function renderLevekarPanel(k, host){
+    var L = (typeof LEVEKAR_DATA !== 'undefined') ? LEVEKAR_DATA.kommuner[String(k.nr)] : null;
+    var NORGE_INNT = 615000;
+    var fmtKr = function(n){ return n == null ? '–' : Math.round(n/1000) + 'k'; };
+
+    var med = L ? L.medianInntektEtterSkatt : null;
+    var pctSelv = L ? L.pct_selveier : null;
+    var diffNorge = (med && NORGE_INNT) ? ((med/NORGE_INNT - 1)*100) : null;
+    var lonn = L ? L.personLonn_median : null;
+    var pensjon = L ? L.personPensjon_median : null;
+
+    // Andel av personinntekt fra lønn vs pensjon+uføre
+    var sumLonn = L && L.totalLonn_mill ? L.totalLonn_mill : 0;
+    var sumPensjon = L && L.totalPensjon_mill ? L.totalPensjon_mill : 0;
+    var sumUfore = L && L.totalUfore_mill ? L.totalUfore_mill : 0;
+    var sumKomp = sumLonn + sumPensjon + sumUfore;
+    var andelLonn = sumKomp ? sumLonn/sumKomp*100 : null;
+    var andelTrygd = sumKomp ? (sumPensjon + sumUfore)/sumKomp*100 : null;
+
+    // Tolkning
+    var tolkning = '';
+    if(med != null){
+      tolkning += '<b>' + k.navn + '</b> har median husholdningsinntekt på <b>' + (med/1000).toFixed(0) + ' 000 kr</b> etter skatt';
+      if(diffNorge != null) tolkning += ' — ' + (diffNorge >= 0 ? '<b style="color:#2E7D5B">+' : '<b style="color:#B23B3B">') + diffNorge.toFixed(0) + ' %</b> mot nasjonalt snitt på ~615 000 kr';
+      tolkning += '. ';
+    }
+    if(andelLonn != null){
+      if(andelLonn > 70) tolkning += 'Inntektsbasen er <b>lønnstung</b> (' + andelLonn.toFixed(0) + ' % fra lønn) — typisk for kommuner med stabil yrkesaktivitet. ';
+      else if(andelLonn < 55) tolkning += 'Inntektsbasen har <b>høy trygdeandel</b> (' + andelTrygd.toFixed(0) + ' % fra pensjon og uføretrygd) — sårbart for endringer i statlige stønader. ';
+      else tolkning += '<b>' + andelLonn.toFixed(0) + ' %</b> kommer fra lønn, <b>' + andelTrygd.toFixed(0) + ' %</b> fra pensjon og uføretrygd. ';
+    }
+    if(pctSelv != null && pctSelv >= 80) tolkning += 'Høy eierandel: <b>' + pctSelv.toFixed(0) + ' %</b> av husholdningene eier boligen selv. ';
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        // KPI-rad
+        '<div class="bf-kpis">'+
+          '<div class="k"><div class="v">'+(med != null ? Math.round(med/1000)+'k' : '–')+'</div><div class="l">Median husholdningsinntekt</div><div class="h">'+(diffNorge != null ? (diffNorge >= 0 ? '+' : '−')+Math.abs(diffNorge).toFixed(0)+' % vs Norge' : 'etter skatt')+'</div></div>'+
+          '<div class="k"><div class="v">'+(lonn != null ? Math.round(lonn/1000)+'k' : '–')+'</div><div class="l">Median lønn</div><div class="h">bosatte 17+ med lønn</div></div>'+
+          '<div class="k"><div class="v">'+(andelLonn != null ? andelLonn.toFixed(0)+' %' : '–')+'</div><div class="l">Lønnsandel av inntekt</div><div class="h">'+(andelTrygd != null ? andelTrygd.toFixed(0)+' % trygd' : '')+'</div></div>'+
+          '<div class="k"><div class="v">'+(pctSelv != null ? pctSelv.toFixed(0)+' %' : '–')+'</div><div class="l">Selveiere</div><div class="h">av husholdningene</div></div>'+
+        '</div>'+
+        // Tolkning
+        (tolkning ? '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+
+          '<div class="h-row"><h3>Inntektsbildet — kortversjon</h3>'+
+          '<span class="tag" style="color:var(--aurora);background:rgba(24,117,103,0.15)">SSB-tall 2024–2025</span></div>'+
+          '<p>'+tolkning+'</p></div>' : '')+
+        // Detaljerte levekårs-kort (eksisterende)
+        '<div>' + levekarKommuneCard(k) + '</div>'+
       '</div>';
   }
 
