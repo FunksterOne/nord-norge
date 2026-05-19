@@ -221,26 +221,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(sec === 'befolkning'){
       renderBefolkningPanel(k, host);
     } else if(sec === 'sammensetning'){
-      // 2. Sammensetning: alderspyramide + landbakgrunn
-      var vesP = k.bc ? Math.round(k.ves/k.bc*100) : 0;
-      var iveP = 100 - vesP;
-      var lands = k.land.filter(function(l){return l[1]>0;});
-      var shown = lands.slice(0, state.topN || 12);
-      host.innerHTML =
-        '<div class="card"><div class="ch"><h3 class="serif">Aldersstruktur i dag</h3>' +
-          '<div class="minseg" id="agm">' +
-            '<button data-m="1" aria-selected="' + (state.ageMode==='1') + '">Ettårig</button>' +
-            '<button data-m="5" aria-selected="' + (state.ageMode==='5') + '">5-årig</button>' +
-            '<button data-m="L" aria-selected="' + (state.ageMode==='L') + '">Livsfaser</button>' +
-          '</div></div>' +
-          '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder ' + medianAge(k.alder) + ' år.</p>' +
-          barChart(ageGroups(k.alder, state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'), 'var(--aurora)') +
-        '</div>' +
-        originCard(k, vesP, iveP, lands, shown);
-      // Bind age-mode bytte
-      host.querySelectorAll('#agm button').forEach(function(b){
-        b.onclick = function(){ state.ageMode = this.dataset.m; renderSection('sammensetning'); };
-      });
+      renderSammensetningPanel(k, host);
     } else if(sec === 'arbeid'){
       // 3. Arbeid og forsørgelse: forsørgerbyrde-graf (egen lokalt projMode='fb') + sysselsetting
       var savedProjMode = state.projMode;
@@ -412,6 +393,80 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     host.querySelectorAll('#bfUkr button').forEach(function(b){
       b.onclick = function(){ state.ukr = +this.dataset.uk; renderSection('befolkning'); };
+    });
+  }
+
+  // ─── Dedikert Sammensetning-panel ───
+  // Stor alderskart med modus-bryter → KPI-rad → folketekst → landbakgrunn-kort
+  function renderSammensetningPanel(k, host){
+    state.ageMode = state.ageMode || '5';
+    state.topN = state.topN || 12;
+    var modes = [
+      {key:'L', lab:'Livsfaser', sub:'Barn, ungdom, voksne, eldre'},
+      {key:'5', lab:'5-årig', sub:'Glatt fordeling 0–105+'},
+      {key:'1', lab:'Ettårig', sub:'Hvert årskull synlig'}
+    ];
+    var currentMode = modes.find(function(m){return m.key===state.ageMode;}) || modes[0];
+
+    var med = medianAge(k.alder);
+    var barn = k.alder.slice(0,18).reduce(function(s,x){return s+x;}, 0);
+    var ungdomVoksne = k.alder.slice(18,67).reduce(function(s,x){return s+x;}, 0);
+    var eldre67 = k.alder.slice(67).reduce(function(s,x){return s+x;}, 0);
+    var eldre80 = k.alder.slice(80).reduce(function(s,x){return s+x;}, 0);
+    var pop = k.pop;
+    var vesP = k.bc ? Math.round(k.ves/k.bc*100) : 0;
+    var iveP = 100 - vesP;
+
+    var modeBtns = modes.map(function(m){
+      return '<button data-am="'+m.key+'" aria-pressed="'+(state.ageMode===m.key)+'" title="'+m.sub+'">'+m.lab+'</button>';
+    }).join('');
+
+    var chartHtml = barChart(ageGroups(k.alder, state.ageMode), 'var(--aurora)');
+
+    // Pedagogisk tolkning
+    var aldringStatus = med < 38 ? 'ung profil' : med < 43 ? 'moderat alder' : 'aldrende';
+    var aldringFarge = med < 38 ? '#2E7D5B' : med < 43 ? 'var(--ink2)' : '#B23B3B';
+    var folketext = '<b>' + k.navn + '</b> har en <b style="color:' + aldringFarge + '">' + aldringStatus +
+      '</b> med medianalder <b>' + med + ' år</b>. ';
+    if(barn/pop > 0.22) folketext += 'Andelen barn under 18 er høyere enn typisk for landsdelen — kommunen har en bredere barnefase. ';
+    else if(barn/pop < 0.16) folketext += 'Andelen barn under 18 ligger lavere enn typisk for landsdelen. ';
+    if(eldre67/pop > 0.22) folketext += '<b>Mer enn 1 av 5</b> er over 67 år — aldringskostnaden er allerede høy. ';
+    else if(eldre67/pop > 0.18) folketext += 'Andelen over 67 år er moderat — innenfor det vi ser i mange distriktskommuner. ';
+    if(eldre80/pop > 0.07) folketext += 'Gruppen 80+ er stor (' + (eldre80/pop*100).toFixed(1) + ' %) — den raskest voksende kostnadskategorien for kommuner. ';
+    if(k.andel > 12) folketext += '<b>' + k.andel.toFixed(1) + ' % har innvandrerbakgrunn</b>, høyt for en distriktskommune. ';
+
+    var landsAll = k.land.filter(function(l){return l[1]>0;});
+    var shown = landsAll.slice(0, state.topN);
+    var originHTML = originCard(k, vesP, iveP, landsAll, shown);
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        // Modus-bryter + graf
+        '<div class="bf-modes" id="amModes">'+modeBtns+'</div>'+
+        '<div class="bf-graph">'+
+          '<p class="chart-title">Aldersstruktur 1.1.2026 · '+currentMode.lab+' — '+currentMode.sub+'</p>'+
+          chartHtml+
+        '</div>'+
+        // KPI-rad
+        '<div class="bf-kpis">'+
+          '<div class="k"><div class="v">'+med+'</div><div class="l">Medianalder</div><div class="h">år</div></div>'+
+          '<div class="k"><div class="v">'+(barn/pop*100).toFixed(0)+' %</div><div class="l">Barn 0–17 år</div><div class="h">'+fmt(barn)+' personer</div></div>'+
+          '<div class="k"><div class="v">'+(eldre67/pop*100).toFixed(0)+' %</div><div class="l">Eldre 67+</div><div class="h">'+fmt(eldre67)+' personer · '+fmt(eldre80)+' over 80</div></div>'+
+          '<div class="k"><div class="v">'+k.andel.toFixed(1)+' %</div><div class="l">Innvandrerbakgrunn</div><div class="h">'+vesP+' % vestlig · '+iveP+' % ikke-vestlig</div></div>'+
+        '</div>'+
+        // Folketekst (pedagogisk oppsummering)
+        '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+
+          '<div class="h-row"><h3>Hvem bor her — kortversjon</h3>'+
+          '<span class="tag" style="color:var(--aurora);background:rgba(24,117,103,0.15)">'+currentMode.lab+'-visning</span></div>'+
+          '<p>'+folketext+'</p>'+
+        '</div>'+
+      '</div>'+
+      // Landbakgrunn-kort (separat)
+      '<div style="margin-top:18px">' + originHTML + '</div>';
+
+    // Bind modus-knapper
+    host.querySelectorAll('#amModes button').forEach(function(b){
+      b.onclick = function(){ state.ageMode = this.dataset.am; renderSection('sammensetning'); };
     });
   }
 
