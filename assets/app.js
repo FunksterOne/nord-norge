@@ -39,7 +39,7 @@ const SGROUPS=[['tot','Hele befolkningen'],['abc','Befolkningen ekskl. innvandre
   ['zzz','Alle innvandrere'],['ddd','Innvandrere · vestlig'],['eee','Innvandrere · ikke-vestlig']];
 const AGES = DATA.age_labels; // 0..105+
 let state={fylke:'Alle',q:'',sort:'folketall',sel:K.slice().sort((a,b)=>b.pop-a.pop)[0].nr,
-  ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'kons', robekSort:'risk', robekFylke:'Alle', kView:'history'};
+  ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'sentral', showMVP:false, robekSort:'risk', robekFylke:'Alle', kView:'history'};
 // URL-param-overstyringer for flersides oppsett:
 //   kommune.html?k=1804&view=people  ·  fylke.html?f=Nordland  ·  sammenlign.html?k=1804,5401,1860
 (function applyUrlParams(){
@@ -286,14 +286,14 @@ function projChart(k,mode){
       svg+=`<path d="${d}" fill="none" stroke="var(--aurora-l)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;});
     let dm='';o.main.forEach((v,i)=>{dm+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
     svg+=`<path d="${dm}" fill="none" stroke="var(--aurora)" stroke-width="2.6" stroke-linejoin="round"/>`;
-    if(mw){
+    if(mw && state.showMVP){
       let dt='';mw.pop.forEach((v,i)=>{dt+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
       let arr=dm;for(let i=n-1;i>=0;i--){arr+=' L'+X(i).toFixed(1)+' '+Y(mw.pop[i]).toFixed(1);}
       svg+=`<path d="${arr}Z" fill="rgba(194,107,38,.09)" stroke="none"/>`;
       svg+=`<path d="${dt}" fill="none" stroke="var(--amber)" stroke-width="2.1" stroke-dasharray="6 3" stroke-linejoin="round"/>`;
       svg+=`<text x="${L+W+4}" y="${Y(mw.pop[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--amber)">${fmt(mw.pop[n-1])}</text>`;
     }
-    if(state.sens&&mw){
+    if(state.sens&&mw&&state.showMVP){
       let sb='';mw.s125.forEach((v,i)=>{sb+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
       for(let i=n-1;i>=0;i--){sb+=' L'+X(i).toFixed(1)+' '+Y(mw.s75[i]).toFixed(1);}
       svg+=`<path d="${sb}Z" fill="rgba(194,107,38,.13)" stroke="none"/>`;
@@ -320,7 +320,7 @@ function projChart(k,mode){
     svg+=`<text x="${L+W+4}" y="${Y(lh)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(lh)}</text>`;
     svg+=`<text x="${L+W+4}" y="${Y(ll)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(ll)}</text>`;
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(mw?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(us?'<span><i style="background:#B23B3B"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:rgba(24,117,103,.4)"></i>SSB lav\u2013h\u00f8y</span></div>';
+    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(mw&&state.showMVP?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(us?'<span><i style="background:#B23B3B"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:rgba(24,117,103,.4)"></i>SSB lav\u2013h\u00f8y</span></div>';
   } else if(mode==='dec'){
     const p0=(mw?mw.pop[0]:o.main[0]);
     const nat=mw?mw.nat[n-1]:0, mig=mw?mw.mig[n-1]:0;
@@ -2032,7 +2032,7 @@ function renderBurden(){
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
     const savedMode=state.projMode, savedMW=state.mw;
-    state.projMode='fb'; state.mw='kons';
+    state.projMode='fb'; state.mw='sentral';
     graphHost.innerHTML=projChart(agg,'fb');
     state.projMode=savedMode; state.mw=savedMW;
   }

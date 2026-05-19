@@ -61,6 +61,26 @@
 .bf-diagnose .tag{font-size:10.5px;font-weight:700;color:var(--amber);background:rgba(201,162,59,0.15);padding:3px 9px;border-radius:9px;text-transform:uppercase;letter-spacing:.04em}
 .bf-diagnose p{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink2)}
 .bf-diagnose p b{color:var(--ink)}
+
+/* TF-MVP utvidbar visning — flyttet vekk fra hovedfortelling (SSB MMMM + TF-ATTR) */
+.bf-mvp-details{border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden}
+.bf-mvp-details > summary{list-style:none;cursor:pointer;padding:14px 20px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;color:var(--ink2);font-size:13px;font-weight:600;user-select:none;transition:background .12s}
+.bf-mvp-details > summary::-webkit-details-marker{display:none}
+.bf-mvp-details > summary:hover{background:var(--paper)}
+.bf-mvp-details > summary .bf-mvp-arrow{display:inline-block;transition:transform .15s;font-size:11px;color:var(--ink3);font-weight:400}
+.bf-mvp-details[open] > summary .bf-mvp-arrow{transform:rotate(90deg)}
+.bf-mvp-details > summary .bf-mvp-hint{flex:1;font-size:11.5px;color:var(--ink3);font-weight:400;font-style:italic}
+.bf-mvp-details > .bf-mvp-body{padding:18px 22px 22px;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:14px}
+.mvp-win-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--paper);border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.mvp-win-tbl th{text-align:left;padding:8px 12px;font-weight:600;color:var(--ink3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2);background:var(--paper2)}
+.mvp-win-tbl th.r,.mvp-win-tbl td.r{text-align:right}
+.mvp-win-tbl td{padding:9px 12px;color:var(--ink2);border-bottom:1px solid var(--line2)}
+.mvp-win-tbl tr:last-child td{border-bottom:0}
+.mvp-win-tbl tr.ref td{color:var(--ink2);background:rgba(24,117,103,0.05);font-weight:500}
+.mvp-win-tbl tr.active td{background:rgba(194,107,38,0.10);color:var(--ink);font-weight:600}
+.mvp-win-tbl td.num{font-family:'Spline Sans Mono',monospace}
+.mvp-sanity{padding:11px 14px;background:rgba(194,107,38,0.10);border:1px solid rgba(194,107,38,0.30);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;font-size:12.5px;line-height:1.6;color:var(--ink)}
+.mvp-sanity b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -317,8 +337,11 @@ document.addEventListener('DOMContentLoaded', function(){
       {key:100, title:'Alle forlater',   sub:'Ytterpunkt — full retur av Ukraina-kohorten'}
     ];
     state.projMode = state.projMode || 'tot';
-    state.mw = state.mw || 'kons';
+    state.mw = state.mw || 'sentral';
     state.ukr = state.ukr != null ? state.ukr : 0;
+    state.showMVP = !!state.showMVP;
+    // Drivkrefter og Forsørgerbyrde er TF-MVP-basert per natur — auto-åpne TF-MVP-detaljene
+    if(state.projMode === 'drv' || state.projMode === 'fb') state.showMVP = true;
 
     var modeBtns = modes.map(function(m){
       return '<button data-bm="'+m.key+'" aria-pressed="'+(state.projMode===m.key)+'" title="'+m.sub+'">'+m.lab+'</button>';
@@ -342,28 +365,75 @@ document.addEventListener('DOMContentLoaded', function(){
       ? '<b>Grunnscenario:</b> ukrainere antas å bli værende — framskrivingen følger sin valgte flyttebane uten Ukraina-justering.'
       : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2025. Folketallet faller tilsvarende fra grunnscenarioet.';
 
-    // KPI-er fra valgt modus
+    // KPI-er — bruker SSB MMMM som hovedbane (TF-ATTR vises i tabellen under hvis tilgjengelig)
     var P = DATA.proj, o = P && P.kommuner[k.nr];
     var mw = (o && o.mw) ? o.mw[state.mw] : null;
     var yrs = P.years, n = yrs ? yrs.length : 0;
+    var sg = function(v, d){ return (v>=0?'+':'−') + Math.abs(v).toFixed(d||0); };
     var kpiHTML = '';
-    if(o && mw && n >= 2){
-      var pop0 = k.pop, pop1 = mw.pop[n-1];
-      var pp = pop0 ? (pop1/pop0 - 1)*100 : 0;
-      var a6 = mw.a65, a2 = mw.a2064;
+    if(o && n >= 2){
+      var pop0 = k.pop;
+      var ssb2050 = o.main[n-1];
+      var pp = pop0 ? (ssb2050/pop0 - 1)*100 : 0;
+      // Forsørgerbyrde fra SSB MMMM-bane (bruker o.a65 og o.a2064 hvis tilgjengelig — disse er SSB-tall)
+      var a6 = o.a65, a2 = o.a2064;
       var oad0 = a6 && a2 && a2[0] ? 100*a6[0]/a2[0] : null;
       var oad1 = a6 && a2 && a2[n-1] ? 100*a6[n-1]/a2[n-1] : null;
-      var a8 = mw.a80;
-      var g80 = a8 && a8[0] ? (a8[n-1]/a8[0] - 1)*100 : null;
-      var sg = function(v, d){ return (v>=0?'+':'−') + Math.abs(v).toFixed(d||0); };
       kpiHTML =
         '<div class="k"><div class="v">'+fmt(Math.round(pop0))+'</div><div class="l">Folketall i dag</div><div class="h">per 1.1.2026</div></div>'+
-        '<div class="k"><div class="v">'+fmt(Math.round(pop1))+'</div><div class="l">Folketall 2050</div><div class="h">'+currentMw.title.toLowerCase()+'-flyttebane</div></div>'+
-        '<div class="k"><div class="v '+(pp>=0?'up':'down')+'">'+sg(pp,1)+' %</div><div class="l">Endring 2026–2050</div><div class="h">over 24 år</div></div>'+
+        '<div class="k"><div class="v">'+fmt(Math.round(ssb2050))+'</div><div class="l">Folketall 2050</div><div class="h">SSB MMMM (offisiell bane)</div></div>'+
+        '<div class="k"><div class="v '+(pp>=0?'up':'down')+'">'+sg(pp,1)+' %</div><div class="l">Endring 2026–2050</div><div class="h">SSB MMMM, 24 år</div></div>'+
         (oad0!=null && oad1!=null
           ? '<div class="k"><div class="v">'+oad0.toFixed(0)+' → '+oad1.toFixed(0)+'</div><div class="l">Forsørgerbyrde</div><div class="h">65+ per 100 i 20–64</div></div>'
           : '<div class="k"><div class="v">—</div><div class="l">Forsørgerbyrde</div><div class="h">data utilgjengelig</div></div>'
         );
+    }
+
+    // 3-vindu-tabell + sanity-warning (vises inne i TF-MVP-details)
+    var mvpTblHTML = '';
+    var sanityHTML = '';
+    if(o && n >= 2){
+      var pop0a = k.pop;
+      var ssb2050a = o.main[n-1];
+      var tfattr2050 = o.tfattr ? o.tfattr[n-1] : null;
+      var allMw = o.mw || {};
+      var winLabels = {kons:'Smalt 2017–2021', sentral:'Bredt vindu', opt:'Vektet 2022–2023'};
+      var rows = '';
+      // SSB-rad (referanse)
+      rows += '<tr class="ref"><td>SSB MMMM <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(offisiell)</span></td><td class="r num">'+fmt(Math.round(ssb2050a))+'</td><td class="r num">'+sg((ssb2050a/pop0a-1)*100,1)+' %</td><td class="r" style="color:var(--ink3);font-size:10.5px">referanse</td></tr>';
+      // TF-ATTR-rad hvis tilgjengelig
+      if(tfattr2050){
+        var attrDiff = ((tfattr2050 - ssb2050a)/ssb2050a*100);
+        rows += '<tr class="ref"><td>TF-ATTR <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(strukturbasert)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
+      }
+      // TF-MVP per vindu
+      ['kons','sentral','opt'].forEach(function(w){
+        if(!allMw[w]) return;
+        var pop2050 = allMw[w].pop[n-1];
+        var diff = ((pop2050 - ssb2050a)/ssb2050a*100);
+        var pctChg = ((pop2050/pop0a - 1)*100);
+        var rowCls = (w === state.mw) ? ' class="active"' : '';
+        rows += '<tr'+rowCls+'><td>TF-MVP · '+winLabels[w]+'</td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % vs SSB</td></tr>';
+      });
+      mvpTblHTML =
+        '<div><div style="font-weight:600;color:var(--ink);font-size:13px;margin-bottom:6px">Hva sier de fire banene ved 2050?</div>'+
+        '<table class="mvp-win-tbl">'+
+          '<thead><tr><th>Bane</th><th class="r">2050</th><th class="r">Endring fra 2026</th><th class="r">Avvik vs SSB</th></tr></thead>'+
+          '<tbody>'+rows+'</tbody>'+
+        '</table></div>';
+      // Sanity-warning hvis aktivt vindu avviker ≥15 % fra SSB
+      if(mw){
+        var mvp2050 = mw.pop[n-1];
+        var ppDiff = ssb2050a ? ((mvp2050 - ssb2050a)/ssb2050a*100) : 0;
+        if(Math.abs(ppDiff) >= 15){
+          var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
+          sanityHTML = '<div class="mvp-sanity">'+
+            '<b>TF-MVP forlenger flyttenivåer fra «'+currentMw.title+»-perioden i 26 år.</b> '+
+            'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+ppDiff.toFixed(0)+' % '+dir+' enn SSB MMMM ved 2050. '+
+            (o.tfattr ? 'Bredere vindu eller <b>TF-ATTR</b> gir et mindre dramatisk anslag. TF-ATTR slo TF-MVP i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
+          '</div>';
+        }
+      }
     }
 
     var diagnoseHTML = '';
@@ -389,22 +459,42 @@ document.addEventListener('DOMContentLoaded', function(){
           chartSvg+
         '</div>'+
         '<div class="bf-kpis">'+kpiHTML+'</div>'+
-        '<div class="bf-controls">'+
-          '<h3>Skru på forutsetningene</h3>'+
-          '<p class="intro">Grafene over oppdateres umiddelbart. Endringene gjelder bare denne seksjonen.</p>'+
-          '<div class="bf-ctrl">'+
-            '<div class="bf-ctrl-head"><label>TF-flyttebanen</label><span class="tag">Hvor mye flytter folk?</span></div>'+
-            '<div class="bf-radio" id="bfMw">'+mwBtns+'</div>'+
-            '<p class="bf-explainer">'+mwExplainer+'</p>'+
+        // TF-MVP-alternativer i utvidbar visning. SSB MMMM + TF-ATTR er hovedfortellingen;
+        // TF-MVP-vinduene gir transparens om hvor mye historisk valg påvirker utfallet.
+        '<details class="bf-mvp-details" id="bfMvpDetails"'+(state.showMVP ? ' open' : '')+'>'+
+          '<summary>'+
+            '<span class="bf-mvp-arrow">▸</span> '+
+            '<span>Vis alternative flyttebaner — TF-MVP og scenarier</span>'+
+            '<span class="bf-mvp-hint">Historiske flyttesnitt projisert 26 år frem · justerbart</span>'+
+          '</summary>'+
+          '<div class="bf-mvp-body">'+
+            mvpTblHTML+
+            sanityHTML+
+            '<div class="bf-controls" style="background:transparent;padding:0;border:0">'+
+              '<div class="bf-ctrl">'+
+                '<div class="bf-ctrl-head"><label>Flyttevindu (TF-MVP)</label><span class="tag">Hvilken historisk periode?</span></div>'+
+                '<div class="bf-radio" id="bfMw">'+mwBtns+'</div>'+
+                '<p class="bf-explainer">'+mwExplainer+'</p>'+
+              '</div>'+
+              '<div class="bf-ctrl" style="margin-top:14px">'+
+                '<div class="bf-ctrl-head"><label>Ukraina-scenario</label><span class="tag">Hva med 2022–2025-kohorten?</span></div>'+
+                '<div class="bf-radio" id="bfUkr">'+ukrBtns+'</div>'+
+                '<p class="bf-explainer">'+ukrExplainer+'</p>'+
+              '</div>'+
+            '</div>'+
           '</div>'+
-          '<div class="bf-ctrl">'+
-            '<div class="bf-ctrl-head"><label>Ukraina-scenario</label><span class="tag">Hva med 2022–2025-kohorten?</span></div>'+
-            '<div class="bf-radio" id="bfUkr">'+ukrBtns+'</div>'+
-            '<p class="bf-explainer">'+ukrExplainer+'</p>'+
-          '</div>'+
-        '</div>'+
+        '</details>'+
         diagnoseHTML+
       '</div>';
+
+    // Wire opp TF-MVP-details: når åpnet/lukket, oppdater state og re-rendre chart-en
+    var mvpDet = host.querySelector('#bfMvpDetails');
+    if(mvpDet){
+      mvpDet.addEventListener('toggle', function(e){
+        state.showMVP = e.target.open;
+        renderSection('befolkning');
+      });
+    }
 
     // Wire opp modus-knappene — kun re-render Befolkning, ikke alle seksjoner
     host.querySelectorAll('#bfModes button').forEach(function(b){
