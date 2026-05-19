@@ -66,9 +66,6 @@
     <div class="landing-search">
       <select id="landFylke" aria-label="Velg fylke">
         <option value="">Eller hopp direkte til…</option>
-        <option value="Nordland">Nordland (40 kommuner)</option>
-        <option value="Troms">Troms (24 kommuner)</option>
-        <option value="Finnmark">Finnmark (18 kommuner)</option>
       </select>
     </div>
   </div>
@@ -111,9 +108,16 @@
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof K === 'undefined') return;
-  // Fylke-velger på landing
+  // Fylke-velger på landing — bygg opp dynamisk fra K så antall alltid stemmer med data
   var landFylke = document.getElementById('landFylke');
   if(landFylke){
+    var fcount = {Nordland:0, Troms:0, Finnmark:0};
+    K.forEach(function(x){ if(fcount[x.fylke]!==undefined) fcount[x.fylke]++; });
+    var fopts = '<option value="">Eller hopp direkte til…</option>';
+    ['Nordland','Troms','Finnmark'].forEach(function(f){
+      fopts += '<option value="' + f + '">' + f + ' (' + fcount[f] + ' kommuner)</option>';
+    });
+    landFylke.innerHTML = fopts;
     landFylke.onchange = function(){
       if(this.value) window.location.href = 'fylke.html?f=' + encodeURIComponent(this.value);
     };

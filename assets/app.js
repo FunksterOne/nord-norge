@@ -1549,12 +1549,15 @@ function renderBigPicture(){
     const fmt0=v=>v==null?'–':fmt(Math.round(v));
     const pctF=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0)+' %';
     let text='';
+    const _bparea_cap = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Nord-Norge';
     if(firstY&&lastY&&pastPct!=null){
-      text+='Nord-Norge hadde <b>'+fmt0(firstV)+'</b> innbyggere i '+firstY+' og <b>'+fmt0(lastV)+'</b> i '+lastY+' — '+pctF(pastPct)+' over 25 år. ';
+      text+=_bparea_cap+' hadde <b>'+fmt0(firstV)+'</b> innbyggere i '+firstY+' og <b>'+fmt0(lastV)+'</b> i '+lastY+' — '+pctF(pastPct)+' over 25 år. ';
     }
     if(projSSB) text+='SSBs offisielle bane peker mot <b>'+fmt0(projSSB)+'</b> i '+projYear+' ('+pctF(futurePct)+' fra i dag). ';
     if(projLo&&projHi&&projHi-projLo>500) text+='Avhengig av flytteforutsetning spriker banene fra <b>'+fmt0(projLo)+'</b> til <b>'+fmt0(projHi)+'</b>. ';
-    text+='<i>Bak landsdelens samlede linje ligger 80 kommuner med svært ulike skjebner.</i>';
+    const _bptot = (typeof currentK==='function') ? currentK().length : 80;
+    const _bparea = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'landsdelen';
+    text+='<i>Bak '+_bparea+'s samlede linje ligger '+_bptot+' kommuner med svært ulike skjebner.</i>';
     const nums=[];
     if(pastPct!=null) nums.push({nv:pctF(pastPct),cls:pastPct>=0?'up':'down',nl:'25 år bak oss',nh:firstY+' → '+lastY});
     nums.push({nv:fmt0(agg.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
@@ -1958,13 +1961,20 @@ function renderEconomy(){
   const num=v=>v==null?null:+v;
   const ndr=num(B.ndr), fond=num(B.fond), gj=num(B.gjeld), yr=B.yr||'';
   const RB=P&&P.robek; let inR=0, pend=0;
-  if(RB&&RB.kommuner){ inR=Object.keys(RB.kommuner).length; pend=Object.keys(RB.pending||{}).length; }
+  // Filtrer ROBEK-status til valgt scope (fylke eller landsdel)
+  const scopeK = currentK();
+  const scopeTot = scopeK.length;
+  const scopeOmrade = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Nord-Norge';
+  if(RB&&RB.kommuner){
+    inR = scopeK.filter(x => RB.kommuner[x.nr]).length;
+    pend = scopeK.filter(x => (RB.pending||{})[x.nr]).length;
+  }
   const tldrHost=document.getElementById('econTldr');
   if(tldrHost){
-    let text='Landsdelens median<b> netto driftsresultat</b> er '+(ndr==null?'–':(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %')+' av brutto driftsinntekter ('+yr+'). ';
+    let text='Median<b> netto driftsresultat</b> er '+(ndr==null?'–':(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %')+' av brutto driftsinntekter ('+yr+'). ';
     text+='<b>Disposisjonsfondet</b> ligger på '+(fond==null?'–':fond.toFixed(1)+' %')+'. ';
     text+='<b>Netto lånegjeld</b> '+(gj==null?'–':gj.toFixed(0)+' %')+'. ';
-    text+='Av 80 kommuner er <b>'+inR+'</b> registrert i ROBEK i dag, og <b>'+pend+'</b> over grensen under behandling. ';
+    text+='Av '+scopeTot+' kommuner i '+scopeOmrade+' er <b>'+inR+'</b> registrert i ROBEK i dag, og <b>'+pend+'</b> over grensen under behandling. ';
     text+='<i>Disse tre tallene — resultat, buffer, gjeld — bestemmer hvor mye handlingsrom kommunene har når aldringskostnaden kommer.</i>';
     tldrHost.className='tldr t-burden';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 3 · Kan vi bære det? · Økonomien i dag</div>'+
@@ -1973,7 +1983,7 @@ function renderEconomy(){
       '<div class="tldr-nums">'+
         (ndr!=null?'<div class="tldr-num"><div class="nv '+(ndr<0?'down':ndr<1.75?'warn':'up')+'">'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %</div><div class="nl">Netto driftsresultat</div><div class="nh">TBU-norm +1,75</div></div>':'')+
         (fond!=null?'<div class="tldr-num"><div class="nv '+(fond<3?'down':fond<5?'warn':'up')+'">'+fond.toFixed(1)+' %</div><div class="nl">Disposisjonsfond</div><div class="nh">av driftsinntekter</div></div>':'')+
-        '<div class="tldr-num"><div class="nv down">'+inR+'</div><div class="nl">I ROBEK</div><div class="nh">av 80 kommuner</div></div>'+
+        '<div class="tldr-num"><div class="nv down">'+inR+'</div><div class="nl">I ROBEK</div><div class="nh">av '+scopeTot+' kommuner</div></div>'+
         (pend>0?'<div class="tldr-num"><div class="nv warn">'+pend+'</div><div class="nl">Over grensen</div><div class="nh">under behandling</div></div>':'')+
       '</div>';
   }
