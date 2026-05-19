@@ -220,29 +220,63 @@ footer a{color:var(--aurora);text-decoration:none}
 .journey button .jt{font-size:13px;font-weight:600;line-height:1.25}
 @media(max-width:720px){.journey button{min-width:calc(50% - 5px)}}
 
-/* Akt-gruppering i journey-strip */
-.journey-acts{flex-direction:column;gap:4px;padding:10px}
-.journey-acts .act-group{display:grid;grid-template-columns:130px 1fr 1fr;gap:6px;align-items:stretch}
-.journey-acts .act-group[data-act="2"]{grid-template-columns:130px 1fr 1fr 1fr}
-.journey-acts .act-group[data-act="end"]{grid-template-columns:130px 1fr}
-.journey-acts .act-label{display:flex;flex-direction:column;justify-content:center;padding:6px 10px;
-  border-right:1px solid var(--line)}
-.journey-acts .act-label .act-num{font-family:'Spline Sans Mono',monospace;font-size:10px;
-  font-weight:700;color:var(--ink3);letter-spacing:.18em}
-.journey-acts .act-label .act-name{font-family:'Fraunces',serif;font-size:14px;font-weight:600;
-  color:var(--ink);line-height:1.15;margin-top:2px}
-.journey-acts .act-group[data-act="1"] .act-label{border-left:3px solid var(--aurora);background:rgba(24,117,103,.04)}
-.journey-acts .act-group[data-act="2"] .act-label{border-left:3px solid var(--nl);background:rgba(28,111,168,.04)}
-.journey-acts .act-group[data-act="3"] .act-label{border-left:3px solid var(--amber);background:rgba(194,107,38,.04)}
-.journey-acts .act-group[data-act="end"] .act-label{border-left:3px solid var(--ink);background:rgba(17,32,58,.04)}
-.journey-acts .act-group[data-act="1"] button[aria-current=true]{border-left-color:var(--aurora)}
-.journey-acts .act-group[data-act="2"] button[aria-current=true]{border-left-color:var(--nl)}
-.journey-acts .act-group[data-act="3"] button[aria-current=true]{border-left-color:var(--amber)}
-.journey-acts .act-group[data-act="end"] button[aria-current=true]{border-left-color:var(--ink)}
-@media(max-width:760px){
-  .journey-acts .act-group{grid-template-columns:1fr 1fr;gap:6px}
+/* Akt-gruppering i journey-strip — pedagogiske kort */
+.journey-acts{flex-direction:column;gap:14px;padding:14px;background:transparent;border:none;box-shadow:none}
+.journey-acts .act-group{display:grid;grid-template-columns:170px 1fr 1fr;gap:10px;align-items:stretch}
+.journey-acts .act-group[data-act="2"]{grid-template-columns:170px 1fr 1fr 1fr}
+.journey-acts .act-group[data-act="end"]{grid-template-columns:170px 1fr}
+.journey-acts .act-label{display:flex;flex-direction:column;justify-content:center;padding:14px 16px;
+  border-radius:12px;border:1px solid var(--line)}
+.journey-acts .act-label .act-num{font-family:'Spline Sans Mono',monospace;font-size:10.5px;
+  font-weight:700;color:var(--ink3);letter-spacing:.2em;text-transform:uppercase}
+.journey-acts .act-label .act-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;
+  color:var(--ink);line-height:1.15;margin-top:4px;letter-spacing:-.005em}
+.journey-acts .act-label .act-tag{font-size:11.5px;color:var(--ink2);margin-top:6px;font-style:italic;line-height:1.3}
+.journey-acts .act-group[data-act="1"] .act-label{border-left:4px solid var(--aurora);background:linear-gradient(135deg,rgba(24,117,103,.08),rgba(24,117,103,.02))}
+.journey-acts .act-group[data-act="2"] .act-label{border-left:4px solid var(--nl);background:linear-gradient(135deg,rgba(28,111,168,.08),rgba(28,111,168,.02))}
+.journey-acts .act-group[data-act="3"] .act-label{border-left:4px solid var(--amber);background:linear-gradient(135deg,rgba(194,107,38,.08),rgba(194,107,38,.02))}
+.journey-acts .act-group[data-act="end"] .act-label{border-left:4px solid var(--ink);background:linear-gradient(135deg,rgba(17,32,58,.06),rgba(17,32,58,.02))}
+.journey-acts .act-group[data-act="1"] .act-label .act-num{color:var(--aurora)}
+.journey-acts .act-group[data-act="2"] .act-label .act-num{color:var(--nl)}
+.journey-acts .act-group[data-act="3"] .act-label .act-num{color:var(--amber)}
+
+/* Kapittel-kort */
+.journey-acts button{flex-direction:column;align-items:stretch;gap:6px;
+  background:var(--paper2);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;cursor:pointer;transition:transform .14s,border-color .14s,box-shadow .14s;
+  position:relative;overflow:hidden;text-align:left;color:var(--ink2);min-width:0}
+.journey-acts button:hover{transform:translateY(-1px);background:#fff;
+  box-shadow:0 6px 18px -8px rgba(17,32,58,.18)}
+.journey-acts button .jn{font-family:'Spline Sans Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:.14em;opacity:.7}
+.journey-acts button .jt{font-family:'Fraunces',serif;font-size:16px;font-weight:600;
+  color:var(--ink);line-height:1.2;letter-spacing:-.005em;margin-top:1px}
+.journey-acts button .jq{font-size:12px;color:var(--ink3);line-height:1.45;margin-top:4px;
+  font-style:italic}
+.journey-acts button[aria-current=true]{background:#fff;border-width:1px;
+  box-shadow:0 1px 2px rgba(17,32,58,.05),0 10px 28px -14px rgba(17,32,58,.3)}
+.journey-acts button[aria-current=true] .jt{color:var(--ink)}
+.journey-acts button[aria-current=true] .jq{color:var(--ink2)}
+.journey-acts button[aria-current=true]::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.journey-acts .act-group[data-act="1"] button[aria-current=true]{border-color:var(--aurora)}
+.journey-acts .act-group[data-act="1"] button[aria-current=true]::before{background:var(--aurora)}
+.journey-acts .act-group[data-act="1"] button[aria-current=true] .jn{color:var(--aurora);opacity:1}
+.journey-acts .act-group[data-act="2"] button[aria-current=true]{border-color:var(--nl)}
+.journey-acts .act-group[data-act="2"] button[aria-current=true]::before{background:var(--nl)}
+.journey-acts .act-group[data-act="2"] button[aria-current=true] .jn{color:var(--nl);opacity:1}
+.journey-acts .act-group[data-act="3"] button[aria-current=true]{border-color:var(--amber)}
+.journey-acts .act-group[data-act="3"] button[aria-current=true]::before{background:var(--amber)}
+.journey-acts .act-group[data-act="3"] button[aria-current=true] .jn{color:var(--amber);opacity:1}
+.journey-acts .act-group[data-act="end"] button[aria-current=true]{border-color:var(--ink)}
+.journey-acts .act-group[data-act="end"] button[aria-current=true]::before{background:var(--ink)}
+.journey-acts .act-group[data-act="end"] button[aria-current=true] .jn{color:var(--ink);opacity:1}
+
+@media(max-width:880px){
+  .journey-acts .act-group{grid-template-columns:1fr;gap:6px}
   .journey-acts .act-group[data-act="end"]{grid-template-columns:1fr}
-  .journey-acts .act-label{grid-column:1/-1;border-right:none;border-bottom:1px solid var(--line);padding-bottom:4px}
+  .journey-acts .act-label{padding:10px 14px}
+  .journey-acts .act-label .act-name{font-size:16px}
+  .journey-acts button .jq{font-size:11.5px}
 }
 
 /* step card */
@@ -600,24 +634,72 @@ footer a{color:var(--aurora);text-decoration:none}
 
 <nav class="journey journey-acts" id="journey" role="tablist" aria-label="Reisen gjennom dashboardet">
   <div class="act-group" data-act="1">
-    <div class="act-label"><span class="act-num">AKT 1</span><span class="act-name">Hva skjer</span></div>
-    <button role="tab" data-tab="intro" aria-current="true"><span class="jn">1.1</span><span class="jt">Det store bildet</span></button>
-    <button role="tab" data-tab="explore" aria-current="false"><span class="jn">1.2</span><span class="jt">Utforsk kommuner</span></button>
+    <div class="act-label">
+      <span class="act-num">AKT 1</span>
+      <span class="act-name">Hva skjer</span>
+      <span class="act-tag">Befolkningen i bevegelse</span>
+    </div>
+    <button role="tab" data-tab="intro" aria-current="true">
+      <span class="jn">1.1</span>
+      <span class="jt">Det store bildet</span>
+      <span class="jq">Hvor mange blir vi i Nord-Norge mot 2050, og hvilke krefter driver det?</span>
+    </button>
+    <button role="tab" data-tab="explore" aria-current="false">
+      <span class="jn">1.2</span>
+      <span class="jt">Utforsk kommuner</span>
+      <span class="jq">Bak landsdelens linje ligger 80 ulike skjebner — utforsk hver enkelt.</span>
+    </button>
   </div>
   <div class="act-group" data-act="2">
-    <div class="act-label"><span class="act-num">AKT 2</span><span class="act-name">Hvem blir igjen</span></div>
-    <button role="tab" data-tab="model" aria-current="false"><span class="jn">2.1</span><span class="jt">Befolkningssammensetningen</span></button>
-    <button role="tab" data-tab="nat" aria-current="false"><span class="jn">2.2</span><span class="jt">Forsørgerbyrden</span></button>
-    <button role="tab" data-tab="levekar" aria-current="false"><span class="jn">2.3</span><span class="jt">Levekår og inntekt</span></button>
+    <div class="act-label">
+      <span class="act-num">AKT 2</span>
+      <span class="act-name">Hvem blir igjen</span>
+      <span class="act-tag">Folk, jobb og levekår</span>
+    </div>
+    <button role="tab" data-tab="model" aria-current="false">
+      <span class="jn">2.1</span>
+      <span class="jt">Befolkningssammensetningen</span>
+      <span class="jq">Hvem bor her — alder, opprinnelse, og hvor lenge blir flyktningene?</span>
+    </button>
+    <button role="tab" data-tab="nat" aria-current="false">
+      <span class="jn">2.2</span>
+      <span class="jt">Forsørgerbyrden</span>
+      <span class="jq">Hvor tungt blir aldringen å bære for de som er igjen i arbeid?</span>
+    </button>
+    <button role="tab" data-tab="levekar" aria-current="false">
+      <span class="jn">2.3</span>
+      <span class="jt">Levekår og inntekt</span>
+      <span class="jq">Hva tjener folk, hvordan bor de — og hvor kommer pengene fra?</span>
+    </button>
   </div>
   <div class="act-group" data-act="3">
-    <div class="act-label"><span class="act-num">AKT 3</span><span class="act-name">Kan vi bære det?</span></div>
-    <button role="tab" data-tab="refugees" aria-current="false"><span class="jn">3.1</span><span class="jt">Økonomien i dag</span></button>
-    <button role="tab" data-tab="robek" aria-current="false"><span class="jn">3.2</span><span class="jt">Bærekraft 2050</span></button>
+    <div class="act-label">
+      <span class="act-num">AKT 3</span>
+      <span class="act-name">Kan vi bære det?</span>
+      <span class="act-tag">Økonomien som test</span>
+    </div>
+    <button role="tab" data-tab="refugees" aria-current="false">
+      <span class="jn">3.1</span>
+      <span class="jt">Økonomien i dag</span>
+      <span class="jq">Hvor solid står kommuneøkonomien — og hva betyr renta?</span>
+    </button>
+    <button role="tab" data-tab="robek" aria-current="false">
+      <span class="jn">3.2</span>
+      <span class="jt">Bærekraft 2050</span>
+      <span class="jq">Hvilke kommuner kan stå på egne ben — uten å lene seg på staten?</span>
+    </button>
   </div>
   <div class="act-group" data-act="end">
-    <div class="act-label"><span class="act-num">SLUTT</span><span class="act-name">&nbsp;</span></div>
-    <button role="tab" data-tab="summary" aria-current="false"><span class="jn">📍</span><span class="jt">Det du nå vet</span></button>
+    <div class="act-label">
+      <span class="act-num">SLUTT</span>
+      <span class="act-name">Konklusjon</span>
+      <span class="act-tag">Det du nå vet</span>
+    </div>
+    <button role="tab" data-tab="summary" aria-current="false">
+      <span class="jn">📍</span>
+      <span class="jt">Sammendrag</span>
+      <span class="jq">Fem innsikter fra reisen, hver med lenke tilbake til kapittelet.</span>
+    </button>
   </div>
 </nav>
 
