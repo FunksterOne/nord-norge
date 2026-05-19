@@ -1,0 +1,2572 @@
+/* Nord-Norge dashboard — applikasjons-JS (ekstrakt fra index.html) */
+
+
+/* === methodBadge() — kobler hver figur til en kilde og forklarer metoden ====
+   Brukes som <inline-element> i kort-overskrifter eller hint-bokser:
+   methodBadge('SSB_MONITOR') → <span class="methodbadge">…</span>
+   Hover/klikk gir tooltip med metric_type, ekskluderinger, geografi. */
+function methodBadge(sourceId){
+  const s=SOURCES[sourceId];
+  if(!s) return '';
+  const metric = ({
+    kohort_retensjon:'Kohort-retensjon',
+    stock_snapshot:'Stock-snapshot',
+    akkumulert_nettoflytting:'Akkumulert nettoflytting',
+    raadata:'Rådata'
+  })[s.metric_type]||s.metric_type;
+  const flags=[];
+  flags.push(s.excludes_emigration?'ekskl. utvandring':'inkl. utvandring');
+  if(s.ukraine_included===false) flags.push('ekskl. Ukraina');
+  flags.push('per '+s.geo_level);
+  const tip = (s.short?s.short+' ':'') + (s.caveat||'');
+  return '<span class="methodbadge" data-src="'+sourceId+'" tabindex="0" title="'+tip.replace(/"/g,'&quot;')+'">'+
+    '<span class="mb-tag">'+metric+'</span>'+
+    '<span class="mb-pub">'+s.publisher+'</span>'+
+    '<span class="mb-flags">'+flags.join(' · ')+'</span>'+
+  '</span>';
+}
+const K = Object.entries(DATA.kommuner).map(([nr,o])=>{
+  const a = DATA.innv[nr]||{bc:0,ves:0,ive:0,innv:0,norskf:0,land:[]};
+  const sy = (DATA.syss&&DATA.syss[nr])||null;
+  const pop = o.alder.reduce((s,x)=>s+x,0);
+  return {nr:+nr,navn:o.navn,fylke:o.fylke,alder:o.alder,pop,
+    bc:a.bc,ves:a.ves,ive:a.ive,innv:a.innv,norskf:a.norskf,land:a.land,syss:sy,
+    hist:o.hist||null,
+    andel: pop? a.bc/pop*100 : 0};
+});
+const SM = DATA.syss_meta||{grupper:{}};
+const SGROUPS=[['tot','Hele befolkningen'],['abc','Befolkningen ekskl. innvandrere'],
+  ['zzz','Alle innvandrere'],['ddd','Innvandrere · vestlig'],['eee','Innvandrere · ikke-vestlig']];
+const AGES = DATA.age_labels; // 0..105+
+let state={fylke:'Alle',q:'',sort:'folketall',sel:K.slice().sort((a,b)=>b.pop-a.pop)[0].nr,
+  ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'kons', robekSort:'risk', robekFylke:'Alle', kView:'history'};
+const FYNR={Alle:-1,Nordland:-18,Troms:-55,Finnmark:-56};
+const AGG={};
+(function buildAggregates(){
+  if(!DATA.proj||!DATA.proj.kommuner) return;
+  const GR=['tot','abc','zzz','ddd','eee'];
+  const PA=['main','low','high','a019','a2064','a65','tfattr','tfattr_a019','tfattr_a2064','tfattr_a65','ukra50','ukra75','ukra100'];
+  const MWF=['pop','nat','mig','a019','a2064','a65','a80','a15','a615','a67','u50','u75','u100','s75','s125'], WINS=['kons','sentral','opt'];
+  function build(list,nr,navn,fy){
+    const n106=new Array(106).fill(0);
+    let bc=0,ves=0,ive=0,innv=0,norskf=0,pop=0; const lm={}; const histAgg={};
+    list.forEach(k=>{ pop+=k.pop; bc+=k.bc||0; ves+=k.ves||0; ive+=k.ive||0; innv+=k.innv||0; norskf+=k.norskf||0;
+      for(let i=0;i<106;i++) n106[i]+=(k.alder[i]||0);
+      (k.land||[]).forEach(p=>{lm[p[0]]=(lm[p[0]]||0)+p[1];});
+      if(k.hist){ Object.keys(k.hist).forEach(y=>{histAgg[y]=(histAgg[y]||0)+k.hist[y];}); } });
+    const land=Object.keys(lm).map(nm=>[nm,lm[nm]]).sort((a,b)=>b[1]-a[1]);
+    function aggSyss(){
+      const out={rate:{},rateM:{},rateK:{},cnt:{}};
+      GR.forEach(g=>{ let sumC=0,hasC=false,sumBase=0,nM=0,dM=0,nK=0,dK=0;
+        list.forEach(k=>{ const s=k.syss; if(!s) return;
+          const r=s.rate?s.rate[g]:null, c=s.cnt?s.cnt[g]:null;
+          if(c!=null){sumC+=c;hasC=true;}
+          if(r!=null&&c!=null&&r>0){ const base=c/(r/100); sumBase+=base;
+            if(s.rateM&&s.rateM[g]!=null){nM+=s.rateM[g]*base;dM+=base;}
+            if(s.rateK&&s.rateK[g]!=null){nK+=s.rateK[g]*base;dK+=base;} } });
+        out.cnt[g]=hasC?Math.round(sumC):null;
+        out.rate[g]=sumBase>0?+(100*sumC/sumBase).toFixed(1):null;
+        out.rateM[g]=dM>0?+(nM/dM).toFixed(1):null;
+        out.rateK[g]=dK>0?+(nK/dK).toFixed(1):null; });
+      return out;
+    }
+    const anyP=list.find(k=>DATA.proj.kommuner[k.nr]);
+    if(anyP){ const ref=DATA.proj.kommuner[anyP.nr], yl=(ref.main||[]).length, ap={};
+      PA.forEach(f=>{ap[f]=new Array(yl).fill(0);}); let ukr=0;
+      list.forEach(k=>{ const o=DATA.proj.kommuner[k.nr]; if(!o) return;
+        PA.forEach(f=>{ const arr=o[f]; if(arr) for(let i=0;i<yl;i++) ap[f][i]+=(arr[i]||0); });
+        ukr+=(o.ukr||0); });
+      ap.mw={}; WINS.forEach(w=>{ ap.mw[w]={}; MWF.forEach(f=>ap.mw[w][f]=new Array(yl).fill(0)); });
+      list.forEach(k=>{ const o=DATA.proj.kommuner[k.nr]; if(!o||!o.mw) return;
+        WINS.forEach(w=>{ const ow=o.mw[w]; if(!ow) return;
+          MWF.forEach(f=>{ const arr=ow[f]; if(arr) for(let i=0;i<yl;i++) ap.mw[w][f][i]+=(arr[i]||0); }); }); });
+      ap.ukr=Math.round(ukr); ap.tfmvp_flag=false;
+      DATA.proj.kommuner[String(nr)]=ap; }
+    return {nr:nr,navn:navn,fylke:fy,isAgg:true,naggk:list.length,
+      alder:n106,pop:pop,bc:bc,ves:ves,ive:ive,innv:innv,norskf:norskf,
+      land:land,syss:aggSyss(),andel:pop?bc/pop*100:0,
+      hist:Object.keys(histAgg).length?histAgg:null};
+  }
+  AGG[-18]=build(K.filter(k=>k.fylke==='Nordland'),-18,'Nordland \u2014 hele fylket','Nordland');
+  AGG[-55]=build(K.filter(k=>k.fylke==='Troms'),-55,'Troms \u2014 hele fylket','Troms');
+  AGG[-56]=build(K.filter(k=>k.fylke==='Finnmark'),-56,'Finnmark \u2014 hele fylket','Finnmark');
+  AGG[-1]=build(K.slice(),-1,'Nord-Norge \u2014 hele landsdelen','Alle');
+})();
+function resolveSel(){ return K.find(x=>x.nr===state.sel) || AGG[state.sel] || null; }
+function MW(o){ return (o&&o.mw)?o.mw[state.mw]:null; }
+function LMW(){ const L=DATA.proj&&DATA.proj.landsdel; return (L&&L.mw)?L.mw[state.mw]:{}; }
+
+const elList=document.getElementById('klist'), elDet=document.getElementById('detail');
+
+function filtered(){
+  const q=(state.q||'').toLowerCase().trim();
+  const KW={'robek':k=>kommuneStatus(k).robek!=='ok',
+            'vekst':k=>kommuneStatus(k).growth==='up',
+            'krymper':k=>kommuneStatus(k).growth==='down',
+            'krymp':k=>kommuneStatus(k).growth==='down',
+            'stabil':k=>kommuneStatus(k).growth==='flat',
+            'aldring':k=>kommuneStatus(k).aging==='old',
+            'aldrende':k=>kommuneStatus(k).aging==='old',
+            'ung':k=>kommuneStatus(k).aging==='young'};
+  const kwTest = KW[q];
+  let r=K.filter(k=>(state.fylke==='Alle'||k.fylke===state.fylke)&&
+    (kwTest? kwTest(k) : k.navn.toLowerCase().includes(q)));
+  const s=state.sort;
+  r.sort((a,b)=> s==='navn'? a.navn.localeCompare(b.navn,'nb')
+              : s==='andel'? b.andel-a.andel
+              : s==='syss'? ((b.syss&&b.syss.rate.zzz)||-1)-((a.syss&&a.syss.rate.zzz)||-1)
+              : b.pop-a.pop);
+  return r;
+}
+function renderList(){
+  const r=filtered();
+  document.getElementById('cnt').textContent=r.length+' kommuner';
+  elList.innerHTML=r.map(k=>{
+    const s=kommuneStatus(k);
+    const grTitle=s.growth==='up'?'Vekst mot 2050':s.growth==='down'?'Krymper mot 2050':'Stabil mot 2050';
+    const grDot='<span class="kstat-dot s-'+s.growth+'" title="'+grTitle+'"></span>';
+    const rbDot=s.robek==='in'?'<span class="kstat-dot s-robek" title="I ROBEK"></span>':s.robek==='pending'?'<span class="kstat-dot s-robek-pend" title="ROBEK under behandling"></span>':'';
+    const sel = k.nr===state.sel;
+    return '<div class="kchip" role="option" tabindex="0" aria-selected="'+sel+'" data-nr="'+k.nr+'" title="'+k.navn+' · '+k.fylke+' · '+fmt(k.pop)+' innb.">'+
+      '<div class="kchip-head">'+
+        '<span class="fdot" style="background:'+FY[k.fylke]+'"></span>'+
+        '<span class="knm">'+k.navn+'</span>'+
+      '</div>'+
+      '<div class="kchip-bot">'+
+        '<span class="kpop">'+fmt(k.pop)+'</span>'+
+        '<div class="kchip-stats">'+grDot+rbDot+'</div>'+
+        '<button class="cmpadd '+(state.compare.includes(k.nr)?'on':'')+'" data-cmp="'+k.nr+'" title="Legg til i sammenligning">'+(state.compare.includes(k.nr)?'✓':'+')+'</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  // Scroll til valgt kommune
+  setTimeout(()=>{
+    const selEl = elList.querySelector('[aria-selected=true]');
+    if(selEl) selEl.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+  }, 50);
+  // Wire strip-arrows
+  document.querySelectorAll('[data-knav="stripPrev"],[data-knav="stripNext"]').forEach(b=>{
+    b.onclick=()=>{
+      const dir = b.dataset.knav==='stripNext'?1:-1;
+      elList.scrollBy({left:dir*400, behavior:'smooth'});
+    };
+  });
+}
+function ageGroups(arr,mode){
+  if(mode==='1') return AGES.map((l,i)=>({l:l.replace(' år',''),v:arr[i]}));
+  if(mode==='5'){const g=[];for(let s=0;s<105;s+=5){const e=Math.min(s+4,105);
+    g.push({l:`${s}–${e===105?'105+':e}`,v:arr.slice(s,Math.min(s+5,106)).reduce((a,b)=>a+b,0)});}return g;}
+  // livsfaser
+  const cut=[[0,5,'Barn 0–5'],[6,12,'Barn 6–12'],[13,17,'Ungdom 13–17'],[18,29,'Unge voksne 18–29'],
+    [30,44,'Voksne 30–44'],[45,66,'Voksne 45–66'],[67,79,'Eldre 67–79'],[80,105,'Eldre 80+']];
+  return cut.map(([s,e,l])=>({l,v:arr.slice(s,e+1).reduce((a,b)=>a+b,0)}));
+}
+function medianAge(arr){let t=arr.reduce((a,b)=>a+b,0),c=0;for(let i=0;i<arr.length;i++){c+=arr[i];if(c>=t/2)return i;}return 0;}
+function barChart(rows,color,unit){
+  const max=Math.max(...rows.map(r=>r.v),1), n=rows.length, rh=Math.max(20,Math.min(34,420/n));
+  const h=n*rh+10, lw=110, vw=58, bw=`calc(100% - ${lw+vw}px)`;
+  let s=`<svg class="chart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
+  rows.forEach((r,i)=>{const y=i*rh, w=(700-lw-vw)*r.v/max;
+    s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
+    s+=`<rect x="${lw}" y="${y+4}" width="${700-lw-vw}" height="${rh-8}" rx="4" fill="rgba(17,32,58,.05)"/>`;
+    s+=`<rect class="bar-rect" x="${lw}" y="${y+4}" width="${w}" height="${rh-8}" rx="4" fill="${color}"/>`;
+    s+=`<text class="val" x="700" y="${y+rh/2+4}" text-anchor="end">${fmt(r.v)}</text>`;});
+  return s+'</svg>';
+}
+function rateBars(rows){ // rows:[{l,v(0-100 or null),c}]
+  const n=rows.length, rh=34, h=n*rh+22, lw=210, pad=44;
+  let s=`<svg class="chart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
+  [0,25,50,75,100].forEach(t=>{const x=lw+(700-lw-pad)*t/100;
+    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${n*rh}" stroke="rgba(17,32,58,.08)"/>`;
+    s+=`<text class="axis" x="${x}" y="${n*rh+15}" text-anchor="middle">${t}%</text>`;});
+  rows.forEach((r,i)=>{const y=i*rh;
+    s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
+    s+=`<rect x="${lw}" y="${y+5}" width="${700-lw-pad}" height="${rh-12}" rx="4" fill="rgba(17,32,58,.05)"/>`;
+    if(r.v==null){ s+=`<text class="val" x="${lw+8}" y="${y+rh/2+4}" fill="var(--ink3)">undertrykt</text>`; }
+    else{ const w=(700-lw-pad)*r.v/100;
+      s+=`<rect class="bar-rect" x="${lw}" y="${y+5}" width="${w}" height="${rh-12}" rx="4" fill="${r.c||'var(--syss)'}"/>`;
+      s+=`<text class="val" x="${lw+w+6}" y="${y+rh/2+4}">${r.v.toFixed(1)}%</text>`; }
+  });
+  return s+'</svg>';
+}
+function sysCard(sj){
+  const obj=sj[state.sysSex]||{};
+  const colors={tot:'var(--ink)',abc:'var(--nl)',zzz:'var(--syss)',ddd:'var(--tr)',eee:'var(--amber)'};
+  const rows=SGROUPS.map(p=>{const v=obj[p[0]];return {l:p[1],v:(v==null?null:v),c:colors[p[0]]};});
+  const R=sj.rate; let foot;
+  if(R.zzz!=null && R.tot!=null){
+    foot='Innvandrere ligger <b>'+(R.tot-R.zzz).toFixed(1)+' prosentpoeng</b> under hele befolkningen her';
+    if(R.ddd!=null && R.eee!=null)
+      foot+=', og forskjellen vestlig ('+R.ddd.toFixed(1)+'%) vs. ikke-vestlig ('+R.eee.toFixed(1)+'%) er '+(R.ddd-R.eee).toFixed(1)+' p.e.';
+    foot+='.';
+  } else { foot='Antall sysselsatte innvandrere: '+(sj.cnt&&sj.cnt.zzz!=null?fmt(sj.cnt.zzz):'\u2013')+'.'; }
+  const sel=x=>state.sysSex===x?'true':'false';
+  return '<div class="card"><div class="ch"><h3 class="serif">Sysselsetting</h3>'+
+    '<div class="minseg" id="sxs">'+
+    '<button data-x="rate" aria-selected="'+sel('rate')+'">Begge</button>'+
+    '<button data-x="rateM" aria-selected="'+sel('rateM')+'">Menn</button>'+
+    '<button data-x="rateK" aria-selected="'+sel('rateK')+'">Kvinner</button></div></div>'+
+    '<p class="hint">Andel sysselsatte, 20\u201366 \u00e5r (tabell 11607, 4. kv. 2025). Egen kilde og \u00e5rgang \u2014 sammenlign med folketallene over med varsomhet.</p>'+
+    rateBars(rows)+'<p class="hint" style="margin:14px 0 0">'+foot+'</p></div>';
+}
+function projChart(k,mode){
+  const P=DATA.proj; const nr=k.nr; const o=P&&P.kommuner[nr]; if(!o) return '';
+  const mw=MW(o);
+  const yrs=P.years, n=yrs.length;
+  const L=52,R=66,Tp=14,B=30,W=760-L-R,H=300-Tp-B;
+  const X=i=>L+(n<2?0:i/(n-1)*W);
+  let lo,hi,svg='';
+  if(mode==='tot'){
+    lo=Infinity;hi=-Infinity;
+    const us=state.ukr?((state.ukrbase==='attr')?(o['ukra'+state.ukr]||null):((mw&&mw['u'+state.ukr])||null)):null;
+    const hist=k.hist||{}; const histYears=Object.keys(hist).map(Number).sort((a,b)=>a-b); const histVals=histYears.map(y=>hist[y]);
+    o.low.concat(o.high,(mw?mw.pop:[]),o.tfattr||[],us||[],(state.sens&&mw?mw.s75:[]),(state.sens&&mw?mw.s125:[]),histVals).forEach(v=>{if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}});
+    const pad=(hi-lo)*0.08||hi*0.05; lo-=pad; hi+=pad;
+    const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
+    const yMin=histYears.length?Math.min(histYears[0],yrs[0]):yrs[0]; const yMax=yrs[n-1];
+    const Xy=yr=>L+(yMax===yMin?0:(yr-yMin)/(yMax-yMin)*W);
+    const X=i=>Xy(yrs[i]);
+    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+    for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
+    [2000,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050].filter(y=>y>=yMin&&y<=yMax).forEach(yr=>{
+      svg+=`<text class="axis" x="${Xy(yr)}" y="${300-B+15}" text-anchor="middle">${yr}</text>`;});
+    // "I dag"-skille mellom historikk og framskriving
+    if(histYears.length){
+      const xToday=Xy(2026);
+      svg+=`<line x1="${xToday}" y1="${Tp}" x2="${xToday}" y2="${Tp+H}" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>`;
+      svg+=`<text x="${xToday}" y="${Tp-3}" text-anchor="middle" style="font-size:10px;font-weight:700;fill:var(--ink2)">I dag</text>`;
+    }
+    // Historisk linje (2000-2025) — solid mørk
+    if(histYears.length){
+      let dh='';
+      histYears.forEach((yr,i)=>{dh+=(i?' L':'M')+Xy(yr).toFixed(1)+' '+Y(hist[yr]).toFixed(1);});
+      // Bro frem til 2024 (projeksjonens start) hvis hist slutter før
+      const lastHistY=histYears[histYears.length-1];
+      if(lastHistY<yrs[0]){
+        dh+=' L'+Xy(yrs[0]).toFixed(1)+' '+Y(o.main[0]).toFixed(1);
+      }
+      svg+=`<path d="${dh}" fill="none" stroke="var(--ink2)" stroke-width="2" stroke-linejoin="round"/>`;
+      histYears.forEach(yr=>{svg+=`<circle cx="${Xy(yr)}" cy="${Y(hist[yr])}" r="3" fill="var(--ink2)"/>`;});
+    }
+    let band='';
+    o.high.forEach((v,i)=>{band+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+    for(let i=n-1;i>=0;i--){band+=' L'+X(i).toFixed(1)+' '+Y(o.low[i]).toFixed(1);}
+    svg+=`<path d="${band}Z" fill="rgba(24,117,103,.12)" stroke="none"/>`;
+    ['low','high'].forEach(kk=>{let d='';o[kk].forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      svg+=`<path d="${d}" fill="none" stroke="var(--aurora-l)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;});
+    let dm='';o.main.forEach((v,i)=>{dm+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+    svg+=`<path d="${dm}" fill="none" stroke="var(--aurora)" stroke-width="2.6" stroke-linejoin="round"/>`;
+    if(mw){
+      let dt='';mw.pop.forEach((v,i)=>{dt+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      let arr=dm;for(let i=n-1;i>=0;i--){arr+=' L'+X(i).toFixed(1)+' '+Y(mw.pop[i]).toFixed(1);}
+      svg+=`<path d="${arr}Z" fill="rgba(194,107,38,.09)" stroke="none"/>`;
+      svg+=`<path d="${dt}" fill="none" stroke="var(--amber)" stroke-width="2.1" stroke-dasharray="6 3" stroke-linejoin="round"/>`;
+      svg+=`<text x="${L+W+4}" y="${Y(mw.pop[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--amber)">${fmt(mw.pop[n-1])}</text>`;
+    }
+    if(state.sens&&mw){
+      let sb='';mw.s125.forEach((v,i)=>{sb+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      for(let i=n-1;i>=0;i--){sb+=' L'+X(i).toFixed(1)+' '+Y(mw.s75[i]).toFixed(1);}
+      svg+=`<path d="${sb}Z" fill="rgba(194,107,38,.13)" stroke="none"/>`;
+      [mw.s75,mw.s125].forEach(p=>{let d='';p.forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+        svg+=`<path d="${d}" fill="none" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".75"/>`;});
+      svg+=`<text x="${L+W+4}" y="${Y(mw.s125[n-1])-6}" style="font-size:9px;fill:var(--amber)">+25%</text>`;
+      svg+=`<text x="${L+W+4}" y="${Y(mw.s75[n-1])+12}" style="font-size:9px;fill:var(--amber)">\u221225%</text>`;
+    }
+    if(o.tfattr){
+      let da='';o.tfattr.forEach((v,i)=>{da+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      svg+=`<path d="${da}" fill="none" stroke="var(--fi)" stroke-width="2.1" stroke-dasharray="1 4" stroke-linecap="round" stroke-linejoin="round"/>`;
+      svg+=`<text x="${L+W+4}" y="${Y(o.tfattr[n-1])-7}" style="font-size:10px;font-weight:700;fill:var(--fi)">${fmt(o.tfattr[n-1])}</text>`;
+    }
+    if(us){
+      let du='';us.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      svg+=`<path d="${du}" fill="none" stroke="#B23B3B" stroke-width="2.3" stroke-linejoin="round"/>`;
+      svg+=`<text x="${L+W+4}" y="${Y(us[n-1])+3}" style="font-size:10px;font-weight:700;fill:#B23B3B">${fmt(us[n-1])}</text>`;
+    }
+    const iNow=yrs.indexOf(2026);
+    if(iNow>-1){svg+=`<circle cx="${X(iNow)}" cy="${Y(k.pop)}" r="3.5" fill="var(--ink)"/>`+
+      `<text x="${X(iNow)}" y="${Y(k.pop)-9}" text-anchor="middle" style="font-size:10px;font-weight:600;fill:var(--ink)">faktisk 2026</text>`;}
+    const le=o.main[n-1],lh=o.high[n-1],ll=o.low[n-1];
+    svg+=`<text x="${L+W+4}" y="${Y(le)+3}" style="font-size:10.5px;font-weight:700;fill:var(--aurora)">${fmt(le)}</text>`;
+    svg+=`<text x="${L+W+4}" y="${Y(lh)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(lh)}</text>`;
+    svg+=`<text x="${L+W+4}" y="${Y(ll)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(ll)}</text>`;
+    svg+='</svg>';
+    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(mw?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(us?'<span><i style="background:#B23B3B"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:rgba(24,117,103,.4)"></i>SSB lav\u2013h\u00f8y</span></div>';
+  } else if(mode==='dec'){
+    const p0=(mw?mw.pop[0]:o.main[0]);
+    const nat=mw?mw.nat[n-1]:0, mig=mw?mw.mig[n-1]:0;
+    const pAfterNat=p0+nat, p1=p0+nat+mig;
+    const vals=[p0,pAfterNat,p1,0]; let mn=Math.min(p0,pAfterNat,p1), mx=Math.max(p0,pAfterNat,p1);
+    const span=(mx-mn)||1; mn-=span*0.18; mx+=span*0.12;
+    const Y=v=>Tp+(1-(v-mn)/((mx-mn)||1))*H;
+    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+    for(let g=0;g<=4;g++){const val=mn+(mx-mn)*g/4,y=Tp+(1-g/4)*H;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
+    const cols=[
+      {lab:'Folketall 2024',base:0,top:p0,col:'var(--ink)',val:p0,abs:true},
+      {lab:'Naturlig endring',base:Math.min(p0,pAfterNat),top:Math.max(p0,pAfterNat),col:(nat<0?'#B23B3B':'var(--aurora)'),val:nat},
+      {lab:'Netto flytting',base:Math.min(pAfterNat,p1),top:Math.max(pAfterNat,p1),col:(mig<0?'#B23B3B':'var(--aurora)'),val:mig},
+      {lab:'Folketall 2050',base:0,top:p1,col:'var(--amber)',val:p1,abs:true}];
+    const bw=86, gap=(W-cols.length*bw)/(cols.length+1);
+    cols.forEach((c,ci)=>{const x=L+gap+ci*(bw+gap);
+      const yT=Y(c.top), yB=(c.abs?Y(mn):Y(c.base)), h=Math.max(2,yB-yT);
+      svg+=`<rect x="${x}" y="${yT}" width="${bw}" height="${h}" rx="3" fill="${c.col}" ${c.abs?'':'opacity="0.92"'}/>`;
+      svg+=`<text x="${x+bw/2}" y="${yT-7}" text-anchor="middle" style="font-family:'Spline Sans Mono',monospace;font-size:12px;font-weight:700;fill:${c.col}">${(!c.abs&&c.val>=0?'+':'')}${fmt(Math.round(c.val))}</text>`;
+      svg+=`<text x="${x+bw/2}" y="${300-B+15}" text-anchor="middle" class="axis" style="font-size:10.5px">${c.lab}</text>`;
+      if(ci<cols.length-1){const nx=L+gap+(ci+1)*(bw+gap);
+        const conY=(ci===0?Y(p0):ci===1?Y(pAfterNat):Y(p1));
+        svg+=`<line x1="${x+bw}" y1="${conY}" x2="${nx}" y2="${conY}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>`;}
+    });
+    svg+='</svg>';
+    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:#B23B3B"></i>trekker ned</span><span><i style="background:var(--ink)"></i>start/slutt</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
+  } else if(mode==='fb'){
+    const A6=(mw?mw.a65:o.a65), A2=(mw?mw.a2064:o.a2064);
+    const r=A6.map((v,i)=>A2[i]?100*v/A2[i]:0);
+    const i65=A6.map((v,i)=>A6[0]?100*v/A6[0]:100), i20=A2.map((v,i)=>A2[0]?100*v/A2[0]:100);
+    const VB=760, Lx=54, Rx=74, Wx=VB-Lx-Rx, Xc=i=>Lx+(n<2?0:i/(n-1)*Wx);
+    // panel A: forsørgerbyrde-rate
+    let aT=26,aB=200; let rmn=Math.min.apply(0,r),rmx=Math.max.apply(0,r);
+    const rp=(rmx-rmn)*0.18||4; rmn=Math.max(0,rmn-rp); rmx+=rp;
+    const Ya=v=>aB-(v-rmn)/((rmx-rmn)||1)*(aB-aT);
+    let s='<svg class="chart" viewBox="0 0 '+VB+' 372" preserveAspectRatio="xMidYMid meet" style="height:372px">';
+    s+='<text x="'+Lx+'" y="14" style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;fill:var(--ink)">Forsørgerbyrde — eldre (65+) per 100 i yrkesaktiv alder (20–64)</text>';
+    for(let g=0;g<=4;g++){const val=rmn+(rmx-rmn)*g/4,y=aB-(aB-aT)*g/4;
+      s+='<line x1="'+Lx+'" y1="'+y+'" x2="'+(Lx+Wx)+'" y2="'+y+'" stroke="rgba(17,32,58,.07)"/>';
+      s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y+3)+'" text-anchor="end">'+val.toFixed(0)+'</text>';}
+    // 2024 reference + shaded added burden
+    const y0=Ya(r[0]);
+    s+='<line x1="'+Lx+'" y1="'+y0+'" x2="'+(Lx+Wx)+'" y2="'+y0+'" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>';
+    s+='<text class="axis" x="'+(Lx+Wx)+'" y="'+(y0-5)+'" text-anchor="end" style="fill:var(--ink3)">2024-nivå</text>';
+    let ar='M'+Xc(0).toFixed(1)+' '+y0.toFixed(1);
+    r.forEach((v,i)=>{ar+=' L'+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
+    ar+=' L'+Xc(n-1).toFixed(1)+' '+y0.toFixed(1)+'Z';
+    s+='<path d="'+ar+'" fill="rgba(194,107,38,.12)" stroke="none"/>';
+    let dl='';r.forEach((v,i)=>{dl+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
+    s+='<path d="'+dl+'" fill="none" stroke="var(--amber)" stroke-width="2.8" stroke-linejoin="round"/>';
+    [[0,r[0]],[n-1,r[n-1]]].forEach(p=>{const x=Xc(p[0]),y=Ya(p[1]),sup=p[1]?(100/p[1]):0;
+      s+='<circle cx="'+x+'" cy="'+y+'" r="3.6" fill="var(--amber)" stroke="var(--paper2)" stroke-width="1.5"/>';
+      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y-9)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700;fill:var(--amber)">'+p[1].toFixed(0)+'</text>';
+      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y+13)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-size:9.5px;fill:var(--ink3)">'+sup.toFixed(1)+' yrkesaktive/eldre</text>';});
+    // caption + panel B: demografisk forskyvning
+    s+='<text x="'+Lx+'" y="232" style="font-family:\'Fraunces\',serif;font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2024 = 100)</text>';
+    let bT=246,bB=336; let im=Math.min.apply(0,i20.concat(i65)), iM=Math.max.apply(0,i20.concat(i65));
+    const ip=(iM-im)*0.12||5; im-=ip; iM+=ip;
+    const Yb=v=>bB-(v-im)/((iM-im)||1)*(bB-bT);
+    const y100=Yb(100);
+    s+='<line x1="'+Lx+'" y1="'+y100+'" x2="'+(Lx+Wx)+'" y2="'+y100+'" stroke="rgba(17,32,58,.18)" stroke-dasharray="2 3"/>';
+    s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y100+3)+'" text-anchor="end">100</text>';
+    [['i65',i65,'var(--amber)','65+'],['i20',i20,'var(--nl)','20–64']].forEach(z=>{
+      let d='';z[1].forEach((v,i)=>{d+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Yb(v).toFixed(1);});
+      s+='<path d="'+d+'" fill="none" stroke="'+z[2]+'" stroke-width="2.2" stroke-linejoin="round"/>';
+      const lv=z[1][n-1], dd=lv-100;
+      s+='<text x="'+(Lx+Wx+5)+'" y="'+(Yb(lv)+3)+'" style="font-size:10px;font-weight:700;fill:'+z[2]+'">'+z[3]+' '+(dd>=0?'+':'\u2212')+Math.abs(dd).toFixed(0)+'%</text>';});
+    yrs.forEach((yr,i)=>{if(i%4===0||i===n-1)s+='<text class="axis" x="'+Xc(i)+'" y="356" text-anchor="middle">'+yr+'</text>';});
+    s+='</svg>';
+    s+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--amber)"></i>Forsørgerbyrde / 65+</span><span><i style="background:var(--nl)"></i>20–64 år</span> <span style="color:var(--ink3)">TF-MVP, '+(state.mw)+'-flyttebane — bytt flyttebane for å se hvor følsom byrden er for innflytting</span></div>';
+    svg=s;
+  } else {
+    const S=[['a019','0–19 år','var(--nl)'],['a2064','20–64 år','var(--ink)'],['a65','65+ år','var(--amber)']];
+    lo=0;hi=-Infinity;S.forEach(s=>o[s[0]].forEach(v=>{if(v!=null)hi=Math.max(hi,v);}));
+    hi=Math.ceil(hi/1000)*1000;
+    const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
+    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+    for(let g=0;g<=4;g++){const val=hi*g/4,y=Tp+(1-g/4)*H;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
+    yrs.forEach((yr,i)=>{if(i%4===0||i===n-1)svg+=`<text class="axis" x="${X(i)}" y="${300-B+15}" text-anchor="middle">${yr}</text>`;});
+    S.forEach(s=>{let d='';o[s[0]].forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+      svg+=`<path d="${d}" fill="none" stroke="${s[2]}" stroke-width="2.2" stroke-linejoin="round"/>`;
+      const lv=o[s[0]][n-1];
+      svg+=`<text x="${L+W+4}" y="${Y(lv)+3}" style="font-size:10px;font-weight:700;fill:${s[2]}">${fmt(lv)}</text>`;});
+    svg+='</svg>';
+    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+'</div>';
+  }
+  return svg;
+}
+function projCard(k){
+  const P=DATA.proj; const o=P&&P.kommuner[k.nr]; if(!o) return '';
+  const yrs=P.years, n=yrs.length;
+  const m0=o.main[0], m1=o.main[n-1], chg=((m1/m0-1)*100);
+  const g65_0=o.a65[0], g65_1=o.a65[n-1];
+  const tot0=o.a019[0]+o.a2064[0]+o.a65[0], tot1=o.a019[n-1]+o.a2064[n-1]+o.a65[n-1];
+  const sh0=(g65_0/tot0*100), sh1=(g65_1/tot1*100);
+  const sel=x=>state.projMode===x?'true':'false';
+  const mw=MW(o), LM=LMW();
+  const ubn=(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP');
+  const ubaseTraj=(state.ukrbase==='attr')?o.tfattr:(mw?mw.pop:null);
+  const us=state.ukr?((state.ukrbase==='attr')?(o['ukra'+state.ukr]||null):((mw&&mw['u'+state.ukr])||null)):null;
+  const ubLDbase=(state.ukrbase==='attr')?(P.landsdel&&P.landsdel.tfattr||[]):(LM.pop||[]);
+  const ubLDscen=state.ukr?((state.ukrbase==='attr')?((P.landsdel&&P.landsdel['ukra'+state.ukr])||[]):(LM['u'+state.ukr]||[])):[];
+  const LD=P.landsdel||{}; const usel=x=>state.ukr===x?'true':'false'; const usel2=x=>state.ukrbase===x?'true':'false';
+  const fbA6=(mw?mw.a65:o.a65), fbA2=(mw?mw.a2064:o.a2064);
+  const oad0=fbA2[0]?fbA6[0]/fbA2[0]*100:0, oad1=fbA2[n-1]?fbA6[n-1]/fbA2[n-1]*100:0;
+  const sup0=fbA6[0]?fbA2[0]/fbA6[0]:0, sup1=fbA6[n-1]?fbA2[n-1]/fbA6[n-1]:0;
+  const g65p=fbA6[0]?(fbA6[n-1]/fbA6[0]-1)*100:0, g20p=fbA2[0]?(fbA2[n-1]/fbA2[0]-1)*100:0;
+  const dnat=mw?mw.nat[n-1]:0, dmig=mw?mw.mig[n-1]:0;
+  const dtot=(mw?mw.pop[n-1]-mw.pop[0]:m1-m0);
+  const mwsel=x=>state.mw===x?'true':'false';
+  const RN=(P.reg_nm||{}), WN=(P.win_note||{});
+  const drv=(dnat<0&&dmig>=-dnat)?'Innflytting mer enn oppveier f\u00f8dselsunderskuddet \u2014 derfor vekst.'
+    :(dnat<0&&dmig>0)?'Netto innflytting demper, men oppveier ikke at det f\u00f8des f\u00e6rre enn det d\u00f8r.'
+    :(dnat<0&&dmig<0)?'B\u00e5de f\u00f8dselsunderskudd og netto utflytting trekker folketallet ned.'
+    :(dnat>=0&&dmig>=0)?'B\u00e5de naturlig endring og flytting bidrar positivt.'
+    :'Naturlig tilvekst, men netto utflytting trekker ned.';
+  const ssel=x=>state.sens===x?'true':'false';
+  return '<div class="card" data-helpfor="<b>Slik leser du framskrivingen.</b> Tre baner: <b>SSB</b> (offisiell), <b>TF-MVP</b> (historisk flyttevindu) og <b>TF-ATTR</b> (jobb- og sentralitets-regresjon). Skru på Ukraina-scenario eller flyttefølsomhet for å se hvor sårbart utfallet er for forutsetningene."><div class="ch"><h3 class="serif">Hva skjer i '+k.navn+' mot 2050?</h3>'+
+    '<div class="minseg" id="pjm">'+
+    '<button data-p="tot" aria-selected="'+sel('tot')+'">Folketall</button>'+
+    '<button data-p="dec" aria-selected="'+sel('dec')+'">Drivkrefter</button>'+
+    '<button data-p="fb" aria-selected="'+sel('fb')+'">Forsørgerbyrde</button>'+
+    '<button data-p="age" aria-selected="'+sel('age')+'">Aldring</button></div></div>'+
+    '<p class="hint">SSBs regionale framskriving (tabell 14288, 2024-basert). '+
+    (state.projMode==='tot'
+      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2024 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt TF-MVP og TF-ATTR. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
+      : state.projMode==='dec'
+      ? 'Drivkrefter: endringen 2024\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. Eksakt dekomponering av TF-MVP-banen.'
+      : state.projMode==='fb'
+      ? 'Forsørgerbyrde: hvor mange eldre (65+) hver 100 i yrkesaktiv alder (20–64) m\u00e5 b\u00e6re, 2024\u20132050 \u2014 og hvorfor den stiger. F\u00f8lger valgt flyttebane (TF-MVP).'
+      : 'Antall i tre aldersgrupper, hovedalternativet (MMMM).')+'</p>'+
+    projChart(k,state.projMode)+
+    (state.projMode==='tot'?(
+      '<div class="minseg" id="sens" style="margin:10px 0 0"><button data-s="0" aria-selected="'+ssel(0)+'">F\u00f8lsomhet av</button><button data-s="1" aria-selected="'+ssel(1)+'">Flytting \u00b125 %</button></div>'+
+      (state.sens?'<p class="hint" style="margin:6px 0 0;opacity:.75;font-size:11px">B\u00e5nd = TF-MVP med netto flytting \u00d70,75 og \u00d71,25. Flytting er det mest usikre leddet; dette viser hvor mye banen avhenger av nettopp den forutsetningen \u2014 en f\u00f8lsomhet, ikke et prognoseintervall.</p>':'')
+    ):'')+
+    (state.projMode==='dec'?(
+      '<p class="hint" style="margin:14px 0 0">Av en samlet endring p\u00e5 <b>'+(dtot>=0?'+':'\u2212')+fmt(Math.abs(dtot))+'</b> til 2050 kommer <b>'+(dnat>=0?'+':'\u2212')+fmt(Math.abs(dnat))+'</b> fra naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og <b>'+(dmig>=0?'+':'\u2212')+fmt(Math.abs(dmig))+'</b> fra netto flytting. '+drv+'</p>'
+    ):state.projMode==='fb'?(
+      '<p class="hint" style="margin:14px 0 0">Fors\u00f8rgerbyrden stiger fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 yrkesaktive \u2014 fra <b>~'+sup0.toFixed(1)+'</b> til <b>~'+sup1.toFixed(1)+'</b> i yrkesaktiv alder bak hver person 65+. Drivkraften er forskyvningen mellom gruppene: <b>65+ '+(g65p>=0?'+':'\u2212')+Math.abs(g65p).toFixed(0)+' %</b> mens <b>20\u201364 '+(g20p>=0?'+':'\u2212')+Math.abs(g20p).toFixed(0)+' %</b> ('+(state.mw)+'-flyttebane). '+
+      ((g20p<0&&g65p>0)?'Begge effektene virker samtidig \u2014 flere eldre og f\u00e6rre yrkesaktive.'
+       :(g65p>0&&g20p>=0)?'Det er f\u00f8rst og fremst flere eldre, ikke f\u00e6rre yrkesaktive, som driver byrden.'
+       :'Yrkesaktiv-gruppen krymper sterkere enn de eldre vokser.')+' Bytt flyttebane for \u00e5 se hvor mye dette avhenger av innflytting.</p>'
+    ):(
+      '<p class="hint" style="margin:14px 0 0">Hovedalternativet: <b>'+fmt(m0)+'</b> (2024) \u2192 <b>'+fmt(m1)+'</b> (2050), '+
+      (chg>=0?'+':'')+chg.toFixed(1)+' %. Andel 65+ \u00f8ker fra '+sh0.toFixed(1)+' % til <b>'+sh1.toFixed(1)+' %</b> ('+fmt(g65_0)+' \u2192 '+fmt(g65_1)+' personer).</p>'
+    ))+
+    (state.projMode==='fb'?'':'<p class="hint" style="margin:6px 0 0">Fors\u00f8rgerbyrde 65+/20\u201364: <b>'+oad0.toFixed(0)+'</b> \u2192 <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder (2024\u21922050, '+(state.mw)+'-flyttebane). <span style="opacity:.7">Se «Forsørgerbyrde»-fanen for hvorfor.</span></p>')+
+    '<details style="margin:8px 0 0"><summary style="cursor:pointer;font-size:12px;color:var(--ink2);font-weight:600">Slik regnes dette \u2014 kohort-komponent p\u00e5 \u00e9n setning</summary><p class="hint" style="margin:6px 0 0;font-size:11.5px">Hvert \u00e5r flyttes alle ett \u00e5r opp i alderspyramiden, en aldersavhengig andel d\u00f8r, kvinner i fertil alder gir et antall f\u00f8dte (skalert til lokalt fruktbarhetsniv\u00e5), og et netto flyttetall fordeles p\u00e5 alder. Eksempel: 100 stk. 40-\u00e5ringer i \u00e5r \u2192 ~99,9 lever som 41-\u00e5ringer neste \u00e5r, justert for inn-/utflytting i den aldersgruppen. Gjentas 26 ganger (2024\u21922050). TF-MVP og TF-ATTR bruker samme maskineri; forskjellen er bare hvordan flytteleddet ansl\u00e5s.</p></details>'+
+    (((state.projMode==='tot'||state.projMode==='dec'||state.projMode==='fb')&&mw)?(
+      '<div class="ch" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:15px">Flyttevindu (TF-MVP)</h3>'+
+      '<div class="minseg" id="mw"><button data-w="kons" aria-selected="'+mwsel('kons')+'">Konservativ</button><button data-w="sentral" aria-selected="'+mwsel('sentral')+'">Middel</button><button data-w="opt" aria-selected="'+mwsel('opt')+'">Optimistisk</button></div></div>'+
+      '<p class="hint" style="margin:8px 0 0">'+(WN[state.mw]||'')+'. Regionen samlet: <b>'+((RN[state.mw]||0)>=0?'+':'\u2212')+fmt(Math.abs(RN[state.mw]||0))+'</b> netto innflytting per \u00e5r. Standard er n\u00e5 <b>Konservativ</b> (snitt 2017\u20132021), fordi Middel og Optimistisk fortsatt gir den unormale 2022\u20132023-innvandringen stor vekt i 26 \u00e5r. Alle vinduene inkluderer n\u00e5 2024- og 2025-tallene (der Bodos netto innflytting faktisk var negativ to \u00e5r p\u00e5 rad: \u221286 og \u2212223). <b>TF-ATTR p\u00e5virkes ikke</b> \u2014 den bruker strukturell regresjon, ikke historisk snitt.</p>'
+    ):'')+
+    (state.projMode==='tot'&&mw?(
+      '<p class="hint" style="margin:8px 0 0">TF-MVP (reprodusert, '+({kons:'Konservativ',sentral:'Middel',opt:'Optimistisk'})[state.mw]+'-vindu): <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-mw.pop[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-mw.pop[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
+      (o.tfattr?'TF-ATTR (struktur): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-o.tfattr[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-o.tfattr[n-1]))+'</b>.':'')+'</p>'+
+      '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">TF-MVP/TF-ATTR (reprodusert, ikke validert) \u2014 flyttemodell-drevet forskjell mot SSB, ikke presisjonsprognoser. TF-ATTR er \u00a77-begrunnet (slo SSB i de minst sentrale kommunene i 2020\u21922024-backtest, kort horisont).</p>'+
+      '<div class="ch" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:15px">Scenario: ukrainske flyktninger forlater landsdelen</h3>'+
+      '<div class="minseg" id="ukr"><button data-u="0" aria-selected="'+usel(0)+'">Av</button><button data-u="50" aria-selected="'+usel(50)+'">50 %</button><button data-u="75" aria-selected="'+usel(75)+'">75 %</button><button data-u="100" aria-selected="'+usel(100)+'">100 %</button></div></div>'+
+      (us?(
+        '<div class="minseg" id="ukrb" style="margin:10px 0 2px"><button data-b="mvp" aria-selected="'+usel2('mvp')+'">Basis: TF-MVP</button><button data-b="attr" aria-selected="'+usel2('attr')+'">Basis: TF-ATTR</button></div>'+
+        '<p class="hint" style="margin:8px 0 0">Kommunen har <b>'+fmt(o.ukr)+'</b> registrerte ukrainske innvandrere. Hvis <b>'+state.ukr+' %</b> forlater landsdelen i l\u00f8pet av ett \u00e5r (2025), lagt p\u00e5 <b>'+ubn+'</b>-banen'+(state.ukrbase==='attr'?'':' ('+({kons:'Konservativ',sentral:'Middel',opt:'Optimistisk'})[state.mw]+'-vindu)')+': folketall 2050 <b>'+fmt((ubaseTraj||[])[n-1]||0)+'</b> \u2192 <b>'+fmt(us[n-1])+'</b> ('+((us[n-1]-((ubaseTraj||[])[n-1]||0))>=0?'+':'\u2212')+fmt(Math.abs(us[n-1]-((ubaseTraj||[])[n-1]||0)))+'). '+
+        'Hele landsdelen: <b>'+fmt(Math.round((state.ukr/100)*(LD.ukr_total||0)))+'</b> personer drar (av '+fmt(LD.ukr_total||0)+'); regionalt folketall 2050 <b>'+fmt((ubLDbase||[])[n-1]||0)+'</b> \u2192 <b>'+fmt((ubLDscen||[])[n-1]||0)+'</b>.</p>'+
+        '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">Forutsetning: engangs-utflytting i 2025 oppe p\u00e5 '+ubn+'-banen, fordelt p\u00e5 en kvinne/barn-tung flyktningprofil (dokumentert, ikke kalibrert). En f\u00f8lsomhetsberegning, ikke en prognose.</p>'
+      ):'')
+    ):'')+
+    '</div>';
+}
+function kostraCard(k){
+  const P=DATA.proj; if(!P||(!P.kostra&&!P.kostra_bench)) return '';
+  const isA=k.isAgg;
+  const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
+  if(!ks) return '';
+  const B=(P.kostra_bench||{})['Alle']||{};
+  const FYB=isA?B:((P.kostra_bench||{})[k.fylke]||B);
+  const yr=ks.yr||B.yr||'';
+  const o=P.kommuner&&P.kommuner[k.nr]; const mw=MW(o); const n=(P.years||[]).length;
+  const num=v=>(v==null?null:+v);
+  const sgn=v=>v==null?'\u2013':(v>=0?'':'\u2212')+Math.abs(v).toFixed(1);
+  function bar(val,dmin,dmax,col,refs){
+    const span=(dmax-dmin)||1;
+    const pc=v=>(Math.max(dmin,Math.min(dmax,v))-dmin)/span*100;
+    const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+    const neg=dmin<0&&dmax>0, z=neg?pc(0):0;
+    let s='<div style="position:relative;height:36px;margin:8px 0 0">';
+    // reference labels (own row above the track) + ticks
+    (refs||[]).forEach((rf,i)=>{ if(rf[0]==null) return; const x=pc(rf[0]);
+      s+='<div style="position:absolute;top:'+(i?13:0)+'px;left:'+clamp(x,7,93)+'%;transform:translateX(-50%);font-size:9px;font-weight:700;color:'+rf[2]+';white-space:nowrap;line-height:1">'+rf[1]+'</div>';
+      s+='<div style="position:absolute;top:24px;height:18px;width:2px;left:'+x+'%;transform:translateX(-50%);background:'+rf[2]+';opacity:'+(rf[3]?'.55':'1')+'"></div>'; });
+    // track
+    s+='<div style="position:absolute;left:0;right:0;top:27px;height:9px;border-radius:5px;background:rgba(17,32,58,.09)"></div>';
+    // value fill
+    if(val!=null){ const xv=pc(val); const a=Math.min(z,xv), w=Math.abs(xv-z);
+      s+='<div style="position:absolute;top:27px;height:9px;border-radius:5px;left:'+a+'%;width:'+Math.max(w,0.8)+'%;background:'+col+'"></div>'; }
+    // zero marker for signed scales
+    if(neg) s+='<div style="position:absolute;top:24px;height:15px;width:1px;left:'+z+'%;background:var(--ink3)"></div>';
+    return s+'</div>';
+  }
+  function row(label,val,unit,col,verdict,refs,dmin,dmax,explain){
+    return '<div style="margin:0 0 16px">'+
+      '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">'+
+      '<span style="font-weight:600;color:var(--ink)">'+label+'</span>'+
+      '<span><b style="font-family:\'Spline Sans Mono\',monospace;font-size:17px;color:'+col+'">'+(val==null?'\u2013':(unit==='%'?sgn(val):fmt(Math.round(val))))+'</b>'+
+      '<span style="font-size:11px;color:var(--ink3)"> '+unit+'</span> '+
+      '<span style="font-size:10px;font-weight:700;color:'+col+';background:'+col+'1f;padding:2px 7px;border-radius:10px">'+verdict+'</span></span></div>'+
+      bar(val,dmin,dmax,col,refs)+
+      '<p class="hint" style="margin:5px 0 0;font-size:11.5px">'+explain+'</p></div>';
+  }
+  const GRN='#2E7D5B',AMB='var(--amber)',RED='#B23B3B';
+  const ndr=num(ks.ndr),fond=num(ks.fond),gjeld=num(ks.gjeld);
+  const vNdr=ndr==null?AMB:(ndr>=1.75?GRN:ndr>=0?AMB:RED);
+  const vFond=fond==null?AMB:(fond>=10?GRN:fond>=4?AMB:RED);
+  const vGjeld=gjeld==null?AMB:(gjeld<75?GRN:gjeld<=100?AMB:RED);
+  const refMed=v=>[v,'median','var(--ink2)','2 2'];
+  let body='';
+  body+=row('Netto driftsresultat',ndr,'%',vNdr,
+    ndr==null?'\u2013':(ndr>=1.75?'sunn':ndr>=0?'svak':'underskudd'),
+    [[1.75,'TBU 1,75','var(--aurora)',''],refMed(FYB.ndr)],-6,6,
+    'Hva er igjen etter driften, i % av inntektene. Teknisk beregningsutvalg (TBU) anbefaler \u2248 +1,75 % over tid for \u00e5 t\u00e5le svingninger og kunne sette av. '+(isA?'Vist som median for '+(k.fylke==='Alle'?'landsdelen':k.fylke)+'.':'Landsdelsmedian: '+sgn(B.ndr)+' %.'));
+  body+=row('Disposisjonsfond',fond,'%',vFond,
+    fond==null?'\u2013':(fond>=10?'solid buffer':fond>=4?'moderat':'tynn'),
+    [refMed(FYB.fond)],0,Math.max(25,fond||0,FYB.fond||0),
+    'Oppsparte, fritt disponible reserver i % av inntektene \u2014 st\u00f8tputen mot uforutsette utgifter og inntektssvikt. Veiledende: under ~4 % regnes som tynt. Landsdelsmedian: '+sgn(B.fond)+' %.');
+  body+=row('Netto l\u00e5negjeld',gjeld,'%',vGjeld,
+    gjeld==null?'\u2013':(gjeld<75?'moderat':gjeld<=100?'h\u00f8y':'sv\u00e6rt h\u00f8y'),
+    [refMed(FYB.gjeld)],0,Math.max(160,gjeld||0),
+    'Rentb\u00e6rende gjeld fratrukket utl\u00e5n og ubundne midler, i % av inntektene. H\u00f8yere = mer s\u00e5rbar for renteoppgang. Landsdelsmedian: '+sgn(B.gjeld)+' %.');
+  // ---- sektormiks (rikere) ----
+  const SEC=[['omsorg_pct','Pleie og omsorg','a67','var(--amber)'],
+             ['skole_pct','Grunnskole','a615','var(--nl)'],
+             ['bhg_pct','Barnehage','a15','var(--aurora)'],
+             ['khelse_pct','Kommunehelse',null,'#6FA8C7'],
+             ['kultur_pct','Kultur',null,'var(--gold)'],
+             ['kirke_pct','Kirke',null,'#9C8B6E']];
+  const sv=f=>num(ks[f]);
+  let summed=0; SEC.forEach(s=>{const x=sv(s[0]); if(x!=null)summed+=x;});
+  const annet=Math.max(0,100-summed);
+  let mix='';
+  {
+    const parts=SEC.map(s=>[s[1],sv(s[0])||0,s[3]]).concat([['Annet (adm., sosial, barnevern, vei, VAR m.m.)',annet,'rgba(17,32,58,.18)']]);
+    const seg=parts.map(p=>p[1]>0?'<div style="width:'+p[1]+'%;background:'+p[2]+'" title="'+p[0]+' '+p[1].toFixed(1)+' %"></div>':'').join('');
+    const leg=parts.map(p=>'<span><i style="background:'+p[2]+'"></i>'+p[0].split(' (')[0]+' '+p[1].toFixed(0)+' %</span>').join('');
+    mix='<div style="margin:6px 0 0"><div style="font-weight:600;color:var(--ink);margin:0 0 6px">Hvor pengene g\u00e5r \u2014 andel av netto driftsutgifter</div>'+
+      '<div style="display:flex;height:26px;border-radius:6px;overflow:hidden;font-size:0">'+seg+'</div>'+
+      '<div class="legend" style="margin-top:7px">'+leg+'</div>'+
+      (ks.omsorg_pi!=null?'<p class="hint" style="margin:6px 0 0;font-size:11.5px">Helse og omsorg koster <b>'+fmt(Math.round(ks.omsorg_pi))+' kr</b> per innbygger \u2014 den st\u00f8rste og mest aldersf\u00f8lsomme posten.</p>':'')+'</div>';
+  }
+  // ---- tidsserie-tilgang ----
+  const TS=P.kostra_ts||{}; const tyr=TS.years||[];
+  const tsK=isA?((TS.bench||{})[k.fylke]||(TS.bench||{})['Alle']||{}):((TS.kommuner||{})[k.nr]||{});
+  const tsB=(TS.bench||{})['Alle']||{};
+  // ---- gjenbrukbart linjediagram ----
+  function lineChart(o){
+    // o: {title,col,unit,signed, hx,hv,bench, px,pv, ref}
+    const all=[]; (o.hv||[]).forEach(v=>{if(v!=null)all.push(v);});
+    (o.bench||[]).forEach(v=>{if(v!=null)all.push(v);}); (o.pv||[]).forEach(v=>{if(v!=null)all.push(v);});
+    if(o.ref&&o.ref.val!=null) all.push(o.ref.val);
+    if(all.length<1) return '';
+    let lo=Math.min.apply(0,all), hi=Math.max.apply(0,all);
+    if(o.signed){lo=Math.min(lo,0);hi=Math.max(hi,0);}
+    const pd=(hi-lo)*0.15||1; lo-=pd; hi+=pd;
+    const yrs=(o.hx||[]).concat(o.px||[]); const y0=Math.min.apply(0,yrs), y1=Math.max.apply(0,yrs);
+    const W=340,H=158,L=38,R=10,T=14,Bm=22,Wd=W-L-R,Hh=H-T-Bm;
+    const X=y=>L+((y-y0)/((y1-y0)||1))*Wd, Y=v=>T+(1-(v-lo)/((hi-lo)||1))*Hh;
+    const ff=v=>o.unit==='kr'?fmt(Math.round(v)):(o.signed?sgn(v):(''+(Math.round(v*10)/10)));
+    let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="height:158px;width:100%">';
+    [hi-pd*0.5,(hi+lo)/2,lo+pd*0.5].forEach(gv=>{const yy=Y(gv);
+      s+='<line x1="'+L+'" y1="'+yy.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+yy.toFixed(1)+'" stroke="rgba(17,32,58,.07)"/>';
+      s+='<text class="axis" x="'+(L-5)+'" y="'+(yy+3).toFixed(1)+'" text-anchor="end">'+ff(gv)+'</text>';});
+    if(o.ref&&o.ref.val!=null){const ry=Y(o.ref.val);
+      s+='<line x1="'+L+'" y1="'+ry.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+ry.toFixed(1)+'" stroke="var(--aurora)" stroke-width="1" stroke-dasharray="4 3"/>';
+      s+='<text class="axis" x="'+(L+Wd)+'" y="'+(ry-4).toFixed(1)+'" text-anchor="end" style="fill:var(--aurora)">'+o.ref.label+'</text>';}
+    for(let yy=Math.ceil(y0/5)*5; yy<=y1; yy+=5){ if(yy<y0) continue;
+      s+='<text class="axis" x="'+X(yy).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle">'+yy+'</text>';}
+    function poly(xs,vs,col,w,dash){let d='',st=false;
+      for(let i=0;i<vs.length;i++){if(vs[i]==null){st=false;continue;}d+=(st?' L':'M')+X(xs[i]).toFixed(1)+' '+Y(vs[i]).toFixed(1);st=true;}
+      return d?'<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linejoin="round"'+(dash?' stroke-dasharray="'+dash+'"':'')+(dash?' opacity=".9"':'')+'/>':'';}
+    if(o.bench) s+=poly(o.hx,o.bench,'var(--ink3)',1,'2 3');
+    if(o.px&&o.pv){ const jx=X(o.px[0]);
+      s+='<line x1="'+jx.toFixed(1)+'" y1="'+T+'" x2="'+jx.toFixed(1)+'" y2="'+(T+Hh)+'" stroke="var(--ink)" stroke-width="0.75" stroke-dasharray="3 3"/>';
+      s+='<text class="axis" x="'+jx.toFixed(1)+'" y="'+(T-3)+'" text-anchor="middle" style="fill:var(--ink2);font-weight:700">i dag</text>';
+      s+=poly(o.px,o.pv,o.col,2,'5 3'); }
+    s+=poly(o.hx,o.hv,o.col,2.4,null);
+    // endepunkter
+    const hvi=[]; (o.hv||[]).forEach((v,i)=>{if(v!=null)hvi.push(i);});
+    if(hvi.length){const f=hvi[0],l=hvi[hvi.length-1];
+      s+='<circle cx="'+X(o.hx[f]).toFixed(1)+'" cy="'+Y(o.hv[f]).toFixed(1)+'" r="2.4" fill="'+o.col+'"/>';
+      s+='<circle cx="'+X(o.hx[l]).toFixed(1)+'" cy="'+Y(o.hv[l]).toFixed(1)+'" r="2.4" fill="'+o.col+'"/>';}
+    if(o.px&&o.pv){const pl=o.pv.length-1;
+      s+='<circle cx="'+X(o.px[pl]).toFixed(1)+'" cy="'+Y(o.pv[pl]).toFixed(1)+'" r="2.6" fill="'+o.col+'"/>';
+      s+='<text x="'+(X(o.px[pl])-3).toFixed(1)+'" y="'+(Y(o.pv[pl])-6).toFixed(1)+'" text-anchor="end" style="font-size:10px;font-weight:700;fill:'+o.col+'">'+ff(o.pv[pl])+'</text>';}
+    if(hvi.length){const l=hvi[hvi.length-1];
+      s+='<text x="'+(X(o.hx[l])+ (o.px?-2:4)).toFixed(1)+'" y="'+(Y(o.hv[l])-6).toFixed(1)+'" text-anchor="'+(o.px?'end':'start')+'" style="font-size:10px;font-weight:700;fill:'+o.col+'">'+ff(o.hv[l])+'</text>';}
+    s+='</svg>';
+    return '<div style="min-width:240px"><div style="font-size:12px;font-weight:600;color:var(--ink);margin:0 0 1px">'+o.title+'</div>'+
+      '<div style="font-size:10.5px;color:var(--ink3);margin:0 0 2px">'+o.sub+'</div>'+s+'</div>';
+  }
+  const GRID='display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px 18px;margin:8px 0 0';
+  // ---- 1) \u00d8konomi over tid (faktisk) ----
+  let econ='';
+  if(tyr.length>1){
+    const E=[['ndr','Netto driftsresultat','var(--amber)',1,{val:1.75,label:'TBU 1,75'}],
+             ['bdr','Brutto driftsresultat','var(--gold)',1,null],
+             ['fond','Disposisjonsfond','var(--aurora)',0,null],
+             ['gjeld','Netto l\u00e5negjeld','var(--nl)',0,null]];
+    econ='<div style="margin:8px 0 2px;padding-top:12px;border-top:1px solid var(--line2)">'+
+      '<div style="font-weight:600;color:var(--ink)">\u00d8konomi \u2014 faktisk utvikling '+tyr[0]+'\u2013'+tyr[tyr.length-1]+'</div>'+
+      '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Heltrukket = '+(isA?'median':k.navn)+', stiplet = landsdelsmedian. <b>Ikke framskrevet</b> \u2014 driftsresultat/gjeld styres av politikk og inntekter, ikke demografi.</p>'+
+      '<div style="'+GRID+'">'+
+      E.map(e=>lineChart({title:e[1],sub:'% av brutto driftsinntekter',col:e[2],unit:'pct',signed:!!e[3],
+        hx:tyr,hv:tsK[e[0]]||[],bench:tsB[e[0]]||[],ref:e[4]})).join('')+'</div></div>';
+  }
+  // ---- 2) Sektorandeler: faktisk \u2192 demografidrevet (til 2050) ----
+  let sec='', stacked='';
+  if(mw&&mw.a67&&mw.pop&&n>1){
+    const drv={a67:mw.a67,a615:mw.a615,a15:mw.a15,pop:mw.pop};
+    const SX=SEC.map(s=>({nm:s[1],f:s[0],d:s[2],c:s[3]})).concat([{nm:'Annet',f:null,d:null,c:'rgba(17,32,58,.30)'}]);
+    function renorm(raw){let su=0;raw.forEach(x=>su+=x||0);const an=Math.max(0,100-su);
+      const arr=raw.map(x=>x||0).concat([an]);let t2=0;arr.forEach(x=>t2+=x);return arr.map(x=>t2?x/t2*100:0);}
+    const HY=[],HS=[],HB=[];
+    tyr.forEach((Y0,i)=>{ if(Y0>2024) return; const om=tsK.omsorg_pct&&tsK.omsorg_pct[i]; if(om==null) return;
+      HY.push(Y0); HS.push(renorm(SEC.map(s=>tsK[s[0]]?tsK[s[0]][i]:0)));
+      HB.push(renorm(SEC.map(s=>tsB[s[0]]?tsB[s[0]][i]:0))); });
+    const base=HS.length?HS[HS.length-1]:renorm(SEC.map(s=>sv(s[0])));
+    const PY=[],PS=[];
+    for(let i=0;i<n;i++){ let tot=0; const w=SX.map((s,si)=>{const dv=s.d?drv[s.d]:drv.pop;const f=(dv&&dv[0])?dv[i]/dv[0]:1;const ww=base[si]*f;tot+=ww;return ww;});
+      PY.push((P.years||[])[i]); PS.push(w.map(x=>tot?x/tot*100:0)); }
+    const joinY=HY.length?HY[HY.length-1]:(P.years||[])[0];
+    const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
+    const SHOW=[0,1,2,3,4]; // omsorg, skole, barnehage, kommunehelse, kultur
+    sec='<div style="margin:14px 0 2px;padding-top:12px;border-top:1px solid var(--line2)">'+
+      '<div style="font-weight:600;color:var(--ink)">Sektorandel \u2014 faktisk \u2192 demografidrevet, til 2050 <span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber)1f;padding:2px 7px;border-radius:10px">illustrasjon</span></div>'+
+      '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Heltrukket venstre for «i dag» = faktiske KOSTRA-andeler. Stiplet f\u00f8r «i dag» = landsdel. Stiplet etter «i dag» = demografidrevet ('+wlab+'-flyttebane, alt annet likt). Andel av netto driftsutgifter.</p>'+
+      '<div style="'+GRID+'">'+
+      SHOW.map(si=>lineChart({title:SX[si].nm,sub:'% av netto driftsutgifter',col:SX[si].c,unit:'pct',signed:false,
+        hx:HY,hv:HS.map(v=>v[si]),bench:HB.map(v=>v[si]),
+        px:PY,pv:PS.map(v=>v[si])})).join('')+'</div>'+
+      '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.8">Stiplet linje etter «i dag» = <b>kun demografieffekt</b>: konstant enhetskostnad/dekningsgrad, ingen produktivitet, politikk eller omstilling. Bytt flyttebane over for f\u00f8lsomhet.</p></div>';
+    // stablet helhetsbilde (kollapsbart)
+    const XY=HY.concat(PY.filter(y=>y>joinY)), ST=[];
+    HY.forEach((y,idx)=>ST.push(HS[idx])); PY.forEach((y,idx)=>{ if(y>joinY||(!HY.length&&idx===0)) ST.push(PS[idx]); });
+    if(XY.length>1){
+      const sy0=XY[0],sy1=XY[XY.length-1],VB=720,Lx=44,Rx=142,Tp=14,Wd=VB-Lx-Rx,Hh=200;
+      const X=y=>Lx+((y-sy0)/((sy1-sy0)||1))*Wd, Y=p=>Tp+(1-p/100)*Hh;
+      let g='<svg class="chart" viewBox="0 0 '+VB+' '+(Tp+Hh+26)+'" preserveAspectRatio="xMidYMid meet" style="height:240px">';
+      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="rgba(17,32,58,.07)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+'%</text>';}
+      let cum=new Array(XY.length).fill(0);
+      SX.forEach((s,si)=>{let tp='',bt='';
+        for(let i=0;i<XY.length;i++){const t=cum[i]+ST[i][si];tp+=(i?' L':'M')+X(XY[i]).toFixed(1)+' '+Y(t).toFixed(1);}
+        for(let i=XY.length-1;i>=0;i--){bt+=' L'+X(XY[i]).toFixed(1)+' '+Y(cum[i]).toFixed(1);}
+        g+='<path d="'+tp+bt+' Z" fill="'+s.c+'" fill-opacity="'+(s.nm==='Annet'?'.5':'.9')+'" stroke="var(--paper2)" stroke-width="0.5"/>';
+        const my=Y(cum[XY.length-1]+ST[XY.length-1][si]/2);
+        if(ST[XY.length-1][si]>=4)g+='<text x="'+(Lx+Wd+6)+'" y="'+(my+3)+'" style="font-size:10px;font-weight:700;fill:var(--ink2)">'+s.nm+' '+ST[0][si].toFixed(0)+'\u2192'+ST[XY.length-1][si].toFixed(0)+'%</text>';
+        for(let i=0;i<XY.length;i++)cum[i]+=ST[i][si];});
+      const jx=X(joinY);
+      g+='<line x1="'+jx+'" y1="'+Tp+'" x2="'+jx+'" y2="'+(Tp+Hh)+'" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>';
+      g+='<text x="'+jx+'" y="'+(Tp-3)+'" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--ink2)">i dag</text>';
+      for(let yy=Math.ceil(sy0/5)*5;yy<=sy1;yy+=5)g+='<text class="axis" x="'+X(yy)+'" y="'+(Tp+Hh+18)+'" text-anchor="middle">'+yy+'</text>';
+      g+='</svg>';
+      stacked='<details style="margin:12px 0 0"><summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Samlet sammensetning (alle sektorer stablet, '+(HY.length?HY[0]:sy0)+'\u20132050)</summary><p class="hint" style="margin:6px 0 6px;font-size:11px">Samme tall som over, men stablet til 100 % \u2014 se hvordan hele kaka vris.</p>'+g+'</details>';
+    }
+  }
+  // ---- 80+ omsorgspress (kort) ----
+  let bridge='';
+  if(mw&&mw.a80&&mw.a80.length>1&&sv('omsorg_pct')!=null){
+    const a0=mw.a80[0],a1=mw.a80[n-1],r=a0?a1/a0:1,gp=(r-1)*100,om=sv('omsorg_pct');
+    bridge='<p class="hint" style="margin:12px 0 0;font-size:11.5px;padding-top:10px;border-top:1px solid var(--line2)">Spissere: innbyggere <b>80+</b> g\u00e5r fra <b>'+fmt(a0)+'</b> til <b>'+fmt(a1)+'</b> ('+(gp>=0?'+':'\u2212')+Math.abs(gp).toFixed(0)+' %). Med konstant kostnad per 80+ ville pleie og omsorg alene tilsvart <b>~'+(om*r).toFixed(0)+' %</b> av et budsjett p\u00e5 dagens niv\u00e5 (mot '+om.toFixed(0)+' % i dag).</p>';
+  }
+  // ---- full KOSTRA-tabell (siste verdi mot landsdel) ----
+  const F=(v,kind)=> v==null?'\u2013' : kind==='pct'? sgn(v)+' %' : kind==='kr'? fmt(Math.round(v))+' kr' : (''+v);
+  const GRP=[
+   ['\u00d8konomi (% av brutto driftsinntekter, kr)',[
+     ['ndr','Netto driftsresultat','pct'],['bdr','Brutto driftsresultat','pct'],
+     ['fond','Disposisjonsfond','pct'],['gjeld','Netto l\u00e5negjeld','pct'],
+     ['lgjeld','Langsiktig gjeld','pct'],['finutg','Netto finansutgifter','pct'],
+     ['akap','Arbeidskapital','pct'],['frieink','Frie inntekter / innbygger','kr']]],
+   ['Sektorandel (% av netto driftsutgifter)',[
+     ['omsorg_pct','Pleie og omsorg','pct'],['khelse_pct','Kommunehelse','pct'],
+     ['skole_pct','Grunnskole','pct'],['bhg_pct','Barnehage','pct'],
+     ['kultur_pct','Kultur','pct'],['kirke_pct','Kirke','pct'],
+     ['eiendom_pct','Eiendomsforvaltning','pct']]],
+   ['Per innbygger (kr)',[
+     ['omsorg_pi','Helse og omsorg / innb.','kr'],['skole_pi','Grunnskole / innb. 6\u201315','kr'],
+     ['bhg_pi','Barnehage / innb. 1\u20135','kr'],['kultur_pi','Kultur / innb.','kr'],
+     ['vei_pi','Kommunale veier / innb.','kr'],['bvern_pi','Barnevern / innb. 0\u201317','kr'],
+     ['eiendom_pi','Eiendomsforvaltning / innb.','kr']]]];
+  let tbl='';
+  GRP.forEach(grp=>{
+    tbl+='<div style="font-weight:700;color:var(--ink);font-size:11.5px;margin:12px 0 4px">'+grp[0]+'</div>'+
+      '<table style="width:100%;border-collapse:collapse;font-size:11.5px">'+
+      '<tr style="color:var(--ink3)"><td style="text-align:left;padding:2px 0">N\u00f8kkeltall</td><td style="text-align:right">Siste ('+(yr||tyr[tyr.length-1])+')</td><td style="text-align:right;padding-left:14px">Landsdel</td></tr>';
+    grp[1].forEach(r=>{ tbl+='<tr style="border-top:1px solid var(--line2)">'+
+      '<td style="text-align:left;padding:3px 0;color:var(--ink2)">'+r[1]+'</td>'+
+      '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;color:var(--ink)">'+F(num(ks[r[0]]),r[2])+'</td>'+
+      '<td style="text-align:right;padding-left:14px;font-family:\'Spline Sans Mono\',monospace;color:var(--ink3)">'+F(num(B[r[0]]),r[2])+'</td></tr>'; });
+    tbl+='</table>';
+  });
+  const full='<details style="margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line2)"><summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Alle KOSTRA-n\u00f8kkeltall \u2014 siste verdi mot landsdelsmedian</summary><p class="hint" style="margin:6px 0 8px;font-size:11px">Utviklingen over tid vises i grafene over. Tabellen er sisteverdi-oppslaget.</p>'+tbl+'</details>';
+  const deep=(econ||sec)?'<details style="margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line2)"><summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">G\u00e5 dypere \u2014 utvikling per n\u00f8kkeltall over tid (\u00f8konomi + sektorandeler 2015\u20132050)</summary>'+econ+sec+'</details>':'';
+  return '<div class="card"><div class="ch"><h3 class="serif">Kommune\u00f8konomi (KOSTRA'+(yr?', '+yr:'')+')</h3></div>'+
+    '<p class="hint">'+(isA?'Median for '+(k.fylke==='Alle'?'de 80 kommunene i landsdelen':k.fylke)+' (forholdstall summeres ikke). ':'SSB KOSTRA-konserntall. ')+
+    'Tre tall sier mest om \u00f8konomisk handlingsrom: resultat, buffer og gjeld. Fargene er veiledende \u2014 ikke offisielle grenseverdier; se ogs\u00e5 utviklingsgrafene under.</p>'+
+    body+mix+deep+stacked+bridge+full+
+    '<details style="margin:12px 0 0"><summary style="cursor:pointer;font-size:12px;color:var(--ink2);font-weight:600">Kilder og forbehold</summary><p class="hint" style="margin:6px 0 0;font-size:11px">SSB KOSTRA-konserntall: tab. 12143 (finansielle n\u00f8kkeltall, % av brutto driftsinntekter), 12209 (helse/omsorg), 12255 (grunnskole), 13502 (barnehage), 13135 (kultur), 12025 (kirke), 11816 (samferdsel), 12279 (barnevern), 12051 (eiendom), 13542 (frie inntekter). Tidsserie 2015\u20132025; 2025 er forel\u00f8pige tall. Nye kommunenummer fra 2024 mangler ofte tidligere \u00e5r. Sektor-framskrivingen bruker kohortmodellens aldersdrivere for valgt flyttevindu og er en ren demografivekting, ikke en \u00f8konomiprognose.</p></details></div>';
+}
+function diagnoseCard(k){
+  const P=DATA.proj; if(!P) return '';
+  const o=P.kommuner&&P.kommuner[k.nr]; const mw=MW(o); const n=(P.years||[]).length;
+  if(!o||!mw||n<2) return '';
+  const f=v=>fmt(Math.round(v));
+  const pct=(a,b)=>b?((a/b-1)*100):0;
+  const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
+  // Bruk faktisk folketall per 1.1.2026 (k.pop) som dagens tall, ikke projeksjonens startår 2024 (mw.pop[0])
+  const pop0=k.pop, pop1=mw.pop[n-1], pp=pct(pop1,pop0);
+  const a6=mw.a65,a2=mw.a2064;
+  // Sysselsetting-justert forsørgerbyrde (samme metode som i bærekraft-analysen) — eldre per 100 sysselsatte 20–64
+  const syssR = (typeof getSysselsRate==='function' ? getSysselsRate(k.nr) : null) || (typeof landsdelSysselsRate==='function' ? landsdelSysselsRate() : 0.7);
+  const oad0=a6&&a2&&a2[0]&&syssR>0?100*a6[0]/(a2[0]*syssR):null, oad1=a6&&a2&&a2[n-1]&&syssR>0?100*a6[n-1]/(a2[n-1]*syssR):null;
+  const a8=mw.a80, g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
+  const isA=k.isAgg;
+  const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
+  const num=v=>v==null?null:+v;
+  const ndr=ks?num(ks.ndr):null, fond=ks?num(ks.fond):null, gj=ks?num(ks.gjeld):null, yr=ks&&ks.yr;
+  let neg=0,pos=0;
+  if(ndr!=null){ if(ndr>=1.75)pos++; else if(ndr<0)neg++; }
+  if(fond!=null){ if(fond>=10)pos++; else if(fond<4)neg++; }
+  if(gj!=null){ if(gj<90)pos++; else if(gj>110)neg++; }
+  const verdict=(neg>=2)?'svakt':((pos>=2&&neg===0)?'solid':'blandet');
+  const vc=(verdict==='svakt')?'#B23B3B':(verdict==='solid'?'#2E7D5B':'var(--amber)');
+  const sgn1=v=>(v>=0?'+':'\u2212')+Math.abs(v).toFixed(0);
+  let spread='';
+  if(o.mw&&o.mw.kons&&o.mw.opt){ const lo=o.mw.kons.pop[n-1],hi=o.mw.opt.pop[n-1];
+    spread=' Hvor sterkt avhenger av flyttebanen \u2014 folketall 2050 spenner fra <b>'+f(Math.min(lo,hi))+'</b> til <b>'+f(Math.max(lo,hi))+'</b>.'; }
+  let s='';
+  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). Med '+wlab+'-flyttebanen '+(pp>=0?'vokser folketallet til':'krymper folketallet til')+' <b>'+f(pop1)+'</b> innen 2050 (<b>'+sgn1(pp)+'\u2009%</b>). ';
+  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 sysselsatte (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
+  if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det \u00f8konomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'\u2013':(ndr>=0?'':'\u2212')+Math.abs(ndr).toFixed(1))+'\u2009%</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'\u2013':fond.toFixed(1))+'\u2009%</b>, netto l\u00e5negjeld <b>'+(gj==null?'\u2013':gj.toFixed(0))+'\u2009%</b>. ';
+  s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg \u2014 vist i grafene under.'+spread;
+  return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0 10px 10px 0">'+
+    '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon \u2014 demografi m\u00f8ter \u00f8konomi</h3>'+
+    '<span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber)1f;padding:2px 8px;border-radius:10px">'+wlab+'-flyttebane</span></div>'+
+    '<p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--ink)">'+s+'</p>'+
+    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">Framskrevet med kohortmodellen (TF-MVP), ikke en prognose. KOSTRA: siste tilgjengelige \u00e5r. Detaljer og forbehold i kortene under.</p></div>';
+}
+function robekProxy(nr){
+  const P=DATA.proj, ks=(P.kostra||{})[nr], TS=P.kostra_ts||{}, tsK=(TS.kommuner||{})[nr]||{};
+  const N=v=>v==null?null:+v;
+  const ndr=ks?N(ks.ndr):null, fond=ks?N(ks.fond):null, gj=ks?N(ks.gjeld):null, bdr=ks?N(ks.bdr):null, yr=ks&&ks.yr;
+  const ndrs=(tsK.ndr||[]).filter(v=>v!=null), neg=ndrs.filter(v=>v<0).length;
+  let pts=0;
+  // Disposisjonsfond dominerer \u2014 direkte utl\u00f8sende for oppsamlet merforbruk (\u00a728-1 d)
+  if(fond!=null){ if(fond<1)pts+=4; else if(fond<3)pts+=3; else if(fond<5)pts+=1; }
+  // Driftsresultat
+  if(ndr!=null){ if(ndr<-2)pts+=3; else if(ndr<0)pts+=2; else if(ndr<1.75)pts+=0.5; }
+  // Kronisk svakhet
+  if(neg>=5)pts+=3; else if(neg>=3)pts+=2; else if(neg>=2)pts+=1;
+  if(bdr!=null&&bdr<0)pts+=1;
+  // L\u00e5negjeld bare som svak forsterker (ikke et ROBEK-vilk\u00e5r i seg selv)
+  if(gj!=null&&gj>=160)pts+=1;
+  const lvl=pts>=6?3:pts>=4?2:pts>=2?1:0;
+  return {pts:pts,lvl:lvl,ndr:ndr,fond:fond,gj:gj,bdr:bdr,neg:neg,yr:yr,nser:ndrs.length};
+}
+function robekOverviewHTML(fylke){
+  const P=DATA.proj, RB=P.robek||{kommuner:{}}; if(!P||!P.robek) return '';
+  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['#2E7D5B','#C9A23B','var(--amber)','#B23B3B'];
+  const scope=fylke==='Alle'?'Nord-Norge':fylke;
+  const sf=(f)=>'Statsforvalteren i '+(f==='Alle'?'fylket':f);
+  const inF=K.filter(x=>fylke==='Alle'?true:x.fylke===fylke);
+  const reg=inF.filter(x=>RB.kommuner[x.nr]);
+  const pendF=inF.filter(x=>(RB.pending||{})[x.nr]);
+  const pctv=inF.length?(reg.length/inF.length*100):0;
+  const dist=[0,0,0,0];
+  const recs=inF.map(x=>{ const pr=robekProxy(x.nr); dist[pr.lvl]++;
+    const st=RB.kommuner[x.nr]?2:((RB.pending||{})[x.nr]?1:0);
+    return {nr:x.nr,navn:x.navn,fylke:x.fylke,pr:pr,st:st,let:RB.kommuner[x.nr]||((RB.pending||{})[x.nr]?'d':'')}; });
+  const so=state.robekSort||'risk';
+  recs.sort((a,b)=> so==='navn'? a.navn.localeCompare(b.navn,'no')
+    : so==='fylke'? (a.fylke===b.fylke? b.pr.pts-a.pr.pts : a.fylke.localeCompare(b.fylke,'no'))
+    : so==='status'? (b.st-a.st || b.pr.pts-a.pr.pts || a.navn.localeCompare(b.navn,'no'))
+    : (b.pr.pts-a.pr.pts || b.st-a.st || a.navn.localeCompare(b.navn,'no')) );
+  const seg=(v,t)=>'<button data-s="'+v+'" aria-selected="'+(so===v?'true':'false')+'">'+t+'</button>';
+  const stCell=r=> r.st===2
+    ? '<span style="color:#B23B3B;font-weight:600">I ROBEK</span> <span style="color:var(--ink3);font-size:10px">\u00a728-1 '+r['let']+'</span>'
+    : r.st===1 ? '<span style="color:var(--amber);font-weight:600">Over grensen</span> <span style="color:var(--ink3);font-size:10px">(d, behandles)</span>'
+    : '<span style="color:var(--ink3)">\u2013</span>';
+  const pill=l=>'<span style="display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;color:#fff;background:'+LC[l]+'">'+LV[l]+'</span>';
+  const fmtp=(v,unit)=> v==null?'\u2013':(v<0?'\u2212':'')+Math.abs(v).toFixed(unit==='0'?0:1)+(unit==='%'?'\u2009%':'');
+  const showFylke=fylke==='Alle';
+  const head='<tr style="color:var(--ink3);font-size:10.5px;text-align:left">'+
+    '<td style="padding:3px 0">Kommune</td>'+(showFylke?'<td>Fylke</td>':'')+
+    '<td>Status</td><td>Risiko</td>'+
+    '<td style="text-align:right">NDR</td><td style="text-align:right;padding-left:8px">Fond</td>'+
+    '<td style="text-align:right;padding-left:8px">Gjeld</td><td style="text-align:right;padding-left:8px">Neg.\u00e5r</td></tr>';
+  const body=recs.map(r=>'<tr style="border-top:1px solid var(--line2)">'+
+    '<td style="padding:4px 0;color:var(--ink);font-weight:'+(r.st?'600':'400')+'">'+r.navn+'</td>'+
+    (showFylke?'<td style="color:var(--ink3);font-size:11px">'+r.fylke+'</td>':'')+
+    '<td style="font-size:11px">'+stCell(r)+'</td>'+
+    '<td>'+pill(r.pr.lvl)+'</td>'+
+    '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.ndr!=null&&r.pr.ndr<0?'#B23B3B':'var(--ink2)')+'">'+fmtp(r.pr.ndr,'%')+'</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.fond!=null&&r.pr.fond<3?'#B23B3B':'var(--ink2)')+'">'+fmtp(r.pr.fond,'%')+'</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.gj!=null&&r.pr.gj>=110?'var(--amber)':'var(--ink2)')+'">'+fmtp(r.pr.gj,'0')+'\u2009%</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:var(--ink3)">'+r.pr.neg+'/'+r.pr.nser+'</td></tr>').join('');
+  const crit='<details style="margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line2)">'+
+    '<summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Hva utl\u00f8ser ROBEK? (kommuneloven \u00a728-1)</summary>'+
+    '<p class="hint" style="margin:6px 0 0;font-size:11.5px">Minst ett objektivt vilkår m\u00e5 ha inntruffet: '+
+    '<b>a)</b> driftsbudsjett vedtatt med merforbruk \u00b7 <b>b)</b> \u00f8konomiplanens driftsdel vedtatt med merforbruk \u00b7 '+
+    '<b>c)</b> merforbruk som dekkes inn over mer enn to \u00e5r \u00b7 <b>d)</b> oppsamlet merforbruk &gt; <b>3 % av driftsinntektene</b> \u00b7 '+
+    '<b>e/f)</b> plan/budsjett/regnskap ikke vedtatt innen frist. Nasjonale kriterier; '+sf(fylke)+' f\u00f8rer kontrollen p\u00e5 vegne av KDD.</p></details>';
+  return '<div class="card"><div class="ch"><h3 class="serif">ROBEK \u2014 landsdelsoversikt ('+scope+')</h3></div>'+
+    '<p class="hint">Faktisk registerstatus per <b>'+RB.oppdatert+'</b> (kilde: '+RB.kilde+'), satt mot den kalibrerte risikoproxyen p\u00e5 KOSTRA-fundamentene for alle '+inF.length+' kommuner.</p>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin:8px 0 4px">'+
+    '<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:'+(reg.length?'#B23B3B':'#2E7D5B')+'">'+reg.length+'</span> <span style="color:var(--ink2);font-size:12.5px">i ROBEK ('+pctv.toFixed(0)+' %)</span></div>'+
+    (pendF.length?'<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:var(--amber)">'+pendF.length+'</span> <span style="color:var(--ink2);font-size:12.5px">over grensen (behandles)</span></div>':'')+
+    '<div style="font-size:11.5px;color:var(--ink2)">Proxy: <b style="color:'+LC[3]+'">'+dist[3]+'</b> H\u00f8y \u00b7 <b style="color:'+LC[2]+'">'+dist[2]+'</b> Forh\u00f8yet \u00b7 <b style="color:'+LC[1]+'">'+dist[1]+'</b> Moderat \u00b7 <b style="color:'+LC[0]+'">'+dist[0]+'</b> Lav</div></div>'+
+    '<div class="minseg" id="rbk" style="margin:6px 0 4px">'+seg('risk','Risiko')+seg('status','Status')+seg('navn','Navn')+seg('fylke','Fylke')+'</div>'+
+    '<div style="max-height:460px;overflow:auto;border:1px solid var(--line2);border-radius:8px;padding:2px 10px"><table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead style="position:sticky;top:0;background:var(--paper2)">'+head+'</thead><tbody>'+body+'</tbody></table></div>'+
+    '<p class="hint" style="margin:6px 0 0;font-size:11px">Sorter med knappene over. <b>Risiko</b> = kalibrert proxy: disposisjonsfond (tyngst vektet \u2014 direkte utl\u00f8sende for bokstav d), driftsresultat, kronisk svakhet, l\u00e5negjeld kun som svak forsterker. Ikke de juridiske vilkårene.</p>'+
+    crit+
+    '<p class="hint" style="margin:10px 0 0;font-size:11px;opacity:.75">Kalibrert mot fasiten: alle 12 faktisk i/over ROBEK fanges (Forh\u00f8yet/H\u00f8y). Proxyen overvarsler fortsatt bevisst \u2014 mange kommuner har reelt svake fundamenter men unng\u00e5r registeret ved \u00e5 saldere budsjettet (vilkår a\u2013c er vedtak, ikke n\u00f8kkeltall). Registerstatus er et \u00f8yeblikksbilde og endres l\u00f8pende.</p></div>';
+}
+function robekCard(k){
+  const P=DATA.proj; if(!P||!P.robek) return '';
+  const RB=P.robek, isA=k.isAgg;
+  const sf=(f)=>'Statsforvalteren i '+(f==='Alle'?'fylket':f);
+  const crit='<details style="margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line2)">'+
+    '<summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Hva utl\u00f8ser ROBEK? (kommuneloven \u00a728-1)</summary>'+
+    '<p class="hint" style="margin:6px 0 0;font-size:11.5px">Registrering er <b>ikke skj\u00f8nn</b> \u2014 minst ett objektivt vilkår m\u00e5 ha inntruffet: '+
+    '<b>a)</b> driftsbudsjettet vedtatt med merforbruk \u00b7 <b>b)</b> driftsdelen i \u00f8konomiplanen vedtatt med merforbruk \u00b7 '+
+    '<b>c)</b> merforbruk som skal dekkes inn over mer enn to \u00e5r \u00b7 <b>d)</b> oppsamlet merforbruk &gt; <b>3 % av driftsinntektene</b> \u00b7 '+
+    '<b>e/f)</b> \u00f8konomiplan/budsjett/regnskap ikke vedtatt innen frist. Kriteriene er nasjonale (samme i alle fylker); '+sf(isA?k.fylke:k.fylke)+' f\u00f8rer kontrollen p\u00e5 vegne av Kommunal- og distriktsdepartementet. '+
+    'Konsekvens: l\u00e5neopptak, budsjett og lange leieavtaler m\u00e5 godkjennes.</p></details>';
+
+  if(isA){ return robekOverviewHTML(k.fylke); }
+
+  const letters=RB.kommuner[k.nr];
+  const pr=robekProxy(k.nr);
+  const ndr=pr.ndr, fond=pr.fond, gj=pr.gj, bdr=pr.bdr, yr=pr.yr, neg=pr.neg;
+  const ndrs={length:pr.nser};
+  const pts=pr.pts, lvl=pr.lvl;
+  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['#2E7D5B','#C9A23B','var(--amber)','#B23B3B'];
+  const gauge='<div style="display:flex;gap:4px;margin:8px 0 2px">'+LV.map((t,i)=>
+    '<div style="flex:1;text-align:center"><div style="height:8px;border-radius:3px;background:'+(i<=lvl?LC[lvl]:'var(--line2)')+'"></div>'+
+    '<div style="font-size:10.5px;margin-top:3px;font-weight:'+(i===lvl?'700':'400')+';color:'+(i===lvl?LC[lvl]:'var(--ink3)')+'">'+t+'</div></div>').join('')+'</div>';
+  const tag=(v,bad,warn,fmtv)=> v==null?'<span style="color:var(--ink3)">\u2013</span>':
+    '<b>'+fmtv+'</b> <span style="color:'+(bad?'#B23B3B':warn?'var(--amber)':'#2E7D5B')+';font-size:11px">'+(bad?'\u25cf':warn?'\u25cf':'\u25cf')+'</span>';
+  const rows=[
+    ['Netto driftsresultat'+(yr?' ('+yr+')':''), tag(ndr,ndr!=null&&ndr<0,ndr!=null&&ndr<1.75,(ndr==null?'':(ndr<0?'\u2212':'')+Math.abs(ndr).toFixed(1)+'\u2009%')), 'TBU-norm +1,75 %'],
+    ['\u00c5r med negativt resultat', '<b>'+neg+'</b> av '+ndrs.length+' siste \u00e5r', '\u22655 \u00e5r = kronisk (tungt vektet)'],
+    ['Disposisjonsfond', tag(fond,fond!=null&&fond<3,fond!=null&&fond<5,(fond==null?'':fond.toFixed(1)+'\u2009%')), 'buffer mot merforbruk \u2014 &lt;3 % kritisk (bokstav d)'],
+    ['Netto l\u00e5negjeld', tag(gj,gj!=null&&gj>=160,gj!=null&&gj>=110,(gj==null?'':gj.toFixed(0)+'\u2009%')), 'kun svak forsterker (ikke ROBEK-vilkår)'],
+    ['Brutto driftsresultat', tag(bdr,bdr!=null&&bdr<0,false,(bdr==null?'':(bdr<0?'\u2212':'')+Math.abs(bdr).toFixed(1)+'\u2009%')), 'drift uten finansposter']
+  ];
+  const tbl='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 0">'+rows.map(r=>
+    '<tr style="border-top:1px solid var(--line2)"><td style="text-align:left;padding:4px 0;color:var(--ink2)">'+r[0]+'</td>'+
+    '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace">'+r[1]+'</td>'+
+    '<td style="text-align:right;padding-left:12px;color:var(--ink3);font-size:10.5px">'+r[2]+'</td></tr>').join('')+'</table>';
+  const pend=(RB.pending||{})[k.nr];
+  const badge=letters
+    ? '<div style="background:#B23B3B12;border:1px solid #B23B3B55;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:#B23B3B">Registrert i ROBEK</b> \u2014 kommuneloven \u00a728-1 bokstav <b>'+letters+'</b>. '+sf(k.fylke)+' f\u00f8rer kontroll med budsjett, l\u00e5neopptak og lange leieavtaler. Status per '+RB.oppdatert+'.</div>'
+    : pend
+    ? '<div style="background:var(--amber)14;border:1px solid var(--amber)66;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:var(--amber)">Over ROBEK-grensen \u2014 innmelding under behandling</b> (\u00a728-1 bokstav <b>'+pend.par+'</b>). '+pend.note+' <span style="color:var(--ink3)">Kilde: '+pend.kilde+', '+pend.oppdatert+'. Ikke f\u00f8rt inn i det offisielle registeret per '+RB.oppdatert+'.</span></div>'
+    : '<div style="background:#2E7D5B12;border:1px solid #2E7D5B55;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:#2E7D5B">Ikke registrert i ROBEK</b> per '+RB.oppdatert+' (kilde: '+RB.kilde+').</div>';
+  const read='Fundamentene gir <b style="color:'+LC[lvl]+'">'+LV[lvl]+'</b> risiko. '+
+    (letters?'Kommunen er faktisk i registeret \u2014 her bekrefter proxyen den juridiske statusen.'
+            :pend?'Kommunen er over den kvantitative grensen (bokstav d) \u2014 proxyen fanget presset f\u00f8r registeret rakk \u00e5 reflektere det.'
+            :(lvl>=2?'Kommunen er ikke i registeret i dag, men fundamentene viser \u00f8kende press.':'Kommunen er ikke i registeret, og fundamentene st\u00f8tter det.'));
+  return '<div class="card"><div class="ch"><h3 class="serif">ROBEK \u2014 status og \u00f8konomisk risiko</h3></div>'+
+    badge+
+    '<div style="font-weight:600;color:var(--ink);margin:10px 0 0">Risikoproxy fra KOSTRA-fundamentene</div>'+
+    '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Tidligvarsel p\u00e5 det som <i>g\u00e5r forut for</i> ROBEK \u2014 ikke de juridiske vilkårene.</p>'+
+    gauge+tbl+
+    '<p style="margin:8px 0 0;font-size:12.5px;color:var(--ink)">'+read+'</p>'+
+    crit+
+    '<p class="hint" style="margin:10px 0 0;font-size:11px;opacity:.78">Risikonivået er en <b>gjennomsiktig proxy</b> p\u00e5 KOSTRA-fundamentene, ikke en sannsynlighet og ikke de juridiske vilkårene. Faktisk innmelding utl\u00f8ses av budsjett-/\u00f8konomiplanvedtak (a, b) og akkumulert merforbruk (c, d) som ikke kan leses ut av disse n\u00f8kkeltallene. Bokstav d \u2014 oppsamlet merforbruk &gt; 3 % av driftsinntektene \u2014 er det eneste kvantitative vilkåret; proxyen fanger presset som leder dit (svakt driftsresultat som t\u00e6rer p\u00e5 fondet). Registerstatus er et \u00f8yeblikksbilde per '+RB.oppdatert+' og endres l\u00f8pende.</p></div>';
+}
+/* === status helper for badges + list === */
+function kommuneStatus(k){
+  const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[k.nr];
+  let growth='flat', growthPct=0;
+  if(o&&o.main&&o.main.length){
+    const a=o.main[0], b=o.main[o.main.length-1];
+    growthPct=a? (b-a)/a*100 : 0;
+    growth = growthPct>2 ? 'up' : growthPct<-2 ? 'down' : 'flat';
+  }
+  const RB=P&&P.robek;
+  let robek='ok';
+  if(RB){
+    if(RB.kommuner&&RB.kommuner[k.nr]) robek='in';
+    else if(RB.pending&&RB.pending[k.nr]) robek='pending';
+  }
+  const med=medianAge(k.alder);
+  const aging = med<38 ? 'young' : med<43 ? 'mid' : 'old';
+  return {growth, growthPct, robek, aging, med};
+}
+function statusBadges(k,s){
+  if(k.isAgg) return '';
+  const gtxt = s.growth==='up' ? '↑ vekst '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0)+'%' :
+               s.growth==='down' ? '↓ krymper '+s.growthPct.toFixed(0)+'%' :
+               '→ stabilt '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0)+'%';
+  const rtxt = s.robek==='in' ? '● i ROBEK' :
+               s.robek==='pending' ? '● ROBEK under behandling' :
+               '● ROBEK-trygg';
+  const atxt = s.aging==='young' ? '⬇ ung profil (median '+s.med+')' :
+               s.aging==='mid' ? '● moderat alder (median '+s.med+')' :
+               '⬆ aldrende (median '+s.med+')';
+  return '<div class="status-badges">'+
+    '<span class="badge b-'+s.growth+'" title="SSB MMMM 2024→2050">'+gtxt+'</span>'+
+    '<span class="badge b-robek-'+(s.robek==='in'?'in':s.robek==='pending'?'pend':'ok')+'" title="ROBEK-status">'+rtxt+'</span>'+
+    '<span class="badge b-age-'+s.aging+'" title="Medianalder i dag">'+atxt+'</span>'+
+  '</div>';
+}
+/* Pre-beregner rang i landsdelen for median husholdningsinntekt */
+let _inntektRangCache=null;
+function inntektRang(nr){
+  if(!_inntektRangCache && typeof LEVEKAR_DATA!=='undefined'){
+    const arr=[];
+    Object.entries(LEVEKAR_DATA.kommuner).forEach(([n,r])=>{
+      if(r.medianInntektEtterSkatt) arr.push({nr:n, m:r.medianInntektEtterSkatt});
+    });
+    arr.sort((a,b)=>b.m-a.m);
+    _inntektRangCache={};
+    arr.forEach((x,i)=>{ _inntektRangCache[x.nr] = {rang:i+1, total:arr.length}; });
+  }
+  return _inntektRangCache ? (_inntektRangCache[String(nr)]||null) : null;
+}
+
+function levekarKommuneCard(k){
+  if(typeof LEVEKAR_DATA==='undefined') return '';
+  const r = LEVEKAR_DATA.kommuner[String(k.nr)];
+  if(!r) return '';
+  const fmt0 = n => n==null ? '–' : (n>=1e6?(n/1e6).toFixed(2)+' mill':(n>=1000?Math.round(n).toLocaleString('nb-NO'):Math.round(n)));
+  const rang = inntektRang(k.nr);
+  // Landsdelens vektede median for sammenligning
+  let sumW=0, sumMW=0;
+  Object.values(LEVEKAR_DATA.kommuner).forEach(x=>{
+    if(x.medianInntektEtterSkatt && x.hush_total){ sumMW += x.medianInntektEtterSkatt * x.hush_total; sumW += x.hush_total; }
+  });
+  const landsdelMed = sumW ? sumMW/sumW : null;
+  const NORGE_MED = 615000;
+  const diffLandsdel = (r.medianInntektEtterSkatt && landsdelMed) ? (r.medianInntektEtterSkatt/landsdelMed-1)*100 : null;
+  const diffNorge = r.medianInntektEtterSkatt ? (r.medianInntektEtterSkatt/NORGE_MED-1)*100 : null;
+  // Personinntekt-sammensetning
+  const totL=r.totalLonn_mill||0, totP=r.totalPensjon_mill||0, totU=r.totalUfore_mill||0;
+  const sumK = totL+totP+totU;
+  const pctL = sumK?totL/sumK*100:0, pctP = sumK?totP/sumK*100:0, pctU = sumK?totU/sumK*100:0;
+  // Boliger
+  const bolTot = r.boliger_total||0;
+  const eneP = bolTot ? r.boliger_enebolig/bolTot*100 : 0;
+  const blokkP = bolTot ? r.boliger_boligblokk/bolTot*100 : 0;
+  return '<div class="card">'+
+    '<div class="ch"><h3 class="serif">Levekår og inntekt</h3></div>'+
+    '<p class="hint">Hva tjener husholdningene i '+k.navn+', hvor kommer pengene fra, hvordan bor de? Kilder: SSB 12558 (inntekt 2024), 14780 (personinntekt 2025), 11084 (eierstatus 2024), 06265 (boliger 2026).</p>'+
+    '<div class="kpis" style="margin-top:14px">'+
+      '<div class="kpi"><div class="v">'+(r.medianInntektEtterSkatt?Math.round(r.medianInntektEtterSkatt/1000)+'k':'–')+'</div><div class="l">Median hush.-inntekt</div><div class="s">etter skatt'+(diffLandsdel!=null?' · '+(diffLandsdel>=0?'+':'−')+Math.abs(diffLandsdel).toFixed(0)+' % vs landsdel':'')+'</div></div>'+
+      '<div class="kpi"><div class="v">'+fmt0(r.hush_total)+'</div><div class="l">Husholdninger</div><div class="s">'+(r.pct_selveier!=null?r.pct_selveier.toFixed(0)+' % selveiere':'')+'</div></div>'+
+      '<div class="kpi"><div class="v">'+fmt0(bolTot)+'</div><div class="l">Boliger</div><div class="s">'+eneP.toFixed(0)+' % enebolig · '+blokkP.toFixed(0)+' % blokk</div></div>'+
+      (rang?'<div class="kpi"><div class="v">'+rang.rang+'</div><div class="l">Rang i Nord-Norge</div><div class="s">av '+rang.total+' kommuner, høyest inntekt = 1</div></div>':'')+
+    '</div>'+
+    (sumK?
+      '<div class="origin-section">'+
+        '<h3 class="serif" style="font-size:15px;font-weight:600;margin-bottom:6px">Hvor kommer personinntekten fra?</h3>'+
+        '<p class="hint" style="font-size:12px">Lønn, pensjon og uføretrygd som andel av samlet personinntekt for bosatte 17+ år. Totalt '+(sumK>1000?(sumK/1000).toFixed(1)+' mrd kr':sumK.toFixed(0)+' mill kr')+'.</p>'+
+        '<div class="split" style="margin:8px 0">'+
+          '<div style="width:'+pctL.toFixed(1)+'%;background:var(--aurora);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctL>=8?pctL.toFixed(0)+' %':'')+'</div>'+
+          '<div style="width:'+pctP.toFixed(1)+'%;background:var(--nl);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctP>=8?pctP.toFixed(0)+' %':'')+'</div>'+
+          '<div style="width:'+pctU.toFixed(1)+'%;background:var(--amber);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctU>=8?pctU.toFixed(0)+' %':'')+'</div>'+
+        '</div>'+
+        '<div class="legend">'+
+          '<span><i style="background:var(--aurora)"></i>Lønn '+pctL.toFixed(0)+' %</span>'+
+          '<span><i style="background:var(--nl)"></i>Pensjon '+pctP.toFixed(0)+' %</span>'+
+          '<span><i style="background:var(--amber)"></i>Uføretrygd '+pctU.toFixed(0)+' %</span>'+
+        '</div>'+
+      '</div>'
+    :'')+
+  '</div>';
+}
+
+function originCard(k,vesP,iveP,lands,shown){
+  return '<div class="card">'+
+    '<h3 class="serif">Opprinnelse — vestlig/ikke-vestlig og land</h3>'+
+    '<p class="hint">Av '+fmt(k.bc)+' med innvandrerbakgrunn (innvandrere + norskfødte med innvandrerforeldre).</p>'+
+    '<div class="split">'+
+      '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+'%':'')+'</div>'+
+      '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+'%':'')+'</div></div>'+
+    '<div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · '+fmt(k.ves)+'</span>'+
+      '<span><i style="background:var(--amber)"></i>Ikke-vestlig · '+fmt(k.ive)+'</span></div>'+
+    '<div class="origin-section">'+
+      '<div class="ch" style="margin-bottom:4px"><h3 class="serif" style="font-size:16px">Opprinnelsesland</h3>'+
+        '<input class="csearch" id="cs" placeholder="søk land …" value="'+state.csearch+'"></div>'+
+      '<p class="hint">Enkeltland, sortert. Tabell 09817. '+lands.length+' land med registrerte personer.</p>'+
+      (!state.csearch?'<div class="cslider"><span>Vis topp</span>'+
+        '<input id="tn" type="range" min="5" max="'+Math.max(5,Math.min(40,k.land.filter(l=>l[1]>0).length))+'" value="'+state.topN+'">'+
+        '<span class="mono" id="tnv">'+state.topN+'</span></div><div style="height:10px"></div>':'')+
+      (shown.length?barChart(shown.map(l=>({l:l[0],v:l[1]})),'var(--amber)'):'<p class="hint">Ingen treff.</p>')+
+    '</div>'+
+  '</div>';
+}
+/* === klartekst-banner per linse === */
+function tldrBanner(k, view){
+  const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[k.nr];
+  const fmt0=v=>v==null?'–':fmt(Math.round(v));
+  const pctF=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0)+' %';
+  if(view==='history'){
+    const hist=k.hist||{};
+    const histKeys=Object.keys(hist).map(Number).sort((a,b)=>a-b);
+    const firstY=histKeys.length?histKeys[0]:null;
+    const firstV=firstY?hist[firstY]:null;
+    const lastY=histKeys.length?histKeys[histKeys.length-1]:null;
+    const lastV=lastY?hist[lastY]:null;
+    const pastPct=(firstV&&lastV)?((lastV/firstV-1)*100):null;
+    let projHi=null, projLo=null, projMain=null, projYear=null;
+    if(o&&o.main&&o.main.length){
+      const n=o.main.length;
+      projMain=o.main[n-1];
+      projHi=Math.max(o.main[n-1],(o.mw&&o.mw.opt?o.mw.opt.pop[n-1]:projMain),(o.tfattr?o.tfattr[n-1]:projMain),(o.high?o.high[n-1]:projMain));
+      projLo=Math.min(o.main[n-1],(o.mw&&o.mw.kons?o.mw.kons.pop[n-1]:projMain),(o.tfattr?o.tfattr[n-1]:projMain),(o.low?o.low[n-1]:projMain));
+      projYear=(P.years||[])[n-1]||2050;
+    }
+    const futurePct=(k.pop&&projMain)?((projMain/k.pop-1)*100):null;
+    let text='';
+    if(firstY&&lastY&&pastPct!=null){
+      text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'krympet')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på 25 år. ';
+    } else {
+      text+='<b>'+k.navn+'</b> har <b>'+fmt0(k.pop)+'</b> innbyggere i dag. ';
+    }
+    if(projMain){
+      text+='SSB MMMM peker mot <b>'+fmt0(projMain)+'</b> i '+projYear+' ('+pctF(futurePct)+' fra i dag). ';
+      if(projLo&&projHi&&projHi-projLo>50) text+='Banene spriker fra <b>'+fmt0(projLo)+'</b> til <b>'+fmt0(projHi)+'</b> avhengig av flytteforutsetning. ';
+    }
+    text+='<i>Det er flyttingen som driver utfallet — fødsler og dødsfall regnes likt.</i>';
+    const nums=[];
+    if(firstV&&lastV) nums.push({nv:pctF(pastPct),cls:pastPct>=0?'up':'down',nl:'siden '+firstY,nh:firstY+' → '+lastY});
+    nums.push({nv:fmt0(k.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
+    if(projMain&&futurePct!=null) nums.push({nv:pctF(futurePct),cls:futurePct>=0?'up':'down',nl:'mot '+projYear,nh:'SSB MMMM'});
+    return '<div class="tldr">'+
+      '<div class="tldr-tag">Linse 01 · Reisen 2000–2050</div>'+
+      '<h3>Hva har skjedd — og hva kan komme?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+nums.map(n=>'<div class="tldr-num"><div class="nv '+n.cls+'">'+n.nv+'</div><div class="nl">'+n.nl+'</div><div class="nh">'+n.nh+'</div></div>').join('')+'</div>'+
+    '</div>';
+  }
+  if(view==='people'){
+    const med=medianAge(k.alder);
+    const barn=k.alder.slice(0,18).reduce((a,b)=>a+b,0);
+    const eldre=k.alder.slice(67).reduce((a,b)=>a+b,0);
+    const pctBarn=k.pop?100*barn/k.pop:0;
+    const pctEldre=k.pop?100*eldre/k.pop:0;
+    const pctInnv=k.andel||0;
+    const ageWord = med<38?'ung':med<43?'moderat':'aldrende';
+    let text='Medianalderen er <b>'+med+' år</b> — en '+ageWord+' kommune. <b>'+pctBarn.toFixed(0)+' %</b> er under 18 år, mens <b>'+pctEldre.toFixed(0)+' %</b> har passert 67. ';
+    text+='<b>'+pctInnv.toFixed(1)+' %</b> har innvandrerbakgrunn (vestlig + ikke-vestlig). ';
+    text+='<i>Aldringen i dag er forhåndsvarselet for press på omsorg og bemanning de neste tjue årene.</i>';
+    return '<div class="tldr t-people">'+
+      '<div class="tldr-tag">Linse 02 · Folket i dag</div>'+
+      '<h3>Hvem bor her nå?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        '<div class="tldr-num"><div class="nv">'+med+'</div><div class="nl">Medianalder</div><div class="nh">år</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(pctBarn>22?'up':pctBarn<18?'down':'')+'">'+pctBarn.toFixed(0)+' %</div><div class="nl">0–17 år</div><div class="nh">'+fmt(barn)+' personer</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(pctEldre>20?'warn':pctEldre>17?'':'up')+'">'+pctEldre.toFixed(0)+' %</div><div class="nl">67+ år</div><div class="nh">'+fmt(eldre)+' personer</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+pctInnv.toFixed(1)+' %</div><div class="nl">Innvandrerbakgrunn</div><div class="nh">'+fmt(k.bc)+' personer</div></div>'+
+      '</div>'+
+    '</div>';
+  }
+  if(view==='burden'){
+    const mw=MW(o);
+    const a6=mw?mw.a65:null, a2=mw?mw.a2064:null;
+    const n=(P.years||[]).length;
+    const oad0=(a6&&a2&&a2[0])?100*a6[0]/a2[0]:null;
+    const oad1=(a6&&a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
+    const isA=k.isAgg;
+    const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
+    const num=v=>v==null?null:+v;
+    const ndr=ks?num(ks.ndr):null, fond=ks?num(ks.fond):null, gj=ks?num(ks.gjeld):null;
+    const RB=P.robek||{kommuner:{}}; const inRobek=!isA&&RB.kommuner&&RB.kommuner[k.nr];
+    const pending=!isA&&(RB.pending||{})[k.nr];
+    const robekTxt=inRobek?'I ROBEK (bokstav '+inRobek+')':pending?'over grensen — under behandling':'ikke i ROBEK';
+    let text='';
+    if(oad0!=null&&oad1!=null){
+      text+='I dag bærer 100 yrkesaktive (20–64) <b>'+oad0.toFixed(0)+'</b> eldre (65+). I 2050 øker dette til <b>'+oad1.toFixed(0)+'</b> — '+(oad1>oad0?'en tyngre bør':'fortsatt bærbart')+'. ';
+    }
+    if(fond!=null){
+      const fondGrade=fond<3?'<b style="color:#B23B3B">kritisk lav</b>':fond<5?'<b style="color:var(--amber)">tynn</b>':fond<10?'akseptabel':'<b style="color:var(--aurora)">solid</b>';
+      text+='Disposisjonsfondet er '+fondGrade+' på <b>'+fond.toFixed(1)+' %</b> av driftsinntektene. ';
+    }
+    if(ndr!=null){
+      text+='Netto driftsresultat: <b>'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %</b> (TBU-norm +1,75). ';
+    }
+    text+='ROBEK-status: <b'+(inRobek?' style="color:#B23B3B"':pending?' style="color:var(--amber)"':' style="color:var(--aurora)"')+'>'+robekTxt+'</b>. ';
+    text+='<i>Hvor tungt blir aldringen å bære for kommunens budsjett?</i>';
+    return '<div class="tldr t-burden">'+
+      '<div class="tldr-tag">Linse 03 · Tyngden å bære</div>'+
+      '<h3>Hva betyr demografien for kommuneøkonomien?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        (oad1!=null?'<div class="tldr-num"><div class="nv '+(oad1>40?'warn':'')+'">'+oad1.toFixed(0)+'</div><div class="nl">Forsørgerbyrde 2050</div><div class="nh">eldre per 100 i jobb</div></div>':'')+
+        (fond!=null?'<div class="tldr-num"><div class="nv '+(fond<3?'down':fond<5?'warn':'up')+'">'+fond.toFixed(1)+' %</div><div class="nl">Disposisjonsfond</div><div class="nh">av driftsinntekter</div></div>':'')+
+        (ndr!=null?'<div class="tldr-num"><div class="nv '+(ndr<0?'down':ndr<1.75?'warn':'up')+'">'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %</div><div class="nl">Netto driftsresultat</div><div class="nh">TBU-norm +1,75</div></div>':'')+
+        '<div class="tldr-num"><div class="nv '+(inRobek?'down':pending?'warn':'up')+'">'+(inRobek?'I':pending?'●':'✓')+'</div><div class="nl">ROBEK-status</div><div class="nh">'+robekTxt+'</div></div>'+
+      '</div>'+
+    '</div>';
+  }
+  return '';
+}
+function detail(){
+  const k=resolveSel();
+  if(!k){elDet.innerHTML='<div class="empty"><div class="big serif">Ingen treff</div>Juster søk eller fylke.</div>';return;}
+  const med=medianAge(k.alder);
+  const barn=k.alder.slice(0,18).reduce((a,b)=>a+b,0);
+  const eldre=k.alder.slice(67).reduce((a,b)=>a+b,0);
+  const vesP=k.bc?Math.round(k.ves/k.bc*100):0, iveP=100-vesP;
+  let lands=k.land.filter(l=>l[1]>0);
+  if(state.csearch) lands=lands.filter(l=>l[0].toLowerCase().includes(state.csearch.toLowerCase()));
+  const shown=lands.slice(0,state.csearch?lands.length:state.topN);
+  const sj=k.syss, sjr=sj?sj.rate:null;
+  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1)+'%':'–';
+  const sjGap=(sjr&&sjr.zzz!=null&&sjr.tot!=null)?(sjr.tot-sjr.zzz).toFixed(1):null;
+  const st=kommuneStatus(k);
+  const flist=filtered(); const fi=flist.findIndex(x=>x.nr===k.nr);
+  const hasPrev=fi>0, hasNext=fi>=0&&fi<flist.length-1;
+  const view=state.kView||'history';
+  const inCmp=state.compare.includes(k.nr);
+
+  const heroHTML='<div class="khero">'+
+    '<div class="khero-row">'+
+      '<button class="khero-nav" data-knav="prev" '+(hasPrev?'':'disabled')+' title="Forrige kommune">←</button>'+
+      '<div class="khero-id"><h2>'+k.navn+'</h2>'+
+      '<span class="fy" style="background:transparent;color:'+(FY[k.fylke]||'var(--ink2)')+';border:1px solid '+(FY[k.fylke]||'var(--ink2)')+'44;padding:3px 10px">'+(k.isAgg?k.naggk+' kommuner':k.fylke)+'</span></div>'+
+      '<div class="khero-actions">'+(k.isAgg?'':'<button class="khero-cmp '+(inCmp?'on':'')+'" data-knav="cmp" title="Sammenlign">'+(inCmp?'✓ i sammenligning':'+ sammenlign')+'</button>')+'</div>'+
+      '<button class="khero-nav" data-knav="next" '+(hasNext?'':'disabled')+' title="Neste kommune">→</button>'+
+    '</div>'+
+    statusBadges(k,st)+
+    (k.isAgg?'<p class="hint" style="margin:-2px 0 12px">Aggregerte tall for '+(k.fylke==='Alle'?'hele landsdelen':k.fylke)+' — klikk en kommune i listen for kommunetall.</p>':'')+
+    '<div class="kpis">'+
+      '<div class="kpi"><div class="v">'+fmt(k.pop)+'</div><div class="l">Folketall</div><div class="s">'+(k.isAgg?k.naggk+' kommuner · ':'')+'per 1.1.2026</div></div>'+
+      '<div class="kpi"><div class="v">'+k.andel.toFixed(1)+'%</div><div class="l">Innvandrerbakgrunn</div><div class="s">'+fmt(k.bc)+' personer</div></div>'+
+      '<div class="kpi"><div class="v">'+med+'</div><div class="l">Medianalder</div><div class="s">år</div></div>'+
+      '<div class="kpi"><div class="v">'+(barn/k.pop*100).toFixed(0)+'/'+(eldre/k.pop*100).toFixed(0)+'</div><div class="l">0–17 / 67+ %</div><div class="s">'+fmt(barn)+' / '+fmt(eldre)+'</div></div>'+
+      '<div class="kpi"><div class="v" style="color:var(--syss)">'+sjVal+'</div><div class="l">Sysselsatt · innv.</div><div class="s">'+(sjGap!=null?sjGap+' p.e. under hele bef.':'20–66 år, 2025')+'</div></div>'+
+    '</div>'+
+  '</div>';
+
+  const subnavHTML='<nav class="ksubtabs" role="tablist">'+
+    '<button role="tab" data-kview="history" aria-selected="'+(view==='history')+'"><span class="ksn">01</span>Reisen 2000→2050</button>'+
+    '<button role="tab" data-kview="people" aria-selected="'+(view==='people')+'"><span class="ksn">02</span>Folket i dag</button>'+
+    '<button role="tab" data-kview="burden" aria-selected="'+(view==='burden')+'"><span class="ksn">03</span>Hva må kommunen bære?</button>'+
+  '</nav>';
+
+  let viewHTML='';
+  if(view==='history'){
+    // Linse 01: befolkningen over tid + framskriving + drivkrefter
+    const savedMode=state.projMode;
+    state.projMode='tot';
+    const histChart=projCard(k);
+    state.projMode=savedMode;
+    viewHTML=tldrBanner(k,'history')+
+      '<div class="hero-chart">'+histChart+'</div>'+
+      diagnoseCard(k);
+  } else if(view==='people'){
+    // Linse 02: alder + opprinnelse + sysselsetting
+    viewHTML=tldrBanner(k,'people')+
+      '<div class="card">'+
+        '<div class="ch"><h3 class="serif">Aldersstruktur i dag</h3>'+
+          '<div class="minseg" id="agm">'+
+            '<button data-m="1" aria-selected="'+(state.ageMode==='1')+'">Ettårig</button>'+
+            '<button data-m="5" aria-selected="'+(state.ageMode==='5')+'">5-årig</button>'+
+            '<button data-m="L" aria-selected="'+(state.ageMode==='L')+'">Livsfaser</button>'+
+          '</div></div>'+
+        '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder '+med+' år.</p>'+
+        barChart(ageGroups(k.alder,state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'),'var(--aurora)')+
+      '</div>'+
+      originCard(k,vesP,iveP,lands,shown)+
+      (sj? sysCard(sj) : '')+
+      levekarKommuneCard(k);
+  } else if(view==='burden'){
+    // Linse 03: bærekrafts-sammenstilling → forsørgerbyrde → KOSTRA → ROBEK
+    const savedMode=state.projMode;
+    state.projMode='fb';
+    const fbChart=projCard(k);
+    state.projMode=savedMode;
+    viewHTML=tldrBanner(k,'burden')+
+      sustKommuneCard(k)+
+      '<div class="hero-chart">'+fbChart+'</div>'+
+      kostraCard(k)+
+      robekCard(k);
+  }
+
+  elDet.innerHTML = heroHTML + subnavHTML + '<div class="kview">'+viewHTML+'</div>';
+  bindDetail();
+}
+function _oldDetailUnused(){
+  const k=resolveSel();
+  if(!k){elDet.innerHTML='<div class="empty"><div class="big serif">Ingen treff</div>Juster søk eller fylke.</div>';return;}
+  const med=medianAge(k.alder), barn=k.alder.slice(0,18).reduce((a,b)=>a+b,0),
+    eldre=k.alder.slice(67).reduce((a,b)=>a+b,0);
+  const vesP=k.bc?Math.round(k.ves/k.bc*100):0, iveP=100-vesP;
+  let lands=k.land.filter(l=>l[1]>0);
+  if(state.csearch) lands=lands.filter(l=>l[0].toLowerCase().includes(state.csearch.toLowerCase()));
+  const shown=lands.slice(0,state.csearch?lands.length:state.topN);
+  const sj=k.syss, sjr=sj?sj.rate:null;
+  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1)+'%':'–';
+  const sjGap=(sjr&&sjr.zzz!=null&&sjr.tot!=null)?(sjr.tot-sjr.zzz).toFixed(1):null;
+  const st=kommuneStatus(k);
+  const flist=filtered(); const fi=flist.findIndex(x=>x.nr===k.nr);
+  const hasPrev=fi>0, hasNext=fi>=0&&fi<flist.length-1;
+  const view=state.kView||'history';
+  const inCmp=state.compare.includes(k.nr);
+  const heroNav='<div class="khero-row">'+
+    '<button class="khero-nav" data-knav="prev" '+(hasPrev?'':'disabled')+' title="Forrige kommune">\u2190</button>'+
+    '<div class="khero-id"><h2>'+k.navn+'</h2>'+
+    '<span class="fy" style="background:'+(FY[k.fylke]||'var(--ink2)')+'">'+(k.isAgg?k.naggk+' kommuner':k.fylke)+'</span></div>'+
+    '<div class="khero-actions">'+(k.isAgg?'':'<button class="khero-cmp '+(inCmp?'on':'')+'" data-knav="cmp" title="Sammenlign">'+(inCmp?'\u2713 i sammenligning':'+ sammenlign')+'</button>')+'</div>'+
+    '<button class="khero-nav" data-knav="next" '+(hasNext?'':'disabled')+' title="Neste kommune">\u2192</button>'+
+  '</div>';
+  elDet.innerHTML='<div class="khero">'+heroNav+statusBadges(k,st)+
+  (k.isAgg?'<p class="hint" style="margin:-2px 0 12px">Aggregerte tall for '+(k.fylke==='Alle'?'hele landsdelen':k.fylke)+' \u2014 klikk en kommune i listen for kommunetall. Folketall/alder/innvandring/framskriving er summer; andeler og sysselsettingsrater er folkemengde-vektede.</p>':'')
+  +`
+  <div class="kpis">
+    <div class="kpi"><div class="v">${fmt(k.pop)}</div><div class="l">Folketall</div><div class="s">${k.isAgg?k.naggk+' kommuner \u00b7 ':''}per 1.1.2026</div></div>
+    <div class="kpi"><div class="v">${k.andel.toFixed(1)}%</div><div class="l">Innvandrerbakgrunn</div><div class="s">${fmt(k.bc)} personer</div></div>
+    <div class="kpi"><div class="v">${med}</div><div class="l">Medianalder</div><div class="s">år</div></div>
+    <div class="kpi"><div class="v">${(barn/k.pop*100).toFixed(0)}/${(eldre/k.pop*100).toFixed(0)}</div><div class="l">0-17 / 67+ %</div><div class="s">${fmt(barn)} / ${fmt(eldre)}</div></div>
+    <div class="kpi"><div class="v" style="color:var(--syss)">${sjVal}</div><div class="l">Sysselsatt · innv.</div><div class="s">${sjGap!=null?sjGap+' p.e. under hele bef.':'20–66 år, 2025'}</div></div>
+  </div>
+
+  ${diagnoseCard(k)}
+
+  <div class="card">
+    <div class="ch"><h3 class="serif">Aldersstruktur</h3>
+      <div class="minseg" id="agm">
+        <button data-m="1" aria-selected="${state.ageMode==='1'}">Ettårig</button>
+        <button data-m="5" aria-selected="${state.ageMode==='5'}">5-årig</button>
+        <button data-m="L" aria-selected="${state.ageMode==='L'}">Livsfaser</button>
+      </div></div>
+    <p class="hint">Hele befolkningen (tabell 07459). Medianalder ${med} år.</p>
+    ${barChart(ageGroups(k.alder,state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'),'var(--aurora)')}
+  </div>
+
+  ${projCard(k)}
+
+  ${kostraCard(k)}
+
+  ${robekCard(k)}
+
+  <div class="card">
+    <h3 class="serif">Vestlig vs. ikke-vestlig bakgrunn</h3>
+    <p class="hint">Av ${fmt(k.bc)} med innvandrerbakgrunn (innvandrere + norskfødte med innvandrerforeldre).</p>
+    <div class="split">
+      <div class="v" style="width:${vesP}%">${vesP>8?vesP+'%':''}</div>
+      <div class="i" style="width:${iveP}%">${iveP>8?iveP+'%':''}</div></div>
+    <div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · ${fmt(k.ves)}</span>
+      <span><i style="background:var(--amber)"></i>Ikke-vestlig · ${fmt(k.ive)}</span></div>
+  </div>
+
+  ${sj? sysCard(sj) : ''}
+
+  <div class="card">
+    <div class="ch"><h3 class="serif">Opprinnelsesland</h3>
+      <input class="csearch" id="cs" placeholder="søk land …" value="${state.csearch}"></div>
+    <p class="hint">Enkeltland, sortert. Tabell 09817. ${lands.length} land med registrerte personer.</p>
+    ${!state.csearch?`<div class="cslider"><span>Vis topp</span>
+      <input id="tn" type="range" min="5" max="${Math.max(5,Math.min(40,k.land.filter(l=>l[1]>0).length))}" value="${state.topN}">
+      <span class="mono" id="tnv">${state.topN}</span></div><div style="height:10px"></div>`:''}
+    ${shown.length?barChart(shown.map(l=>({l:l[0],v:l[1]})),'var(--amber)'):'<p class="hint">Ingen treff.</p>'}
+  </div>`;
+  bindDetail();
+}
+function bindDetail(){
+  elDet.querySelectorAll('.ksubtabs button').forEach(b=>b.onclick=()=>{state.kView=b.dataset.kview;detail();});
+  elDet.querySelectorAll('[data-knav]').forEach(b=>b.onclick=()=>{
+    const act=b.dataset.knav;
+    if(act==='cmp'){
+      const i=state.compare.indexOf(state.sel);
+      if(i>=0) state.compare.splice(i,1);
+      else if(state.compare.length<4) state.compare.push(state.sel);
+      render(); return;
+    }
+    const fl=filtered(); const i=fl.findIndex(x=>x.nr===state.sel);
+    if(act==='prev' && i>0){state.sel=fl[i-1].nr;render();}
+    else if(act==='next' && i>=0 && i<fl.length-1){state.sel=fl[i+1].nr;render();}
+  });
+  elDet.querySelectorAll('#agm button').forEach(b=>b.onclick=()=>{state.ageMode=b.dataset.m;detail();});
+  elDet.querySelectorAll('#sxs button').forEach(b=>b.onclick=()=>{state.sysSex=b.dataset.x;detail();});
+  elDet.querySelectorAll('#pjm button').forEach(b=>b.onclick=()=>{state.projMode=b.dataset.p;detail();});
+  elDet.querySelectorAll('#ukr button').forEach(b=>b.onclick=()=>{state.ukr=+b.dataset.u;detail();});
+  elDet.querySelectorAll('#ukrb button').forEach(b=>b.onclick=()=>{state.ukrbase=b.dataset.b;detail();});
+  elDet.querySelectorAll('#sens button').forEach(b=>b.onclick=()=>{state.sens=+b.dataset.s;detail();});
+  elDet.querySelectorAll('#mw button').forEach(b=>b.onclick=()=>{state.mw=b.dataset.w;detail();});
+  elDet.querySelectorAll('#rbk button').forEach(b=>b.onclick=()=>{state.robekSort=b.dataset.s;detail();});
+  const tn=document.getElementById('tn'); if(tn)tn.oninput=()=>{state.topN=+tn.value;
+    document.getElementById('tnv').textContent=tn.value;detail();};
+  const cs=document.getElementById('cs'); if(cs)cs.oninput=()=>{state.csearch=cs.value;detail();
+    const e=document.getElementById('cs');e.focus();e.setSelectionRange(e.value.length,e.value.length);};
+}
+function renderCompare(){
+  if(state.compare.length<2) return false;
+  const ks=state.compare.map(nr=>K.find(k=>k.nr===nr));
+  elDet.innerHTML=`<div class="dhead"><h2 class="serif">Sammenligning</h2>
+    <span style="font-size:13px;color:var(--ink3)">${ks.length} kommuner — trykk ✓ i lista for å fjerne</span></div>
+    <div class="cmpgrid" style="grid-template-columns:repeat(${ks.length},1fr)">
+    ${ks.map(k=>{const med=medianAge(k.alder);const g=ageGroups(k.alder,'L');const mx=Math.max(...g.map(x=>x.v));
+      return `<div class="cmpcol"><h4 class="serif">${k.navn}</h4>
+      <div class="cfy" style="color:${FY[k.fylke]}">${k.fylke}</div>
+      <div style="font-family:'Spline Sans Mono';font-size:22px;font-weight:600">${fmt(k.pop)}</div>
+      <div style="font-size:12px;color:var(--ink3);margin-bottom:10px">folketall</div>
+      <div style="display:flex;gap:14px;margin-bottom:12px">
+        <div><div style="font-size:18px;font-weight:600" class="mono">${k.andel.toFixed(1)}%</div><div style="font-size:11px;color:var(--ink3)">innv.bakgr.</div></div>
+        <div><div style="font-size:18px;font-weight:600" class="mono">${med}</div><div style="font-size:11px;color:var(--ink3)">medianalder</div></div>
+        <div><div style="font-size:18px;font-weight:600;color:var(--syss)" class="mono">${(k.syss&&k.syss.rate.zzz!=null)?k.syss.rate.zzz.toFixed(1)+'%':'–'}</div><div style="font-size:11px;color:var(--ink3)">syss. innv.</div></div>
+      </div>
+      <svg class="miniline" viewBox="0 0 200 60" preserveAspectRatio="none">
+        ${g.map((x,i)=>`<rect x="${i*25+3}" y="${60-x.v/mx*54}" width="19" height="${x.v/mx*54}" rx="2" fill="${FY[k.fylke]}" opacity=".85"/>`).join('')}
+      </svg>
+      <div style="font-size:11px;color:var(--ink3);margin-top:4px">aldersfordeling (livsfaser)</div>
+      <div style="margin-top:12px;font-size:12.5px;color:var(--ink2)"><b>Største opprinnelse:</b><br>
+        ${k.land.filter(l=>l[1]>0).slice(0,3).map(l=>l[0]+' ('+fmt(l[1])+')').join('<br>')||'–'}</div>
+      </div>`;}).join('')}</div>`;
+  return true;
+}
+const NATCOL=['var(--ink)','var(--nl)','var(--syss)','#2FA08C','#3E7CB1','#7E57A0','#C26B26','#B9912F','#A24A3C','#5A8C5A','#9C6BA0'];
+function natColor(navn,i){
+  if(navn==='Hele befolkningen')return 'var(--ink)';
+  if(navn==='Befolkningen ekskl. innvandrere')return 'var(--nl)';
+  if(navn==='Innvandrere i alt')return 'var(--syss)';
+  return NATCOL[i%NATCOL.length];
+}
+function natBars(N,met,sx){
+  const idxOf={}; N.rows.forEach((r,i)=>idxOf[r.navn]=i);
+  const SUMN=['Hele befolkningen','Befolkningen ekskl. innvandrere','Innvandrere i alt'];
+  const valOf=r=> (met==='rate'? r.rate[sx] : r.cnt[sx]);
+  const summary=SUMN.map(nm=>N.rows[idxOf[nm]]).filter(Boolean);
+  const regions=N.rows.filter(r=>SUMN.indexOf(r.navn)<0)
+      .slice().sort((a,b)=>(valOf(b)==null?-1:valOf(b))-(valOf(a)==null?-1:valOf(a)));
+  const natAvg = met==='rate' ? N.rows[idxOf['Hele befolkningen']].rate[sx] : null;
+  const VB=760, L=246, Rp=78, x0=L, x1=VB-Rp;
+  let maxv;
+  if(met==='rate'){maxv=100;}
+  else{maxv=Math.max(1,...N.rows.map(r=>r.cnt[sx]||0)); maxv=Math.ceil(maxv/100000)*100000;}
+  const xS=v=>x0+(x1-x0)*Math.max(0,Math.min(1,v/maxv));
+  const rh=30, hh=27, gap=12;
+  const blocks=[{cap:'Sammendrag',rows:summary,ctx:true},
+                {cap:met==='rate'?'Verdensregioner — rangert etter andel':'Verdensregioner — rangert etter antall',rows:regions,ctx:false}];
+  let H=8; blocks.forEach(b=>{H+=hh+b.rows.length*rh+gap;}); H+=18;
+  let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
+  // gridlines
+  const ticks = met==='rate' ? [0,25,50,75,100] : [0,.25,.5,.75,1].map(t=>t*maxv);
+  ticks.forEach(t=>{const x=xS(t);
+    s+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-20}" stroke="rgba(17,32,58,.07)"/>`;
+    s+=`<text class="axis" x="${x}" y="${H-6}" text-anchor="middle">${met==='rate'?t+'%':(t>=1000?Math.round(t/1000)+'k':t)}</text>`;});
+  let y=8, di=0;
+  blocks.forEach(b=>{
+    s+=`<text class="ngrp" x="0" y="${y+15}">${b.cap}</text>`;
+    s+=`<line x1="0" y1="${y+hh-5}" x2="${VB}" y2="${y+hh-5}" stroke="rgba(17,32,58,.10)"/>`;
+    y+=hh;
+    // national reference line within region block
+    if(!b.ctx && natAvg!=null){const xr=xS(natAvg);
+      s+=`<line x1="${xr}" y1="${y-4}" x2="${xr}" y2="${y+b.rows.length*rh}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>`;
+      s+=`<text class="nref" x="${xr}" y="${y-8}" text-anchor="middle">Nasjonalt snitt ${natAvg.toFixed(1)}%</text>`;}
+    b.rows.forEach((r,ri)=>{
+      const v=valOf(r), cy=y+rh/2, col=natColor(r.navn,idxOf[r.navn]);
+      s+=`<text class="nlbl${b.ctx?' ctx':''}" x="${b.ctx?0:14}" y="${cy+4}">${r.navn}</text>`;
+      s+=`<rect x="${x0}" y="${y+5}" width="${x1-x0}" height="${rh-12}" rx="5" fill="rgba(17,32,58,.045)"/>`;
+      if(v==null){
+        s+=`<text class="val" x="${x0+10}" y="${cy+4}" fill="var(--ink3)">undertrykt</text>`;
+      } else {
+        const w=Math.max(2,xS(v)-x0);
+        s+=`<rect class="nbar" style="animation-delay:${(di*45)}ms" x="${x0}" y="${y+5}" width="${w}" height="${rh-12}" rx="5" fill="${col}"/>`;
+        const tx=x0+w+8;
+        s+=`<text class="nval" x="${tx}" y="${cy+4}" fill="${col}">${met==='rate'?v.toFixed(1)+'%':fmt(v)}</text>`;
+        if(!b.ctx && met==='rate' && natAvg!=null){const d=v-natAvg;
+          s+=`<text class="ndelta" x="${tx}" y="${cy+15}">${d>=0?'+':'\u2212'}${Math.abs(d).toFixed(1)} pp vs. snitt</text>`;}
+      }
+      di++; y+=rh;
+    });
+    y+=gap;
+  });
+  return s+'</svg>';
+}
+function renderNat(){
+  const N=DATA.nat_syss; if(!N) return;
+  const el=document.getElementById('natbars'); if(!el) return;
+  el.innerHTML=natBars(N,state.natMetric,state.natSex);
+}
+function renderNatTS(){
+  const T=DATA.nat_ts; if(!T) return;
+  const host=document.getElementById('natts'); if(!host) return;
+  const yrs=T.years, n=yrs.length, met=state.natMetric, sx=state.natSex;
+  if(!state.natHidden) state.natHidden={};
+  const SUMN=['Hele befolkningen','Befolkningen ekskl. innvandrere','Innvandrere i alt'];
+  const series=T.rows.map((r,i)=>({navn:r.navn,i,c:natColor(r.navn,i),
+    sum:SUMN.indexOf(r.navn)>-1,
+    vals:(r[met][sx]||[]).map(v=>v==null?null:v),
+    on:!state.natHidden[r.navn]}));
+  const byName=nm=>series.find(s=>s.navn===nm);
+  const vis=series.filter(s=>s.on);
+  let lo=Infinity,hi=-Infinity;
+  vis.forEach(s=>s.vals.forEach(v=>{if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}}));
+  const legHTML=()=>{
+    let g1='',g2='';
+    series.forEach(se=>{
+      const b=`<button data-leg="${se.navn}" data-on="${se.on?1:0}"><span class="dot" style="background:${se.c}"></span>${se.navn}</button>`;
+      if(se.sum)g1+=b; else g2+=b;});
+    return `<div class="nleg" style="margin-top:14px"><span class="ncap">Sammendrag</span>${g1}`
+      +`<span class="ncap" style="margin-left:8px">Verdensregioner</span>${g2}</div>`;
+  };
+  if(!isFinite(lo)){host.innerHTML='<p class="hint" style="margin:8px 0 0">Ingen serier valgt.</p>'+legHTML();return;}
+  if(met==='rate'){lo=Math.max(0,Math.floor((lo-3)/5)*5);hi=Math.ceil((hi+3)/5)*5;}
+  else{lo=0;hi=Math.ceil(hi/5000)*5000;}
+  const VB=760, L=46, R=178, Tp=20, B=40, W=VB-L-R, H=366-Tp-B;
+  const X=i=>L+(n<2?0:i/(n-1)*W), Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
+  let s=`<svg class="chart nfade" viewBox="0 0 ${VB} 366" preserveAspectRatio="xMidYMid meet" style="height:366px">`;
+  for(let g=0;g<=5;g++){const val=lo+(hi-lo)*g/5, y=Y(val);
+    s+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,${g===0?'.16':'.06'})"/>`;
+    s+=`<text class="axis" x="${L-9}" y="${y+3}" text-anchor="end">${met==='rate'?val.toFixed(0)+'%':Math.round(val/1000)+'k'}</text>`;}
+  yrs.forEach((yr,i)=>{ if(i%2===0||i===n-1){
+    s+=`<text class="axis" x="${X(i)}" y="${366-B+18}" text-anchor="middle">${yr}</text>`;}});
+  const path=se=>{let d='',st=false;se.vals.forEach((v,i)=>{if(v==null){st=false;return;}
+    d+=(st?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);st=true;});return d;};
+  // integration-gap band between 'ekskl. innvandrere' and 'Innvandrere i alt'
+  const A=byName('Befolkningen ekskl. innvandrere'), Bn=byName('Innvandrere i alt');
+  if(A&&Bn&&A.on&&Bn.on){
+    let top='',bot='';
+    for(let i=0;i<n;i++){if(A.vals[i]!=null)top+=(top?' L':'M')+X(i).toFixed(1)+' '+Y(A.vals[i]).toFixed(1);}
+    for(let i=n-1;i>=0;i--){if(Bn.vals[i]!=null)bot+=' L'+X(i).toFixed(1)+' '+Y(Bn.vals[i]).toFixed(1);}
+    s+=`<path d="${top}${bot}Z" fill="rgba(194,107,38,.10)" stroke="none"/>`;
+    let li=n-1;while(li>=0&&(A.vals[li]==null||Bn.vals[li]==null))li--;
+    if(li>=0){const gap=A.vals[li]-Bn.vals[li], my=(Y(A.vals[li])+Y(Bn.vals[li]))/2;
+      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:'Spline Sans Mono',monospace;font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1)+' pp':fmt(gap)}</text>`;}
+  }
+  // regions muted, then summary bold
+  vis.filter(se=>!se.sum).forEach(se=>{
+    s+=`<path d="${path(se)}" fill="none" stroke="${se.c}" stroke-width="1.4" stroke-opacity=".42" stroke-linejoin="round" stroke-linecap="round"/>`;});
+  vis.filter(se=>se.sum).forEach(se=>{
+    const sw=se.navn==='Hele befolkningen'?2.9:(se.navn==='Innvandrere i alt'?2.6:2.2);
+    s+=`<path d="${path(se)}" fill="none" stroke="${se.c}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    let li=se.vals.length-1;while(li>=0&&se.vals[li]==null)li--;
+    if(li>=0)s+=`<circle cx="${X(li)}" cy="${Y(se.vals[li])}" r="3.4" fill="${se.c}" stroke="var(--paper2)" stroke-width="1.5"/>`;});
+  // de-collided direct end labels
+  const ends=vis.map(se=>{let li=se.vals.length-1;while(li>=0&&se.vals[li]==null)li--;
+    return li>=0?{se,li,v:se.vals[li],y:Y(se.vals[li])}:null;}).filter(Boolean)
+    .sort((a,b)=>a.y-b.y);
+  const G=14, top=Tp+4; let bot=Tp+H-2;
+  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<G) ends[i].y=ends[i-1].y+G;
+  for(let i=ends.length-1;i>0;i--) if(ends[i].y>bot){ends[i].y=bot;bot-=G;} 
+  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<G) ends[i].y=Math.min(bot,ends[i-1].y+G);
+  ends.forEach(e=>{const yl=Math.max(top,Math.min(bot,e.y)), xe=X(e.li), ye=Y(e.v), xl=L+W+8;
+    s+=`<path d="M${xe} ${ye} L${L+W+3} ${ye} L${xl-3} ${yl}" fill="none" stroke="${e.se.c}" stroke-width="1" stroke-opacity=".5"/>`;
+    s+=`<text x="${xl}" y="${yl+3.5}" style="font-family:inherit;font-size:${e.se.sum?'11px':'10px'};font-weight:${e.se.sum?700:600};fill:${e.se.c}">`
+      +`${met==='rate'?e.v.toFixed(1)+'%':fmt(e.v)}<tspan dx="5" style="font-weight:600;fill:var(--ink3);font-size:9.5px">${e.se.navn.length>22?e.se.navn.slice(0,21)+'\u2026':e.se.navn}</tspan></text>`;});
+  s+='</svg>';
+  host.innerHTML=s+legHTML();
+}
+function renderModelEval(){
+  const B=DATA.proj&&DATA.proj.backtest; if(!B) return;
+  const hosts=[document.getElementById('bteval'),document.getElementById('bteval_intro')].filter(Boolean);
+  if(!hosts.length) return;
+  [document.getElementById('btcav'),document.getElementById('btcav_intro')].filter(Boolean).forEach(el=>{el.textContent=B.caveat||'';});
+  const groups=B.classes.map(c=>({lab:c.name,sub:'klasse '+c.cls+' · n='+c.n,
+      v:[c.ssb,c.mvp,c.attr],hl:(c.cls===5||c.cls===6)}))
+    .concat([{lab:'Alle 80',sub:'n='+B.all.n,v:[B.all.ssb,B.all.mvp,B.all.attr],hl:false,div:true},
+             {lab:'Minst sentrale',sub:'klasse 5+6 · n='+B.least.n,v:[B.least.ssb,B.least.mvp,B.least.attr],hl:true}]);
+  const series=[['SSB-2020','var(--ink3)'],['TF-MVP','var(--amber)'],['TF-ATTR','var(--fi)']];
+  const VB=760, L=8, Rp=8, x0=196, x1=VB-58;
+  let mx=0; groups.forEach(g=>g.v.forEach(v=>{if(v!=null)mx=Math.max(mx,v);})); mx=Math.ceil(mx*1.15*10)/10||1;
+  const xS=v=>x0+(x1-x0)*Math.max(0,v/mx);
+  const gh=58, pad=9, bh=(gh-2*pad)/3, H=groups.length*gh+30;
+  let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
+  [0,.25,.5,.75,1].forEach(t=>{const x=xS(t*mx);
+    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-26}" stroke="rgba(17,32,58,.07)"/>`;
+    s+=`<text class="axis" x="${x}" y="${H-10}" text-anchor="middle">${(t*mx).toFixed(1)}%</text>`;});
+  s+=`<text class="axis" x="${x0}" y="${H-10}" text-anchor="start" style="fill:var(--ink3)">Gjennomsnittlig prosentfeil — lavere = mer treffsikkert →</text>`;
+  let y=6;
+  groups.forEach(g=>{
+    if(g.div) s+=`<line x1="0" y1="${y-3}" x2="${VB}" y2="${y-3}" stroke="rgba(17,32,58,.12)"/>`;
+    s+=`<text class="nlbl${g.hl?' ctx':''}" x="0" y="${y+gh/2-4}">${g.lab}</text>`;
+    s+=`<text x="0" y="${y+gh/2+12}" style="font-size:9.5px;fill:var(--ink3)">${g.sub}</text>`;
+    g.v.forEach((v,si)=>{const yb=y+pad+si*bh, w=v==null?0:Math.max(2,xS(v)-x0);
+      s+=`<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${bh-3}" rx="2.5" fill="rgba(17,32,58,.045)"/>`;
+      s+=`<rect class="nbar" x="${x0}" y="${yb}" width="${w}" height="${bh-3}" rx="2.5" fill="${series[si][1]}"${g.hl?'':' opacity="0.88"'}/>`;
+      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:'Spline Sans Mono',monospace;font-size:10.5px;font-weight:${g.hl?700:600};fill:${series[si][1]}">${v==null?'–':v.toFixed(2)}</text>`;});
+    y+=gh;
+  });
+  s+='</svg>';
+  s+='<div class="nleg" style="margin-top:6px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">Backtest: basis 1.1.2020 → predikert 2024 mot registrert folketall.</span></div>';
+  hosts.forEach(h=>{h.innerHTML=s;});
+}
+function renderBigPicture(){
+  const host=document.getElementById('bigPicGraph');
+  const tldrHost=document.getElementById('bigPicTldr');
+  if(!host&&!tldrHost) return;
+  const agg=AGG[-1]; // hele landsdelen
+  if(!agg) return;
+  // Tegn projChart for hele landsdelen i 'tot'-modus
+  if(host){
+    const savedMode=state.projMode; state.projMode='tot';
+    host.innerHTML = projChart(agg,'tot');
+    state.projMode=savedMode;
+  }
+  // Klartekst-banner
+  if(tldrHost){
+    const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[agg.nr];
+    const hist=agg.hist||{};
+    const histYrs=Object.keys(hist).map(Number).sort((a,b)=>a-b);
+    const firstY=histYrs.length?histYrs[0]:null, lastY=histYrs.length?histYrs[histYrs.length-1]:null;
+    const firstV=firstY?hist[firstY]:null, lastV=lastY?hist[lastY]:null;
+    const pastPct=(firstV&&lastV)?((lastV/firstV-1)*100):null;
+    let projSSB=null, projLo=null, projHi=null, projYear=null;
+    if(o&&o.main&&o.main.length){
+      const n=o.main.length;
+      projSSB=o.main[n-1]; projYear=(P.years||[])[n-1]||2050;
+      const ext=[o.main[n-1],(o.mw&&o.mw.kons?o.mw.kons.pop[n-1]:projSSB),(o.tfattr?o.tfattr[n-1]:projSSB)];
+      projLo=Math.min.apply(null,ext); projHi=Math.max.apply(null,ext);
+    }
+    const futurePct=(agg.pop&&projSSB)?((projSSB/agg.pop-1)*100):null;
+    const fmt0=v=>v==null?'–':fmt(Math.round(v));
+    const pctF=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0)+' %';
+    let text='';
+    if(firstY&&lastY&&pastPct!=null){
+      text+='Nord-Norge hadde <b>'+fmt0(firstV)+'</b> innbyggere i '+firstY+' og <b>'+fmt0(lastV)+'</b> i '+lastY+' — '+pctF(pastPct)+' over 25 år. ';
+    }
+    if(projSSB) text+='SSBs offisielle bane peker mot <b>'+fmt0(projSSB)+'</b> i '+projYear+' ('+pctF(futurePct)+' fra i dag). ';
+    if(projLo&&projHi&&projHi-projLo>500) text+='Avhengig av flytteforutsetning spriker banene fra <b>'+fmt0(projLo)+'</b> til <b>'+fmt0(projHi)+'</b>. ';
+    text+='<i>Bak landsdelens samlede linje ligger 80 kommuner med svært ulike skjebner.</i>';
+    const nums=[];
+    if(pastPct!=null) nums.push({nv:pctF(pastPct),cls:pastPct>=0?'up':'down',nl:'25 år bak oss',nh:firstY+' → '+lastY});
+    nums.push({nv:fmt0(agg.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
+    if(futurePct!=null) nums.push({nv:pctF(futurePct),cls:futurePct>=0?'up':'down',nl:'mot '+projYear,nh:'SSB MMMM'});
+    tldrHost.className='tldr';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 1 · Hva skjer · Landsdelen samlet</div>'+
+      '<h3>Sett under ett: krymper Nord-Norge?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+nums.map(n=>'<div class="tldr-num"><div class="nv '+n.cls+'">'+n.nv+'</div><div class="nl">'+n.nl+'</div><div class="nh">'+n.nh+'</div></div>').join('')+'</div>';
+  }
+}
+function renderComposition(){
+  const agg=AGG[-1]; if(!agg) return;
+  // Klartekst
+  const tldrHost=document.getElementById('compTldr');
+  if(tldrHost){
+    const med=medianAge(agg.alder);
+    const barn=agg.alder.slice(0,18).reduce((a,b)=>a+b,0);
+    const eldre=agg.alder.slice(67).reduce((a,b)=>a+b,0);
+    const eldre80=agg.alder.slice(80).reduce((a,b)=>a+b,0);
+    const pBarn=agg.pop?100*barn/agg.pop:0;
+    const pEldre=agg.pop?100*eldre/agg.pop:0;
+    const pEldre80=agg.pop?100*eldre80/agg.pop:0;
+    const pInnv=agg.andel||0;
+    let text='Hele Nord-Norge har <b>'+fmt(agg.pop)+'</b> innbyggere. Medianalderen er <b>'+med+' år</b>. ';
+    text+='<b>'+pBarn.toFixed(0)+' %</b> er under 18 (<i>'+fmt(barn)+'</i>), <b>'+pEldre.toFixed(0)+' %</b> har passert 67 (<i>'+fmt(eldre)+'</i>) og <b>'+pEldre80.toFixed(1)+' %</b> er over 80. ';
+    text+='<b>'+pInnv.toFixed(1)+' %</b> har innvandrerbakgrunn — i alt <b>'+fmt(agg.bc)+'</b> personer fordelt på rundt 200 opprinnelsesland. ';
+    text+='<i>Aldersgruppen som vokser raskest mot 2050, er 80+ — det er den som driver mest av framtidens omsorgsbehov.</i>';
+    tldrHost.className='tldr t-people';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Landsdelen samlet</div>'+
+      '<h3>Hvem bor i Nord-Norge i dag?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        '<div class="tldr-num"><div class="nv">'+med+'</div><div class="nl">Medianalder</div><div class="nh">år</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+pBarn.toFixed(0)+' %</div><div class="nl">0–17 år</div><div class="nh">'+fmt(barn)+' personer</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(pEldre>=20?'warn':'')+'">'+pEldre.toFixed(0)+' %</div><div class="nl">67+ år</div><div class="nh">'+fmt(eldre)+' personer</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+pInnv.toFixed(1)+' %</div><div class="nl">Innvandrerbakgrunn</div><div class="nh">'+fmt(agg.bc)+' personer</div></div>'+
+      '</div>';
+  }
+  // Aldersstruktur
+  const ageHost=document.getElementById('compAgeGraph');
+  if(ageHost){
+    const mode=state.compAgeMode||'5';
+    ageHost.innerHTML=barChart(ageGroups(agg.alder,mode==='1'?'1':mode==='5'?'5':'L'),'var(--aurora)');
+    document.querySelectorAll('#cAgm button').forEach(b=>{
+      b.setAttribute('aria-pressed', b.dataset.m===mode?'true':'false');
+      b.onclick=()=>{state.compAgeMode=b.dataset.m;renderComposition();};
+    });
+  }
+  // Landbakgrunn
+  const origHost=document.getElementById('compOriginGraph');
+  if(origHost){
+    const vesP=agg.bc?Math.round(agg.ves/agg.bc*100):0, iveP=100-vesP;
+    const lands=agg.land.filter(l=>l[1]>0).slice(0,15);
+    origHost.innerHTML=
+      '<div class="split" style="margin-bottom:10px">'+
+        '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+'%':'')+'</div>'+
+        '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+'%':'')+'</div></div>'+
+      '<div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · '+fmt(agg.ves)+'</span>'+
+        '<span><i style="background:var(--amber)"></i>Ikke-vestlig · '+fmt(agg.ive)+'</span></div>'+
+      '<h4 class="serif" style="font-size:14px;font-weight:600;margin:18px 0 6px">Topp 15 opprinnelsesland</h4>'+
+      barChart(lands.map(l=>({l:l[0],v:l[1]})),'var(--amber)');
+  }
+  // Bofasthet (gjenbruker eksisterende renderBofastChart)
+  const bfHost=document.getElementById('compBofastGraph');
+  if(bfHost && typeof bofastChartHTML==='function'){
+    bfHost.innerHTML='<div class="bofast-chart">'+bofastChartHTML()+'</div>';
+  }
+}
+
+/* === Akt 2.3 Levekår og inntekt — render-funksjoner ========================== */
+function renderLevekar(){
+  if(typeof LEVEKAR_DATA==='undefined') return;
+  // Aggregér landsdelen (vektet etter antall husholdninger / personer der relevant)
+  const ks = Object.entries(LEVEKAR_DATA.kommuner);
+  // ---- A. Husholdningsinntekt ----
+  // Median = vektet snitt av kommune-medianene, vektet med antall husholdninger
+  let medSum=0, medW=0, totalHush=0;
+  const kommuneMedianer = [];
+  ks.forEach(([nr,r])=>{
+    if(r.medianInntektEtterSkatt && r.hush_total){
+      medSum += r.medianInntektEtterSkatt * r.hush_total;
+      medW += r.hush_total;
+      kommuneMedianer.push(r.medianInntektEtterSkatt);
+    }
+    if(r.hush_total) totalHush += r.hush_total;
+  });
+  const landsdelMedian = medW ? medSum/medW : null;
+  kommuneMedianer.sort((a,b)=>a-b);
+  const lavKommune = kommuneMedianer[0] || null;
+  const hoyKommune = kommuneMedianer[kommuneMedianer.length-1] || null;
+  // ---- B. Personinntekt-komponenter (sum total beløp i mill kr) ----
+  let totLonn=0, totPensjon=0, totUfore=0, antBos=0;
+  let medLonnSum=0, medLonnW=0, medPensjonSum=0, medPensjonW=0, medUforeSum=0, medUforeW=0;
+  ks.forEach(([nr,r])=>{
+    if(r.totalLonn_mill) totLonn += r.totalLonn_mill;
+    if(r.totalPensjon_mill) totPensjon += r.totalPensjon_mill;
+    if(r.totalUfore_mill) totUfore += r.totalUfore_mill;
+    if(r.personBosatte17plus) antBos += r.personBosatte17plus;
+    if(r.personLonn_median && r.personLonn_antall){
+      medLonnSum += r.personLonn_median * r.personLonn_antall; medLonnW += r.personLonn_antall;
+    }
+    if(r.personPensjon_median && r.personPensjon_antall){
+      medPensjonSum += r.personPensjon_median * r.personPensjon_antall; medPensjonW += r.personPensjon_antall;
+    }
+    if(r.personUfore_median && r.personUfore_antall){
+      medUforeSum += r.personUfore_median * r.personUfore_antall; medUforeW += r.personUfore_antall;
+    }
+  });
+  const sumKomponenter = totLonn + totPensjon + totUfore;
+  const andelLonn = sumKomponenter ? totLonn/sumKomponenter*100 : 0;
+  const andelPensjon = sumKomponenter ? totPensjon/sumKomponenter*100 : 0;
+  const andelUfore = sumKomponenter ? totUfore/sumKomponenter*100 : 0;
+  const medLonn = medLonnW ? medLonnSum/medLonnW : null;
+  const medPensjon = medPensjonW ? medPensjonSum/medPensjonW : null;
+  const medUfore = medUforeW ? medUforeSum/medUforeW : null;
+  // ---- C. Eierstatus ----
+  let hushTot=0, hushSelv=0, hushAndels=0, hushLeier=0;
+  ks.forEach(([nr,r])=>{
+    if(r.hush_total) hushTot += r.hush_total;
+    if(r.hush_selveier) hushSelv += r.hush_selveier;
+    if(r.hush_andels) hushAndels += r.hush_andels;
+    if(r.hush_leier) hushLeier += r.hush_leier;
+  });
+  const pctSelv = hushTot ? hushSelv/hushTot*100 : 0;
+  const pctAndels = hushTot ? hushAndels/hushTot*100 : 0;
+  const pctLeier = hushTot ? hushLeier/hushTot*100 : 0;
+  // ---- D. Boliger ----
+  let bolTot=0, bolEne=0, bolTo=0, bolRekke=0, bolBlokk=0, bolBofell=0, bolAndre=0;
+  ks.forEach(([nr,r])=>{
+    if(r.boliger_total) bolTot += r.boliger_total;
+    if(r.boliger_enebolig) bolEne += r.boliger_enebolig;
+    if(r.boliger_tomannsbolig) bolTo += r.boliger_tomannsbolig;
+    if(r.boliger_rekkehus) bolRekke += r.boliger_rekkehus;
+    if(r.boliger_boligblokk) bolBlokk += r.boliger_boligblokk;
+    if(r.boliger_bofellesskap) bolBofell += r.boliger_bofellesskap;
+    if(r.boliger_andre) bolAndre += r.boliger_andre;
+  });
+  // Norgessnitt for kontekst (omtrent fra SSB)
+  const NORGE_MED_INNT = 615000; // grovt nasjonalt 2024
+  // ---- Klartekst ----
+  const tldrHost=document.getElementById('levekarTldr');
+  const fmtKr = n => n==null?'–':(n>=1e6?(n/1e6).toFixed(2)+' mill kr':(n>=1000?Math.round(n/1000)+' '+String(Math.round(n%1000)).padStart(3,'0')+' kr':Math.round(n)+' kr'));
+  const fmtMrd = n => (n/1000).toFixed(1)+' mrd kr';
+  if(tldrHost){
+    const diffNorge = landsdelMedian ? ((landsdelMedian/NORGE_MED_INNT - 1)*100) : null;
+    let text='Median husholdningsinntekt etter skatt i Nord-Norge er <b>'+fmtKr(landsdelMedian)+'</b> per husholdning (2024). ';
+    if(diffNorge!=null) text+='Det er '+(diffNorge>=0?'<b>+'+diffNorge.toFixed(0)+' %</b> over':'<b>'+diffNorge.toFixed(0)+' %</b> under')+' nasjonalt snitt på ~615 000 kr. ';
+    if(lavKommune && hoyKommune) text+='Mellom de '+kommuneMedianer.length+' kommunene varierer median husholdningsinntekt fra <b>'+fmtKr(lavKommune)+'</b> til <b>'+fmtKr(hoyKommune)+'</b> — en forskjell på <b>'+(hoyKommune/lavKommune).toFixed(2)+'×</b>. ';
+    text+='Av landsdelens totale personinntekt på <b>'+fmtMrd(sumKomponenter)+'</b> kommer <b>'+andelLonn.toFixed(0)+' %</b> fra lønn, <b>'+andelPensjon.toFixed(0)+' %</b> fra pensjon og <b>'+andelUfore.toFixed(0)+' %</b> fra uføretrygd. ';
+    text+='<b>'+pctSelv.toFixed(0)+' %</b> av husholdningene eier boligen selv. ';
+    text+='<i>Den høye trygdeandelen — pensjon og uføretrygd til sammen — gjør at landsdelens inntektsbase er mer sårbar for endringer i statlige stønader enn nasjonale snitt tilsier.</i>';
+    tldrHost.className='tldr t-people';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Levekår</div>'+
+      '<h3>Hva tjener folk i Nord-Norge — og hvor kommer pengene fra?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        (landsdelMedian?'<div class="tldr-num"><div class="nv">'+(landsdelMedian/1000).toFixed(0)+' k</div><div class="nl">Median hush.-inntekt</div><div class="nh">etter skatt, 2024</div></div>':'')+
+        '<div class="tldr-num"><div class="nv">'+fmt(hushTot)+'</div><div class="nl">Antall husholdninger</div><div class="nh">SSB 11084, 2024</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(andelUfore>=12?'down':andelUfore>=8?'warn':'')+'">'+andelUfore.toFixed(0)+' %</div><div class="nl">Andel uføretrygd</div><div class="nh">av total personinntekt</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+fmt(bolTot)+'</div><div class="nl">Antall boliger</div><div class="nh">SSB 06265, 2026</div></div>'+
+      '</div>';
+  }
+  // ---- Graf A: Husholdningsinntekt — kommune-spennvidde + median + nasjonalt snitt ----
+  const inntektHost=document.getElementById('levekarInntektGraph');
+  if(inntektHost && landsdelMedian){
+    const max = Math.max(hoyKommune||1, NORGE_MED_INNT*1.2);
+    const w = v => v/max*100;
+    inntektHost.innerHTML =
+      '<div style="margin:14px 0 6px">'+
+        '<div class="bofast-row"><div class="blab">Lavest kommune</div>'+
+          '<div class="btrack"><div class="bfill ref" style="width:'+w(lavKommune||0).toFixed(1)+'%;background:var(--ink3)"></div></div>'+
+          '<div class="bval">'+(lavKommune?Math.round(lavKommune/1000)+'k':'–')+'</div></div>'+
+        '<div class="bofast-row"><div class="blab hl">Landsdelsmedian</div>'+
+          '<div class="btrack"><div class="bfill hl" style="width:'+w(landsdelMedian).toFixed(1)+'%"></div></div>'+
+          '<div class="bval">'+Math.round(landsdelMedian/1000)+'k</div></div>'+
+        '<div class="bofast-row"><div class="blab">Norgesnitt (ref)</div>'+
+          '<div class="btrack"><div class="bfill ref" style="width:'+w(NORGE_MED_INNT).toFixed(1)+'%;background:var(--aurora-l);opacity:.6"></div></div>'+
+          '<div class="bval">'+Math.round(NORGE_MED_INNT/1000)+'k</div></div>'+
+        '<div class="bofast-row"><div class="blab">Høyest kommune</div>'+
+          '<div class="btrack"><div class="bfill ref" style="width:'+w(hoyKommune||0).toFixed(1)+'%;background:var(--amber)"></div></div>'+
+          '<div class="bval">'+(hoyKommune?Math.round(hoyKommune/1000)+'k':'–')+'</div></div>'+
+      '</div>'+
+      '<p class="hint" style="font-size:11px;margin-top:8px;font-style:italic">Median per kommune (SSB tabell 06944, 2024). Landsdelsmedianen er vektet snitt med antall husholdninger. «k» = 1 000 kr. Norgesnitt 2024 ≈ 615 000 kr (nasjonal SSB-publikasjon).</p>';
+  }
+  // ---- Graf B: Personinntekt-komponenter ----
+  const kompHost=document.getElementById('levekarKomponentGraph');
+  if(kompHost){
+    const pct = (v) => (v/sumKomponenter*100);
+    kompHost.innerHTML =
+      '<div class="split" style="margin:10px 0">'+
+        '<div style="width:'+pct(totLonn).toFixed(1)+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totLonn)>=8?andelLonn.toFixed(0)+' %':'')+'</div>'+
+        '<div style="width:'+pct(totPensjon).toFixed(1)+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totPensjon)>=8?andelPensjon.toFixed(0)+' %':'')+'</div>'+
+        '<div style="width:'+pct(totUfore).toFixed(1)+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totUfore)>=8?andelUfore.toFixed(0)+' %':'')+'</div>'+
+      '</div>'+
+      '<div class="legend"><span><i style="background:var(--aurora)"></i>Lønn '+fmtMrd(totLonn)+'</span>'+
+        '<span><i style="background:var(--nl)"></i>Pensjon '+fmtMrd(totPensjon)+'</span>'+
+        '<span><i style="background:var(--amber)"></i>Uføretrygd '+fmtMrd(totUfore)+'</span></div>'+
+      '<table class="sust-table" style="width:100%;margin-top:14px;font-size:12.5px">'+
+        '<thead><tr><th>Inntektskomponent</th><th class="r">Median per person</th><th class="r">Andel av total</th></tr></thead>'+
+        '<tbody>'+
+          '<tr><td><b>Lønn</b></td><td class="r">'+(medLonn?Math.round(medLonn/1000)+' 000 kr':'–')+'</td><td class="r">'+andelLonn.toFixed(1)+' %</td></tr>'+
+          '<tr><td><b>Pensjon</b></td><td class="r">'+(medPensjon?Math.round(medPensjon/1000)+' 000 kr':'–')+'</td><td class="r">'+andelPensjon.toFixed(1)+' %</td></tr>'+
+          '<tr><td><b>Uføretrygd</b></td><td class="r">'+(medUfore?Math.round(medUfore/1000)+' 000 kr':'–')+'</td><td class="r">'+andelUfore.toFixed(1)+' %</td></tr>'+
+        '</tbody></table>';
+  }
+  // ---- Graf C: Eierstatus ----
+  const eierHost=document.getElementById('levekarEierGraph');
+  if(eierHost){
+    eierHost.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px">'+
+        '<div>'+
+          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:28px;font-weight:600;color:var(--ink)">'+fmt(hushTot)+'</div>'+
+          '<div style="font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Total antall husholdninger</div>'+
+        '</div>'+
+        '<div>'+
+          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:28px;font-weight:600;color:var(--aurora)">'+pctSelv.toFixed(0)+' %</div>'+
+          '<div style="font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Selveiere</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="split" style="margin-top:14px">'+
+        '<div style="width:'+pctSelv.toFixed(1)+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctSelv>=10?pctSelv.toFixed(0)+' %':'')+'</div>'+
+        '<div style="width:'+pctAndels.toFixed(1)+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctAndels>=8?pctAndels.toFixed(0)+' %':'')+'</div>'+
+        '<div style="width:'+pctLeier.toFixed(1)+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctLeier>=8?pctLeier.toFixed(0)+' %':'')+'</div>'+
+      '</div>'+
+      '<div class="legend"><span><i style="background:var(--aurora)"></i>Selveier '+fmt(hushSelv)+'</span>'+
+        '<span><i style="background:var(--nl)"></i>Andels-/aksjeeier '+fmt(hushAndels)+'</span>'+
+        '<span><i style="background:var(--amber)"></i>Leier '+fmt(hushLeier)+'</span></div>'+
+      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Selveierandelen i Nord-Norge ligger nær nasjonalt snitt på ca. 70 %, men varierer kraftig mellom kommuner. Sentrale byer (Bodø, Tromsø, Hammerfest) har mer leie og borettslag enn distriktskommuner.</p>';
+  }
+  // ---- Graf D: Boliger ----
+  const boligHost=document.getElementById('levekarBoligGraph');
+  if(boligHost && bolTot){
+    const bP = v => bolTot ? v/bolTot*100 : 0;
+    const rows = [
+      ['Enebolig', bolEne, 'var(--aurora)'],
+      ['Tomannsbolig', bolTo, 'var(--nl)'],
+      ['Rekkehus / kjedehus / småhus', bolRekke, 'var(--tr)'],
+      ['Boligblokk', bolBlokk, 'var(--amber)'],
+      ['Bofellesskap', bolBofell, 'var(--fi)'],
+      ['Andre', bolAndre, 'var(--ink3)']
+    ];
+    let rowsH = '';
+    rows.forEach(r=>{
+      const p = bP(r[1]);
+      rowsH += '<div class="bofast-row">'+
+        '<div class="blab">'+r[0]+'</div>'+
+        '<div class="btrack"><div class="bfill" style="width:'+p.toFixed(1)+'%;background:'+r[2]+'"></div></div>'+
+        '<div class="bval">'+fmt(r[1])+'</div></div>';
+    });
+    boligHost.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:10px 0 16px">'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--ink)">'+fmt(bolTot)+'</div>'+
+          '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Boliger totalt</div></div>'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--aurora)">'+bP(bolEne).toFixed(0)+' %</div>'+
+          '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Eneboliger</div></div>'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--amber)">'+bP(bolBlokk).toFixed(0)+' %</div>'+
+          '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Blokkleiligheter</div></div>'+
+      '</div>'+
+      rowsH +
+      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Nord-Norge har høyere eneboligandel enn nasjonalt — typisk for distriktskommuner. Boligblokk-andelen er størst i Bodø og Tromsø.</p>';
+  }
+  // ---- Graf E: Inntektsspennvidde mellom kommuner ----
+  const spennHost=document.getElementById('levekarSpennGraph');
+  if(spennHost){
+    // Bygg liste av kommuner med median inntekt, sortert
+    const items = [];
+    ks.forEach(([nr,r])=>{
+      if(r.medianInntektEtterSkatt){
+        const k = K.find(x=>x.nr===+nr);
+        items.push({nr, navn:k?k.navn:nr, fylke:k?k.fylke:'', med:r.medianInntektEtterSkatt, hush:r.hush_total});
+      }
+    });
+    items.sort((a,b)=>a.med-b.med); // laveste først → høyeste til høyre
+    const n = items.length;
+    const VB=760, L=42, R=46, Tp=26, B=92, W=VB-L-R, H=320-Tp-B;
+    const minV = items[0].med, maxV = items[n-1].med;
+    const padTop = (maxV-minV)*0.08;
+    const yMin = Math.floor((minV - padTop)/50000)*50000;
+    const yMax = Math.ceil((maxV + padTop)/50000)*50000;
+    const Y = v => Tp+(1-(v-yMin)/((yMax-yMin)||1))*H;
+    const barW = W/n * 0.85, gap = W/n * 0.15;
+    const xOf = i => L + i*(W/n) + gap/2;
+    const fyColor = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+    let svg = `<svg class="chart" viewBox="0 0 ${VB} 320" preserveAspectRatio="xMidYMid meet" style="height:320px">`;
+    // Grid + Y-akse
+    for(let g=0;g<=4;g++){
+      const v = yMin + (yMax-yMin)*g/4;
+      const y = Tp+(1-g/4)*H;
+      svg += `<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.07)"/>`;
+      svg += `<text class="axis" x="${L-6}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${Math.round(v/1000)}k</text>`;
+    }
+    // Referanselinjer
+    if(landsdelMedian){
+      const yL = Y(landsdelMedian);
+      svg += `<line x1="${L}" y1="${yL}" x2="${L+W}" y2="${yL}" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+      svg += `<text x="${L+W+4}" y="${yL+3}" style="font-size:10px;font-weight:700;fill:var(--ink2)">Landsdel ${Math.round(landsdelMedian/1000)}k</text>`;
+    }
+    const yN = Y(NORGE_MED_INNT);
+    if(yN >= Tp && yN <= Tp+H){
+      svg += `<line x1="${L}" y1="${yN}" x2="${L+W}" y2="${yN}" stroke="var(--aurora)" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/>`;
+      svg += `<text x="${L+W+4}" y="${yN-2}" style="font-size:10px;font-weight:700;fill:var(--aurora)">Norge ${Math.round(NORGE_MED_INNT/1000)}k</text>`;
+    }
+    // Søyler per kommune
+    items.forEach((it,i)=>{
+      const x = xOf(i);
+      const y = Y(it.med);
+      const h = (Tp+H) - y;
+      const col = fyColor[it.fylke]||'var(--ink2)';
+      svg += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" rx="1"><title>${it.navn} (${it.fylke}) · ${Math.round(it.med/1000)}k kr · ${fmt(it.hush||0)} hush.</title></rect>`;
+    });
+    // Markér topp 3 og bunn 3 med navn
+    const lab = (i, anchor) => {
+      const it = items[i];
+      const x = xOf(i) + barW/2;
+      const y = Y(it.med);
+      svg += `<text x="${x.toFixed(1)}" y="${(y-6).toFixed(1)}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--ink2)">${it.navn}</text>`;
+    };
+    lab(0); lab(1); lab(2);
+    lab(n-1); lab(n-2); lab(n-3);
+    // X-akse labels
+    svg += `<text x="${L}" y="${Tp+H+18}" style="font-size:10px;fill:var(--ink3)">← Lavest</text>`;
+    svg += `<text x="${L+W}" y="${Tp+H+18}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">Høyest →</text>`;
+    svg += '</svg>';
+    // Statistikk under
+    const lo3 = items.slice(0,3).map(x=>x.navn).join(', ');
+    const hi3 = items.slice(-3).reverse().map(x=>x.navn).join(', ');
+    const spread = items[n-1].med - items[0].med;
+    const ratio = items[n-1].med / items[0].med;
+    spennHost.innerHTML = svg +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:14px">'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--ink)">'+Math.round(items[0].med/1000)+'k → '+Math.round(items[n-1].med/1000)+'k</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
+        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--amber)">'+ratio.toFixed(2)+'×</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Høyest / lavest</div></div>'+
+        '<div><div style="font-size:13px;color:var(--ink)">'+hi3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Topp 3</div></div>'+
+        '<div><div style="font-size:13px;color:var(--ink)">'+lo3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Bunn 3</div></div>'+
+      '</div>'+
+      '<p class="hint" style="margin-top:12px;font-size:11.5px;font-style:italic">Spennvidden mellom høyeste og laveste nord-norske kommune er '+Math.round(spread/1000)+'k kr. Hovedforklaringen er sammensetningen av lønn vs. pensjon — kommuner med mange yrkesaktive husholdninger (sentre, oljerelaterte) ligger over snittet; aldrende distriktskommuner med høy pensjons- og uføretrygdandel ligger under.</p>';
+  }
+  attachMethodBadges();
+}
+
+function renderBurden(){
+  const agg=AGG[-1]; if(!agg) return;
+  const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[agg.nr];
+  const tldrHost=document.getElementById('burdenTldr');
+  const graphHost=document.getElementById('burdenGraph');
+  if(!o||!o.mw||!o.mw.kons) return;
+  const mw=o.mw.kons;
+  const n=(P.years||[]).length;
+  // Standard demografisk forsørgerbyrde (65+/20-64)
+  const oad0=(mw.a65&&mw.a2064&&mw.a2064[0])?100*mw.a65[0]/mw.a2064[0]:null;
+  const oad1=(mw.a65&&mw.a2064&&mw.a2064[n-1])?100*mw.a65[n-1]/mw.a2064[n-1]:null;
+  // Sysselsetting-justert: bruker landsdelens sysselsettingsrate (konstant gjennom framskriving)
+  const syssR = landsdelSysselsRate();
+  const oadJ0=(mw.a65&&mw.a2064&&mw.a2064[0]&&syssR>0)?100*mw.a65[0]/(mw.a2064[0]*syssR):null;
+  const oadJ1=(mw.a65&&mw.a2064&&mw.a2064[n-1]&&syssR>0)?100*mw.a65[n-1]/(mw.a2064[n-1]*syssR):null;
+  const a2064_0=mw.a2064?mw.a2064[0]:null, a2064_1=mw.a2064?mw.a2064[n-1]:null;
+  const a80_0=mw.a80?mw.a80[0]:null, a80_1=mw.a80?mw.a80[n-1]:null;
+  // Uføreandel landsdelen (vektet snitt etter befolkning 18-67 ≈ 20-66-tot, fallback)
+  let sumUfo=0, sumPop=0;
+  if(typeof ARBEID_DATA!=='undefined'){
+    Object.values(ARBEID_DATA.kommuner).forEach(r=>{
+      if(r.uforePers!=null) sumUfo+=r.uforePers;
+      if(r.tot20_66!=null) sumPop+=r.tot20_66;
+    });
+  }
+  const uforePctLandsdel = sumPop ? 100*sumUfo/sumPop : null;
+  const projYear=(P.years||[])[n-1]||2050;
+  if(tldrHost){
+    let text='I dag bærer 100 sysselsatte (20–66) <b>'+(oadJ0!=null?oadJ0.toFixed(0):'–')+'</b> eldre (65+) i landsdelen samlet. ';
+    text+='I '+projYear+' øker det til <b>'+(oadJ1!=null?oadJ1.toFixed(0):'–')+'</b> — fordi sysselsettingsraten er bare ~<b>'+(syssR*100).toFixed(0)+' %</b>, er den reelle bæreevnen lavere enn den «rene» demografiske (65+/20–64 går fra '+oad0.toFixed(0)+' til '+oad1.toFixed(0)+'). ';
+    if(uforePctLandsdel!=null) text+='Rundt <b>'+uforePctLandsdel.toFixed(0)+' %</b> av 18–67-årige er uføretrygdede — det er en stor del av hvorfor sysselsettingsraten er lavere enn aldersgruppen alene tilsier. ';
+    if(a80_0&&a80_1){
+      const pct80=(a80_1/a80_0-1)*100;
+      text+='Antallet 80+ <b>'+(pct80>=0?'vokser med '+pct80.toFixed(0)+' %':'krymper med '+Math.abs(pct80).toFixed(0)+' %')+'</b> (fra '+fmt(a80_0)+' til '+fmt(a80_1)+'). ';
+    }
+    text+='<i>Det er denne forskyvningen — eldre opp, sysselsatte flat eller ned — som setter kommuneøkonomien på prøve i Akt 3.</i>';
+    tldrHost.className='tldr t-burden';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Bæreevne</div>'+
+      '<h3>Hvor tungt blir aldringen å bære?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        (oadJ0!=null?'<div class="tldr-num"><div class="nv">'+oadJ0.toFixed(0)+'</div><div class="nl">I dag (justert)</div><div class="nh">eldre per 100 sysselsatte</div></div>':'')+
+        (oadJ1!=null?'<div class="tldr-num"><div class="nv '+(oadJ1>75?'warn':'')+'">'+oadJ1.toFixed(0)+'</div><div class="nl">I '+projYear+' (justert)</div><div class="nh">eldre per 100 sysselsatte</div></div>':'')+
+        (oad1!=null?'<div class="tldr-num"><div class="nv">'+oad1.toFixed(0)+'</div><div class="nl">Demogr. standard '+projYear+'</div><div class="nh">65+/20–64</div></div>':'')+
+        (uforePctLandsdel!=null?'<div class="tldr-num"><div class="nv '+(uforePctLandsdel>=10?'warn':'')+'">'+uforePctLandsdel.toFixed(0)+' %</div><div class="nl">Uføreandel 18–67</div><div class="nh">SSB 11715, 2024</div></div>':'')+
+      '</div>';
+  }
+  // Hero-graf: projChart i 'fb'-modus for landsdelen
+  if(graphHost){
+    const savedMode=state.projMode, savedMW=state.mw;
+    state.projMode='fb'; state.mw='kons';
+    graphHost.innerHTML=projChart(agg,'fb');
+    state.projMode=savedMode; state.mw=savedMW;
+  }
+}
+function renderEconomy(){
+  const agg=AGG[-1]; if(!agg) return;
+  const P=DATA.proj, B=(P&&P.kostra_bench&&P.kostra_bench['Alle'])||{};
+  const num=v=>v==null?null:+v;
+  const ndr=num(B.ndr), fond=num(B.fond), gj=num(B.gjeld), yr=B.yr||'';
+  const RB=P&&P.robek; let inR=0, pend=0;
+  if(RB&&RB.kommuner){ inR=Object.keys(RB.kommuner).length; pend=Object.keys(RB.pending||{}).length; }
+  const tldrHost=document.getElementById('econTldr');
+  if(tldrHost){
+    let text='Landsdelens median<b> netto driftsresultat</b> er '+(ndr==null?'–':(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %')+' av brutto driftsinntekter ('+yr+'). ';
+    text+='<b>Disposisjonsfondet</b> ligger på '+(fond==null?'–':fond.toFixed(1)+' %')+'. ';
+    text+='<b>Netto lånegjeld</b> '+(gj==null?'–':gj.toFixed(0)+' %')+'. ';
+    text+='Av 80 kommuner er <b>'+inR+'</b> registrert i ROBEK i dag, og <b>'+pend+'</b> over grensen under behandling. ';
+    text+='<i>Disse tre tallene — resultat, buffer, gjeld — bestemmer hvor mye handlingsrom kommunene har når aldringskostnaden kommer.</i>';
+    tldrHost.className='tldr t-burden';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 3 · Kan vi bære det? · Økonomien i dag</div>'+
+      '<h3>Hvor solid står kommuneøkonomien?</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        (ndr!=null?'<div class="tldr-num"><div class="nv '+(ndr<0?'down':ndr<1.75?'warn':'up')+'">'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1)+' %</div><div class="nl">Netto driftsresultat</div><div class="nh">TBU-norm +1,75</div></div>':'')+
+        (fond!=null?'<div class="tldr-num"><div class="nv '+(fond<3?'down':fond<5?'warn':'up')+'">'+fond.toFixed(1)+' %</div><div class="nl">Disposisjonsfond</div><div class="nh">av driftsinntekter</div></div>':'')+
+        '<div class="tldr-num"><div class="nv down">'+inR+'</div><div class="nl">I ROBEK</div><div class="nh">av 80 kommuner</div></div>'+
+        (pend>0?'<div class="tldr-num"><div class="nv warn">'+pend+'</div><div class="nl">Over grensen</div><div class="nh">under behandling</div></div>':'')+
+      '</div>';
+  }
+  renderRente();
+}
+function renderRente(){
+  const host=document.getElementById('renteContent');
+  if(!host || typeof RENTE_DATA==='undefined') return;
+  if(state.renteCur==null) state.renteCur = 5.4;
+  if(state.renteNew==null) state.renteNew = 4.0;
+  // Aggregér landsdel
+  let sumNdrKr=0, sumRxpKr=0, validKom=0, proxyKom=0;
+  Object.entries(RENTE_DATA.kommuner).forEach(([nr,r])=>{
+    if(r.ndr_kr!=null){ sumNdrKr+=r.ndr_kr; validKom++; }
+    if(r.rxp_kr!=null){ sumRxpKr+=r.rxp_kr; if(r.proxy) proxyKom++; }
+  });
+  const aggPop=AGG[-1]?AGG[-1].pop:0;
+  const perPpKr = sumRxpKr * 0.01 * 1000;
+  const ppPerInnb = aggPop?perPpKr/aggPop:0;
+  const dRate = state.renteCur - state.renteNew;
+  const savingsKr = sumRxpKr * (dRate/100) * 1000;
+  const savingsPerInnb = aggPop?savingsKr/aggPop:0;
+  const ndrTotal = sumNdrKr * 1000;
+  const ndrPerInnb = aggPop?ndrTotal/aggPop:0;
+  const isSaving = dRate >= 0;
+  const fmtMrd = n => (n/1e9).toFixed(2)+' mrd kr';
+  const fmtMill = n => (n/1e6).toFixed(1)+' mill kr';
+  const fmtKrInnb = n => Math.round(n).toLocaleString('nb-NO')+' kr';
+  let html='';
+  // Slidere
+  html+='<div class="sust-sliders" style="margin-bottom:14px">'+
+    '<div class="sust-slider">'+
+      '<div class="ssl-lab"><span>Antatt dagens flytende rente</span><span class="ssl-val">'+state.renteCur.toFixed(2)+' %</span></div>'+
+      '<input type="range" min="2" max="8" step="0.05" value="'+state.renteCur+'" id="rcur">'+
+      '<div class="ssl-hint">3 mnd NIBOR + KBN-margin. Norges Bank styringsrente 4,25 %.</div>'+
+    '</div>'+
+    '<div class="sust-slider">'+
+      '<div class="ssl-lab"><span>Ønsket/ny rente</span><span class="ssl-val">'+state.renteNew.toFixed(2)+' %</span></div>'+
+      '<input type="range" min="2" max="8" step="0.05" value="'+state.renteNew+'" id="rnew">'+
+      '<div class="ssl-hint">Sett over dagens for å se merkostnad.</div>'+
+    '</div>'+
+  '</div>';
+  // KPI-kort
+  html+='<div class="sust-fylkebars">'+
+    '<div class="sfb">'+
+      '<h4>Faktisk netto rentekostnad</h4>'+
+      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(ndrTotal)+'/år</div>'+
+      '<div style="font-size:11.5px;color:var(--ink3)">'+fmtKrInnb(ndrPerInnb)+' per innbygger · regnskap (KOSTRA AGD97)</div>'+
+    '</div>'+
+    '<div class="sfb">'+
+      '<h4>Renteeksponert gjeld</h4>'+
+      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(sumRxpKr*1000)+'</div>'+
+      '<div style="font-size:11.5px;color:var(--ink3)">1 pp lavere rente = '+(perPpKr/1e6).toFixed(0)+' mill kr/år · '+fmtKrInnb(ppPerInnb)+'/innb'+(proxyKom>0?' († '+proxyKom+' kommuner bruker netto lånegjeld som proxy)':'')+'</div>'+
+    '</div>'+
+    '<div class="sfb" style="background:'+(isSaving?'rgba(46,125,91,.06)':'rgba(178,59,59,.06)')+';border-color:'+(isSaving?'rgba(46,125,91,.25)':'rgba(178,59,59,.25)')+'">'+
+      '<h4 style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'Innsparing':'Merkostnad')+' ved ny rente</h4>'+
+      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:'+(isSaving?'#2E7D5B':'#B23B3B')+';margin:6px 0 2px">'+(isSaving?'−':'+')+fmtMrd(Math.abs(savingsKr))+'/år</div>'+
+      '<div style="font-size:11.5px;color:var(--ink3)">'+(isSaving?'−':'+')+fmtKrInnb(Math.abs(savingsPerInnb))+'/innb · '+Math.abs(dRate).toFixed(2)+' pp endring</div>'+
+    '</div>'+
+  '</div>';
+  // Per kommune
+  const rows=[];
+  Object.entries(RENTE_DATA.kommuner).forEach(([nr,r])=>{
+    if(r.rxp_kr==null||r.ndr_kr==null) return;
+    const k=K.find(x=>x.nr===+nr); if(!k) return;
+    const savKr = r.rxp_kr * (dRate/100) * 1000;
+    rows.push({navn:k.navn,fylke:k.fylke,ndr:r.ndr_kr*1000,rxp:r.rxp_kr*1000,
+      proxy:r.proxy,savKr,savPi:k.pop?savKr/k.pop:0,pop:k.pop});
+  });
+  rows.sort((a,b)=>Math.abs(b.savPi)-Math.abs(a.savPi));
+  let trs='';
+  rows.forEach(r=>{
+    trs+='<tr>'+
+      '<td><div class="sname">'+r.navn+(r.proxy?' †':'')+'</div><div class="sfylke">'+r.fylke+'</div></td>'+
+      '<td class="r">'+(r.ndr/1e6).toFixed(1)+' mill</td>'+
+      '<td class="r">'+Math.round(r.ndr/r.pop).toLocaleString('nb-NO')+' kr</td>'+
+      '<td class="r">'+(r.rxp/1e6).toFixed(0)+' mill</td>'+
+      '<td class="r" style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'−':'+')+(Math.abs(r.savKr)/1e6).toFixed(1)+' mill</td>'+
+      '<td class="r" style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'−':'+')+Math.round(Math.abs(r.savPi)).toLocaleString('nb-NO')+' kr</td>'+
+    '</tr>';
+  });
+  html+='<div class="sust-table-wrap" style="margin-top:14px"><table class="sust-table">'+
+    '<thead><tr><th>Kommune</th>'+
+      '<th class="r">Netto renter</th><th class="r">kr/innb</th>'+
+      '<th class="r">Renteeksp.<br>gjeld</th>'+
+      '<th class="r">'+(isSaving?'Innsparing':'Merkostnad')+'<br>'+Math.abs(dRate).toFixed(1)+' pp</th>'+
+      '<th class="r">kr/innb</th>'+
+    '</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+    '<p class="hint" style="margin-top:8px;font-size:11px;opacity:.75">Per-prosentpoeng-effekten er det robuste tallet — den skalerer lineært. «Dagens rente» er din egen valgbare forutsetning. Renteutslag tar tid: KBNs flytende lån justeres kvartalsvis, fastrente-transjer ruller av over år. Tallene er øvre grense for et rent KBN-rentekutt — også KLP/sertifikater/obligasjoner finnes. † = renteeksponert gjeld manglet i KOSTRA, netto lånegjeld brukt som proxy.</p>'+
+    '<div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>';
+  host.innerHTML=html;
+  const rc=document.getElementById('rcur'), rn=document.getElementById('rnew');
+  if(rc) rc.oninput=e=>{state.renteCur=parseFloat(e.target.value); renderRente();};
+  if(rn) rn.oninput=e=>{state.renteNew=parseFloat(e.target.value); renderRente();};
+  attachMethodBadges();
+}
+/* === Arbeids-helpers fra ARBEID_DATA ======================================== */
+function getSysselsRate(nr){
+  if(typeof ARBEID_DATA==='undefined') return null;
+  const r=ARBEID_DATA.kommuner[String(nr)];
+  return r&&r.sysselsRate!=null ? r.sysselsRate/100 : null;
+}
+function getUforePct(nr){
+  if(typeof ARBEID_DATA==='undefined') return null;
+  const r=ARBEID_DATA.kommuner[String(nr)];
+  return r ? r.uforePct18_67 : null;
+}
+function getSysselsAbs(nr){
+  if(typeof ARBEID_DATA==='undefined') return null;
+  const r=ARBEID_DATA.kommuner[String(nr)];
+  return r ? r.sysselsatte20_66 : null;
+}
+let _landsdelSyssRate=null;
+function landsdelSysselsRate(){
+  if(_landsdelSyssRate!=null) return _landsdelSyssRate;
+  if(typeof ARBEID_DATA==='undefined') return 0.7;
+  let sumSyss=0, sumTot=0;
+  Object.values(ARBEID_DATA.kommuner).forEach(r=>{
+    if(r.sysselsatte20_66!=null) sumSyss+=r.sysselsatte20_66;
+    if(r.tot20_66!=null) sumTot+=r.tot20_66;
+  });
+  _landsdelSyssRate = sumTot ? sumSyss/sumTot : 0.7;
+  return _landsdelSyssRate;
+}
+
+/* === Bærekraftsindikatorer 2050 — eksterne kilder + normer ================== */
+/* Ingen interne terskler. Hver indikator vurderes mot sin autoritative norm:
+   - OECD SCIRN (årlig befolkningsendring)
+   - OECD-standard forsørgerbyrde (65+/20–64)
+   - TBU-norm netto driftsresultat (+1,75 %)
+   - KS FoU mai 2025 (disposisjonsfond ≥ 5 %, netto lånegjeld ≤ 75 %)
+   - Kommuneloven §28-1 (ROBEK)
+   - SSB-snitt for sysselsetting og uføreandel (referansenivå) */
+const EXT_NORMS = {
+  scirnAnnual: -0.15,     // OECD SCIRN: ≥0,15 %/år nedgang = "shrinking"
+  oecd2050: 58,           // OECD-snitt forsørgerbyrde 65+/20-64 i 2050
+  nasjSyss: 79,           // SSB ~79 % sysselsetting 20-66 (nasjonalt snitt 2024)
+  nasjUfor: 10.5,         // SSB ~10,5 % uføretrygdede 18-67 (nasjonalt snitt 2024)
+  tbuNDR: 1.75,           // TBU-norm netto driftsresultat
+  ksFond: 5.0,            // KS FoU mai 2025 anbefalt minimum
+  ksGjeld: 75.0,          // KS/Riksrevisjonen øvre grense
+};
+function evaluateKommune(k){
+  const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[k.nr];
+  if(!o||!o.mw||!o.mw.kons) return null;
+  const mw=o.mw.kons;
+  const n=(mw.pop||[]).length;
+  const popFall = (mw.pop&&mw.pop[0])?(1 - mw.pop[n-1]/mw.pop[0])*100:null;
+  const a2 = mw.a2064, a6 = mw.a65;
+  const workFall = (a2&&a2[0])?(1 - a2[n-1]/a2[0])*100:null;
+  // OECD-standard forsørgerbyrde (65+/20-64)
+  const oad2050 = (a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
+  // Årlig endring 2024→2050 (geometrisk) — for SCIRN
+  const annualPct = (mw.pop&&mw.pop[0]&&mw.pop[n-1]>0)?(Math.pow(mw.pop[n-1]/mw.pop[0], 1/26) - 1)*100:null;
+  const syssR = getSysselsRate(k.nr);
+  const uforePct = getUforePct(k.nr);
+  const RB = P.robek||{kommuner:{}};
+  const inROBEK = !!(RB.kommuner && RB.kommuner[k.nr]);
+  const pendingROBEK = !!(RB.pending && RB.pending[k.nr]);
+  const prox = (typeof robekProxy==='function')?robekProxy(k.nr):null;
+  const fond = prox?prox.fond:null;
+  const ndr = prox?prox.ndr:null;
+  const gj = prox?prox.gj:null;
+  const bdr = prox?prox.bdr:null;
+  const negYrs = prox?prox.neg:null;
+  const yr = prox?prox.yr:null;
+  return {
+    nr:k.nr, navn:k.navn, fylke:k.fylke,
+    popFall, workFall, oad2050, annualPct,
+    syssRate: syssR!=null?syssR*100:null,
+    uforePct,
+    ndr, fond, gj, bdr, negYrs, yr,
+    inROBEK, pendingROBEK,
+  };
+}
+/* Per-kommune indikatorkort — viser hver indikator mot sin eksterne norm. Ingen aggregert dom. */
+function sustKommuneCard(k){
+  if(k.isAgg) return '';
+  const e = evaluateKommune(k);
+  if(!e) return '';
+  const N = EXT_NORMS;
+  const sgn = v => (v>=0?'+':'−')+Math.abs(v).toFixed(0);
+  const fmt1 = v => (v==null?'–':(v<0?'−':'')+Math.abs(v).toFixed(1));
+  const fmt0 = v => (v==null?'–':Math.round(v).toString());
+  // Status helper: returns color + label
+  const stat = (val, ok) => {
+    if(val==null) return {col:'var(--ink3)', lab:'–'};
+    return ok ? {col:'#2E7D5B', lab:''} : {col:'#B23B3B', lab:''};
+  };
+  const row = (lab, valHtml, statusInfo, source) =>
+    '<tr style="border-top:1px solid var(--line2)">'+
+      '<td style="padding:6px 0;color:var(--ink2)">'+lab+'</td>'+
+      '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;font-weight:600;color:'+(statusInfo&&statusInfo.col||'var(--ink2)')+'">'+valHtml+'</td>'+
+      '<td style="text-align:right;color:var(--ink3);font-size:10.5px;padding-left:12px">'+source+'</td>'+
+    '</tr>';
+  const sectionHeader = (txt) =>
+    '<tr><td colspan="3" style="padding:10px 0 2px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">'+txt+'</td></tr>';
+  // Vurder mot eksterne normer
+  const popOK = e.annualPct!=null ? e.annualPct > N.scirnAnnual : null;
+  const oadOK = e.oad2050!=null ? e.oad2050 <= N.oecd2050 : null;
+  const sysOK = e.syssRate!=null ? e.syssRate >= N.nasjSyss : null;
+  const ufoOK = e.uforePct!=null ? e.uforePct <= N.nasjUfor : null;
+  const ndrOK = e.ndr!=null ? e.ndr >= N.tbuNDR : null;
+  const fondOK = e.fond!=null ? e.fond >= N.ksFond : null;
+  const gjeldOK = e.gj!=null ? e.gj <= N.ksGjeld : null;
+  const robekOK = !e.inROBEK && !e.pendingROBEK;
+  const tbl='<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 0">'+
+    sectionHeader('Demografi mot 2050 (framskrevet)')+
+    row('Befolkningsendring 2024→2050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
+    row('Årlig endring (geometrisk)', e.annualPct!=null?(e.annualPct>=0?'+':'−')+Math.abs(e.annualPct).toFixed(2)+' %':'–', stat(e.annualPct, popOK), 'OECD SCIRN-terskel: −0,15 %/år')+
+    row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 58')+
+    sectionHeader('Arbeidsmarked og helse (2024)')+
+    row('Sysselsettingsrate 20–66', e.syssRate!=null?fmt0(e.syssRate)+' %':'–', stat(e.syssRate, sysOK), 'SSB 13563 · nasjonalt snitt ~79 %')+
+    row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt ~10,5 %')+
+    sectionHeader('Kommuneøkonomi'+(e.yr?' ('+e.yr+')':''))+
+    row('Netto driftsresultat', e.ndr!=null?fmt1(e.ndr)+' %':'–', stat(e.ndr, ndrOK), 'TBU-norm · +1¾ % av brutto driftsinntekter')+
+    row('Disposisjonsfond', e.fond!=null?fmt1(e.fond)+' %':'–', stat(e.fond, fondOK), 'KS FoU mai 2025 · ≥5 % anbefalt minimum')+
+    row('Netto lånegjeld', e.gj!=null?fmt0(e.gj)+' %':'–', stat(e.gj, gjeldOK), 'KS/Riksrevisjonen · ≤75 % av driftsinntekter')+
+    row('ROBEK-status', e.inROBEK?'I ROBEK':(e.pendingROBEK?'Behandles':'Trygg'), stat(1, robekOK), 'Kommuneloven §28-1')+
+    '</table>';
+  return '<div class="card">'+
+    '<div class="ch" style="margin-bottom:4px">'+
+      '<h3 class="serif">Bærekraftsindikatorer 2050</h3>'+
+    '</div>'+
+    '<p class="hint" style="margin:0 0 2px">Indikatorer vurdert mot etablerte eksterne normer. Grønt = innen norm, rødt = utenfor. Ingen samlet dom — hver indikator står på egne ben med kilden bak.</p>'+
+    tbl+
+  '</div>';
+}
+function renderSustainability(){
+  const N = EXT_NORMS;
+  // Vurder alle kommuner mot eksterne normer
+  const results = K.map(evaluateKommune).filter(Boolean);
+  const total = results.length;
+  const pct = (n,t)=>t?Math.round(100*n/t):0;
+  // Per-indikator tellinger mot ekstern norm
+  const counts = {
+    popDecl:  results.filter(r=>r.annualPct!=null && r.annualPct <= N.scirnAnnual).length,
+    oadOver:  results.filter(r=>r.oad2050!=null && r.oad2050 > N.oecd2050).length,
+    sysUnder: results.filter(r=>r.syssRate!=null && r.syssRate < N.nasjSyss).length,
+    ufoOver:  results.filter(r=>r.uforePct!=null && r.uforePct > N.nasjUfor).length,
+    ndrUnder: results.filter(r=>r.ndr!=null && r.ndr < N.tbuNDR).length,
+    fondUnder:results.filter(r=>r.fond!=null && r.fond < N.ksFond).length,
+    gjeldOver:results.filter(r=>r.gj!=null && r.gj > N.ksGjeld).length,
+    robekIn:  results.filter(r=>r.inROBEK).length,
+    robekPnd: results.filter(r=>r.pendingROBEK).length,
+  };
+  // Klartekst — observasjoner, ingen samlet dom
+  const tldrHost=document.getElementById('sustTldr');
+  if(tldrHost){
+    let text='Hver indikator vurderes mot sin <b>eksterne autoritative norm</b> — ikke mot en samlet bærekraftsdom. Av '+total+' kommuner i Nord-Norge: ';
+    text+='<b>'+counts.popDecl+'</b> har befolkningsnedgang ≥ 0,15 %/år (OECD SCIRN-definisjonen «shrinking»); ';
+    text+='<b>'+counts.oadOver+'</b> har forsørgerbyrde 2050 over OECD-snittet (58 eldre per 100 i yrkesaktiv alder); ';
+    text+='<b>'+counts.ndrUnder+'</b> ligger under TBU-normen for netto driftsresultat (+1¾ %); ';
+    text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS's anbefalte 5 %; ';
+    text+='<b>'+(counts.robekIn+counts.robekPnd)+'</b> er i ROBEK eller har innmelding under behandling. ';
+    text+='Hvert tall er en <i>observasjon</i> mot en konkret etablert standard.';
+    tldrHost.className='tldr';
+    tldrHost.innerHTML='<div class="tldr-tag">Akt 3 · Kan vi bære det? · Indikatoroversikt</div>'+
+      '<h3>Kommunene mot etablerte normer</h3>'+
+      '<p class="tldr-text">'+text+'</p>'+
+      '<div class="tldr-nums">'+
+        '<div class="tldr-num"><div class="nv down">'+counts.popDecl+'</div><div class="nl">Shrinking</div><div class="nh">OECD SCIRN ≥ 0,15 %/år</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+counts.oadOver+'</div><div class="nl">Over OECD-snitt</div><div class="nh">forsørgerbyrde 2050 > 58</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+counts.ndrUnder+'</div><div class="nl">Under TBU-norm</div><div class="nh">NDR < +1¾ %</div></div>'+
+        '<div class="tldr-num"><div class="nv down">'+(counts.robekIn+counts.robekPnd)+'</div><div class="nl">ROBEK</div><div class="nh">§28-1 registrert/pending</div></div>'+
+      '</div>';
+  }
+  // Per-fylke: distribusjon over hver indikator
+  const fylkeHost=document.getElementById('sustFylkeBars');
+  if(fylkeHost){
+    const fylker=['Nordland','Troms','Finnmark'];
+    const indicators = [
+      {key:'popDecl', lab:'Shrinking (OECD SCIRN)', test:r=>r.annualPct!=null && r.annualPct <= N.scirnAnnual},
+      {key:'oadOver', lab:'Forsørgerbyrde 2050 over OECD-snitt', test:r=>r.oad2050!=null && r.oad2050 > N.oecd2050},
+      {key:'sysUnder', lab:'Sysselsetting under nasjonalt snitt', test:r=>r.syssRate!=null && r.syssRate < N.nasjSyss},
+      {key:'ufoOver', lab:'Uføreandel over nasjonalt snitt', test:r=>r.uforePct!=null && r.uforePct > N.nasjUfor},
+      {key:'ndrUnder', lab:'NDR under TBU-norm', test:r=>r.ndr!=null && r.ndr < N.tbuNDR},
+      {key:'fondUnder', lab:'Disposisjonsfond under KS-anbefaling', test:r=>r.fond!=null && r.fond < N.ksFond},
+      {key:'gjeldOver', lab:'Lånegjeld over KS-grense', test:r=>r.gj!=null && r.gj > N.ksGjeld},
+      {key:'robek', lab:'I ROBEK eller behandles', test:r=>r.inROBEK || r.pendingROBEK},
+    ];
+    let h='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">';
+    fylker.forEach(fy=>{
+      const sub = results.filter(r=>r.fylke===fy);
+      const t = sub.length;
+      let rows='';
+      indicators.forEach(ind=>{
+        const n = sub.filter(ind.test).length;
+        const p = t?(100*n/t):0;
+        const col = p>=60?'#B23B3B' : p>=30?'#C9A23B' : '#2E7D5B';
+        rows+='<div style="margin-bottom:8px">'+
+          '<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">'+ind.lab+'</span><span style="font-family:'Spline Sans Mono',monospace;color:'+col+';font-weight:600">'+n+' / '+t+'</span></div>'+
+          '<div style="height:6px;background:var(--line2);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+p+'%;background:'+col+'"></div></div>'+
+        '</div>';
+      });
+      h+='<div class="card" style="padding:14px 16px;margin:0">'+
+        '<h4 style="margin:0 0 10px;font-family:'Fraunces',serif;font-weight:600">'+fy+' <span style="color:var(--ink3);font-weight:400;font-size:12px">· '+t+' kommuner</span></h4>'+
+        rows+
+      '</div>';
+    });
+    h+='</div>';
+    fylkeHost.innerHTML=h;
+  }
+}
+function render(){renderList(); if(!renderCompare())detail();
+  document.getElementById('cmpinfo').textContent=state.compare.length?`${state.compare.length} valgt — sammenligner`:'+ for å sammenligne';
+  renderNat(); renderNatTS(); renderModelEval(); renderRobek(); renderBigPicture(); renderComposition(); renderBurden(); renderLevekar(); renderEconomy(); renderSustainability();
+  if(typeof attachHelpPops==='function')attachHelpPops();}
+function renderRobek(){
+  const host=document.getElementById('robekview'); if(!host) return;
+  host.innerHTML=robekOverviewHTML(state.robekFylke||'Alle');
+  host.querySelectorAll('#rbk button').forEach(b=>b.onclick=()=>{state.robekSort=b.dataset.s;renderRobek();});
+  const fb=document.getElementById('rbkf');
+  if(fb) fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    fb.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));
+    state.robekFylke=b.dataset.f; renderRobek();});
+}
+
+document.querySelectorAll('#fylke button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#fylke button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  state.fylke=b.dataset.f; state.sel=FYNR[state.fylke]; const f=filtered(); render();});
+document.getElementById('q').oninput=e=>{state.q=e.target.value;const f=filtered();
+  if(f.length)state.sel=f[0].nr; render();};
+document.querySelectorAll('.searchhint .shchip').forEach(b=>b.onclick=()=>{
+  const v=b.dataset.shq; const qi=document.getElementById('q');
+  state.q = state.q.toLowerCase().trim()===v.toLowerCase() ? '' : v;
+  qi.value=state.q;
+  const f=filtered(); if(f.length)state.sel=f[0].nr; render();
+});
+document.querySelectorAll('.sortbar button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.sortbar button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  state.sort=b.dataset.s; render();});
+elList.onclick=e=>{
+  const c=e.target.closest('[data-cmp]');
+  if(c){const nr=+c.dataset.cmp; const i=state.compare.indexOf(nr);
+    if(i>=0)state.compare.splice(i,1); else if(state.compare.length<4)state.compare.push(nr);
+    render(); e.stopPropagation(); return;}
+  const row=e.target.closest('[data-nr]'); if(row){state.sel=+row.dataset.nr;
+    if(state.compare.length<2)render(); else {state.compare=[];render();}}};
+document.querySelectorAll('#nxs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#nxs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  state.natSex=b.dataset.x; renderNat(); renderNatTS();});
+document.querySelectorAll('#nmt button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#nmt button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  state.natMetric=b.dataset.m; renderNat(); renderNatTS();});
+document.getElementById('natts').addEventListener('click',e=>{
+  const b=e.target.closest('[data-leg]'); if(!b)return;
+  const k=b.dataset.leg; state.natHidden[k]=!state.natHidden[k]; renderNatTS();});
+function setTab(t){
+  document.querySelectorAll('#journey button').forEach(x=>x.setAttribute('aria-current',x.dataset.tab===t?'true':'false'));
+  document.querySelectorAll('.tab').forEach(p=>p.classList.toggle('active',p.dataset.tab===t));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('#journey button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+document.querySelectorAll('.nextstep').forEach(b=>b.onclick=()=>setTab(b.dataset.next));
+document.querySelectorAll('.insight .src').forEach(b=>b.onclick=()=>setTab(b.dataset.goto));
+
+/* help-pop overlays */
+function attachHelpPops(){
+  document.querySelectorAll('[data-helpfor]').forEach(host=>{
+    if(host.querySelector('.helpbtn'))return;
+    const btn=document.createElement('button');
+    btn.className='helpbtn'; btn.type='button'; btn.textContent='i';
+    btn.setAttribute('aria-label','Hva betyr denne grafen?');
+    btn.setAttribute('aria-expanded','false');
+    const pop=document.createElement('div');
+    pop.className='helppop'; pop.innerHTML=host.dataset.helpfor;
+    host.style.position=host.style.position||'relative';
+    host.appendChild(btn); host.appendChild(pop);
+    btn.onclick=e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.helppop.open').forEach(p=>{if(p!==pop){p.classList.remove('open');p.previousSibling&&p.previousSibling.setAttribute&&p.previousSibling.setAttribute('aria-expanded','false');}});
+      const isOpen=pop.classList.toggle('open');
+      btn.setAttribute('aria-expanded',isOpen?'true':'false');
+      if(isOpen){
+        const r=btn.getBoundingClientRect();
+        pop.style.top=(btn.offsetTop+btn.offsetHeight+10)+'px';
+        pop.style.left=Math.max(8,btn.offsetLeft-8)+'px';
+      }
+    };
+  });
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.helppop')&&!e.target.classList.contains('helpbtn')){
+    document.querySelectorAll('.helppop.open').forEach(p=>{
+      p.classList.remove('open');
+      const b=p.parentElement&&p.parentElement.querySelector('.helpbtn');
+      if(b)b.setAttribute('aria-expanded','false');
+    });
+  }
+});
+
+/* share-card buttons */
+const prntBtn=document.getElementById('prntbtn');
+if(prntBtn)prntBtn.onclick=()=>window.print();
+const copyBtn=document.getElementById('copybtn');
+if(copyBtn)copyBtn.onclick=async()=>{
+  try{ await navigator.clipboard.writeText(location.href); copyBtn.textContent='Kopiert ✓';
+    setTimeout(()=>copyBtn.textContent='Kopier lenke',1800);
+  }catch(_){copyBtn.textContent='Marker URL manuelt';}
+};
+
+/* tour-modus */
+const TOUR=[
+  {sel:'.essence',title:'Kjernebudskapet',body:'Dashboardets hovedfunn i én setning: bare rundt 4 % av kommunene er bærekraftige på egne demografiske og økonomiske fundamenter mot 2050. Resten lener seg på statlige overføringer.'},
+  {sel:'#journey',title:'Reisen i tre akter',body:'Tre tematiske akter à to kapitler, pluss et sammendrag. Akt 1 spør «Hva skjer», Akt 2 «Hvem blir igjen», Akt 3 «Kan vi bære det?». Klikk fritt mellom kapitlene.'},
+  {sel:'[data-tab="intro"] #bigPicChart',title:'Akt 1.1 · Det store bildet',body:'Landsdelens samlede befolkning 2000 → 2050 i én graf. Den mørke linjen er faktisk historikk; framover er SSBs MMMM-bane og Telemarksforsknings TF-MVP/TF-ATTR.'},
+  {sel:'[data-tab="explore"] .stepcard',title:'Akt 1.2 · Utforsk kommunene',body:'Bak landsdels-linjen ligger 80 ulike skjebner. Filtrér på fylke eller status (ROBEK, vekst, aldring) og dykk ned i kommune-detaljen.',action:'explore'},
+  {sel:'[data-tab="model"] .stepcard',title:'Akt 2.1 · Befolkningssammensetningen',body:'Alder, opprinnelse og bofasthet samlet. Hvem bor her — og hvor lenge blir flyktningene? To ulike måler, samme historie.',action:'model'},
+  {sel:'[data-tab="nat"] #burdenChart',title:'Akt 2.2 · Forsørgerbyrden',body:'Eldre per 100 yrkesaktive vokser fra ~30 til ~50 mot 2050. Det er dette økte presset økonomien må håndtere.',action:'nat'},
+  {sel:'[data-tab="refugees"] #econRobekCard',title:'Akt 3.1 · Økonomien i dag',body:'KOSTRA-status og ROBEK-register samlet. Hvor solid står kommunene før aldringskostnaden kommer?',action:'refugees'},
+  {sel:'[data-tab="robek"] #sustFylkeCard',title:'Akt 3.2 · Bærekraftsindikatorer 2050',body:'Åtte indikatorer vurdert mot eksterne normer (OECD SCIRN, OECD-standard, TBU, KS, kommuneloven). Per fylke: hvor mange kommuner ligger utenfor hver enkelt norm?',action:'robek'},
+  {sel:'[data-tab="summary"] .summary-hero',title:'Sammendrag · Det du nå vet',body:'Fem innsikter med lenker tilbake til kapitlene. Print som PDF til møtet.',action:'summary'},
+];
+let tourIdx=-1;
+const tBack=document.createElement('div'); tBack.className='tour-backdrop';
+const tSpot=document.createElement('div'); tSpot.className='tour-spot';
+const tBub=document.createElement('div'); tBub.className='tour-bubble';
+document.body.append(tBack,tSpot,tBub);
+function tourPos(el){
+  if(!el){tSpot.classList.remove('on');return null;}
+  const r=el.getBoundingClientRect();
+  const pad=8;
+  tSpot.style.top=(r.top-pad)+'px';
+  tSpot.style.left=(r.left-pad)+'px';
+  tSpot.style.width=(r.width+pad*2)+'px';
+  tSpot.style.height=(r.height+pad*2)+'px';
+  tSpot.classList.add('on');
+  return r;
+}
+function tourShow(i){
+  if(i<0||i>=TOUR.length){tourEnd();return;}
+  const step=TOUR[i];
+  if(step.action) setTab(step.action);
+  setTimeout(()=>{
+    const el=document.querySelector(step.sel);
+    if(el)el.scrollIntoView({block:'center',behavior:'smooth'});
+    setTimeout(()=>{
+      const r=tourPos(el);
+      tBub.innerHTML=`<div class="tk">Steg ${i+1} av ${TOUR.length}</div>
+        <h4>${step.title}</h4><p>${step.body}</p>
+        <div class="tnav"><button class="tprev" ${i===0?'disabled':''}>← Forrige</button>
+        <span class="tcount">${i+1} / ${TOUR.length}</span>
+        <div><button class="tskip">Avslutt</button>
+        <button class="tnext">${i===TOUR.length-1?'Ferdig':'Neste →'}</button></div></div>`;
+      const top=r?Math.min(window.innerHeight-220,r.bottom+16):120;
+      const left=r?Math.max(16,Math.min(window.innerWidth-400,r.left)):Math.max(16,(window.innerWidth-360)/2);
+      tBub.style.top=top+'px'; tBub.style.left=left+'px';
+      tBub.classList.add('on');
+      tBub.querySelector('.tprev').onclick=()=>{tBub.classList.remove('on');setTimeout(()=>tourShow(i-1),120);};
+      tBub.querySelector('.tnext').onclick=()=>{tBub.classList.remove('on');setTimeout(()=>tourShow(i+1),120);};
+      tBub.querySelector('.tskip').onclick=tourEnd;
+    },step.action?300:60);
+  },step.action?60:0);
+}
+function tourStart(){tourIdx=0;tBack.classList.add('on');tourShow(0);
+  try{localStorage.setItem('nn_tour_seen','1');}catch(_){}}
+function tourEnd(){tBack.classList.remove('on');tSpot.classList.remove('on');tBub.classList.remove('on');tourIdx=-1;}
+document.getElementById('tourstart').onclick=tourStart;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&tourIdx>=0)tourEnd();});
+
+render();
+attachHelpPops();
+
+/* === Steg 04½ "Flyktningenes vei" — render-funksjoner ======================== */
+function attachMethodBadges(){
+  document.querySelectorAll('[data-methodbadge]').forEach(el=>{
+    if(el.dataset.mbDone) return;
+    el.innerHTML = methodBadge(el.dataset.methodbadge);
+    el.dataset.mbDone = '1';
+  });
+}
+
+function flowChartSVG(state){
+  const F=SSB_FLOWS; const yrs=F.years; const n=yrs.length;
+  const excl = state==='excl';
+  // Innenlands netto er upåvirket av Ukraina; nettoinnvandring minus Ukraina-delta
+  const inn = F.nordNorge.nettoInnland.slice();
+  const utl = F.nordNorge.nettoInnvandring.map((v,i)=>{
+    if(!excl) return v;
+    const d = F.nordNorge.ukraineDelta[i];
+    return v - (d||0);
+  });
+  // Y range
+  let lo=Infinity, hi=-Infinity;
+  inn.concat(utl).forEach(v=>{if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}});
+  const pad=(hi-lo)*0.1||100; lo=Math.min(lo,0)-pad; hi=Math.max(hi,0)+pad;
+  const L=56,R=64,Tp=18,B=34,W=760-L-R,H=300-Tp-B;
+  const X=i=>L+(n<2?0:i/(n-1)*W);
+  const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
+  let svg=`<svg class="flow-chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
+  for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
+    svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+    svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${fmt(Math.round(val))}</text>`;}
+  // 0-akse fremhevet
+  const y0=Y(0);
+  svg+=`<line x1="${L}" y1="${y0}" x2="${L+W}" y2="${y0}" stroke="var(--ink2)" stroke-width="1"/>`;
+  // x-akse etiketter (hvert 5. år)
+  yrs.forEach((yr,i)=>{if(yr%5===0||i===n-1) svg+=`<text class="axis" x="${X(i)}" y="${300-B+15}" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">${yr}</text>`;});
+  // Innenlands linje (rødt — folk drar)
+  let di='';inn.forEach((v,i)=>{di+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+  svg+=`<path d="${di}" fill="none" stroke="#B23B3B" stroke-width="2.4" stroke-linejoin="round"/>`;
+  // Utenlands linje (aurora — folk kommer)
+  let du='';utl.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+  svg+=`<path d="${du}" fill="none" stroke="var(--aurora)" stroke-width="2.4" stroke-linejoin="round"/>`;
+  // Punkter på siste år
+  svg+=`<circle cx="${X(n-1)}" cy="${Y(inn[n-1])}" r="3.5" fill="#B23B3B"/>`;
+  svg+=`<circle cx="${X(n-1)}" cy="${Y(utl[n-1])}" r="3.5" fill="var(--aurora)"/>`;
+  svg+=`<text x="${L+W+4}" y="${Y(inn[n-1])+3}" style="font-size:11px;font-weight:700;fill:#B23B3B">${fmt(inn[n-1])}</text>`;
+  svg+=`<text x="${L+W+4}" y="${Y(utl[n-1])+3}" style="font-size:11px;font-weight:700;fill:var(--aurora)">${fmt(utl[n-1])}</text>`;
+  // 2022-marker for Ukraina-konteksten
+  const i2022=yrs.indexOf(2022);
+  if(i2022>=0){
+    svg+=`<line x1="${X(i2022)}" y1="${Tp}" x2="${X(i2022)}" y2="${Tp+H}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>`;
+    svg+=`<text x="${X(i2022)}" y="${Tp-4}" text-anchor="middle" style="font-size:10px;font-weight:600;fill:var(--ink3)">Ukraina-invasjon</text>`;
+  }
+  svg+='</svg>';
+  svg+='<div class="flow-legend">'+
+    '<span><i style="background:var(--aurora)"></i>Nettoinnvandring fra utlandet</span>'+
+    '<span><i style="background:#B23B3B"></i>Innenlands nettoflytting (ofte negativ — folk drar sør)</span>'+
+    (excl?'<span style="color:var(--amber);font-weight:600">✱ Ukraina-effekt trukket fra (approks. via stock-delta)</span>':'')+
+  '</div>';
+  return svg;
+}
+
+function renderFlowChart(){
+  const host=document.getElementById('flowChart'); if(!host) return;
+  const btn=document.querySelector('#flowToggle button[aria-pressed=true]');
+  const mode=btn?btn.dataset.ukr:'incl';
+  host.innerHTML = flowChartSVG(mode);
+}
+
+function bofastChartHTML(){
+  const KOH=KOHORT_RET.kohorter;
+  let html='';
+  KOH.forEach(koh=>{
+    html+='<div style="margin-bottom:18px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">'+
+      '<h4 class="serif" style="font-size:15px;font-weight:600">'+koh.kohort_year+'-kohort · etter '+koh.botid_aar+' år</h4>'+
+      '<span style="font-size:11px;color:var(--ink3)">Kilde: '+SOURCES[koh.source_id].publisher+'</span>'+
+      '</div>';
+    Object.entries(koh.andel_bofast).forEach(([fy,pct])=>{
+      if(pct==null) return;
+      const isFinn = fy==='Finnmark';
+      const isRef = fy==='Møre og Romsdal' || fy==='Landssnitt';
+      const cls = isFinn?'hl':isRef?'ref':'';
+      html+='<div class="bofast-row">'+
+        '<div class="blab '+(isFinn?'hl':'')+'">'+fy+'</div>'+
+        '<div class="btrack"><div class="bfill '+cls+'" style="width:'+pct+'%"></div></div>'+
+        '<div class="bval">'+pct+' %</div>'+
+      '</div>';
+    });
+    if(koh.note) html+='<p class="hint" style="margin-top:8px;font-size:11.5px;font-style:italic">'+koh.note+'</p>';
+    html+='</div>';
+  });
+  return html;
+}
+
+function renderBofastChart(){
+  const host=document.getElementById('bofastChart'); if(!host) return;
+  host.innerHTML = '<div class="bofast-chart">'+bofastChartHTML()+'</div>';
+}
+
+function sourceTableHTML(filter){
+  const ids=Object.keys(SOURCES);
+  const rows=ids.filter(id=>{
+    if(!filter||filter==='all') return true;
+    const s=SOURCES[id];
+    if(filter.startsWith('metric:')) return s.metric_type===filter.slice(7);
+    if(filter.startsWith('type:')) return s.publisher_type===filter.slice(5);
+    return true;
+  }).map(id=>{
+    const s=SOURCES[id];
+    const metricChip = ({
+      kohort_retensjon:'<span class="src-chip">Kohort-retensjon</span>',
+      stock_snapshot:'<span class="src-chip t-stock">Stock-snapshot</span>',
+      akkumulert_nettoflytting:'<span class="src-chip t-acc">Akkumulert flytting</span>',
+      raadata:'<span class="src-chip t-raw">Rådata</span>'
+    })[s.metric_type]||'';
+    const flags=[];
+    flags.push(s.excludes_emigration?'ekskl. utvandring':'inkl. utvandring');
+    if(s.ukraine_included===false) flags.push('ekskl. Ukraina');
+    flags.push('per '+s.geo_level);
+    return '<tr id="src-'+id+'">'+
+      '<td><div class="src-title">'+s.title+'</div>'+
+        '<div class="src-pub">'+s.publisher+' · '+s.period_start+'–'+s.period_end+'</div>'+
+        '<div class="src-meta">'+metricChip+'<span style="color:var(--ink3)">'+flags.join(' · ')+'</span></div>'+
+        (s.caveat?'<div class="src-meta" style="margin-top:6px;line-height:1.5"><b>Forbehold:</b> '+s.caveat+'</div>':'')+
+      '</td>'+
+      '<td style="width:140px;text-align:right"><a class="src-link" href="'+s.url+'" target="_blank" rel="noopener">Åpne kilde →</a></td>'+
+    '</tr>';
+  }).join('');
+  return '<table class="source-table"><thead><tr><th>Kilde</th><th></th></tr></thead><tbody>'+(rows||'<tr><td colspan="2" style="text-align:center;color:var(--ink3);padding:20px">Ingen kilder matcher filteret.</td></tr>')+'</tbody></table>';
+}
+
+function renderSourcePanel(){
+  const host=document.getElementById('sourcePanel'); if(!host) return;
+  const btn=document.querySelector('#sourceFilter button[aria-pressed=true]');
+  const f=btn?btn.dataset.sf:'all';
+  host.innerHTML = sourceTableHTML(f);
+}
+
+function initRefugeesStep(){
+  renderFlowChart();
+  renderBofastChart();
+  renderSourcePanel();
+  attachMethodBadges();
+  // Wire up flow toggle
+  document.querySelectorAll('#flowToggle button').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('#flowToggle button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+      renderFlowChart();
+    };
+  });
+  // Wire up source filter
+  document.querySelectorAll('#sourceFilter button').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('#sourceFilter button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+      renderSourcePanel();
+    };
+  });
+}
+initRefugeesStep();
+
+/* gentle nudge: pulse tour-button first visit */
+try{
+  if(!localStorage.getItem('nn_tour_seen')){
+    const b=document.getElementById('tourstart');
+    b.style.animation='popIn .6s ease both, popIn .9s ease 1.2s both';
+  }
+}catch(_){}
