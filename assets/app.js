@@ -1529,28 +1529,47 @@ function renderModelEval(){
     .concat([{lab:'Alle 80',sub:'n='+B.all.n,v:[B.all.ssb,B.all.mvp,B.all.attr],hl:false,div:true},
              {lab:'Minst sentrale',sub:'klasse 5+6 · n='+B.least.n,v:[B.least.ssb,B.least.mvp,B.least.attr],hl:true}]);
   const series=[['SSB-2020','var(--ink3)'],['TF-MVP','var(--amber)'],['TF-ATTR','var(--fi)']];
-  const VB=760, L=8, Rp=8, x0=196, x1=VB-58;
+  // Vinner per rad: laveste feil (med liten toleranse for «omtrent likt»)
+  groups.forEach(g=>{
+    const vals=g.v.filter(v=>v!=null);
+    if(!vals.length){ g.winners=[]; return; }
+    const minV=Math.min.apply(null,vals);
+    g.winners=g.v.map(v=>v!=null && (v-minV)<=0.05); // 0.05 pp toleranse for tie
+  });
+  const VB=760, x0=204, x1=VB-72;
   let mx=0; groups.forEach(g=>g.v.forEach(v=>{if(v!=null)mx=Math.max(mx,v);})); mx=Math.ceil(mx*1.15*10)/10||1;
   const xS=v=>x0+(x1-x0)*Math.max(0,v/mx);
-  const gh=58, pad=9, bh=(gh-2*pad)/3, H=groups.length*gh+30;
+  const gh=64, pad=10, bh=(gh-2*pad)/3, H=groups.length*gh+34;
   let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
+  // Gridlines + akse-tall
   [0,.25,.5,.75,1].forEach(t=>{const x=xS(t*mx);
-    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-26}" stroke="rgba(17,32,58,.07)"/>`;
-    s+=`<text class="axis" x="${x}" y="${H-10}" text-anchor="middle">${(t*mx).toFixed(1)}%</text>`;});
-  s+=`<text class="axis" x="${x0}" y="${H-10}" text-anchor="start" style="fill:var(--ink3)">Gjennomsnittlig prosentfeil — lavere = mer treffsikkert →</text>`;
+    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-28}" stroke="rgba(17,32,58,.07)"/>`;
+    s+=`<text class="axis" x="${x}" y="${H-12}" text-anchor="middle">${(t*mx).toFixed(1)} %</text>`;});
+  s+=`<text class="axis" x="${x0}" y="${H-12}" text-anchor="start" style="fill:var(--ink3)">Gjennomsnittlig prosentfeil — lavere = mer treffsikkert →</text>`;
   let y=6;
   groups.forEach(g=>{
     if(g.div) s+=`<line x1="0" y1="${y-3}" x2="${VB}" y2="${y-3}" stroke="rgba(17,32,58,.12)"/>`;
+    // Rad-etikett
     s+=`<text class="nlbl${g.hl?' ctx':''}" x="0" y="${y+gh/2-4}">${g.lab}</text>`;
     s+=`<text x="0" y="${y+gh/2+12}" style="font-size:9.5px;fill:var(--ink3)">${g.sub}</text>`;
-    g.v.forEach((v,si)=>{const yb=y+pad+si*bh, w=v==null?0:Math.max(2,xS(v)-x0);
+    g.v.forEach((v,si)=>{
+      const yb=y+pad+si*bh;
+      const w=v==null?0:Math.max(2,xS(v)-x0);
+      const isWin=g.winners[si];
+      const col=series[si][1];
+      // Spor (lett bakgrunn)
       s+=`<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${bh-3}" rx="2.5" fill="rgba(17,32,58,.045)"/>`;
-      s+=`<rect class="nbar" x="${x0}" y="${yb}" width="${w}" height="${bh-3}" rx="2.5" fill="${series[si][1]}"${g.hl?'':' opacity="0.88"'}/>`;
-      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:'Spline Sans Mono',monospace;font-size:10.5px;font-weight:${g.hl?700:600};fill:${series[si][1]}">${v==null?'–':v.toFixed(2)}</text>`;});
+      // Stolpe — vinner får full opasitet, taperne blir blasse for å la mønsteret stå fram
+      const op=isWin?1:0.42;
+      s+=`<rect class="nbar" x="${x0}" y="${yb}" width="${w}" height="${bh-3}" rx="2.5" fill="${col}" opacity="${op}"${isWin?` stroke="${col}" stroke-width="0.6"`:''}/>`;
+      // Verditall — vinner får ✓ og fet skrift
+      const valTxt=v==null?'–':v.toFixed(2);
+      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:'Spline Sans Mono',monospace;font-size:${isWin?'11.5px':'10.5px'};font-weight:${isWin?700:500};fill:${col};opacity:${isWin?1:0.7}">${valTxt}${isWin?' <tspan style="font-family:inherit;font-size:11px">✓</tspan>':''}</text>`;
+    });
     y+=gh;
   });
   s+='</svg>';
-  s+='<div class="nleg" style="margin-top:6px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">Backtest: basis 1.1.2020 → predikert 2024 mot registrert folketall.</span></div>';
+  s+='<div class="nleg" style="margin-top:8px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:8px">✓ markerer modellen med lavest feil i raden (toleranse 0,05 pp ved nær-likt).</span></div>';
   hosts.forEach(h=>{h.innerHTML=s;});
 }
 function renderBigPicture(){
