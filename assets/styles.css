@@ -667,3 +667,64 @@ footer a{color:var(--aurora);text-decoration:none}
 
 /* Lt-intro under teaser-overskrifter */
 .lt-intro{font-size:13px;color:var(--ink2);margin:-8px 0 14px;line-height:1.55}
+
+/* --- Felles top-nav + breadcrumb (delt pa alle sider unntatt landing) --- */
+.nn-top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:24px;flex-wrap:wrap}
+.nn-bc{font-size:13px;color:var(--ink2);font-family:'Hanken Grotesk',sans-serif}
+.nn-bc a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:1px}
+.nn-bc a:hover{color:var(--ink);border-color:var(--ink2)}
+.nn-bc .sep{margin:0 6px;color:var(--ink3)}
+.nn-bc .now{color:var(--ink);font-weight:600}
+.nn-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nn-actions select,.nn-actions input{font-family:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--paper);color:var(--ink)}
+.nn-actions a.btn{padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);border:1px solid var(--line2);border-radius:6px}
+.nn-actions a.btn:hover{background:var(--paper2)}
+
+/* --- Felles seksjonsnav (fylke, kommune, nord-norge) --- */
+.nn-secnav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--line2)}
+.nn-secnav button{font-family:inherit;font-size:12.5px;padding:6px 12px;border:1px solid var(--line2);border-radius:999px;background:var(--paper);color:var(--ink2);cursor:pointer}
+.nn-secnav button[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nn-secnav button:hover:not([aria-current="true"]){border-color:var(--ink2);color:var(--ink)}
+
+/* --- Felles tema-side-stiler --- */
+.tema-hero{padding:36px 0 18px;border-bottom:1px solid var(--line2);margin-bottom:36px}
+.tema-hero .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:10px}
+.tema-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,62px);font-weight:600;line-height:1.06;margin:0 0 14px;color:var(--ink);max-width:18ch}
+.tema-hero h1 em{font-style:italic}
+.tema-hero p.lede{font-family:'Fraunces',serif;font-size:clamp(16px,1.4vw,20px);font-weight:400;color:var(--ink2);max-width:62ch;line-height:1.55;margin:0}
+.akt{margin-bottom:64px;position:relative}
+.akt-num{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;margin-bottom:8px}
+.akt h2{font-family:'Fraunces',serif;font-size:32px;font-weight:600;line-height:1.15;margin:0 0 12px;color:var(--ink);max-width:24ch}
+.akt h2 em{font-style:italic}
+.akt .akt-intro{font-family:'Fraunces',serif;font-size:17px;font-weight:400;color:var(--ink2);max-width:60ch;line-height:1.6;margin:0 0 24px}
+
+.kpi-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.kpi-rad .kpi{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.kpi-rad .kpi .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.kpi-rad .kpi .v.up{color:#2E7D5B}
+.kpi-rad .kpi .v.down{color:#B23B3B}
+.kpi-rad .kpi .l{font-size:11.5px;color:var(--ink2)}
+.kpi-rad .kpi .nh{font-size:10.5px;color:var(--ink3);margin-top:2px}
+
+.sitat{padding:24px 28px;margin:18px 0;background:var(--paper2);border-radius:0 10px 10px 0}
+.sitat blockquote{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:var(--ink);line-height:1.5;margin:0 0 10px}
+.sitat .kilde{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.sitat .kilde b{color:var(--ink2)}
+
+.neste-tema-blokk{margin:48px 0 24px;padding:32px;border-radius:14px;background:linear-gradient(135deg, rgba(17,32,58,0.04), rgba(17,32,58,0.01));border:1px solid var(--line2)}
+.neste-tema-blokk .ntb-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink3);font-weight:700;margin-bottom:8px}
+.neste-tema-blokk h3{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:0 0 16px;color:var(--ink)}
+.neste-tema-blokk .ntb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.neste-tema-blokk a.ntb-card{padding:20px 22px;border-radius:10px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line2);transition:transform .15s ease,box-shadow .15s ease;display:flex;flex-direction:column}
+.neste-tema-blokk a.ntb-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(17,32,58,.08)}
+.neste-tema-blokk .ntb-num{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.12em;margin-bottom:6px}
+.neste-tema-blokk h4{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 4px}
+.neste-tema-blokk .ntb-sub{font-style:italic;color:var(--ink2);font-size:14px;margin:0 0 10px}
+.neste-tema-blokk .ntb-body{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 12px;flex:1}
+.neste-tema-blokk .ntb-arr{font-size:13px;color:var(--ink);font-weight:600}
+.neste-tema-blokk a.ntb-flyk{border-left:4px solid var(--aurora)}
+.neste-tema-blokk a.ntb-o6{border-left:4px solid var(--amber)}
+.neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
+
+.tab{display:none}
+.tab.active{display:block}
