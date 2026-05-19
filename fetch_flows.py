@@ -18,7 +18,7 @@ import datetime
 from pathlib import Path
 
 HERE = Path(__file__).parent
-HTML = HERE / "index.html"
+HTML = HERE / "assets" / "data.js"
 
 YEARS_FLOW = [str(y) for y in range(2002, 2026)]
 YEARS_UKR = [str(y) for y in range(2016, 2027)]

@@ -19,7 +19,7 @@ import datetime
 from pathlib import Path
 
 HERE = Path(__file__).parent
-HTML = HERE / "index.html"
+HTML = HERE / "assets" / "data.js"
 
 CODES = ["1804","1806","1811","1812","1813","1815","1816","1818","1820","1822",
 "1824","1825","1826","1827","1828","1832","1833","1834","1835","1836","1837",
