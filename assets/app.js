@@ -2212,7 +2212,7 @@ function renderSustainability(){
     text+='<b>'+counts.popDecl+'</b> har befolkningsnedgang ≥ 0,15 %/år (OECD SCIRN-definisjonen «shrinking»); ';
     text+='<b>'+counts.oadOver+'</b> har forsørgerbyrde 2050 over OECD-snittet (58 eldre per 100 i yrkesaktiv alder); ';
     text+='<b>'+counts.ndrUnder+'</b> ligger under TBU-normen for netto driftsresultat (+1¾ %); ';
-    text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS's anbefalte 5 %; ';
+    text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS\'s anbefalte 5 %; ';
     text+='<b>'+(counts.robekIn+counts.robekPnd)+'</b> er i ROBEK eller har innmelding under behandling. ';
     text+='Hvert tall er en <i>observasjon</i> mot en konkret etablert standard.';
     tldrHost.className='tldr';
@@ -2250,12 +2250,12 @@ function renderSustainability(){
         const p = t?(100*n/t):0;
         const col = p>=60?'#B23B3B' : p>=30?'#C9A23B' : '#2E7D5B';
         rows+='<div style="margin-bottom:8px">'+
-          '<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">'+ind.lab+'</span><span style="font-family:'Spline Sans Mono',monospace;color:'+col+';font-weight:600">'+n+' / '+t+'</span></div>'+
+          '<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">'+ind.lab+'</span><span style="font-family:\'Spline Sans Mono\',monospace;color:'+col+';font-weight:600">'+n+' / '+t+'</span></div>'+
           '<div style="height:6px;background:var(--line2);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+p+'%;background:'+col+'"></div></div>'+
         '</div>';
       });
       h+='<div class="card" style="padding:14px 16px;margin:0">'+
-        '<h4 style="margin:0 0 10px;font-family:'Fraunces',serif;font-weight:600">'+fy+' <span style="color:var(--ink3);font-weight:400;font-size:12px">· '+t+' kommuner</span></h4>'+
+        '<h4 style="margin:0 0 10px;font-family:\'Fraunces\',serif;font-weight:600">'+fy+' <span style="color:var(--ink3);font-weight:400;font-size:12px">· '+t+' kommuner</span></h4>'+
         rows+
       '</div>';
     });
