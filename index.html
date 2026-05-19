@@ -21,6 +21,9 @@
 .landing-card h2{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:0 0 10px}
 .landing-card p{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 18px;flex:1}
 .landing-card .larr{font-size:18px;color:var(--ink2);margin-top:auto}
+.landing-card .lc-link{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);flex:1;margin:-30px -26px 0;padding:30px 26px 18px;border-radius:14px 14px 0 0;transition:background .15s ease}
+.landing-card .lc-link:hover{background:var(--paper2)}
+.landing-card .lc-link:hover .larr{color:var(--ink)}
 .landing-card[data-nivå="nn"]{border-top:4px solid var(--aurora)}
 .landing-card[data-nivå="fylke"]{border-top:4px solid var(--nl)}
 .landing-card[data-nivå="kommune"]{border-top:4px solid var(--amber)}
@@ -54,12 +57,15 @@
     <span class="larr">→ Start her</span>
   </a>
   <div class="landing-card" data-nivå="fylke">
-    <div class="lnum">Nivå 2</div>
-    <h2>Per fylke</h2>
-    <p>Nordland, Troms og Finnmark sammenlignet. Filtrerte tall, rangering av kommuner, og indikatorer mot fylkesnivåets eksterne normer.</p>
+    <a class="lc-link" href="fylke.html?f=Nordland">
+      <div class="lnum">Nivå 2</div>
+      <h2>Per fylke</h2>
+      <p>Nordland, Troms og Finnmark sammenlignet. Filtrerte tall, rangering av kommuner, og indikatorer mot fylkesnivåets eksterne normer.</p>
+      <span class="larr">→ Start med Nordland</span>
+    </a>
     <div class="landing-search">
       <select id="landFylke" aria-label="Velg fylke">
-        <option value="">Velg fylke…</option>
+        <option value="">Eller hopp direkte til…</option>
         <option value="Nordland">Nordland (40 kommuner)</option>
         <option value="Troms">Troms (24 kommuner)</option>
         <option value="Finnmark">Finnmark (18 kommuner)</option>
@@ -67,12 +73,15 @@
     </div>
   </div>
   <div class="landing-card" data-nivå="kommune">
-    <div class="lnum">Nivå 3</div>
-    <h2>Enkeltkommune</h2>
-    <p>Drill ned i en spesifikk kommune. Befolkningsreise 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
+    <a class="lc-link" href="kommune.html?k=1804">
+      <div class="lnum">Nivå 3</div>
+      <h2>Enkeltkommune</h2>
+      <p>Drill ned i en spesifikk kommune. Befolkningsreise 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
+      <span class="larr">→ Start med Bodø</span>
+    </a>
     <div class="landing-search">
       <select id="landKommune" aria-label="Velg kommune">
-        <option value="">Velg kommune…</option>
+        <option value="">Eller hopp direkte til…</option>
       </select>
     </div>
   </div>
