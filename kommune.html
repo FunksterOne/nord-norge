@@ -35,6 +35,48 @@
 .k-hero .k-cmp:hover{border-color:var(--ink2);background:var(--paper2)}
 .section-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;margin:0 0 6px;color:var(--ink)}
 .section-sub{color:var(--ink2);font-size:14px;margin:0 0 18px;max-width:60ch}
+
+/* ─── Befolkning-panelet (redesign) ─── */
+.bf-panel{display:flex;flex-direction:column;gap:18px}
+.bf-modes{display:flex;gap:6px;flex-wrap:wrap;background:var(--paper2);padding:6px;border-radius:10px;border:1px solid var(--line2)}
+.bf-modes button{flex:1;min-width:120px;font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:7px;font-weight:500;transition:all .12s ease}
+.bf-modes button:hover{color:var(--ink);background:var(--paper)}
+.bf-modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
+.bf-graph{padding:14px 18px 8px;background:var(--paper);border:1px solid var(--line2);border-radius:12px}
+.bf-graph svg.chart{width:100%;height:auto;max-height:520px;display:block}
+.bf-graph .chart-title{font-family:'Fraunces',serif;font-size:14px;color:var(--ink2);margin:0 0 6px;font-style:italic}
+.bf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.bf-kpis .k{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.bf-kpis .k .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.bf-kpis .k .v.up{color:#2E7D5B}
+.bf-kpis .k .v.down{color:#B23B3B}
+.bf-kpis .k .l{font-size:11.5px;color:var(--ink2);font-weight:500}
+.bf-kpis .k .h{font-size:10.5px;color:var(--ink3);margin-top:2px}
+
+.bf-controls{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px}
+.bf-controls h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.bf-controls > p.intro{font-size:12.5px;color:var(--ink3);margin:0 0 18px}
+.bf-ctrl{margin-bottom:18px}
+.bf-ctrl:last-child{margin-bottom:0}
+.bf-ctrl-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.bf-ctrl-head label{font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:.04em;text-transform:uppercase}
+.bf-ctrl-head .tag{font-size:10.5px;color:var(--ink3)}
+.bf-radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;background:var(--paper);padding:5px;border-radius:8px;border:1px solid var(--line2)}
+.bf-radio button{font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:6px;font-weight:500;text-align:left}
+.bf-radio button:hover{background:var(--paper2);color:var(--ink)}
+.bf-radio button[aria-pressed="true"]{background:var(--aurora);color:var(--paper);font-weight:600;border-color:var(--aurora)}
+.bf-radio button[aria-pressed="true"] em{color:rgba(255,255,255,.85)}
+.bf-radio button .bf-r-title{display:block;font-size:13px}
+.bf-radio button .bf-r-sub{display:block;font-size:11px;opacity:.7;margin-top:2px;font-weight:400}
+.bf-explainer{margin:10px 0 0;padding:10px 14px;background:rgba(24,117,103,0.08);border-left:3px solid var(--aurora);border-radius:0 6px 6px 0;font-size:12.5px;color:var(--ink2);line-height:1.55}
+.bf-explainer b{color:var(--ink)}
+
+.bf-diagnose{padding:20px 22px;background:var(--paper);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:0 10px 10px 0}
+.bf-diagnose .h-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.bf-diagnose h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0;color:var(--ink)}
+.bf-diagnose .tag{font-size:10.5px;font-weight:700;color:var(--amber);background:rgba(201,162,59,0.15);padding:3px 9px;border-radius:9px;text-transform:uppercase;letter-spacing:.04em}
+.bf-diagnose p{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink2)}
+.bf-diagnose p b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -177,9 +219,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var host = document.getElementById('k' + sec.charAt(0).toUpperCase() + sec.slice(1));
     if(!host) return;
     if(sec === 'befolkning'){
-      // 1. Befolkning: framskrivings-graf (total) + diagnose-tekst
-      state.projMode = 'tot';
-      host.innerHTML = projCard(k) + diagnoseCard(k);
+      renderBefolkningPanel(k, host);
     } else if(sec === 'sammensetning'){
       // 2. Sammensetning: alderspyramide + landbakgrunn
       var vesP = k.bc ? Math.round(k.ves/k.bc*100) : 0;
@@ -202,9 +242,12 @@ document.addEventListener('DOMContentLoaded', function(){
         b.onclick = function(){ state.ageMode = this.dataset.m; renderSection('sammensetning'); };
       });
     } else if(sec === 'arbeid'){
-      // 3. Arbeid og forsørgelse: forsørgerbyrde-graf + sysselsetting
+      // 3. Arbeid og forsørgelse: forsørgerbyrde-graf (egen lokalt projMode='fb') + sysselsetting
+      var savedProjMode = state.projMode;
       state.projMode = 'fb';
-      var html = projCard(k);
+      var fbHtml = projCard(k);
+      state.projMode = savedProjMode;  // gjenopprett, så Befolkning beholder sitt valg
+      var html = fbHtml;
       if(k.syss){
         html += sysCard(k.syss);
       }
@@ -248,6 +291,128 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function renderAllSections(){
     ['befolkning','sammensetning','arbeid','levekar','okonomi','barekraft'].forEach(renderSection);
+  }
+
+  // ─── Dedikert Befolkning-panel (pedagogisk redesign) ───
+  // Stor graf øverst → KPI-er under → tydelig justeringspanel → diagnose.
+  // Bruker lokale modus så knappene faktisk virker (uten å resettes av andre re-renders).
+  function renderBefolkningPanel(k, host){
+    var modes = [
+      {key:'tot', lab:'Folketall', sub:'Total befolkning 2000→2050'},
+      {key:'drv', lab:'Drivkrefter', sub:'Fødsler, dødsfall, flytting'},
+      {key:'fb',  lab:'Forsørgerbyrde', sub:'Eldre per 100 i yrkesaktiv alder'},
+      {key:'ald', lab:'Aldring', sub:'80+-andelen vokser raskest'}
+    ];
+    var mwOpts = [
+      {key:'kons',    title:'Konservativ', sub:'Flyttesnitt 2017–2021 (før korona-boom)'},
+      {key:'sentral', title:'Middel',      sub:'Bredere vindu, inkluderer 2022–23'},
+      {key:'opt',     title:'Optimistisk', sub:'Vektlegger 2022–23-toppen'}
+    ];
+    var ukrOpts = [
+      {key:0,   title:'Standard',          sub:'Samme retensjon som andre kohorter'},
+      {key:50,  title:'+50 % blir',         sub:'Halvparten av nedgangen reverseres'},
+      {key:100, title:'Alle ukrainere blir',sub:'Antakelse om 100 % bofasthet'}
+    ];
+    state.projMode = state.projMode || 'tot';
+    state.mw = state.mw || 'kons';
+    state.ukr = state.ukr != null ? state.ukr : 0;
+
+    var modeBtns = modes.map(function(m){
+      return '<button data-bm="'+m.key+'" aria-pressed="'+(state.projMode===m.key)+'" title="'+m.sub+'">'+m.lab+'</button>';
+    }).join('');
+
+    var currentMode = modes.find(function(m){return m.key===state.projMode;}) || modes[0];
+    var chartSvg = projChart(k, state.projMode);
+
+    var mwBtns = mwOpts.map(function(o){
+      return '<button data-mw="'+o.key+'" aria-pressed="'+(state.mw===o.key)+'"><span class="bf-r-title">'+o.title+'</span><span class="bf-r-sub">'+o.sub+'</span></button>';
+    }).join('');
+    var currentMw = mwOpts.find(function(o){return o.key===state.mw;}) || mwOpts[0];
+    var mwExplainer = '<b>'+currentMw.title+'-flyttebanen</b> brukes nå. ' + currentMw.sub +
+      '. Endrer du valget her, oppdateres alle grafene i denne seksjonen.';
+
+    var ukrBtns = ukrOpts.map(function(o){
+      return '<button data-uk="'+o.key+'" aria-pressed="'+(state.ukr===o.key)+'"><span class="bf-r-title">'+o.title+'</span><span class="bf-r-sub">'+o.sub+'</span></button>';
+    }).join('');
+    var currentUkr = ukrOpts.find(function(o){return o.key===state.ukr;}) || ukrOpts[0];
+    var ukrExplainer = state.ukr === 0
+      ? '<b>Standard-scenario:</b> ukrainere antas å følge samme bofasthetsmønster som andre flyktning-kohorter (≈80 % blir første 5 år, så fallende).'
+      : '<b>Justering aktiv:</b> ' + currentUkr.sub + '. Effekten legges oppå framskrivingen.';
+
+    // KPI-er fra valgt modus
+    var P = DATA.proj, o = P && P.kommuner[k.nr];
+    var mw = (o && o.mw) ? o.mw[state.mw] : null;
+    var yrs = P.years, n = yrs ? yrs.length : 0;
+    var kpiHTML = '';
+    if(o && mw && n >= 2){
+      var pop0 = k.pop, pop1 = mw.pop[n-1];
+      var pp = pop0 ? (pop1/pop0 - 1)*100 : 0;
+      var a6 = mw.a65, a2 = mw.a2064;
+      var oad0 = a6 && a2 && a2[0] ? 100*a6[0]/a2[0] : null;
+      var oad1 = a6 && a2 && a2[n-1] ? 100*a6[n-1]/a2[n-1] : null;
+      var a8 = mw.a80;
+      var g80 = a8 && a8[0] ? (a8[n-1]/a8[0] - 1)*100 : null;
+      var sg = function(v, d){ return (v>=0?'+':'−') + Math.abs(v).toFixed(d||0); };
+      kpiHTML =
+        '<div class="k"><div class="v">'+fmt(Math.round(pop0))+'</div><div class="l">Folketall i dag</div><div class="h">per 1.1.2026</div></div>'+
+        '<div class="k"><div class="v">'+fmt(Math.round(pop1))+'</div><div class="l">Folketall 2050</div><div class="h">'+currentMw.title.toLowerCase()+'-flyttebane</div></div>'+
+        '<div class="k"><div class="v '+(pp>=0?'up':'down')+'">'+sg(pp,1)+' %</div><div class="l">Endring 2026–2050</div><div class="h">over 24 år</div></div>'+
+        (oad0!=null && oad1!=null
+          ? '<div class="k"><div class="v">'+oad0.toFixed(0)+' → '+oad1.toFixed(0)+'</div><div class="l">Forsørgerbyrde</div><div class="h">65+ per 100 i 20–64</div></div>'
+          : '<div class="k"><div class="v">—</div><div class="l">Forsørgerbyrde</div><div class="h">data utilgjengelig</div></div>'
+        );
+    }
+
+    var diagnoseHTML = '';
+    if(typeof diagnoseCard === 'function'){
+      // Bruk eksisterende diagnoseCard men strip ut den ytre "card"-wrapperen
+      var dh = diagnoseCard(k);
+      var pMatch = dh.match(/<p style="margin:0[^"]*"[^>]*>([\s\S]*?)<\/p>/);
+      if(pMatch){
+        diagnoseHTML =
+          '<div class="bf-diagnose">'+
+            '<div class="h-row"><h3>Kortversjon — demografi og framtid</h3>'+
+            '<span class="tag">'+currentMw.title+'-flyttebane</span></div>'+
+            '<p>'+pMatch[1]+'</p>'+
+          '</div>';
+      }
+    }
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        '<div class="bf-modes" id="bfModes">'+modeBtns+'</div>'+
+        '<div class="bf-graph">'+
+          '<p class="chart-title">'+currentMode.lab+' · '+currentMode.sub+'</p>'+
+          chartSvg+
+        '</div>'+
+        '<div class="bf-kpis">'+kpiHTML+'</div>'+
+        '<div class="bf-controls">'+
+          '<h3>Skru på forutsetningene</h3>'+
+          '<p class="intro">Grafene over oppdateres umiddelbart. Endringene gjelder bare denne seksjonen.</p>'+
+          '<div class="bf-ctrl">'+
+            '<div class="bf-ctrl-head"><label>TF-flyttebanen</label><span class="tag">Hvor mye flytter folk?</span></div>'+
+            '<div class="bf-radio" id="bfMw">'+mwBtns+'</div>'+
+            '<p class="bf-explainer">'+mwExplainer+'</p>'+
+          '</div>'+
+          '<div class="bf-ctrl">'+
+            '<div class="bf-ctrl-head"><label>Ukraina-scenario</label><span class="tag">Hva med 2022–2025-kohorten?</span></div>'+
+            '<div class="bf-radio" id="bfUkr">'+ukrBtns+'</div>'+
+            '<p class="bf-explainer">'+ukrExplainer+'</p>'+
+          '</div>'+
+        '</div>'+
+        diagnoseHTML+
+      '</div>';
+
+    // Wire opp modus-knappene — kun re-render Befolkning, ikke alle seksjoner
+    host.querySelectorAll('#bfModes button').forEach(function(b){
+      b.onclick = function(){ state.projMode = this.dataset.bm; renderSection('befolkning'); };
+    });
+    host.querySelectorAll('#bfMw button').forEach(function(b){
+      b.onclick = function(){ state.mw = this.dataset.mw; renderSection('befolkning'); renderSection('arbeid'); };
+    });
+    host.querySelectorAll('#bfUkr button').forEach(function(b){
+      b.onclick = function(){ state.ukr = +this.dataset.uk; renderSection('befolkning'); };
+    });
   }
 
   renderHero();
