@@ -465,6 +465,36 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall 1.1.2026';
   document.title = fylke + ' - Nord-Norge dashboard';
 
+  // Erstatt "Nord-Norge"/"landsdelen" i titler og hint-tekster med valgt fylke.
+  // Bruker tekstnode-erstatning sa lenker og struktur bevares.
+  var fGen = (fylke === 'Troms') ? fylke + "'" : fylke + 's';
+  var fHele = 'hele ' + fylke;
+  function replaceText(text){
+    if(!text) return text;
+    return text
+      .replace(/Nord-Norges/g, fGen)
+      .replace(/Nord-Norge/g, fylke)
+      .replace(/hele landsdelen/g, fHele)
+      .replace(/Landsdelens/g, 'Fylkets')
+      .replace(/landsdelens/g, 'fylkets')
+      .replace(/landsdelen/g, 'fylket')
+      .replace(/landsdels-/g, 'fylkes-');
+  }
+  function walkText(root){
+    if(!root) return;
+    root.querySelectorAll('h1, h2, h3, h4, p, .ns-h, .ns-t, .sq, .hint, summary, label, td').forEach(function(el){
+      // Hopp over breadcrumb og navigasjonsknapper
+      if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top')) return;
+      el.childNodes.forEach(function(node){
+        if(node.nodeType === 3){
+          var newText = replaceText(node.textContent);
+          if(newText !== node.textContent) node.textContent = newText;
+        }
+      });
+    });
+  }
+  walkText(document.body);
+
   // Seksjons-nav
   var secnav = document.getElementById('secnav');
   if(secnav){
