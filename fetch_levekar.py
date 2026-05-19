@@ -3,10 +3,15 @@
 LEVEKAR_DATA i index.html. Brukes til ny Akt 2.3 «Levekår og inntekt».
 
 Kilder:
-  12558  Inntekt husholdninger etter desiler — median + spennvidde + antall
+  06944  Inntekt husholdninger — per-kommune median + antall (kommune-spesifikke verdier)
   14780  Personinntekt etter komponenter (lønn, pensjon, uføretrygd)
   11084  Eierstatus husholdninger — antall + andel selveiere/leiere
   06265  Boliger etter bygningstype — antall boliger fordelt
+
+OBS: 12558 (desiler) ble droppet — tabellen returnerer nasjonale desil-grenser
+også for kommune-spørringer, så desil1/desil9 ble like for alle kommuner.
+For spennvidde mellom 10 % laveste/høyeste finnes ikke per-kommune-data
+hos SSB. 06944 har bare median (50-persentil) per kommune.
 """
 import json
 import re
@@ -57,17 +62,16 @@ def parse(d):
     return out
 
 def fetch_inntekt_husholdninger():
-    """12558 — inntekt etter skatt + antall, fordelt på desiler."""
+    """06944 — per-kommune median husholdningsinntekt etter skatt + antall."""
     body = {
         "query": [
             {"code":"Region","selection":{"filter":"item","values":CODES}},
-            {"code":"InntektSkatt","selection":{"filter":"item","values":["00S"]}},  # inntekt etter skatt
-            {"code":"Desiler","selection":{"filter":"item","values":["01","05","09","10"]}},  # desil 1, median, 9, 10 (topp)
-            {"code":"ContentsCode","selection":{"filter":"item","values":["VerdiDesil","AntHush"]}},
+            {"code":"HusholdType","selection":{"filter":"item","values":["0000"]}},  # alle husholdninger
+            {"code":"ContentsCode","selection":{"filter":"item","values":["InntSkatt","AntallHushold"]}},
             {"code":"Tid","selection":{"filter":"item","values":["2024"]}},
         ],
         "response":{"format":"json-stat2"}}
-    return parse(post_ssb("12558", body))
+    return parse(post_ssb("06944", body))
 
 def fetch_personinntekt_komponenter():
     """14780 — personinntekt lønn, pensjon, uføretrygd. Begge kjønn, bosatte 17+."""
@@ -113,7 +117,7 @@ BYGN_LABEL = {"01":"enebolig", "02":"tomannsbolig", "03":"rekkehus",
               "04":"boligblokk", "05":"bofellesskap", "999":"andre"}
 
 def main():
-    print("Fetching 12558 (husholdningsinntekt)...", flush=True)
+    print("Fetching 06944 (husholdningsinntekt per kommune)...", flush=True)
     inntekt_rows = fetch_inntekt_husholdninger()
     print("Fetching 14780 (personinntekt komponenter)...", flush=True)
     pers_rows = fetch_personinntekt_komponenter()
@@ -125,7 +129,7 @@ def main():
     payload = {
         "retrieved_at": datetime.date.today().isoformat(),
         "source_id": "SSB_STATBANK",
-        "tables": ["12558", "14780", "11084", "06265"],
+        "tables": ["06944", "14780", "11084", "06265"],
         "years": {"husholdningsinntekt": "2024", "personinntekt": "2025",
                   "eierstatus": "2024", "boliger": "2026"},
         "kommuner": {}
@@ -149,26 +153,16 @@ def main():
             "boliger_boligblokk": None, "boliger_bofellesskap": None, "boliger_andre": None,
         }
 
-    # 12558 — husholdningsinntekt + antall
+    # 06944 — per-kommune median husholdningsinntekt etter skatt + antall husholdninger
     for r in inntekt_rows:
-        nr = r["Region"]; des = r["Desiler"]; cc = r["ContentsCode"]; v = r["_value"]
+        nr = r["Region"]; cc = r["ContentsCode"]; v = r["_value"]
         if nr not in payload["kommuner"]: continue
         rec = payload["kommuner"][nr]
-        if cc == "VerdiDesil":
-            if des == "01": rec["desil1"] = v
-            elif des == "05": rec["medianInntektEtterSkatt"] = v
-            elif des == "09": rec["desil9"] = v
-            elif des == "10": rec["desil10"] = v
-        elif cc == "AntHush" and des == "05":
-            # antall i én desil; total antall = 10 * desil = totalt antall hh
-            # Egentlig: AntHush per desil er antallet i den desilen. Sum av alle desiler = totalt.
-            # Vi henter bare desil 5, men siden hver desil er ~10% kan vi multiplisere med 10
-            # for å få totalt antall husholdninger. Men det er upresist.
-            # Bedre: les antall fra desil 10 hvor "antall" gjelder topp 10% — ikke heller.
-            # SSB-konvensjonen: AntHush gjelder antall husholdninger i den desilen.
-            # For totalt antall: må summere alle 10 desiler. La oss bruke desil 5 × 10 som approks
-            # (kan være litt skjevt ved odde antall, men nære nok).
-            rec["antallHusholdninger"] = v * 10
+        if cc == "InntSkatt":
+            rec["medianInntektEtterSkatt"] = v
+        elif cc == "AntallHushold":
+            rec["antallHusholdninger"] = v
+        # desil1/9/10 finnes ikke per kommune i 06944 — beholdes som None.
 
     # 14780 — personinntekt komponenter (bosatte 17+ med beløp, populasjon=04)
     for r in pers_rows:
