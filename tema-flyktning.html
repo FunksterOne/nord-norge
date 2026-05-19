@@ -46,6 +46,16 @@
 .bofast-bar{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin:4px 0 6px}
 .bofast-bar > div{height:100%;background:var(--aurora)}
 
+
+.ukraine-card{margin:20px 0 0;padding:22px 24px;background:linear-gradient(135deg, rgba(139,92,246,0.10), rgba(139,92,246,0.02));border:1px solid rgba(139,92,246,0.30);border-left:4px solid #8B5CF6;border-radius:0 12px 12px 0;display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:center}
+.ukraine-card .ukc-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#8B5CF6;font-weight:700;margin-bottom:4px}
+.ukraine-card h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.ukraine-card p{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink2)}
+.ukraine-card .ukc-graph{min-width:0}
+@media (max-width: 720px){
+  .ukraine-card{grid-template-columns:1fr}
+}
+
 .kvote-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);border-radius:10px;overflow:hidden}
 .kvote-tabell th{text-align:left;padding:11px 14px;background:var(--paper);color:var(--ink2);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2)}
 .kvote-tabell td{padding:10px 14px;color:var(--ink2);border-bottom:1px solid var(--line2)}
@@ -113,10 +123,20 @@
 <!-- ────────────────── AKT 02 — BILDET ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 02 · Bildet</div>
-  <h2>Trakten — 25 år med flytting <em>inn og ut</em></h2>
-  <p class="akt-intro">Aurora-bånd: bruttoinnvandring til Nord-Norge per år (inkl. flyktninger og arbeidsinnvandring). Mørke piler nederst: innenlandsk nettoflytting sørover. Lilla i siste tre år: ukrainske statsborgere som har bosatt seg etter 2022.</p>
+  <h2>25 år med flytting <em>inn og ut</em></h2>
+  <p class="akt-intro">Tre flyttestrømmer fra og til Nord-Norge per år 2002–2025. Grønt: innvandring fra utlandet (inkluderer flyktninger og arbeidsinnvandring). Grå: utvandring til utlandet. Rød: nettoflytting innenlands — folk som drar sørover. Ukrainere er vist separat under.</p>
   <div class="trakt-wrap"><div id="traktGraf"></div></div>
-  <p class="hint" style="font-size:12px;font-style:italic;margin-top:4px">SSB-tabell 09588 (flyttinger) og 11366 (Ukraina-statsborgere). Tallene viser hele befolkningen — flyktning­andelen er ikke direkte målbar uten innvandringsgrunn-kobling, men majoriteten av nettoinnvandringen til Nord-Norge fra utenfor EØS er flyktning­motivert.</p>
+  <p class="hint" style="font-size:12px;font-style:italic;margin-top:4px">Kilde: SSB-tabell 09588 (innenlands flyttinger). Flyktning­andelen kan ikke skilles ut direkte uten innvandringsgrunn-kobling, men majoriteten av innvandringen fra land utenfor EØS er flyktning­motivert.</p>
+
+  <!-- Ukraina-sparkline som egen blokk -->
+  <div class="ukraine-card">
+    <div class="ukc-text">
+      <div class="ukc-kicker">Ukraina-tilstrømningen 2022→2025</div>
+      <h3>En engangs-bølge på toppen</h3>
+      <p>Ukrainere som har bosatt seg i Nord-Norge etter den russiske invasjonen i 2022 utgjør i dag <b id="ukcStock">—</b> personer (per 1.1.2025, SSB tabell 11366). Antall ankommet per år har gått ned fra toppen i 2023.</p>
+    </div>
+    <div class="ukc-graph" id="ukrSparkline"></div>
+  </div>
 </section>
 
 <!-- ────────────────── AKT 03 — BRUTT OPP: BOFASTHETEN ────────────────── -->
@@ -132,7 +152,7 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Konsekvens</div>
   <h2>Hva ville Nord-Norge vært <em>uten</em> denne strømmen?</h2>
-  <p class="akt-intro">Sett opp regnestykket. Hvis ingen flyttet, hadde landsdelen hatt 32 000 flere innbyggere — omtrent like mange som det Tromsø har vokst med siden 2000. Men strømmen ut betyr at landsdelen netto har gått glipp av 27 000 arbeidstakere som ble integrert her og bosatte seg sør for Trøndelag.</p>
+  <p class="akt-intro">Sett opp regnestykket. På 25 år har landsdelen netto mottatt <b id="aktNetto">—</b> personer fra utlandet, men samtidig mistet <b id="aktInnenlands">—</b> netto til andre deler av Norge. Hvis hverken inn- eller utflytting hadde skjedd, ville folketallet vært betydelig høyere — innvandringen fra utlandet har vært det som har holdt landsdelen oppe.</p>
   <table class="kvote-tabell">
     <thead><tr><th>Regnestykke 2000–2024</th><th>Personer</th></tr></thead>
     <tbody>
@@ -308,25 +328,6 @@ document.addEventListener('DOMContentLoaded', function(){
   innPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
   svg += '<path d="' + innPath + '" fill="var(--aurora)" fill-opacity="0.30"/>';
   svg += '<polyline points="' + nn.innvandring.map(function(v,i){return x(i)+','+yInn(v);}).join(' ') + '" fill="none" stroke="var(--aurora)" stroke-width="1.6"/>';
-  // Ukraina-stock på toppen som ribbon i nylige år
-  var ukrPath = '';
-  nn.ukraineStock.forEach(function(v, i){
-    if(v > 0){
-      if(!ukrPath) ukrPath = 'M' + x(i) + ' ' + Y_top;
-      ukrPath += ' L' + x(i) + ' ' + yInn(v);
-    }
-  });
-  // Build closed shape from ukrPath
-  if(ukrPath){
-    var lastUkrIdx = nn.ukraineStock.length-1;
-    var startIdx = nn.ukraineStock.findIndex(function(v){return v>0;});
-    var ukrClosed = 'M' + x(startIdx) + ' ' + Y_top;
-    for(var j=startIdx; j<=lastUkrIdx; j++){
-      ukrClosed += ' L' + x(j) + ' ' + yInn(nn.ukraineStock[j]);
-    }
-    ukrClosed += ' L' + x(lastUkrIdx) + ' ' + Y_top + ' Z';
-    svg += '<path d="' + ukrClosed + '" fill="#8B5CF6" fill-opacity="0.55"/>';
-  }
   // Utvandring (bunn) — mørk pil
   var utPath = 'M' + x(0) + ' ' + Y_top;
   nn.utvandring.forEach(function(v, i){ utPath += ' L' + x(i) + ' ' + yUt(v); });
@@ -341,11 +342,59 @@ document.addEventListener('DOMContentLoaded', function(){
   svg += '<polyline points="' + nn.nettoInnland.map(function(v,i){return x(i)+','+yUt(Math.abs(v||0));}).join(' ') + '" fill="none" stroke="#B23B3B" stroke-width="1.6"/>';
   // Forklaringer
   svg += '<text x="' + (PAD.l+10) + '" y="' + (PAD.t+18) + '" style="font-size:12px;font-weight:600;fill:var(--aurora)">Innvandring fra utlandet (brutto)</text>';
-  svg += '<text x="' + (PAD.l+W-200) + '" y="' + (PAD.t+18) + '" text-anchor="start" style="font-size:11px;fill:#8B5CF6;font-weight:600">Ukraina-stock 2022-25</text>';
-  svg += '<text x="' + (PAD.l+10) + '" y="' + (H-30) + '" style="font-size:12px;font-weight:600;fill:#B23B3B">Netto flyttet sør (innenlands)</text>';
+    svg += '<text x="' + (PAD.l+10) + '" y="' + (H-30) + '" style="font-size:12px;font-weight:600;fill:#B23B3B">Netto flyttet sør (innenlands)</text>';
   svg += '<text x="' + (PAD.l+W-180) + '" y="' + (H-30) + '" style="font-size:11px;fill:var(--ink2);font-weight:600">Utvandring til utlandet</text>';
   svg += '</svg>';
-  document.getElementById('traktGraf').innerHTML = svg;
+    document.getElementById('traktGraf').innerHTML = svg;
+
+  // ─── Ukraina-sparkline (separat liten graf, ikke overlapp med hovedgraf) ───
+  var spHost = document.getElementById('ukrSparkline');
+  if(spHost){
+    var spW = 380, spH = 110, spPad = {l:36, r:10, t:14, b:24};
+    var sw = spW - spPad.l - spPad.r, sh = spH - spPad.t - spPad.b;
+    var spMax = Math.max.apply(null, nn.ukraineStock) || 1;
+    var spX = function(i){ return spPad.l + (sw / (yrs.length-1)) * i; };
+    var spY = function(v){ return spPad.t + (1 - v/spMax) * sh; };
+    var sp = '<svg viewBox="0 0 ' + spW + ' ' + spH + '" style="display:block;width:100%;height:auto">';
+    // Y-aksen
+    for(var v = 0; v <= spMax; v += 5000){
+      var yy = spY(v);
+      sp += '<line x1="' + spPad.l + '" y1="' + yy + '" x2="' + (spPad.l+sw) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
+      sp += '<text x="' + (spPad.l-6) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (v/1000) + 'k</text>';
+    }
+    // X-akse: hvert år 2022-25
+    var ukrStart = nn.ukraineStock.findIndex(function(v){return v>0;});
+    for(var i = ukrStart; i < yrs.length; i++){
+      sp += '<text x="' + spX(i) + '" y="' + (spPad.t + sh + 14) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yrs[i] + '</text>';
+    }
+    // Areal under kurven (lilla)
+    var pts = nn.ukraineStock.map(function(v,i){return v>0 ? (spX(i)+','+spY(v)) : null;}).filter(Boolean);
+    if(pts.length){
+      var firstIdx = ukrStart;
+      var area = 'M' + spX(firstIdx) + ' ' + spY(0);
+      pts.forEach(function(pt){ area += ' L' + pt; });
+      area += ' L' + spX(yrs.length-1) + ' ' + spY(0) + ' Z';
+      sp += '<path d="' + area + '" fill="#8B5CF6" fill-opacity="0.25"/>';
+      sp += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#8B5CF6" stroke-width="2"/>';
+      // Endepunkt-label
+      var lastVal = nn.ukraineStock[yrs.length-1];
+      sp += '<circle cx="' + spX(yrs.length-1) + '" cy="' + spY(lastVal) + '" r="3.5" fill="#8B5CF6"/>';
+      sp += '<text x="' + (spX(yrs.length-1)-6) + '" y="' + (spY(lastVal)-8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:#8B5CF6">' + fmt(lastVal) + '</text>';
+    }
+    sp += '</svg>';
+    spHost.innerHTML = sp;
+  }
+  var ukcStockEl = document.getElementById('ukcStock');
+  if(ukcStockEl) ukcStockEl.textContent = fmt(ukrStock);
+
+  // Akt 04: dynamiske tall i intro-tekst
+  var aktNetto = document.getElementById('aktNetto');
+  if(aktNetto){
+    var nettoUtlandet = sumInn - sumUt;
+    aktNetto.textContent = (nettoUtlandet >= 0 ? '+' : '−') + fmt(Math.abs(nettoUtlandet));
+  }
+  var aktInnenlands = document.getElementById('aktInnenlands');
+  if(aktInnenlands) aktInnenlands.textContent = fmt(Math.abs(sumNettoInnland));
 
   // ─── Bofasthet-grid ───
   if(typeof KOHORT_RET === 'undefined') return;
