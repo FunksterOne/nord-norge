@@ -88,7 +88,7 @@
     <a class="lc-link" href="kommune.html?k=1804">
       <div class="lnum">Nivå 3</div>
       <h2>Enkeltkommune</h2>
-      <p>Drill ned i en spesifikk kommune. Befolkningsreise 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
+      <p>Gå inn på én bestemt kommune. Befolkning 2000→2050, alderssammensetning og opprinnelse, levekår og lokale indikatorer.</p>
       <span class="larr">→ Start med Bodø</span>
     </a>
     <div class="landing-search">
@@ -103,27 +103,27 @@
 <div class="landing-temaer">
   <div class="lt-head">
     <div class="lt-kicker">Temasider · pedagogiske dypdykk</div>
-    <h3 class="lt-title">To historier verdt å lese hele veien</h3>
+    <h3 class="lt-title">Tre temasider verdt å lese hele veien</h3>
   </div>
   <div class="lt-grid">
     <a class="lt-card lt-flyk" href="tema-flyktning.html">
       <div class="lt-num">01</div>
-      <h4>Trakten</h4>
+      <h4>Hvem blir værende?</h4>
       <p class="lt-sub">Flyktningestrømmen 2000–2024</p>
       <p class="lt-body">Av rundt 32 000 som kom har over 27 000 flyttet videre. Hvem ble igjen — og hva betyr det for landsdelen?</p>
       <span class="lt-arr">Les videre →</span>
     </a>
     <a class="lt-card lt-o6" href="tema-o6.html">
       <div class="lt-num">02</div>
-      <h4>Tyngdeloven</h4>
-      <p class="lt-sub">O6 mot de 74</p>
+      <h4>Store mot små</h4>
+      <p class="lt-sub">6 store mot 74 mindre kommuner</p>
       <p class="lt-body">Seks kommuner bærer 46,6 % av folket. De øvrige 74 deler resten. Norman-utvalget viser veien videre.</p>
       <span class="lt-arr">Les videre →</span>
     </a>
     <a class="lt-card lt-kvinne" href="tema-kvinneflukt.html">
       <div class="lt-num">03</div>
       <h4>Kvinneflukten</h4>
-      <p class="lt-sub">Den tidligste avgangen</p>
+      <p class="lt-sub">De forlater i ung alder</p>
       <p class="lt-body">7 000 kvinner i alder 18–44 mangler. Norman-utvalget pekte tydelig: kvinner flytter ikke mer — de flytter tidligere.</p>
       <span class="lt-arr">Les videre →</span>
     </a>
@@ -131,21 +131,80 @@
 </div>
 
 <div class="landing-teaser">
-  <h3>Hurtigvalg — de største kommunene</h3>
+  <h3>De seks største kommunene</h3>
+  <p class="lt-intro">Bodø, Tromsø, Rana, Harstad, Alta og Narvik bærer 46,6 % av folketallet i landsdelen. Klikk for å gå direkte til kommunesiden.</p>
   <div class="ts-list" id="topKommuner"></div>
 </div>
 
 <div class="landing-teaser" style="margin-top:18px">
-  <h3>Andre veier inn</h3>
+  <h3>Snarveier til de tre fylkene</h3>
+  <p class="lt-intro">Hvert fylke har sin egen oversikt med befolkning, sammensetning, arbeid, levekår, økonomi og bærekraftsindikatorer — filtrert til fylkets egne kommuner.</p>
   <div class="ts-list">
-    <a href="sammenlign.html?k=1804,5401,5403"><span>Sammenlign 2-4 kommuner</span><span class="lbl">verktøy</span></a>
-    <a href="metode.html"><span>Metode og kilder</span><span class="lbl">referanse</span></a>
+    <a href="fylke.html?f=Nordland"><span>Nordland</span><span class="lbl" id="cntNordland">— kommuner</span></a>
+    <a href="fylke.html?f=Troms"><span>Troms</span><span class="lbl" id="cntTroms">— kommuner</span></a>
+    <a href="fylke.html?f=Finnmark"><span>Finnmark</span><span class="lbl" id="cntFinnmark">— kommuner</span></a>
   </div>
 </div>
 
-<footer class="landing-foot">
-  <div>Data fra Statistisk sentralbyrå, KOSTRA, KS FoU mai 2025, OECD SCIRN/2050. Oppdatert: <span id="dataDate">—</span></div>
-  <div><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></div>
+<div class="landing-teaser" style="margin-top:18px">
+  <h3>Verktøy og referanser</h3>
+  <p class="lt-intro">Andre veier inn for analyse og fordypning.</p>
+  <div class="ts-list">
+    <a href="sammenlign.html?k=1804,5401,5403"><span>Sammenlign 2–4 kommuner</span><span class="lbl">verktøy</span></a>
+    <a href="metode.html"><span>Metode og kilder</span><span class="lbl">referanse</span></a>
+    <a href="tema-flyktning.html"><span>Hvem blir værende?</span><span class="lbl">temaserie 01</span></a>
+    <a href="tema-o6.html"><span>Store mot små</span><span class="lbl">temaserie 02</span></a>
+    <a href="tema-kvinneflukt.html"><span>Kvinneflukten</span><span class="lbl">temaserie 03</span></a>
+  </div>
+</div>
+
+<!-- Standard footer med forklaringer (gjelder hele dashbordet) -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Om dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder og oppdateres når kildene oppdateres. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Datakilder</h4>
+      <ul>
+        <li><b>SSB</b> — Statistisk sentralbyrå (folketall, framskrivinger, levekår, KOSTRA)</li>
+        <li><b>KS FoU mai 2025</b> — anbefalte nøkkeltall for kommuneøkonomi</li>
+        <li><b>OECD</b> — SCIRN-definisjon for «shrinking», standard forsørgerbyrde 2050</li>
+        <li><b>NOU 2020:15</b> — Norman-utvalget om distriktspolitikk</li>
+        <li><b>Kommuneloven §28-1</b> — ROBEK-vilkårene</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Forkortelser</h4>
+      <ul>
+        <li><b>TBU</b> — Teknisk beregningsutvalg for kommunal økonomi</li>
+        <li><b>KS</b> — Kommunesektorens organisasjon</li>
+        <li><b>KOSTRA</b> — KOmmune-STat-RApportering (SSB)</li>
+        <li><b>ROBEK</b> — Register om betinget godkjenning og kontroll</li>
+        <li><b>MMMM</b> — SSBs hovedalternativ for befolknings­framskriving (4×Middels)</li>
+        <li><b>TF-MVP / TF-ATTR</b> — Telemarksforsknings to flyttemodeller</li>
+        <li><b>NDR</b> — Netto driftsresultat</li>
+        <li><b>OAD</b> — Old-Age Dependency ratio (forsørgerbyrde)</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Lenker</h4>
+      <ul>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank">SSB statistikkbank</a></li>
+        <li><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/">NOU 2020:15</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Data sist hentet: <span id="dataDate">—</span></span>
+    <span>·</span>
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
 </footer>
 
 </div>
@@ -178,15 +237,22 @@ document.addEventListener('DOMContentLoaded', function(){
       if(this.value) window.location.href = 'kommune.html?k=' + this.value;
     };
   }
-  // Hurtigvalg: 6 største kommuner
+  // Hurtigvalg: 6 største kommuner med folketall
   var topK = document.getElementById('topKommuner');
   if(topK){
     var sorted = K.slice().sort(function(a,b){return b.pop - a.pop;}).slice(0,6);
     topK.innerHTML = sorted.map(function(x){
       var pop = x.pop ? x.pop.toLocaleString('nb-NO') : '–';
-      return '<a href="kommune.html?k=' + x.nr + '"><span>' + x.navn + '</span><span class="lbl">' + pop + '</span></a>';
+      return '<a href="kommune.html?k=' + x.nr + '"><span>' + x.navn + '</span><span class="lbl">' + pop + ' innb.</span></a>';
     }).join('');
   }
+  // Fylke-tellingen i snarvei-blokken
+  var fcount2 = {Nordland:0, Troms:0, Finnmark:0};
+  K.forEach(function(x){ if(fcount2[x.fylke] !== undefined) fcount2[x.fylke]++; });
+  ['Nordland','Troms','Finnmark'].forEach(function(f){
+    var el = document.getElementById('cnt' + f);
+    if(el) el.textContent = fcount2[f] + ' kommuner';
+  });
   // Data-dato fra LEVEKAR_DATA
   var dd = document.getElementById('dataDate');
   if(dd && typeof LEVEKAR_DATA !== 'undefined' && LEVEKAR_DATA.retrieved_at){

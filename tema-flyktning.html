@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trakten — flyktningestrømmen 2000–2024 · Nord-Norge dashboard</title>
+<title>Hvem blir værende? · Flyktningestrømmen 2000–2024 · Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -88,7 +88,7 @@
   <nav class="nn-bc" aria-label="Brødsmuler">
     <a href="index.html">Hjem</a>
     <span class="sep">›</span>
-    <span class="now">Trakten — flyktningestrømmen</span>
+    <span class="now">Hvem blir værende?</span>
   </nav>
   <div class="nn-actions">
     <a class="btn" href="tema-o6.html">Tyngdeloven →</a>
@@ -97,9 +97,9 @@
 </header>
 
 <section class="tema-hero">
-  <div class="tag">Temaserie 01 · 25-årig blikk</div>
-  <h1>Trakten — <em>flyktningestrømmen</em> 2000–2024</h1>
-  <p class="lede">Flyktninger som kommer til Nord-Norge er ikke en flat masse. De strømmer gjennom — kommer i toppen, blir værende noen år, og finner mange veien sørover. Denne siden gjør den bevegelsen synlig.</p>
+  <div class="tag">Temaserie 01 · Flyttehistorien 2000–2024</div>
+  <h1>Hvem blir <em>værende</em>?</h1>
+  <p class="lede">Folk strømmer inn til Nord-Norge fra utlandet hvert år — og enda flere flytter sørover. Hvor mange blir værende, hvor lenge, og hva betyr det for landsdelen? Denne siden gjør bevegelsen synlig.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
@@ -190,9 +190,50 @@
   </div>
 </div>
 
-<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
-  <p>Nord-Norge dashboard · Temaserie 01 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a> · <a href="tema-o6.html" style="color:var(--ink2)">Neste tema: Tyngdeloven</a></p>
-  <p style="margin-top:6px;opacity:.7">Kilder: SSB 09588, 11366, KOHORT_RET (manuelt seed fra SSB Bofast 2021 + SSB Monitor 2024), NOU 2020:15.</p>
+<!-- Standard footer (gjelder hele dashbordet) -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Om dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Datakilder</h4>
+      <ul>
+        <li><b>SSB</b> — Statistisk sentralbyrå (folketall, framskrivinger, levekår, KOSTRA)</li>
+        <li><b>KS FoU mai 2025</b> — anbefalte nøkkeltall for kommuneøkonomi</li>
+        <li><b>OECD</b> — SCIRN-definisjon, standard forsørgerbyrde 2050</li>
+        <li><b>NOU 2020:15</b> — Norman-utvalget om distriktspolitikk</li>
+        <li><b>Kommuneloven §28-1</b> — ROBEK-vilkårene</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Forkortelser</h4>
+      <ul>
+        <li><b>TBU</b> — Teknisk beregningsutvalg for kommunal økonomi</li>
+        <li><b>KOSTRA</b> — KOmmune-STat-RApportering</li>
+        <li><b>ROBEK</b> — Register om betinget godkjenning og kontroll</li>
+        <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
+        <li><b>TF-MVP / TF-ATTR</b> — Telemarksforsknings flyttemodeller</li>
+        <li><b>NDR</b> — Netto driftsresultat</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Lenker</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank">SSB statistikkbank</a></li>
+        <li><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/">NOU 2020:15</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
 </footer>
 
 </div>

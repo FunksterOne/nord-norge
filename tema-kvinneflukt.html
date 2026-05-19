@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kvinneflukten — den tidligste avgangen · Nord-Norge dashboard</title>
+<title>Kvinneflukten · De forlater i ung alder · Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -106,7 +106,7 @@
 
 <section class="tema-hero">
   <div class="tag">Temaserie 03 · Kjønnsmønsteret</div>
-  <h1>Kvinneflukten — <em>den tidligste avgangen</em></h1>
+  <h1>Kvinneflukten — <em>de forlater i ung alder</em></h1>
   <p class="lede">Norman-utvalget konkluderte tydelig: kvinner flytter ikke <i>mer</i> enn menn fra distriktene — de flytter <i>tidligere</i>. Resultatet ser vi her: et <span id="ledeOver110">stort flertall</span> av nord-norske kommuner har overrepresentasjon av menn i fertil alder. Når kvinnene drar tidlig, blir det færre barn — som igjen gir færre kvinner i neste generasjon. Få demografiske bevegelser forsterker seg selv så hardt.</p>
 </section>
 
@@ -219,9 +219,50 @@
   </div>
 </div>
 
-<footer style="margin-top:48px;padding-top:24px;border-top:1px solid var(--line2);color:var(--ink3);font-size:12px;text-align:center">
-  <p>Nord-Norge dashboard · Temaserie 03 · <a href="metode.html" style="color:var(--ink2)">Metode og kilder</a></p>
-  <p style="margin-top:6px;opacity:.7">Kilder: SSB tabell 07459 (befolkning etter kjønn og alder per kommune, 1.1.2026), NOU 2020:15 (Norman-utvalget).</p>
+<!-- Standard footer (gjelder hele dashbordet) -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Om dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Datakilder</h4>
+      <ul>
+        <li><b>SSB</b> — Statistisk sentralbyrå (folketall, framskrivinger, levekår, KOSTRA)</li>
+        <li><b>KS FoU mai 2025</b> — anbefalte nøkkeltall for kommuneøkonomi</li>
+        <li><b>OECD</b> — SCIRN-definisjon, standard forsørgerbyrde 2050</li>
+        <li><b>NOU 2020:15</b> — Norman-utvalget om distriktspolitikk</li>
+        <li><b>Kommuneloven §28-1</b> — ROBEK-vilkårene</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Forkortelser</h4>
+      <ul>
+        <li><b>TBU</b> — Teknisk beregningsutvalg for kommunal økonomi</li>
+        <li><b>KOSTRA</b> — KOmmune-STat-RApportering</li>
+        <li><b>ROBEK</b> — Register om betinget godkjenning og kontroll</li>
+        <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
+        <li><b>TF-MVP / TF-ATTR</b> — Telemarksforsknings flyttemodeller</li>
+        <li><b>NDR</b> — Netto driftsresultat</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Lenker</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank">SSB statistikkbank</a></li>
+        <li><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/">NOU 2020:15</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
 </footer>
 
 </div>

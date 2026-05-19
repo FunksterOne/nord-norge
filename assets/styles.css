@@ -651,3 +651,19 @@ footer a{color:var(--aurora);text-decoration:none}
   .tab:first-of-type{page-break-before:auto}
   body{background:#fff}
 }
+
+
+/* ─── Standard footer for hele dashbordet ─── */
+.nn-footer{margin:60px 0 0;padding:40px 0 24px;border-top:1px solid var(--line2);color:var(--ink2);font-size:13px;line-height:1.55}
+.nn-footer .nnf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-bottom:24px}
+.nn-footer .nnf-col h4{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--ink);margin:0 0 8px;letter-spacing:.01em}
+.nn-footer .nnf-col p{margin:0;font-size:12.5px;color:var(--ink2)}
+.nn-footer .nnf-col ul{margin:0;padding-left:0;list-style:none}
+.nn-footer .nnf-col li{margin-bottom:5px;font-size:12px;color:var(--ink2)}
+.nn-footer .nnf-col li b{color:var(--ink);font-weight:600}
+.nn-footer .nnf-col a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2)}
+.nn-footer .nnf-col a:hover{color:var(--ink);border-color:var(--ink2)}
+.nn-footer .nnf-bottom{padding-top:18px;border-top:1px solid var(--line2);display:flex;flex-wrap:wrap;gap:10px;color:var(--ink3);font-size:11.5px;justify-content:center;align-items:center}
+
+/* Lt-intro under teaser-overskrifter */
+.lt-intro{font-size:13px;color:var(--ink2);margin:-8px 0 14px;line-height:1.55}
