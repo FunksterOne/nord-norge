@@ -105,8 +105,8 @@
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 01 · Sjokket</div>
-  <h2>Av rundt <em>32 000</em> som kom 2000–2024, har <em>over 27 000</em> flyttet videre.</h2>
-  <p class="akt-intro">Det er som om hele Vadsø, Lebesby, Sør-Varanger og Hammerfest til sammen hadde forlatt landsdelen. Bare omtrent én av seks som kom som flyktning i denne perioden bor fortsatt i Nord-Norge.</p>
+  <h2>Netto har <em id="sjokkNetto">—</em> flyttet sørover fra Nord-Norge på 25 år.</h2>
+  <p class="akt-intro">Det er mer enn hele Bodø — landsdelens største by — som er borte i regnskapet. Tallet er akkumulert innenlandsk nettoflytting 2002–2025, kilde SSB tabell 09588. Den utenlandske innvandringen kompenserer noe, men ikke nok til å snu retningen.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
 </section>
 
@@ -166,7 +166,7 @@
     <div class="kilde">Sammenstilling fra <b>Telemarksforskning TF-MVP</b> · konservativ flyttebane</div>
   </div>
 
-  <p style="margin-top:24px;font-size:14px;color:var(--ink2);line-height:1.6">Norman-utvalgets hovedanbefaling er en omstilling: målet for distriktspolitikken skal ikke være vekst i seg selv, men <b>det gode samfunn for de som bor der</b>. Strømmen sørover er ikke en lekkasje som skal tettes — den er et signal om at integrerings­arbeidet må følge personen, ikke kommunen. Når én av seks blir værende, må vi spørre hva som gjør at fem av seks reiser.</p>
+  <p style="margin-top:24px;font-size:14px;color:var(--ink2);line-height:1.6">Norman-utvalgets hovedanbefaling er en omstilling: målet for distriktspolitikken skal ikke være vekst i seg selv, men <b>det gode samfunn for de som bor der</b>. Strømmen sørover er ikke en lekkasje som skal tettes — den er et signal om at integrerings­arbeidet må følge personen, ikke kommunen. Når over 75 000 flere har dratt sørover enn nordover på 25 år, må vi spørre hva som gjør at folk reiser.</p>
 </section>
 
 <div class="neste-tema-blokk">
@@ -210,11 +210,15 @@ document.addEventListener('DOMContentLoaded', function(){
   var sumUt = nn.utvandring.reduce(function(s,x){return s+(x||0);}, 0);
   var sumNettoInnland = nn.nettoInnland.reduce(function(s,x){return s+(x||0);}, 0);
   var ukrStock = nn.ukraineStock[nn.ukraineStock.length-1] || 0;
+  // Sjokk-tall i overskriften: oppdater fra data
+  var sjokkNetto = document.getElementById('sjokkNetto');
+  if(sjokkNetto) sjokkNetto.textContent = fmt(Math.abs(sumNettoInnland));
+
   document.getElementById('sjokkKPI').innerHTML =
-    '<div class="kpi"><div class="v">' + fmt(sumInn) + '</div><div class="l">Innvandret 2002–2025</div><div class="nh">Brutto til Nord-Norge</div></div>' +
-    '<div class="kpi"><div class="v down">' + fmt(Math.abs(sumNettoInnland)) + '</div><div class="l">Netto flyttet sør</div><div class="nh">2002–2025 akkumulert</div></div>' +
-    '<div class="kpi"><div class="v">' + fmt(ukrStock) + '</div><div class="l">Ukrainere bosatt</div><div class="nh">per 1.1.2025 (SSB 11366)</div></div>' +
-    '<div class="kpi"><div class="v">~32 000</div><div class="l">Flyktninger 2000–2024</div><div class="nh">SSB-estimat alle innvandringsgrunner</div></div>';
+    '<div class="kpi"><div class="v down">' + fmt(Math.abs(sumNettoInnland)) + '</div><div class="l">Netto flyttet sør</div><div class="nh">akkumulert 2002–2025</div></div>' +
+    '<div class="kpi"><div class="v">' + fmt(sumInn) + '</div><div class="l">Innvandret til Nord-Norge</div><div class="nh">brutto fra utlandet 2002–2025</div></div>' +
+    '<div class="kpi"><div class="v">' + fmt(sumUt) + '</div><div class="l">Utvandret til utlandet</div><div class="nh">brutto 2002–2025</div></div>' +
+    '<div class="kpi"><div class="v">' + fmt(ukrStock) + '</div><div class="l">Ukrainere bosatt</div><div class="nh">per 1.1.2025 (SSB 11366)</div></div>';
 
   // Akt 04: tabell
   document.getElementById('bruttoInn').textContent = fmt(sumInn);

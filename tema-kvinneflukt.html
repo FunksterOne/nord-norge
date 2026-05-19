@@ -107,7 +107,7 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 03 · Kjønnsmønsteret</div>
   <h1>Kvinneflukten — <em>den tidligste avgangen</em></h1>
-  <p class="lede">Norman-utvalget konkluderte tydelig: kvinner flytter ikke <i>mer</i> enn menn fra distriktene — de flytter <i>tidligere</i>. Resultatet er at 50 av 80 nord-norske kommuner i dag har sterk overrepresentasjon av menn i fertil alder. Det er kanskje den mest selvforsterkende mekanismen i hele befolkningsregnskapet.</p>
+  <p class="lede">Norman-utvalget konkluderte tydelig: kvinner flytter ikke <i>mer</i> enn menn fra distriktene — de flytter <i>tidligere</i>. Resultatet ser vi her: et <span id="ledeOver110">stort flertall</span> av nord-norske kommuner har overrepresentasjon av menn i fertil alder. Når kvinnene drar tidlig, blir det færre barn — som igjen gir færre kvinner i neste generasjon. Få demografiske bevegelser forsterker seg selv så hardt.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
@@ -252,13 +252,17 @@ document.addEventListener('DOMContentLoaded', function(){
   var mangelKvinner = totM18_44 - totK18_44;
 
   // ─── Akt 01: KPI ───
-  var over110 = 0, over120 = 0;
+  var over110 = 0, over120 = 0, totMpr = 0;
   Object.values(kjonnByNr).forEach(function(r){
     if(r.mpr100k_18_44 != null){
+      totMpr++;
       if(r.mpr100k_18_44 > 110) over110++;
       if(r.mpr100k_18_44 > 120) over120++;
     }
   });
+  // Oppdater lede-tekst
+  var ledeEl = document.getElementById('ledeOver110');
+  if(ledeEl) ledeEl.textContent = over110 + ' av ' + totMpr;
   document.getElementById('sjokkKPI').innerHTML =
     '<div class="kpi"><div class="v down">' + landsdelBalanse.toFixed(1) + '</div><div class="l">Menn per 100 kvinner</div><div class="nh">i alder 18–44 i Nord-Norge</div></div>' +
     '<div class="kpi"><div class="v down">' + over110 + '</div><div class="l">av 80 kommuner</div><div class="nh">har M/100K > 110</div></div>' +

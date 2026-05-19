@@ -1582,13 +1582,14 @@ function renderComposition(){
     const pEldre=agg.pop?100*eldre/agg.pop:0;
     const pEldre80=agg.pop?100*eldre80/agg.pop:0;
     const pInnv=agg.andel||0;
-    let text='Hele Nord-Norge har <b>'+fmt(agg.pop)+'</b> innbyggere. Medianalderen er <b>'+med+' år</b>. ';
+    const _scope = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Hele Nord-Norge';
+    let text=_scope+' har <b>'+fmt(agg.pop)+'</b> innbyggere. Medianalderen er <b>'+med+' år</b>. ';
     text+='<b>'+pBarn.toFixed(0)+' %</b> er under 18 (<i>'+fmt(barn)+'</i>), <b>'+pEldre.toFixed(0)+' %</b> har passert 67 (<i>'+fmt(eldre)+'</i>) og <b>'+pEldre80.toFixed(1)+' %</b> er over 80. ';
     text+='<b>'+pInnv.toFixed(1)+' %</b> har innvandrerbakgrunn — i alt <b>'+fmt(agg.bc)+'</b> personer fordelt på rundt 200 opprinnelsesland. ';
     text+='<i>Aldersgruppen som vokser raskest mot 2050, er 80+ — det er den som driver mest av framtidens omsorgsbehov.</i>';
     tldrHost.className='tldr t-people';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Landsdelen samlet</div>'+
-      '<h3>Hvem bor i Nord-Norge i dag?</h3>'+
+      '<h3>Hvem bor i '+_scope+' i dag?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
         '<div class="tldr-num"><div class="nv">'+med+'</div><div class="nl">Medianalder</div><div class="nh">år</div></div>'+
@@ -1705,7 +1706,8 @@ function renderLevekar(){
   const fmtMrd = n => (n/1000).toFixed(1)+' mrd kr';
   if(tldrHost){
     const diffNorge = landsdelMedian ? ((landsdelMedian/NORGE_MED_INNT - 1)*100) : null;
-    let text='Median husholdningsinntekt etter skatt i Nord-Norge er <b>'+fmtKr(landsdelMedian)+'</b> per husholdning (2024). ';
+    const _scope2 = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Nord-Norge';
+    let text='Median husholdningsinntekt etter skatt i '+_scope2+' er <b>'+fmtKr(landsdelMedian)+'</b> per husholdning (2024). ';
     if(diffNorge!=null) text+='Det er '+(diffNorge>=0?'<b>+'+diffNorge.toFixed(0)+' %</b> over':'<b>'+diffNorge.toFixed(0)+' %</b> under')+' nasjonalt snitt på ~615 000 kr. ';
     if(lavKommune && hoyKommune) text+='Mellom de '+kommuneMedianer.length+' kommunene varierer median husholdningsinntekt fra <b>'+fmtKr(lavKommune)+'</b> til <b>'+fmtKr(hoyKommune)+'</b> — en forskjell på <b>'+(hoyKommune/lavKommune).toFixed(2)+'×</b>. ';
     text+='Av landsdelens totale personinntekt på <b>'+fmtMrd(sumKomponenter)+'</b> kommer <b>'+andelLonn.toFixed(0)+' %</b> fra lønn, <b>'+andelPensjon.toFixed(0)+' %</b> fra pensjon og <b>'+andelUfore.toFixed(0)+' %</b> fra uføretrygd. ';
@@ -1713,7 +1715,7 @@ function renderLevekar(){
     text+='<i>Den høye trygdeandelen — pensjon og uføretrygd til sammen — gjør at landsdelens inntektsbase er mer sårbar for endringer i statlige stønader enn nasjonale snitt tilsier.</i>';
     tldrHost.className='tldr t-people';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Levekår</div>'+
-      '<h3>Hva tjener folk i Nord-Norge — og hvor kommer pengene fra?</h3>'+
+      '<h3>Hva tjener folk i '+_scope2+' — og hvor kommer pengene fra?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
         (landsdelMedian?'<div class="tldr-num"><div class="nv">'+(landsdelMedian/1000).toFixed(0)+' k</div><div class="nl">Median hush.-inntekt</div><div class="nh">etter skatt, 2024</div></div>':'')+
@@ -1911,16 +1913,31 @@ function renderBurden(){
   // Standard demografisk forsørgerbyrde (65+/20-64)
   const oad0=(mw.a65&&mw.a2064&&mw.a2064[0])?100*mw.a65[0]/mw.a2064[0]:null;
   const oad1=(mw.a65&&mw.a2064&&mw.a2064[n-1])?100*mw.a65[n-1]/mw.a2064[n-1]:null;
-  // Sysselsetting-justert: bruker landsdelens sysselsettingsrate (konstant gjennom framskriving)
-  const syssR = landsdelSysselsRate();
+  // Scope (fylke eller landsdel)
+  const _scopeKey = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Alle';
+  const _scopeKommuner = (state.fylke && state.fylke !== 'Alle')
+    ? new Set(K.filter(x => x.fylke === state.fylke).map(x => String(x.nr)))
+    : null;  // null = alle
+  const _scopeTxt = _scopeKey === 'Alle' ? 'landsdelen samlet' : state.fylke;
+  // Sysselsetting-justert: bruker scopens sysselsettingsrate (vektet snitt over kommunene i scopet)
+  let _sumSyss = 0, _sumTot = 0;
+  if(typeof ARBEID_DATA !== 'undefined'){
+    Object.entries(ARBEID_DATA.kommuner).forEach(([nr, r])=>{
+      if(_scopeKommuner && !_scopeKommuner.has(nr)) return;
+      if(r.sysselsatte20_66 != null) _sumSyss += r.sysselsatte20_66;
+      if(r.tot20_66 != null) _sumTot += r.tot20_66;
+    });
+  }
+  const syssR = _sumTot ? _sumSyss / _sumTot : landsdelSysselsRate();
   const oadJ0=(mw.a65&&mw.a2064&&mw.a2064[0]&&syssR>0)?100*mw.a65[0]/(mw.a2064[0]*syssR):null;
   const oadJ1=(mw.a65&&mw.a2064&&mw.a2064[n-1]&&syssR>0)?100*mw.a65[n-1]/(mw.a2064[n-1]*syssR):null;
   const a2064_0=mw.a2064?mw.a2064[0]:null, a2064_1=mw.a2064?mw.a2064[n-1]:null;
   const a80_0=mw.a80?mw.a80[0]:null, a80_1=mw.a80?mw.a80[n-1]:null;
-  // Uføreandel landsdelen (vektet snitt etter befolkning 18-67 ≈ 20-66-tot, fallback)
+  // Uføreandel for scope (vektet snitt etter befolkning 20-66)
   let sumUfo=0, sumPop=0;
   if(typeof ARBEID_DATA!=='undefined'){
-    Object.values(ARBEID_DATA.kommuner).forEach(r=>{
+    Object.entries(ARBEID_DATA.kommuner).forEach(([nr, r])=>{
+      if(_scopeKommuner && !_scopeKommuner.has(nr)) return;
       if(r.uforePers!=null) sumUfo+=r.uforePers;
       if(r.tot20_66!=null) sumPop+=r.tot20_66;
     });
@@ -1928,7 +1945,7 @@ function renderBurden(){
   const uforePctLandsdel = sumPop ? 100*sumUfo/sumPop : null;
   const projYear=(P.years||[])[n-1]||2050;
   if(tldrHost){
-    let text='I dag bærer 100 sysselsatte (20–66) <b>'+(oadJ0!=null?oadJ0.toFixed(0):'–')+'</b> eldre (65+) i landsdelen samlet. ';
+    let text='I dag bærer 100 sysselsatte (20–66) <b>'+(oadJ0!=null?oadJ0.toFixed(0):'–')+'</b> eldre (65+) i '+_scopeTxt+'. ';
     text+='I '+projYear+' øker det til <b>'+(oadJ1!=null?oadJ1.toFixed(0):'–')+'</b> — fordi sysselsettingsraten er bare ~<b>'+(syssR*100).toFixed(0)+' %</b>, er den reelle bæreevnen lavere enn den «rene» demografiske (65+/20–64 går fra '+oad0.toFixed(0)+' til '+oad1.toFixed(0)+'). ';
     if(uforePctLandsdel!=null) text+='Rundt <b>'+uforePctLandsdel.toFixed(0)+' %</b> av 18–67-årige er uføretrygdede — det er en stor del av hvorfor sysselsettingsraten er lavere enn aldersgruppen alene tilsier. ';
     if(a80_0&&a80_1){
@@ -1994,9 +2011,11 @@ function renderRente(){
   if(!host || typeof RENTE_DATA==='undefined') return;
   if(state.renteCur==null) state.renteCur = 5.4;
   if(state.renteNew==null) state.renteNew = 4.0;
-  // Aggregér landsdel
+  // Aggregér til valgt scope (fylke eller landsdel)
+  const _scopeNr = new Set(currentK().map(k => String(k.nr)));
   let sumNdrKr=0, sumRxpKr=0, validKom=0, proxyKom=0;
   Object.entries(RENTE_DATA.kommuner).forEach(([nr,r])=>{
+    if(!_scopeNr.has(nr)) return;
     if(r.ndr_kr!=null){ sumNdrKr+=r.ndr_kr; validKom++; }
     if(r.rxp_kr!=null){ sumRxpKr+=r.rxp_kr; if(r.proxy) proxyKom++; }
   });
