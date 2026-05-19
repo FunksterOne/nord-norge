@@ -87,7 +87,59 @@ h1 em{font-style:italic;color:var(--amber)}
 .layout{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}
 @media(max-width:880px){.layout{grid-template-columns:1fr}.flow{grid-template-columns:1fr}}
 
-/* kommune list */
+/* === Horisontal kommune-velger ============================================ */
+.kstrip-wrap{margin:8px 0 22px}
+.kstrip-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;
+  margin-bottom:8px;padding:0 2px}
+.kstrip-head #cnt{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.kstrip-head .kstrip-hint{font-size:11.5px;color:var(--ink3);font-style:italic;flex:1;text-align:center}
+.kstrip-head #cmpinfo{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.kstrip-scroller{position:relative}
+.kstrip{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;padding:6px 36px 12px;scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:rgba(17,32,58,.18) transparent;
+  background:var(--paper2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.kstrip::-webkit-scrollbar{height:8px}
+.kstrip::-webkit-scrollbar-thumb{background:rgba(17,32,58,.18);border-radius:4px}
+.kstrip-arrow{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:48px;
+  background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;cursor:pointer;
+  font-size:22px;font-weight:700;color:var(--ink2);z-index:2;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+  transition:.14s;box-shadow:0 2px 8px rgba(17,32,58,.08)}
+.kstrip-arrow:hover{color:var(--aurora);border-color:var(--aurora);background:#fff}
+.kstrip-arrow.prev{left:4px}
+.kstrip-arrow.next{right:4px}
+
+/* Kommune-chip */
+.kchip{flex:0 0 auto;width:148px;background:#fff;border:1px solid var(--line);border-radius:11px;
+  padding:9px 11px;cursor:pointer;transition:.14s;display:flex;flex-direction:column;gap:3px;
+  text-align:left;font-family:inherit;position:relative;border-left:3px solid transparent}
+.kchip:hover{border-color:var(--aurora);transform:translateY(-1px);box-shadow:0 4px 12px -4px rgba(17,32,58,.15)}
+.kchip[aria-selected=true]{background:linear-gradient(135deg,#fff,rgba(24,117,103,.05));
+  border-color:var(--aurora);border-left-color:var(--aurora);
+  box-shadow:0 1px 2px rgba(17,32,58,.05),0 10px 24px -10px rgba(24,117,103,.35)}
+.kchip .kchip-head{display:flex;align-items:center;gap:6px}
+.kchip .fdot{width:8px;height:8px;border-radius:50%;flex:none}
+.kchip .knm{font-weight:600;font-size:13.5px;color:var(--ink);flex:1;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kchip .kpop{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink2);font-weight:600}
+.kchip .kchip-bot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:2px}
+.kchip .kchip-stats{display:flex;gap:3px}
+.kchip .kchip-stats .kstat-dot{width:7px;height:7px;border-radius:50%}
+.kchip .kchip-stats .kstat-dot.s-up{background:var(--aurora)}
+.kchip .kchip-stats .kstat-dot.s-down{background:#B23B3B}
+.kchip .kchip-stats .kstat-dot.s-flat{background:var(--ink3);opacity:.4}
+.kchip .kchip-stats .kstat-dot.s-robek{background:#B23B3B;box-shadow:0 0 0 2px rgba(178,59,59,.15)}
+.kchip .kchip-stats .kstat-dot.s-robek-pend{background:var(--amber)}
+.kchip .cmpadd{font-size:10px;font-weight:700;border:1px solid var(--line);background:none;color:var(--ink3);
+  border-radius:5px;padding:2px 5px;cursor:pointer;line-height:1}
+.kchip .cmpadd:hover{border-color:var(--aurora);color:var(--aurora)}
+.kchip .cmpadd.on{background:var(--aurora);color:#fff;border-color:var(--aurora)}
+
+@media(max-width:600px){
+  .kchip{width:130px}
+}
+
+/* kommune list (gammel — beholdes for kompabilitet, men brukes ikke i ny layout) */
 .listwrap{background:var(--paper2);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .listhead{padding:13px 17px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
   font-weight:700;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
@@ -854,13 +906,22 @@ footer a{color:var(--aurora);text-decoration:none}
   </div>
 </div>
 
-<div class="layout">
-  <aside class="listwrap">
-    <div class="listhead"><span id="cnt">80 kommuner</span><span id="cmpinfo">+ for å sammenligne</span></div>
-    <div class="klist" id="klist"></div>
-  </aside>
-  <main class="detail" id="detail"></main>
+<!-- Horisontal kommune-velger -->
+<div class="kstrip-wrap">
+  <div class="kstrip-head">
+    <span id="cnt">80 kommuner</span>
+    <span class="kstrip-hint">← scroll for å se alle, eller filtrer over →</span>
+    <span id="cmpinfo">+ for å sammenligne</span>
+  </div>
+  <div class="kstrip-scroller">
+    <button class="kstrip-arrow prev" data-knav="stripPrev" aria-label="Scroll til venstre">‹</button>
+    <div class="kstrip" id="klist"></div>
+    <button class="kstrip-arrow next" data-knav="stripNext" aria-label="Scroll til høyre">›</button>
+  </div>
 </div>
+
+<!-- Full-bredde detalj -->
+<main class="detail" id="detail"></main>
 
 <button class="nextstep" data-next="model">
   <div class="ns-l">
@@ -1478,22 +1539,38 @@ function filtered(){
   return r;
 }
 function renderList(){
-  const r=filtered(); const maxP=Math.max(...K.map(k=>k.pop));
+  const r=filtered();
   document.getElementById('cnt').textContent=r.length+' kommuner';
   elList.innerHTML=r.map(k=>{
     const s=kommuneStatus(k);
     const grTitle=s.growth==='up'?'Vekst mot 2050':s.growth==='down'?'Krymper mot 2050':'Stabil mot 2050';
     const grDot='<span class="kstat-dot s-'+s.growth+'" title="'+grTitle+'"></span>';
     const rbDot=s.robek==='in'?'<span class="kstat-dot s-robek" title="I ROBEK"></span>':s.robek==='pending'?'<span class="kstat-dot s-robek-pend" title="ROBEK under behandling"></span>':'';
-    return '<div class="krow" role="option" aria-selected="'+(k.nr===state.sel)+'" data-nr="'+k.nr+'">'+
-      '<span class="fdot" style="background:'+FY[k.fylke]+'"></span>'+
-      '<span class="kstat">'+grDot+rbDot+'</span>'+
-      '<span class="knm">'+k.navn+'</span>'+
-      '<span class="kpop mono">'+fmt(k.pop)+'</span>'+
-      '<span class="kbar"><i style="width:'+(k.pop/maxP*100).toFixed(1)+'%"></i></span>'+
-      '<button class="cmpadd '+(state.compare.includes(k.nr)?'on':'')+'" data-cmp="'+k.nr+'" title="Legg til i sammenligning">'+(state.compare.includes(k.nr)?'✓':'+')+'</button>'+
+    const sel = k.nr===state.sel;
+    return '<div class="kchip" role="option" tabindex="0" aria-selected="'+sel+'" data-nr="'+k.nr+'" title="'+k.navn+' · '+k.fylke+' · '+fmt(k.pop)+' innb.">'+
+      '<div class="kchip-head">'+
+        '<span class="fdot" style="background:'+FY[k.fylke]+'"></span>'+
+        '<span class="knm">'+k.navn+'</span>'+
+      '</div>'+
+      '<div class="kchip-bot">'+
+        '<span class="kpop">'+fmt(k.pop)+'</span>'+
+        '<div class="kchip-stats">'+grDot+rbDot+'</div>'+
+        '<button class="cmpadd '+(state.compare.includes(k.nr)?'on':'')+'" data-cmp="'+k.nr+'" title="Legg til i sammenligning">'+(state.compare.includes(k.nr)?'✓':'+')+'</button>'+
+      '</div>'+
     '</div>';
   }).join('');
+  // Scroll til valgt kommune
+  setTimeout(()=>{
+    const selEl = elList.querySelector('[aria-selected=true]');
+    if(selEl) selEl.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+  }, 50);
+  // Wire strip-arrows
+  document.querySelectorAll('[data-knav="stripPrev"],[data-knav="stripNext"]').forEach(b=>{
+    b.onclick=()=>{
+      const dir = b.dataset.knav==='stripNext'?1:-1;
+      elList.scrollBy({left:dir*400, behavior:'smooth'});
+    };
+  });
 }
 function ageGroups(arr,mode){
   if(mode==='1') return AGES.map((l,i)=>({l:l.replace(' år',''),v:arr[i]}));
