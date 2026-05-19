@@ -40,6 +40,18 @@ const SGROUPS=[['tot','Hele befolkningen'],['abc','Befolkningen ekskl. innvandre
 const AGES = DATA.age_labels; // 0..105+
 let state={fylke:'Alle',q:'',sort:'folketall',sel:K.slice().sort((a,b)=>b.pop-a.pop)[0].nr,
   ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'kons', robekSort:'risk', robekFylke:'Alle', kView:'history'};
+// URL-param-overstyringer for flersides oppsett: kommune.html?k=1804&view=people, fylke.html?f=Nordland
+(function applyUrlParams(){
+  try{
+    const p = new URLSearchParams(window.location.search);
+    const k = parseInt(p.get('k'), 10);
+    if(k && K.some(x => x.nr === k)) state.sel = k;
+    const f = p.get('f');
+    if(f && ['Alle','Nordland','Troms','Finnmark'].includes(f)) state.fylke = f;
+    const view = p.get('view');
+    if(view && ['history','people','burden'].includes(view)) state.kView = view;
+  }catch(_){}
+})();
 const FYNR={Alle:-1,Nordland:-18,Troms:-55,Finnmark:-56};
 const AGG={};
 (function buildAggregates(){
@@ -118,9 +130,9 @@ function filtered(){
               : b.pop-a.pop);
   return r;
 }
-function renderList(){
+function renderList(){if(!elList) return;
   const r=filtered();
-  document.getElementById('cnt').textContent=r.length+' kommuner';
+  var _cnt=document.getElementById('cnt'); if(_cnt) _cnt.textContent=r.length+' kommuner';
   elList.innerHTML=r.map(k=>{
     const s=kommuneStatus(k);
     const grTitle=s.growth==='up'?'Vekst mot 2050':s.growth==='down'?'Krymper mot 2050':'Stabil mot 2050';
@@ -1103,6 +1115,7 @@ function tldrBanner(k, view){
   return '';
 }
 function detail(){
+  if(!elDet) return;
   const k=resolveSel();
   if(!k){elDet.innerHTML='<div class="empty"><div class="big serif">Ingen treff</div>Juster søk eller fylke.</div>';return;}
   const med=medianAge(k.alder);
@@ -1288,7 +1301,7 @@ function bindDetail(){
   elDet.querySelectorAll('#mw button').forEach(b=>b.onclick=()=>{state.mw=b.dataset.w;detail();});
   elDet.querySelectorAll('#rbk button').forEach(b=>b.onclick=()=>{state.robekSort=b.dataset.s;detail();});
   const tn=document.getElementById('tn'); if(tn)tn.oninput=()=>{state.topN=+tn.value;
-    document.getElementById('tnv').textContent=tn.value;detail();};
+    var _tnv=document.getElementById('tnv'); if(_tnv) _tnv.textContent=tn.value;detail();};
   const cs=document.getElementById('cs'); if(cs)cs.oninput=()=>{state.csearch=cs.value;detail();
     const e=document.getElementById('cs');e.focus();e.setSelectionRange(e.value.length,e.value.length);};
 }
@@ -2244,7 +2257,7 @@ function renderSustainability(){
   }
 }
 function render(){renderList(); if(!renderCompare())detail();
-  document.getElementById('cmpinfo').textContent=state.compare.length?`${state.compare.length} valgt — sammenligner`:'+ for å sammenligne';
+  var _cmpi=document.getElementById('cmpinfo'); if(_cmpi) _cmpi.textContent=state.compare.length?`${state.compare.length} valgt — sammenligner`:'+ for å sammenligne';
   renderNat(); renderNatTS(); renderModelEval(); renderRobek(); renderBigPicture(); renderComposition(); renderBurden(); renderLevekar(); renderEconomy(); renderSustainability();
   if(typeof attachHelpPops==='function')attachHelpPops();}
 function renderRobek(){
@@ -2260,7 +2273,7 @@ function renderRobek(){
 document.querySelectorAll('#fylke button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#fylke button').forEach(x=>x.setAttribute('aria-selected',x===b));
   state.fylke=b.dataset.f; state.sel=FYNR[state.fylke]; const f=filtered(); render();});
-document.getElementById('q').oninput=e=>{state.q=e.target.value;const f=filtered();
+var _q=document.getElementById('q'); if(_q) _q.oninput=e=>{state.q=e.target.value;const f=filtered();
   if(f.length)state.sel=f[0].nr; render();};
 document.querySelectorAll('.searchhint .shchip').forEach(b=>b.onclick=()=>{
   const v=b.dataset.shq; const qi=document.getElementById('q');
@@ -2271,7 +2284,7 @@ document.querySelectorAll('.searchhint .shchip').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('.sortbar button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.sortbar button').forEach(x=>x.setAttribute('aria-pressed',x===b));
   state.sort=b.dataset.s; render();});
-elList.onclick=e=>{
+if(elList) elList.onclick=e=>{
   const c=e.target.closest('[data-cmp]');
   if(c){const nr=+c.dataset.cmp; const i=state.compare.indexOf(nr);
     if(i>=0)state.compare.splice(i,1); else if(state.compare.length<4)state.compare.push(nr);
@@ -2284,7 +2297,7 @@ document.querySelectorAll('#nxs button').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('#nmt button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#nmt button').forEach(x=>x.setAttribute('aria-selected',x===b));
   state.natMetric=b.dataset.m; renderNat(); renderNatTS();});
-document.getElementById('natts').addEventListener('click',e=>{
+var _natts=document.getElementById('natts'); if(_natts) _natts.addEventListener('click',e=>{
   const b=e.target.closest('[data-leg]'); if(!b)return;
   const k=b.dataset.leg; state.natHidden[k]=!state.natHidden[k]; renderNatTS();});
 function setTab(t){
@@ -2397,7 +2410,7 @@ function tourShow(i){
 function tourStart(){tourIdx=0;tBack.classList.add('on');tourShow(0);
   try{localStorage.setItem('nn_tour_seen','1');}catch(_){}}
 function tourEnd(){tBack.classList.remove('on');tSpot.classList.remove('on');tBub.classList.remove('on');tourIdx=-1;}
-document.getElementById('tourstart').onclick=tourStart;
+var _ts=document.getElementById('tourstart'); if(_ts) _ts.onclick=tourStart;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&tourIdx>=0)tourEnd();});
 
 render();
