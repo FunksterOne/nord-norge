@@ -735,6 +735,14 @@ footer a{color:var(--aurora);text-decoration:none}
 .neste-tema-blokk a.ntb-arbeid{border-left:4px solid var(--nl)}
 .neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
 .neste-tema-blokk a.ntb-aldring{border-left:4px solid #6FA8C7}
+
+/* Black Swan-callout — uventet hendelse som endrer alt */
+.black-swan{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;margin:20px 0;padding:16px 20px;background:linear-gradient(135deg,rgba(17,32,58,0.08),rgba(17,32,58,0.02));border:1px solid rgba(17,32,58,0.18);border-left:4px solid var(--ink);border-radius:0 10px 10px 0}
+.black-swan .bs-icon{font-size:28px;line-height:1;color:var(--ink);text-align:center;padding-top:2px}
+.black-swan .bs-tag{font-family:'Spline Sans Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+.black-swan .bs-title{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 6px;color:var(--ink);line-height:1.25}
+.black-swan p{font-size:13px;line-height:1.6;color:var(--ink2);margin:0}
+.black-swan p b{color:var(--ink)}
 .neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
 
 .tab{display:none}

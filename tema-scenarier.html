@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fire fremtider mot 2040 — Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.veiskille-figur{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:18px 0}
+.veiskille-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0 18px}
+.veivalg-kort{padding:18px 20px;background:var(--paper);border:1px solid var(--line2);border-radius:10px;border-left:4px solid var(--aurora)}
+.veivalg-kort .num{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.veivalg-kort h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink);line-height:1.25}
+.veivalg-kort p{font-size:12.5px;line-height:1.5;color:var(--ink2);margin:0}
+
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0}
+@media (max-width:720px){.scenario-grid{grid-template-columns:1fr}}
+.scenario-kort{padding:24px 26px;border-radius:14px;border:1px solid var(--line2);background:var(--paper);position:relative;overflow:hidden}
+.scenario-kort .badge{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;font-weight:700}
+.scenario-kort h3{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 4px;line-height:1.15;color:var(--ink)}
+.scenario-kort .undertittel{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--ink2);margin:0 0 14px}
+.scenario-kort .veivalg-pil{font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.55;padding:8px 10px;background:var(--paper2);border-radius:6px}
+.scenario-kort .veivalg-pil b{color:var(--ink)}
+.scenario-kort p.beskrivelse{font-size:13px;line-height:1.6;color:var(--ink2);margin:0 0 12px}
+.scenario-kort .hammerfest-rute{margin-top:14px;padding:12px 14px;border-left:3px solid var(--fi);background:rgba(156,91,160,0.06);border-radius:0 6px 6px 0}
+.scenario-kort .hammerfest-rute .hr-kicker{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fi);margin-bottom:4px}
+.scenario-kort .hammerfest-rute p{font-size:12px;line-height:1.5;color:var(--ink2);margin:0}
+
+.scen-pendler{background:linear-gradient(135deg,rgba(178,59,59,0.10),rgba(178,59,59,0.02));border-left:4px solid #B23B3B}
+.scen-petroleum{background:linear-gradient(135deg,rgba(194,107,38,0.10),rgba(194,107,38,0.02));border-left:4px solid var(--amber)}
+.scen-rava{background:linear-gradient(135deg,rgba(156,91,160,0.10),rgba(156,91,160,0.02));border-left:4px solid var(--fi)}
+.scen-positiv{background:linear-gradient(135deg,rgba(24,117,103,0.10),rgba(24,117,103,0.02));border-left:4px solid var(--aurora)}
+
+.bs-tema-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
+.bs-tema-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
+.bs-tema-kort h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.bs-tema-kort ul{margin:0;padding:0 0 0 18px;font-size:12.5px;line-height:1.55;color:var(--ink2)}
+.bs-tema-kort li{margin-bottom:4px}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Fire fremtider mot 2040</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-aldring.html">← Aldring globalt</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 06 · Scenarier for 2040 · Basert på Business Index North 2023</div>
+  <h1>Fire fremtider mot <em>2040</em> — hvor er Nord-Norge på vei?</h1>
+  <p class="lede">Resten av dashbordet bygger på tall, framskrivinger og indikatorer — datasiden av historien. Her er retorikken: fremtiden er ikke skjebne. Den er et sett retningsvalg som faktiske mennesker tar, eller ikke tar. Business Index North-rapporten fra 2023 har identifisert tre veivalg som åpner fire mulige Nord-Norge i 2040 — og bare ett av dem er det vi ønsker oss.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Sjokket</div>
+  <h2>Hvor står vi i dag — <em>før</em> valget er tatt?</h2>
+  <p class="akt-intro">Alt dashbordet har vist så langt, kan summeres til fire grunnleggende observasjoner. Til sammen utgjør de utgangspunktet for valgene som tas de neste 15 årene.</p>
+  <div class="kpi-rad" id="sjokkKPI"></div>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>Tre veivalg som avgjør <em>hvilken</em> framtid det blir</h2>
+  <p class="akt-intro">Business Index North-prosjektet identifiserte tre fundamentale spørsmål gjennom verksteder i Alta, Bodø og Tromsø i 2023. Hvordan disse tre svares — på fellesnivå i landsdelen — bestemmer hvor Nord-Norge ender opp i 2040. Ingen enkeltperson eller kommune kan svare på dem alene, men målrettet innsats og samarbeid kan utvide handlingsrommet.</p>
+
+  <div class="veiskille-grid">
+    <div class="veivalg-kort" style="border-left-color:var(--nl)">
+      <div class="num">Valg 01</div>
+      <h4>Arbeidskraft i nord?</h4>
+      <p>Klarer Nord-Norge å utdanne, hente inn og holde på nok kvalifisert kompetanse de neste 15 årene? Mister vi ungdom og unge kvinner sørover, eller klarer vi å gjøre lokalsamfunnene attraktive nok?</p>
+    </div>
+    <div class="veivalg-kort" style="border-left-color:var(--amber)">
+      <div class="num">Valg 02</div>
+      <h4>Mer fornybar energi i Nord-Norge?</h4>
+      <p>Klarer landsdelen å bygge ut, transportere og utnytte vesentlig mer fornybar energi — vind, vann, hydrogen — uten å havne i fastlåste konflikter mellom natur, urfolk og industri?</p>
+    </div>
+    <div class="veivalg-kort" style="border-left-color:var(--aurora)">
+      <div class="num">Valg 03</div>
+      <h4>Foredling og tjenester — ikke bare råvarer?</h4>
+      <p>Går vi fra å eksportere fisk, malm og kraft som råvare til å foredle dem her, bygge tjenester rundt dem, og selge avanserte produkter? Eller forblir vi leverandører som tar overskudd i andre regioner?</p>
+    </div>
+  </div>
+
+  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:8px">Svarer landsdelen <b>JA</b> på alle tre, beveger vi oss mot scenarioet «Det meste er Nord». Svarer vi <b>NEI</b> på alle, ender vi i «Pendlersamfunn». Mellomliggende kombinasjoner gir «Petroleum og rorbuer» eller «Råvareleverandør 2.0». Veivalgene henger sammen, og ingen enkeltaktør kan avgjøre dem — men målrettet samarbeid kan utvide handlingsrommet.</p>
+</section>
+
+<!-- ────────────────── AKT 03 — BRUTT OPP: SCENARIENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Brutt opp</div>
+  <h2>Fire mulige <em>Nord-Norge</em> i 2040</h2>
+  <p class="akt-intro">Scenariene er ikke prognoser. De er <i>fortellinger om mulige fremtider</i> — det som faktisk kan skje hvis de tre veivalgene faller på en bestemt måte. Spennvidden er bevisst stor, fra fullstendig forfall til regional blomstring. Vi har valgt å vise hva hvert scenario betyr konkret for <b>Hammerfest</b> — vår kanon-kommune gjennom hele løypa.</p>
+
+  <div class="scenario-grid">
+    <!-- 1. Pendlersamfunn -->
+    <div class="scenario-kort scen-pendler">
+      <div class="badge">Scenario 1 av 4</div>
+      <h3>Pendlersamfunn</h3>
+      <p class="undertittel">Akselererende avfolkning og forfall</p>
+      <div class="veivalg-pil"><b>NEI</b> til arbeidskraft · <b>NEI</b> til mer fornybar · <b>NEI</b> til foredling</div>
+      <p class="beskrivelse">Samfunnets grunnleggende infrastruktur har raknet i store deler av Nord-Norge. Sterk mangel på arbeidskraft, fraflytting, stillstand. Eldrebølgen har slått inn for fullt. Ungdom med kompetanse, særlig unge kvinner, forlater landsdelen og kommer ikke tilbake. Nord-Norge består av seks kommuner; fylkeskommunene er overflødige. Mye av ansvaret faller på Forsvaret. Pendlere fra Sør-Norge og utlandet holder gjenværende industriproduksjon i gang.</p>
+      <div class="hammerfest-rute">
+        <div class="hr-kicker">Slik treffer det Hammerfest</div>
+        <p>LNG-anlegget bemannes av pendlere fra Sør-Norge og Polen. Sentrumshandel, helse og skole presset til minimum. <b>Helse/sosial-mangelen vi måler i NAV 2026 (1 750 personer) blir 3–4×</b> i dette scenarioet. Hammerfest selv eksisterer som «satellittsamfunn» rundt industrien, men har mistet bredden i lokalsamfunnet.</p>
+      </div>
+    </div>
+
+    <!-- 2. Petroleum og rorbuer -->
+    <div class="scenario-kort scen-petroleum">
+      <div class="badge">Scenario 2 av 4</div>
+      <h3>Petroleum og rorbuer</h3>
+      <p class="undertittel">De nye mulighetene som forsvant</p>
+      <div class="veivalg-pil"><b>JA</b> til arbeidskraft · <b>NEI</b> til mer fornybar · <b>NEI</b> til foredling</div>
+      <p class="beskrivelse">Vindkraft og solkraft har ikke innfridd. Energimangelen har gjort det nødvendig å forlenge petroleumsalderen og åpne havområder. Som kompensasjon verner Norge 30 % av havområdene; nye store naturparker. Reiseliv tilbyr opplevelser i nær uberørt natur. Til tross for ambisjoner klarer ikke landsdelen å bygge ut fornybar energi i tilstrekkelig omfang. Inntektene fra petroleum holder velferden, men utsetter omstillingen.</p>
+      <div class="hammerfest-rute">
+        <div class="hr-kicker">Slik treffer det Hammerfest</div>
+        <p>Best-case for byen som vi har i dag. LNG-anlegget utvides, reiseliv vokser, og <b>Hammerfest blir en av få stabile vekstkommuner i Finnmark</b>. Men foredlingen kommer ikke — hydrogen og ammoniakk eksporteres ufoderlt. Risiko: når petroleumsalderen tar slutt, sitter byen uten alternativ industri.</p>
+      </div>
+    </div>
+
+    <!-- 3. Råvareleverandør 2.0 -->
+    <div class="scenario-kort scen-rava">
+      <div class="badge">Scenario 3 av 4</div>
+      <h3>Råvareleverandør 2.0</h3>
+      <p class="undertittel">Vekst på bankkontoer (og i Sveits)</p>
+      <div class="veivalg-pil"><b>JA</b> til arbeidskraft · <b>JA</b> til mer fornybar · <b>NEI</b> til foredling</div>
+      <p class="beskrivelse">Europa har vært gjennom flere sjokk; forsyningssikkerhet i høysetet. Nord-Norge eksporterer metaller, havbunnsmineraler og sjømat i voksende omfang. Havvind og landevind er viktige innslag i kraftforsyningen. Næringsvirksomheten fjernstyres fra sør — før var det Bergen, nå er det Brussel. Selv om utvinningsnæringene er i vekst, mangler kunnskapsintensive jobber. Næringslivet forblir mannsdominert. Unge kvinner reiser. Overskuddene tas ut av regionen.</p>
+      <div class="hammerfest-rute">
+        <div class="hr-kicker">Slik treffer det Hammerfest</div>
+        <p>Industri-Hammerfest vokser, men profitten lever ikke i byen. Strømmen ledes sørover fordi det er enklere enn lokal foredling. Mannsdominert næringsliv forsterkes — <b>kvinneflukten vi måler i dagens kjønnsbalanse (3-4 % gap i alder 18–44) blir dypere</b>. Inntektsgapet mellom rike industri-husholdninger og lokal sårbarhet vokser.</p>
+      </div>
+    </div>
+
+    <!-- 4. Det meste er Nord -->
+    <div class="scenario-kort scen-positiv">
+      <div class="badge">Scenario 4 av 4 · ønsket utfall</div>
+      <h3>Det meste er Nord</h3>
+      <p class="undertittel">Lønnsomt næringsliv, levende lokalsamfunn, bærekraft</p>
+      <div class="veivalg-pil"><b>JA</b> til arbeidskraft · <b>JA</b> til mer fornybar · <b>JA</b> til foredling</div>
+      <p class="beskrivelse">Nord-Norge er en høyborg for blågrønn vekst og landets mest fremtidsrettede næringsregion. Tyngdepunktet er forskjøvet fra utvinning til produksjon av kunnskapsbaserte og bearbeidede varer. Egne fornybare energikilder gir grunnlag for kraftintensiv industri og leverandørindustri. Flere konserner har hovedkontor i Nordland, Troms og Finnmark. Alta er storby sammen med Bodø og Tromsø. Universitetene har attraktive næringsrettede studier som tiltrekker studenter fra hele landet.</p>
+      <div class="hammerfest-rute">
+        <div class="hr-kicker">Slik treffer det Hammerfest</div>
+        <p>Hammerfest har blitt et nasjonalt sentrum for hydrogen, ammoniakk og maritim grønn teknologi. <b>Den 18 % økningen av samlet sysselsetting NAV venter i 2026 fortsetter</b> — men nå i kunnskapsintensive sektorer som leverandørindustri og teknologi. Kvinner i alle aldre flytter til byen pga bredt arbeidstilbud. Befolkningsveksten fortsetter også etter at LNG fases ut.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px"><b>Et viktig pedagogisk poeng.</b> Det er et næringspotensial i alle fire scenarier, til og med i Pendlersamfunn — men mulighetene er begrenset der. Potensialet er aller størst i Det meste er Nord, der landsdelen har tatt spranget over i en kunnskapsintensiv økonomi. Veien dit er imidlertid kronglete, og krever at en rekke begrensninger overvinnes. Tre av scenariene viser hva som skjer hvis vi feiler.</p>
+</section>
+
+<!-- ────────────────── AKT 04 — KONSEKVENS: BLACK SWANS ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <h2>Black Swans — det som <em>endrer alt</em></h2>
+  <p class="akt-intro">Alle fire scenariene forutsetter at de tunge trendene fortsetter. Men noen ganger skjer det noe ingen så komme — det Nassim Taleb kalte «Black Swans». Pandemien i 2020, Russlands fullskala-invasjon av Ukraina i 2022, og det amerikanske handelskrigen i 2025 var alle slike hendelser. Hver av dem endret rammebetingelsene over natten. Business Index North-rapporten identifiserte rundt 20 mulige «Black Swans» som kan endre Nord-Norges framtid radikalt. Her er noen av dem, gruppert tematisk.</p>
+
+  <div class="bs-tema-grid">
+    <div class="bs-tema-kort" style="border-left:4px solid #B23B3B">
+      <h4>🔒 Krig, sabotasje, sikkerhet</h4>
+      <ul>
+        <li>Russland kollapser og splittes opp</li>
+        <li>USA åpner atomvåpenbase i Finnmark</li>
+        <li>USA forlater NATO — fokus på Asia mot Kina</li>
+        <li>Sabotasje mot infrastruktur i nord</li>
+        <li>Atomkrig — ødeleggelse av Arktis</li>
+      </ul>
+    </div>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--amber)">
+      <h4>⚡ Energi</h4>
+      <ul>
+        <li>Ny energikilde løser energibehovet</li>
+        <li>Pålegg om umiddelbar nedstengning av olje</li>
+        <li>Ny energikilde gjør Nord-Norges fortrinn irrelevante</li>
+        <li>Fusjonskraft kommersialiseres tidligere enn ventet</li>
+      </ul>
+    </div>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--nl)">
+      <h4>🌐 Internett og data</h4>
+      <ul>
+        <li>Internett «dør» og kommer ikke tilbake</li>
+        <li>Store internasjonale datainnbrudd lammer Norge</li>
+        <li>Cyberkrise gir helt nytt personvern-lovverk</li>
+        <li>AI endrer arbeidsmarkedet raskere enn ventet</li>
+      </ul>
+    </div>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--aurora)">
+      <h4>🇳🇴 Norge og rammebetingelser</h4>
+      <ul>
+        <li>Nord-Norge får egne attraktive skatte- og rammebetingelser</li>
+        <li>Universitetsutdanning gratis i nord, kostbar i sør</li>
+        <li>Forbud mot lange varetransporter med store avgifter</li>
+        <li>Utslippsfri teknologi opphever avstandsulempen</li>
+        <li>Norge ut av EØS — eksport stopper</li>
+      </ul>
+    </div>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--fi)">
+      <h4>🌍 Klima og natur</h4>
+      <ul>
+        <li>Klimaflyktninger strømmer til Nord-Norge i stort antall</li>
+        <li>Stor meteoritt eller vulkanutbrudd endrer klima brå</li>
+        <li>Urbefolkningens syn på arealbruk endrer seg radikalt</li>
+        <li>Droner som kan frakte mennesker — geografi blir mindre viktig</li>
+      </ul>
+    </div>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--gold)">
+      <h4>🤝 Geopolitikk og samarbeid</h4>
+      <ul>
+        <li>Kina danner ny verdensallianse mot Vesten</li>
+        <li>Nytt regionalt Europa-samarbeid favoriserer nord</li>
+        <li>Forpliktende nordområde-politikk på tvers av regjeringer</li>
+        <li>Svensk og finsk NATO-medlemskap aktiverer Nordkalotten</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px;padding:14px 16px;background:rgba(17,32,58,0.04);border-left:4px solid var(--ink2);border-radius:0 6px 6px 0">
+    <b>Hvorfor Black Swans matter.</b> Effekten av selv én slik hendelse kan endre samtlige fire scenarier. Beslutningstakere må ikke prøve å spå hvilken som inntreffer — men <i>bygge robusthet</i> mot et bredt sett av muligheter. Pendlersamfunn-scenarioet er ikke statisk; en Black Swan kan skifte oss fra «Petroleum og rorbuer» til «Pendlersamfunn» på få år hvis sikkerhetspolitisk situasjon forverres.
+  </p>
+</section>
+
+<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier kildene?</h2>
+
+  <div class="sitat">
+    <blockquote>«Scenariene er ment som en spore til å løfte diskusjonen om landsdelens muligheter opp på et mer strategisk nivå: Hvilke grunnleggende valg står Nord-Norge i realiteten overfor?»</blockquote>
+    <div class="kilde"><b>Business Index North</b> · «Nord-Norge 2040 — Scenarier for næringslivet» (Nordområdesenteret + KPB + Dietz Foresight, desember 2023)</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Det finnes et gap mellom næringspotensialet og landsdelens innflytelse og evne til å utnytte mulighetene. Den overordnede utfordringen: Hvordan begynne å lukke gapet? Hvordan gå fra en økonomi sterkt preget av eksport av råvarer til en høyere grad av foredling, tjenesteutvikling og differensiering?»</blockquote>
+    <div class="kilde">Sammenstilling fra <b>Business Index North 2023</b> — diskusjoner på verksteder i Alta, Bodø og Tromsø</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Distriktene er ikke lenger i stand til å reprodusere seg selv. Den lange historien med naturlig befolknings­overskudd i distriktene er definitivt over. Strategisk utvikling av Nord-Norge må i langt større grad handle om koblinger mellom næring, samfunn, samferdsel, sikkerhet og beredskap.»</blockquote>
+    <div class="kilde"><b>NOU 2020:15</b> Norman-utvalget, supplert av Business Index North-verkstedene 2023</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Mange av hindringene for næringsutvikling i Nord-Norge er selvforskyldte. Interne dragkamper og janteloven kan legge en demper på virketrangen og hindre at muligheter blir utnyttet. Nord-Norge trenger å dyrke en kultur for utvikling og vilje til risiko.»</blockquote>
+    <div class="kilde">Sammenstilling fra <b>Business Index North 2023</b> — vurderinger og råd fra verkstedene</div>
+  </div>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Dypdykk i hvert scenario</div>
+    <div class="ntb-grid">
+      <a class="ntb-card ntb-flyk" href="tema-flyktning.html">
+        <div class="ntb-num">01</div>
+        <h4>Pendlersamfunn-bekymringen</h4>
+        <p>Hvem blir værende i Nord-Norge? Flyttehistorien som ligger under «arbeidskraft»-valget.</p>
+      </a>
+      <a class="ntb-card ntb-o6" href="tema-o6.html">
+        <div class="ntb-num">02</div>
+        <h4>Råvareleverandør 2.0-perspektivet</h4>
+        <p>Hvordan 6 sentre tar bredden, mens 74 perifere kommuner krymper.</p>
+      </a>
+      <a class="ntb-card ntb-arbeid" href="tema-arbeidskraft.html">
+        <div class="ntb-num">04</div>
+        <h4>Det meste er Nord-forutsetningen</h4>
+        <p>Vil arbeidsstyrken finnes? NAV mangler 5 950 i 2026 — og gapet vokser.</p>
+      </a>
+      <a class="ntb-card ntb-aldring" href="tema-aldring.html">
+        <div class="ntb-num">05</div>
+        <h4>Det internasjonale presset</h4>
+        <p>Hvordan Norge sammenlignes med Sør-Korea, Japan, OECD og EU.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Standard footer -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Om dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt». Scenariene er ikke prognoser, men retningsvalg som åpner ulike mulige fremtider.</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Datakilder</h4>
+      <ul>
+        <li><b>Business Index North 2023</b> — «Nord-Norge 2040 — Scenarier for næringslivet»</li>
+        <li><b>SSB</b> — Statistisk sentralbyrå</li>
+        <li><b>NOU 2020:15</b> — Norman-utvalget</li>
+        <li><b>Perspektivmeldingen 2024</b></li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Forkortelser</h4>
+      <ul>
+        <li><b>BIN</b> — Business Index North</li>
+        <li><b>KPB</b> — Kunnskapsparken i Bodø</li>
+        <li><b>LNG</b> — Liquefied Natural Gas</li>
+        <li><b>NDC</b> — Notional Defined Contribution</li>
+        <li><b>Black Swan</b> — Uventet hendelse som endrer alt</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Lenker</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.businessindexnorth.com" target="_blank" rel="noopener">Business Index North</a></li>
+        <li><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/" target="_blank" rel="noopener">NOU 2020:15</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge">Kildekode på GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  var fmt = function(n){ return n != null ? n.toLocaleString('nb-NO') : '—'; };
+  var sjokkKPI = document.getElementById('sjokkKPI');
+  if(sjokkKPI){
+    // Hent landsdelens tall fra eksisterende data
+    var folketall = (typeof K !== 'undefined') ? K.reduce(function(s,k){return s+(k.pop||0);}, 0) : null;
+    var navMangel = (typeof NAV_BEDRIFT !== 'undefined') ? NAV_BEDRIFT.landsdel.mangel_total : null;
+    // Aldring: forsørgerbyrde fra DATA.proj
+    var oad2050 = null;
+    if(typeof DATA !== 'undefined' && DATA.proj && typeof K !== 'undefined'){
+      var a2 = 0, a6 = 0;
+      K.forEach(function(k){
+        var o = DATA.proj.kommuner[k.nr];
+        if(!o || !o.a2064 || !o.a65) return;
+        var n = o.a2064.length-1;
+        a2 += o.a2064[n]; a6 += o.a65[n];
+      });
+      oad2050 = a2 ? Math.round(a6/a2*100) : null;
+    }
+    sjokkKPI.innerHTML =
+      '<div class="kpi"><div class="v">' + fmt(folketall) + '</div><div class="l">Folketall i Nord-Norge</div><div class="nh">i dag (1.1.2026)</div></div>' +
+      '<div class="kpi"><div class="v down">' + fmt(navMangel) + '</div><div class="l">Arbeidskraftsmangel</div><div class="nh">NAV bedriftsundersøkelse 2026</div></div>' +
+      '<div class="kpi"><div class="v warn">' + (oad2050 != null ? oad2050 : '—') + '</div><div class="l">Forsørgerbyrde 2050</div><div class="nh">eldre per 100 arbeidsføre</div></div>' +
+      '<div class="kpi"><div class="v">8,3 %</div><div class="l">Av Norges verdiskaping</div><div class="nh">2021 (BIN 2023)</div></div>';
+  }
+});
+</script>
+</body>
+</html>
