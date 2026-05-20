@@ -487,24 +487,37 @@ document.addEventListener('DOMContentLoaded', function(){
         diagnoseHTML+
       '</div>';
 
-    // Wire opp TF-MVP-details: når åpnet/lukket, oppdater state og re-rendre chart-en
+    // Wire opp TF-MVP-details: når åpnet/lukket, oppdater state og re-rendre.
+    // Guard mot init-toggle (når <details open> rendres via innerHTML kan toggle
+    // fire selv om state ikke endret) + defer render til neste frame så click-
+    // eventet får fullføre før DOM-en byttes ut under det.
     var mvpDet = host.querySelector('#bfMvpDetails');
     if(mvpDet){
       mvpDet.addEventListener('toggle', function(e){
+        if(e.target.open === state.showMVP) return;
         state.showMVP = e.target.open;
-        renderSection('befolkning');
+        requestAnimationFrame(function(){ renderSection('befolkning'); });
       });
     }
 
-    // Wire opp modus-knappene — kun re-render Befolkning, ikke alle seksjoner
+    // Wire opp modus-knappene — defer render så klikk-event på button får fullføre
     host.querySelectorAll('#bfModes button').forEach(function(b){
-      b.onclick = function(){ state.projMode = this.dataset.bm; renderSection('befolkning'); };
+      b.onclick = function(){
+        state.projMode = this.dataset.bm;
+        requestAnimationFrame(function(){ renderSection('befolkning'); });
+      };
     });
     host.querySelectorAll('#bfMw button').forEach(function(b){
-      b.onclick = function(){ state.mw = this.dataset.mw; renderSection('befolkning'); renderSection('arbeid'); };
+      b.onclick = function(){
+        state.mw = this.dataset.mw;
+        requestAnimationFrame(function(){ renderSection('befolkning'); renderSection('arbeid'); });
+      };
     });
     host.querySelectorAll('#bfUkr button').forEach(function(b){
-      b.onclick = function(){ state.ukr = +this.dataset.uk; renderSection('befolkning'); };
+      b.onclick = function(){
+        state.ukr = +this.dataset.uk;
+        requestAnimationFrame(function(){ renderSection('befolkning'); });
+      };
     });
   }
 
