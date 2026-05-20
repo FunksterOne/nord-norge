@@ -259,6 +259,15 @@
     </div>
   </details>
 
+  <!-- NAV bedriftsundersøkelse 2026 — per-fylke versjon -->
+  <div class="ch" style="margin-top:32px;padding-top:18px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:18px">Hvem mangler vi i <span id="navFylkeNavn">fylket</span> — nå?</h3></div>
+  <p class="sub" id="navFylkeIntro">NAVs bedriftsundersøkelse 2026 (publisert mai 2026) gir et øyeblikksbilde av bedriftenes rekrutteringsbehov akkurat nå — ikke en 2050-prognose.</p>
+  <div class="kpi-rad" id="navFylkeKPI"></div>
+  <div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Topp 6 mangel-næringer</h3></div>
+  <p class="hint" style="font-size:12.5px;margin-bottom:6px">Estimert mangel på arbeidskraft i 2026, sortert etter antall. Tall rundet til nærmeste 50.</p>
+  <div id="navFylkeTop6"></div>
+  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — spørreundersøkelse til ca. 7 000 virksomheter. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
+
 <button class="nextstep" data-next="levekar">
   <div class="ns-l">
     <div class="ns-n">→ Akt 2 · Kapittel 2.3</div>
@@ -610,6 +619,60 @@ document.addEventListener('DOMContentLoaded', function(){
     };
   });
   document.querySelectorAll('.nextstep[data-next="summary"]').forEach(function(b){ b.style.display='none'; });
+
+  // ─── NAV bedriftsundersøkelse 2026 — per fylke ───
+  if(typeof NAV_BEDRIFT !== 'undefined' && NAV_BEDRIFT.fylker[fylke]){
+    var nb = NAV_BEDRIFT;
+    var fd = nb.fylker[fylke];
+    var fmtNb = function(n){ return n != null ? n.toLocaleString('nb-NO') : '—'; };
+    var fNavn = document.getElementById('navFylkeNavn');
+    if(fNavn) fNavn.textContent = fylke;
+    var fIntro = document.getElementById('navFylkeIntro');
+    if(fIntro){
+      var sb = fd.sysselsetting_barometer || {};
+      var sb26 = sb['2026'], sb25 = sb['2025'];
+      var trendTxt = '';
+      if(sb26 != null && sb25 != null){
+        var delta = sb26 - sb25;
+        trendTxt = delta > 1 ? ' og forventningene har <b>steget</b> fra ' + sb25 + ' til ' + sb26 + ' %'
+                 : delta < -1 ? ' men forventningene har <b>falt</b> fra ' + sb25 + ' til ' + sb26 + ' %'
+                 : ' med en stabil forventning på rundt ' + sb26 + ' %';
+      }
+      fIntro.innerHTML = 'NAVs bedriftsundersøkelse 2026 (publisert mai 2026) gir et øyeblikksbilde av bedriftenes rekrutteringsbehov akkurat nå. Virksomhetene i <b>' + fylke + '</b> mangler estimert <b>' + fmtNb(fd.mangel_total) + '</b> personer i 2026' + trendTxt + '. Det er ikke en 2050-prognose — det er hva som mangler ved kontorpulten i dag.';
+    }
+    var kpiEl = document.getElementById('navFylkeKPI');
+    if(kpiEl){
+      var sb = fd.sysselsetting_barometer || {};
+      var natSb = nb.nasjonalt.sysselsetting_barometer_2026;
+      var topp = fd.naeringer[0] || {navn:'—', mangel:0};
+      var navnKort = topp.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting').replace(/Eiendomsvirksomhet.*$/,'Eiendom');
+      kpiEl.innerHTML =
+        '<div class="kpi"><div class="v down">' + fmtNb(fd.mangel_total) + '</div><div class="l">Mangel i ' + fylke + '</div><div class="nh">2026 · estimert</div></div>' +
+        '<div class="kpi"><div class="v">' + (sb['2026']!=null ? (sb['2026']>=0?'+':'')+sb['2026']+' %' : '—') + '</div><div class="l">Sysselsettings­barometer 2026</div><div class="nh">Norge: ' + (natSb>=0?'+':'')+natSb + ' %</div></div>' +
+        '<div class="kpi"><div class="v">' + fmtNb(topp.mangel) + '</div><div class="l">' + navnKort + '</div><div class="nh">største mangel-næring</div></div>' +
+        '<div class="kpi"><div class="v">' + fd.naeringer.length + '</div><div class="l">Næringer med mangel</div><div class="nh">av 24 målte</div></div>';
+    }
+    var top6El = document.getElementById('navFylkeTop6');
+    if(top6El){
+      var top6 = fd.naeringer.slice(0, 6);
+      var maxV = Math.max.apply(null, top6.map(function(x){ return x.mangel; }));
+      var maxLabel = Math.ceil(maxV / 250) * 250;
+      var fyCol = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'}[fylke] || 'var(--ink)';
+      top6El.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">' +
+        top6.map(function(n){
+          var w = n.mangel / maxLabel * 100;
+          var navnKort = n.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting/servering').replace(/Eiendomsvirksomhet.*$/,'Eiendom og faglig tjenesteyting');
+          return '<div style="display:grid;grid-template-columns:200px 1fr 60px;gap:10px;align-items:center">' +
+            '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right;line-height:1.2">' + navnKort + '</div>' +
+            '<div style="position:relative;height:24px;background:rgba(17,32,58,.05);border-radius:4px">' +
+              '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + fyCol + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700">' + fmtNb(n.mangel) + '</div>' +
+            '</div>' +
+            '<div></div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    }
+  }
 });
 </script>
 </body>

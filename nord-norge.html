@@ -253,6 +253,15 @@
     </div>
   </details>
 
+  <!-- NAV bedriftsundersøkelse 2026 — øyeblikksbilde, ikke prognose -->
+  <div class="ch" style="margin-top:32px;padding-top:18px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:18px">Hvem mangler vi — nå?</h3></div>
+  <p class="sub">Mens framskrivingene peker mot 2050, har NAV nettopp publisert et øyeblikksbilde av 2026: norske bedrifter mangler <b id="navNatTot">—</b> personer i dag. Nord-Norge står for <b id="navNNTot">—</b> av denne mangelen — <b id="navNNAndel">—</b> mens vi har <b>8,8 %</b> av befolkningen. Det er ikke en prognose. Det er bedriftenes faktiske rekrutteringshull i mai 2026, og bekrefter at den arbeidsfør-krympingen som demografien forutsier, allerede er målbar.</p>
+  <div class="kpi-rad" id="navKPI"></div>
+  <div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Hvor mangler vi flest?</h3></div>
+  <p class="hint" style="font-size:12.5px;margin-bottom:6px">Topp 6 mangel-næringer i Nord-Norge — sortert etter antall. Tallet til høyre viser landsdelens andel av nasjonal mangel i samme næring.</p>
+  <div id="navTop6Graf"></div>
+  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — spørreundersøkelse til ca. 7 000 virksomheter, publisert mai 2026. Tall rundet til nærmeste 50. Data per fylke; kan ikke brytes ned til kommunenivå. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
+
 <button class="nextstep" data-next="levekar">
   <div class="ns-l">
     <div class="ns-n">→ Akt 2 · Kapittel 2.3</div>
@@ -511,6 +520,53 @@ document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.nextstep[data-next="summary"]').forEach(function(b){
     b.style.display = 'none';
   });
+
+  // ─── NAV bedriftsundersøkelse 2026 ───
+  if(typeof NAV_BEDRIFT !== 'undefined'){
+    var nb = NAV_BEDRIFT;
+    var fmtNb = function(n){ return n != null ? n.toLocaleString('nb-NO') : '—'; };
+    // Inline-tall i intro-paragrafen
+    var natTotEl = document.getElementById('navNatTot');
+    if(natTotEl) natTotEl.textContent = fmtNb(nb.nasjonalt.mangel_total);
+    var nnTotEl = document.getElementById('navNNTot');
+    if(nnTotEl) nnTotEl.textContent = fmtNb(nb.landsdel.mangel_total);
+    var nnAndelEl = document.getElementById('navNNAndel');
+    if(nnAndelEl) nnAndelEl.textContent = nb.landsdel.mangel_andel_av_nasjonalt_pct + ' %';
+
+    // KPI-rad
+    var kpiEl = document.getElementById('navKPI');
+    if(kpiEl){
+      var sb = nb.landsdel.sysselsetting_barometer_2026_vektet;
+      var natSb = nb.nasjonalt.sysselsetting_barometer_2026;
+      kpiEl.innerHTML =
+        '<div class="kpi"><div class="v down">' + fmtNb(nb.landsdel.mangel_total) + '</div><div class="l">Mangel i Nord-Norge</div><div class="nh">2026 · estimert</div></div>' +
+        '<div class="kpi"><div class="v">' + nb.landsdel.mangel_andel_av_nasjonalt_pct + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">vs ' + nb.landsdel.befolkning_andel_pct + ' % av befolkningen</div></div>' +
+        '<div class="kpi"><div class="v up">' + (sb >= 0 ? '+' : '') + sb + ' %</div><div class="l">Sysselsettings­barometer 2026</div><div class="nh">vektet snitt Nord-Norge (Norge ' + (natSb >= 0 ? '+' : '') + natSb + ' %)</div></div>' +
+        '<div class="kpi"><div class="v">' + fmtNb(nb.landsdel.naeringer[0].mangel_nn) + '</div><div class="l">Helse og sosial</div><div class="nh">' + nb.landsdel.naeringer[0].andel_pct + ' % av nasjonal mangel</div></div>';
+    }
+
+    // Topp 6 stolpegraf
+    var grafEl = document.getElementById('navTop6Graf');
+    if(grafEl){
+      var top6 = nb.landsdel.naeringer.slice(0, 6);
+      var maxV = Math.max.apply(null, top6.map(function(x){ return x.mangel_nn; }));
+      var maxLabel = Math.ceil(maxV / 250) * 250;
+      grafEl.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">' +
+        top6.map(function(n){
+          var w = n.mangel_nn / maxLabel * 100;
+          var col = n.andel_pct >= 22 ? 'var(--amber)' : 'var(--aurora)';
+          var navnKort = n.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting/servering').replace(/Eiendomsvirksomhet.*$/,'Eiendom og faglig tjenesteyting');
+          return '<div style="display:grid;grid-template-columns:200px 1fr 90px;gap:10px;align-items:center">' +
+            '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right;line-height:1.2">' + navnKort + '</div>' +
+            '<div style="position:relative;height:24px;background:rgba(17,32,58,.05);border-radius:4px">' +
+              '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700">' + fmtNb(n.mangel_nn) + '</div>' +
+            '</div>' +
+            '<div style="font-size:11.5px;color:var(--ink3);text-align:right">' + n.andel_pct + ' % av nasj.</div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    }
+  }
 });
 </script>
 </body>
