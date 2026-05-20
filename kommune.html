@@ -176,7 +176,8 @@
         <li><b>KOSTRA</b> — KOmmune-STat-RApportering</li>
         <li><b>ROBEK</b> — Register om betinget godkjenning og kontroll</li>
         <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
-        <li><b>TF-MVP / TF-ATTR</b> — Telemarksforsknings flyttemodeller</li>
+        <li><b>Strukturmodellen</b> — Telemarksforsknings hovedalternativ (kalt TF-ATTR teknisk)</li>
+        <li><b>Yttergrense-modeller</b> — Telemarksforsknings outlier-spekter (kalt TF-MVP teknisk)</li>
         <li><b>NDR</b> — Netto driftsresultat</li>
       </ul>
     </div>
@@ -404,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // TF-ATTR-rad hvis tilgjengelig
       if(tfattr2050){
         var attrDiff = ((tfattr2050 - ssb2050a)/ssb2050a*100);
-        rows += '<tr class="ref"><td>TF-ATTR <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(strukturbasert)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
+        rows += '<tr class="ref"><td>Strukturmodell <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(TF-ATTR — hovedalternativ)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
       }
       // TF-MVP per vindu
       ['kons','sentral','opt'].forEach(function(w){
@@ -413,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var diff = ((pop2050 - ssb2050a)/ssb2050a*100);
         var pctChg = ((pop2050/pop0a - 1)*100);
         var rowCls = (w === state.mw) ? ' class="active"' : '';
-        rows += '<tr'+rowCls+'><td>TF-MVP · '+winLabels[w]+'</td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % vs SSB</td></tr>';
+        rows += '<tr'+rowCls+'><td>Yttergrense · '+winLabels[w]+' <span style="font-size:10px;color:var(--ink3);font-weight:400">(TF-MVP)</span></td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % vs SSB</td></tr>';
       });
       mvpTblHTML =
         '<div><div style="font-weight:600;color:var(--ink);font-size:13px;margin-bottom:6px">Hva sier de fire banene ved 2050?</div>'+
@@ -428,9 +429,9 @@ document.addEventListener('DOMContentLoaded', function(){
         if(Math.abs(ppDiff) >= 15){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
           sanityHTML = '<div class="mvp-sanity">'+
-            '<b>TF-MVP forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 26 år.</b> '+
+            '<b>Yttergrense-modellen forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 26 år.</b> '+
             'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+ppDiff.toFixed(0)+' % '+dir+' enn SSB MMMM ved 2050. '+
-            (o.tfattr ? 'Bredere vindu eller <b>TF-ATTR</b> gir et mindre dramatisk anslag. TF-ATTR slo TF-MVP i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
+            (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mindre dramatisk anslag — strukturmodellen er hovedalternativet og slår yttergrense-modellene i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
           '</div>';
         }
       }
@@ -464,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<details class="bf-mvp-details" id="bfMvpDetails"'+(state.showMVP ? ' open' : '')+'>'+
           '<summary>'+
             '<span class="bf-mvp-arrow">▸</span> '+
-            '<span>Vis alternative flyttebaner — TF-MVP og scenarier</span>'+
+            '<span>Vis yttergrense-modeller — TF-MVP og scenarier</span>'+
             '<span class="bf-mvp-hint">Historiske flyttesnitt projisert 26 år frem · justerbart</span>'+
           '</summary>'+
           '<div class="bf-mvp-body">'+

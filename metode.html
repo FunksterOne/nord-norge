@@ -74,10 +74,10 @@
   <h2>Framskrivingsmodeller</h2>
   <h3>SSB MMMM (offisiell bane)</h3>
   <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på Middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
-  <h3>TF-MVP (flyttehistorikk)</h3>
-  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (før korona-boom), <b>Bredt vindu</b>, og <b>Vektet 2022–2023</b>. Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Helt gjennomsiktig — vises ved siden av SSB MMMM som transparent alternativ.</p>
-  <h3>TF-ATTR (strukturbasert flytting)</h3>
-  <p>Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, traff særlig bra i utkantkommuner i backtesten 2020→2024.</p>
+  <h3>Strukturmodellen (TF-ATTR) — hovedalternativ ved siden av SSB</h3>
+  <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020→2024. Brukes som hovedalternativ til SSB i alle KPI-er på dashbordet.</p>
+  <h3>Yttergrense-modellene (TF-MVP) — outlier-spekter</h3>
+  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (før korona-boom), <b>Bredt vindu</b>, og <b>Vektet 2022–2023</b>. Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
 </div>
 
 <div class="metode-card">
@@ -97,7 +97,7 @@
 
 <div class="metode-card">
   <h2>Backtest 2020 → 2024</h2>
-  <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Telemarksforskning — særlig TF-ATTR — traff bedre enn SSB i de små, minst sentrale kommunene, der prognoser pleier å bomme mest.</p>
+  <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Strukturmodellen (TF-ATTR) traff bedre enn SSB MMMM i de små, minst sentrale kommunene, der prognoser pleier å bomme mest. Det er bakgrunnen for å bruke den som hovedalternativ.</p>
   <div id="bteval_metode" style="margin-top:14px"></div>
 </div>
 
@@ -135,7 +135,8 @@
         <li><b>KOSTRA</b> — KOmmune-STat-RApportering</li>
         <li><b>ROBEK</b> — Register om betinget godkjenning og kontroll</li>
         <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
-        <li><b>TF-MVP / TF-ATTR</b> — Telemarksforsknings flyttemodeller</li>
+        <li><b>Strukturmodellen</b> — Telemarksforsknings hovedalternativ (kalt TF-ATTR teknisk)</li>
+        <li><b>Yttergrense-modeller</b> — Telemarksforsknings outlier-spekter (kalt TF-MVP teknisk)</li>
         <li><b>NDR</b> — Netto driftsresultat</li>
       </ul>
     </div>

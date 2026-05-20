@@ -478,7 +478,7 @@ function projCard(k){
     :(dnat>=0&&dmig>=0)?'B\u00e5de naturlig endring og flytting bidrar positivt.'
     :'Naturlig tilvekst, men netto utflytting trekker ned.';
   const ssel=x=>state.sens===x?'true':'false';
-  return '<div class="card" data-helpfor="<b>Slik leser du framskrivingen.</b> Tre baner: <b>SSB</b> (offisiell), <b>TF-MVP</b> (historisk flyttevindu) og <b>TF-ATTR</b> (jobb- og sentralitets-regresjon). Skru på Ukraina-scenario eller flyttefølsomhet for å se hvor sårbart utfallet er for forutsetningene."><div class="ch"><h3 class="serif">Hva skjer i '+k.navn+' mot 2050?</h3>'+
+  return '<div class="card" data-helpfor="<b>Slik leser du framskrivingen.</b> SSB MMMM (offisiell) og strukturmodellen fra Telemarksforskning (hovedalternativ) vises sammen. Yttergrense-modeller vises som outlier-spekter. Skru på Ukraina-scenario eller flyttefølsomhet for å se hvor sårbart utfallet er for forutsetningene."><div class="ch"><h3 class="serif">Hva skjer i '+k.navn+' mot 2050?</h3>'+
     '<div class="minseg" id="pjm">'+
     '<button data-p="tot" aria-selected="'+sel('tot')+'">Folketall</button>'+
     '<button data-p="dec" aria-selected="'+sel('dec')+'">Drivkrefter</button>'+
@@ -486,7 +486,7 @@ function projCard(k){
     '<button data-p="age" aria-selected="'+sel('age')+'">Aldring</button></div></div>'+
     '<p class="hint">SSBs regionale framskriving (tabell 14288, 2024-basert). '+
     (state.projMode==='tot'
-      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2024 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt TF-MVP og TF-ATTR. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
+      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2024 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (hovedalternativ). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
       : state.projMode==='dec'
       ? 'Drivkrefter: endringen 2024\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. Eksakt dekomponering av TF-MVP-banen.'
       : state.projMode==='fb'
@@ -528,9 +528,9 @@ function projCard(k){
         }
         return warn;
       })()+
-      '<p class="hint" style="margin:8px 0 0">TF-MVP (reprodusert, '+({kons:'Smalt 2017\u20132021',sentral:'Bredt vindu',opt:'Vektet 2022\u20132023'})[state.mw]+'): <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-mw.pop[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-mw.pop[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
-      (o.tfattr?'TF-ATTR (struktur): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-o.tfattr[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-o.tfattr[n-1]))+'</b>.':'')+'</p>'+
-      '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">TF-MVP/TF-ATTR (reprodusert, ikke validert) \u2014 flyttemodell-drevet forskjell mot SSB, ikke presisjonsprognoser. TF-ATTR er \u00a77-begrunnet (slo SSB i de minst sentrale kommunene i 2020\u21922024-backtest, kort horisont).</p>'+
+      '<p class="hint" style="margin:8px 0 0">Yttergrense-modell, vindu '+({kons:'Smalt 2017\u20132021',sentral:'Bredt vindu',opt:'Vektet 2022\u20132023'})[state.mw]+'): <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-mw.pop[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-mw.pop[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
+      (o.tfattr?'Strukturmodell (hovedalternativ): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-o.tfattr[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-o.tfattr[n-1]))+'</b>.':'')+'</p>'+
+      '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">Telemarksforskning-modellene er reprodusert, ikke validert. Strukturmodellen er hovedalternativ til SSB MMMM (slo SSB i de minst sentrale kommunene i 2020\u21922024-backtest, kort horisont). Yttergrense-modellene fungerer som outlier-spekter.</p>'+
       '<div class="ch" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:15px">Scenario: ukrainske flyktninger forlater landsdelen</h3>'+
       '<div class="minseg" id="ukr"><button data-u="0" aria-selected="'+usel(0)+'">Av</button><button data-u="50" aria-selected="'+usel(50)+'">50 %</button><button data-u="75" aria-selected="'+usel(75)+'">75 %</button><button data-u="100" aria-selected="'+usel(100)+'">100 %</button></div></div>'+
       (us?(
@@ -815,7 +815,7 @@ function diagnoseCard(k){
     '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon \u2014 demografi m\u00f8ter \u00f8konomi</h3>'+
     '<span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber)1f;padding:2px 8px;border-radius:10px">'+wlab+'-flyttebane</span></div>'+
     '<p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--ink)">'+s+'</p>'+
-    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">Framskrevet med kohortmodellen (TF-MVP), ikke en prognose. KOSTRA: siste tilgjengelige \u00e5r. Detaljer og forbehold i kortene under.</p></div>';
+    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">Framskrevet med strukturmodellen (kohortbasert, ikke en prognose). KOSTRA: siste tilgjengelige \u00e5r. Detaljer og forbehold i kortene under.</p></div>';
 }
 function robekProxy(nr){
   const P=DATA.proj, ks=(P.kostra||{})[nr], TS=P.kostra_ts||{}, tsK=(TS.kommuner||{})[nr]||{};
