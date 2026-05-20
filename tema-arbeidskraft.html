@@ -52,8 +52,8 @@
     <span class="now">Hvem skal bære?</span>
   </nav>
   <div class="nn-actions">
-    <a class="btn" href="tema-flyktning.html">← Flyktning</a>
-    <a class="btn" href="tema-kvinneflukt.html">Kvinneflukten →</a>
+    <a class="btn" href="tema-kvinneflukt.html">← Kvinneflukten</a>
+    <a class="btn" href="tema-aldring.html">Aldring globalt →</a>
     <a class="btn" href="metode.html">Metode</a>
   </div>
 </header>
@@ -93,7 +93,7 @@
   <div class="demografi-grid" id="demografiKPI"></div>
   <div class="arbeid-graf-wrap">
     <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde i Nord-Norge 2024 → 2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~36 (2024) til ~51 (2050) — en økning på <b>42 %</b> i forsørgerbyrde på 25 år. <b>OECD-referansen</b> (~58 i 2050) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger litt under OECD-snittet i 2050 — men har én av Europas brattere vekstkurver.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~36 (2024) til ~51 (2050) — en økning på <b>42 %</b> i forsørgerbyrde på 25 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger litt over OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
     <div id="forsorgerGraf"></div>
   </div>
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pensjonister vokser, yrkesaktive krymper.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbyrden så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
@@ -180,7 +180,7 @@
   </div>
 
   <div class="sitat">
-    <blockquote>«Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra 36 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 42 % på 25 år. Det er fortsatt under OECDs ventede snitt på ~58, men vekstkurven er bratt. Det betyr at hver yrkesaktiv vil bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.»</blockquote>
+    <blockquote>«Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra 36 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 42 % på 25 år. Det er fortsatt under OECDs ventede snitt på ~52 (Pensions at a Glance 2025), men vekstkurven er bratt. Det betyr at hver yrkesaktiv vil bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.»</blockquote>
     <div class="kilde">Tolkning basert på <b>SSB framskriving MMMM</b> (tab. 14288) sammenlignet med <b>OECDs prognose for vektet OECD-snitt i 2050</b></div>
   </div>
 </section>
@@ -208,7 +208,7 @@
         <li><b>NAV</b> — Arbeids- og velferdsetaten</li>
         <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
         <li><b>Forsørgerbyrde</b> — 65+ per 100 i alder 20–64</li>
-        <li><b>OECD-standard</b> — ~58 eldre per 100 yrkesaktive (2050)</li>
+        <li><b>OECD-standard</b> — ~52 eldre per 100 yrkesaktive (2050, Pensions at a Glance 2025)</li>
       </ul>
     </div>
     <div class="nnf-col">
@@ -331,11 +331,11 @@ document.addEventListener('DOMContentLoaded', function(){
         svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wWidth) + '" y2="' + y + '" stroke="rgba(17,32,58,.08)"/>';
         svg += '<text x="' + (L-8) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + v.toFixed(0) + '</text>';
       }
-      // OECD-snitt 58
-      if(58 >= minB && 58 <= maxB){
-        var y58 = Y(58);
-        svg += '<line x1="' + L + '" y1="' + y58 + '" x2="' + (L+wWidth) + '" y2="' + y58 + '" stroke="var(--aurora)" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"/>';
-        svg += '<text x="' + (L+wWidth+4) + '" y="' + (y58+3) + '" style="font-size:10px;font-weight:700;fill:var(--aurora)">OECD ~58</text>';
+      // OECD-snitt 52
+      if(52 >= minB && 52 <= maxB){
+        var y52 = Y(52);
+        svg += '<line x1="' + L + '" y1="' + y52 + '" x2="' + (L+wWidth) + '" y2="' + y52 + '" stroke="var(--aurora)" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"/>';
+        svg += '<text x="' + (L+wWidth+4) + '" y="' + (y52+3) + '" style="font-size:10px;font-weight:700;fill:var(--aurora)">OECD ~52</text>';
       }
       // "I dag"-markering (2026)
       var idxIDag = yrs.indexOf(2026);

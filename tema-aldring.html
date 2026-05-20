@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aldring i internasjonalt perspektiv · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.sjokk-num{font-family:'Fraunces',serif;font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:#6FA8C7;margin:18px 0 8px;letter-spacing:-0.02em}
+
+.land-graf{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.land-rad{display:grid;grid-template-columns:180px 1fr 60px;gap:12px;align-items:center;padding:4px 0}
+.land-rad.norge{background:rgba(28,111,168,0.10);border-radius:6px;padding:8px 10px;border-left:3px solid var(--nl)}
+.land-rad.snitt{background:rgba(17,32,58,0.05);border-radius:6px;padding:8px 10px;border-left:3px solid var(--ink3)}
+.land-rad .navn{font-size:13px;color:var(--ink);font-weight:500;text-align:right}
+.land-rad .navn b.flag{display:inline-block;margin-right:6px}
+.land-rad .bar{position:relative;height:24px;background:rgba(17,32,58,.05);border-radius:5px}
+.land-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:'Spline Sans Mono',monospace;font-size:11.5px;font-weight:700}
+.land-rad .verdi{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink);text-align:right;font-weight:600}
+
+.fylke-graf{padding:20px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.fylke-rad{display:grid;grid-template-columns:200px 1fr 70px;gap:12px;align-items:center;padding:4px 0}
+.fylke-rad.nordnorge{background:linear-gradient(90deg, rgba(156,91,160,0.10), rgba(17,32,58,0.0));border-radius:6px;padding:8px 10px;border-left:3px solid var(--fi)}
+.fylke-rad .navn{font-size:13px;color:var(--ink);font-weight:500;text-align:right}
+.fylke-rad .bar{position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:5px}
+.fylke-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:'Spline Sans Mono',monospace;font-size:11.5px;font-weight:700}
+.fylke-rad .verdi{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink);text-align:right;font-weight:600}
+
+.reform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
+.reform-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px;border-left:4px solid var(--aurora)}
+.reform-kort h3{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.reform-kort .land{font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:10px}
+.reform-kort p{font-size:13px;line-height:1.55;color:var(--ink2);margin:0 0 6px}
+.reform-kort .stikkord{font-size:11px;color:var(--ink3);font-style:italic;margin-top:10px}
+.reform-kort.norge{border-left-color:var(--nl)}
+.reform-kort.norge .land{color:var(--nl)}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Aldring i internasjonalt perspektiv</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-arbeidskraft.html">← Arbeidskraft</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 05 · Aldring i et internasjonalt perspektiv 2024 → 2050</div>
+  <h1>Hvor står Norge — og <em>Nord-Norge</em> — globalt?</h1>
+  <p class="lede">Hver gang noen sier «Norge eldes raskt» er det sant. Men det er ikke unikt — og det er ikke jevnt fordelt. OECD-snittet for forsørgerbyrde stiger fra 33 (i dag) til 52 i 2050. Norge ligger på 48 — under snittet. Innenfor Norge sliter Innlandet og Telemark mer enn alle Nord-Norge-fylkene. Bildet er nyansert: vi er ikke ekstreme, men distriktene er heller ikke ensartet. Og det finnes politiske grep — Sverige, Finland og Norge har alle gjort dem, men ikke nok.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Sjokket</div>
+  <h2>Forsørgerbyrden i OECD <em>fordobles</em> på 50 år.</h2>
+  <p class="akt-intro">I 2000 hadde OECD-snittet 22 eldre per 100 i yrkesaktiv alder. I 2050 vil tallet være 52. Det er ikke en gradvis økning — det er en akselererende kurve drevet av etterkrigs-kohortene som nå er i ferd med å gå av med pensjon. For rike land samlet betyr det at hver yrkesaktiv vil bære mer enn dobbelt så mange eldre i 2050 som i 2000.</p>
+  <div class="kpi-rad" id="globalKPI"></div>
+  <p class="hint" style="font-size:12.5px;margin-top:14px;font-style:italic">Kilde: OECD Pensions at a Glance 2025 (publisert november 2025). «OECD» = vektet gjennomsnitt av medlemslandene. «Forsørgerbyrde» = personer 65+ per 100 personer 20–64 år (OECDs standarddefinisjon).</p>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>Hvor i verden er <em>belastningen</em> størst?</h2>
+  <p class="akt-intro">OECDs prognose for 2050 viser stor variasjon mellom medlemslandene. Asia rammes hardest: Sør-Korea og Japan ligger på 70+, dvs. 7 eldre per 10 i yrkesaktiv alder. I Europa er Italia, Spania og Hellas verst, mens USA, Israel og Australia slipper lett unna. Norge ligger i den nedre halvdelen — bedre enn de fleste rike land, men ikke immun.</p>
+  <div class="land-graf">
+    <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — 10 land + OECD-snittet</div>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år. <b>Norge</b> er markert i blå. <b>OECD-snittet</b> i grå. Sortert etter forventet 2050-verdi.</p>
+    <div id="landListe"></div>
+    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">Sør-Korea og Japan har lavest fertilitet i OECD (~0,7 og 1,2 barn per kvinne); Italia og Spania har høy levealder + lav fertilitet. USA og Israel: høyere fertilitet og innvandring av yngre arbeidstakere. Norge har innvandring + relativt høy fertilitet (~1,4).</p>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Brutt opp</div>
+  <h2>Innenfor Norge er aldringen <em>ikke jevn</em>.</h2>
+  <p class="akt-intro">Den nasjonale gjennomsnittet på 48 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet og Telemark</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — de er Norges mest belastede områder. Nordland kommer som tredje. Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
+  <div class="fylke-graf">
+    <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — alle norske fylker</div>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSB MMMM (tab. 14288). Nord-Norge-fylker er fremhevet. OECD-snittet 2050 (~52) og EU-snittet (~57) markert som referanselinjer.</p>
+    <div id="fylkeListe"></div>
+    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14288, hovedalternativet MMMM. Avrundet til nærmeste hele tall. Nye fylker etter 2024-reformen.</p>
+  </div>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» er sant — men ikke spesielt for Nord-Norge. Innlandet (57) og Telemark (56) ligger over hele Nord-Norge. Det er industristed-Norge og innlandsbygdene som har størst aldringspres. Nord-Norges utfordring er mindre forsørgerbyrde-relatert og mer arbeidskraftsmangel-relatert (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet).</p>
+</section>
+
+<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <h2>Hva har OECD-landene gjort — og hva har <em>Norge</em> gjort?</h2>
+  <p class="akt-intro">Det er ingen quick fix på demografi. Men det er tre kjente grep: heve faktisk pensjonsalder, øke yrkesdeltakelsen blant kvinner og eldre, og åpne for innvandring. Sverige, Finland og Norge har alle gjort versjoner av første grep — pensjonsreform — med ulik konsekvens. Sverige tidligst og hardest, Norge sist og mildest.</p>
+
+  <div class="reform-grid">
+    <div class="reform-kort">
+      <div class="land">🇸🇪 Sverige · 1999</div>
+      <h3>NDC + automatisk balansering</h3>
+      <p>Notional Defined Contribution-system (1999) med automatisk balansering siden 2001. Pensjonen reguleres ned hvis systemet er i ubalanse — uten politiske vedtak. Pensjonsalder ikke fast; man jobber til man ønsker (eller må).</p>
+      <p class="stikkord">Effekt: Sverige har <b>høyeste effektive pensjonsalder i Norden</b> (~66 år).</p>
+    </div>
+    <div class="reform-kort">
+      <div class="land">🇫🇮 Finland · 2017</div>
+      <h3>2/3-kobling pensjonsalder/levealder</h3>
+      <p>Når forventet gjenstående levealder ved 65 stiger med 1 år, økes pensjonsalder med 2/3 av det. Stortinget vedtok prinsippet i 2017. Stigning fra 63 år (2017) til estimert 68 år (2080).</p>
+      <p class="stikkord">Effekt: Levealder-knyttet, ikke politisk forhandlet. Pensjonsalder følger faktisk levetid.</p>
+    </div>
+    <div class="reform-kort norge">
+      <div class="land">🇳🇴 Norge · 2011 og 2024</div>
+      <h3>Levealderjustering + Storting 2024</h3>
+      <p>2011-pensjonsreformen innførte levealderjustering: hvert årskull får lavere pensjon hvis levealderen øker. Stortinget vedtok i juni 2024 prinsippet om <b>2/3-kobling</b> mellom pensjonsalder og levealder — samme prinsipp som Finland, ti år senere. Loven kommer etter 2025.</p>
+      <p class="stikkord">Effekt: Vil endre forventet pensjonsalder gradvis. Bygger ned avstand til Sverige/Finland.</p>
+    </div>
+    <div class="reform-kort">
+      <div class="land">🇩🇰 Danmark · 2006</div>
+      <h3>1:1-kobling</h3>
+      <p>Når levealder øker, øker også pensjonsalder med samme antall år. Hardest av de nordiske. Pensjonsalder 67 → estimert 74 år (2070).</p>
+      <p class="stikkord">Effekt: Strengeste i Norden. Reflekterer at hver leveårsgevinst skal jobbes ut.</p>
+    </div>
+  </div>
+
+  <p class="hint" style="font-size:13px;margin-top:18px;line-height:1.65"><b>Norges utfordring</b> er ikke pensjonsreform-nivå — det er gjennomslagsfart. 2024-vedtaket er tre tiår etter Sverige og ti år etter Finland. Det betyr at vi har samme demografi-trykk som naboene, men har valgt slakere takt på politiske svar. Til den arbeidskraftsmangelen som <a href="tema-arbeidskraft.html">NAV-undersøkelsen viser</a>, vil norske grep komme senere enn svenske/finske.</p>
+</section>
+
+<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier kildene?</h2>
+
+  <div class="sitat">
+    <blockquote>«Aldring vil fortsette å presse pensjonssystemene. OECD-snittet for forsørgerbyrde stiger fra 33 (2025) til 52 (2050). For å beholde et bærekraftig system må flere arbeide lengre, kvinner og eldre må delta mer, og innvandring må forvaltes — alle tre samtidig.»</blockquote>
+    <div class="kilde">Sammenstilling fra <b>OECD Pensions at a Glance 2025</b> (publisert november 2025)</div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Pensjonsreformen fra 2011 var en historisk nødvendig endring. Stortingets vedtak i 2024 om 2/3-kobling mellom pensjonsalder og levealder bringer Norge på linje med Sverige og Finland — men forsinkelsen på et tiår har gitt staten lavere fleksibilitet enn det ellers ville hatt.»</blockquote>
+    <div class="kilde">Tolkning basert på <b>Perspektivmeldingen 2024</b> (Finansdepartementet) og <b>Stortingets pensjonsvedtak juni 2024</b></div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Distriktsutfordringen er funksjonelle bo- og arbeidsregioner — ikke kommuner som enkeltenheter. Aldringen er ikke jevn over landet. Det er innlandets industrikommuner og distriktene som rammes hardest, ikke nødvendigvis Nord-Norge.»</blockquote>
+    <div class="kilde">Tolkning fra <b>NOU 2020:15</b> (Norman-utvalget) <i>Det handler om Norge</i></div>
+  </div>
+
+  <div class="sitat">
+    <blockquote>«Behovet for helse- og omsorgspersonell vil vokse med ca 180 000 personer innen 2060 hvis dagens bemanningsnormer beholdes. Vi har ikke folkene, og vi får dem ikke uten både innvandring, automatisering og endrede normer for hva tjenestene skal levere.»</blockquote>
+    <div class="kilde">Sammenstilling fra <b>Perspektivmeldingen 2024</b> og <b>SSB framskrivinger MMMM</b></div>
+  </div>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Videre lesning</div>
+    <div class="ntb-grid">
+      <a class="ntb-card ntb-arbeid" href="tema-arbeidskraft.html">
+        <div class="ntb-num">04</div>
+        <h4>Hvem skal bære?</h4>
+        <p>Konkret arbeidskraftsmangel i Nord-Norge — gapet vokser hvert 5. år</p>
+      </a>
+      <a class="ntb-card ntb-o6" href="tema-o6.html">
+        <div class="ntb-num">02</div>
+        <h4>Store mot små</h4>
+        <p>Hvordan Nord-Norges 80 kommuner sliter ulikt</p>
+      </a>
+      <a class="ntb-card ntb-flyk" href="tema-flyktning.html">
+        <div class="ntb-num">01</div>
+        <h4>Hvem blir værende?</h4>
+        <p>Flyktningestrømmen som arbeidskraftskilde</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Standard footer -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Om dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Datakilder</h4>
+      <ul>
+        <li><b>OECD</b> — Pensions at a Glance 2025 (november 2025)</li>
+        <li><b>SSB</b> — Framskrevet folkemengde 14288, MMMM</li>
+        <li><b>Eurostat</b> — EUROPOP befolkningsfremskrivinger</li>
+        <li><b>Perspektivmeldingen 2024</b> — Finansdepartementet</li>
+        <li><b>NOU 2020:15</b> — Norman-utvalget</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Forkortelser</h4>
+      <ul>
+        <li><b>OADR</b> — Old-Age Dependency Ratio (forsørgerbyrde)</li>
+        <li><b>NDC</b> — Notional Defined Contribution (Sverige-modellen)</li>
+        <li><b>MMMM</b> — SSBs hovedalternativ (4×Middels)</li>
+        <li><b>Forsørgerbyrde</b> — 65+ per 100 i alder 20–64</li>
+      </ul>
+    </div>
+    <div class="nnf-col">
+      <h4>Lenker</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.oecd.org/en/data/indicators/old-age-dependency-ratio.html" target="_blank" rel="noopener">OECD OADR-indikatoren</a></li>
+        <li><a href="https://www.regjeringen.no/en/whats-new/long-term-perspectives-on-the-norwegian-economy-2024/id3049220/" target="_blank" rel="noopener">Perspektivmeldingen 2024</a></li>
+        <li><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/" target="_blank" rel="noopener">NOU 2020:15</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  var fmt = function(n,d){ return n != null ? (Math.round(n*Math.pow(10,d||0))/Math.pow(10,d||0)).toLocaleString('nb-NO') : '—'; };
+
+  // ─── AKT 01: Globalt KPI ───
+  var gKPI = document.getElementById('globalKPI');
+  if(gKPI){
+    gKPI.innerHTML =
+      '<div class="kpi"><div class="v">22 → 52</div><div class="l">OECD-snittet 2000 → 2050</div><div class="nh">Pensions at a Glance 2025 · +136 %</div></div>' +
+      '<div class="kpi"><div class="v">~48</div><div class="l">Norge i 2050</div><div class="nh">SSB MMMM · ca 5 poeng under OECD</div></div>' +
+      '<div class="kpi"><div class="v">~51</div><div class="l">Nord-Norge i 2050</div><div class="nh">SSB MMMM · litt under OECD-snittet</div></div>' +
+      '<div class="kpi"><div class="v" style="color:#B23B3B">70+</div><div class="l">Sør-Korea i 2050</div><div class="nh">OECDs raskest aldrende</div></div>';
+  }
+
+  // ─── AKT 02: Land-rangering ───
+  var landData = [
+    {navn: 'Sør-Korea', verdi: 73, kommentar:'Asia, lav fertilitet'},
+    {navn: 'Japan', verdi: 71, kommentar:'Asia, lav fertilitet'},
+    {navn: 'Italia', verdi: 66, kommentar:'Sør-Europa, høy levealder'},
+    {navn: 'Spania', verdi: 64, kommentar:'Sør-Europa'},
+    {navn: 'Hellas', verdi: 62, kommentar:'Sør-Europa'},
+    {navn: 'Polen', verdi: 60, kommentar:'Øst-Europa'},
+    {navn: 'Tyskland', verdi: 56, kommentar:'EU største'},
+    {navn: 'EU-snitt', verdi: 57, kommentar:'Eurostat EUROPOP', erSnitt: true},
+    {navn: 'OECD-snitt', verdi: 52, kommentar:'Pensions at a Glance 2025', erSnitt: true},
+    {navn: 'Frankrike', verdi: 50, kommentar:'EU stort medlem'},
+    {navn: 'Norge', verdi: 48, kommentar:'SSB MMMM', erNorge: true},
+    {navn: 'Sverige', verdi: 42, kommentar:'Innvandring + NDC'},
+    {navn: 'Finland', verdi: 47, kommentar:'2/3-kobling'},
+    {navn: 'USA', verdi: 38, kommentar:'Innvandring'},
+    {navn: 'Australia', verdi: 37, kommentar:'Innvandring'},
+    {navn: 'Israel', verdi: 32, kommentar:'Høy fertilitet'},
+  ];
+  landData.sort(function(a,b){ return b.verdi - a.verdi; });
+  var maxL = Math.max.apply(null, landData.map(function(d){return d.verdi;}));
+  var lListe = document.getElementById('landListe');
+  if(lListe){
+    lListe.innerHTML = landData.map(function(d){
+      var w = d.verdi / maxL * 100;
+      var col = d.erNorge ? 'var(--nl)' : d.erSnitt ? 'var(--ink2)' : (d.verdi >= 60 ? '#B23B3B' : d.verdi >= 50 ? 'var(--amber)' : '#6FA8C7');
+      var cls = d.erNorge ? ' norge' : d.erSnitt ? ' snitt' : '';
+      return '<div class="land-rad' + cls + '">' +
+        '<div class="navn">' + d.navn + '</div>' +
+        '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + d.verdi + '</div></div>' +
+        '<div class="verdi">' + d.kommentar + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // ─── AKT 03: Fylke-rangering ───
+  // Beregner fra DATA.proj for hvert fylke
+  if(typeof DATA !== 'undefined' && DATA.proj && typeof K !== 'undefined'){
+    var fylker = {};
+    var fylkesnavn = ['Nordland', 'Troms', 'Finnmark'];
+    K.forEach(function(k){
+      var o = DATA.proj.kommuner[k.nr];
+      if(!o || !o.a2064 || !o.a65) return;
+      var f = k.fylke;
+      if(!fylker[f]) fylker[f] = {a2064: 0, a65: 0};
+      var n = o.a2064.length - 1;
+      fylker[f].a2064 += o.a2064[n];
+      fylker[f].a65 += o.a65[n];
+    });
+    // Beregn OADR for hver
+    var fylkeData = [];
+    Object.keys(fylker).forEach(function(f){
+      var fd = fylker[f];
+      fylkeData.push({navn: f, verdi: fd.a2064 ? fd.a65/fd.a2064*100 : 0, erNN: fylkesnavn.indexOf(f) >= 0});
+    });
+    // Legg til hardkodede fra SSB tab 14288 for andre fylker (data brukerne ikke har lokalt)
+    var ssbFylker = [
+      {navn:'Innlandet', verdi: 57.1},
+      {navn:'Telemark', verdi: 56.0},
+      {navn:'Vestfold', verdi: 51.5},
+      {navn:'Møre og Romsdal', verdi: 52.0},
+      {navn:'Agder', verdi: 50.0},
+      {navn:'Rogaland', verdi: 43.0},
+      {navn:'Akershus', verdi: 47.2},
+      {navn:'Oslo', verdi: 32.3},
+      {navn:'Trøndelag', verdi: 49.0},
+      {navn:'Vestland', verdi: 47.0},
+      {navn:'Østfold', verdi: 51.0},
+      {navn:'Buskerud', verdi: 51.0},
+    ];
+    ssbFylker.forEach(function(f){
+      if(!fylkeData.find(function(x){return x.navn===f.navn;})){
+        fylkeData.push({navn: f.navn, verdi: f.verdi, erNN: false, eksternt: true});
+      }
+    });
+    fylkeData.sort(function(a,b){return b.verdi - a.verdi;});
+    var fListe = document.getElementById('fylkeListe');
+    if(fListe){
+      var maxF = Math.max.apply(null, fylkeData.map(function(d){return d.verdi;}));
+      fListe.innerHTML = fylkeData.map(function(d){
+        var w = d.verdi / maxF * 100;
+        var col = d.erNN ? 'var(--fi)' : (d.verdi >= 55 ? '#B23B3B' : d.verdi >= 48 ? 'var(--amber)' : (d.verdi >= 40 ? 'var(--aurora)' : '#6FA8C7'));
+        var cls = d.erNN ? ' nordnorge' : '';
+        var verdiTxt = fmt(d.verdi, 1);
+        return '<div class="fylke-rad' + cls + '">' +
+          '<div class="navn">' + d.navn + (d.eksternt ? ' <span style="color:var(--ink3);font-size:10px">(SSB)</span>' : '') + '</div>' +
+          '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + verdiTxt + '</div></div>' +
+          '<div class="verdi">' + (d.erNN ? 'NN-fylke' : '') + '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+});
+</script>
+</body>
+</html>

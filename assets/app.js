@@ -2369,7 +2369,7 @@ function landsdelSysselsRate(){
    - SSB-snitt for sysselsetting og uføreandel (referansenivå) */
 const EXT_NORMS = {
   scirnAnnual: -0.15,     // OECD SCIRN: ≥0,15 %/år nedgang = "shrinking"
-  oecd2050: 58,           // OECD-snitt forsørgerbyrde 65+/20-64 i 2050
+  oecd2050: 52,           // OECD-snitt forsørgerbyrde 65+/20-64 i 2050
   nasjSyss: 79,           // SSB ~79 % sysselsetting 20-66 (nasjonalt snitt 2024)
   nasjUfor: 10.5,         // SSB ~10,5 % uføretrygdede 18-67 (nasjonalt snitt 2024)
   tbuNDR: 1.75,           // TBU-norm netto driftsresultat
@@ -2444,7 +2444,7 @@ function sustKommuneCard(k){
     sectionHeader('Demografi mot 2050 (framskrevet)')+
     row('Befolkningsendring 2024→2050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
     row('Årlig endring (geometrisk)', e.annualPct!=null?(e.annualPct>=0?'+':'−')+Math.abs(e.annualPct).toFixed(2)+' %':'–', stat(e.annualPct, popOK), 'OECD SCIRN-terskel: −0,15 %/år')+
-    row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 58')+
+    row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
     sectionHeader('Arbeidsmarked og helse (2024)')+
     row('Sysselsettingsrate 20–66', e.syssRate!=null?fmt0(e.syssRate)+' %':'–', stat(e.syssRate, sysOK), 'SSB 13563 · nasjonalt snitt ~79 %')+
     row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt ~10,5 %')+
@@ -2486,7 +2486,7 @@ function renderSustainability(){
   if(tldrHost){
     let text='Hver indikator vurderes mot sin <b>eksterne autoritative norm</b> — ikke mot en samlet bærekraftsdom. Av '+total+' kommuner i Nord-Norge: ';
     text+='<b>'+counts.popDecl+'</b> har befolkningsnedgang ≥ 0,15 %/år (OECD SCIRN-definisjonen «shrinking»); ';
-    text+='<b>'+counts.oadOver+'</b> har forsørgerbyrde 2050 over OECD-snittet (58 eldre per 100 i yrkesaktiv alder); ';
+    text+='<b>'+counts.oadOver+'</b> har forsørgerbyrde 2050 over OECD-snittet (52 eldre per 100, Pensions at a Glance 2025); ';
     text+='<b>'+counts.ndrUnder+'</b> ligger under TBU-normen for netto driftsresultat (+1¾ %); ';
     text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS\'s anbefalte 5 %; ';
     text+='<b>'+(counts.robekIn+counts.robekPnd)+'</b> er i ROBEK eller har innmelding under behandling. ';
@@ -2497,7 +2497,7 @@ function renderSustainability(){
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
         '<div class="tldr-num"><div class="nv down">'+counts.popDecl+'</div><div class="nl">Shrinking</div><div class="nh">OECD SCIRN ≥ 0,15 %/år</div></div>'+
-        '<div class="tldr-num"><div class="nv">'+counts.oadOver+'</div><div class="nl">Over OECD-snitt</div><div class="nh">forsørgerbyrde 2050 > 58</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+counts.oadOver+'</div><div class="nl">Over OECD-snitt</div><div class="nh">forsørgerbyrde 2050 > 52</div></div>'+
         '<div class="tldr-num"><div class="nv">'+counts.ndrUnder+'</div><div class="nl">Under TBU-norm</div><div class="nh">NDR < +1¾ %</div></div>'+
         '<div class="tldr-num"><div class="nv down">'+(counts.robekIn+counts.robekPnd)+'</div><div class="nl">ROBEK</div><div class="nh">§28-1 registrert/pending</div></div>'+
       '</div>';

@@ -732,6 +732,9 @@ footer a{color:var(--aurora);text-decoration:none}
 .neste-tema-blokk .ntb-arr{font-size:13px;color:var(--ink);font-weight:600}
 .neste-tema-blokk a.ntb-flyk{border-left:4px solid var(--aurora)}
 .neste-tema-blokk a.ntb-o6{border-left:4px solid var(--amber)}
+.neste-tema-blokk a.ntb-arbeid{border-left:4px solid var(--nl)}
+.neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
+.neste-tema-blokk a.ntb-aldring{border-left:4px solid #6FA8C7}
 .neste-tema-blokk a.ntb-kvinne{border-left:4px solid #B23B3B}
 
 .tab{display:none}
