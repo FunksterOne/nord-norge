@@ -1929,13 +1929,14 @@ function renderLevekar(){
       svg += `<line x1="${L}" y1="${yN}" x2="${L+W}" y2="${yN}" stroke="var(--aurora)" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/>`;
       svg += `<text x="${L+W+4}" y="${yN-2}" style="font-size:10px;font-weight:700;fill:var(--aurora)">Norge ${Math.round(NORGE_MED_INNT/1000)}k</text>`;
     }
-    // Søyler per kommune
+    // Søyler per kommune — klikkbare med JS-tooltip (bindes etter innerHTML)
     items.forEach((it,i)=>{
       const x = xOf(i);
       const y = Y(it.med);
       const h = (Tp+H) - y;
       const col = fyColor[it.fylke]||'var(--ink2)';
-      svg += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" rx="1"><title>${it.navn} (${it.fylke}) · ${Math.round(it.med/1000)}k kr · ${fmt(it.hush||0)} hush.</title></rect>`;
+      const ndiff = landsdelMedian ? ((it.med-landsdelMedian)/landsdelMedian*100) : null;
+      svg += `<rect class="spenn-bar" data-i="${i}" data-nr="${it.nr}" data-navn="${it.navn.replace(/"/g,'&quot;')}" data-fylke="${it.fylke}" data-med="${it.med}" data-hush="${it.hush||0}" data-ndiff="${ndiff!=null?ndiff.toFixed(1):''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" rx="1" style="cursor:pointer;transition:opacity .12s"><title>${it.navn} (${it.fylke}) · ${Math.round(it.med/1000)}k kr · ${fmt(it.hush||0)} hush. — klikk for å åpne kommunen</title></rect>`;
     });
     // Markér topp 3 og bunn 3 med navn
     const lab = (i, anchor) => {
@@ -1963,6 +1964,48 @@ function renderLevekar(){
         '<div><div style="font-size:13px;color:var(--ink)">'+lo3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Bunn 3</div></div>'+
       '</div>'+
       '<p class="hint" style="margin-top:12px;font-size:11.5px;font-style:italic">Spennvidden mellom høyeste og laveste nord-norske kommune er '+Math.round(spread/1000)+'k kr. Hovedforklaringen er sammensetningen av lønn vs. pensjon — kommuner med mange yrkesaktive husholdninger (sentre, oljerelaterte) ligger over snittet; aldrende distriktskommuner med høy pensjons- og uføretrygdandel ligger under.</p>';
+    // Bind tooltip + klikk på spennvidde-søylene
+    spennHost.style.position = 'relative';
+    let tip = spennHost.querySelector('.spenn-tip');
+    if(!tip){
+      tip = document.createElement('div');
+      tip.className = 'spenn-tip';
+      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--paper);padding:8px 11px;border-radius:6px;font-size:12px;line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:10;max-width:220px;white-space:normal';
+      spennHost.appendChild(tip);
+    }
+    const svgEl = spennHost.querySelector('svg.chart');
+    const wrapRect = ()=>spennHost.getBoundingClientRect();
+    spennHost.querySelectorAll('rect.spenn-bar').forEach(rect=>{
+      rect.addEventListener('mouseenter', e=>{
+        const d = e.currentTarget.dataset;
+        const ndiffTxt = d.ndiff ? '<div style="margin-top:2px;font-size:11px;opacity:.85">'+(parseFloat(d.ndiff)>=0?'+':'')+d.ndiff+' % vs landsdel</div>' : '';
+        tip.innerHTML = '<div style="font-weight:700;margin-bottom:2px">'+d.navn+'</div>'+
+          '<div style="font-size:11px;opacity:.85;margin-bottom:6px">'+d.fylke+'</div>'+
+          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:14px;font-weight:600">'+Math.round(+d.med/1000)+'k kr</div>'+
+          '<div style="font-size:11px;opacity:.85">median hush.inntekt</div>'+
+          ndiffTxt+
+          '<div style="font-size:10.5px;opacity:.7;margin-top:6px;border-top:1px solid rgba(255,255,255,.15);padding-top:4px">Klikk for å åpne kommunen →</div>';
+        tip.style.display = 'block';
+        e.currentTarget.style.opacity = '0.65';
+      });
+      rect.addEventListener('mousemove', e=>{
+        const wr = wrapRect();
+        const tw = tip.offsetWidth, th = tip.offsetHeight;
+        let x = e.clientX - wr.left + 14;
+        let y = e.clientY - wr.top - th - 10;
+        if(x + tw > wr.width) x = e.clientX - wr.left - tw - 14;
+        if(y < 0) y = e.clientY - wr.top + 18;
+        tip.style.left = x + 'px';
+        tip.style.top = y + 'px';
+      });
+      rect.addEventListener('mouseleave', e=>{
+        tip.style.display = 'none';
+        e.currentTarget.style.opacity = '1';
+      });
+      rect.addEventListener('click', e=>{
+        window.location.href = 'kommune.html?k=' + e.currentTarget.dataset.nr;
+      });
+    });
   }
   attachMethodBadges();
 }
