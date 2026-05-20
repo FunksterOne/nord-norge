@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // 0 % = ingen forlater (grunnscenario), 100 % = alle forlater (ytterpunkt).
     var ukrOpts = [
       {key:0,   title:'Ingen forlater',  sub:'Grunnscenario — ukrainere blir værende'},
-      {key:50,  title:'Halvparten forlater', sub:'50 % av kohorten flytter i løpet av 2025'},
+      {key:50,  title:'Halvparten forlater', sub:'50 % av kohorten flytter i løpet av 2027'},
       {key:100, title:'Alle forlater',   sub:'Ytterpunkt — full retur av Ukraina-kohorten'}
     ];
     state.projMode = state.projMode || 'tot';
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var currentUkr = ukrOpts.find(function(o){return o.key===state.ukr;}) || ukrOpts[0];
     var ukrExplainer = state.ukr === 0
       ? '<b>Grunnscenario:</b> ukrainere antas å bli værende — framskrivingen følger sin valgte flyttebane uten Ukraina-justering.'
-      : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2025. Folketallet faller tilsvarende fra grunnscenarioet.';
+      : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2027. Folketallet faller tilsvarende fra grunnscenarioet.';
 
     // KPI-er — bruker SSB MMMM som hovedbane (TF-ATTR vises i tabellen under hvis tilgjengelig)
     var P = DATA.proj, o = P && P.kommuner[k.nr];
