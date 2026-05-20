@@ -346,19 +346,14 @@
   <!-- Klartekst-banner -->
   <div class="tldr t-burden" id="econTldr"></div>
 
-  <!-- ROBEK-oversikt -->
-  <div class="card hero-chart" id="econRobekCard">
-    <div class="ch"><h3 class="serif">ROBEK — register og kalibrert risikoproxy</h3>
-      <div class="seg" id="rbkf">
-        <button role="tab" aria-selected="true" data-f="Alle">Hele Nord-Norge</button>
-        <button role="tab" aria-selected="false" data-f="Nordland"><span class="dot" style="background:var(--nl)"></span>Nordland</button>
-        <button role="tab" aria-selected="false" data-f="Troms"><span class="dot" style="background:var(--tr)"></span>Troms</button>
-        <button role="tab" aria-selected="false" data-f="Finnmark"><span class="dot" style="background:var(--fi)"></span>Finnmark</button>
-      </div>
-    </div>
-    <p class="hint">Hvilke kommuner er faktisk i ROBEK, og hvilke har KOSTRA-fundamenter som indikerer økonomisk klem. Sortér tabellen på risiko, status, navn eller fylke.</p>
-    <div id="robekview" data-helpfor="<b>Slik leser du oversikten.</b> Hver rad er en kommune. <b>Risk</b> er den kalibrerte proxyen (rødt = høy, grønt = lav). <b>ROBEK</b>-kolonnen er faktisk registerstatus per dato vist i overskriften."></div>
+  <!-- ROBEK-oversikt — fylke-velgeren over, robekOverviewHTML gir sin egen kort-tittel og forklaring -->
+  <div class="seg" id="rbkf" style="margin-top:14px;margin-bottom:6px">
+    <button role="tab" aria-selected="true" data-f="Alle">Hele Nord-Norge</button>
+    <button role="tab" aria-selected="false" data-f="Nordland"><span class="dot" style="background:var(--nl)"></span>Nordland</button>
+    <button role="tab" aria-selected="false" data-f="Troms"><span class="dot" style="background:var(--tr)"></span>Troms</button>
+    <button role="tab" aria-selected="false" data-f="Finnmark"><span class="dot" style="background:var(--fi)"></span>Finnmark</button>
   </div>
+  <div id="robekview" data-helpfor="<b>Slik leser du oversikten.</b> Hver rad er en kommune. <b>Risk</b> er den kalibrerte proxyen (rødt = høy, grønt = lav). <b>ROBEK</b>-kolonnen er faktisk registerstatus per dato vist i overskriften."></div>
 
   <!-- Rentefølsomhet drill-down -->
   <details class="explain" style="margin-top:18px">
