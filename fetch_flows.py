@@ -186,6 +186,18 @@ def build_series():
         else:
             ukr_delta[i] = None  # before 2017 we don't have prior-year baseline
 
+    # 11366 publiseres tidligere enn 09588 (stock per 1.1. vs flyttetall for hele året).
+    # Hent siste tilgjengelige stock-tall separat så vi kan vise nyeste beholdning i KPI
+    # uten å forurense hovedflow-grafen (som krever full flyttetall-rad).
+    ukr_latest_year = years[-1] + 1  # f.eks. 2026 hvis years slutter 2025
+    ukr_latest_stock = ukr_nn_yr(ukr_latest_year)
+    ukr_latest_delta = ukr_latest_stock - ukr_stock[-1] if ukr_latest_stock else None
+    if not ukr_latest_stock:
+        # Hvis SSB ennå ikke har 1.1.(year+1)-data, fall tilbake til siste i serien
+        ukr_latest_year = years[-1]
+        ukr_latest_stock = ukr_stock[-1]
+        ukr_latest_delta = ukr_delta[-1]
+
     return {
         "retrieved_at": datetime.date.today().isoformat(),
         "source_id": "SSB_STATBANK",
@@ -198,6 +210,9 @@ def build_series():
             "utvandring": series(nordnorge_yr, "Utvandring"),
             "ukraineStock": ukr_stock,
             "ukraineDelta": ukr_delta,
+            "ukraineLatestYear": ukr_latest_year,
+            "ukraineLatestStock": ukr_latest_stock,
+            "ukraineLatestDelta": ukr_latest_delta,
         },
         "fylker": {
             "Nordland": {
@@ -248,8 +263,9 @@ def main():
     payload = build_series()
     print(f"Nord-Norge nettoinnvandring: {payload['nordNorge']['nettoInnvandring'][:5]}... {payload['nordNorge']['nettoInnvandring'][-3:]}")
     print(f"Nord-Norge nettoInnland: {payload['nordNorge']['nettoInnland'][:5]}... {payload['nordNorge']['nettoInnland'][-3:]}")
-    print(f"Ukraine stock 2022-2025: {payload['nordNorge']['ukraineStock'][-4:]}")
-    print(f"Ukraine delta 2022-2025: {payload['nordNorge']['ukraineDelta'][-4:]}")
+    print(f"Ukraine stock siste 4 år: {payload['nordNorge']['ukraineStock'][-4:]}")
+    print(f"Ukraine delta siste 4 år: {payload['nordNorge']['ukraineDelta'][-4:]}")
+    print(f"Ukraine siste beholdning per 1.1.{payload['nordNorge']['ukraineLatestYear']}: {payload['nordNorge']['ukraineLatestStock']} (delta {payload['nordNorge']['ukraineLatestDelta']:+})")
     inject_into_html(payload)
 
 if __name__ == "__main__":

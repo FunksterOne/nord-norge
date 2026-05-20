@@ -80,10 +80,10 @@
     <div class="ukc-text">
       <div class="ukc-kicker">Ukraina-tilstrømningen 2022→2025</div>
       <h3>En engangs-bølge på toppen</h3>
-      <p>Ukrainere som har bosatt seg i Nord-Norge etter den russiske invasjonen i 2022 utgjør i dag <b id="ukcStock">—</b> personer (per 1.1.2025, SSB tabell 11366). Antall ankommet per år har gått ned fra toppen i 2023.</p>
+      <p>Ukrainere som har bosatt seg i Nord-Norge etter den russiske invasjonen i 2022 utgjør i dag <b id="ukcStock">—</b> personer (per 1.1.<span id="ukcStockYear">2026</span>, SSB tabell 11366). Antall ankommet per år har gått ned fra toppen i 2023.</p>
     </div>
     <div class="ukc-graph" id="ukrSparkline"></div>
-    <div class="ukc-caption">Per-år netto-tilstrømning til Nord-Norge. Beregnet som endring i beholdning av ukrainske statsborgere fra år til år (SSB 11366). Beholdning per 1.1.2025: <b id="ukcStockCap">—</b>.</div>
+    <div class="ukc-caption">Per-år netto-tilstrømning til Nord-Norge. Beregnet som endring i beholdning av ukrainske statsborgere fra år til år (SSB 11366). Beholdning per 1.1.<span id="ukcStockCapYear">2026</span>: <b id="ukcStockCap">—</b>.</div>
   </div>
 </section>
 
@@ -225,7 +225,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var sumInn = nn.innvandring.reduce(function(s,x){return s+(x||0);}, 0);
   var sumUt = nn.utvandring.reduce(function(s,x){return s+(x||0);}, 0);
   var sumNettoInnland = nn.nettoInnland.reduce(function(s,x){return s+(x||0);}, 0);
-  var ukrStock = nn.ukraineStock[nn.ukraineStock.length-1] || 0;
+  // Bruker ukraineLatestStock hvis SSB har publisert nyere stock-tall (per 1.1.YYYY+1)
+  // enn det flow-serien dekker. Faller tilbake til siste år i serien.
+  var ukrStock = (nn.ukraineLatestStock != null ? nn.ukraineLatestStock : (nn.ukraineStock[nn.ukraineStock.length-1] || 0));
+  var ukrLatestYear = nn.ukraineLatestYear || (yrs[yrs.length-1]);
   // Sjokk-tall i overskriften: oppdater fra data
   var sjokkNetto = document.getElementById('sjokkNetto');
   if(sjokkNetto) sjokkNetto.textContent = fmt(Math.abs(sumNettoInnland));
@@ -234,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v down">' + fmt(Math.abs(sumNettoInnland)) + '</div><div class="l">Netto flyttet sør</div><div class="nh">akkumulert 2002–2025</div></div>' +
     '<div class="kpi"><div class="v">' + fmt(sumInn) + '</div><div class="l">Innvandret til Nord-Norge</div><div class="nh">brutto fra utlandet 2002–2025</div></div>' +
     '<div class="kpi"><div class="v">' + fmt(sumUt) + '</div><div class="l">Utvandret til utlandet</div><div class="nh">brutto 2002–2025</div></div>' +
-    '<div class="kpi"><div class="v">' + fmt(ukrStock) + '</div><div class="l">Ukrainere bosatt</div><div class="nh">per 1.1.2025 (SSB 11366)</div></div>';
+    '<div class="kpi"><div class="v">' + fmt(ukrStock) + '</div><div class="l">Ukrainere bosatt</div><div class="nh">per 1.1.' + ukrLatestYear + ' (SSB 11366)</div></div>';
 
   // Akt 04: tabell
   document.getElementById('bruttoInn').textContent = fmt(sumInn);
@@ -356,6 +359,10 @@ document.addEventListener('DOMContentLoaded', function(){
   if(ukcStockEl) ukcStockEl.textContent = fmt(ukrStock);
   var ukcStockCapEl = document.getElementById('ukcStockCap');
   if(ukcStockCapEl) ukcStockCapEl.textContent = fmt(ukrStock);
+  var ukcStockYearEl = document.getElementById('ukcStockYear');
+  if(ukcStockYearEl) ukcStockYearEl.textContent = ukrLatestYear;
+  var ukcStockCapYearEl = document.getElementById('ukcStockCapYear');
+  if(ukcStockCapYearEl) ukcStockCapYearEl.textContent = ukrLatestYear;
 
   // Akt 04: dynamiske tall i intro-tekst
   var aktNetto = document.getElementById('aktNetto');
