@@ -2113,6 +2113,7 @@ function renderEconomy(){
       '</div>';
   }
   renderRente();
+  renderGjeld();
 }
 function renderRente(){
   const host=document.getElementById('renteContent');
@@ -2207,6 +2208,128 @@ function renderRente(){
   if(rn) rn.oninput=e=>{state.renteNew=parseFloat(e.target.value); renderRente();};
   attachMethodBadges();
 }
+
+/* === Gjeldsbildet — utvidet drill-down med KS/TBU/KBN-bakteppe =============== */
+function renderGjeld(){
+  if(typeof GJELD_DATA === 'undefined') return;
+  const host = document.getElementById('gjeldContent');
+  if(!host) return;
+  // Velg scope: aktivt fylke eller hele landsdelen
+  const scope = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'landsdel';
+  const data = scope === 'landsdel' ? GJELD_DATA.landsdel : (GJELD_DATA.fylker[state.fylke] || GJELD_DATA.landsdel);
+  const scopeNavn = scope === 'landsdel' ? 'Nord-Norge' : state.fylke;
+  const bakteppe = GJELD_DATA.bakteppe || {};
+  const sektor = bakteppe.sektor || {};
+  const lanekilder = bakteppe.lanekilder || [];
+  const rb = bakteppe.rentebinding || {};
+
+  // Tall: konverter 1000 kr → mrd kr for store tall
+  const mrd = v => v != null ? (v/1e6).toFixed(1) : '–';
+  const mill = v => v != null ? (v/1e3).toFixed(0) : '–';
+  const pct = v => v != null ? v.toFixed(1) + ' %' : '–';
+
+  // Per-innbygger: trenger befolkning fra K
+  const scopePop = (function(){
+    if(scope === 'landsdel') return K.reduce((s,k)=>s+(k.pop||0), 0);
+    return K.filter(k => k.fylke === state.fylke).reduce((s,k)=>s+(k.pop||0), 0);
+  })();
+  const krPerInnb = v => v != null && scopePop ? Math.round(v*1000/scopePop).toLocaleString('nb-NO') : '–';
+
+  // ─── KPI-rad ───
+  // Total gjeld (langsiktig), årlige renter, årlige avdrag, samlet gjeldsbetjening
+  const ksNorm = sektor.ks_norm_netto_lanegjeld_pct || 85;
+  const nlanColor = data.nlan_pct > ksNorm ? '#B23B3B' : (data.nlan_pct > ksNorm*0.9 ? 'var(--amber)' : '#2E7D5B');
+  const kpiHTML =
+    '<div class="kpi-rad" style="margin:8px 0 14px">' +
+      '<div class="kpi"><div class="v">' + mrd(data.lan_kr) + ' mrd</div><div class="l">Langsiktig gjeld</div><div class="nh">' + pct(data.lan_pct) + ' av brutto driftsinntekter</div></div>' +
+      '<div class="kpi"><div class="v" style="color:' + nlanColor + '">' + pct(data.nlan_pct) + '</div><div class="l">Netto lånegjeld</div><div class="nh">KS-norm: maks ' + ksNorm + ' %</div></div>' +
+      '<div class="kpi"><div class="v down">' + mill(data.gjb_kr) + ' mill</div><div class="l">Renter + avdrag/år</div><div class="nh">' + pct(data.gjb_pct) + ' av inntektene</div></div>' +
+      '<div class="kpi"><div class="v">' + krPerInnb(data.gjb_kr) + ' kr</div><div class="l">Per innbygger</div><div class="nh">gjeldsbetjening 2025</div></div>' +
+    '</div>';
+
+  // ─── "Hva binder kommunekassen?" — sammenlign gjeldsbetjening med sektorutgifter ───
+  // Sektorandeler hentes fra DATA.proj.kostra_bench (vektet snitt for scopet)
+  const KB = (DATA.proj && DATA.proj.kostra_bench) || {};
+  const bench = KB[scope === 'landsdel' ? 'Alle' : state.fylke] || KB['Alle'] || {};
+  // bench har sektor i % — gjeldsbetjening er i % av BDI; sektor er i % av netto driftsutgifter
+  // Begge bruker driftstall, så vi viser dem som sammenlignbare for å gi STØRRELSE-følelse
+  const sektorRader = [
+    {navn:'Pleie og omsorg',    pct: bench.omsorg_pct,  col:'var(--amber)',  type:'sektor'},
+    {navn:'Grunnskole',         pct: bench.skole_pct,   col:'var(--nl)',     type:'sektor'},
+    {navn:'Barnehage',          pct: bench.bhg_pct,     col:'var(--aurora)', type:'sektor'},
+    {navn:'Renter + avdrag',    pct: data.gjb_pct,      col:'#B23B3B',       type:'gjeld'},
+    {navn:'Kommunehelse',       pct: bench.khelse_pct,  col:'#6FA8C7',       type:'sektor'},
+    {navn:'Kultur',             pct: bench.kultur_pct,  col:'var(--gold)',   type:'sektor'},
+  ].filter(r => r.pct != null);
+  sektorRader.sort((a,b) => b.pct - a.pct);
+  const maxPct = Math.max.apply(null, sektorRader.map(r => r.pct));
+  const compareHTML =
+    '<div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Hva binder kommunekassen?</h3></div>' +
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Gjeldsbetjening (renter + avdrag) i ' + scopeNavn + ' er <b>' + pct(data.gjb_pct) + '</b> av driftsinntektene — sammenlignet med de største sektorenes andel av driftsutgiftene. Gjeldsbetjening kommer på linje med en mellomstor utgiftspost, men er <b>låst</b> — kan ikke kuttes som tjenester.</p>' +
+    '<div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">' +
+    sektorRader.map(r => {
+      const w = (r.pct / maxPct * 100).toFixed(1);
+      return '<div style="display:grid;grid-template-columns:160px 1fr 70px;gap:10px;align-items:center">' +
+        '<div style="font-size:12.5px;color:var(--ink);font-weight:' + (r.type==='gjeld'?'700':'500') + ';text-align:right">' + r.navn + (r.type==='gjeld'?' ★':'') + '</div>' +
+        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + r.pct.toFixed(1) + ' %</div>' +
+        '</div>' +
+        '<div style="font-size:10.5px;color:var(--ink3)">' + (r.type==='gjeld'?'av inntekter':'av utgifter') + '</div>' +
+      '</div>';
+    }).join('') +
+    '</div>' +
+    '<p class="hint" style="font-size:11.5px;margin-top:8px;opacity:.75;font-style:italic">★ = gjeldsbetjening. Tallet er regnet av brutto driftsinntekter; sektorene er regnet av netto driftsutgifter. Sammenligningen viser <i>relativ størrelse</i>, ikke matematisk identisk denominator.</p>';
+
+  // ─── Lånekilder — nasjonalt bakteppe ───
+  const lkRaderMax = Math.max.apply(null, lanekilder.map(l => l.andel_pct));
+  const lanekildeHTML =
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Hvor lånes pengene fra? <span style="font-size:11px;color:var(--ink3);font-weight:400">— nasjonalt bakteppe</span></h3></div>' +
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Norske kommuner låner fra fire hovedkilder. Kommunalbanken (KBN) er størst, men taper markedsandel til obligasjonsmarkedet. Per kommune kan miksen variere — disse tallene er <b>sektor-aggregat</b>.</p>' +
+    '<div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">' +
+    lanekilder.map(l => {
+      const w = (l.andel_pct / lkRaderMax * 100).toFixed(1);
+      return '<div style="display:grid;grid-template-columns:220px 1fr 50px;gap:10px;align-items:center">' +
+        '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + l.navn + '</div>' +
+        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:var(--aurora);border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + l.andel_pct + ' %</div>' +
+        '</div>' +
+        '<div></div>' +
+      '</div>';
+    }).join('') +
+    '</div>';
+
+  // ─── Fastrente vs flytende ───
+  const fastr = rb.fastrente_pct_estimat || 30;
+  const flyt = rb.flytende_pct_estimat || 70;
+  const rentebindingHTML =
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Fastrente eller flytende?</h3></div>' +
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Hvis renten endrer seg, slår det først ut på flytende-andelen. Sektor-estimat: ' + rb.spennvidde + ' er fastrentebundet, resten flytende (3 mnd NIBOR + margin). <b>Anslaget er usikkert</b> — kilden er KBNs eget regnskap; ingen offentliggjort vektet snitt for sektoren.</p>' +
+    '<div style="display:flex;height:32px;border-radius:6px;overflow:hidden;border:1px solid var(--line2);margin:8px 0">' +
+      '<div style="width:' + fastr + '%;background:#6FA8C7;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Fastrente ~' + fastr + ' %</div>' +
+      '<div style="width:' + flyt + '%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Flytende ~' + flyt + ' %</div>' +
+    '</div>' +
+    '<p class="hint" style="font-size:11px;opacity:.75;margin-top:4px">Snitt løpetid sektoren: ~' + (bakteppe.lopetid && bakteppe.lopetid.snitt_aar_estimat || 22) + ' år (estimat).</p>';
+
+  // ─── Sektornivå-konklusjon ───
+  const sektorHTML =
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Sektorbildet 2025</h3></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:' + (sektor.netto_driftsresultat_2025_pct >= 1.75 ? '#2E7D5B' : 'var(--amber)') + '">' + sektor.netto_driftsresultat_2025_pct + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Netto driftsresultat 2025 (sektor)</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">KS-norm: ' + sektor.ks_norm_ndr_kommune_pct + ' %</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:#B23B3B">+' + sektor.finansutgifter_endring_2024_2025_pct + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Finansutgifter endring</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">2024→2025 — refinansierings­effekten</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:' + (sektor.korrigert_netto_lanegjeld_2024_pct > sektor.ks_norm_netto_lanegjeld_pct ? '#B23B3B' : '#2E7D5B') + '">' + sektor.korrigert_netto_lanegjeld_2024_pct + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Sektor netto lånegjeld 2024</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">Over KS-norm (' + sektor.ks_norm_netto_lanegjeld_pct + ' %)</div></div>' +
+    '</div>' +
+    '<p class="hint" style="font-size:12px;margin-top:10px;font-style:italic">' + sektor.tbu_kilde + ' og ' + sektor.ks_kilde + '. KS-anbefalingen er at bufferne skal tåle <b>' + sektor.ks_buffer_test + '</b>.</p>';
+
+  // ─── Avslutning + kilde ───
+  const closingHTML =
+    '<p class="sub" style="margin-top:18px;padding:14px 16px;background:rgba(178,59,59,0.06);border-left:4px solid #B23B3B;border-radius:0 6px 6px 0">' +
+      '<b>Gjeld er ikke et problem fordi tallet er stort. Det er fordi det er låst.</b> Av ' + scopeNavn + 's driftsinntekter går <b>' + pct(data.gjb_pct) + '</b> til renter og avdrag — på linje med en mellomstor sektor som ' + (sektorRader.find(r => Math.abs(r.pct - data.gjb_pct) < 2 && r.type === 'sektor')?.navn || 'kommunehelse') + '. Forskjellen: gjeldsbetjening kan ikke kuttes når aldring presser tjenestebehovet de neste 25 år. KS-normen på maks ' + ksNorm + ' % netto lånegjeld er overskredet både her (' + pct(data.nlan_pct) + ') og nasjonalt.' +
+    '</p>' +
+    '<p class="hint" style="font-size:11px;margin-top:10px;opacity:.75">Kilder: SSB KOSTRA tab. 12143 (per-kommune); ' + bakteppe.kilde + '. Sist oppdatert: ' + bakteppe.sist_oppdatert + '. Nasjonalt bakteppe oppdateres manuelt årlig.</p>';
+
+  host.innerHTML = kpiHTML + compareHTML + lanekildeHTML + rentebindingHTML + sektorHTML + closingHTML;
+}
+
 /* === Arbeids-helpers fra ARBEID_DATA ======================================== */
 function getSysselsRate(nr){
   if(typeof ARBEID_DATA==='undefined') return null;
