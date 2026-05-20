@@ -332,6 +332,12 @@
     <div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>
   </div>
 
+  <!-- Kort F: Husholdningstyper × inntekt — utvidbar -->
+  <details style="margin-top:18px;border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden" id="hushDetailsFylke">
+    <summary style="list-style:none;cursor:pointer;padding:14px 20px;color:var(--ink2);font-size:14px;font-weight:600;user-select:none">▾ Hvem bor i husholdningene — og hva tjener de? <span style="font-size:11.5px;color:var(--ink3);font-weight:400;font-style:italic;margin-left:10px">Per husholdningstype · SSB 06944</span></summary>
+    <div id="hushFylke" style="padding:18px 22px 22px;border-top:1px solid var(--line2)"></div>
+  </details>
+
 <button class="nextstep" data-next="refugees">
   <div class="ns-l">
     <div class="ns-n">→ 5</div>
@@ -621,6 +627,11 @@ document.addEventListener('DOMContentLoaded', function(){
     };
   });
   document.querySelectorAll('.nextstep[data-next="summary"]').forEach(function(b){ b.style.display='none'; });
+
+  // ─── Husholdninger × type × inntekt (HUSH_DATA) ───
+  if(typeof renderHusholdninger === 'function' && document.getElementById('hushFylke')){
+    renderHusholdninger('hushFylke', 'fylke-' + fylke);
+  }
 
   // ─── NAV bedriftsundersøkelse 2026 — per fylke ───
   if(typeof NAV_BEDRIFT !== 'undefined' && NAV_BEDRIFT.fylker[fylke]){

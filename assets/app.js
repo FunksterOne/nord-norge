@@ -2330,6 +2330,246 @@ function renderGjeld(){
   host.innerHTML = kpiHTML + compareHTML + lanekildeHTML + rentebindingHTML + sektorHTML + closingHTML;
 }
 
+/* === Husholdninger × type × inntekt — SSB 06944 =============================== */
+/* renderHusholdninger(hostId, scope) — scope: 'kommune-NR', 'fylke-NAVN', 'landsdel'
+   Rendrer en utvidbar seksjon med:
+   - KPI-rad (andel aleneboende, par med barn, inntektsspennvidde)
+   - Stolpegraf inntekt per husholdningstype
+   - Stolpegraf antall (sammensetning)
+   - Klartekst-tolkning
+   - Nivå 2 (utvidbar <details>): tidsserie 2005-2024 */
+function renderHusholdninger(hostId, scope){
+  if(typeof HUSH_DATA === 'undefined') return;
+  const host = document.getElementById(hostId);
+  if(!host) return;
+
+  // Hent data for scope
+  let data, scopeNavn;
+  if(scope.startsWith('kommune-')){
+    const nr = scope.slice(8);
+    data = HUSH_DATA.kommuner[nr];
+    const k = (typeof K !== 'undefined') ? K.find(x => String(x.nr) === nr) : null;
+    scopeNavn = k ? k.navn : nr;
+  } else if(scope.startsWith('fylke-')){
+    const f = scope.slice(6);
+    data = HUSH_DATA.fylker[f];
+    scopeNavn = f;
+  } else {
+    data = HUSH_DATA.landsdel;
+    scopeNavn = 'Nord-Norge';
+  }
+  if(!data || !data.latest) return;
+
+  const latest = data.latest;
+  const alle = latest.alle || {};
+  const alle_n = alle.n;
+  const alle_med = alle.median;
+  if(!alle_n || !alle_med) { host.innerHTML = '<p class="hint">Husholdningsdata ikke tilgjengelig for denne kommunen.</p>'; return; }
+
+  const fmtKr = n => n != null ? Math.round(n/1000) + 'k' : '–';
+  const fmtN = n => n != null ? n.toLocaleString('nb-NO') : '–';
+  const fmtPct = (a, b) => b ? ((a/b)*100).toFixed(0) + ' %' : '–';
+  const sgn = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(0);
+
+  // Type-rekkefølge med farger
+  const TYPES = [
+    {key:'aleneboende',     label:'Aleneboende',                col:'#B23B3B'},
+    {key:'par_uten_barn',   label:'Par uten barn',              col:'var(--amber)'},
+    {key:'par_med_barn',    label:'Par med barn 0–17',          col:'#2E7D5B'},
+    {key:'enslig_forelder', label:'Enslig forelder',            col:'var(--fi)'},
+    {key:'andre',           label:'Andre/flerfamilie',          col:'var(--ink3)'},
+  ];
+
+  // KPI-rad
+  const aleneN = (latest.aleneboende || {}).n || 0;
+  const aleneMed = (latest.aleneboende || {}).median;
+  const parMedBarnN = (latest.par_med_barn || {}).n || 0;
+  const parMedBarnMed = (latest.par_med_barn || {}).median;
+  const enslig = (latest.enslig_forelder || {}).n || 0;
+  const enkligMed = (latest.enslig_forelder || {}).median;
+  const aleneVsMed = aleneMed && alle_med ? ((aleneMed/alle_med - 1) * 100) : null;
+  const parVsMed = parMedBarnMed && alle_med ? ((parMedBarnMed/alle_med - 1) * 100) : null;
+  const spennMin = aleneMed;
+  const spennMax = parMedBarnMed;
+  const spennX = spennMin && spennMax ? (spennMax / spennMin) : null;
+
+  const kpiHTML =
+    '<div class="kpi-rad" style="margin:8px 0 14px">' +
+      '<div class="kpi"><div class="v">' + fmtPct(aleneN, alle_n) + '</div><div class="l">Aleneboende</div><div class="nh">' + fmtN(aleneN) + ' husholdninger</div></div>' +
+      '<div class="kpi"><div class="v">' + fmtPct(parMedBarnN, alle_n) + '</div><div class="l">Par med barn</div><div class="nh">' + fmtN(parMedBarnN) + ' husholdninger</div></div>' +
+      '<div class="kpi"><div class="v down">' + fmtKr(aleneMed) + '</div><div class="l">Aleneboende median</div><div class="nh">' + (aleneVsMed != null ? sgn(aleneVsMed) + ' % vs kommunemedian' : 'inntekt etter skatt') + '</div></div>' +
+      '<div class="kpi"><div class="v up">' + fmtKr(parMedBarnMed) + '</div><div class="l">Par med barn median</div><div class="nh">' + (parVsMed != null ? sgn(parVsMed) + ' % vs kommunemedian' : 'inntekt etter skatt') + '</div></div>' +
+    '</div>';
+
+  // Inntekt per type — sortert
+  const innRader = TYPES
+    .map(t => ({...t, n: (latest[t.key] || {}).n, median: (latest[t.key] || {}).median}))
+    .filter(r => r.median != null);
+  innRader.sort((a, b) => b.median - a.median);
+  const maxMed = Math.max.apply(null, innRader.map(r => r.median));
+  const inntektsGrafHTML =
+    '<div style="font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;margin:8px 0 6px;color:var(--ink)">Median inntekt etter skatt — per husholdningstype</div>' +
+    '<div style="display:flex;flex-direction:column;gap:6px">' +
+    innRader.map(r => {
+      const w = (r.median / maxMed * 100).toFixed(1);
+      const diffVsMed = ((r.median/alle_med - 1) * 100);
+      return '<div style="display:grid;grid-template-columns:160px 1fr 130px;gap:10px;align-items:center">' +
+        '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + r.label + '</div>' +
+        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + fmtKr(r.median) + ' kr</div>' +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--ink3);text-align:right">' + sgn(diffVsMed) + ' % vs median</div>' +
+      '</div>';
+    }).join('') +
+    '</div>';
+
+  // Sammensetning — stablet 100 %-stolpe
+  const sammensetningRader = TYPES
+    .map(t => ({...t, n: (latest[t.key] || {}).n || 0}))
+    .filter(r => r.n > 0);
+  const sumN = sammensetningRader.reduce((s, r) => s + r.n, 0);
+  const segHTML = sammensetningRader.map(r => {
+    const pct = (r.n / sumN * 100);
+    if(pct < 0.5) return '';
+    return '<div style="width:' + pct.toFixed(1) + '%;background:' + r.col + ';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px" title="' + r.label + ' ' + r.n.toLocaleString('nb-NO') + '">' + (pct >= 7 ? pct.toFixed(0) + ' %' : '') + '</div>';
+  }).join('');
+  const legendHTML = sammensetningRader.map(r =>
+    '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink2)"><i style="display:inline-block;width:10px;height:10px;background:' + r.col + ';border-radius:2px"></i>' + r.label + ' (' + fmtN(r.n) + ')</span>'
+  ).join(' ');
+  const sammensetningHTML =
+    '<div style="margin-top:18px"><div style="font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)">Sammensetning — ' + fmtN(sumN) + ' husholdninger i ' + scopeNavn + '</div>' +
+    '<div style="display:flex;height:30px;border-radius:6px;overflow:hidden;font-size:0">' + segHTML + '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">' + legendHTML + '</div></div>';
+
+  // Klartekst-tolkning
+  const tolkningHTML =
+    '<p class="sub" style="margin-top:16px;padding:14px 16px;background:rgba(178,59,59,0.06);border-left:4px solid #B23B3B;border-radius:0 6px 6px 0;line-height:1.6;font-size:13.5px">' +
+    '<b>Median lyver.</b> ' + scopeNavn + 's kommunemedian er <b>' + fmtKr(alle_med) + ' kr</b>, men det skjuler stor variasjon: ' +
+    '<b>' + fmtPct(aleneN, alle_n) + '</b> er aleneboende med median <b>' + fmtKr(aleneMed) + ' kr</b> ' + (aleneVsMed != null ? '(' + sgn(aleneVsMed) + ' % under)' : '') + ', ' +
+    'mens par med barn (kun ' + fmtPct(parMedBarnN, alle_n) + ' av husholdningene) har <b>' + fmtKr(parMedBarnMed) + ' kr</b> ' + (parVsMed != null ? '(' + sgn(parVsMed) + ' % over)' : '') + '. ' +
+    (spennX ? 'Forskjellen mellom rikeste og fattigste husholdningstype er <b>' + spennX.toFixed(1) + ' ganger</b>. ' : '') +
+    'Enslige forsørgere er <b>' + fmtPct(enslig, alle_n) + '</b> av husholdningene med median <b>' + fmtKr(enkligMed) + ' kr</b> — en sårbar gruppe med høyt forsørgeransvar og lav inntekt.</p>';
+
+  // Nivå 2: tidsserie (utvidbar)
+  let tidsserieHTML = '';
+  if(data.tidsserie){
+    const years = HUSH_DATA.years;
+    // Beregn andel aleneboende og median inntekt per type per år
+    const seriesAlene = []; // andel aleneboende
+    const seriesMedAlle = []; // median alle
+    const seriesMedAlene = [];
+    const seriesMedPar = [];
+    years.forEach(yr => {
+      const yd = data.tidsserie[yr] || {};
+      const all_y = (yd.alle || {}).n;
+      const al_y = (yd.aleneboende || {}).n;
+      seriesAlene.push(all_y ? al_y/all_y*100 : null);
+      seriesMedAlle.push((yd.alle || {}).median);
+      seriesMedAlene.push((yd.aleneboende || {}).median);
+      seriesMedPar.push((yd.par_med_barn || {}).median);
+    });
+    // Andel-graf
+    const aMin = Math.min.apply(null, seriesAlene.filter(v => v != null));
+    const aMax = Math.max.apply(null, seriesAlene.filter(v => v != null));
+    const aLo = Math.floor((aMin - 2)/5)*5, aHi = Math.ceil((aMax + 2)/5)*5;
+    function lineChart(values, color, yLo, yHi, unit, yLabel){
+      const W = 720, H = 200, L = 50, R = 30, T = 16, Bm = 30;
+      const wW = W-L-R, wH = H-T-Bm;
+      const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
+      const X = i => L + i/(values.length-1) * wW;
+      let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
+      // Gridlines
+      for(let g=0;g<=4;g++){
+        const v = yLo + (yHi-yLo)*g/4;
+        const y = Y(v);
+        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
+        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? Math.round(v/1000)+'k' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
+      }
+      // Line
+      let path = '';
+      values.forEach((v, i) => {
+        if(v == null) return;
+        path += (path ? ' L' : 'M') + X(i) + ' ' + Y(v);
+      });
+      svg += '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.2" stroke-linejoin="round"/>';
+      // Start/end-tall
+      const first = values.findIndex(v => v != null);
+      const last = values.length - 1 - [...values].reverse().findIndex(v => v != null);
+      if(first >= 0){
+        svg += '<circle cx="' + X(first) + '" cy="' + Y(values[first]) + '" r="4" fill="' + color + '"/>';
+        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[first]/1000)+'k' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
+      }
+      if(last >= 0){
+        svg += '<circle cx="' + X(last) + '" cy="' + Y(values[last]) + '" r="4" fill="' + color + '"/>';
+        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[last]/1000)+'k' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
+      }
+      // X-akse-år
+      [years[0], years[Math.floor(years.length/2)], years[years.length-1]].forEach((yr, idx) => {
+        const i = idx === 0 ? 0 : idx === 1 ? Math.floor(years.length/2) : years.length-1;
+        svg += '<text x="' + X(i) + '" y="' + (H-12) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + yr + '</text>';
+      });
+      svg += '</svg>';
+      return svg;
+    }
+    // Multi-line inntektsgraf
+    const allMedVals = seriesMedAlene.concat(seriesMedPar).concat(seriesMedAlle).filter(v => v != null);
+    const mLo = Math.floor(Math.min.apply(null, allMedVals) / 100000) * 100000;
+    const mHi = Math.ceil(Math.max.apply(null, allMedVals) / 100000) * 100000;
+    function multiLineChart(linesData, yLo, yHi){
+      const W = 720, H = 240, L = 50, R = 30, T = 16, Bm = 30;
+      const wW = W-L-R, wH = H-T-Bm;
+      const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
+      const yrs = HUSH_DATA.years;
+      const X = i => L + i/(yrs.length-1) * wW;
+      let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
+      for(let g=0;g<=4;g++){
+        const v = yLo + (yHi-yLo)*g/4;
+        const y = Y(v);
+        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
+        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + Math.round(v/1000) + 'k</text>';
+      }
+      linesData.forEach(line => {
+        let path = '';
+        line.values.forEach((v, i) => {
+          if(v == null) return;
+          path += (path ? ' L' : 'M') + X(i) + ' ' + Y(v);
+        });
+        svg += '<path d="' + path + '" fill="none" stroke="' + line.color + '" stroke-width="2.2" stroke-linejoin="round"/>';
+        // Endpoint label
+        const last = line.values.length - 1 - [...line.values].reverse().findIndex(v => v != null);
+        if(last >= 0){
+          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(line.values[last])+4) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + line.color + '">' + line.label + '</text>';
+        }
+      });
+      [yrs[0], yrs[Math.floor(yrs.length/2)], yrs[yrs.length-1]].forEach((yr, idx) => {
+        const i = idx === 0 ? 0 : idx === 1 ? Math.floor(yrs.length/2) : yrs.length-1;
+        svg += '<text x="' + X(i) + '" y="' + (H-12) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + yr + '</text>';
+      });
+      svg += '</svg>';
+      return svg;
+    }
+    tidsserieHTML =
+      '<details style="margin-top:18px"><summary style="cursor:pointer;font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;color:var(--ink);padding:6px 0;list-style:none">▾ Tidsserie 2005 → 2024 — strukturelle endringer</summary>' +
+      '<div style="margin-top:12px">' +
+      '<p class="hint" style="font-size:12px;margin-bottom:6px">Andel aleneboende av alle husholdninger (2005–2024). NB: Tall i kr er <b>nominelle</b> — ikke inflasjonsjustert. Bruk kurveformen, ikke absolutte verdier, til å lese strukturell endring.</p>' +
+      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:8px 0 4px;color:var(--ink)">Andel aleneboende (%) — strukturell trend</div>' +
+      lineChart(seriesAlene, '#B23B3B', aLo, aHi, '%') +
+      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:14px 0 4px;color:var(--ink)">Median inntekt etter skatt — tre typer (nominelle kr)</div>' +
+      multiLineChart([
+        {values: seriesMedAlene, color:'#B23B3B', label:'aleneb.'},
+        {values: seriesMedAlle, color:'var(--ink2)', label:'alle'},
+        {values: seriesMedPar, color:'#2E7D5B', label:'par+barn'},
+      ], mLo, mHi) +
+      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Linjene viser median inntekt etter skatt i nominelle kroner. For reell inflasjonsjustert sammenligning, sammenlign forholdet mellom linjene — ikke absolutte beløp.</p>' +
+      '</div></details>';
+  }
+
+  // Avsluttende kilde-rad
+  const kildeHTML = '<p class="hint" style="font-size:11.5px;margin-top:14px;opacity:.75;font-style:italic">Kilde: SSB tabell 06944, ' + HUSH_DATA.year_latest + '. ' + (scope.startsWith('kommune-') ? 'Per-kommune-data.' : 'Aggregat: antall summert, median = vektet snitt av kommunemedianer (vekt = antall husholdninger).') + ' «Andre»-kategorien er flerfamiliehushold og enfamiliehusholdninger med voksne hjemmeboende barn.</p>';
+
+  host.innerHTML = kpiHTML + inntektsGrafHTML + sammensetningHTML + tolkningHTML + tidsserieHTML + kildeHTML;
+}
+
 /* === Arbeids-helpers fra ARBEID_DATA ======================================== */
 function getSysselsRate(nr){
   if(typeof ARBEID_DATA==='undefined') return null;

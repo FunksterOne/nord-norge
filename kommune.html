@@ -771,7 +771,18 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p></div>' : '')+
         // Detaljerte levekårs-kort (eksisterende)
         '<div>' + levekarKommuneCard(k) + '</div>'+
+        // Husholdningstyper × inntekt — utvidbar
+        '<details style="margin-top:14px;border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden">'+
+          '<summary style="list-style:none;cursor:pointer;padding:14px 20px;color:var(--ink2);font-size:13px;font-weight:600;user-select:none">▾ Hvem bor i husholdningene — og hva tjener de?</summary>'+
+          '<div id="hushKommune" style="padding:18px 22px 22px;border-top:1px solid var(--line2)"></div>'+
+        '</details>'+
       '</div>';
+    // Etter innerHTML er satt, render husholdninger inn i div-en
+    setTimeout(function(){
+      if(typeof renderHusholdninger === 'function'){
+        renderHusholdninger('hushKommune', 'kommune-' + k.nr);
+      }
+    }, 0);
   }
 
   renderHero();
