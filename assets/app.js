@@ -781,17 +781,22 @@ function kostraCard(k){
 }
 function diagnoseCard(k){
   const P=DATA.proj; if(!P) return '';
-  const o=P.kommuner&&P.kommuner[k.nr]; const mw=MW(o); const n=(P.years||[]).length;
-  if(!o||!mw||n<2) return '';
+  const o=P.kommuner&&P.kommuner[k.nr]; const n=(P.years||[]).length;
+  if(!o||n<2) return '';
   const f=v=>fmt(Math.round(v));
   const pct=(a,b)=>b?((a/b-1)*100):0;
-  const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
-  // Bruk faktisk folketall per 1.1.2026 (k.pop) som dagens tall, ikke projeksjonens startår 2024 (mw.pop[0])
-  const pop0=k.pop, pop1=mw.pop[n-1], pp=pct(pop1,pop0);
-  const a6=mw.a65,a2=mw.a2064;
-  // Standard forsørgerbyrde (OECD 65+/20-64) — konsistent med KPI-er og bærekraftindikatorer
+  // SSB MMMM som hovedbane (offisiell), strukturmodellen (TF-ATTR) som hovedalternativ.
+  // pop0 er faktisk folketall per 1.1.2026 (k.pop).
+  const pop0=k.pop;
+  const pop1_ssb=o.main[n-1], pp_ssb=pct(pop1_ssb,pop0);
+  const pop1_attr=o.tfattr?o.tfattr[n-1]:null;
+  const pp_attr=pop1_attr!=null?pct(pop1_attr,pop0):null;
+  // Forsørgerbyrde og 80+ fra SSB MMMM (o.a65/a2064 er SSB-tall, ikke vindu-spesifikke)
+  const a6=o.a65, a2=o.a2064;
   const oad0=a6&&a2&&a2[0]?100*a6[0]/a2[0]:null, oad1=a6&&a2&&a2[n-1]?100*a6[n-1]/a2[n-1]:null;
-  const a8=mw.a80, g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
+  // 80+ finnes kun i o.mw (per vindu) — bruk sentral-vindu som proxy
+  const mwSent=(o.mw||{}).sentral, a8=mwSent&&mwSent.a80;
+  const g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
   const isA=k.isAgg;
   const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
   const num=v=>v==null?null:+v;
@@ -802,20 +807,28 @@ function diagnoseCard(k){
   if(gj!=null){ if(gj<90)pos++; else if(gj>110)neg++; }
   const verdict=(neg>=2)?'svakt':((pos>=2&&neg===0)?'solid':'blandet');
   const vc=(verdict==='svakt')?'#B23B3B':(verdict==='solid'?'#2E7D5B':'var(--amber)');
-  const sgn1=v=>(v>=0?'+':'\u2212')+Math.abs(v).toFixed(0);
+  const sgn1=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0);
+  // Yttergrense-spennvidde: smalt 2017-21-vindu som outlier-merknad
   let spread='';
-  if(o.mw&&o.mw.kons&&o.mw.opt){ const lo=o.mw.kons.pop[n-1],hi=o.mw.opt.pop[n-1];
-    spread=' Hvor sterkt avhenger av flyttebanen \u2014 folketall 2050 spenner fra <b>'+f(Math.min(lo,hi))+'</b> til <b>'+f(Math.max(lo,hi))+'</b>.'; }
+  if(o.mw&&o.mw.kons){
+    const mvp_smalt=o.mw.kons.pop[n-1];
+    spread=' Yttergrense-modellen (smalt 2017–2021-vindu, TF-MVP) sier <b>'+f(mvp_smalt)+'</b> — det er hva som skjer hvis flyttetrenden 2017–2021 vedvarer i 26 år.';
+  }
   let s='';
-  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). Med '+wlab+'-flyttebanen '+(pp>=0?'vokser folketallet til':'krymper folketallet til')+' <b>'+f(pop1)+'</b> innen 2050 (<b>'+sgn1(pp)+'\u2009%</b>). ';
-  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+'\u2009%</b>':'')+'. ';
-  if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det \u00f8konomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'\u2013':(ndr>=0?'':'\u2212')+Math.abs(ndr).toFixed(1))+'\u2009%</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'\u2013':fond.toFixed(1))+'\u2009%</b>, netto l\u00e5negjeld <b>'+(gj==null?'\u2013':gj.toFixed(0))+'\u2009%</b>. ';
-  s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg \u2014 vist i grafene under.'+spread;
+  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). ';
+  s+='SSBs offisielle bane (MMMM) peker mot <b>'+f(pop1_ssb)+'</b> i 2050 (<b>'+sgn1(pp_ssb)+' %</b>)';
+  if(pop1_attr!=null){
+    s+='. Strukturmodellen fra Telemarksforskning — hovedalternativet, som slo SSB i de minst sentrale kommunene i 2020→2024-backtesten — sier <b>'+f(pop1_attr)+'</b> (<b>'+sgn1(pp_attr)+' %</b>)';
+  }
+  s+='. ';
+  if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
+  if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det økonomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'–':(ndr>=0?'':'−')+Math.abs(ndr).toFixed(1))+' %</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'–':fond.toFixed(1))+' %</b>, netto lånegjeld <b>'+(gj==null?'–':gj.toFixed(0))+' %</b>. ';
+  s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg — vist i grafene under.'+spread;
   return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0 10px 10px 0">'+
-    '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon \u2014 demografi m\u00f8ter \u00f8konomi</h3>'+
-    '<span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber)1f;padding:2px 8px;border-radius:10px">'+wlab+'-flyttebane</span></div>'+
+    '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon — demografi møter økonomi</h3>'+
+    '<span style="font-size:10px;font-weight:700;color:var(--aurora);background:rgba(24,117,103,0.15);padding:2px 8px;border-radius:10px">SSB MMMM · hovedbane</span></div>'+
     '<p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--ink)">'+s+'</p>'+
-    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">Framskrevet med strukturmodellen (kohortbasert, ikke en prognose). KOSTRA: siste tilgjengelige \u00e5r. Detaljer og forbehold i kortene under.</p></div>';
+    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">SSB MMMM (offisiell) og strukturmodellen (TF-ATTR, hovedalternativ) er hovedfortellingen. Yttergrense-modeller vises som outlier-kontekst. KOSTRA: siste tilgjengelige år.</p></div>';
 }
 function robekProxy(nr){
   const P=DATA.proj, ks=(P.kostra||{})[nr], TS=P.kostra_ts||{}, tsK=(TS.kommuner||{})[nr]||{};
