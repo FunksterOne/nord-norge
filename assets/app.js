@@ -2481,10 +2481,15 @@ function renderHusholdninger(hostId, scope){
       seriesMedAlene.push((yd.aleneboende || {}).median);
       seriesMedPar.push((yd.par_med_barn || {}).median);
     });
-    // Andel-graf
-    const aMin = Math.min.apply(null, seriesAlene.filter(v => v != null));
-    const aMax = Math.max.apply(null, seriesAlene.filter(v => v != null));
-    const aLo = Math.floor((aMin - 2)/5)*5, aHi = Math.ceil((aMax + 2)/5)*5;
+    // Andel-graf — snap til heltalls-ticks slik at 5 grids gir 5 unike heltallsetiketter
+    const valsA = seriesAlene.filter(v => v != null);
+    const aMin = Math.min.apply(null, valsA);
+    const aMax = Math.max.apply(null, valsA);
+    const aSpan = Math.max(1, aMax - aMin);
+    const aStep = aSpan <= 4 ? 1 : aSpan <= 8 ? 2 : aSpan <= 20 ? 5 : 10;
+    const aCtr = (aMin + aMax) / 2;
+    const aLo = Math.floor((aCtr - 2*aStep) / aStep) * aStep;
+    const aHi = aLo + 4 * aStep;
     function lineChart(values, color, yLo, yHi, unit, yLabel){
       const W = 720, H = 200, L = 50, R = 30, T = 16, Bm = 30;
       const wW = W-L-R, wH = H-T-Bm;
@@ -2524,10 +2529,15 @@ function renderHusholdninger(hostId, scope){
       svg += '</svg>';
       return svg;
     }
-    // Multi-line inntektsgraf
+    // Multi-line inntektsgraf — snap til 100k/200k-steg slik at 5 grids gir rene k-etiketter
     const allMedVals = seriesMedAlene.concat(seriesMedPar).concat(seriesMedAlle).filter(v => v != null);
-    const mLo = Math.floor(Math.min.apply(null, allMedVals) / 100000) * 100000;
-    const mHi = Math.ceil(Math.max.apply(null, allMedVals) / 100000) * 100000;
+    const mMin = Math.min.apply(null, allMedVals);
+    const mMax = Math.max.apply(null, allMedVals);
+    const mSpan = Math.max(100000, mMax - mMin);
+    const mStep = mSpan <= 400000 ? 100000 : mSpan <= 800000 ? 200000 : 250000;
+    const mCtr = (mMin + mMax) / 2;
+    const mLo = Math.floor((mCtr - 2*mStep) / mStep) * mStep;
+    const mHi = mLo + 4 * mStep;
     function multiLineChart(linesData, yLo, yHi){
       const W = 720, H = 240, L = 50, R = 30, T = 16, Bm = 30;
       const wW = W-L-R, wH = H-T-Bm;
