@@ -2481,24 +2481,35 @@ function renderHusholdninger(hostId, scope){
       seriesMedAlene.push((yd.aleneboende || {}).median);
       seriesMedPar.push((yd.par_med_barn || {}).median);
     });
-    // Andel-graf — snap til heltalls-ticks slik at 5 grids gir 5 unike heltallsetiketter
+    // Y-akse-helper: gir nice ticks som garantert dekker [min, max] uten å klippe
+    function niceTickRange(min, max, unit){
+      const span = Math.max(0, max - min);
+      let step;
+      if(unit === 'kr'){
+        step = span <= 400000 ? 100000 : span <= 800000 ? 200000 : span <= 2000000 ? 250000 : 500000;
+      } else {
+        step = span <= 4 ? 1 : span <= 8 ? 2 : span <= 20 ? 5 : span <= 40 ? 10 : 20;
+      }
+      let lo = Math.floor(min / step) * step;
+      let hi = Math.ceil(max / step) * step;
+      // Hvis lo===hi (flat kurve eller verdi treffer kant nøyaktig), gi luft på begge sider
+      if(hi - lo < step){ lo -= step; hi += step; }
+      return {lo: lo, hi: hi, step: step};
+    }
+    // Andel-graf
     const valsA = seriesAlene.filter(v => v != null);
-    const aMin = Math.min.apply(null, valsA);
-    const aMax = Math.max.apply(null, valsA);
-    const aSpan = Math.max(1, aMax - aMin);
-    const aStep = aSpan <= 4 ? 1 : aSpan <= 8 ? 2 : aSpan <= 20 ? 5 : 10;
-    const aCtr = (aMin + aMax) / 2;
-    const aLo = Math.floor((aCtr - 2*aStep) / aStep) * aStep;
-    const aHi = aLo + 4 * aStep;
-    function lineChart(values, color, yLo, yHi, unit, yLabel){
+    const aRange = niceTickRange(Math.min.apply(null, valsA), Math.max.apply(null, valsA), '%');
+    const aLo = aRange.lo, aHi = aRange.hi, aStep = aRange.step;
+    function lineChart(values, color, yLo, yHi, yStep, unit, yLabel){
       const W = 720, H = 200, L = 50, R = 30, T = 16, Bm = 30;
       const wW = W-L-R, wH = H-T-Bm;
       const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
       const X = i => L + i/(values.length-1) * wW;
       let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
-      // Gridlines
-      for(let g=0;g<=4;g++){
-        const v = yLo + (yHi-yLo)*g/4;
+      // Gridlines — variabelt antall basert på step (3–8 ticks)
+      const nTicks = Math.round((yHi - yLo) / yStep) + 1;
+      for(let g=0; g<nTicks; g++){
+        const v = yLo + yStep * g;
         const y = Y(v);
         svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
         svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? Math.round(v/1000)+'k' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
@@ -2529,24 +2540,20 @@ function renderHusholdninger(hostId, scope){
       svg += '</svg>';
       return svg;
     }
-    // Multi-line inntektsgraf — snap til 100k/200k-steg slik at 5 grids gir rene k-etiketter
+    // Multi-line inntektsgraf
     const allMedVals = seriesMedAlene.concat(seriesMedPar).concat(seriesMedAlle).filter(v => v != null);
-    const mMin = Math.min.apply(null, allMedVals);
-    const mMax = Math.max.apply(null, allMedVals);
-    const mSpan = Math.max(100000, mMax - mMin);
-    const mStep = mSpan <= 400000 ? 100000 : mSpan <= 800000 ? 200000 : 250000;
-    const mCtr = (mMin + mMax) / 2;
-    const mLo = Math.floor((mCtr - 2*mStep) / mStep) * mStep;
-    const mHi = mLo + 4 * mStep;
-    function multiLineChart(linesData, yLo, yHi){
-      const W = 720, H = 240, L = 50, R = 30, T = 16, Bm = 30;
+    const mRange = niceTickRange(Math.min.apply(null, allMedVals), Math.max.apply(null, allMedVals), 'kr');
+    const mLo = mRange.lo, mHi = mRange.hi, mStep = mRange.step;
+    function multiLineChart(linesData, yLo, yHi, yStep){
+      const W = 720, H = 240, L = 50, R = 60, T = 16, Bm = 30;
       const wW = W-L-R, wH = H-T-Bm;
       const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
       const yrs = HUSH_DATA.years;
       const X = i => L + i/(yrs.length-1) * wW;
       let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
-      for(let g=0;g<=4;g++){
-        const v = yLo + (yHi-yLo)*g/4;
+      const nTicks = Math.round((yHi - yLo) / yStep) + 1;
+      for(let g=0; g<nTicks; g++){
+        const v = yLo + yStep * g;
         const y = Y(v);
         svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
         svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + Math.round(v/1000) + 'k</text>';
@@ -2558,10 +2565,13 @@ function renderHusholdninger(hostId, scope){
           path += (path ? ' L' : 'M') + X(i) + ' ' + Y(v);
         });
         svg += '<path d="' + path + '" fill="none" stroke="' + line.color + '" stroke-width="2.2" stroke-linejoin="round"/>';
-        // Endpoint label
+        // Endpoint: kroner-verdi + etikett
         const last = line.values.length - 1 - [...line.values].reverse().findIndex(v => v != null);
         if(last >= 0){
-          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(line.values[last])+4) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + line.color + '">' + line.label + '</text>';
+          const val = line.values[last];
+          svg += '<circle cx="' + X(last) + '" cy="' + Y(val) + '" r="3.5" fill="' + line.color + '"/>';
+          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)-3) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + line.color + '">' + Math.round(val/1000) + 'k</text>';
+          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)+10) + '" style="font-size:10px;fill:' + line.color + ';opacity:.75">' + line.label + '</text>';
         }
       });
       [yrs[0], yrs[Math.floor(yrs.length/2)], yrs[yrs.length-1]].forEach((yr, idx) => {
@@ -2574,16 +2584,17 @@ function renderHusholdninger(hostId, scope){
     tidsserieHTML =
       '<details style="margin-top:18px"><summary style="cursor:pointer;font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;color:var(--ink);padding:6px 0;list-style:none">▾ Tidsserie 2005 → 2024 — strukturelle endringer</summary>' +
       '<div style="margin-top:12px">' +
-      '<p class="hint" style="font-size:12px;margin-bottom:6px">Andel aleneboende av alle husholdninger (2005–2024). NB: Tall i kr er <b>nominelle</b> — ikke inflasjonsjustert. Bruk kurveformen, ikke absolutte verdier, til å lese strukturell endring.</p>' +
-      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:8px 0 4px;color:var(--ink)">Andel aleneboende (%) — strukturell trend</div>' +
-      lineChart(seriesAlene, '#B23B3B', aLo, aHi, '%') +
-      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:14px 0 4px;color:var(--ink)">Median inntekt etter skatt — tre typer (nominelle kr)</div>' +
+      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:8px 0 2px;color:var(--ink)">Andel aleneboende (%) — utvikling 2005 → 2024</div>' +
+      '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85">Andelen av alle husholdninger som er aleneboende. Stigende kurve = økt enbo-tendens, vanligvis drivkraft for lavere inntekter per husholdning.</p>' +
+      lineChart(seriesAlene, '#B23B3B', aLo, aHi, aStep, '%') +
+      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:18px 0 2px;color:var(--ink)">Median inntekt etter skatt — tre husholdningstyper</div>' +
+      '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85"><b>NB:</b> Tallene er <b>nominelle kroner</b> (ikke inflasjonsjustert). Bruk avstanden mellom linjene og kurveformen, ikke absolutte beløp.</p>' +
       multiLineChart([
-        {values: seriesMedAlene, color:'#B23B3B', label:'aleneb.'},
+        {values: seriesMedAlene, color:'#B23B3B', label:'aleneboende'},
         {values: seriesMedAlle, color:'var(--ink2)', label:'alle'},
         {values: seriesMedPar, color:'#2E7D5B', label:'par+barn'},
-      ], mLo, mHi) +
-      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Linjene viser median inntekt etter skatt i nominelle kroner. For reell inflasjonsjustert sammenligning, sammenlign forholdet mellom linjene — ikke absolutte beløp.</p>' +
+      ], mLo, mHi, mStep) +
+      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i 2024 (1000 kr). Endring i avstanden mellom linjene over tid viser strukturell ulikhet — uavhengig av inflasjon.</p>' +
       '</div></details>';
   }
 
