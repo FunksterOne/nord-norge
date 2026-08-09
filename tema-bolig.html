@@ -54,7 +54,7 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 07 · Boligmarkedet 2000 → 2050</div>
   <h1>Bygges det <em>nok</em> der folk skal bo?</h1>
-  <p class="lede">Boligbyggingen i Nord-Norge har falt til det laveste nivået på over tjue år, og nedgangen er dobbelt så sterk som i landet ellers. Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
+  <p class="lede">Boligbyggingen i Nord-Norge har falt til det laveste nivået på over tjue år, og fallet i igangsettingstillatelser siste tolv måneder er langt sterkere enn i landet ellers (−25 % mot −3 %). Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — BYGGETAKTEN ────────────────── -->
@@ -66,14 +66,14 @@
   <div class="kpi-rad" id="byggKPI"></div>
   <div class="graf-kort">
     <h3>Igangsettingstillatelser og fullførte boliger — 12 måneders rullerende sum</h3>
-    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB byggearealstatistikk (tabell 05889), 2001–2026. Kommuneserier skjøtet til 2024-grensene.</p>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB byggearealstatistikk (tabell 05889), 2000–2026. Kommuneserier skjøtet til 2024-grensene.</p>
     <div id="rullGraf"></div>
     <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser</span><span><i style="background:var(--nl)"></i>Fullførte boliger</span></div>
   </div>
   <div class="graf-kort">
     <h3>Per kvartal, 2022–2026</h3>
     <div id="kvartGraf"></div>
-    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsatt</span><span><i style="background:var(--nl)"></i>Fullført</span></div>
+    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser</span><span><i style="background:var(--nl)"></i>Fullført</span></div>
   </div>
 </section>
 
@@ -121,7 +121,7 @@
   <div class="kal-kort" style="background:rgba(201,162,59,.07);border-color:rgba(201,162,59,.3)">
     <h3>Pris-avstanden som stopper byggingen</h3>
     <p style="font-size:13px;line-height:1.6;margin:0 0 8px" id="gapTekst"></p>
-    <p class="hint" style="font-size:11.5px;margin:0">Nybyggtallet gjelder eneboliger inkludert tomt (SSB 13500) og bygger på få omsetninger i landsdelen (29 i 2024) — nivået er usikkert, retningen er ikke. Bruktprisen er omsetningsvektet snitt av fylkene (SSB 14545, eneboliger).</p>
+    <p class="hint" style="font-size:11.5px;margin:0">Nybyggtallet gjelder eneboliger inkludert tomt (SSB 13500) og bygger på få omsetninger i landsdelen (25 i 2025) — nivået er usikkert, retningen er ikke. Bruktprisen er omsetningsvektet snitt av fylkene (SSB 14545, eneboliger).</p>
   </div>
 </section>
 
@@ -129,15 +129,38 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Sårbarheten</div>
   <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
-  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. To kommuner står for over 80 prosent av igangsettingene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
+  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. To kommuner står for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
   <div class="kpi-rad" id="sarbKPI"></div>
   <div class="graf-kort">
-    <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettinger, siste 12 måneder</h3>
+    <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettingstillatelser, siste 12 måneder</h3>
     <div id="konsGraf"></div>
   </div>
   <div class="graf-kort">
     <h3>Kommuner uten igangsettingstillatelser hittil i <span id="utenAar"></span></h3>
     <div id="utenListe"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 05 — LEIEMARKEDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Leiemarkedet</div>
+  <h2>Stadig flere konkurrerer om <em>leieboligene</em>.</h2>
+  <p class="akt-intro">Når færre kan kjøpe, må flere leie. Leiehusholdningene i Nord-Norge vokser halvannen gang raskere enn husholdningene samlet, og markedet skal dekke alt fra studenter og pendlere til flyktninger og lavinntektshusholdninger. Der det private leiemarkedet er tynt, blir kommunale boliger siste skanse — og i de minst sentrale kommunene er den kommunale andelen høyest.</p>
+  <div class="kpi-rad" id="leieKPI"></div>
+  <div class="graf-kort">
+    <h3>Andel husholdninger i leid bolig, 2024 — de 20 høyeste</h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 11084 (registerbasert boforhold). Kommuneserier skjøtet til 2024-grensene. Fylkes-, landsdels- og landssnitt som referanserader.</p>
+    <div id="leieListe"></div>
+  </div>
+  <div class="graf-kort">
+    <h3>Kommunalt disponerte boliger per 1 000 innbyggere — de 15 høyeste</h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB/KOSTRA tabell 12008 (<span id="kommAar"></span>). Dette måler kommunens boligmasse, ikke hvor mange husholdninger som faktisk leier kommunalt — det tallet finnes bare i forskningsdata.</p>
+    <div id="kommListe"></div>
+  </div>
+  <div class="kal-kort" style="background:rgba(28,111,168,.06);border-color:rgba(28,111,168,.25)">
+    <h3>Fra kbnn-analysen av leiemarkedet (KPB, juli 2026)</h3>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 6px">Tall som bare finnes i forskningsdata (Microdata), gjengitt med kilde: rundt <b>90 000 personer</b> i Nord-Norge bor i leid bolig. <b>38,5 %</b> av alle mellom 20 og 29 år leier, og leieandelen øker også i 40- og 50-årene. <b>Privatpersoner eier over halvparten</b> av utleieboligene. Flere søker kommunal bolig, men færre får innvilget. I Rødøy leier <b>16,2 %</b> av husholdningene kommunalt — høyest i landsdelen.</p>
+    <p class="hint" style="font-size:11.5px;margin:0">Kilde: <a href="https://www.kbnn.no/artikkel/leiemarkedet-i-nord-norge-strammer-seg-til" target="_blank" rel="noopener">kbnn: Leiemarkedet i Nord-Norge strammer seg til</a> (8. juli 2026). Grafene over bygger på åpne SSB-tabeller og kan avvike noe i definisjon.</p>
   </div>
 </section>
 
@@ -233,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var andel = valg === 'landsdel' && rikIg ? ig12 / rikIg * 100 : null;
     function pil(d){ return d == null ? '' : (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(0) + ' % mot året før'; }
     var html =
-      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsatt siste 12 mnd</div><div class="s">' + pil(dIg) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsettingstillatelser siste 12 mnd</div><div class="s">' + pil(dIg) + '</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">' + pil(dFu) + '</div></div>';
     if(andel != null){
       html += '<div class="kpi"><div class="v">' + andel.toFixed(1).replace('.', ',') + ' %</div><div class="l">Andel av landet</div><div class="s">snitt siden 2022: ~7 %</div></div>';
@@ -249,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var uten = koder.filter(function(nr){
       var s = 0; iaar.forEach(function(i){ s += B.kommuner[nr].ig[i]; }); return s === 0;
     });
-    html += '<div class="kpi"><div class="v">' + uten.length + ' av ' + koder.length + '</div><div class="l">Kommuner uten igangsetting</div><div class="s">hittil i ' + sisteAar() + '</div></div>';
+    html += '<div class="kpi"><div class="v">' + uten.length + ' av ' + koder.length + '</div><div class="l">Kommuner uten igangsettingstillatelser</div><div class="s">hittil i ' + sisteAar() + '</div></div>';
     document.getElementById('byggKPI').innerHTML = html;
   }
 
@@ -416,17 +439,20 @@ document.addEventListener('DOMContentLoaded', function(){
       var sum = med.reduce(function(s, x){ return s + x.v; }, 0);
       var topp2 = med[0].v + med[1].v;
       var andel = sum ? topp2 / sum * 100 : 0;
-      htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:\'Spline Sans Mono\',monospace">' + Math.round(andel) + ' % — ' + med[0].navn.split(' - ')[0] + ' + ' + med[1].navn.split(' - ')[0] + '</span></div>' +
+      htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:\'Spline Sans Mono\',monospace">' + Math.round(andel) + ' % — ' + med[0].navn + ' + ' + med[1].navn + '</span></div>' +
         '<div style="height:20px;background:rgba(17,32,58,.05);border-radius:5px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + andel + '%;background:var(--amber);border-radius:5px"></div></div></div>';
       koder.forEach(function(nr){
         var s = 0; iaar.forEach(function(i){ s += B.kommuner[nr].ig[i]; });
-        if(s === 0) utenAlle.push({navn: DATA.kommuner[nr].navn.split(' - ')[0], fylke: f});
+        if(s === 0) utenAlle.push({navn: DATA.kommuner[nr].navn, fylke: f});
       });
     });
     document.getElementById('konsGraf').innerHTML = htmlK;
     document.getElementById('utenAar').textContent = sisteAar();
     document.getElementById('utenListe').innerHTML =
-      '<p class="hint" style="font-size:12px;margin:2px 0 4px">' + utenAlle.length + ' av 80 kommuner. Rød kant = Finnmark har høyest andel.</p>' +
+      '<p class="hint" style="font-size:12px;margin:2px 0 4px">' + utenAlle.length + ' av 80 kommuner — ' + ['Nordland', 'Troms', 'Finnmark'].map(function(f){
+        var tot = Object.keys(B.kommuner).filter(function(nr){ return DATA.kommuner[nr].fylke === f; }).length;
+        return f + ' ' + utenAlle.filter(function(u){ return u.fylke === f; }).length + ' av ' + tot;
+      }).join(', ') + '.</p>' +
       '<div class="chipgrid">' + utenAlle.map(function(u){ return '<span class="chip" title="' + u.fylke + '">' + u.navn + '</span>'; }).join('') + '</div>';
 
     var beL = BE.landsdel;
@@ -461,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // kommuneliste med fylkessnitt og rikssnitt som referanserader
     var rader = harP.map(function(nr){
       var f = DATA.kommuner[nr].fylke;
-      return {navn: DATA.kommuner[nr].navn.split(' - ')[0], p: M.kvm2025[nr].p, farge: FY[f], ref: false};
+      return {navn: DATA.kommuner[nr].navn, p: M.kvm2025[nr].p, farge: FY[f], ref: false};
     });
     Object.keys(M.kvm_fylker).forEach(function(f){
       if(M.kvm_fylker[f].p) rader.push({navn: f + ' — fylkessnitt', p: M.kvm_fylker[f].p, farge: FY[f], ref: true});
@@ -524,6 +550,57 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('gapTekst').innerHTML = txt;
   }
 
+  // ---------- akt 05: leiemarkedet ----------
+  function renderLeie(){
+    if(typeof LEIE_DATA === 'undefined') return;
+    var LE = LEIE_DATA;
+    var L = LE.landsdel, R = LE.riket;
+    var vl = (L.l24 - L.l15) / L.l15 * 100;
+    var va = (L.a24 - L.a15) / L.a15 * 100;
+    var andelL = L.l24 / L.a24 * 100, andelR = R.l24 / R.a24 * 100;
+    var toppKomm = Object.keys(LE.komm1000).map(function(nr){
+      return {nr: nr, v: LE.komm1000[nr] || 0};
+    }).sort(function(a, b){ return b.v - a.v; });
+    document.getElementById('leieKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + fmt(L.l24) + '</div><div class="l">Leiehusholdninger ' + LE.aar + '</div><div class="s">' + andelL.toFixed(1).replace('.', ',') + ' % av husholdningene (landet: ' + andelR.toFixed(1).replace('.', ',') + ' %)</div></div>' +
+      '<div class="kpi"><div class="v">+' + vl.toFixed(1).replace('.', ',') + ' %</div><div class="l">Vekst i leiehusholdninger</div><div class="s">2015–2024 — mot +' + va.toFixed(1).replace('.', ',') + ' % for alle husholdninger</div></div>' +
+      '<div class="kpi"><div class="v">~90 000</div><div class="l">Personer i leid bolig</div><div class="s">kbnn/Microdata, 2024</div></div>' +
+      '<div class="kpi"><div class="v">' + toppKomm[0].v + '</div><div class="l">Kommunale boliger per 1 000 innb.</div><div class="s">høyest: ' + DATA.kommuner[toppKomm[0].nr].navn + ' (' + LE.aar_komm + ')</div></div>';
+
+    // leieandel per kommune — topp 20 + referanserader
+    var rader = Object.keys(LE.kommuner).map(function(nr){
+      var o = LE.kommuner[nr];
+      return {navn: DATA.kommuner[nr].navn, v: o.a24 ? o.l24 / o.a24 * 100 : 0,
+              farge: FY[DATA.kommuner[nr].fylke], ref: false};
+    }).sort(function(a, b){ return b.v - a.v; }).slice(0, 20);
+    Object.keys(LE.fylker).forEach(function(f){
+      var o = LE.fylker[f];
+      rader.push({navn: f + ' — fylkessnitt', v: o.l24 / o.a24 * 100, farge: FY[f], ref: true});
+    });
+    rader.push({navn: 'Nord-Norge', v: andelL, farge: 'var(--ink3)', ref: true});
+    rader.push({navn: 'Hele landet', v: andelR, farge: 'var(--ink3)', ref: true});
+    rader.sort(function(a, b){ return b.v - a.v; });
+    var maxV = rader[0].v;
+    document.getElementById('leieListe').innerHTML = rader.map(function(r){
+      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:rgba(17,32,58,.04);border-radius:5px' : '') + '">' +
+        '<div style="font-size:12px;text-align:right' + (r.ref ? ';font-weight:700' : '') + '">' + r.navn + '</div>' +
+        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxV * 100) + '%;background:' + r.farge + ';border-radius:4px;opacity:' + (r.ref ? '.55' : '.9') + '"></div></div>' +
+        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + r.v.toFixed(1).replace('.', ',') + ' %</div></div>';
+    }).join('');
+
+    // kommunalt disponerte per 1 000 — topp 15
+    document.getElementById('kommAar').textContent = LE.aar_komm;
+    var topp15 = toppKomm.slice(0, 15);
+    var maxK = topp15[0].v;
+    document.getElementById('kommListe').innerHTML = topp15.map(function(r){
+      var navn = DATA.kommuner[r.nr].navn;
+      return '<div style="display:grid;grid-template-columns:200px 1fr 60px;gap:10px;align-items:center;padding:2px 0">' +
+        '<div style="font-size:12px;text-align:right">' + navn + '</div>' +
+        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxK * 100) + '%;background:' + FY[DATA.kommuner[r.nr].fylke] + ';border-radius:4px;opacity:.9"></div></div>' +
+        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + r.v + '</div></div>';
+    }).join('');
+  }
+
   // ---------- velger + init ----------
   var vh = document.getElementById('omrValg');
   vh.innerHTML = OMR.map(function(o){
@@ -536,7 +613,7 @@ document.addEventListener('DOMContentLoaded', function(){
       renderKPI(); renderRull(); renderKvart(); renderGap();
     };
   });
-  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb(); renderMarked();
+  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb(); renderMarked(); renderLeie();
 });
 </script>
 </body>

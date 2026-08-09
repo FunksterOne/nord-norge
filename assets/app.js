@@ -64,7 +64,7 @@ const AGG={};
 (function buildAggregates(){
   if(!DATA.proj||!DATA.proj.kommuner) return;
   const GR=['tot','abc','zzz','ddd','eee'];
-  const PA=['main','low','high','a019','a2064','a65','tfattr','tfattr_a019','tfattr_a2064','tfattr_a65','ukra50','ukra75','ukra100'];
+  const PA=['main','low','high','a019','a2064','a65','a80','tfattr','tfattr_a019','tfattr_a2064','tfattr_a65','ukra50','ukra75','ukra100'];
   const MWF=['pop','nat','mig','a019','a2064','a65','a80','a15','a615','a67','u50','u75','u100','s75','s125'], WINS=['kons','sentral','opt'];
   function build(list,nr,navn,fy){
     const n106=new Array(106).fill(0);
@@ -123,6 +123,19 @@ function currentK(){
 }
 function MW(o){ return (o&&o.mw)?o.mw[state.mw]:null; }
 function LMW(){ const L=DATA.proj&&DATA.proj.landsdel; return (L&&L.mw)?L.mw[state.mw]:{}; }
+// Ferskeste kvartalsvise folketall (SSB 01222, BEFK_DATA). Modellene er
+// forankret i 1.1-tallene; dette er kun visning av siste maaling.
+function aprilPop(k){
+  if(typeof BEFK_DATA==='undefined'||!BEFK_DATA||!k) return null;
+  if(k.isAgg) return k.fylke==='Alle'?BEFK_DATA.landsdel:(BEFK_DATA.fylker[k.fylke]||null);
+  return BEFK_DATA.kommuner[k.nr]||null;
+}
+function popKpi(k, ekstraSub){
+  const apr=aprilPop(k);
+  if(!apr) return '<div class="kpi"><div class="v">'+fmt(k.pop)+'</div><div class="l">Folketall</div><div class="s">'+(ekstraSub||'')+'per 1.1.2026</div></div>';
+  const d=apr-k.pop;
+  return '<div class="kpi"><div class="v">'+fmt(apr)+'</div><div class="l">Folketall</div><div class="s">'+(ekstraSub||'')+'per '+BEFK_DATA.dato_norsk+' ('+(d>=0?'+':'−')+fmt(Math.abs(d))+' siden 1.1)</div></div>';
+}
 
 const elList=document.getElementById('klist'), elDet=document.getElementById('detail');
 
@@ -270,7 +283,7 @@ function projChart(k,mode){
     if(histYears.length){
       let dh='';
       histYears.forEach((yr,i)=>{dh+=(i?' L':'M')+Xy(yr).toFixed(1)+' '+Y(hist[yr]).toFixed(1);});
-      // Bro frem til 2024 (projeksjonens start) hvis hist slutter før
+      // Bro frem til 2026 (projeksjonens start) hvis hist slutter før
       const lastHistY=histYears[histYears.length-1];
       if(lastHistY<yrs[0]){
         dh+=' L'+Xy(yrs[0]).toFixed(1)+' '+Y(o.main[0]).toFixed(1);
@@ -374,7 +387,7 @@ function projChart(k,mode){
     for(let g=0;g<=4;g++){const val=rmn+(rmx-rmn)*g/4,y=aB-(aB-aT)*g/4;
       s+='<line x1="'+Lx+'" y1="'+y+'" x2="'+(Lx+Wx)+'" y2="'+y+'" stroke="rgba(17,32,58,.07)"/>';
       s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y+3)+'" text-anchor="end">'+val.toFixed(0)+'</text>';}
-    // 2024 reference + shaded added burden
+    // 2026 reference + shaded added burden
     const y0=Ya(r[0]);
     s+='<line x1="'+Lx+'" y1="'+y0+'" x2="'+(Lx+Wx)+'" y2="'+y0+'" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>';
     s+='<text class="axis" x="'+(Lx+Wx)+'" y="'+(y0-5)+'" text-anchor="end" style="fill:var(--ink3)">2026-nivå</text>';
@@ -389,7 +402,7 @@ function projChart(k,mode){
       s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y-9)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700;fill:var(--amber)">'+p[1].toFixed(0)+'</text>';
       s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y+13)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-size:9.5px;fill:var(--ink3)">'+sup.toFixed(1)+' yrkesaktive/eldre</text>';});
     // caption + panel B: demografisk forskyvning
-    s+='<text x="'+Lx+'" y="232" style="font-family:\'Fraunces\',serif;font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2024 = 100)</text>';
+    s+='<text x="'+Lx+'" y="232" style="font-family:\'Fraunces\',serif;font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2026 = 100)</text>';
     let bT=246,bB=336; let im=Math.min.apply(0,i20.concat(i65)), iM=Math.max.apply(0,i20.concat(i65));
     const ip=(iM-im)*0.12||5; im-=ip; iM+=ip;
     const Yb=v=>bB-(v-im)/((iM-im)||1)*(bB-bT);
@@ -409,12 +422,14 @@ function projChart(k,mode){
     // Aldring: grupperte stolper på 6 tidspunkter (2024, 2030, 2035, 2040, 2045, 2050)
     // — endringene mellom de tre aldersgruppene blir tydeligere som stolper enn som linjer.
     const S=[['a019','0–19 år','var(--nl)'],['a2064','20–64 år','var(--ink)'],['a65','65+ år','var(--amber)']];
-    const wantYears=[2024,2030,2035,2040,2045,2050];
+    if(o.a80) S.push(['a80','herav 80+ år','#B23B3B']);
+    const wantYears=[2026,2030,2035,2040,2045,2050];
     let tps=wantYears.map(y=>yrs.indexOf(y)).filter(i=>i>=0);
     if(tps.length===0) tps=[0,n-1];
     lo=0;hi=-Infinity;
     S.forEach(s=>tps.forEach(i=>{const v=o[s[0]][i]; if(v!=null) hi=Math.max(hi,v);}));
-    hi=Math.ceil(hi/1000)*1000;
+    // Ekstra takhøyde: verditallene står loddrett over hver stolpe.
+    hi=Math.ceil(hi*1.16/1000)*1000;
     const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
     // Y-gridlines
@@ -438,14 +453,13 @@ function projChart(k,mode){
         const by=Y(v);
         const bh=Math.max(2,Tp+H-by);
         svg+=`<rect x="${bx}" y="${by}" width="${bbw}" height="${bh}" rx="2" fill="${s[2]}"/>`;
-        // Verditall kun på 2024 og 2050 for å unngå rot
-        if(ti===0||ti===tps.length-1){
-          svg+=`<text x="${bx+bbw/2}" y="${by-4}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:${s[2]}">${fmt(v)}</text>`;
-        }
+        // Verditall over hver stolpe, loddrett så de får plass ved fire serier
+        const lx=bx+bbw/2, ly=by-5;
+        svg+=`<text x="${lx}" y="${ly}" text-anchor="start" transform="rotate(-90 ${lx} ${ly})" style="font-size:9px;font-weight:700;fill:${s[2]}">${fmt(v)}</text>`;
       });
     });
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+' <span style="color:var(--ink3)">SSB MMMM hovedalternativ. Tall vist for 2024 og 2050.</span></div>';
+    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+' <span style="color:var(--ink3)">SSB MMMM hovedalternativ.'+(o.a80?' <b>80+ er en delmengde av 65+</b> — søylene skal ikke summeres.':'')+'</span></div>';
   }
   return svg;
 }
@@ -486,7 +500,7 @@ function projCard(k){
     '<button data-p="age" aria-selected="'+sel('age')+'">Aldring</button></div></div>'+
     '<p class="hint">SSBs regionale framskriving (tabell 14746, 2026-basert). '+
     (state.projMode==='tot'
-      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2024 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (hovedalternativ). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
+      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2026 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (hovedalternativ). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
       : state.projMode==='dec'
       ? 'Drivkrefter: endringen 2024\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. Eksakt dekomponering av TF-MVP-banen.'
       : state.projMode==='fb'
@@ -812,10 +826,10 @@ function diagnoseCard(k){
   let spread='';
   if(o.mw&&o.mw.kons){
     const mvp_smalt=o.mw.kons.pop[n-1];
-    spread=' Yttergrense-modellen (smalt 2017–2021-vindu, TF-MVP) sier <b>'+f(mvp_smalt)+'</b> — det er hva som skjer hvis flyttetrenden 2017–2021 vedvarer i 26 år.';
+    spread=' Yttergrense-modellen (smalt 2017–2021-vindu, TF-MVP) sier <b>'+f(mvp_smalt)+'</b> — det er hva som skjer hvis flyttetrenden 2017–2021 vedvarer i 24 år.';
   }
   let s='';
-  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026). ';
+  s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026'+(aprilPop(k)?'; '+BEFK_DATA.dato_norsk+': '+f(aprilPop(k)):'')+'). ';
   s+='SSBs offisielle bane (MMMM) peker mot <b>'+f(pop1_ssb)+'</b> i 2050 (<b>'+sgn1(pp_ssb)+' %</b>)';
   if(pop1_attr!=null){
     s+='. Strukturmodellen fra Telemarksforskning — hovedalternativet, som slo SSB i de minst sentrale kommunene i 2020→2024-backtesten — sier <b>'+f(pop1_attr)+'</b> (<b>'+sgn1(pp_attr)+' %</b>)';
@@ -1225,7 +1239,7 @@ function detail(){
     statusBadges(k,st)+
     (k.isAgg?'<p class="hint" style="margin:-2px 0 12px">Aggregerte tall for '+(k.fylke==='Alle'?'hele landsdelen':k.fylke)+' — klikk en kommune i listen for kommunetall.</p>':'')+
     '<div class="kpis">'+
-      '<div class="kpi"><div class="v">'+fmt(k.pop)+'</div><div class="l">Folketall</div><div class="s">'+(k.isAgg?k.naggk+' kommuner · ':'')+'per 1.1.2026</div></div>'+
+      popKpi(k, k.isAgg?k.naggk+' kommuner · ':'')+
       '<div class="kpi"><div class="v">'+k.andel.toFixed(1)+'%</div><div class="l">Innvandrerbakgrunn</div><div class="s">'+fmt(k.bc)+' personer</div></div>'+
       '<div class="kpi"><div class="v">'+med+'</div><div class="l">Medianalder</div><div class="s">år</div></div>'+
       '<div class="kpi"><div class="v">'+(barn/k.pop*100).toFixed(0)+'/'+(eldre/k.pop*100).toFixed(0)+'</div><div class="l">0–17 / 67+ %</div><div class="s">'+fmt(barn)+' / '+fmt(eldre)+'</div></div>'+
@@ -1309,7 +1323,7 @@ function _oldDetailUnused(){
   (k.isAgg?'<p class="hint" style="margin:-2px 0 12px">Aggregerte tall for '+(k.fylke==='Alle'?'hele landsdelen':k.fylke)+' \u2014 klikk en kommune i listen for kommunetall. Folketall/alder/innvandring/framskriving er summer; andeler og sysselsettingsrater er folkemengde-vektede.</p>':'')
   +`
   <div class="kpis">
-    <div class="kpi"><div class="v">${fmt(k.pop)}</div><div class="l">Folketall</div><div class="s">${k.isAgg?k.naggk+' kommuner \u00b7 ':''}per 1.1.2026</div></div>
+    ${popKpi(k, k.isAgg?k.naggk+' kommuner \u00b7 ':'')}
     <div class="kpi"><div class="v">${k.andel.toFixed(1)}%</div><div class="l">Innvandrerbakgrunn</div><div class="s">${fmt(k.bc)} personer</div></div>
     <div class="kpi"><div class="v">${med}</div><div class="l">Medianalder</div><div class="s">år</div></div>
     <div class="kpi"><div class="v">${(barn/k.pop*100).toFixed(0)}/${(eldre/k.pop*100).toFixed(0)}</div><div class="l">0-17 / 67+ %</div><div class="s">${fmt(barn)} / ${fmt(eldre)}</div></div>
@@ -2661,7 +2675,7 @@ function evaluateKommune(k){
   // OECD-standard forsørgerbyrde (65+/20-64)
   const oad2050 = (a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
   // Årlig endring 2026→2050 (geometrisk) — for SCIRN
-  const annualPct = (mw.pop&&mw.pop[0]&&mw.pop[n-1]>0)?(Math.pow(mw.pop[n-1]/mw.pop[0], 1/26) - 1)*100:null;
+  const annualPct = (mw.pop&&mw.pop[0]&&mw.pop[n-1]>0)?(Math.pow(mw.pop[n-1]/mw.pop[0], 1/(n-1)) - 1)*100:null;
   const syssR = getSysselsRate(k.nr);
   const uforePct = getUforePct(k.nr);
   const RB = P.robek||{kommuner:{}};

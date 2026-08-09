@@ -123,7 +123,10 @@ def main():
     koder = list(proj["kommuner"].keys())
     assert len(koder) == 80, f"ventet 80 kommuner, fant {len(koder)}"
     if proj["meta"].get("tabell") == "14746":
-        print("ADVARSEL: proj er allerede 14746-basert - kjoerer likevel (idempotent).")
+        raise SystemExit(
+            "STOPP: proj er allerede 14746-basert. Scriptet skifter indekser to aar "
+            "(2024-basis -> 2026-basis) og er IKKE idempotent - en ny kjoering ville "
+            "odelagt seriene. Ved neste SSB-aargang: oppdater NYE_AAR/SKIFT foerst.")
 
     print("Henter 14746 MMMM (80 kommuner x alder x 2026-2050)...", flush=True)
     mmmm = hent_alternativ(koder, "Personer")
@@ -175,6 +178,11 @@ def main():
                 mw[f"u{pct}"] = rebase_sjokk(g_pop, list(mw[f"u{pct}"]), mw["pop"])
             for s in ["s75", "s125"]:
                 mw[s] = rebase_ratio(g_pop, list(mw[s]), mw["pop"])
+            # Dekomponerings-invarians: pop = pop[0] + nat + mig. Kildeseriene
+            # fra TF-modellen har smaa residualer (avrunding/samspill); de
+            # legges i flytteleddet slik at dekomponeringen er eksakt.
+            mw["mig"] = [mw["pop"][i] - mw["pop"][0] - mw["nat"][i]
+                         for i in range(len(NYE_AAR))]
 
     if avvik_basis:
         print(f"ADVARSEL: {len(avvik_basis)} kommuner der 14746-basis != alder-array:")

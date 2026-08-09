@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function(){
       '<h1 class="serif">' + k.navn + '</h1>' +
       statusBadges(k, st) +
       '<div class="kpis">' +
-        '<div class="kpi"><div class="v">' + fmt(k.pop) + '</div><div class="l">Folketall</div><div class="s">per 1.1.2026</div></div>' +
+        popKpi(k, '') +
         '<div class="kpi"><div class="v">' + k.andel.toFixed(1) + '%</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
         '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0) + '/' + (eldre/k.pop*100).toFixed(0) + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function renderBefolkningPanel(k, host){
     var modes = [
       {key:'tot', lab:'Folketall', sub:'Total befolkning 2000→2050'},
-      {key:'drv', lab:'Drivkrefter', sub:'Fødsler, dødsfall, flytting'},
+      {key:'dec', lab:'Drivkrefter', sub:'Fødsler, dødsfall, flytting'},
       {key:'fb',  lab:'Forsørgerbyrde', sub:'Eldre per 100 i yrkesaktiv alder'},
       {key:'ald', lab:'Aldring', sub:'80+-andelen vokser raskest'}
     ];
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function(){
     state.ukr = state.ukr != null ? state.ukr : 0;
     state.showMVP = !!state.showMVP;
     // Drivkrefter og Forsørgerbyrde er TF-MVP-basert per natur — auto-åpne TF-MVP-detaljene
-    if(state.projMode === 'drv' || state.projMode === 'fb') state.showMVP = true;
+    if(state.projMode === 'dec' || state.projMode === 'fb') state.showMVP = true;
 
     var modeBtns = modes.map(function(m){
       return '<button data-bm="'+m.key+'" aria-pressed="'+(state.projMode===m.key)+'" title="'+m.sub+'">'+m.lab+'</button>';
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var oad0 = a6 && a2 && a2[0] ? 100*a6[0]/a2[0] : null;
       var oad1 = a6 && a2 && a2[n-1] ? 100*a6[n-1]/a2[n-1] : null;
       kpiHTML =
-        '<div class="k"><div class="v">'+fmt(Math.round(pop0))+'</div><div class="l">Folketall i dag</div><div class="h">per 1.1.2026</div></div>'+
+        (function(){ var ap = aprilPop(k); return '<div class="k"><div class="v">'+fmt(Math.round(ap||pop0))+'</div><div class="l">Folketall i dag</div><div class="h">'+(ap?'per '+BEFK_DATA.dato_norsk:'per 1.1.2026')+'</div></div>'; })()+
         '<div class="k"><div class="v">'+fmt(Math.round(ssb2050))+'</div><div class="l">Folketall 2050</div><div class="h">SSB MMMM (offisiell bane)</div></div>'+
         '<div class="k"><div class="v '+(pp>=0?'up':'down')+'">'+sg(pp,1)+' %</div><div class="l">Endring 2026–2050</div><div class="h">SSB MMMM, 24 år</div></div>'+
         (oad0!=null && oad1!=null
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if(Math.abs(ppDiff) >= 15){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
           sanityHTML = '<div class="mvp-sanity">'+
-            '<b>Yttergrense-modellen forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 26 år.</b> '+
+            '<b>Yttergrense-modellen forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 24 år.</b> '+
             'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+ppDiff.toFixed(0)+' % '+dir+' enn SSB MMMM ved 2050. '+
             (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mindre dramatisk anslag — strukturmodellen er hovedalternativet og slår yttergrense-modellene i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
           '</div>';
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var dIg = ig12f ? (ig12 - ig12f) / ig12f * 100 : null;
 
     var html = '<div class="kpi-rad">' +
-      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsatt siste 12 mnd</div><div class="s">' + (dIg == null ? 'tillatelser, SSB 05889' : (dIg >= 0 ? '+' : '−') + Math.abs(dIg).toFixed(0) + ' % mot året før') + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsettingstillatelser siste 12 mnd</div><div class="s">' + (dIg == null ? 'SSB 05889' : (dIg >= 0 ? '+' : '−') + Math.abs(dIg).toFixed(0) + ' % mot året før') + '</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">boliger tatt i bruk</div></div>' +
       '<div class="kpi"><div class="v">' + (behov > 0 ? fmt(behov) : '≤ 0') + '</div><div class="l">Beregnet behov per år</div><div class="s">2026–2030, spenn ' + fmt(lo) + '–' + fmt(hi) + '</div></div>' +
       '<div class="kpi"><div class="v" style="color:' + dgCol + '">' + dgTxt + '</div><div class="l">Dekningsgrad siste 3 år</div><div class="s">' + (dg == null ? 'demografien alene gir ikke behov for nye boliger' : 'fullført mot beregnet behov') + '</div></div>';
@@ -695,6 +695,14 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       html += '<div class="kpi"><div class="v">' + (mp ? fmt(mp) + ' kr' : '–') + '</div><div class="l">Kvm-pris ' + M.kvm_aar + '</div><div class="s">' + (mFall ? 'fylkessnitt — kommunen er under publiseringsgrensen' : 'alle boligtyper, SSB 14545') + '</div></div>' +
         '<div class="kpi"><div class="v">' + (mo != null ? fmt(mo) : '–') + '</div><div class="l">Bruktomsetninger ' + M.oms_years[M.oms_years.length-1] + '</div><div class="s">boligeiendommer i fritt salg, SSB 06726</div></div>';
+    }
+    if(typeof LEIE_DATA !== 'undefined'){
+      var le = k.isAgg ? (k.fylke === 'Alle' ? LEIE_DATA.landsdel : LEIE_DATA.fylker[k.fylke]) : LEIE_DATA.kommuner[k.nr];
+      if(le && le.a24){
+        var la = le.l24 / le.a24 * 100;
+        var lv = le.l15 ? (le.l24 - le.l15) / le.l15 * 100 : null;
+        html += '<div class="kpi"><div class="v">' + la.toFixed(1).replace('.', ',') + ' %</div><div class="l">Husholdninger i leid bolig</div><div class="s">' + LEIE_DATA.aar + (lv != null ? ' — ' + (lv >= 0 ? '+' : '−') + Math.abs(lv).toFixed(0) + ' % leiehusholdninger siden 2015' : '') + '</div></div>';
+      }
     }
     html += '</div>';
 
@@ -725,8 +733,8 @@ document.addEventListener('DOMContentLoaded', function(){
         '<text x="' + (W - R) + '" y="' + (Y(behov) - 6) + '" text-anchor="end" style="font-size:10.5px;font-weight:700;fill:#B23B3B">beregnet årlig behov ' + fmt(behov) + '</text>';
     }
     svg += '</svg>';
-    html += '<div class="ch"><h3 class="serif" style="font-size:15px">Byggetakt 2001–2026 mot beregnet behov</h3>' + svg +
-      '<div class="legend" style="margin-top:6px"><span><i style="background:var(--aurora)"></i>Igangsatt, 12 mnd rullerende</span><span><i style="background:var(--nl)"></i>Fullført, 12 mnd rullerende</span>' + (behov > 0 ? '<span><i style="background:#B23B3B"></i>Behov 2026–2030 (BB-KVOTE)</span>' : '') + '</div>' +
+    html += '<div class="ch"><h3 class="serif" style="font-size:15px">Byggetakt 2000–2026 mot beregnet behov</h3>' + svg +
+      '<div class="legend" style="margin-top:6px"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser, 12 mnd rullerende</span><span><i style="background:var(--nl)"></i>Fullført, 12 mnd rullerende</span>' + (behov > 0 ? '<span><i style="background:#B23B3B"></i>Behov 2026–2030 (BB-KVOTE)</span>' : '') + '</div>' +
       '<p class="hint" style="margin:10px 0 0;font-size:11.5px">SSB 05889 (skjøtet til 2024-grenser) og BB-KVOTE-modellen (SSB 14746 + 09747 + 10784). Husholdningsstørrelse ' + String(be.hh25).replace('.', ',') + ' (2025), registrert avgang ~' + fmt(be.ersta) + ' bolig(er)/år. Tillatelser er ikke spadestikk — se <a href="metode.html">metode</a>. Hele bildet: <a href="tema-bolig.html">Bygges det nok?</a></p></div>';
     host.innerHTML = html;
   }

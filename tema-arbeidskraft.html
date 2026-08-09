@@ -93,7 +93,7 @@
   <div class="demografi-grid" id="demografiKPI"></div>
   <div class="arbeid-graf-wrap">
     <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde i Nord-Norge 2026 → 2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~36 (2024) til ~51 (2050) — en økning på <b>42 %</b> i forsørgerbyrde på 25 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger litt over OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~38 (2026) til ~51 (2050) — en økning på <b>36 %</b> i forsørgerbyrde på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger litt over OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
     <div id="forsorgerGraf"></div>
   </div>
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pensjonister vokser, yrkesaktive krymper.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbyrden så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
@@ -189,7 +189,7 @@
   </div>
 
   <div class="sitat">
-    <blockquote>«Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra 36 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 42 % på 25 år. Det er fortsatt under OECDs ventede snitt på ~52 (Pensions at a Glance 2025), men vekstkurven er bratt. Det betyr at hver yrkesaktiv vil bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.»</blockquote>
+    <blockquote>«Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra ~38 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 36 % på 24 år. Det er fortsatt under OECDs ventede snitt på ~52 (Pensions at a Glance 2025), men vekstkurven er bratt. Det betyr at hver yrkesaktiv vil bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.»</blockquote>
     <div class="kilde">Tolkning basert på <b>SSB framskriving MMMM</b> (tab. 14746) sammenlignet med <b>OECDs prognose for vektet OECD-snitt i 2050</b></div>
   </div>
 </section>
@@ -288,9 +288,9 @@ document.addEventListener('DOMContentLoaded', function(){
     var demo = document.getElementById('demografiKPI');
     if(demo){
       demo.innerHTML =
-        '<div class="demografi-kort"><div class="nl">Arbeidsføre 20–64 i dag</div><div class="nv">' + fmt(a2024) + '</div><div class="nh">Nord-Norge, SSB 2024</div></div>' +
+        '<div class="demografi-kort"><div class="nl">Arbeidsføre 20–64 i dag</div><div class="nv">' + fmt(a2024) + '</div><div class="nh">Nord-Norge, SSB 1.1.2026</div></div>' +
         '<div class="demografi-kort"><div class="nl">Arbeidsføre 2050</div><div class="nv bad">' + fmt(a2050) + '</div><div class="nh">SSB MMMM · ' + pct((a2050/a2024-1)*100,1) + '</div></div>' +
-        '<div class="demografi-kort"><div class="nl">65+ i dag</div><div class="nv">' + fmt(e2024) + '</div><div class="nh">Nord-Norge, SSB 2024</div></div>' +
+        '<div class="demografi-kort"><div class="nl">65+ i dag</div><div class="nv">' + fmt(e2024) + '</div><div class="nh">Nord-Norge, SSB 1.1.2026</div></div>' +
         '<div class="demografi-kort"><div class="nl">65+ i 2050</div><div class="nv warn">' + fmt(e2050) + '</div><div class="nh">SSB MMMM · ' + pct((e2050/e2024-1)*100,1) + '</div></div>';
     }
 
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function(){
       svg += '<circle cx="' + X(n-1) + '" cy="' + Y(burden[n-1]) + '" r="4" fill="#B23B3B"/>';
       svg += '<text x="' + (X(n-1)-8) + '" y="' + (Y(burden[n-1])-8) + '" text-anchor="end" style="font-family:\'Spline Sans Mono\',monospace;font-size:13px;font-weight:700;fill:#B23B3B">' + burden[n-1].toFixed(0) + '</text>';
       // X-akse
-      [2024, 2030, 2035, 2040, 2045, 2050].forEach(function(yr){
+      [2026, 2030, 2035, 2040, 2045, 2050].forEach(function(yr){
         var i = yrs.indexOf(yr);
         if(i < 0) return;
         svg += '<text x="' + X(i) + '" y="' + (H-10) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yr + '</text>';

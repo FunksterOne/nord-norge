@@ -39,7 +39,7 @@
 </header>
 
 <div style="margin-bottom:20px">
-  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall 1.1.2026</div>
+  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall per 1. april 2026</div>
   <h1 class="serif" style="margin:6px 0 12px" id="ftitle">Fylke</h1>
   <p class="essence" id="fessence">Velg seksjon nedenfor for å se hvordan dette fylket utvikler seg mot 2050.</p>
 </div>
@@ -104,7 +104,7 @@
       <div class="src">
         <div class="tag">Yttergrense-modeller <span style="opacity:.7;font-weight:400">(TF-MVP)</span></div>
         <h3 class="serif">Outlier-spekter — flyttesnitt fra historiske vinduer</h3>
-        <p style="font-size:12.5px"><b>Yttergrense-modellene viser hvor pessimistisk det kan bli</b> hvis flyttesnittet i et bestemt historisk vindu vedvarer i 26 år. Tre vinduer kan velges:</p>
+        <p style="font-size:12.5px"><b>Yttergrense-modellene viser hvor pessimistisk det kan bli</b> hvis flyttesnittet i et bestemt historisk vindu vedvarer i 24 år. Tre vinduer kan velges:</p>
         <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
           <li><b>Smalt 2017–2021</b> — snitt før korona-boom</li>
           <li><b>Bredt vindu</b> — inkluderer 2022–2023-toppen</li>
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Oppdater brodsmuler + headere
   document.getElementById('bcFylke').textContent = fylke;
   document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>de neste 25 årene</em>';
-  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall 1.1.2026';
+  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per 1. april 2026';
   document.title = fylke + ' - Nord-Norge dashboard';
 
   // Erstatt "Nord-Norge"/"landsdelen" i titler og hint-tekster med valgt fylke.

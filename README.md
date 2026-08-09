@@ -2,7 +2,7 @@
 
 Interaktivt, frittstående dashbord for de 80 kommunene i Nord-Norge (Nordland, Troms, Finnmark) etter kommune- og regionreformen 2024.
 
-**Innhold:** demografisk framskriving (kohort-komponentmodell, SSB-basert, 2026-årgangen/tabell 14746), kommuneøkonomi (KOSTRA), ROBEK-status med kalibrert risikoproxy på de økonomiske fundamentene, og boligmodul (temaserie 07): byggetakt (SSB 05889/10784, kommuneserier skjøtet via KLASS) mot beregnet boligbehov per kommune fram til 2050 (BB-KVOTE-modellen, kalibrert mot Prognosesenteret), pluss bruktmarkedet (kvadratmeterpriser 14545/14310, omsetninger 06726, nybyggpris 13500).
+**Innhold:** demografisk framskriving (kohort-komponentmodell, SSB-basert, 2026-årgangen/tabell 14746), kommuneøkonomi (KOSTRA), ROBEK-status med kalibrert risikoproxy på de økonomiske fundamentene, og boligmodul (temaserie 07): byggetakt (SSB 05889/10784, kommuneserier skjøtet via KLASS) mot beregnet boligbehov per kommune fram til 2050 (BB-KVOTE-modellen, kalibrert mot Prognosesenteret), pluss bruktmarkedet (kvadratmeterpriser 14545/14310, omsetninger 06726, nybyggpris 13500) og leiemarkedet (eierstatus 11084, kommunale boliger 12008). Ferskeste folketall per 1. april 2026 (01222) vises der folketall presenteres; modellene er forankret i 1.1.2026.
 
 - `index.html` — hele applikasjonen i én fil (HTML/JS, Chart.js). Ingen byggesteg.
 - Datakilde: Statistisk sentralbyrå (SSB), PxWebApi v2.

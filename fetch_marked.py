@@ -78,14 +78,18 @@ def main():
     print("Henter 13500 (nye eneboliger, kvm-pris landsdel)...", flush=True)
     meta135 = get("https://data.ssb.no/api/v0/no/table/13500")
     aar135 = next(v for v in meta135["variables"] if v["code"] == "Tid")["values"]
-    q = [{"code": "Region", "selection": {"filter": "item", "values": ["0", "L06"]}},
+    # NB: landsdelskoden byttet etter 2024-reformen — L06 = «Nord-Norge
+    # (2020-2024)», La6 = «Nord-Norge» (2025-). Samme tre fylker; seriene skjotes.
+    q = [{"code": "Region", "selection": {"filter": "item", "values": ["0", "L06", "La6"]}},
          {"code": "Boligtype", "selection": {"filter": "item", "values": ["01"]}},
          {"code": "ContentsCode", "selection": {"filter": "item", "values": ["KvPris", "Omsetninger"]}},
          {"code": "Tid", "selection": {"filter": "item", "values": aar135}}]
     d = post_ssb("13500", q)
     ny = {}
     for co, v in celler(d):
-        ny[(co["Region"], co["Tid"], co["ContentsCode"])] = v
+        reg = "L06" if co["Region"] in ("L06", "La6") else co["Region"]
+        if v is not None or (reg, co["Tid"], co["ContentsCode"]) not in ny:
+            ny[(reg, co["Tid"], co["ContentsCode"])] = v if v is not None else ny.get((reg, co["Tid"], co["ContentsCode"]))
 
     # --- bygg payload ----------------------------------------------------
     def vektet(par):
