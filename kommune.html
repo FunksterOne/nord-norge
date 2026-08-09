@@ -28,6 +28,9 @@
 .bf-modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
 .bf-graph{padding:14px 18px 8px;background:var(--paper);border:1px solid var(--line2);border-radius:12px}
 .bf-graph svg.chart{width:100%;height:auto;max-height:520px;display:block}
+/* Liggende stolpediagram setter høyden selv (én rad per årskull) — høydetaket
+   over gjelder linjediagrammene og ville presset stolpene sammen til streker. */
+.bf-graph svg.chart.barchart{max-height:none}
 .bf-graph .chart-title{font-family:'Fraunces',serif;font-size:14px;color:var(--ink2);margin:0 0 6px;font-style:italic}
 .bf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .bf-kpis .k{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
@@ -568,6 +571,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">Aldersstruktur 1.1.2026 · '+currentMode.lab+' — '+currentMode.sub+'</p>'+
           chartHtml+
+          '<p class="hint" style="margin:8px 0 0;font-size:11.5px">SSB tabell 07459. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per 1. april 2026.</p>'+
         '</div>'+
         // KPI-rad
         '<div class="bf-kpis">'+

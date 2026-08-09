@@ -195,8 +195,10 @@ function renderList(){if(!elList) return;
 }
 function ageGroups(arr,mode){
   if(mode==='1') return AGES.map((l,i)=>({l:l.replace(' år',''),v:arr[i]}));
-  if(mode==='5'){const g=[];for(let s=0;s<105;s+=5){const e=Math.min(s+4,105);
-    g.push({l:`${s}–${e===105?'105+':e}`,v:arr.slice(s,Math.min(s+5,106)).reduce((a,b)=>a+b,0)});}return g;}
+  // Siste gruppe må ta med indeks 105 («105 år eller eldre»), ellers faller de
+  // eldste ut av 5-årsvisningen (4 personer i landsdelen per 1.1.2026).
+  if(mode==='5'){const g=[];for(let s=0;s<105;s+=5){const sisteGruppe=s+5>=105;
+    g.push({l:sisteGruppe?'100+':`${s}–${s+4}`,v:arr.slice(s,sisteGruppe?106:s+5).reduce((a,b)=>a+b,0)});}return g;}
   // livsfaser
   const cut=[[0,5,'Barn 0–5'],[6,12,'Barn 6–12'],[13,17,'Ungdom 13–17'],[18,29,'Unge voksne 18–29'],
     [30,44,'Voksne 30–44'],[45,66,'Voksne 45–66'],[67,79,'Eldre 67–79'],[80,105,'Eldre 80+']];
@@ -204,13 +206,19 @@ function ageGroups(arr,mode){
 }
 function medianAge(arr){let t=arr.reduce((a,b)=>a+b,0),c=0;for(let i=0;i<arr.length;i++){c+=arr[i];if(c>=t/2)return i;}return 0;}
 function barChart(rows,color,unit){
-  const max=Math.max(...rows.map(r=>r.v),1), n=rows.length, rh=Math.max(20,Math.min(34,420/n));
-  const h=n*rh+10, lw=110, vw=58, bw=`calc(100% - ${lw+vw}px)`;
-  let s=`<svg class="chart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
+  // Radhøyden settes av antall rader; mellomrommet skalerer med raden i stedet
+  // for å være fast 8 px, slik at tette lister (ettårig alder, 106 rader) får
+  // merkbart tykkere stolper i stedet for tynne streker.
+  const max=Math.max(...rows.map(r=>r.v),1), n=rows.length, rh=Math.max(22,Math.min(34,460/n));
+  const gap=Math.min(7,Math.max(3,rh*0.2)), bh=rh-gap, top=gap/2;
+  const h=n*rh+10, lw=110, vw=58;
+  // Egen klasse: liggende stolper skal ikke klemmes av høydetak ment for
+  // linjediagram — da blir stolpene tynne streker i stedet for lesbare felt.
+  let s=`<svg class="chart barchart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
   rows.forEach((r,i)=>{const y=i*rh, w=(700-lw-vw)*r.v/max;
     s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
-    s+=`<rect x="${lw}" y="${y+4}" width="${700-lw-vw}" height="${rh-8}" rx="4" fill="rgba(17,32,58,.05)"/>`;
-    s+=`<rect class="bar-rect" x="${lw}" y="${y+4}" width="${w}" height="${rh-8}" rx="4" fill="${color}"/>`;
+    s+=`<rect x="${lw}" y="${y+top}" width="${700-lw-vw}" height="${bh}" rx="4" fill="rgba(17,32,58,.05)"/>`;
+    s+=`<rect class="bar-rect" x="${lw}" y="${y+top}" width="${w}" height="${bh}" rx="4" fill="${color}"/>`;
     s+=`<text class="val" x="700" y="${y+rh/2+4}" text-anchor="end">${fmt(r.v)}</text>`;});
   return s+'</svg>';
 }
@@ -1274,7 +1282,7 @@ function detail(){
             '<button data-m="5" aria-selected="'+(state.ageMode==='5')+'">5-årig</button>'+
             '<button data-m="L" aria-selected="'+(state.ageMode==='L')+'">Livsfaser</button>'+
           '</div></div>'+
-        '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder '+med+' år.</p>'+
+        '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder '+med+' år. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per 1. april 2026.</p>'+
         barChart(ageGroups(k.alder,state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'),'var(--aurora)')+
       '</div>'+
       originCard(k,vesP,iveP,lands,shown)+
