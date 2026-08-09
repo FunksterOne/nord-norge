@@ -681,7 +681,22 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsatt siste 12 mnd</div><div class="s">' + (dIg == null ? 'tillatelser, SSB 05889' : (dIg >= 0 ? '+' : '−') + Math.abs(dIg).toFixed(0) + ' % mot året før') + '</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">boliger tatt i bruk</div></div>' +
       '<div class="kpi"><div class="v">' + (behov > 0 ? fmt(behov) : '≤ 0') + '</div><div class="l">Beregnet behov per år</div><div class="s">2026–2030, spenn ' + fmt(lo) + '–' + fmt(hi) + '</div></div>' +
-      '<div class="kpi"><div class="v" style="color:' + dgCol + '">' + dgTxt + '</div><div class="l">Dekningsgrad siste 3 år</div><div class="s">' + (dg == null ? 'demografien alene gir ikke behov for nye boliger' : 'fullført mot beregnet behov') + '</div></div></div>';
+      '<div class="kpi"><div class="v" style="color:' + dgCol + '">' + dgTxt + '</div><div class="l">Dekningsgrad siste 3 år</div><div class="s">' + (dg == null ? 'demografien alene gir ikke behov for nye boliger' : 'fullført mot beregnet behov') + '</div></div>';
+    if(typeof MARKED_DATA !== 'undefined'){
+      var M = MARKED_DATA, mp = null, mo = null, mFall = false;
+      if(k.isAgg){
+        mp = (k.fylke === 'Alle') ? M.kvm_landsdel.p : (M.kvm_fylker[k.fylke] || {}).p;
+        mo = (k.fylke === 'Alle') ? M.oms_landsdel.oms[M.oms_years.length-1] : (M.oms_fylker[k.fylke] || {oms:[]}).oms[M.oms_years.length-1];
+      } else {
+        var mk = M.kvm2025[k.nr] || {};
+        mp = mk.p;
+        if(!mp && M.kvm_fylker[k.fylke]){ mp = M.kvm_fylker[k.fylke].p; mFall = true; }
+        mo = (M.oms[k.nr] || [])[M.oms_years.length-1];
+      }
+      html += '<div class="kpi"><div class="v">' + (mp ? fmt(mp) + ' kr' : '–') + '</div><div class="l">Kvm-pris ' + M.kvm_aar + '</div><div class="s">' + (mFall ? 'fylkessnitt — kommunen er under publiseringsgrensen' : 'alle boligtyper, SSB 14545') + '</div></div>' +
+        '<div class="kpi"><div class="v">' + (mo != null ? fmt(mo) : '–') + '</div><div class="l">Bruktomsetninger ' + M.oms_years[M.oms_years.length-1] + '</div><div class="s">boligeiendommer i fritt salg, SSB 06726</div></div>';
+    }
+    html += '</div>';
 
     // Mini-graf: 12-mnd rullerende, med behovsnivå som stiplet linje
     var xs = [], igS = [], fuS = [];

@@ -101,9 +101,33 @@
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> <span id="pedPoeng"></span> Aldringen gjør boligbehovet mer robust enn folketallet: en kommune kan krympe og likevel trenge nye boliger — riktignok andre typer enn dem som står der.</p>
 </section>
 
-<!-- ────────────────── AKT 03 — SÅRBARHETEN ────────────────── -->
+<!-- ────────────────── AKT 03 — BRUKTMARKEDET ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 03 · Sårbarheten</div>
+  <div class="akt-num">Akt 03 · Bruktmarkedet</div>
+  <h2>Bruktmarkedet er <em>fem–seks ganger</em> større enn nybyggingen.</h2>
+  <p class="akt-intro">De fleste boligkjøp i Nord-Norge skjer i bruktmarkedet. Prisnivået der avgjør om nybygging lønner seg: når avstanden mellom bruktpris og byggekostnad blir for stor, stopper prosjektene. Det er den strukturelle forklaringen på byggefallet — og den er større i nord, der bruktprisene utenfor Tromsø ligger langt under landssnittet.</p>
+  <div class="kpi-rad" id="markKPI"></div>
+  <div class="graf-kort">
+    <h3>Kvadratmeterpris per kommune, 2025 — alle boligtyper</h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 14545. Av personvernhensyn publiseres pris bare for kommuner med nok omsetninger — <span id="kvmDekning"></span>. Kommuner uten pristall vises ikke; fylkessnittet (stiplet) er referansen deres. Snittpriser påvirkes av hvilke boliger som faktisk ble omsatt.</p>
+    <div id="kvmListe"></div>
+  </div>
+  <div class="graf-kort">
+    <h3>Omsetninger i bruktmarkedet mot fullførte nybygg, per år</h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 06726 (boligeiendommer med bygning, fritt salg) og 05889 (fullførte). Kommuneserier skjøtet til 2024-grensene.</p>
+    <div id="omsGraf"></div>
+    <div class="legend"><span><i style="background:var(--ink2)"></i>Bruktomsetninger</span><span><i style="background:var(--nl)"></i>Fullførte nybygg</span></div>
+  </div>
+  <div class="kal-kort" style="background:rgba(201,162,59,.07);border-color:rgba(201,162,59,.3)">
+    <h3>Pris-avstanden som stopper byggingen</h3>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 8px" id="gapTekst"></p>
+    <p class="hint" style="font-size:11.5px;margin:0">Nybyggtallet gjelder eneboliger inkludert tomt (SSB 13500) og bygger på få omsetninger i landsdelen (29 i 2024) — nivået er usikkert, retningen er ikke. Bruktprisen er omsetningsvektet snitt av fylkene (SSB 14545, eneboliger).</p>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — SÅRBARHETEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Sårbarheten</div>
   <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
   <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. To kommuner står for over 80 prosent av igangsettingene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
   <div class="kpi-rad" id="sarbKPI"></div>
@@ -417,6 +441,89 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="kpi"><div class="v">2 av 21 og 2 av 18</div><div class="l">Kommuner bak 80 % av byggingen</div><div class="s">i Troms og Finnmark (1. halvår 2026)</div></div>';
   }
 
+  // ---------- akt 03: bruktmarkedet ----------
+  function renderMarked(){
+    if(typeof MARKED_DATA === 'undefined') return;
+    var M = MARKED_DATA;
+    var nA = M.oms_years.length;
+    var oms25 = M.oms_landsdel.oms[nA-1], kjs25 = M.oms_landsdel.kjs[nA-1];
+    var fu12 = r12(B.landsdel.fu, nQ-1);
+    var harP = Object.keys(M.kvm2025).filter(function(nr){ return M.kvm2025[nr].p; });
+    var pL = M.kvm_landsdel.p, pR = M.kvm_riket.p;
+    var under = pL && pR ? Math.round((1 - pL / pR) * 100) : null;
+    document.getElementById('markKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + fmt(oms25) + '</div><div class="l">Bruktomsetninger ' + M.oms_years[nA-1] + '</div><div class="s">' + (oms25 / fu12).toFixed(1).replace('.', ',') + ' ganger antall fullførte nybygg</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(pL) + ' kr</div><div class="l">Kvm-pris landsdelen ' + M.kvm_aar + '</div><div class="s">' + (under != null ? under + ' % under landssnittet (' + fmt(pR) + ' kr)' : 'omsetningsvektet snitt av fylkene') + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(Math.round(kjs25 / oms25 * 1000 / 100000) / 10).replace('.', ',') + ' mill.</div><div class="l">Snittpris per bolig ' + M.oms_years[nA-1] + '</div><div class="s">samlet kjøpesum delt på omsetninger</div></div>' +
+      '<div class="kpi"><div class="v">' + harP.length + ' av 80</div><div class="l">Kommuner med pristall</div><div class="s">resten er under publiseringsgrensen</div></div>';
+    document.getElementById('kvmDekning').textContent = harP.length + ' av 80 kommuner i 2025';
+
+    // kommuneliste med fylkessnitt og rikssnitt som referanserader
+    var rader = harP.map(function(nr){
+      var f = DATA.kommuner[nr].fylke;
+      return {navn: DATA.kommuner[nr].navn.split(' - ')[0], p: M.kvm2025[nr].p, farge: FY[f], ref: false};
+    });
+    Object.keys(M.kvm_fylker).forEach(function(f){
+      if(M.kvm_fylker[f].p) rader.push({navn: f + ' — fylkessnitt', p: M.kvm_fylker[f].p, farge: FY[f], ref: true});
+    });
+    if(pR) rader.push({navn: 'Hele landet', p: pR, farge: 'var(--ink3)', ref: true});
+    rader.sort(function(a, b){ return b.p - a.p; });
+    var maxP = rader[0].p;
+    document.getElementById('kvmListe').innerHTML = rader.map(function(r){
+      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:rgba(17,32,58,.04);border-radius:5px' : '') + '">' +
+        '<div style="font-size:12px;text-align:right' + (r.ref ? ';font-weight:700' : '') + '">' + r.navn + '</div>' +
+        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.p / maxP * 100) + '%;background:' + r.farge + ';border-radius:4px;opacity:' + (r.ref ? '.55' : '.9') + (r.ref ? ';border-right:2px dashed var(--ink)' : '') + '"></div></div>' +
+        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + fmt(r.p) + '</div></div>';
+    }).join('');
+
+    // omsetninger mot fullførte nybygg per år
+    var fuAar = {}, fuY = [], fuV = [];
+    Q.forEach(function(t, i){ (fuAar[t.slice(0,4)] = fuAar[t.slice(0,4)] || []).push(B.landsdel.fu[i]); });
+    Object.keys(fuAar).sort().forEach(function(a){
+      if(fuAar[a].length === 4){ fuY.push(+a); fuV.push(fuAar[a].reduce(function(s, v){ return s + v; }, 0)); }
+    });
+    var oY = M.oms_years, oV = M.oms_landsdel.oms;
+    var W = 920, H = 280, L = 56, R = 14, T = 12, Bm = 30;
+    var x0 = oY[0], x1 = oY[oY.length-1];
+    var ymax = niceMax(Math.max.apply(null, oV) * 1.06);
+    function X(a){ return L + (a - x0) / (x1 - x0) * (W - L - R); }
+    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Bruktomsetninger mot nybygg">';
+    for(var g = 0; g <= 4; g++){
+      var gv = ymax / 4 * g;
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>' +
+        '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
+    }
+    for(var a = 1995; a <= x1; a += 5){
+      svg += '<text x="' + X(a) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + a + '</text>';
+    }
+    svg += '<path d="' + linePath(oY.map(function(a, i){ return [X(a), Y(oV[i])]; })) + '" fill="none" stroke="var(--ink2)" stroke-width="2.4"/>';
+    svg += '<path d="' + linePath(fuY.map(function(a, i){ return [X(a), Y(fuV[i])]; })) + '" fill="none" stroke="var(--nl)" stroke-width="2.4"/>';
+    svg += '<text x="' + (W - R) + '" y="' + (Y(oV[oV.length-1]) - 8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--ink2)">' + fmt(oV[oV.length-1]) + '</text>';
+    svg += '<text x="' + (W - R) + '" y="' + (Y(fuV[fuV.length-1]) + 15) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--nl)">' + fmt(fuV[fuV.length-1]) + '</text>';
+    svg += '</svg>';
+    document.getElementById('omsGraf').innerHTML = svg;
+
+    // pris-avstanden nybygg mot brukt (eneboliger)
+    var ny = M.nybygg, nyP = null, nyAar = null;
+    for(var i = ny.years.length - 1; i >= 0; i--){ if(ny.nn_p[i]){ nyP = ny.nn_p[i]; nyAar = ny.years[i]; break; } }
+    var brukt01 = M.kvm_landsdel.p01, riket01 = M.kvm_riket.p01, riketNy = null;
+    for(var j = ny.years.length - 1; j >= 0; j--){ if(ny.riket_p[j]){ riketNy = ny.riket_p[j]; break; } }
+    var tromsKv = M.kvartal.fylker.Troms, tromsSist = null, tromsKvNavn = '';
+    for(var q = tromsKv.length - 1; q >= 0; q--){ if(tromsKv[q]){ tromsSist = tromsKv[q]; tromsKvNavn = M.kvartal.labels[q]; break; } }
+    var txt = '';
+    if(nyP && brukt01){
+      txt += 'En ny enebolig i Nord-Norge kostet <b>' + fmt(nyP) + ' kr/m²</b> i ' + nyAar + ' — en brukt gikk for <b>' + fmt(brukt01) + ' kr/m²</b> i 2025. Nybygget koster altså om lag <b>' + (nyP / brukt01).toFixed(1).replace('.', ',') + ' ganger</b> bruktprisen per kvadratmeter.';
+    }
+    if(riketNy && riket01){
+      txt += ' På landsbasis er forholdet ' + (riketNy / riket01).toFixed(1).replace('.', ',') + ' (' + fmt(riketNy) + ' mot ' + fmt(riket01) + ' kr/m²) — avstanden er størst der bruktprisene er lavest.';
+    }
+    if(tromsSist){
+      txt += ' Unntaket er Troms: bruktprisen har steget til <b>' + fmt(tromsSist) + ' kr/m²</b> i ' + (tromsKvNavn.slice(5) + '. kvartal ' + tromsKvNavn.slice(0, 4)) + ' (alle boligtyper) — det er der nybygging først kan bli lønnsom igjen.';
+    }
+    document.getElementById('gapTekst').innerHTML = txt;
+  }
+
   // ---------- velger + init ----------
   var vh = document.getElementById('omrValg');
   vh.innerHTML = OMR.map(function(o){
@@ -429,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function(){
       renderKPI(); renderRull(); renderKvart(); renderGap();
     };
   });
-  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb();
+  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb(); renderMarked();
 });
 </script>
 </body>
