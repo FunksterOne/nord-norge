@@ -66,7 +66,7 @@
   <!-- Hero-graf: hele landsdelen 2000-2050 -->
   <div class="card hero-chart" id="bigPicChart">
     <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000 → 2050</h3></div>
-    <p class="hint">Heltrukken mørk linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Auroragrønn = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Lilla = strukturmodellen fra Telemarksforskning (hovedalternativ). Amber = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
+    <p class="hint">Heltrukken mørk linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Auroragrønn = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Lilla = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Amber = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
     <div id="bigPicGraph"></div>
   </div>
 
@@ -93,13 +93,13 @@
       <div class="src">
         <div class="tag">Strukturmodell <span style="opacity:.7;font-weight:400">(TF-ATTR)</span></div>
         <h3 class="serif">Hovedalternativ — flytting fra struktur</h3>
-        <p style="font-size:12.5px"><b>Strukturmodellen vår fra Telemarksforskning er hovedalternativ ved siden av SSB MMMM.</b> Flyttingen anslås fra to lokale variabler — den er ikke avhengig av et historisk vindu:</p>
+        <p style="font-size:12.5px"><b>Strukturmodellen vår fra Telemarksforskning er en tilleggsbane ved siden av hovedbanen SSB MMMM.</b> Flyttingen anslås fra to lokale variabler — den er ikke avhengig av et historisk vindu:</p>
         <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
           <li><b>Jobbvekst</b> — lokal endring i sysselsetting</li>
           <li><b>Sentralitet</b> — SSBs 1–6-skala (1 = mest sentral, 6 = minst)</li>
         </ul>
         <p style="font-size:12.5px">Spørsmålet er ikke «hva gjorde folk i fjor?» men «hvor mye flytting tilsier næringsgrunnlaget og geografien?». Robust mot uvanlige år; <b>traff bedre enn SSB i 2020→2024-backtesten for de minst sentrale kommunene</b>.</p>
-        <div class="dims"><span class="chip">strukturbasert</span><span class="chip">hovedalternativ</span><span class="chip">treffer utkant</span></div>
+        <div class="dims"><span class="chip">strukturbasert</span><span class="chip">tilleggsbane</span><span class="chip">treffer utkant</span></div>
       </div>
       <div class="src">
         <div class="tag">Yttergrense-modeller <span style="opacity:.7;font-weight:400">(TF-MVP)</span></div>
@@ -115,7 +115,7 @@
       </div>
     </div>
     <div class="note" style="margin-top:18px;background:rgba(24,117,103,.06);border-color:rgba(24,117,103,.22)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
-    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av SSB MMMM som hovedalternativ — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020→2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
+    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020→2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
 
       <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020 → 2024</h3>
       <p class="sub">En backtest spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
@@ -411,7 +411,7 @@
           <li><b>Netto lånegjeld</b> — KS/Riksrevisjonen: ikke over 75 % av driftsinntektene.</li>
           <li><b>ROBEK-status</b> — kommuneloven §28-1. Statsforvalteren fører kontrollen.</li>
         </ul>
-        <p>Hver indikator står på egne ben. Det er ingen sammensatt dom — bare en oversikt over hvor kommunene ligger mot hver enkelt norm. Demografiske tall er framskrevet fra strukturmodellen vår (hovedalternativ — se Kapittel 02).</p>
+        <p>Hver indikator står på egne ben. Det er ingen sammensatt dom — bare en oversikt over hvor kommunene ligger mot hver enkelt norm. Demografiske tall er framskrevet med SSB MMMM, dashbordets hovedbane (tabell 14746).</p>
       </div>
     </details>
   </div>

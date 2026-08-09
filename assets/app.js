@@ -39,7 +39,7 @@ const SGROUPS=[['tot','Hele befolkningen'],['abc','Befolkningen ekskl. innvandre
   ['zzz','Alle innvandrere'],['ddd','Innvandrere · vestlig'],['eee','Innvandrere · ikke-vestlig']];
 const AGES = DATA.age_labels; // 0..105+
 let state={fylke:'Alle',q:'',sort:'folketall',sel:K.slice().sort((a,b)=>b.pop-a.pop)[0].nr,
-  ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'sentral', showMVP:false, robekSort:'risk', robekFylke:'Alle', kView:'history'};
+  ageMode:'5', topN:12, csearch:'', compare:[], sysSex:'rate', natSex:'begge', natMetric:'rate', natHidden:{}, projMode:'tot', ukr:0, ukrbase:'mvp', sens:0, mw:'kons', showMVP:false, robekSort:'risk', robekFylke:'Alle', kView:'history'};
 // URL-param-overstyringer for flersides oppsett:
 //   kommune.html?k=1804&view=people  ·  fylke.html?f=Nordland  ·  sammenlign.html?k=1804,5401,1860
 (function applyUrlParams(){
@@ -344,7 +344,10 @@ function projChart(k,mode){
     const Y=v=>Tp+(1-(v-mn)/((mx-mn)||1))*H;
     const zeroY=Y(0);
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
-    // Folketall start → slutt som annotasjon øverst
+    // Folketall start → slutt som annotasjon øverst, med tydelig bane-merking:
+    // dekomponeringen finnes bare for TF-MVP, ikke for SSB MMMM eller TF-ATTR.
+    const winLab=({kons:'Smalt 2017–2021',sentral:'Bredt vindu',opt:'Vektet 2022–2023'})[state.mw]||state.mw;
+    svg+=`<text x="${L}" y="11" style="font-size:10.5px;fill:var(--ink3)">Bane: <tspan style="font-weight:700;fill:var(--amber)">TF-MVP · ${winLab}</tspan> — ikke SSB MMMM</text>`;
     svg+=`<text x="${L+W-2}" y="11" text-anchor="end" style="font-size:11px;fill:var(--ink2)">Folketall <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:var(--ink)">${fmt(p0)}</tspan> → <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:${tot<0?'#B23B3B':'var(--aurora)'}">${fmt(p1)}</tspan></text>`;
     // Y-akse: +/- gridlines
     for(let g=0;g<=4;g++){const val=mn+(mx-mn)*g/4,y=Tp+(1-g/4)*H;
@@ -374,7 +377,7 @@ function projChart(k,mode){
     svg+='</svg>';
     svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:#B23B3B"></i>trekker ned</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
   } else if(mode==='fb'){
-    const A6=(mw?mw.a65:o.a65), A2=(mw?mw.a2064:o.a2064);
+    const A6=o.a65, A2=o.a2064;   // SSB MMMM — hovedbane for forsørgerbyrde
     const r=A6.map((v,i)=>A2[i]?100*v/A2[i]:0);
     const i65=A6.map((v,i)=>A6[0]?100*v/A6[0]:100), i20=A2.map((v,i)=>A2[0]?100*v/A2[0]:100);
     const VB=760, Lx=54, Rx=74, Wx=VB-Lx-Rx, Xc=i=>Lx+(n<2?0:i/(n-1)*Wx);
@@ -478,7 +481,7 @@ function projCard(k){
   const ubLDbase=(state.ukrbase==='attr')?(P.landsdel&&P.landsdel.tfattr||[]):(LM.pop||[]);
   const ubLDscen=state.ukr?((state.ukrbase==='attr')?((P.landsdel&&P.landsdel['ukra'+state.ukr])||[]):(LM['u'+state.ukr]||[])):[];
   const LD=P.landsdel||{}; const usel=x=>state.ukr===x?'true':'false'; const usel2=x=>state.ukrbase===x?'true':'false';
-  const fbA6=(mw?mw.a65:o.a65), fbA2=(mw?mw.a2064:o.a2064);
+  const fbA6=o.a65, fbA2=o.a2064;   // SSB MMMM — hovedbane
   const oad0=fbA2[0]?fbA6[0]/fbA2[0]*100:0, oad1=fbA2[n-1]?fbA6[n-1]/fbA2[n-1]*100:0;
   const sup0=fbA6[0]?fbA2[0]/fbA6[0]:0, sup1=fbA6[n-1]?fbA2[n-1]/fbA6[n-1]:0;
   const g65p=fbA6[0]?(fbA6[n-1]/fbA6[0]-1)*100:0, g20p=fbA2[0]?(fbA2[n-1]/fbA2[0]-1)*100:0;
@@ -492,7 +495,7 @@ function projCard(k){
     :(dnat>=0&&dmig>=0)?'B\u00e5de naturlig endring og flytting bidrar positivt.'
     :'Naturlig tilvekst, men netto utflytting trekker ned.';
   const ssel=x=>state.sens===x?'true':'false';
-  return '<div class="card" data-helpfor="<b>Slik leser du framskrivingen.</b> SSB MMMM (offisiell) og strukturmodellen fra Telemarksforskning (hovedalternativ) vises sammen. Yttergrense-modeller vises som outlier-spekter. Skru på Ukraina-scenario eller flyttefølsomhet for å se hvor sårbart utfallet er for forutsetningene."><div class="ch"><h3 class="serif">Hva skjer i '+k.navn+' mot 2050?</h3>'+
+  return '<div class="card" data-helpfor="<b>Slik leser du framskrivingen.</b> SSB MMMM (offisiell) og strukturmodellen fra Telemarksforskning (vår tilleggsbane) vises sammen. Yttergrense-modeller vises som outlier-spekter. Skru på Ukraina-scenario eller flyttefølsomhet for å se hvor sårbart utfallet er for forutsetningene."><div class="ch"><h3 class="serif">Hva skjer i '+k.navn+' mot 2050?</h3>'+
     '<div class="minseg" id="pjm">'+
     '<button data-p="tot" aria-selected="'+sel('tot')+'">Folketall</button>'+
     '<button data-p="dec" aria-selected="'+sel('dec')+'">Drivkrefter</button>'+
@@ -502,7 +505,7 @@ function projCard(k){
     (state.projMode==='tot'
       ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2026 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (hovedalternativ). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
       : state.projMode==='dec'
-      ? 'Drivkrefter: endringen 2024\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. Eksakt dekomponering av TF-MVP-banen.'
+      ? 'Drivkrefter: endringen 2026\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. <b>Dekomponeringen finnes bare for TF-MVP</b> \u2014 yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen; bytt flyttevindu nederst for \u00e5 se hvor f\u00f8lsom splitten er.'
       : state.projMode==='fb'
       ? 'Forsørgerbyrde: hvor mange eldre (65+) hver 100 i yrkesaktiv alder (20–64) m\u00e5 b\u00e6re, 2024\u20132050 \u2014 og hvorfor den stiger. F\u00f8lger valgt flyttebane (TF-MVP).'
       : 'Antall i tre aldersgrupper, hovedalternativet (MMMM).')+'</p>'+
@@ -543,8 +546,8 @@ function projCard(k){
         return warn;
       })()+
       '<p class="hint" style="margin:8px 0 0">Yttergrense-modell, vindu '+({kons:'Smalt 2017\u20132021',sentral:'Bredt vindu',opt:'Vektet 2022\u20132023'})[state.mw]+'): <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-mw.pop[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-mw.pop[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
-      (o.tfattr?'Strukturmodell (hovedalternativ): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-o.tfattr[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-o.tfattr[n-1]))+'</b>.':'')+'</p>'+
-      '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">Telemarksforskning-modellene er reprodusert, ikke validert. Strukturmodellen er hovedalternativ til SSB MMMM (slo SSB i de minst sentrale kommunene i 2020\u21922024-backtest, kort horisont). Yttergrense-modellene fungerer som outlier-spekter.</p>'+
+      (o.tfattr?'Strukturmodell (tilleggsbane): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.main[n-1]-o.tfattr[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.main[n-1]-o.tfattr[n-1]))+'</b>.':'')+'</p>'+
+      '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">Telemarksforskning-modellene er reprodusert, ikke validert. Hovedbanen i dashbordet er alltid SSB MMMM; strukturmodellen er en tilleggsbane til SSB MMMM (slo SSB i de minst sentrale kommunene i 2020\u21922024-backtest, kort horisont). Yttergrense-modellene fungerer som outlier-spekter.</p>'+
       '<div class="ch" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:15px">Scenario: ukrainske flyktninger forlater landsdelen</h3>'+
       '<div class="minseg" id="ukr"><button data-u="0" aria-selected="'+usel(0)+'">Av</button><button data-u="50" aria-selected="'+usel(50)+'">50 %</button><button data-u="75" aria-selected="'+usel(75)+'">75 %</button><button data-u="100" aria-selected="'+usel(100)+'">100 %</button></div></div>'+
       (us?(
@@ -752,8 +755,8 @@ function kostraCard(k){
   }
   // ---- 80+ omsorgspress (kort) ----
   let bridge='';
-  if(mw&&mw.a80&&mw.a80.length>1&&sv('omsorg_pct')!=null){
-    const a0=mw.a80[0],a1=mw.a80[n-1],r=a0?a1/a0:1,gp=(r-1)*100,om=sv('omsorg_pct');
+  if(o&&o.a80&&o.a80.length>1&&sv('omsorg_pct')!=null){
+    const a0=o.a80[0],a1=o.a80[n-1],r=a0?a1/a0:1,gp=(r-1)*100,om=sv('omsorg_pct');
     bridge='<p class="hint" style="margin:12px 0 0;font-size:11.5px;padding-top:10px;border-top:1px solid var(--line2)">Spissere: innbyggere <b>80+</b> g\u00e5r fra <b>'+fmt(a0)+'</b> til <b>'+fmt(a1)+'</b> ('+(gp>=0?'+':'\u2212')+Math.abs(gp).toFixed(0)+' %). Med konstant kostnad per 80+ ville pleie og omsorg alene tilsvart <b>~'+(om*r).toFixed(0)+' %</b> av et budsjett p\u00e5 dagens niv\u00e5 (mot '+om.toFixed(0)+' % i dag).</p>';
   }
   // ---- full KOSTRA-tabell (siste verdi mot landsdel) ----
@@ -799,7 +802,7 @@ function diagnoseCard(k){
   if(!o||n<2) return '';
   const f=v=>fmt(Math.round(v));
   const pct=(a,b)=>b?((a/b-1)*100):0;
-  // SSB MMMM som hovedbane (offisiell), strukturmodellen (TF-ATTR) som hovedalternativ.
+  // SSB MMMM er hovedbane overalt; strukturmodellen (TF-ATTR) er tilleggsbane.
   // pop0 er faktisk folketall per 1.1.2026 (k.pop).
   const pop0=k.pop;
   const pop1_ssb=o.main[n-1], pp_ssb=pct(pop1_ssb,pop0);
@@ -808,8 +811,7 @@ function diagnoseCard(k){
   // Forsørgerbyrde og 80+ fra SSB MMMM (o.a65/a2064 er SSB-tall, ikke vindu-spesifikke)
   const a6=o.a65, a2=o.a2064;
   const oad0=a6&&a2&&a2[0]?100*a6[0]/a2[0]:null, oad1=a6&&a2&&a2[n-1]?100*a6[n-1]/a2[n-1]:null;
-  // 80+ finnes kun i o.mw (per vindu) — bruk sentral-vindu som proxy
-  const mwSent=(o.mw||{}).sentral, a8=mwSent&&mwSent.a80;
+  const a8=o.a80;   // SSB MMMM — hovedbane
   const g80=a8&&a8[0]?pct(a8[n-1],a8[0]):null;
   const isA=k.isAgg;
   const ks=isA?((P.kostra_bench||{})[k.fylke]||(P.kostra_bench||{})['Alle']):((P.kostra||{})[k.nr]);
@@ -832,7 +834,7 @@ function diagnoseCard(k){
   s+='<b>'+k.navn+'</b> har <b>'+f(pop0)+'</b> innbyggere (per 1.1.2026'+(aprilPop(k)?'; '+BEFK_DATA.dato_norsk+': '+f(aprilPop(k)):'')+'). ';
   s+='SSBs offisielle bane (MMMM) peker mot <b>'+f(pop1_ssb)+'</b> i 2050 (<b>'+sgn1(pp_ssb)+' %</b>)';
   if(pop1_attr!=null){
-    s+='. Strukturmodellen fra Telemarksforskning — hovedalternativet, som slo SSB i de minst sentrale kommunene i 2020→2024-backtesten — sier <b>'+f(pop1_attr)+'</b> (<b>'+sgn1(pp_attr)+' %</b>)';
+    s+='. Strukturmodellen fra Telemarksforskning — vår tilleggsbane, som slo SSB i de minst sentrale kommunene i 2020→2024-backtesten — sier <b>'+f(pop1_attr)+'</b> (<b>'+sgn1(pp_attr)+' %</b>)';
   }
   s+='. ';
   if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0)+'</b> til <b>'+oad1.toFixed(0)+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
@@ -842,7 +844,7 @@ function diagnoseCard(k){
     '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon — demografi møter økonomi</h3>'+
     '<span style="font-size:10px;font-weight:700;color:var(--aurora);background:rgba(24,117,103,0.15);padding:2px 8px;border-radius:10px">SSB MMMM · hovedbane</span></div>'+
     '<p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--ink)">'+s+'</p>'+
-    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">SSB MMMM (offisiell) og strukturmodellen (TF-ATTR, hovedalternativ) er hovedfortellingen. Yttergrense-modeller vises som outlier-kontekst. KOSTRA: siste tilgjengelige år.</p></div>';
+    '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">SSB MMMM er hovedbanen; strukturmodellen (TF-ATTR) er vår tilleggsbane. Yttergrense-modeller vises som outlier-kontekst. KOSTRA: siste tilgjengelige år.</p></div>';
 }
 function robekProxy(nr){
   const P=DATA.proj, ks=(P.kostra||{})[nr], TS=P.kostra_ts||{}, tsK=(TS.kommuner||{})[nr]||{};
@@ -1169,8 +1171,7 @@ function tldrBanner(k, view){
     '</div>';
   }
   if(view==='burden'){
-    const mw=MW(o);
-    const a6=mw?mw.a65:null, a2=mw?mw.a2064:null;
+    const a6=o?o.a65:null, a2=o?o.a2064:null;   // SSB MMMM — hovedbane
     const n=(P.years||[]).length;
     const oad0=(a6&&a2&&a2[0])?100*a6[0]/a2[0]:null;
     const oad1=(a6&&a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
@@ -2042,12 +2043,11 @@ function renderBurden(){
   const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[agg.nr];
   const tldrHost=document.getElementById('burdenTldr');
   const graphHost=document.getElementById('burdenGraph');
-  if(!o||!o.mw||!o.mw.kons) return;
-  const mw=o.mw.kons;
+  if(!o||!o.a65||!o.a2064) return;
   const n=(P.years||[]).length;
-  // Standard demografisk forsørgerbyrde (65+/20-64)
-  const oad0=(mw.a65&&mw.a2064&&mw.a2064[0])?100*mw.a65[0]/mw.a2064[0]:null;
-  const oad1=(mw.a65&&mw.a2064&&mw.a2064[n-1])?100*mw.a65[n-1]/mw.a2064[n-1]:null;
+  // Standard demografisk forsørgerbyrde (65+/20-64) — SSB MMMM (hovedbane)
+  const oad0=o.a2064[0]?100*o.a65[0]/o.a2064[0]:null;
+  const oad1=o.a2064[n-1]?100*o.a65[n-1]/o.a2064[n-1]:null;
   // Scope (fylke eller landsdel)
   const _scopeKey = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Alle';
   const _scopeKommuner = (state.fylke && state.fylke !== 'Alle')
@@ -2064,10 +2064,10 @@ function renderBurden(){
     });
   }
   const syssR = _sumTot ? _sumSyss / _sumTot : landsdelSysselsRate();
-  const oadJ0=(mw.a65&&mw.a2064&&mw.a2064[0]&&syssR>0)?100*mw.a65[0]/(mw.a2064[0]*syssR):null;
-  const oadJ1=(mw.a65&&mw.a2064&&mw.a2064[n-1]&&syssR>0)?100*mw.a65[n-1]/(mw.a2064[n-1]*syssR):null;
-  const a2064_0=mw.a2064?mw.a2064[0]:null, a2064_1=mw.a2064?mw.a2064[n-1]:null;
-  const a80_0=mw.a80?mw.a80[0]:null, a80_1=mw.a80?mw.a80[n-1]:null;
+  const oadJ0=(o.a2064[0]&&syssR>0)?100*o.a65[0]/(o.a2064[0]*syssR):null;
+  const oadJ1=(o.a2064[n-1]&&syssR>0)?100*o.a65[n-1]/(o.a2064[n-1]*syssR):null;
+  const a2064_0=o.a2064[0], a2064_1=o.a2064[n-1];
+  const a80_0=o.a80?o.a80[0]:null, a80_1=o.a80?o.a80[n-1]:null;
   // Uføreandel for scope (vektet snitt etter befolkning 20-66)
   let sumUfo=0, sumPop=0;
   if(typeof ARBEID_DATA!=='undefined'){
@@ -2101,10 +2101,10 @@ function renderBurden(){
   }
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
-    const savedMode=state.projMode, savedMW=state.mw;
-    state.projMode='fb'; state.mw='sentral';
+    const savedMode=state.projMode;
+    state.projMode='fb';
     graphHost.innerHTML=projChart(agg,'fb');
-    state.projMode=savedMode; state.mw=savedMW;
+    state.projMode=savedMode;
   }
 }
 function renderEconomy(){
@@ -2665,17 +2665,20 @@ const EXT_NORMS = {
   ksGjeld: 75.0,          // KS/Riksrevisjonen øvre grense
 };
 function evaluateKommune(k){
+  // Alle indikatorer måles mot SSB MMMM (tabell 14746) — dashbordets hovedbane.
+  // Våre egne baner (TF-ATTR, TF-MVP) vises som alternativer, aldri som grunnlag
+  // for vurderingen mot de eksterne normene.
   const P=DATA.proj, o=P&&P.kommuner&&P.kommuner[k.nr];
-  if(!o||!o.mw||!o.mw.kons) return null;
-  const mw=o.mw.kons;
-  const n=(mw.pop||[]).length;
-  const popFall = (mw.pop&&mw.pop[0])?(1 - mw.pop[n-1]/mw.pop[0])*100:null;
-  const a2 = mw.a2064, a6 = mw.a65;
+  if(!o||!o.main) return null;
+  const pop=o.main;
+  const n=pop.length;
+  const popFall = pop[0]?(1 - pop[n-1]/pop[0])*100:null;
+  const a2 = o.a2064, a6 = o.a65;
   const workFall = (a2&&a2[0])?(1 - a2[n-1]/a2[0])*100:null;
   // OECD-standard forsørgerbyrde (65+/20-64)
   const oad2050 = (a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
   // Årlig endring 2026→2050 (geometrisk) — for SCIRN
-  const annualPct = (mw.pop&&mw.pop[0]&&mw.pop[n-1]>0)?(Math.pow(mw.pop[n-1]/mw.pop[0], 1/(n-1)) - 1)*100:null;
+  const annualPct = (pop[0]&&pop[n-1]>0)?(Math.pow(pop[n-1]/pop[0], 1/(n-1)) - 1)*100:null;
   const syssR = getSysselsRate(k.nr);
   const uforePct = getUforePct(k.nr);
   const RB = P.robek||{kommuner:{}};

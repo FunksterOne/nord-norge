@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ─── AKT 03: Demografi (SSB MMMM, aggregert Nord-Norge) ───
   if(typeof DATA !== 'undefined' && DATA.proj && typeof K !== 'undefined'){
-    var a2024 = 0, a2050 = 0, e2024 = 0, e2050 = 0;
+    var a2024 = 0, a2050 = 0, e2024 = 0, e2050 = 0, h2026 = 0, h2050 = 0;
     K.forEach(function(k){
       var o = DATA.proj.kommuner[k.nr];
       if(!o || !o.a2064 || !o.a65) return;
@@ -279,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function(){
       a2050 += o.a2064[o.a2064.length-1];
       e2024 += o.a65[0];
       e2050 += o.a65[o.a65.length-1];
+      if(o.a80){ h2026 += o.a80[0]; h2050 += o.a80[o.a80.length-1]; }
     });
     var burden2024 = a2024 ? e2024/a2024*100 : 0;
     var burden2050 = a2050 ? e2050/a2050*100 : 0;
@@ -291,7 +292,9 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="demografi-kort"><div class="nl">Arbeidsføre 20–64 i dag</div><div class="nv">' + fmt(a2024) + '</div><div class="nh">Nord-Norge, SSB 1.1.2026</div></div>' +
         '<div class="demografi-kort"><div class="nl">Arbeidsføre 2050</div><div class="nv bad">' + fmt(a2050) + '</div><div class="nh">SSB MMMM · ' + pct((a2050/a2024-1)*100,1) + '</div></div>' +
         '<div class="demografi-kort"><div class="nl">65+ i dag</div><div class="nv">' + fmt(e2024) + '</div><div class="nh">Nord-Norge, SSB 1.1.2026</div></div>' +
-        '<div class="demografi-kort"><div class="nl">65+ i 2050</div><div class="nv warn">' + fmt(e2050) + '</div><div class="nh">SSB MMMM · ' + pct((e2050/e2024-1)*100,1) + '</div></div>';
+        '<div class="demografi-kort"><div class="nl">65+ i 2050</div><div class="nv warn">' + fmt(e2050) + '</div><div class="nh">SSB MMMM · ' + pct((e2050/e2024-1)*100,1) + '</div></div>' +
+        (h2026 ? '<div class="demografi-kort"><div class="nl">80+ i dag</div><div class="nv">' + fmt(h2026) + '</div><div class="nh">Nord-Norge, SSB 1.1.2026 — ' + (h2026/e2024*100).toFixed(0) + ' % av de eldre</div></div>' +
+          '<div class="demografi-kort"><div class="nl">80+ i 2050</div><div class="nv warn">' + fmt(h2050) + '</div><div class="nh">SSB MMMM · ' + pct((h2050/h2026-1)*100,1) + ' — nesten en dobling</div></div>' : '');
     }
 
     // Forsørgerbyrde-graf (SVG)

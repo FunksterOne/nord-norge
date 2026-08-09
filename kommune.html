@@ -227,6 +227,8 @@ document.addEventListener('DOMContentLoaded', function(){
     var med = medianAge(k.alder);
     var barn = k.alder.slice(0,18).reduce(function(s,x){return s+x;},0);
     var eldre = k.alder.slice(67).reduce(function(s,x){return s+x;},0);
+    var forGrunnskole = k.alder.slice(0,6).reduce(function(s,x){return s+x;},0);
+    var a80 = k.alder.slice(80).reduce(function(s,x){return s+x;},0);
     var sj = k.syss, sjr = sj?sj.rate:null;
     var sjVal = sjr && sjr.zzz!=null ? sjr.zzz.toFixed(1)+'%' : '–';
     var sjGap = (sjr && sjr.zzz!=null && sjr.tot!=null) ? (sjr.tot-sjr.zzz).toFixed(1) : null;
@@ -246,10 +248,12 @@ document.addEventListener('DOMContentLoaded', function(){
       '</div>' +
       '<h1 class="serif">' + k.navn + '</h1>' +
       statusBadges(k, st) +
-      '<div class="kpis">' +
+      '<div class="kpis kpis-7">' +
         popKpi(k, '') +
         '<div class="kpi"><div class="v">' + k.andel.toFixed(1) + '%</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
+        '<div class="kpi"><div class="v">' + (forGrunnskole/k.pop*100).toFixed(1) + ' %</div><div class="l">Under skolealder</div><div class="s">' + fmt(forGrunnskole) + ' barn 0–5 år</div></div>' +
+        '<div class="kpi"><div class="v">' + (a80/k.pop*100).toFixed(1) + ' %</div><div class="l">80 år og over</div><div class="s">' + fmt(a80) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0) + '/' + (eldre/k.pop*100).toFixed(0) + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
         '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatt · innv.</div><div class="s">' + (sjGap!=null ? sjGap + ' prosentenheter under hele bef.' : '20–66 år, 2025') + '</div></div>' +
       '</div>';
@@ -396,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // TF-ATTR-rad hvis tilgjengelig
       if(tfattr2050){
         var attrDiff = ((tfattr2050 - ssb2050a)/ssb2050a*100);
-        rows += '<tr class="ref"><td>Strukturmodell <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(TF-ATTR — hovedalternativ)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
+        rows += '<tr class="ref"><td>Strukturmodell <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(TF-ATTR — vår tilleggsbane)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
       }
       // TF-MVP per vindu
       ['kons','sentral','opt'].forEach(function(w){
@@ -422,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function(){
           sanityHTML = '<div class="mvp-sanity">'+
             '<b>Yttergrense-modellen forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 24 år.</b> '+
             'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+ppDiff.toFixed(0)+' % '+dir+' enn SSB MMMM ved 2050. '+
-            (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mindre dramatisk anslag — strukturmodellen er hovedalternativet og slår yttergrense-modellene i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
+            (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mindre dramatisk anslag — strukturmodellen er vår tilleggsbane og slår yttergrense-modellene i backtesten 2020→2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
           '</div>';
         }
       }
@@ -449,6 +453,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">'+currentMode.lab+' · '+currentMode.sub+'</p>'+
           chartSvg+
+          (state.projMode === 'dec' ? '<p class="hint" style="margin:8px 0 0;font-size:11.5px"><b>Dekomponeringen finnes bare for TF-MVP</b> — yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen. Bytt flyttevindu i visningen under for å se hvor følsom splitten er.</p>' : '')+
         '</div>'+
         '<div class="bf-kpis">'+kpiHTML+'</div>'+
         // TF-MVP-alternativer i utvidbar visning. SSB MMMM + TF-ATTR er hovedfortellingen;
@@ -593,20 +598,19 @@ document.addEventListener('DOMContentLoaded', function(){
     // Bruk lokalt projMode='fb' for grafen — påvirker ikke Befolkning
     var savedProjMode = state.projMode;
     state.projMode = 'fb';
-    var chartSvg = projChart(k);
+    var chartSvg = projChart(k, 'fb');
     state.projMode = savedProjMode;
 
-    // KPI-er
+    // KPI-er — SSB MMMM (hovedbane), samme bane som grafen over
     var P = DATA.proj, o = P && P.kommuner[k.nr];
-    var mw = (o && o.mw) ? o.mw[state.mw] : null;
     var yrs = P.years, n = yrs ? yrs.length : 0;
     var sj = k.syss, sjr = sj ? sj.rate : null;
     var sysRate = (typeof getSysselsRate === 'function') ? getSysselsRate(k.nr) : null;
     var uforePct = (typeof getUforePct === 'function') ? getUforePct(k.nr) : null;
     var oad0 = null, oad1 = null;
-    if(o && mw && n >= 2 && mw.a65 && mw.a2064){
-      oad0 = mw.a2064[0] ? 100*mw.a65[0]/mw.a2064[0] : null;
-      oad1 = mw.a2064[n-1] ? 100*mw.a65[n-1]/mw.a2064[n-1] : null;
+    if(o && n >= 2 && o.a65 && o.a2064){
+      oad0 = o.a2064[0] ? 100*o.a65[0]/o.a2064[0] : null;
+      oad1 = o.a2064[n-1] ? 100*o.a65[n-1]/o.a2064[n-1] : null;
     }
     var sysInnv = sjr && sjr.zzz != null ? sjr.zzz : null;
     var sysGap = (sjr && sjr.zzz != null && sjr.tot != null) ? (sjr.tot - sjr.zzz) : null;
@@ -635,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-kpis">'+
           '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0)+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 (2024)</div></div>'+
           '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1)+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 (2024)</div></div>'+
-          (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0)+'</div><div class="l">Forsørgerbyrde i dag</div><div class="h">65+ per 100 yrkesaktive</div></div>' : '')+
+          (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0)+'</div><div class="l">Forsørgerbyrde i dag</div><div class="h">65+ per 100 yrkesaktive · SSB MMMM</div></div>' : '')+
           (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0)+'</div><div class="l">Forsørgerbyrde 2050</div><div class="h">'+(aldring != null ? '+'+aldring.toFixed(0)+' fra i dag' : '')+'</div></div>' : '')+
         '</div>'+
         // Sysselsetting fordeling (innvandrere/hele)

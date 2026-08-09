@@ -84,8 +84,8 @@
   <h2>Framskrivingsmodeller</h2>
   <h3>SSB MMMM (offisiell bane)</h3>
   <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på Middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
-  <h3>Strukturmodellen (TF-ATTR) — hovedalternativ ved siden av SSB</h3>
-  <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020→2024. Brukes som hovedalternativ til SSB i alle KPI-er på dashbordet.</p>
+  <h3>Strukturmodellen (TF-ATTR) — vår tilleggsbane</h3>
+  <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020→2024. <b>SSB MMMM er hovedbanen i hele dashbordet</b> — alle nøkkeltall, indikatorer og vurderinger mot eksterne normer regnes på den. Strukturmodellen vises ved siden av som en gjennomsiktig tilleggsbane, aldri som grunnlaget for vurderingen.</p>
   <h3>Yttergrense-modellene (TF-MVP) — outlier-spekter</h3>
   <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (før korona-boom), <b>Bredt vindu</b>, og <b>Vektet 2022–2023</b>. Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
   <h3>Basisår og rebasering (14746-migreringen, august 2026)</h3>
@@ -97,7 +97,7 @@
   <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen:</p>
   <p style="font-family:'Spline Sans Mono',monospace;font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
   <ul class="norm-list">
-    <li><b>Folketall:</b> alle framskrivingsbanene i dashbordet — SSB 14746 (MMMM, lav, høy) og TF-ATTR — slik at behovet får et ærlig spenn, ikke ett tall.</li>
+    <li><b>Folketall:</b> hovedtallet regnes alltid på <b>SSB MMMM</b>. Spennet vises i tillegg over SSBs egne lav- og høybaner samt vår tilleggsbane TF-ATTR, slik at behovet får et ærlig intervall og ikke bare ett tall.</li>
     <li><b>Husholdningsstørrelse:</b> SSB 09747 (personer per privathusholdning, 2005–2025), skjøtet til 2024-grensene. To kvotebaner: <b>konstant</b> (2025-nivået holdes) og <b>trend</b> (lineær trend 2011–2025, dempet 50 %, gulv 1,70). Aldring gir mindre husholdninger — derfor faller ikke boligbehovet i takt med folketallet.</li>
     <li><b>Andel i privathusholdning:</b> kalibrert per kommune mot 1.1.2025 (institusjonsbeboere holdes utenfor).</li>
     <li><b>Erstatningsbehov:</b> gjennomsnittlig registrert avgang av boliger 2016–2025 (SSB 10784). Riving og bruksendring som aldri registreres, kommer i tillegg — modellen er derfor forsiktig.</li>
@@ -190,7 +190,7 @@
       <tr><td class="kode">NDR</td><td>Netto driftsresultat</td></tr>
       <tr><td class="kode">BDI</td><td>Brutto driftsinntekter</td></tr>
       <tr><td class="kode">MMMM</td><td>SSBs hovedalternativ i framskrivinger (4 × Middels)</td></tr>
-      <tr><td class="kode">Strukturmodellen</td><td>Telemarksforsknings hovedalternativ (TF-ATTR teknisk)</td></tr>
+      <tr><td class="kode">Strukturmodellen</td><td>Telemarksforsknings strukturmodell, vår tilleggsbane (TF-ATTR teknisk)</td></tr>
       <tr><td class="kode">Yttergrense-modeller</td><td>Telemarksforsknings outlier-spekter (TF-MVP teknisk)</td></tr>
       <tr><td class="kode">NDC</td><td>Notional Defined Contribution (Sverige-pensjons­modellen)</td></tr>
       <tr><td class="kode">OADR</td><td>Old-Age Dependency Ratio — forsørgerbyrde 65+ / 20–64</td></tr>
