@@ -92,7 +92,7 @@
       </div>
       <div class="src">
         <div class="tag">Strukturmodell <span style="opacity:.7;font-weight:400">(TF-ATTR)</span></div>
-        <h3 class="serif">Hovedalternativ — flytting fra struktur</h3>
+        <h3 class="serif">Tilleggsbane — flytting fra struktur</h3>
         <p style="font-size:12.5px"><b>Strukturmodellen vår fra Telemarksforskning er en tilleggsbane ved siden av hovedbanen SSB MMMM.</b> Flyttingen anslås fra to lokale variabler — den er ikke avhengig av et historisk vindu:</p>
         <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
           <li><b>Jobbvekst</b> — lokal endring i sysselsetting</li>
@@ -158,7 +158,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 1.2</div>
     <div class="ns-t">Utforsk kommunene</div>
-    <div class="ns-h">Den store linja for hele landsdelen skjuler enorme forskjeller. Bodø vokser; mange utkantkommuner krymper med en fjerdedel mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
+    <div class="ns-h">Den store linja for hele landsdelen skjuler enorme forskjeller. Bodø vokser; de svakeste utkantkommunene mister opptil 17 % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -232,7 +232,7 @@
   <!-- Hero: forsørgerbyrde for landsdelen -->
   <div class="card hero-chart" id="burdenChart">
     <div class="ch"><h3 class="serif">Forsørgerbyrde 2026 → 2050 · Nord-Norge totalt</h3></div>
-    <p class="hint">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Heltrukken linje viser hvor mange eldre arbeidstakerne må bære. Indekspanelet under viser hvorfor — eldregruppen vokser mens arbeidsføre står stille eller faller. Standard flyttebane: konservativ.</p>
+    <p class="hint">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Heltrukken linje viser hvor mange eldre arbeidstakerne må bære. Indekspanelet under viser hvorfor — eldregruppen vokser mens arbeidsføre står stille eller faller. Bane: SSB MMMM (tabell 14746).</p>
     <div id="burdenGraph"></div>
   </div>
 
@@ -522,7 +522,10 @@ document.addEventListener('DOMContentLoaded', function(){
     );
     containers.forEach(function(el){
       // Hopp over toppnav, breadcrumb, seksjons-velger
-      if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top')) return;
+      // Bunnteksten beskriver hele dashbordet (alle 80 kommunene) og skal ikke
+      // fylkes-oversettes — ellers står det «Nordland dashboard» over en setning
+      // om alle tre fylkene.
+      if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top, .nn-footer')) return;
       // Gå rekursivt gjennom ALLE tekstnoder under el (inkl. inni <b>, <i>, <span>)
       var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
       var node;
@@ -629,9 +632,9 @@ document.addEventListener('DOMContentLoaded', function(){
       var trendTxt = '';
       if(sb26 != null && sb25 != null){
         var delta = sb26 - sb25;
-        trendTxt = delta > 1 ? ' og forventningene har <b>steget</b> fra ' + sb25 + ' til ' + sb26 + ' %'
-                 : delta < -1 ? ' men forventningene har <b>falt</b> fra ' + sb25 + ' til ' + sb26 + ' %'
-                 : ' med en stabil forventning på rundt ' + sb26 + ' %';
+        trendTxt = delta > 1 ? ' og forventningene har <b>steget</b> fra ' + fmt(sb25) + ' til ' + fmt(sb26) + ' %'
+                 : delta < -1 ? ' men forventningene har <b>falt</b> fra ' + fmt(sb25) + ' til ' + fmt(sb26) + ' %'
+                 : ' med en stabil forventning på rundt ' + fmt(sb26) + ' %';
       }
       fIntro.innerHTML = 'NAVs bedriftsundersøkelse 2026 (publisert mai 2026) gir et øyeblikksbilde av bedriftenes rekrutteringsbehov akkurat nå. Virksomhetene i <b>' + fylke + '</b> mangler estimert <b>' + fmtNb(fd.mangel_total) + '</b> personer i 2026' + trendTxt + '. Det er ikke en 2050-prognose — det er hva som mangler ved kontorpulten i dag.';
     }
@@ -643,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var navnKort = topp.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting').replace(/Eiendomsvirksomhet.*$/,'Eiendom');
       kpiEl.innerHTML =
         '<div class="kpi"><div class="v down">' + fmtNb(fd.mangel_total) + '</div><div class="l">Mangel i ' + fylke + '</div><div class="nh">2026 · estimert</div></div>' +
-        '<div class="kpi"><div class="v">' + (sb['2026']!=null ? (sb['2026']>=0?'+':'')+sb['2026']+' %' : '—') + '</div><div class="l">Sysselsettings­barometer 2026</div><div class="nh">Norge: ' + (natSb>=0?'+':'')+natSb + ' %</div></div>' +
+        '<div class="kpi"><div class="v">' + (sb['2026']!=null ? (sb['2026']>=0?'+':'')+fmt(sb['2026'])+' %' : '—') + '</div><div class="l">Sysselsettings­barometer 2026</div><div class="nh">Norge: ' + (natSb>=0?'+':'')+fmt(natSb) + ' %</div></div>' +
         '<div class="kpi"><div class="v">' + fmtNb(topp.mangel) + '</div><div class="l">' + navnKort + '</div><div class="nh">største mangel-næring</div></div>' +
         '<div class="kpi"><div class="v">' + fd.naeringer.length + '</div><div class="l">Næringer med mangel</div><div class="nh">av 24 målte</div></div>';
     }

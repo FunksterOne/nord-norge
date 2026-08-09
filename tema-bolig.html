@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var dFu = fu12f ? (fu12 - fu12f) / fu12f * 100 : null;
     var rikIg = r12(B.riket.ig, i1);
     var andel = valg === 'landsdel' && rikIg ? ig12 / rikIg * 100 : null;
-    function pil(d){ return d == null ? '' : (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(0) + ' % mot året før'; }
+    function pil(d){ return d == null ? '' : (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(0).replace('.',',') + ' % mot året før'; }
     var html =
       '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsettingstillatelser siste 12 mnd</div><div class="s">' + pil(dIg) + '</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">' + pil(dFu) + '</div></div>';

@@ -61,7 +61,7 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 04 · Arbeidskraft og aldring 2026 → 2050</div>
   <h1>Hvem skal <em>bære</em>?</h1>
-  <p class="lede">NAVs ferske bedriftsundersøkelse viser at norske virksomheter mangler 33 850 personer i 2026. Nord-Norge står for nesten 18 % av mangelen, mens vi bare har 9 % av befolkningen. Samtidig peker demografien på at den arbeidsføre gruppen 20–64 år krymper i fire av fem kommuner mot 2050. Mangelen i dag er forhåndsvarselet for det som kommer.</p>
+  <p class="lede">NAVs ferske bedriftsundersøkelse viser at norske virksomheter mangler 33 850 personer i 2026. Nord-Norge står for nesten 18 % av mangelen, mens vi bare har 9 % av befolkningen. Samtidig peker demografien på at den arbeidsføre gruppen 20–64 år krymper i tre av fire kommuner mot 2050. Mangelen i dag er forhåndsvarselet for det som kommer.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
@@ -76,10 +76,10 @@
 <section class="akt">
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Hvor mangler vi — og hvor er mangelen <em>kommunal</em>?</h2>
-  <p class="akt-intro">Topp seks næringer for arbeidskraftsmangel i Nord-Norge. Tre av dem er kommunale sektorer: helse og sosial, undervisning, og offentlig administrasjon. Det betyr at en stor del av rekrutteringskrisen ikke kan løses av markedet alene — kommunene må fylle stillingene med begrenset lønnsfleksibilitet. Det er her aldringen treffer hardest, fordi det er der den eldste delen av befolkningen øker tjenestebehovet.</p>
+  <p class="akt-intro">Topp seks næringer for arbeidskraftsmangel i Nord-Norge. To av dem er kommunale sektorer: helse og sosial, og undervisning. Det betyr at en stor del av rekrutteringskrisen ikke kan løses av markedet alene — kommunene må fylle stillingene med begrenset lønnsfleksibilitet. Det er her aldringen treffer hardest, fordi det er der den eldste delen av befolkningen øker tjenestebehovet.</p>
   <div class="arbeid-graf-wrap">
     <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Topp 6 mangel-næringer i Nord-Norge 2026</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Stolpene viser antall manglende personer. Røde merker er kommunale sektorer. Tallet til høyre er landsdelens andel av nasjonal mangel — over 22 % betyr overrepresentert.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Stolpene viser antall manglende personer. Røde merker er kommunale sektorer. Tallet til høyre er landsdelens andel av nasjonal mangel. Nord-Norge har 8,8 % av befolkningen, så en andel klart over det betyr overrepresentert.</p>
     <div id="naeringerListe"></div>
     <p class="hint" style="font-size:11px;margin-top:12px;opacity:.75;font-style:italic">Helse og sosial alene står for 1 750 manglende personer i Nord-Norge — 25 % av nasjonal mangel i sektoren. Offentlig administrasjon: 30 %. Undervisning: 23 %. Disse sektorene presses dobbelt — av aldring (etterspørsel) og av kohortkrymping (tilbud).</p>
   </div>
@@ -93,7 +93,7 @@
   <div class="demografi-grid" id="demografiKPI"></div>
   <div class="arbeid-graf-wrap">
     <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde i Nord-Norge 2026 → 2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~38 (2026) til ~51 (2050) — en økning på <b>36 %</b> i forsørgerbyrde på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger litt over OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~38 (2026) til ~51 (2050) — en økning på <b>36 %</b> i forsørgerbyrde på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
     <div id="forsorgerGraf"></div>
   </div>
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pensjonister vokser, yrkesaktive krymper.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbyrden så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
@@ -231,20 +231,20 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof NAV_BEDRIFT === 'undefined') return;
   var nb = NAV_BEDRIFT;
   var fmt = function(n){ return n != null ? n.toLocaleString('nb-NO') : '—'; };
-  var pct = function(n,d){ return n != null ? (n>=0?'+':'') + n.toFixed(d||0) + ' %' : '—'; };
+  var pct = function(n,d){ return n != null ? (n>=0?'+':'') + n.toFixed(d||0).replace('.',',') + ' %' : '—'; };
 
   // ─── AKT 01: Sjokket ───
   var sjokkM = document.getElementById('sjokkMangel');
   if(sjokkM) sjokkM.textContent = fmt(nb.landsdel.mangel_total);
   var sjokkA = document.getElementById('sjokkAndel');
-  if(sjokkA) sjokkA.textContent = nb.landsdel.mangel_andel_av_nasjonalt_pct + ' %';
+  if(sjokkA) sjokkA.textContent = fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %';
 
   var sjokkKPI = document.getElementById('sjokkKPI');
   if(sjokkKPI){
     sjokkKPI.innerHTML =
       '<div class="kpi"><div class="v down">' + fmt(nb.landsdel.mangel_total) + '</div><div class="l">Mangel i Nord-Norge</div><div class="nh">2026 · NAV-estimat</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(nb.nasjonalt.mangel_total) + '</div><div class="l">Nasjonal mangel</div><div class="nh">33 850 totalt</div></div>' +
-      '<div class="kpi"><div class="v">' + nb.landsdel.mangel_andel_av_nasjonalt_pct + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">vs 8,8 % befolkningsandel</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">vs 8,8 % befolkningsandel</div></div>' +
       '<div class="kpi"><div class="v up">' + pct(nb.landsdel.sysselsetting_barometer_2026_vektet, 1) + '</div><div class="l">Forventet vekst 2026</div><div class="nh">topp 2 i landet (Troms+Nordland)</div></div>';
   }
 
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function(){
       return '<div class="naering-rad' + (isKom?' kommunal':'') + '">' +
         '<div class="navn">' + navnKort + tag + '</div>' +
         '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + fmt(n.mangel_nn) + '</div></div>' +
-        '<div class="andel">' + n.andel_pct + ' % av nasjonalt</div>' +
+        '<div class="andel">' + fmt(n.andel_pct) + ' % av nasjonalt</div>' +
       '</div>';
     }).join('');
   }

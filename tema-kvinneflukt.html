@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var ledeEl = document.getElementById('ledeOver110');
   if(ledeEl) ledeEl.textContent = over110 + ' av ' + totMpr;
   document.getElementById('sjokkKPI').innerHTML =
-    '<div class="kpi"><div class="v down">' + landsdelBalanse.toFixed(1) + '</div><div class="l">Menn per 100 kvinner</div><div class="nh">i alder 18–44 i Nord-Norge</div></div>' +
+    '<div class="kpi"><div class="v down">' + landsdelBalanse.toFixed(1).replace('.',',') + '</div><div class="l">Menn per 100 kvinner</div><div class="nh">i alder 18–44 i Nord-Norge</div></div>' +
     '<div class="kpi"><div class="v down">' + over110 + '</div><div class="l">av 80 kommuner</div><div class="nh">har M/100K > 110</div></div>' +
     '<div class="kpi"><div class="v down">' + over120 + '</div><div class="l">av 80 kommuner</div><div class="nh">har M/100K > 120</div></div>' +
     '<div class="kpi"><div class="v down">~' + fmt(Math.round(mangelKvinner/100)*100) + '</div><div class="l">«Manglende» kvinner</div><div class="nh">vs perfekt 100/100-balanse</div></div>';
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // ─── Topp 10 menn-tunge ───
   var top10 = pts.slice().sort(function(a,b){return b.m100k - a.m100k;}).slice(0,10);
   document.getElementById('toppListe').innerHTML = top10.map(function(p){
-    return '<a href="kommune.html?k=' + p.nr + '"><div><div class="nm">' + p.navn + '</div><div class="fy">' + p.fylke + '</div></div><div class="pp">' + p.m100k.toFixed(0) + ' / 100</div></a>';
+    return '<a href="kommune.html?k=' + p.nr + '"><div><div class="nm">' + p.navn + '</div><div class="fy">' + p.fylke + '</div></div><div class="pp">' + p.m100k.toFixed(0).replace('.',',') + ' / 100</div></a>';
   }).join('');
 
   // ─── Akt 03: Per aldersgruppe ───
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var bal = sumK ? (sumM/sumK*100) : 0;
     var pct = Math.min(100, Math.max(0, (bal - 90) / 30 * 100)); // 90→0%, 120→100%
     var col = bal > 115 ? '#B23B3B' : bal > 105 ? 'var(--amber)' : 'var(--ink2)';
-    alderHTML += '<div><span class="lab">' + g.lab + '</span><div class="bar"><div style="width:' + pct.toFixed(0) + '%;background:' + col + '"></div><div class="ref" style="left:' + ((100-90)/30*100).toFixed(0) + '%"></div></div><span class="val">' + bal.toFixed(1) + '</span></div>';
+    alderHTML += '<div><span class="lab">' + g.lab + '</span><div class="bar"><div style="width:' + pct.toFixed(0).replace('.',',') + '%;background:' + col + '"></div><div class="ref" style="left:' + ((100-90)/30*100).toFixed(0).replace('.',',') + '%"></div></div><span class="val">' + bal.toFixed(1).replace('.',',') + '</span></div>';
   });
   document.getElementById('alderBars').innerHTML = alderHTML;
 
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var bal = a.k ? (a.m/a.k*100) : 0;
     var pct = Math.min(100, Math.max(0, (bal - 90) / 30 * 100));
     var col = bal > 115 ? '#B23B3B' : bal > 105 ? 'var(--amber)' : 'var(--ink2)';
-    fylkeHTML += '<div><span class="lab">' + fy + '</span><div class="bar"><div style="width:' + pct.toFixed(0) + '%;background:' + col + '"></div><div class="ref" style="left:33.3%"></div></div><span class="val">' + bal.toFixed(1) + '</span></div>';
+    fylkeHTML += '<div><span class="lab">' + fy + '</span><div class="bar"><div style="width:' + pct.toFixed(0).replace('.',',') + '%;background:' + col + '"></div><div class="ref" style="left:33.3%"></div></div><span class="val">' + bal.toFixed(1).replace('.',',') + '</span></div>';
   });
   document.getElementById('fylkeBars').innerHTML = fylkeHTML;
 
