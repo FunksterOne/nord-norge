@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bygges det nok? · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+.velger{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.velger button{font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);cursor:pointer}
+.velger button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.graf-kort{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.graf-kort h3{font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:0 0 4px}
+.graf-kort svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.beh-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.beh-tabell th{text-align:right;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);padding:7px 10px;border-bottom:2px solid var(--line)}
+.beh-tabell th:first-child{text-align:left}
+.beh-tabell td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line2);font-family:'Spline Sans Mono',monospace;font-size:12.5px}
+.beh-tabell td:first-child{text-align:left;font-family:'Hanken Grotesk',sans-serif;font-weight:600}
+.beh-tabell .spenn{color:var(--ink3);font-size:11px}
+.chipgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:11.5px;padding:4px 10px;border-radius:999px;background:rgba(178,59,59,.08);border:1px solid rgba(178,59,59,.25);color:var(--ink2)}
+.kal-kort{padding:18px 22px;background:rgba(24,117,103,.06);border:1px solid rgba(24,117,103,.25);border-radius:10px;margin:16px 0}
+.kal-kort h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0 0 6px}
+.redaksjonelt{padding:26px 28px;background:var(--paper2);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:12px;margin:18px 0}
+.redaksjonelt .rtag{font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;font-weight:700;color:var(--amber);margin-bottom:12px}
+.redaksjonelt blockquote{font-family:'Fraunces',serif;font-size:16px;font-style:italic;line-height:1.55;color:var(--ink);margin:0 0 8px;padding:0}
+.redaksjonelt .hvem{font-size:12px;color:var(--ink3);margin:0 0 18px}
+.redaksjonelt .fakta{font-size:13px;color:var(--ink2);line-height:1.6;border-top:1px solid var(--line2);padding-top:14px;margin-top:4px}
+.forbehold{padding:18px 22px;background:rgba(17,32,58,.04);border:1px solid var(--line2);border-radius:10px;margin:18px 0;font-size:12.5px;color:var(--ink2);line-height:1.6}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Bygges det nok?</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-scenarier.html">← Fire fremtider</a>
+    <a class="btn" href="kommune.html">Kommunekort</a>
+    <a class="btn" href="metode.html">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 07 · Boligmarkedet 2000 → 2050</div>
+  <h1>Bygges det <em>nok</em> der folk skal bo?</h1>
+  <p class="lede">Boligbyggingen i Nord-Norge har falt til det laveste nivået på over tjue år, og nedgangen er dobbelt så sterk som i landet ellers. Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
+</section>
+
+<!-- ────────────────── AKT 01 — BYGGETAKTEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Byggetakten</div>
+  <h2>Fra 3 000 til under 1 300 boliger i året.</h2>
+  <p class="akt-intro">Igangsettingstillatelser er fugler på taket — men de er den beste ledende indikatoren vi har. Fullførte boliger er fuglene i hånden. Begge kurvene peker samme vei: byggetakten i landsdelen er mer enn halvert siden midten av 2010-tallet, og fallet fortsetter.</p>
+  <div class="velger" id="omrValg" role="group" aria-label="Velg område"></div>
+  <div class="kpi-rad" id="byggKPI"></div>
+  <div class="graf-kort">
+    <h3>Igangsettingstillatelser og fullførte boliger — 12 måneders rullerende sum</h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB byggearealstatistikk (tabell 05889), 2001–2026. Kommuneserier skjøtet til 2024-grensene.</p>
+    <div id="rullGraf"></div>
+    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser</span><span><i style="background:var(--nl)"></i>Fullførte boliger</span></div>
+  </div>
+  <div class="graf-kort">
+    <h3>Per kvartal, 2022–2026</h3>
+    <div id="kvartGraf"></div>
+    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsatt</span><span><i style="background:var(--nl)"></i>Fullført</span></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 02 — BEHOVET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Behovet</div>
+  <h2>Behovet forsvinner ikke selv om <em>folketallet</em> gjør det.</h2>
+  <p class="akt-intro">Boligbehov styres av husholdninger, ikke hoder. Når husholdningene blir mindre — flere aleneboende eldre, færre barnefamilier — trengs det flere boliger per tusen innbyggere. BB-KVOTE-modellen beregner årlig behov per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen, på alle framskrivingsbanene i dashbordet.</p>
+  <div class="graf-kort">
+    <h3>Årlig boligbehov mot faktisk tilførsel — <span id="gapTittelOmr">Nord-Norge</span></h3>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">Mørk linje = fullførte boliger per år (SSB). Grønn linje = beregnet årlig behov, hovedbane (SSB MMMM × trendkvote). Skravert bånd = spennet over alle 8 kombinasjoner (4 befolkningsbaner × 2 husholdningskvoter). Området velges over.</p>
+    <div id="gapGraf"></div>
+    <div class="legend"><span><i style="background:var(--ink2)"></i>Fullført per år</span><span><i style="background:var(--aurora)"></i>Behov, hovedbane</span><span><i style="background:rgba(24,117,103,.25)"></i>Behovsspenn</span></div>
+  </div>
+  <div class="graf-kort">
+    <h3>Fylkene: behov mot tilførsel</h3>
+    <div style="overflow-x:auto"><table class="beh-tabell" id="behTabell"></table></div>
+    <p class="hint" style="font-size:11.5px;margin-top:8px">Behov = årlig snitt 2026–2030, hovedbane, med spenn over alle kombinasjoner i parentes. Tilførsel = fullførte boliger siste 12 måneder. Dekningsgrad = tilførsel delt på behov.</p>
+  </div>
+  <div class="kal-kort">
+    <h3>Kalibrering mot Prognosesenteret</h3>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 6px" id="kalTekst"></p>
+    <p class="hint" style="font-size:11.5px;margin:0">Prognosesenterets anslag for kbnn (aug. 2026) er beregnet med en annen metode og andre data. At to uavhengige modeller lander innenfor få prosent, styrker begge. Avvikene per kommune er større — særlig i pressområder, der Prognosesenteret også regner inn fortrengt etterspørsel.</p>
+  </div>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> <span id="pedPoeng"></span> Aldringen gjør boligbehovet mer robust enn folketallet: en kommune kan krympe og likevel trenge nye boliger — riktignok andre typer enn dem som står der.</p>
+</section>
+
+<!-- ────────────────── AKT 03 — SÅRBARHETEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Sårbarheten</div>
+  <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
+  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. To kommuner står for over 80 prosent av igangsettingene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
+  <div class="kpi-rad" id="sarbKPI"></div>
+  <div class="graf-kort">
+    <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettinger, siste 12 måneder</h3>
+    <div id="konsGraf"></div>
+  </div>
+  <div class="graf-kort">
+    <h3>Kommuner uten igangsettingstillatelser hittil i <span id="utenAar"></span></h3>
+    <div id="utenListe"></div>
+  </div>
+</section>
+
+<!-- ────────────────── REDAKSJONELT ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Stemmer fra markedet · Redaksjonell seksjon</div>
+  <div class="redaksjonelt">
+    <div class="rtag">Sitater og markedsbilde · Oppdatert manuelt, sist 9. august 2026</div>
+    <blockquote>«Det jeg har lagt i dette, er det voldsomme fallet vi har i boligbyggingen, det voldsomme fallet vi har hatt i nyboligsalget, og at denne situasjonen ser ut til å være mye mer krevende denne gangen enn det var for eksempel under finanskrisen.»</blockquote>
+    <p class="hvem">Henning Lauridsen, administrerende direktør i Eiendom Norge, i kbnn-podkasten «Nord-Norge i verden», august 2026</p>
+    <blockquote>«Så lenge problemet egentlig ligger på forsyningssiden, på tilbudssiden, så er det i hovedsak der utfordringen også må løses.»</blockquote>
+    <p class="hvem">Samme kilde — om hvorfor etterspørselsregulering ikke løser boligmangelen i Tromsø</p>
+    <div class="fakta">
+      <b>Markedsbildet utenfor SSB-tallene:</b> Eiendom Norges boligprisstatistikk viser at Tromsø har sterkest prisvekst i landet hittil i 2026 (+9,7 %), mens Bodø m/Fauske har landets lengste salgstid (109 dager per juli). Nasjonalt teller Prognosesenteret om lag 15 000 faktiske igangsettinger i 2025 mot om lag 20 000 registrerte tillatelser — avviket er størst for leilighetsprosjekter. Nyboligsalget i landsdelen falt 9 % siste år (per mai 2026), noe som peker mot fortsatt lav bygging.
+      <br><br>Kilder: <a href="https://eiendomnorge.no/boligprisstatistikk/" target="_blank" rel="noopener">Eiendom Norge</a> · <a href="https://www.kbnn.no/artikkel/boligbyggingen-faller-dobbelt-sa-raskt-i-nord" target="_blank" rel="noopener">kbnn/Prognosesenteret</a> · <a href="https://www.boligprodusentene.no/" target="_blank" rel="noopener">Boligprodusentene</a>. Denne boksen er redaksjonelt innhold uten API-kilde og oppdateres manuelt.
+    </div>
+  </div>
+  <div class="forbehold">
+    <b>Forbehold.</b> (1) Igangsettingstillatelser er ikke spadestikk: i svake markeder utsettes eller skrinlegges prosjekter etter at tillatelsen er gitt, og avviket mellom tillatelser og faktisk igangsetting er størst for leilighetsbygg. For Nord-Norge samsvarer SSBs registrerte tall per 2. kvartal 2026 med Prognosesenterets korrigerte telling, men nasjonalt ligger de registrerte tallene høyere. (2) Erstatningsbehovet bygger på <i>registrert</i> avgang (SSB 10784); riving og bruksendring som aldri registreres, kommer i tillegg. (3) Bruk av boliger til fritidsformål og korttidsutleie finnes ikke i åpen statistikk og ligger utenfor modellen — i pressområder som Tromsø undervurderer modellen derfor det reelle behovet. Se <a href="metode.html">metode-siden</a> for hele modellen.
+  </div>
+</section>
+
+<!-- Standard footer -->
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Nord-Norge dashboard</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Kilder og metode</h4>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
+    </div>
+    <div class="nnf-col">
+      <h4>Navigasjon</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank" target="_blank" rel="noopener">SSB statistikkbank</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge" target="_blank" rel="noopener">Kildekode (GitHub)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof BOLIG_DATA === 'undefined' || typeof BEHOV_DATA === 'undefined') return;
+  var B = BOLIG_DATA, BE = BEHOV_DATA;
+  var Q = B.quarters, nQ = Q.length;
+  var valg = 'landsdel';
+  var OMR = [
+    {key:'landsdel', navn:'Nord-Norge'},
+    {key:'Nordland', navn:'Nordland'},
+    {key:'Troms', navn:'Troms'},
+    {key:'Finnmark', navn:'Finnmark'}
+  ];
+  function bolig(omr){ return omr === 'landsdel' ? B.landsdel : B.fylker[omr]; }
+  function behov(omr){ return omr === 'landsdel' ? BE.landsdel : BE.fylker[omr]; }
+  function r12(arr, i){ return (i < 3) ? null : arr[i] + arr[i-1] + arr[i-2] + arr[i-3]; }
+  function sisteAar(){ return Q[nQ-1].slice(0,4); }
+
+  // ---------- felles SVG-hjelpere ----------
+  function linePath(pts){
+    var d = '';
+    pts.forEach(function(p, i){ d += (i ? ' L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); });
+    return d;
+  }
+  function niceMax(v){
+    var m = Math.pow(10, Math.floor(Math.log(v) / Math.LN10));
+    return Math.ceil(v / m) * m;
+  }
+
+  // ---------- akt 01: KPI ----------
+  function renderKPI(){
+    var o = bolig(valg);
+    var i1 = nQ - 1, i0 = nQ - 5;
+    var ig12 = r12(o.ig, i1), ig12f = r12(o.ig, i0);
+    var fu12 = r12(o.fu, i1), fu12f = r12(o.fu, i0);
+    var dIg = ig12f ? (ig12 - ig12f) / ig12f * 100 : null;
+    var dFu = fu12f ? (fu12 - fu12f) / fu12f * 100 : null;
+    var rikIg = r12(B.riket.ig, i1);
+    var andel = valg === 'landsdel' && rikIg ? ig12 / rikIg * 100 : null;
+    function pil(d){ return d == null ? '' : (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(0) + ' % mot året før'; }
+    var html =
+      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsatt siste 12 mnd</div><div class="s">' + pil(dIg) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">' + pil(dFu) + '</div></div>';
+    if(andel != null){
+      html += '<div class="kpi"><div class="v">' + andel.toFixed(1).replace('.', ',') + ' %</div><div class="l">Andel av landet</div><div class="s">snitt siden 2022: ~7 %</div></div>';
+    } else {
+      var beh = behov(valg);
+      html += '<div class="kpi"><div class="v">' + fmt(beh.w.m_tr[0]) + '</div><div class="l">Beregnet behov per år</div><div class="s">2026–2030, hovedbane</div></div>';
+    }
+    var koder = Object.keys(B.kommuner).filter(function(nr){
+      return valg === 'landsdel' || DATA.kommuner[nr].fylke === valg;
+    });
+    var iaar = [];
+    Q.forEach(function(t, i){ if(t.slice(0,4) === sisteAar()) iaar.push(i); });
+    var uten = koder.filter(function(nr){
+      var s = 0; iaar.forEach(function(i){ s += B.kommuner[nr].ig[i]; }); return s === 0;
+    });
+    html += '<div class="kpi"><div class="v">' + uten.length + ' av ' + koder.length + '</div><div class="l">Kommuner uten igangsetting</div><div class="s">hittil i ' + sisteAar() + '</div></div>';
+    document.getElementById('byggKPI').innerHTML = html;
+  }
+
+  // ---------- akt 01: rullerende graf ----------
+  function renderRull(){
+    var o = bolig(valg);
+    var xs = [], ig = [], fu = [];
+    for(var i = 3; i < nQ; i++){ xs.push(i); ig.push(r12(o.ig, i)); fu.push(r12(o.fu, i)); }
+    var W = 920, H = 300, L = 56, R = 14, T = 12, Bm = 30;
+    var ymax = niceMax(Math.max.apply(null, ig.concat(fu)) * 1.05);
+    function X(j){ return L + j / (xs.length - 1) * (W - L - R); }
+    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Rullerende byggetakt">';
+    for(var g = 0; g <= 4; g++){
+      var gv = ymax / 4 * g;
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)" stroke-width="1"/>';
+      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
+    }
+    xs.forEach(function(qi, j){
+      var t = Q[qi];
+      if(/K1$/.test(t) && (+t.slice(0,4)) % 4 === 2){
+        svg += '<text x="' + X(j) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + t.slice(0,4) + '</text>';
+      }
+    });
+    svg += '<path d="' + linePath(ig.map(function(v, j){ return [X(j), Y(v)]; })) + '" fill="none" stroke="var(--aurora)" stroke-width="2.4"/>';
+    svg += '<path d="' + linePath(fu.map(function(v, j){ return [X(j), Y(v)]; })) + '" fill="none" stroke="var(--nl)" stroke-width="2.4"/>';
+    svg += '<text x="' + (W - R) + '" y="' + (Y(ig[ig.length-1]) - 7) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--aurora)">' + fmt(ig[ig.length-1]) + '</text>';
+    svg += '<text x="' + (W - R) + '" y="' + (Y(fu[fu.length-1]) + 14) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--nl)">' + fmt(fu[fu.length-1]) + '</text>';
+    svg += '</svg>';
+    document.getElementById('rullGraf').innerHTML = svg;
+  }
+
+  // ---------- akt 01: kvartalsgraf ----------
+  function renderKvart(){
+    var o = bolig(valg);
+    var n = 18, start = nQ - n;
+    var W = 920, H = 240, L = 50, R = 10, T = 12, Bm = 30;
+    var vals = [];
+    for(var i = start; i < nQ; i++){ vals.push(o.ig[i], o.fu[i]); }
+    var ymax = niceMax(Math.max.apply(null, vals) * 1.1);
+    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
+    var bw = (W - L - R) / n;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Kvartalsvis byggeaktivitet">';
+    for(var g = 0; g <= 3; g++){
+      var gv = ymax / 3 * g;
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>';
+      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
+    }
+    for(var j = 0; j < n; j++){
+      var qi = start + j, x0 = L + j * bw;
+      svg += '<rect x="' + (x0 + bw * 0.14) + '" width="' + (bw * 0.32) + '" y="' + Y(o.ig[qi]) + '" height="' + (Y(0) - Y(o.ig[qi])) + '" fill="var(--aurora)" rx="2"/>';
+      svg += '<rect x="' + (x0 + bw * 0.52) + '" width="' + (bw * 0.32) + '" y="' + Y(o.fu[qi]) + '" height="' + (Y(0) - Y(o.fu[qi])) + '" fill="var(--nl)" rx="2"/>';
+      if(/K1$/.test(Q[qi])){
+        svg += '<text x="' + (x0 + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + Q[qi].slice(0,4) + '</text>';
+      }
+    }
+    svg += '</svg>';
+    document.getElementById('kvartGraf').innerHTML = svg;
+  }
+
+  // ---------- akt 02: gap-graf ----------
+  function renderGap(){
+    var o = bolig(valg), be = behov(valg);
+    document.getElementById('gapTittelOmr').textContent = OMR.filter(function(x){ return x.key === valg; })[0].navn;
+    // fullført per kalenderår 2001-2025
+    var histAar = [], histVal = [];
+    var perAar = {};
+    Q.forEach(function(t, i){ (perAar[t.slice(0,4)] = perAar[t.slice(0,4)] || []).push(o.fu[i]); });
+    Object.keys(perAar).sort().forEach(function(a){
+      if(perAar[a].length === 4 && +a >= 2001){ histAar.push(+a); histVal.push(perAar[a].reduce(function(s, v){ return s + v; }, 0)); }
+    });
+    var by = BE.years;                      // 2026..2049
+    var alleX = histAar.concat(by);
+    var x0 = alleX[0], x1 = alleX[alleX.length - 1];
+    var alle = histVal.concat(be.hoved, be.lo, be.hi, [0]);
+    var ymin = Math.min.apply(null, alle), ymax = Math.max.apply(null, alle) * 1.08;
+    if(ymin > 0) ymin = 0;
+    var W = 920, H = 300, L = 56, R = 14, T = 12, Bm = 30;
+    function X(a){ return L + (a - x0) / (x1 - x0) * (W - L - R); }
+    function Y(v){ return T + (1 - (v - ymin) / (ymax - ymin)) * (H - T - Bm); }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Behov mot tilførsel">';
+    for(var g = 0; g <= 4; g++){
+      var gv = ymin + (ymax - ymin) / 4 * g;
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>';
+      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv / 10) * 10) + '</text>';
+    }
+    if(ymin < 0) svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0) + '" y2="' + Y(0) + '" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="2 3"/>';
+    for(var a = Math.ceil(x0 / 5) * 5; a <= x1; a += 5){
+      svg += '<text x="' + X(a) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + a + '</text>';
+    }
+    // bånd
+    var band = 'M';
+    by.forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.hi[i]).toFixed(1) + ' L'; });
+    by.slice().reverse().forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.lo[by.length - 1 - i]).toFixed(1) + ' L'; });
+    svg += '<path d="' + band.slice(0, -2) + ' Z" fill="rgba(24,117,103,.18)" stroke="none"/>';
+    svg += '<path d="' + linePath(histAar.map(function(a, i){ return [X(a), Y(histVal[i])]; })) + '" fill="none" stroke="var(--ink2)" stroke-width="2.2"/>';
+    svg += '<path d="' + linePath(by.map(function(a, i){ return [X(a), Y(be.hoved[i])]; })) + '" fill="none" stroke="var(--aurora)" stroke-width="2.6"/>';
+    svg += '<line x1="' + X(2026) + '" x2="' + X(2026) + '" y1="' + T + '" y2="' + (H - Bm) + '" stroke="var(--ink3)" stroke-dasharray="3 4"/>';
+    svg += '<text x="' + X(2026) + '" y="' + (T + 10) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">i dag</text>';
+    svg += '</svg>';
+    document.getElementById('gapGraf').innerHTML = svg;
+  }
+
+  // ---------- akt 02: fylkestabell + kalibrering ----------
+  function renderTabell(){
+    var i1 = nQ - 1;
+    var rader = ['Nordland', 'Troms', 'Finnmark'].map(function(f){
+      var be = BE.fylker[f], bo = B.fylker[f];
+      var behov5 = be.w.m_tr[0];
+      var lo = Math.min.apply(null, Object.keys(be.w).map(function(c){ return be.w[c][0]; }));
+      var hi = Math.max.apply(null, Object.keys(be.w).map(function(c){ return be.w[c][0]; }));
+      var fu12 = r12(bo.fu, i1);
+      var dg = behov5 > 0 ? fu12 / behov5 * 100 : null;
+      var farge = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : '#B23B3B';
+      return '<tr><td>' + f + '</td><td>' + fmt(behov5) + ' <span class="spenn">(' + fmt(lo) + '–' + fmt(hi) + ')</span></td>' +
+        '<td>' + fmt(fu12) + '</td>' +
+        '<td style="color:' + farge + ';font-weight:700">' + (dg == null ? '–' : Math.round(dg) + ' %') + '</td></tr>';
+    }).join('');
+    var beL = BE.landsdel, boL = B.landsdel;
+    var loL = Math.min.apply(null, Object.keys(beL.w).map(function(c){ return beL.w[c][0]; }));
+    var hiL = Math.max.apply(null, Object.keys(beL.w).map(function(c){ return beL.w[c][0]; }));
+    var fu12L = r12(boL.fu, i1);
+    var dgL = Math.round(fu12L / beL.w.m_tr[0] * 100);
+    rader += '<tr style="border-top:2px solid var(--line)"><td><b>Nord-Norge</b></td><td><b>' + fmt(beL.w.m_tr[0]) + '</b> <span class="spenn">(' + fmt(loL) + '–' + fmt(hiL) + ')</span></td>' +
+      '<td><b>' + fmt(fu12L) + '</b></td><td style="font-weight:700;color:' + (dgL >= 90 ? 'var(--aurora)' : dgL >= 50 ? 'var(--amber)' : '#B23B3B') + '">' + dgL + ' %</td></tr>';
+    document.getElementById('behTabell').innerHTML =
+      '<thead><tr><th>Område</th><th>Behov per år 2026–2030</th><th>Fullført siste 12 mnd</th><th>Dekningsgrad</th></tr></thead><tbody>' + rader + '</tbody>';
+
+    var kal = BE.kalibrering;
+    var deler = [];
+    ['Nordland', 'Troms', 'Finnmark'].forEach(function(f){
+      deler.push(f + ': BB-KVOTE <b>' + fmt(kal[f].bb) + '</b> mot Prognosesenteret <b>' + fmt(kal[f].ps) + '</b>');
+    });
+    document.getElementById('kalTekst').innerHTML =
+      'For landsdelen samlet gir BB-KVOTE et årlig behov på <b>' + fmt(kal.landsdel.bb) + '</b> boliger i 2026–2030 — Prognosesenterets anslag er <b>' + fmt(kal.landsdel.ps) + '</b>. ' + deler.join(' · ') + '.';
+  }
+
+  // ---------- akt 02: pedagogisk poeng ----------
+  function renderPed(){
+    var antall = 0, totalt = 0;
+    Object.keys(BE.kommuner).forEach(function(nr){
+      var be = BE.kommuner[nr]; if(!be) return;
+      totalt++;
+      var o = DATA.proj.kommuner[nr];
+      var fall = o.main[o.main.length - 1] < o.main[0];
+      if(fall && be.w.m_tr[0] > 0) antall++;
+    });
+    document.getElementById('pedPoeng').innerHTML =
+      '<b>' + antall + '</b> av landsdelens ' + totalt + ' kommuner har fallende folketall på hovedbanen mot 2050 — men fortsatt et <i>positivt</i> beregnet boligbehov i 2026–2030, fordi husholdningene blir mindre og gamle boliger går ut av massen.';
+  }
+
+  // ---------- akt 03 ----------
+  function renderSarb(){
+    var i1 = nQ - 1;
+    var htmlK = '';
+    var iaar = [];
+    Q.forEach(function(t, i){ if(t.slice(0,4) === sisteAar()) iaar.push(i); });
+    var utenAlle = [];
+    ['Nordland', 'Troms', 'Finnmark'].forEach(function(f){
+      var koder = Object.keys(B.kommuner).filter(function(nr){ return DATA.kommuner[nr].fylke === f; });
+      var med = koder.map(function(nr){
+        return {nr: nr, navn: DATA.kommuner[nr].navn, v: r12(B.kommuner[nr].ig, i1) || 0};
+      }).sort(function(a, b){ return b.v - a.v; });
+      var sum = med.reduce(function(s, x){ return s + x.v; }, 0);
+      var topp2 = med[0].v + med[1].v;
+      var andel = sum ? topp2 / sum * 100 : 0;
+      htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:\'Spline Sans Mono\',monospace">' + Math.round(andel) + ' % — ' + med[0].navn.split(' - ')[0] + ' + ' + med[1].navn.split(' - ')[0] + '</span></div>' +
+        '<div style="height:20px;background:rgba(17,32,58,.05);border-radius:5px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + andel + '%;background:var(--amber);border-radius:5px"></div></div></div>';
+      koder.forEach(function(nr){
+        var s = 0; iaar.forEach(function(i){ s += B.kommuner[nr].ig[i]; });
+        if(s === 0) utenAlle.push({navn: DATA.kommuner[nr].navn.split(' - ')[0], fylke: f});
+      });
+    });
+    document.getElementById('konsGraf').innerHTML = htmlK;
+    document.getElementById('utenAar').textContent = sisteAar();
+    document.getElementById('utenListe').innerHTML =
+      '<p class="hint" style="font-size:12px;margin:2px 0 4px">' + utenAlle.length + ' av 80 kommuner. Rød kant = Finnmark har høyest andel.</p>' +
+      '<div class="chipgrid">' + utenAlle.map(function(u){ return '<span class="chip" title="' + u.fylke + '">' + u.navn + '</span>'; }).join('') + '</div>';
+
+    var beL = BE.landsdel;
+    var i0 = nQ - 5;
+    var boL = B.landsdel;
+    var av12 = 0;
+    var tqa = B.av_quarters;
+    for(var j = tqa.length - 4; j < tqa.length; j++) av12 += boL.av[j];
+    document.getElementById('sarbKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + fmt(r12(boL.fu, nQ-1) - av12) + '</div><div class="l">Netto tilførsel siste 12 mnd</div><div class="s">fullført minus registrert avgang (' + fmt(av12) + ')</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(beL.ersta) + '</div><div class="l">Årlig registrert avgang</div><div class="s">snitt 2016–2025, hele landsdelen</div></div>' +
+      '<div class="kpi"><div class="v">2 av 21 og 2 av 18</div><div class="l">Kommuner bak 80 % av byggingen</div><div class="s">i Troms og Finnmark (1. halvår 2026)</div></div>';
+  }
+
+  // ---------- velger + init ----------
+  var vh = document.getElementById('omrValg');
+  vh.innerHTML = OMR.map(function(o){
+    return '<button data-o="' + o.key + '" aria-pressed="' + (o.key === valg) + '">' + o.navn + '</button>';
+  }).join('');
+  vh.querySelectorAll('button').forEach(function(b){
+    b.onclick = function(){
+      valg = this.dataset.o;
+      vh.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x.dataset.o === valg); });
+      renderKPI(); renderRull(); renderKvart(); renderGap();
+    };
+  });
+  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb();
+});
+</script>
+</body>
+</html>

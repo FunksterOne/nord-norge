@@ -111,11 +111,12 @@
   <button data-sec="sammensetning" aria-current="false">2 · Sammensetning</button>
   <button data-sec="arbeid" aria-current="false">3 · Arbeid og forsørgerbyrde</button>
   <button data-sec="levekar" aria-current="false">4 · Levekår</button>
-  <button data-sec="okonomi" aria-current="false">5 · Økonomi</button>
-  <button data-sec="barekraft" aria-current="false">6 · Bærekraft</button>
+  <button data-sec="bolig" aria-current="false">5 · Bolig</button>
+  <button data-sec="okonomi" aria-current="false">6 · Økonomi</button>
+  <button data-sec="barekraft" aria-current="false">7 · Bærekraft</button>
 </nav>
 
-<!-- 6 seksjoner -->
+<!-- 7 seksjoner -->
 <section class="tab active" data-tab="befolkning">
   <h2 class="section-title">Befolkning</h2>
   <p class="section-sub">Hvor mange er vi — og hvor er vi på vei?</p>
@@ -138,6 +139,12 @@
   <h2 class="section-title">Levekår</h2>
   <p class="section-sub">Hvor godt lever folk?</p>
   <div id="kLevekar"></div>
+</section>
+
+<section class="tab" data-tab="bolig">
+  <h2 class="section-title">Bolig</h2>
+  <p class="section-sub">Bygges det nok der folk skal bo?</p>
+  <div id="kBolig"></div>
 </section>
 
 <section class="tab" data-tab="okonomi">
@@ -260,6 +267,8 @@ document.addEventListener('DOMContentLoaded', function(){
       renderArbeidPanel(k, host);
     } else if(sec === 'levekar'){
       renderLevekarPanel(k, host);
+    } else if(sec === 'bolig'){
+      renderBoligPanel(k, host);
     } else if(sec === 'okonomi'){
       renderOkonomiPanel(k, host);
     } else if(sec === 'barekraft'){
@@ -294,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function renderAllSections(){
-    ['befolkning','sammensetning','arbeid','levekar','okonomi','barekraft'].forEach(renderSection);
+    ['befolkning','sammensetning','arbeid','levekar','bolig','okonomi','barekraft'].forEach(renderSection);
   }
 
   // ─── Dedikert Befolkning-panel (pedagogisk redesign) ───
@@ -643,6 +652,70 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ─── Dedikert Økonomi-panel ───
   // KPI-rad med 4 KOSTRA-tall mot eksterne normer → KOSTRA-detalj → ROBEK-status
+  function renderBoligPanel(k, host){
+    if(typeof BOLIG_DATA === 'undefined' || typeof BEHOV_DATA === 'undefined'){ host.innerHTML = ''; return; }
+    var bo, be;
+    if(k.isAgg){
+      bo = (k.fylke === 'Alle') ? BOLIG_DATA.landsdel : BOLIG_DATA.fylker[k.fylke];
+      be = (k.fylke === 'Alle') ? BEHOV_DATA.landsdel : BEHOV_DATA.fylker[k.fylke];
+    } else {
+      bo = BOLIG_DATA.kommuner[k.nr];
+      be = BEHOV_DATA.kommuner[k.nr];
+    }
+    if(!bo || !be){ host.innerHTML = '<p class="hint">Boligdata mangler for dette området.</p>'; return; }
+    var Q = BOLIG_DATA.quarters, nQ = Q.length;
+    function r12(arr, i){ return (i < 3) ? null : arr[i] + arr[i-1] + arr[i-2] + arr[i-3]; }
+    var ig12 = r12(bo.ig, nQ-1), ig12f = r12(bo.ig, nQ-5);
+    var fu12 = r12(bo.fu, nQ-1);
+    var behov = be.w.m_tr[0];
+    var alleW = Object.keys(be.w).map(function(c){ return be.w[c][0]; });
+    var lo = Math.min.apply(null, alleW), hi = Math.max.apply(null, alleW);
+    var fu3aar = 0;
+    for(var i = nQ - 12; i < nQ; i++) fu3aar += bo.fu[i];
+    var dg = behov > 0 ? fu3aar / (behov * 3) * 100 : null;
+    var dgTxt = dg == null ? 'overskudd' : Math.round(dg) + ' %';
+    var dgCol = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : '#B23B3B';
+    var dIg = ig12f ? (ig12 - ig12f) / ig12f * 100 : null;
+
+    var html = '<div class="kpi-rad">' +
+      '<div class="kpi"><div class="v">' + fmt(ig12) + '</div><div class="l">Igangsatt siste 12 mnd</div><div class="s">' + (dIg == null ? 'tillatelser, SSB 05889' : (dIg >= 0 ? '+' : '−') + Math.abs(dIg).toFixed(0) + ' % mot året før') + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(fu12) + '</div><div class="l">Fullført siste 12 mnd</div><div class="s">boliger tatt i bruk</div></div>' +
+      '<div class="kpi"><div class="v">' + (behov > 0 ? fmt(behov) : '≤ 0') + '</div><div class="l">Beregnet behov per år</div><div class="s">2026–2030, spenn ' + fmt(lo) + '–' + fmt(hi) + '</div></div>' +
+      '<div class="kpi"><div class="v" style="color:' + dgCol + '">' + dgTxt + '</div><div class="l">Dekningsgrad siste 3 år</div><div class="s">' + (dg == null ? 'demografien alene gir ikke behov for nye boliger' : 'fullført mot beregnet behov') + '</div></div></div>';
+
+    // Mini-graf: 12-mnd rullerende, med behovsnivå som stiplet linje
+    var xs = [], igS = [], fuS = [];
+    for(var j = 3; j < nQ; j++){ xs.push(j); igS.push(r12(bo.ig, j)); fuS.push(r12(bo.fu, j)); }
+    var W = 900, H = 240, L = 50, R = 12, T = 12, Bm = 26;
+    var ymax = Math.max(Math.max.apply(null, igS.concat(fuS)), behov) * 1.1 || 10;
+    function X(j){ return L + j / (xs.length - 1) * (W - L - R); }
+    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
+    function lp(vals){ var d = ''; vals.forEach(function(v, j){ d += (j ? ' L' : 'M') + X(j).toFixed(1) + ' ' + Y(v).toFixed(1); }); return d; }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto" role="img" aria-label="Byggetakt mot behov">';
+    for(var g = 0; g <= 3; g++){
+      var gv = ymax / 3 * g;
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>' +
+        '<text x="' + (L - 6) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
+    }
+    xs.forEach(function(qi, j){
+      var t = Q[qi];
+      if(/K1$/.test(t) && (+t.slice(0, 4)) % 5 === 0){
+        svg += '<text x="' + X(j) + '" y="' + (H - 6) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + t.slice(0, 4) + '</text>';
+      }
+    });
+    svg += '<path d="' + lp(igS) + '" fill="none" stroke="var(--aurora)" stroke-width="2.2"/>';
+    svg += '<path d="' + lp(fuS) + '" fill="none" stroke="var(--nl)" stroke-width="2.2"/>';
+    if(behov > 0){
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(behov) + '" y2="' + Y(behov) + '" stroke="#B23B3B" stroke-width="1.6" stroke-dasharray="5 4"/>' +
+        '<text x="' + (W - R) + '" y="' + (Y(behov) - 6) + '" text-anchor="end" style="font-size:10.5px;font-weight:700;fill:#B23B3B">beregnet årlig behov ' + fmt(behov) + '</text>';
+    }
+    svg += '</svg>';
+    html += '<div class="ch"><h3 class="serif" style="font-size:15px">Byggetakt 2001–2026 mot beregnet behov</h3>' + svg +
+      '<div class="legend" style="margin-top:6px"><span><i style="background:var(--aurora)"></i>Igangsatt, 12 mnd rullerende</span><span><i style="background:var(--nl)"></i>Fullført, 12 mnd rullerende</span>' + (behov > 0 ? '<span><i style="background:#B23B3B"></i>Behov 2026–2030 (BB-KVOTE)</span>' : '') + '</div>' +
+      '<p class="hint" style="margin:10px 0 0;font-size:11.5px">SSB 05889 (skjøtet til 2024-grenser) og BB-KVOTE-modellen (SSB 14746 + 09747 + 10784). Husholdningsstørrelse ' + String(be.hh25).replace('.', ',') + ' (2025), registrert avgang ~' + fmt(be.ersta) + ' bolig(er)/år. Tillatelser er ikke spadestikk — se <a href="metode.html">metode</a>. Hele bildet: <a href="tema-bolig.html">Bygges det nok?</a></p></div>';
+    host.innerHTML = html;
+  }
+
   function renderOkonomiPanel(k, host){
     var P = DATA.proj;
     var ks = (P && P.kostra) ? P.kostra[k.nr] : null;

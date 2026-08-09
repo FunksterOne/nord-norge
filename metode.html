@@ -59,6 +59,9 @@
       <tr><td class="kode">14780</td><td>Personinntekt (lønn, pensjon, uføretrygd)</td><td>2025</td></tr>
       <tr><td class="kode">11084</td><td>Eierstatus husholdninger</td><td>2024</td></tr>
       <tr><td class="kode">06265</td><td>Boliger etter bygningstype</td><td>2026</td></tr>
+      <tr><td class="kode">05889</td><td>Byggeareal: igangsettingstillatelser og fullførte boliger, kvartal</td><td>2000–2026</td></tr>
+      <tr><td class="kode">10784</td><td>Byggeareal: avgang av boliger (revet/utgått), kvartal</td><td>2009–2026</td></tr>
+      <tr><td class="kode">09747</td><td>Privathusholdninger, personer og personer per husholdning</td><td>2005–2025</td></tr>
     </tbody>
   </table>
   <h3 style="margin-top:24px">Andre kilder</h3>
@@ -78,6 +81,36 @@
   <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020→2024. Brukes som hovedalternativ til SSB i alle KPI-er på dashbordet.</p>
   <h3>Yttergrense-modellene (TF-MVP) — outlier-spekter</h3>
   <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (før korona-boom), <b>Bredt vindu</b>, og <b>Vektet 2022–2023</b>. Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
+  <h3>Basisår og rebasering (14746-migreringen, august 2026)</h3>
+  <p>Dashbordet gikk i august 2026 fra SSBs 2024-baserte framskriving (tabell 14288) til 2026-årgangen (tabell 14746, publisert 12. juni 2026). SSB-banene er hentet på nytt. TF-ATTR- og TF-MVP-banene er <b>rebasert mekanisk</b>: nivåjustert til faktisk folketall 1.1.2026, med uendret vekstprofil — de er ikke rekjørt med nye rater. Ukraina- og sensitivitetsscenariene er lagt på de rebaserte banene med effektprofil per år etter basisåret, slik at sjokkene fortsatt inntreffer i første framskrivingsår.</p>
+</div>
+
+<div class="metode-card">
+  <h2>Boligbehovsmodellen (BB-KVOTE)</h2>
+  <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen:</p>
+  <p style="font-family:'Spline Sans Mono',monospace;font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
+  <ul class="norm-list">
+    <li><b>Folketall:</b> alle framskrivingsbanene i dashbordet — SSB 14746 (MMMM, lav, høy) og TF-ATTR — slik at behovet får et ærlig spenn, ikke ett tall.</li>
+    <li><b>Husholdningsstørrelse:</b> SSB 09747 (personer per privathusholdning, 2005–2025), skjøtet til 2024-grensene. To kvotebaner: <b>konstant</b> (2025-nivået holdes) og <b>trend</b> (lineær trend 2011–2025, dempet 50 %, gulv 1,70). Aldring gir mindre husholdninger — derfor faller ikke boligbehovet i takt med folketallet.</li>
+    <li><b>Andel i privathusholdning:</b> kalibrert per kommune mot 1.1.2025 (institusjonsbeboere holdes utenfor).</li>
+    <li><b>Erstatningsbehov:</b> gjennomsnittlig registrert avgang av boliger 2016–2025 (SSB 10784). Riving og bruksendring som aldri registreres, kommer i tillegg — modellen er derfor forsiktig.</li>
+  </ul>
+  <h3>Kalibrering mot Prognosesenteret</h3>
+  <p>Prognosesenteret beregnet for kbnn (august 2026) et årlig boligbehov 2026–2030 med en annen metode og andre data. Sammenstilling mot BB-KVOTEs hovedbane:</p>
+  <table class="kildetabell">
+    <thead><tr><th>Område</th><th>BB-KVOTE</th><th>Prognosesenteret</th><th>Avvik</th></tr></thead>
+    <tbody>
+      <tr><td>Nord-Norge</td><td>1 479</td><td>1 476</td><td>+0,2 %</td></tr>
+      <tr><td>Nordland</td><td>434</td><td>454</td><td>−4 %</td></tr>
+      <tr><td>Troms</td><td>765</td><td>755</td><td>+1 %</td></tr>
+      <tr><td>Finnmark</td><td>281</td><td>267</td><td>+5 %</td></tr>
+      <tr><td>Tromsø</td><td>390</td><td>431</td><td>−10 %</td></tr>
+      <tr><td>Bodø</td><td>99</td><td>114</td><td>−13 %</td></tr>
+    </tbody>
+  </table>
+  <p class="hint">Avvikene er størst i pressområdene, der Prognosesenteret også regner inn fortrengt etterspørsel og flytting som følge av boligtilbudet. BB-KVOTE er en ren demografisk nettomodell.</p>
+  <h3>Forbehold for byggestatistikken</h3>
+  <p><b>Igangsettingstillatelser er ikke spadestikk.</b> I svake markeder utsettes eller skrinlegges prosjekter etter at tillatelse er gitt; nasjonalt telte Prognosesenteret om lag 15 000 faktiske igangsettinger i 2025 mot om lag 20 000 registrerte tillatelser. For Nord-Norge samsvarer SSBs registrerte tall per 2. kvartal 2026 med Prognosesenterets korrigerte telling. <b>Kommuneserier er skjøtet:</b> byggearealtabellene fører historikk under kommunenummeret som gjaldt da (Tromsø: 1902 → 5401 → 5501). Skjøtingen bygges automatisk fra SSB KLASS (klassifikasjon 131). Tysfjord (1850), som ble delt mellom Narvik og Hamarøy i 2020, kan ikke fordeles uten skjønn og inngår kun i fylkes- og landsdelssummene. Dielddanuorri-Tjeldsund regnes som Troms i hele serien.</p>
 </div>
 
 <div class="metode-card">
