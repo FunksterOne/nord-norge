@@ -56,7 +56,7 @@
 </header>
 
 <section class="tema-hero">
-  <div class="tag">Temaserie 05 · Aldring i et internasjonalt perspektiv 2024 → 2050</div>
+  <div class="tag">Temaserie 05 · Aldring i et internasjonalt perspektiv 2026 → 2050</div>
   <h1>Hvor står Norge — og <em>Nord-Norge</em> — globalt?</h1>
   <p class="lede">Hver gang noen sier «Norge eldes raskt» er det sant. Men det er ikke unikt — og det er ikke jevnt fordelt. OECD-snittet for forsørgerbyrde stiger fra 33 (i dag) til 52 i 2050. Norge ligger på 48 — under snittet. Innenfor Norge sliter Innlandet og Telemark mer enn alle Nord-Norge-fylkene. Bildet er nyansert: vi er ikke ekstreme, men distriktene er heller ikke ensartet. Og det finnes politiske grep — Sverige, Finland og Norge har alle gjort dem, men ikke nok.</p>
 </section>
@@ -90,9 +90,9 @@
   <p class="akt-intro">Den nasjonale gjennomsnittet på 48 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet og Telemark</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — de er Norges mest belastede områder. Nordland kommer som tredje. Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
   <div class="fylke-graf">
     <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — alle norske fylker</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSB MMMM (tab. 14288). Nord-Norge-fylker er fremhevet. OECD-snittet 2050 (~52) og EU-snittet (~57) markert som referanselinjer.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSB MMMM (tab. 14746). Nord-Norge-fylker er fremhevet. OECD-snittet 2050 (~52) og EU-snittet (~57) markert som referanselinjer.</p>
     <div id="fylkeListe"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14288, hovedalternativet MMMM. Avrundet til nærmeste hele tall. Nye fylker etter 2024-reformen.</p>
+    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til nærmeste hele tall. Nye fylker etter 2024-reformen.</p>
   </div>
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» er sant — men ikke spesielt for Nord-Norge. Innlandet (57) og Telemark (56) ligger over hele Nord-Norge. Det er industristed-Norge og innlandsbygdene som har størst aldringspres. Nord-Norges utfordring er mindre forsørgerbyrde-relatert og mer arbeidskraftsmangel-relatert (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet).</p>
 </section>
@@ -290,20 +290,20 @@ document.addEventListener('DOMContentLoaded', function(){
       var fd = fylker[f];
       fylkeData.push({navn: f, verdi: fd.a2064 ? fd.a65/fd.a2064*100 : 0, erNN: fylkesnavn.indexOf(f) >= 0});
     });
-    // Legg til hardkodede fra SSB tab 14288 for andre fylker (data brukerne ikke har lokalt)
+    // Legg til hardkodede fra SSB tab 14746 (2026-årgangen) for andre fylker (data brukerne ikke har lokalt)
     var ssbFylker = [
-      {navn:'Innlandet', verdi: 57.1},
-      {navn:'Telemark', verdi: 56.0},
-      {navn:'Vestfold', verdi: 51.5},
-      {navn:'Møre og Romsdal', verdi: 52.0},
-      {navn:'Agder', verdi: 50.0},
-      {navn:'Rogaland', verdi: 43.0},
-      {navn:'Akershus', verdi: 47.2},
-      {navn:'Oslo', verdi: 32.3},
-      {navn:'Trøndelag', verdi: 49.0},
-      {navn:'Vestland', verdi: 47.0},
-      {navn:'Østfold', verdi: 51.0},
-      {navn:'Buskerud', verdi: 51.0},
+      {navn:'Innlandet', verdi: 56.9},
+      {navn:'Telemark', verdi: 55.6},
+      {navn:'Vestfold', verdi: 55.1},
+      {navn:'Møre og Romsdal', verdi: 54.3},
+      {navn:'Agder', verdi: 49.8},
+      {navn:'Rogaland', verdi: 47.1},
+      {navn:'Akershus', verdi: 46.5},
+      {navn:'Oslo', verdi: 32.1},
+      {navn:'Trøndelag', verdi: 45.1},
+      {navn:'Vestland', verdi: 48.1},
+      {navn:'Østfold', verdi: 52.6},
+      {navn:'Buskerud', verdi: 49.7},
     ];
     ssbFylker.forEach(function(f){
       if(!fylkeData.find(function(x){return x.navn===f.navn;})){

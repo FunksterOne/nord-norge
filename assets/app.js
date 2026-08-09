@@ -343,7 +343,7 @@ function projChart(k,mode){
     const cols=[
       {lab:'Naturlig endring',sub:'(fødsler − dødsfall)',val:nat,col:(nat<0?'#B23B3B':'var(--aurora)')},
       {lab:'Netto flytting',sub:'(inn − ut)',val:mig,col:(mig<0?'#B23B3B':'var(--aurora)')},
-      {lab:'Sum 2024–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'#B23B3B':'var(--aurora)')}
+      {lab:'Sum 2026–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'#B23B3B':'var(--aurora)')}
     ];
     const bw=120, gap=(W-cols.length*bw)/(cols.length+1);
     cols.forEach((c,ci)=>{
@@ -377,7 +377,7 @@ function projChart(k,mode){
     // 2024 reference + shaded added burden
     const y0=Ya(r[0]);
     s+='<line x1="'+Lx+'" y1="'+y0+'" x2="'+(Lx+Wx)+'" y2="'+y0+'" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>';
-    s+='<text class="axis" x="'+(Lx+Wx)+'" y="'+(y0-5)+'" text-anchor="end" style="fill:var(--ink3)">2024-nivå</text>';
+    s+='<text class="axis" x="'+(Lx+Wx)+'" y="'+(y0-5)+'" text-anchor="end" style="fill:var(--ink3)">2026-nivå</text>';
     let ar='M'+Xc(0).toFixed(1)+' '+y0.toFixed(1);
     r.forEach((v,i)=>{ar+=' L'+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
     ar+=' L'+Xc(n-1).toFixed(1)+' '+y0.toFixed(1)+'Z';
@@ -484,7 +484,7 @@ function projCard(k){
     '<button data-p="dec" aria-selected="'+sel('dec')+'">Drivkrefter</button>'+
     '<button data-p="fb" aria-selected="'+sel('fb')+'">Forsørgerbyrde</button>'+
     '<button data-p="age" aria-selected="'+sel('age')+'">Aldring</button></div></div>'+
-    '<p class="hint">SSBs regionale framskriving (tabell 14288, 2024-basert). '+
+    '<p class="hint">SSBs regionale framskriving (tabell 14746, 2026-basert). '+
     (state.projMode==='tot'
       ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2024 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (hovedalternativ). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
       : state.projMode==='dec'
@@ -996,7 +996,7 @@ function statusBadges(k,s){
                s.aging==='mid' ? '● moderat alder (median '+s.med+')' :
                '⬆ aldrende (median '+s.med+')';
   return '<div class="status-badges">'+
-    '<span class="badge b-'+s.growth+'" title="SSB MMMM 2024→2050">'+gtxt+'</span>'+
+    '<span class="badge b-'+s.growth+'" title="SSB MMMM 2026→2050">'+gtxt+'</span>'+
     '<span class="badge b-robek-'+(s.robek==='in'?'in':s.robek==='pending'?'pend':'ok')+'" title="ROBEK-status">'+rtxt+'</span>'+
     '<span class="badge b-age-'+s.aging+'" title="Medianalder i dag">'+atxt+'</span>'+
   '</div>';
@@ -2660,7 +2660,7 @@ function evaluateKommune(k){
   const workFall = (a2&&a2[0])?(1 - a2[n-1]/a2[0])*100:null;
   // OECD-standard forsørgerbyrde (65+/20-64)
   const oad2050 = (a2&&a2[n-1])?100*a6[n-1]/a2[n-1]:null;
-  // Årlig endring 2024→2050 (geometrisk) — for SCIRN
+  // Årlig endring 2026→2050 (geometrisk) — for SCIRN
   const annualPct = (mw.pop&&mw.pop[0]&&mw.pop[n-1]>0)?(Math.pow(mw.pop[n-1]/mw.pop[0], 1/26) - 1)*100:null;
   const syssR = getSysselsRate(k.nr);
   const uforePct = getUforePct(k.nr);
@@ -2716,7 +2716,7 @@ function sustKommuneCard(k){
   const robekOK = !e.inROBEK && !e.pendingROBEK;
   const tbl='<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 0">'+
     sectionHeader('Demografi mot 2050 (framskrevet)')+
-    row('Befolkningsendring 2024→2050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
+    row('Befolkningsendring 2026→2050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
     row('Årlig endring (geometrisk)', e.annualPct!=null?(e.annualPct>=0?'+':'−')+Math.abs(e.annualPct).toFixed(2)+' %':'–', stat(e.annualPct, popOK), 'OECD SCIRN-terskel: −0,15 %/år')+
     row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
     sectionHeader('Arbeidsmarked og helse (2024)')+
