@@ -11,7 +11,7 @@ Interaktivt, frittstående dashbord for de 80 kommunene i Nord-Norge (Nordland, 
 - **Diagrammotor:** `src/charts/` med Observable Plot og D3. Eldre kode i `assets/app.js` setter inn plassholdere (`NN.placeholder(navn, spesifikasjon)`) som tegnes, tilpasses bredden og følger temaet automatisk.
   Typer: `proj` (befolkningsbaner), `kart` (kommunekart med rangering), `plassering` (bisverm «hvor står kommunen»), `skjebner` (små multipler), `trykkmatrise` (regioner, animert), `gap` (differansediagram), `lq` (næringskonsentrasjon per region), `naeringvekst` (manualdiagram), `linjer`, `stolper`, `hstolper`, `mini`, `stablet`, `backtest`, `rang`, `spredning`.
 - **Søk:** Ctrl K eller «/» på alle sider (`src/lib/search.js`). Rullestyrt fortelling på forsiden (`src/lib/scrolly.js`).
-- **Data:** `assets/data.js` (innbakte datablokker) oppdateres av `fetch_*.py` mot SSB PxWebApi; `fetch_kostra.py` og `update_robek.py` for KOSTRA og ROBEK, `fetch_naering.py` for sysselsatte per næring (SSB 13470, SØAs næringsgrupper). Kart: `geo/nn-kommuner.json` (Kartverket 2024, CC BY 4.0).
+- **Data:** `assets/data.js` (innbakte datablokker) oppdateres av `fetch_*.py` mot SSB PxWebApi; `fetch_kostra.py` og `update_robek.py` for KOSTRA og ROBEK, `fetch_naering.py` for sysselsatte per næring (SSB 13470, SØAs næringsgrupper). Befolkningspyramidene ligger som egne filer i `data/pyramide/<id>.json` (kommunenummer, `nn`, `nordland`/`troms`/`finnmark`, `r-<region>`) og lages av `fetch_pyramide.py` fra SSB 07459 og 14746; de lastes først når diagrammet vises. Kart: `geo/nn-kommuner.json` (Kartverket 2024, CC BY 4.0).
 
 ## Lokalt
 

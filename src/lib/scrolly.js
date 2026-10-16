@@ -55,7 +55,7 @@ function steg() {
 
 function build(sec) {
   const steps = steg();
-  const h = window.innerWidth < 860 ? Math.round(Math.min(340, window.innerHeight * 0.42)) : 600;
+  const h = window.innerWidth < 860 ? Math.round(Math.min(340, window.innerHeight * 0.42)) : Math.round(Math.min(560, Math.max(460, window.innerHeight - 120)));
   sec.innerHTML = `
     <div class="nn-scrolly-graf"><div data-nnchart="kart" data-spec='${JSON.stringify({ ind: steps[0].ind, side: false, height: h })}' style="min-height:${h}px"></div></div>
     <div class="nn-scrolly-steg">${steps.map((s, i) => `

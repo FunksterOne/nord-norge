@@ -209,9 +209,9 @@ document.addEventListener('DOMContentLoaded', function(){
   var nm = document.getElementById('navMangel');
   if(nm && typeof NAV_BEDRIFT !== 'undefined' && window.NN){
     var rows = NAV_BEDRIFT.landsdel.naeringer.slice(0, 10).map(function(n){
-      return {l: n.navn.replace(/, faglig.*$/, '').replace(/Overnattings- og serveringsvirksomhet/, 'Overnatting og servering'), v: n.mangel_nn, note: n.andel_pct.toFixed(1).replace('.', ',') + ' % av landets mangel'};
+      return {l: n.navn.replace(/, faglig.*$/, '').replace(/Overnattings- og serveringsvirksomhet/, 'Overnatting og servering'), v: n.mangel_nn, note: n.andel_pct.toFixed(1).replace('.', ',') + ' % av landet'};
     });
-    nm.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: rows}], kilde:'Kilde: NAVs bedriftsundersøkelse 2026. Estimert mangel = antall personer virksomhetene ikke fikk ansatt.'}, rows.length*22+40);
+    nm.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: rows}], kilde:'Kilde: NAVs bedriftsundersøkelse 2026. Estimert mangel = antall personer virksomhetene ikke fikk ansatt. Prosenten er Nord-Norges andel av mangelen i næringen i hele landet.'}, rows.length*22+40);
   }
 });
 </script>

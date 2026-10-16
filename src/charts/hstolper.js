@@ -24,8 +24,12 @@ register('hstolper', (el, width) => {
   const maks = s.maks || Math.max(neg ? 0 : 1, ...alle.map(r => r.v), ...refs.map(r => r.v));
   const min = neg ? Math.min(...alle.map(r => r.v)) : 0;
   const longest = Math.max(4, ...s.grupper.flatMap(g => g.rader.map(r => String(r.l).length)));
-  const left = s.etikettBredde || Math.min(Math.round(width * 0.42), 14 + longest * 6.6);
-  const etikett = r => fmt(r.v) + (r.note ? `  ${r.note}` : '');
+  // På smale skjermer får lange etiketter ikke plass til venstre; da legges de over stolpen.
+  const over = !s.etikettBredde && width < 600 && 14 + longest * 6.6 > width * 0.42;
+  const left = over ? 4 : s.etikettBredde || Math.min(Math.round(width * 0.42), 14 + longest * 6.6);
+  // Smal visning: merknaden flyttes opp på etikettlinjen, så bare tallet står ved stolpen.
+  const etikett = r => fmt(r.v) + (r.note && !over ? `  ${r.note}` : '');
+  const radTekst = r => r.l + (r.note && over ? ` · ${r.note}` : '');
   const høyreTekst = Math.max(40, ...alle.filter(r => r.v >= 0).map(r => tekstBredde(etikett(r), 11.5)));
   const venstreTekst = neg ? Math.max(40, ...alle.filter(r => r.v < 0).map(r => tekstBredde(etikett(r), 11.5))) : 0;
   const right = Math.min(Math.round(width * 0.38), Math.round(høyreTekst + 18));
@@ -33,7 +37,8 @@ register('hstolper', (el, width) => {
   for (const g of s.grupper) {
     const n = g.rader.length;
     const tett = n > 40;
-    const rh = tett ? 15 : 22;
+    const overHer = over && !tett;
+    const rh = tett ? 15 : overHer ? 34 : 22;
     const harRef = !!(g.ref || g.refs);
     const rader = g.rader.map((r, i) => ({ ...r, key: `${i}\u0000${r.l}` }));
     const vals = rader.filter(r => r.v != null);
@@ -42,10 +47,10 @@ register('hstolper', (el, width) => {
       const t = document.createElement('div'); t.className = 'nn-hst-tittel'; t.textContent = g.tittel; out.push(t);
     }
     const fig = Plot.plot({
-      width, height: n * rh + (harRef ? 30 : 12), marginLeft: left, marginRight: right, marginTop: harRef ? 22 : 4, marginBottom: 6,
+      width, height: n * rh + (harRef ? 30 : 12), marginLeft: overHer ? 4 : left, marginRight: right, marginTop: harRef ? 22 : 4, marginBottom: 6,
       style: { background: 'transparent', fontFamily: 'var(--font-sans)', fontSize: tett ? '10px' : '12px', color: 'var(--ink-2)', overflow: 'visible' },
       x: { domain: [min, maks], axis: null, insetLeft: venstreTekst ? venstreTekst + 16 : 0 },
-      y: { domain: rader.map(r => r.key), tickFormat: k => k.split('\u0000')[1], tickSize: 0, paddingInner: tett ? 0.12 : 0.36, paddingOuter: 0.18, label: null },
+      y: { domain: rader.map(r => r.key), tickFormat: k => k.split('\u0000')[1], tickSize: 0, paddingInner: tett ? 0.12 : overHer ? 0.6 : 0.36, paddingOuter: overHer ? 0.5 : 0.18, label: null, axis: overHer ? null : undefined },
       marks: [
         !neg && Plot.barX(rader, { x: maks, y: 'key', fill: 'var(--line-soft)' }),
         neg && Plot.ruleX([0], { stroke: 'var(--line)' }),
@@ -56,6 +61,7 @@ register('hstolper', (el, width) => {
         ]),
         Plot.text(vals.filter(r => r.v >= 0), { x: 'v', y: 'key', text: etikett, dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
         Plot.text(vals.filter(r => r.v < 0), { x: 'v', y: 'key', text: etikett, dx: -6, textAnchor: 'end', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
+        overHer && Plot.text(rader, { y: 'key', frameAnchor: 'left', text: radTekst, dy: -14, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: 11.5 }),
         tom.length && Plot.text(tom, { x: 0, y: 'key', text: () => 'undertrykt', dx: 6, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 11 }),
         Plot.tip(vals, Plot.pointerY({ x: 'v', y: 'key', title: r => `${r.l}\n${fmt(r.v)}${r.note ? `\n${r.note}` : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
       ].filter(Boolean),

@@ -95,9 +95,9 @@ register('tilbudgap', (el, width) => {
   const right = compact ? 92 : 150;
   const medGap = rader.filter(r => r.gap != null);
   const fig = Plot.plot({
-    width, height: rader.length * 56 + 40, marginLeft: left, marginRight: right, marginTop: 26, marginBottom: 8,
+    width, height: rader.length * 56 + (compact ? 16 : 40), marginLeft: left, marginRight: right, marginTop: compact ? 6 : 26, marginBottom: 8,
     style: { background: 'transparent', fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--ink-2)', overflow: 'visible' },
-    x: { domain: [0, maks * 1.02], axis: 'top', ticks: compact ? 3 : 6, tickFormat: v => heltall(v), tickSize: 0, label: null, grid: true },
+    x: { domain: [0, maks * 1.02], axis: compact ? null : 'top', ticks: 6, tickFormat: v => heltall(v), tickSize: 0, label: null, grid: true },
     y: { domain: rader.map(r => r.key), tickFormat: k => k.split('\u0000')[1], tickSize: 0, paddingInner: 0.5, paddingOuter: 0.3, label: null },
     marks: [
       Plot.barX(rader, { x: 'tilbud', y: 'key', fill: 'var(--muted-mark)' }),
