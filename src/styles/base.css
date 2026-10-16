@@ -1,0 +1,131 @@
+/* McHalvard-grunnstil over den gamle CSS-en. Lastes etter assets/styles.css. */
+
+html { background: var(--bg); }
+body {
+  font: 400 15px/1.55 var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  font-feature-settings: "lnum" 1;
+  overflow-x: clip;
+}
+::selection { background: var(--accent-tint); color: var(--ink); }
+a { color: var(--accent-text); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Typografi: serif for overskrifter og heltetall, Plex for resten */
+h1, h2, h3, .serif { font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; }
+h1 em, h2 em, .akt h2 em, .tema-hero h1 em, .landing-hero h1 em { color: var(--accent-text); font-style: italic; }
+.mono, .kpi .v, .nv, .val, .nval, td, .num { font-variant-numeric: tabular-nums lining-nums; }
+
+/* Kicker: STORE 11px med 0,08em sporing, aksentblå */
+.kicker, .akt-num, .tema-hero .tag, .lt-kicker, .ntb-kicker, .ka-kicker, .landing-hero .kicker,
+.stepcard .sn, .tldr .tldr-tag, .ns-n {
+  font-family: var(--font-sans) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: var(--track-caps) !important;
+  text-transform: uppercase;
+  color: var(--accent-text) !important;
+}
+
+/* Kort og flater: hårfine linjer, ingen løft */
+.card, .kpi, .khero, .stepcard, .tldr, .insight, .share-card, .explain, .cmpcol, .kchip, .sitat,
+.landing-card, .lt-card, .ntb-card, .arbeid-graf-wrap, .reg-tbl-wrap, .mpl-wrap, .veiskille-figur,
+.scenario-kort, .bs-tema-kort, .demografi-kort, .mismatch-blokk, .kanon-anker, .neste-tema-blokk, .black-swan {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+*:hover { box-shadow: none; }
+.landing-card:hover, .lt-card:hover, .ntb-card:hover, .kchip:hover, .journey-acts button:hover,
+.nextstep:hover, .neste-tema-blokk a.ntb-card:hover { transform: none !important; }
+
+/* Nøkkeltall: tung 3px linje øverst, serif-tall */
+.kpi, .kpi-rad .kpi, .demografi-kort {
+  background: var(--panel);
+  border: 1px solid var(--line) !important;
+  border-top: 3px solid var(--rule) !important;
+}
+.kpi .v, .kpi-rad .kpi .v, .demografi-kort .nv, .tldr .tldr-num .nv {
+  font-family: var(--font-display) !important;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.kpi .l, .kpi-rad .kpi .l, .demografi-kort .nl {
+  font-size: 11px; font-weight: 600; letter-spacing: var(--track-caps);
+  text-transform: uppercase; color: var(--ink-2);
+}
+
+/* Knapper: 2px hjørne er maks */
+button, select, input, .btn, a.btn { border-radius: var(--radius-1) !important; }
+.seg button[aria-selected=true], .minseg button[aria-selected=true], .nn-secnav button[aria-current="true"],
+.sortbar button[aria-pressed=true], .flow-toggle button[aria-pressed=true], .source-filter .sf-chip[aria-pressed=true] {
+  background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important;
+}
+.ksubtabs button[aria-selected=true]::after, .tabs button[aria-selected=true]::after { background: var(--accent); }
+
+/* Tabeller: tabulære tall, høyrestilt, tung linje over totaler */
+table { border-collapse: collapse; }
+th { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--ink-3); }
+tr.total td, tfoot td { border-top: 2px solid var(--rule) !important; font-weight: 600; }
+
+/* Figurer nummereres automatisk («Figur 01») */
+body { counter-reset: figur; }
+.card > .ch h3, .arbeid-graf-wrap > div:first-child, .exhibit-title {
+  counter-increment: figur;
+}
+.card > .ch h3::before, .exhibit-title::before {
+  content: "Figur " counter(figur, decimal-leading-zero);
+  display: block;
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 4px;
+}
+
+/* SVG-diagram: aldri bredere enn beholderen */
+svg { max-width: 100%; }
+svg text { font-family: var(--font-sans); }
+.axis text, .flow-chart text { font-family: var(--font-sans) !important; fill: var(--ink-3); }
+
+/* ── Temabryter ─────────────────────────────────────────────── */
+.tema-bryter {
+  font: 500 12px/1 var(--font-sans);
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 7px 10px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.tema-bryter:hover { color: var(--ink); border-color: var(--ink-3); background: var(--panel); }
+.tema-bryter .tb-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--ink-2);
+  background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); }
+.tema-bryter-fast { position: fixed; right: 16px; bottom: 16px; z-index: 60; background: var(--panel); }
+
+/* ── Mobil: ingen sideveis rulling ──────────────────────────── */
+.wrap { max-width: var(--page-max); }
+.wrap > *, .akt > *, section > *, .card > * { min-width: 0; }
+@media (max-width: 720px) {
+  .wrap { padding: 20px 16px 56px !important; }
+  table { display: block; overflow-x: auto; max-width: 100%; }
+  .nn-actions { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .nn-actions select { flex: 1 1 100%; min-width: 0; }
+  .akt h2 { font-size: 26px; }
+  .tema-hero h1 { font-size: 36px; }
+  .kpis-7, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .ksubtabs, .tabs, .nn-secnav { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+  .ksubtabs button, .tabs button, .nn-secnav button { flex: none; }
+  .veiskille-grid, .scenario-grid, .flow, .arrow-pair, .summary-grid { grid-template-columns: 1fr !important; }
+  .naering-rad { grid-template-columns: 110px minmax(0, 1fr) 70px !important; gap: 8px !important; }
+  .naering-rad .navn { font-size: 11.5px !important; }
+  .mismatch-blokk .arrow-pair .arr { transform: rotate(90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Sideoverganger mellom sidene (myk kryssovergang der nettleseren støtter det) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 160ms; }

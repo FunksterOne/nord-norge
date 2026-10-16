@@ -6,41 +6,44 @@
 <title>Fire fremtider mot 2040 — Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
-.veiskille-figur{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:18px 0}
+.veiskille-figur{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:18px 0}
 .veiskille-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0 18px}
-.veivalg-kort{padding:18px 20px;background:var(--paper);border:1px solid var(--line2);border-radius:10px;border-left:4px solid var(--aurora)}
-.veivalg-kort .num{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
-.veivalg-kort h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink);line-height:1.25}
+.veivalg-kort{padding:18px 20px;background:var(--paper);border:1px solid var(--line2);border-radius:0;border-left:4px solid var(--aurora)}
+.veivalg-kort .num{font-family:var(--font-mono);font-size:11px;color:var(--ink3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.veivalg-kort h4{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink);line-height:1.25}
 .veivalg-kort p{font-size:12.5px;line-height:1.5;color:var(--ink2);margin:0}
 
 .scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0}
 @media (max-width:720px){.scenario-grid{grid-template-columns:1fr}}
-.scenario-kort{padding:24px 26px;border-radius:14px;border:1px solid var(--line2);background:var(--paper);position:relative;overflow:hidden}
-.scenario-kort .badge{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;font-weight:700}
-.scenario-kort h3{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 4px;line-height:1.15;color:var(--ink)}
-.scenario-kort .undertittel{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--ink2);margin:0 0 14px}
-.scenario-kort .veivalg-pil{font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.55;padding:8px 10px;background:var(--paper2);border-radius:6px}
+.scenario-kort{padding:24px 26px;border-radius:0;border:1px solid var(--line2);background:var(--paper);position:relative;overflow:hidden}
+.scenario-kort .badge{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;font-weight:700}
+.scenario-kort h3{font-family:var(--font-display);font-size:22px;font-weight:600;margin:0 0 4px;line-height:1.15;color:var(--ink)}
+.scenario-kort .undertittel{font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--ink2);margin:0 0 14px}
+.scenario-kort .veivalg-pil{font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.55;padding:8px 10px;background:var(--paper2);border-radius:0}
 .scenario-kort .veivalg-pil b{color:var(--ink)}
 .scenario-kort p.beskrivelse{font-size:13px;line-height:1.6;color:var(--ink2);margin:0 0 12px}
-.scenario-kort .hammerfest-rute{margin-top:14px;padding:12px 14px;border-left:3px solid var(--fi);background:rgba(156,91,160,0.06);border-radius:0 6px 6px 0}
+.scenario-kort .hammerfest-rute{margin-top:14px;padding:12px 14px;border-left:3px solid var(--fi);background:color-mix(in srgb, var(--fi) 6%, transparent);border-radius:0}
 .scenario-kort .hammerfest-rute .hr-kicker{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fi);margin-bottom:4px}
 .scenario-kort .hammerfest-rute p{font-size:12px;line-height:1.5;color:var(--ink2);margin:0}
 
-.scen-pendler{background:linear-gradient(135deg,rgba(178,59,59,0.10),rgba(178,59,59,0.02));border-left:4px solid #B23B3B}
-.scen-petroleum{background:linear-gradient(135deg,rgba(194,107,38,0.10),rgba(194,107,38,0.02));border-left:4px solid var(--amber)}
-.scen-rava{background:linear-gradient(135deg,rgba(156,91,160,0.10),rgba(156,91,160,0.02));border-left:4px solid var(--fi)}
-.scen-positiv{background:linear-gradient(135deg,rgba(24,117,103,0.10),rgba(24,117,103,0.02));border-left:4px solid var(--aurora)}
+.scen-pendler{background:color-mix(in srgb, var(--neg) 10%, transparent);border-left:4px solid var(--neg)}
+.scen-petroleum{background:color-mix(in srgb, var(--warn) 10%, transparent);border-left:4px solid var(--amber)}
+.scen-rava{background:color-mix(in srgb, var(--fi) 10%, transparent);border-left:4px solid var(--fi)}
+.scen-positiv{background:color-mix(in srgb, var(--accent) 10%, transparent);border-left:4px solid var(--aurora)}
 
 .bs-tema-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
-.bs-tema-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
-.bs-tema-kort h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.bs-tema-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
+.bs-tema-kort h4{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 8px;color:var(--ink)}
 .bs-tema-kort ul{margin:0;padding:0 0 0 18px;font-size:12.5px;line-height:1.55;color:var(--ink2)}
 .bs-tema-kort li{margin-bottom:4px}
 
-.mpl-wrap{padding:26px 22px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.mpl-wrap{padding:26px 22px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .mpl-legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:16px;font-size:11.5px;color:var(--ink2)}
 .mpl-legend .lg{display:inline-flex;align-items:center;gap:6px}
 .mpl-legend .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
@@ -48,26 +51,26 @@
 .mpl-tl::before{content:'';position:absolute;left:94px;top:4px;bottom:4px;width:2px;background:var(--line2)}
 .mpl-row{position:relative;margin:0 0 18px;padding:0}
 .mpl-row:last-child{margin-bottom:0}
-.mpl-year{position:absolute;left:-120px;top:0;width:84px;text-align:right;font-family:'Spline Sans Mono',monospace;font-size:12.5px;font-weight:700;color:var(--ink);padding-top:1px}
+.mpl-year{position:absolute;left:-120px;top:0;width:84px;text-align:right;font-family:var(--font-mono);font-size:12.5px;font-weight:700;color:var(--ink);padding-top:1px}
 .mpl-year .sub{display:block;font-size:10px;font-weight:500;color:var(--ink3);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
 .mpl-pt{position:absolute;left:-32px;top:4px;width:14px;height:14px;border-radius:50%;border:3px solid var(--paper2);box-sizing:content-box}
 .mpl-body{padding:0 2px 2px 10px;background:transparent}
-.mpl-tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:10px;margin-right:7px;vertical-align:1px}
-.mpl-title{font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--ink);margin:0 0 4px;line-height:1.3;display:inline}
+.mpl-tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:0;margin-right:7px;vertical-align:1px}
+.mpl-title{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--ink);margin:0 0 4px;line-height:1.3;display:inline}
 .mpl-body p{font-size:12.5px;line-height:1.55;color:var(--ink2);margin:4px 0 0}
 .mpl-body p .kilde{color:var(--ink3);font-size:11px;font-style:italic}
-.mpl-c-kraft{background:#C9A23B}
-.mpl-c-sjomat{background:#1C6FA8}
-.mpl-c-forsvar{background:#5A5A5A}
-.mpl-c-mineral{background:#8E4A2E}
-.mpl-c-infra{background:#9C5BA0}
-.mpl-c-arbeid{background:#B23B3B}
-.mpl-tag.mpl-c-kraft{background:rgba(201,162,59,.15);color:#8A6E1E}
-.mpl-tag.mpl-c-sjomat{background:rgba(28,111,168,.12);color:#154E78}
+.mpl-c-kraft{background:var(--cat-5)}
+.mpl-c-sjomat{background:var(--nl)}
+.mpl-c-forsvar{background:var(--cat-4)}
+.mpl-c-mineral{background:var(--cat-6)}
+.mpl-c-infra{background:var(--fi)}
+.mpl-c-arbeid{background:var(--neg)}
+.mpl-tag.mpl-c-kraft{background:color-mix(in srgb, var(--cat-5) 15%, transparent);color:var(--warn)}
+.mpl-tag.mpl-c-sjomat{background:color-mix(in srgb, var(--nl) 12%, transparent);color:var(--accent-text)}
 .mpl-tag.mpl-c-forsvar{background:rgba(90,90,90,.14);color:#333}
-.mpl-tag.mpl-c-mineral{background:rgba(142,74,46,.14);color:#5F3220}
-.mpl-tag.mpl-c-infra{background:rgba(156,91,160,.14);color:#6B3F6E}
-.mpl-tag.mpl-c-arbeid{background:rgba(178,59,59,.14);color:#7A2929}
+.mpl-tag.mpl-c-mineral{background:rgba(142,74,46,.14);color:var(--cat-6)}
+.mpl-tag.mpl-c-infra{background:color-mix(in srgb, var(--fi) 14%, transparent);color:var(--fi)}
+.mpl-tag.mpl-c-arbeid{background:color-mix(in srgb, var(--neg) 14%, transparent);color:var(--neg)}
 @media (max-width:600px){
   .mpl-tl{padding-left:90px}
   .mpl-tl::before{left:70px}
@@ -316,7 +319,7 @@
     </div>
   </div>
 
-  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px;padding:14px 16px;background:rgba(17,32,58,0.04);border-left:4px solid var(--ink2);border-radius:0 6px 6px 0">
+  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--ink) 4%, transparent);border-left:4px solid var(--ink2);border-radius:0">
     <b>Slik leser du milepælene.</b> I motsetning til Black Swans under er dette ting som er bestemt — vedtak, planer, kvotetildelinger. De fire scenariene ovenfor er fortellinger om hvordan disse spiller sammen. Et scenario som ignorerer at Nussir faktisk åpner, at Statnett faktisk har stengt nord for Svartisen, eller at 1 850 forsvarsansatte faktisk kommer, er ikke et scenario — det er ønsketenkning. Timelinjen er dagens håndfaste bakgrunn mot hvilken 2040 bygges.
   </p>
 </section>
@@ -328,8 +331,8 @@
   <p class="akt-intro">Alle fire scenariene forutsetter at de tunge trendene fortsetter. Men noen ganger skjer det noe ingen så komme — det Nassim Taleb kalte «Black Swans». Pandemien i 2020, Russlands fullskala-invasjon av Ukraina i 2022, og det amerikanske handelskrigen i 2025 var alle slike hendelser. Hver av dem endret rammebetingelsene over natten. Business Index North-rapporten identifiserte rundt 20 mulige «Black Swans» som kan endre Nord-Norges framtid radikalt. Her er noen av dem, gruppert tematisk.</p>
 
   <div class="bs-tema-grid">
-    <div class="bs-tema-kort" style="border-left:4px solid #B23B3B">
-      <h4>🔒 Krig, sabotasje, sikkerhet</h4>
+    <div class="bs-tema-kort" style="border-left:4px solid var(--neg)">
+      <h4>Krig, sabotasje, sikkerhet</h4>
       <ul>
         <li>Russland kollapser og splittes opp</li>
         <li>USA åpner atomvåpenbase i Finnmark</li>
@@ -339,7 +342,7 @@
       </ul>
     </div>
     <div class="bs-tema-kort" style="border-left:4px solid var(--amber)">
-      <h4>⚡ Energi</h4>
+      <h4>Energi</h4>
       <ul>
         <li>Ny energikilde løser energibehovet</li>
         <li>Pålegg om umiddelbar nedstengning av olje</li>
@@ -348,7 +351,7 @@
       </ul>
     </div>
     <div class="bs-tema-kort" style="border-left:4px solid var(--nl)">
-      <h4>🌐 Internett og data</h4>
+      <h4>Internett og data</h4>
       <ul>
         <li>Internett «dør» og kommer ikke tilbake</li>
         <li>Store internasjonale datainnbrudd lammer Norge</li>
@@ -357,7 +360,7 @@
       </ul>
     </div>
     <div class="bs-tema-kort" style="border-left:4px solid var(--aurora)">
-      <h4>🇳🇴 Norge og rammebetingelser</h4>
+      <h4>Norge og rammebetingelser</h4>
       <ul>
         <li>Nord-Norge får egne attraktive skatte- og rammebetingelser</li>
         <li>Universitetsutdanning gratis i nord, kostbar i sør</li>
@@ -367,7 +370,7 @@
       </ul>
     </div>
     <div class="bs-tema-kort" style="border-left:4px solid var(--fi)">
-      <h4>🌍 Klima og natur</h4>
+      <h4>Klima og natur</h4>
       <ul>
         <li>Klimaflyktninger strømmer til Nord-Norge i stort antall</li>
         <li>Stor meteoritt eller vulkanutbrudd endrer klima brå</li>
@@ -376,7 +379,7 @@
       </ul>
     </div>
     <div class="bs-tema-kort" style="border-left:4px solid var(--gold)">
-      <h4>🤝 Geopolitikk og samarbeid</h4>
+      <h4>Geopolitikk og samarbeid</h4>
       <ul>
         <li>Kina danner ny verdensallianse mot Vesten</li>
         <li>Nytt regionalt Europa-samarbeid favoriserer nord</li>
@@ -386,7 +389,7 @@
     </div>
   </div>
 
-  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px;padding:14px 16px;background:rgba(17,32,58,0.04);border-left:4px solid var(--ink2);border-radius:0 6px 6px 0">
+  <p class="hint" style="font-size:12.5px;line-height:1.6;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--ink) 4%, transparent);border-left:4px solid var(--ink2);border-radius:0">
     <b>Hvorfor Black Swans matter.</b> Effekten av selv én slik hendelse kan endre samtlige fire scenarier. Beslutningstakere må ikke prøve å spå hvilken som inntreffer — men <i>bygge robusthet</i> mot et bredt sett av muligheter. Pendlersamfunn-scenarioet er ikke statisk; en Black Swan kan skifte oss fra «Petroleum og rorbuer» til «Pendlersamfunn» på få år hvis sikkerhetspolitisk situasjon forverres.
   </p>
 </section>

@@ -6,67 +6,70 @@
 <title>Kommune — Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
 .k-hero{padding:20px 0 24px;margin-bottom:18px;border-bottom:1px solid var(--line2)}
-.k-hero h1{font-family:'Fraunces',serif;font-size:42px;font-weight:600;margin:6px 0 6px;color:var(--ink)}
-.k-hero .fy{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:9px;border:1px solid;color:#fff}
+.k-hero h1{font-family:var(--font-display);font-size:42px;font-weight:600;margin:6px 0 6px;color:var(--ink)}
+.k-hero .fy{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:0;border:1px solid;color:#fff}
 .k-hero .k-nav-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
 .k-hero .k-prev,.k-hero .k-next{font-size:18px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);border-radius:50%;text-decoration:none;color:var(--ink);background:var(--paper)}
 .k-hero .k-prev:hover,.k-hero .k-next:hover{border-color:var(--ink2);background:var(--paper2)}
-.k-hero .k-cmp{margin-left:auto;font-size:13px;padding:6px 12px;border:1px solid var(--line2);border-radius:6px;text-decoration:none;color:var(--ink);background:var(--paper)}
+.k-hero .k-cmp{margin-left:auto;font-size:13px;padding:6px 12px;border:1px solid var(--line2);border-radius:0;text-decoration:none;color:var(--ink);background:var(--paper)}
 .k-hero .k-cmp:hover{border-color:var(--ink2);background:var(--paper2)}
-.section-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:600;margin:0 0 6px;color:var(--ink)}
 .section-sub{color:var(--ink2);font-size:14px;margin:0 0 18px}
 
 /* ─── Befolkning-panelet (redesign) ─── */
 .bf-panel{display:flex;flex-direction:column;gap:18px}
-.bf-modes{display:flex;gap:6px;flex-wrap:wrap;background:var(--paper2);padding:6px;border-radius:10px;border:1px solid var(--line2)}
-.bf-modes button{flex:1;min-width:120px;font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:7px;font-weight:500;transition:all .12s ease}
+.bf-modes{display:flex;gap:6px;flex-wrap:wrap;background:var(--paper2);padding:6px;border-radius:0;border:1px solid var(--line2)}
+.bf-modes button{flex:1;min-width:120px;font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:0;font-weight:500;transition:all .12s ease}
 .bf-modes button:hover{color:var(--ink);background:var(--paper)}
 .bf-modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
-.bf-graph{padding:14px 18px 8px;background:var(--paper);border:1px solid var(--line2);border-radius:12px}
+.bf-graph{padding:14px 18px 8px;background:var(--paper);border:1px solid var(--line2);border-radius:0}
 .bf-graph svg.chart{width:100%;height:auto;max-height:520px;display:block}
 /* Liggende stolpediagram setter høyden selv (én rad per årskull) — høydetaket
    over gjelder linjediagrammene og ville presset stolpene sammen til streker. */
 .bf-graph svg.chart.barchart{max-height:none}
-.bf-graph .chart-title{font-family:'Fraunces',serif;font-size:14px;color:var(--ink2);margin:0 0 6px;font-style:italic}
+.bf-graph .chart-title{font-family:var(--font-display);font-size:14px;color:var(--ink2);margin:0 0 6px;font-style:italic}
 .bf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-.bf-kpis .k{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px}
-.bf-kpis .k .v{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
-.bf-kpis .k .v.up{color:#2E7D5B}
-.bf-kpis .k .v.down{color:#B23B3B}
+.bf-kpis .k{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
+.bf-kpis .k .v{font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
+.bf-kpis .k .v.up{color:var(--pos)}
+.bf-kpis .k .v.down{color:var(--neg)}
 .bf-kpis .k .l{font-size:11.5px;color:var(--ink2);font-weight:500}
 .bf-kpis .k .h{font-size:10.5px;color:var(--ink3);margin-top:2px}
 
-.bf-controls{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px}
-.bf-controls h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.bf-controls{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
+.bf-controls h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 4px;color:var(--ink)}
 .bf-controls > p.intro{font-size:12.5px;color:var(--ink3);margin:0 0 18px}
 .bf-ctrl{margin-bottom:18px}
 .bf-ctrl:last-child{margin-bottom:0}
 .bf-ctrl-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
-.bf-ctrl-head label{font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:.04em;text-transform:uppercase}
+.bf-ctrl-head label{font-family:var(--font-sans);font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:.04em;text-transform:uppercase}
 .bf-ctrl-head .tag{font-size:10.5px;color:var(--ink3)}
-.bf-radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;background:var(--paper);padding:5px;border-radius:8px;border:1px solid var(--line2)}
-.bf-radio button{font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:6px;font-weight:500;text-align:left}
+.bf-radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;background:var(--paper);padding:5px;border-radius:0;border:1px solid var(--line2)}
+.bf-radio button{font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:0;font-weight:500;text-align:left}
 .bf-radio button:hover{background:var(--paper2);color:var(--ink)}
 .bf-radio button[aria-pressed="true"]{background:var(--aurora);color:var(--paper);font-weight:600;border-color:var(--aurora)}
-.bf-radio button[aria-pressed="true"] em{color:rgba(255,255,255,.85)}
+.bf-radio button[aria-pressed="true"] em{color:color-mix(in srgb, var(--raised) 85%, transparent)}
 .bf-radio button .bf-r-title{display:block;font-size:13px}
 .bf-radio button .bf-r-sub{display:block;font-size:11px;opacity:.7;margin-top:2px;font-weight:400}
-.bf-explainer{margin:10px 0 0;padding:10px 14px;background:rgba(24,117,103,0.08);border-left:3px solid var(--aurora);border-radius:0 6px 6px 0;font-size:12.5px;color:var(--ink2);line-height:1.55}
+.bf-explainer{margin:10px 0 0;padding:10px 14px;background:color-mix(in srgb, var(--accent) 8%, transparent);border-left:3px solid var(--aurora);border-radius:0;font-size:12.5px;color:var(--ink2);line-height:1.55}
 .bf-explainer b{color:var(--ink)}
 
-.bf-diagnose{padding:20px 22px;background:var(--paper);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:0 10px 10px 0}
+.bf-diagnose{padding:20px 22px;background:var(--paper);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:0}
 .bf-diagnose .h-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-.bf-diagnose h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0;color:var(--ink)}
-.bf-diagnose .tag{font-size:10.5px;font-weight:700;color:var(--amber);background:rgba(201,162,59,0.15);padding:3px 9px;border-radius:9px;text-transform:uppercase;letter-spacing:.04em}
+.bf-diagnose h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0;color:var(--ink)}
+.bf-diagnose .tag{font-size:10.5px;font-weight:700;color:var(--amber);background:color-mix(in srgb, var(--cat-5) 15%, transparent);padding:3px 9px;border-radius:0;text-transform:uppercase;letter-spacing:.04em}
 .bf-diagnose p{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink2)}
 .bf-diagnose p b{color:var(--ink)}
 
 /* TF-MVP utvidbar visning — flyttet vekk fra hovedfortelling (SSB MMMM + TF-ATTR) */
-.bf-mvp-details{border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden}
+.bf-mvp-details{border:1px solid var(--line2);border-radius:0;background:var(--paper2);overflow:hidden}
 .bf-mvp-details > summary{list-style:none;cursor:pointer;padding:14px 20px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;color:var(--ink2);font-size:13px;font-weight:600;user-select:none;transition:background .12s}
 .bf-mvp-details > summary::-webkit-details-marker{display:none}
 .bf-mvp-details > summary:hover{background:var(--paper)}
@@ -74,15 +77,15 @@
 .bf-mvp-details[open] > summary .bf-mvp-arrow{transform:rotate(90deg)}
 .bf-mvp-details > summary .bf-mvp-hint{flex:1;font-size:11.5px;color:var(--ink3);font-weight:400;font-style:italic}
 .bf-mvp-details > .bf-mvp-body{padding:18px 22px 22px;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:14px}
-.mvp-win-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--paper);border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.mvp-win-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--paper);border:1px solid var(--line2);border-radius:0;overflow:hidden}
 .mvp-win-tbl th{text-align:left;padding:8px 12px;font-weight:600;color:var(--ink3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2);background:var(--paper2)}
 .mvp-win-tbl th.r,.mvp-win-tbl td.r{text-align:right}
 .mvp-win-tbl td{padding:9px 12px;color:var(--ink2);border-bottom:1px solid var(--line2)}
 .mvp-win-tbl tr:last-child td{border-bottom:0}
-.mvp-win-tbl tr.ref td{color:var(--ink2);background:rgba(24,117,103,0.05);font-weight:500}
-.mvp-win-tbl tr.active td{background:rgba(194,107,38,0.10);color:var(--ink);font-weight:600}
-.mvp-win-tbl td.num{font-family:'Spline Sans Mono',monospace}
-.mvp-sanity{padding:11px 14px;background:rgba(194,107,38,0.10);border:1px solid rgba(194,107,38,0.30);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;font-size:12.5px;line-height:1.6;color:var(--ink)}
+.mvp-win-tbl tr.ref td{color:var(--ink2);background:color-mix(in srgb, var(--accent) 5%, transparent);font-weight:500}
+.mvp-win-tbl tr.active td{background:color-mix(in srgb, var(--warn) 10%, transparent);color:var(--ink);font-weight:600}
+.mvp-win-tbl td.num{font-family:var(--font-mono)}
+.mvp-sanity{padding:11px 14px;background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);border-left:4px solid var(--amber);border-radius:0;font-size:12.5px;line-height:1.6;color:var(--ink)}
 .mvp-sanity b{color:var(--ink)}
 </style>
 </head>
@@ -550,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Pedagogisk tolkning
     var aldringStatus = med < 38 ? 'ung profil' : med < 43 ? 'moderat alder' : 'aldrende';
-    var aldringFarge = med < 38 ? '#2E7D5B' : med < 43 ? 'var(--ink2)' : '#B23B3B';
+    var aldringFarge = med < 38 ? 'var(--pos)' : med < 43 ? 'var(--ink2)' : 'var(--neg)';
     var folketext = '<b>' + k.navn + '</b> har en <b style="color:' + aldringFarge + '">' + aldringStatus +
       '</b> med medianalder <b>' + med + ' år</b>. ';
     if(barn/pop > 0.22) folketext += 'Andelen barn under 18 er høyere enn typisk for landsdelen — kommunen har en bredere barnefase. ';
@@ -583,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // Folketekst (pedagogisk oppsummering)
         '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+
           '<div class="h-row"><h3>Hvem bor her — kortversjon</h3>'+
-          '<span class="tag" style="color:var(--aurora);background:rgba(24,117,103,0.15)">'+currentMode.lab+'-visning</span></div>'+
+          '<span class="tag" style="color:var(--aurora);background:color-mix(in srgb, var(--accent) 15%, transparent)">'+currentMode.lab+'-visning</span></div>'+
           '<p>'+folketext+'</p>'+
         '</div>'+
       '</div>'+
@@ -649,9 +652,9 @@ document.addEventListener('DOMContentLoaded', function(){
         // Sysselsetting fordeling (innvandrere/hele)
         (sj ? '<div style="margin-top:4px">' + sysCard(sj) + '</div>' : '')+
         // Tolkning
-        '<div class="bf-diagnose" style="border-left-color:#B23B3B">'+
+        '<div class="bf-diagnose" style="border-left-color:var(--neg)">'+
           '<div class="h-row"><h3>Hva betyr dette?</h3>'+
-          '<span class="tag" style="color:#B23B3B;background:rgba(178,59,59,0.15)">'+presset+' press</span></div>'+
+          '<span class="tag" style="color:var(--neg);background:color-mix(in srgb, var(--neg) 15%, transparent)">'+presset+' press</span></div>'+
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
@@ -682,7 +685,7 @@ document.addEventListener('DOMContentLoaded', function(){
     for(var i = nQ - 12; i < nQ; i++) fu3aar += bo.fu[i];
     var dg = behov > 0 ? fu3aar / (behov * 3) * 100 : null;
     var dgTxt = dg == null ? 'overskudd' : Math.round(dg) + ' %';
-    var dgCol = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : '#B23B3B';
+    var dgCol = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : 'var(--neg)';
     var dIg = ig12f ? (ig12 - ig12f) / ig12f * 100 : null;
 
     var html = '<div class="kpi-rad">' +
@@ -737,12 +740,12 @@ document.addEventListener('DOMContentLoaded', function(){
     svg += '<path d="' + lp(igS) + '" fill="none" stroke="var(--aurora)" stroke-width="2.2"/>';
     svg += '<path d="' + lp(fuS) + '" fill="none" stroke="var(--nl)" stroke-width="2.2"/>';
     if(behov > 0){
-      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(behov) + '" y2="' + Y(behov) + '" stroke="#B23B3B" stroke-width="1.6" stroke-dasharray="5 4"/>' +
-        '<text x="' + (W - R) + '" y="' + (Y(behov) - 6) + '" text-anchor="end" style="font-size:10.5px;font-weight:700;fill:#B23B3B">beregnet årlig behov ' + fmt(behov) + '</text>';
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(behov) + '" y2="' + Y(behov) + '" stroke="var(--neg)" stroke-width="1.6" stroke-dasharray="5 4"/>' +
+        '<text x="' + (W - R) + '" y="' + (Y(behov) - 6) + '" text-anchor="end" style="font-size:10.5px;font-weight:700;fill:var(--neg)">beregnet årlig behov ' + fmt(behov) + '</text>';
     }
     svg += '</svg>';
     html += '<div class="ch"><h3 class="serif" style="font-size:15px">Byggetakt 2000–2026 mot beregnet behov</h3>' + svg +
-      '<div class="legend" style="margin-top:6px"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser, 12 mnd rullerende</span><span><i style="background:var(--nl)"></i>Fullført, 12 mnd rullerende</span>' + (behov > 0 ? '<span><i style="background:#B23B3B"></i>Behov 2026–2030 (BB-KVOTE)</span>' : '') + '</div>' +
+      '<div class="legend" style="margin-top:6px"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser, 12 mnd rullerende</span><span><i style="background:var(--nl)"></i>Fullført, 12 mnd rullerende</span>' + (behov > 0 ? '<span><i style="background:var(--neg)"></i>Behov 2026–2030 (BB-KVOTE)</span>' : '') + '</div>' +
       '<p class="hint" style="margin:10px 0 0;font-size:11.5px">SSB 05889 (skjøtet til 2024-grenser) og BB-KVOTE-modellen (SSB 14746 + 09747 + 10784). Husholdningsstørrelse ' + String(be.hh25).replace('.', ',') + ' (2025), registrert avgang ~' + fmt(be.ersta) + ' bolig(er)/år. Tillatelser er ikke spadestikk — se <a href="metode.html">metode</a>. Hele bildet: <a href="tema-bolig.html">Bygges det nok?</a></p></div>';
     host.innerHTML = html;
   }
@@ -759,13 +762,13 @@ document.addEventListener('DOMContentLoaded', function(){
     var inROBEK = !!(RB.kommuner && RB.kommuner[k.nr]);
     var pending = !!(RB.pending && RB.pending[k.nr]);
     var robekStatus = inROBEK ? 'I ROBEK' : pending ? 'Over grensen' : 'Trygg';
-    var robekColor = inROBEK ? '#B23B3B' : pending ? 'var(--amber)' : '#2E7D5B';
+    var robekColor = inROBEK ? 'var(--neg)' : pending ? 'var(--amber)' : 'var(--pos)';
 
     // Sjekk mot eksterne normer
     var ndrOK = ndr != null && ndr >= 1.75;
     var fondOK = fond != null && fond >= 5;
     var gjeldOK = gj != null && gj <= 75;
-    var statColor = function(ok){ return ok === true ? '#2E7D5B' : ok === false ? '#B23B3B' : 'var(--ink2)'; };
+    var statColor = function(ok){ return ok === true ? 'var(--pos)' : ok === false ? 'var(--neg)' : 'var(--ink2)'; };
 
     var fmtP = function(v, d){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(d == null ? 1 : d).replace('.',',') + ' %'; };
 
@@ -776,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(gj != null && gj > 75) fails++;
     if(inROBEK || pending) fails++;
     var verdict = fails === 0 ? 'solid' : fails === 1 ? 'innenfor med ett varsel' : fails === 2 ? 'flere brutte normer' : fails >= 3 ? 'svake fundamenter' : 'ukjent';
-    var verdictColor = fails === 0 ? '#2E7D5B' : fails <= 1 ? 'var(--amber)' : '#B23B3B';
+    var verdictColor = fails === 0 ? 'var(--pos)' : fails <= 1 ? 'var(--amber)' : 'var(--neg)';
     var verdictTekst = '<b>' + k.navn + '</b>s kommuneøkonomi er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
     if(ndr != null) verdictTekst += 'Netto driftsresultat ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-norm +1¾ %). ';
     if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
@@ -796,7 +799,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // Tolkning
         '<div class="bf-diagnose" style="border-left-color:'+verdictColor+'">'+
           '<div class="h-row"><h3>Hva sier KOSTRA?</h3>'+
-          '<span class="tag" style="color:'+verdictColor+';background:'+(fails === 0 ? 'rgba(46,125,91,0.15)' : fails <= 1 ? 'rgba(201,162,59,0.15)' : 'rgba(178,59,59,0.15)')+'">'+verdict+'</span></div>'+
+          '<span class="tag" style="color:'+verdictColor+';background:'+(fails === 0 ? 'color-mix(in srgb, var(--pos) 15%, transparent)' : fails <= 1 ? 'color-mix(in srgb, var(--cat-5) 15%, transparent)' : 'color-mix(in srgb, var(--neg) 15%, transparent)')+'">'+verdict+'</span></div>'+
           '<p>'+verdictTekst+'</p>'+
         '</div>'+
         // KOSTRA-detalj-kort (eksisterende kostraCard)
@@ -831,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var tolkning = '';
     if(med != null){
       tolkning += '<b>' + k.navn + '</b> har median husholdningsinntekt på <b>' + (med/1000).toFixed(0).replace('.',',') + ' 000 kr</b> etter skatt';
-      if(diffNorge != null) tolkning += ' — ' + (diffNorge >= 0 ? '<b style="color:#2E7D5B">+' : '<b style="color:#B23B3B">') + diffNorge.toFixed(0).replace('.',',') + ' %</b> mot nasjonalt snitt på ~615 000 kr';
+      if(diffNorge != null) tolkning += ' — ' + (diffNorge >= 0 ? '<b style="color:var(--pos)">+' : '<b style="color:var(--neg)">') + diffNorge.toFixed(0).replace('.',',') + ' %</b> mot nasjonalt snitt på ~615 000 kr';
       tolkning += '. ';
     }
     if(andelLonn != null){
@@ -853,12 +856,12 @@ document.addEventListener('DOMContentLoaded', function(){
         // Tolkning
         (tolkning ? '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+
           '<div class="h-row"><h3>Inntektsbildet — kortversjon</h3>'+
-          '<span class="tag" style="color:var(--aurora);background:rgba(24,117,103,0.15)">SSB-tall 2024–2025</span></div>'+
+          '<span class="tag" style="color:var(--aurora);background:color-mix(in srgb, var(--accent) 15%, transparent)">SSB-tall 2024–2025</span></div>'+
           '<p>'+tolkning+'</p></div>' : '')+
         // Detaljerte levekårs-kort (eksisterende)
         '<div>' + levekarKommuneCard(k) + '</div>'+
         // Husholdningstyper × inntekt — utvidbar
-        '<details style="margin-top:14px;border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden">'+
+        '<details style="margin-top:14px;border:1px solid var(--line2);border-radius:0;background:var(--paper2);overflow:hidden">'+
           '<summary style="list-style:none;cursor:pointer;padding:14px 20px;color:var(--ink2);font-size:13px;font-weight:600;user-select:none">▾ Hvem bor i husholdningene — og hva tjener de?</summary>'+
           '<div id="hushKommune" style="padding:18px 22px 22px;border-top:1px solid var(--line2)"></div>'+
         '</details>'+

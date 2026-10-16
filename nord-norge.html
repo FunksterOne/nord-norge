@@ -6,8 +6,11 @@
 <title>Nord-Norge - landsdelsoversikt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
 </style>
 </head>
@@ -66,7 +69,7 @@
 
   <!-- Drilldown: modeller, kildedata, backtest -->
   <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og backtest</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og backtest</summary>
     <div style="margin-top:18px">
       <h3 class="serif" style="font-size:18px;margin-bottom:10px">Tre baner mot 2050 — én forskjell mellom dem</h3>
       <p class="sub">Alle tre rulles fram til 2050 med <b>samme regnemaskin</b>: fødsler, dødsfall og aldring regnes likt. Det eneste som skiller dem, er <b>hvordan flytteleddet anslås</b> — altså hvor mye folk flytter inn og ut av hver kommune.</p>
@@ -108,19 +111,19 @@
         <div class="dims"><span class="chip">outlier</span><span class="chip">justerbar</span><span class="chip">tre vinduer</span></div>
       </div>
     </div>
-    <div class="note" style="margin-top:18px;background:rgba(24,117,103,.06);border-color:rgba(24,117,103,.22)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
+    <div class="note" style="margin-top:18px;background:color-mix(in srgb, var(--accent) 6%, transparent);border-color:color-mix(in srgb, var(--accent) 22%, transparent)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
     <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020→2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
 
       <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020 → 2024</h3>
       <p class="sub">En backtest spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
-      <p class="sub" style="margin-top:8px">Radene grupperer kommunene etter SSBs sentralitetsskala (1 = mest sentral, 6 = minst). Det er i de minst sentrale kommunene prognoser pleier å bomme mest — og det er der TF-modellene kan tilføre mest verdi. ✓ markerer modellen med lavest feil per rad.</p>
+      <p class="sub" style="margin-top:8px">Radene grupperer kommunene etter SSBs sentralitetsskala (1 = mest sentral, 6 = minst). Det er i de minst sentrale kommunene prognoser pleier å bomme mest — og det er der TF-modellene kan tilføre mest verdi. ● markerer modellen med lavest feil per rad.</p>
       <div id="bteval_intro" data-helpfor="<b>Slik leser du backtesten.</b> Vi gir SSB og Telemarksforskning basis i 2020, ruller fram til 2024, og sammenligner med faktisk registrert folketall. Lavere prosent = mindre feil. Sentralitet 1 er Oslo-typen, 6 er minst sentralt — der det er vanskeligst å treffe."></div>
       <p class="hint" id="btcav_intro" style="margin-top:10px;opacity:.75;font-size:11.5px;max-width:62em"></p>
     </div>
   </details>
 
   <details class="explain" style="margin-top:14px">
-  <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Datakildene — hvorfor splittet i tre SSB-tabeller?</summary>
+  <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Datakildene — hvorfor splittet i tre SSB-tabeller?</summary>
   <div style="margin-top:14px">
   <h3 class="serif" style="font-size:18px;margin-bottom:8px">Hvorfor må vi splitte dataene på tre kilder?</h3>
   <p class="sub">Den fulle krysstabuleringen <i>kommune × alder × opprinnelsesland</i> finnes ikke hos SSB. Av personvernhensyn undertrykkes så små celler. Derfor er dimensjonene delt på tre kilder:</p>
@@ -144,7 +147,7 @@
       <div class="dims"><span class="chip">kommune</span><span class="chip">aldersbånd</span><span class="chip">landgruppe</span></div>
     </div>
   </div>
-  <div class="note"><span>⚠</span><div>Befolkningstall (07459) og innvandrertall (09817) teller <b>ulike populasjoner</b> og skal ikke summeres mot hverandre. «Andel med innvandrerbakgrunn» under er 09817 dividert på 07459 — en korrekt brøk, men de to dimensjonene kan ikke krysses videre på kommunenivå.</div></div>
+  <div class="note"><span class="note-tag">Merk</span><div>Befolkningstall (07459) og innvandrertall (09817) teller <b>ulike populasjoner</b> og skal ikke summeres mot hverandre. «Andel med innvandrerbakgrunn» under er 09817 dividert på 07459 — en korrekt brøk, men de to dimensjonene kan ikke krysses videre på kommunenivå.</div></div>
   </div>
 </details>
 
@@ -232,7 +235,7 @@
 
   <!-- Bakteppe: nasjonal sysselsetting -->
   <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Bakteppe: Hvem fyller jobbene i Norge — etter verdensregion og kjønn?</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Bakteppe: Hvem fyller jobbene i Norge — etter verdensregion og kjønn?</summary>
     <div style="margin-top:14px">
       <p class="sub">Dette er <b>nasjonale</b> tall, ikke per kommune. SSB publiserer ikke sysselsetting per enkeltland — derfor er åtte verdensregioner det fineste landnivået som finnes. Bytt mellom <b>Andel %</b> og <b>Antall</b>, og mellom kjønn. Klikk tegnforklaringen i tidsserien for å vise/skjule linjer.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -327,7 +330,7 @@
   </div>
 
   <!-- Kort F: Husholdningstyper × inntekt — utvidbar -->
-  <details style="margin-top:18px;border:1px solid var(--line2);border-radius:10px;background:var(--paper2);overflow:hidden" id="hushDetailsNN">
+  <details style="margin-top:18px;border:1px solid var(--line2);border-radius:0;background:var(--paper2);overflow:hidden" id="hushDetailsNN">
     <summary style="list-style:none;cursor:pointer;padding:14px 20px;color:var(--ink2);font-size:14px;font-weight:600;user-select:none">▾ Hvem bor i husholdningene — og hva tjener de? <span style="font-size:11.5px;color:var(--ink3);font-weight:400;font-style:italic;margin-left:10px">Per husholdningstype · SSB 06944</span></summary>
     <div id="hushNN" style="padding:18px 22px 22px;border-top:1px solid var(--line2)"></div>
   </details>
@@ -363,7 +366,7 @@
 
   <!-- Rentefølsomhet drill-down -->
   <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Rentefølsomhet — hva betyr en endring i kommunalbank-renten?</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Rentefølsomhet — hva betyr en endring i kommunalbank-renten?</summary>
     <div style="margin-top:14px" id="renteCard">
       <p class="sub">Norske kommuner låner hovedsakelig fra Kommunalbanken til flytende rente (3 mnd NIBOR + margin). Når Norges Bank endrer styringsrenten, gjør det utslag i kommunenes rentekostnader. Skyvekontrollene under viser sensitiviteten: <b>per prosentpoeng</b>-effekten er den robuste — målrenten avhenger av antagelsene dine.</p>
       <div id="renteContent" style="margin-top:14px"></div>
@@ -372,7 +375,7 @@
 
   <!-- Gjeldsbildet — utvidet drill-down -->
   <details class="explain" style="margin-top:14px" id="gjeldDetails">
-    <summary style="cursor:pointer;font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Hvor stort problem er gjelden? — renter + avdrag mot øvrige utgifter</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Hvor stort problem er gjelden? — renter + avdrag mot øvrige utgifter</summary>
     <div style="margin-top:14px" id="gjeldContent"></div>
   </details>
 
@@ -553,8 +556,8 @@ document.addEventListener('DOMContentLoaded', function(){
           var navnKort = n.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting/servering').replace(/Eiendomsvirksomhet.*$/,'Eiendom og faglig tjenesteyting');
           return '<div style="display:grid;grid-template-columns:200px 1fr 90px;gap:10px;align-items:center">' +
             '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right;line-height:1.2">' + navnKort + '</div>' +
-            '<div style="position:relative;height:24px;background:rgba(17,32,58,.05);border-radius:4px">' +
-              '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700">' + fmtNb(n.mangel_nn) + '</div>' +
+            '<div style="position:relative;height:24px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
+              '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + col + ';border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:12px;font-weight:700">' + fmtNb(n.mangel_nn) + '</div>' +
             '</div>' +
             '<div style="font-size:11.5px;color:var(--ink3);text-align:right">' + fmt(n.andel_pct) + ' % av nasj.</div>' +
           '</div>';

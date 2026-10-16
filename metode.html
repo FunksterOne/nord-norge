@@ -6,19 +6,22 @@
 <title>Metode og kilder — Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
-.metode-card{padding:24px;margin-bottom:18px;background:var(--paper);border:1px solid var(--line2);border-radius:10px}
-.metode-card h2{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 12px;color:var(--ink)}
-.metode-card h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:18px 0 6px;color:var(--ink)}
+.metode-card{padding:24px;margin-bottom:18px;background:var(--paper);border:1px solid var(--line2);border-radius:0}
+.metode-card h2{font-family:var(--font-display);font-size:22px;font-weight:600;margin:0 0 12px;color:var(--ink)}
+.metode-card h3{font-family:var(--font-display);font-size:16px;font-weight:600;margin:18px 0 6px;color:var(--ink)}
 .kildetabell{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
 .kildetabell th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2);font-weight:600;color:var(--ink2);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
 .kildetabell td{padding:10px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
-.kildetabell td.kode{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink)}
+.kildetabell td.kode{font-family:var(--font-mono);font-size:12px;color:var(--ink)}
 .norm-list{list-style:none;padding:0;margin:14px 0}
-.norm-list li{padding:12px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;margin-bottom:8px}
-.norm-list .norm-tag{font-size:11px;font-weight:700;color:#fff;background:var(--ink);padding:2px 8px;border-radius:9px;margin-right:8px;display:inline-block;text-transform:uppercase;letter-spacing:.04em}
+.norm-list li{padding:12px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin-bottom:8px}
+.norm-list .norm-tag{font-size:11px;font-weight:700;color:#fff;background:var(--ink);padding:2px 8px;border-radius:0;margin-right:8px;display:inline-block;text-transform:uppercase;letter-spacing:.04em}
 .norm-list b{color:var(--ink)}
 </style>
 </head>
@@ -95,7 +98,7 @@
 <div class="metode-card">
   <h2>Boligbehovsmodellen (BB-KVOTE)</h2>
   <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen:</p>
-  <p style="font-family:'Spline Sans Mono',monospace;font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
+  <p style="font-family:var(--font-mono);font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
   <ul class="norm-list">
     <li><b>Folketall:</b> hovedtallet regnes alltid på <b>SSB MMMM</b>. Spennet vises i tillegg over SSBs egne lav- og høybaner samt vår tilleggsbane TF-ATTR, slik at behovet får et ærlig intervall og ikke bare ett tall.</li>
     <li><b>Husholdningsstørrelse:</b> SSB 09747 (personer per privathusholdning, 2005–2025), skjøtet til 2024-grensene. To kvotebaner: <b>konstant</b> (2025-nivået holdes) og <b>trend</b> (lineær trend 2011–2025, dempet 50 %, gulv 1,70). Aldring gir mindre husholdninger — derfor faller ikke boligbehovet i takt med folketallet.</li>

@@ -6,33 +6,36 @@
 <title>Bygges det nok? · Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
 .velger{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
-.velger button{font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);cursor:pointer}
+.velger button{font-family:var(--font-sans);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:0;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);cursor:pointer}
 .velger button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.graf-kort{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
-.graf-kort h3{font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:0 0 4px}
+.graf-kort{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
+.graf-kort h3{font-family:var(--font-display);font-size:15px;font-weight:600;margin:0 0 4px}
 .graf-kort svg{width:100%;height:auto;display:block}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin-top:8px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:0;margin-right:5px;vertical-align:-1px}
 .beh-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
 .beh-tabell th{text-align:right;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);padding:7px 10px;border-bottom:2px solid var(--line)}
 .beh-tabell th:first-child{text-align:left}
-.beh-tabell td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line2);font-family:'Spline Sans Mono',monospace;font-size:12.5px}
-.beh-tabell td:first-child{text-align:left;font-family:'Hanken Grotesk',sans-serif;font-weight:600}
+.beh-tabell td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line2);font-family:var(--font-mono);font-size:12.5px}
+.beh-tabell td:first-child{text-align:left;font-family:var(--font-sans);font-weight:600}
 .beh-tabell .spenn{color:var(--ink3);font-size:11px}
 .chipgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.chip{font-size:11.5px;padding:4px 10px;border-radius:999px;background:rgba(178,59,59,.08);border:1px solid rgba(178,59,59,.25);color:var(--ink2)}
-.kal-kort{padding:18px 22px;background:rgba(24,117,103,.06);border:1px solid rgba(24,117,103,.25);border-radius:10px;margin:16px 0}
-.kal-kort h3{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0 0 6px}
-.redaksjonelt{padding:26px 28px;background:var(--paper2);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:12px;margin:18px 0}
+.chip{font-size:11.5px;padding:4px 10px;border-radius:0;background:color-mix(in srgb, var(--neg) 8%, transparent);border:1px solid color-mix(in srgb, var(--neg) 25%, transparent);color:var(--ink2)}
+.kal-kort{padding:18px 22px;background:color-mix(in srgb, var(--accent) 6%, transparent);border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);border-radius:0;margin:16px 0}
+.kal-kort h3{font-family:var(--font-display);font-size:16px;font-weight:600;margin:0 0 6px}
+.redaksjonelt{padding:26px 28px;background:var(--paper2);border:1px solid var(--line2);border-left:4px solid var(--amber);border-radius:0;margin:18px 0}
 .redaksjonelt .rtag{font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;font-weight:700;color:var(--amber);margin-bottom:12px}
-.redaksjonelt blockquote{font-family:'Fraunces',serif;font-size:16px;font-style:italic;line-height:1.55;color:var(--ink);margin:0 0 8px;padding:0}
+.redaksjonelt blockquote{font-family:var(--font-display);font-size:16px;font-style:italic;line-height:1.55;color:var(--ink);margin:0 0 8px;padding:0}
 .redaksjonelt .hvem{font-size:12px;color:var(--ink3);margin:0 0 18px}
 .redaksjonelt .fakta{font-size:13px;color:var(--ink2);line-height:1.6;border-top:1px solid var(--line2);padding-top:14px;margin-top:4px}
-.forbehold{padding:18px 22px;background:rgba(17,32,58,.04);border:1px solid var(--line2);border-radius:10px;margin:18px 0;font-size:12.5px;color:var(--ink2);line-height:1.6}
+.forbehold{padding:18px 22px;background:color-mix(in srgb, var(--ink) 4%, transparent);border:1px solid var(--line2);border-radius:0;margin:18px 0;font-size:12.5px;color:var(--ink2);line-height:1.6}
 </style>
 </head>
 <body class="tema-page">
@@ -86,7 +89,7 @@
     <h3>Årlig boligbehov mot faktisk tilførsel — <span id="gapTittelOmr">Nord-Norge</span></h3>
     <p class="hint" style="font-size:12px;margin:2px 0 10px">Mørk linje = fullførte boliger per år (SSB). Grønn linje = beregnet årlig behov, hovedbane (SSB MMMM × trendkvote). Skravert bånd = spennet over 8 kombinasjoner: fire befolkningsbaner (SSB MMMM som hovedbane, SSBs egne lav- og høybaner, samt vår tilleggsbane TF-ATTR) × to husholdningskvoter. Området velges over.</p>
     <div id="gapGraf"></div>
-    <div class="legend"><span><i style="background:var(--ink2)"></i>Fullført per år</span><span><i style="background:var(--aurora)"></i>Behov, hovedbane</span><span><i style="background:rgba(24,117,103,.25)"></i>Behovsspenn</span></div>
+    <div class="legend"><span><i style="background:var(--ink2)"></i>Fullført per år</span><span><i style="background:var(--aurora)"></i>Behov, hovedbane</span><span><i style="background:color-mix(in srgb, var(--accent) 25%, transparent)"></i>Behovsspenn</span></div>
   </div>
   <div class="graf-kort">
     <h3>Fylkene: behov mot tilførsel</h3>
@@ -118,7 +121,7 @@
     <div id="omsGraf"></div>
     <div class="legend"><span><i style="background:var(--ink2)"></i>Bruktomsetninger</span><span><i style="background:var(--nl)"></i>Fullførte nybygg</span></div>
   </div>
-  <div class="kal-kort" style="background:rgba(201,162,59,.07);border-color:rgba(201,162,59,.3)">
+  <div class="kal-kort" style="background:color-mix(in srgb, var(--cat-5) 7%, transparent);border-color:color-mix(in srgb, var(--cat-5) 30%, transparent)">
     <h3>Pris-avstanden som stopper byggingen</h3>
     <p style="font-size:13px;line-height:1.6;margin:0 0 8px" id="gapTekst"></p>
     <p class="hint" style="font-size:11.5px;margin:0">Nybyggtallet gjelder eneboliger inkludert tomt (SSB 13500) og bygger på få omsetninger i landsdelen (25 i 2025) — nivået er usikkert, retningen er ikke. Bruktprisen er omsetningsvektet snitt av fylkene (SSB 14545, eneboliger).</p>
@@ -157,7 +160,7 @@
     <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB/KOSTRA tabell 12008 (<span id="kommAar"></span>). Dette måler kommunens boligmasse, ikke hvor mange husholdninger som faktisk leier kommunalt — det tallet finnes bare i forskningsdata.</p>
     <div id="kommListe"></div>
   </div>
-  <div class="kal-kort" style="background:rgba(28,111,168,.06);border-color:rgba(28,111,168,.25)">
+  <div class="kal-kort" style="background:color-mix(in srgb, var(--nl) 6%, transparent);border-color:color-mix(in srgb, var(--nl) 25%, transparent)">
     <h3>Fra kbnn-analysen av leiemarkedet (KPB, juli 2026)</h3>
     <p style="font-size:13px;line-height:1.6;margin:0 0 6px">Tall som bare finnes i forskningsdata (Microdata), gjengitt med kilde: rundt <b>90 000 personer</b> i Nord-Norge bor i leid bolig. <b>38,5 %</b> av alle mellom 20 og 29 år leier, og leieandelen øker også i 40- og 50-årene. <b>Privatpersoner eier over halvparten</b> av utleieboligene. Flere søker kommunal bolig, men færre får innvilget. I Rødøy leier <b>16,2 %</b> av husholdningene kommunalt — høyest i landsdelen.</p>
     <p class="hint" style="font-size:11.5px;margin:0">Kilde: <a href="https://www.kbnn.no/artikkel/leiemarkedet-i-nord-norge-strammer-seg-til" target="_blank" rel="noopener">kbnn: Leiemarkedet i Nord-Norge strammer seg til</a> (8. juli 2026). Grafene over bygger på åpne SSB-tabeller og kan avvike noe i definisjon.</p>
@@ -367,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var band = 'M';
     by.forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.hi[i]).toFixed(1) + ' L'; });
     by.slice().reverse().forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.lo[by.length - 1 - i]).toFixed(1) + ' L'; });
-    svg += '<path d="' + band.slice(0, -2) + ' Z" fill="rgba(24,117,103,.18)" stroke="none"/>';
+    svg += '<path d="' + band.slice(0, -2) + ' Z" fill="color-mix(in srgb, var(--accent) 18%, transparent)" stroke="none"/>';
     svg += '<path d="' + linePath(histAar.map(function(a, i){ return [X(a), Y(histVal[i])]; })) + '" fill="none" stroke="var(--ink2)" stroke-width="2.2"/>';
     svg += '<path d="' + linePath(by.map(function(a, i){ return [X(a), Y(be.hoved[i])]; })) + '" fill="none" stroke="var(--aurora)" stroke-width="2.6"/>';
     svg += '<line x1="' + X(2026) + '" x2="' + X(2026) + '" y1="' + T + '" y2="' + (H - Bm) + '" stroke="var(--ink3)" stroke-dasharray="3 4"/>';
@@ -386,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var hi = Math.max.apply(null, Object.keys(be.w).map(function(c){ return be.w[c][0]; }));
       var fu12 = r12(bo.fu, i1);
       var dg = behov5 > 0 ? fu12 / behov5 * 100 : null;
-      var farge = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : '#B23B3B';
+      var farge = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : 'var(--neg)';
       return '<tr><td>' + f + '</td><td>' + fmt(behov5) + ' <span class="spenn">(' + fmt(lo) + '–' + fmt(hi) + ')</span></td>' +
         '<td>' + fmt(fu12) + '</td>' +
         '<td style="color:' + farge + ';font-weight:700">' + (dg == null ? '–' : Math.round(dg) + ' %') + '</td></tr>';
@@ -397,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var fu12L = r12(boL.fu, i1);
     var dgL = Math.round(fu12L / beL.w.m_tr[0] * 100);
     rader += '<tr style="border-top:2px solid var(--line)"><td><b>Nord-Norge</b></td><td><b>' + fmt(beL.w.m_tr[0]) + '</b> <span class="spenn">(' + fmt(loL) + '–' + fmt(hiL) + ')</span></td>' +
-      '<td><b>' + fmt(fu12L) + '</b></td><td style="font-weight:700;color:' + (dgL >= 90 ? 'var(--aurora)' : dgL >= 50 ? 'var(--amber)' : '#B23B3B') + '">' + dgL + ' %</td></tr>';
+      '<td><b>' + fmt(fu12L) + '</b></td><td style="font-weight:700;color:' + (dgL >= 90 ? 'var(--aurora)' : dgL >= 50 ? 'var(--amber)' : 'var(--neg)') + '">' + dgL + ' %</td></tr>';
     document.getElementById('behTabell').innerHTML =
       '<thead><tr><th>Område</th><th>Behov per år 2026–2030</th><th>Fullført siste 12 mnd</th><th>Dekningsgrad</th></tr></thead><tbody>' + rader + '</tbody>';
 
@@ -439,8 +442,8 @@ document.addEventListener('DOMContentLoaded', function(){
       var sum = med.reduce(function(s, x){ return s + x.v; }, 0);
       var topp2 = med[0].v + med[1].v;
       var andel = sum ? topp2 / sum * 100 : 0;
-      htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:\'Spline Sans Mono\',monospace">' + Math.round(andel) + ' % — ' + med[0].navn + ' + ' + med[1].navn + '</span></div>' +
-        '<div style="height:20px;background:rgba(17,32,58,.05);border-radius:5px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + andel + '%;background:var(--amber);border-radius:5px"></div></div></div>';
+      htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:var(--font-mono)">' + Math.round(andel) + ' % — ' + med[0].navn + ' + ' + med[1].navn + '</span></div>' +
+        '<div style="height:20px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + andel + '%;background:var(--amber);border-radius:0"></div></div></div>';
       koder.forEach(function(nr){
         var s = 0; iaar.forEach(function(i){ s += B.kommuner[nr].ig[i]; });
         if(s === 0) utenAlle.push({navn: DATA.kommuner[nr].navn, fylke: f});
@@ -496,10 +499,10 @@ document.addEventListener('DOMContentLoaded', function(){
     rader.sort(function(a, b){ return b.p - a.p; });
     var maxP = rader[0].p;
     document.getElementById('kvmListe').innerHTML = rader.map(function(r){
-      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:rgba(17,32,58,.04);border-radius:5px' : '') + '">' +
+      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:color-mix(in srgb, var(--ink) 4%, transparent);border-radius:0' : '') + '">' +
         '<div style="font-size:12px;text-align:right' + (r.ref ? ';font-weight:700' : '') + '">' + r.navn + '</div>' +
-        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.p / maxP * 100) + '%;background:' + r.farge + ';border-radius:4px;opacity:' + (r.ref ? '.55' : '.9') + (r.ref ? ';border-right:2px dashed var(--ink)' : '') + '"></div></div>' +
-        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + fmt(r.p) + '</div></div>';
+        '<div style="height:16px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.p / maxP * 100) + '%;background:' + r.farge + ';border-radius:0;opacity:' + (r.ref ? '.55' : '.9') + (r.ref ? ';border-right:2px dashed var(--ink)' : '') + '"></div></div>' +
+        '<div style="font-family:var(--font-mono);font-size:11.5px;text-align:right">' + fmt(r.p) + '</div></div>';
     }).join('');
 
     // omsetninger mot fullførte nybygg per år
@@ -582,10 +585,10 @@ document.addEventListener('DOMContentLoaded', function(){
     rader.sort(function(a, b){ return b.v - a.v; });
     var maxV = rader[0].v;
     document.getElementById('leieListe').innerHTML = rader.map(function(r){
-      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:rgba(17,32,58,.04);border-radius:5px' : '') + '">' +
+      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:color-mix(in srgb, var(--ink) 4%, transparent);border-radius:0' : '') + '">' +
         '<div style="font-size:12px;text-align:right' + (r.ref ? ';font-weight:700' : '') + '">' + r.navn + '</div>' +
-        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxV * 100) + '%;background:' + r.farge + ';border-radius:4px;opacity:' + (r.ref ? '.55' : '.9') + '"></div></div>' +
-        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + r.v.toFixed(1).replace('.', ',') + ' %</div></div>';
+        '<div style="height:16px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxV * 100) + '%;background:' + r.farge + ';border-radius:0;opacity:' + (r.ref ? '.55' : '.9') + '"></div></div>' +
+        '<div style="font-family:var(--font-mono);font-size:11.5px;text-align:right">' + r.v.toFixed(1).replace('.', ',') + ' %</div></div>';
     }).join('');
 
     // kommunalt disponerte per 1 000 — topp 15
@@ -596,8 +599,8 @@ document.addEventListener('DOMContentLoaded', function(){
       var navn = DATA.kommuner[r.nr].navn;
       return '<div style="display:grid;grid-template-columns:200px 1fr 60px;gap:10px;align-items:center;padding:2px 0">' +
         '<div style="font-size:12px;text-align:right">' + navn + '</div>' +
-        '<div style="height:16px;background:rgba(17,32,58,.05);border-radius:4px;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxK * 100) + '%;background:' + FY[DATA.kommuner[r.nr].fylke] + ';border-radius:4px;opacity:.9"></div></div>' +
-        '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;text-align:right">' + r.v + '</div></div>';
+        '<div style="height:16px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.v / maxK * 100) + '%;background:' + FY[DATA.kommuner[r.nr].fylke] + ';border-radius:0;opacity:.9"></div></div>' +
+        '<div style="font-family:var(--font-mono);font-size:11.5px;text-align:right">' + r.v + '</div></div>';
     }).join('');
   }
 

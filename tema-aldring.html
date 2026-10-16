@@ -6,32 +6,35 @@
 <title>Aldring i internasjonalt perspektiv · Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
 <style>
-.sjokk-num{font-family:'Fraunces',serif;font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:#6FA8C7;margin:18px 0 8px;letter-spacing:-0.02em}
+.sjokk-num{font-family:var(--font-display);font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:var(--cat-3);margin:18px 0 8px;letter-spacing:-0.02em}
 
-.land-graf{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.land-graf{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .land-rad{display:grid;grid-template-columns:180px 1fr 60px;gap:12px;align-items:center;padding:4px 0}
-.land-rad.norge{background:rgba(28,111,168,0.10);border-radius:6px;padding:8px 10px;border-left:3px solid var(--nl)}
-.land-rad.snitt{background:rgba(17,32,58,0.05);border-radius:6px;padding:8px 10px;border-left:3px solid var(--ink3)}
+.land-rad.norge{background:color-mix(in srgb, var(--nl) 10%, transparent);border-radius:0;padding:8px 10px;border-left:3px solid var(--nl)}
+.land-rad.snitt{background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;padding:8px 10px;border-left:3px solid var(--ink3)}
 .land-rad .navn{font-size:13px;color:var(--ink);font-weight:500;text-align:right}
 .land-rad .navn b.flag{display:inline-block;margin-right:6px}
-.land-rad .bar{position:relative;height:24px;background:rgba(17,32,58,.05);border-radius:5px}
-.land-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:'Spline Sans Mono',monospace;font-size:11.5px;font-weight:700}
-.land-rad .verdi{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink);text-align:right;font-weight:600}
+.land-rad .bar{position:relative;height:24px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0}
+.land-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:0;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700}
+.land-rad .verdi{font-family:var(--font-mono);font-size:13px;color:var(--ink);text-align:right;font-weight:600}
 
-.fylke-graf{padding:20px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0}
+.fylke-graf{padding:20px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .fylke-rad{display:grid;grid-template-columns:200px 1fr 70px;gap:12px;align-items:center;padding:4px 0}
-.fylke-rad.nordnorge{background:linear-gradient(90deg, rgba(156,91,160,0.10), rgba(17,32,58,0.0));border-radius:6px;padding:8px 10px;border-left:3px solid var(--fi)}
+.fylke-rad.nordnorge{background:color-mix(in srgb, var(--fi) 10%, transparent);border-radius:0;padding:8px 10px;border-left:3px solid var(--fi)}
 .fylke-rad .navn{font-size:13px;color:var(--ink);font-weight:500;text-align:right}
-.fylke-rad .bar{position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:5px}
-.fylke-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:'Spline Sans Mono',monospace;font-size:11.5px;font-weight:700}
-.fylke-rad .verdi{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ink);text-align:right;font-weight:600}
+.fylke-rad .bar{position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0}
+.fylke-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:0;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700}
+.fylke-rad .verdi{font-family:var(--font-mono);font-size:13px;color:var(--ink);text-align:right;font-weight:600}
 
 .reform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0}
-.reform-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:10px;border-left:4px solid var(--aurora)}
-.reform-kort h3{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.reform-kort{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;border-left:4px solid var(--aurora)}
+.reform-kort h3{font-family:var(--font-display);font-size:18px;font-weight:600;margin:0 0 4px;color:var(--ink)}
 .reform-kort .land{font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:10px}
 .reform-kort p{font-size:13px;line-height:1.55;color:var(--ink2);margin:0 0 6px}
 .reform-kort .stikkord{font-size:11px;color:var(--ink3);font-style:italic;margin-top:10px}
@@ -76,7 +79,7 @@
   <h2>Hvor i verden er <em>belastningen</em> størst?</h2>
   <p class="akt-intro">OECDs prognose for 2050 viser stor variasjon mellom medlemslandene. Asia rammes hardest: Sør-Korea og Japan ligger på 70+, dvs. 7 eldre per 10 i yrkesaktiv alder. I Europa er Italia, Spania og Hellas verst, mens USA, Israel og Australia slipper lett unna. Norge ligger i den nedre halvdelen — bedre enn de fleste rike land, men ikke immun.</p>
   <div class="land-graf">
-    <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — 10 land + OECD-snittet</div>
+    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — 10 land + OECD-snittet</div>
     <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år. <b>Norge</b> er markert i blå. <b>OECD-snittet</b> i grå. Sortert etter forventet 2050-verdi.</p>
     <div id="landListe"></div>
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">Sør-Korea og Japan har lavest fertilitet i OECD (~0,7 og 1,2 barn per kvinne); Italia og Spania har høy levealder + lav fertilitet. USA og Israel: høyere fertilitet og innvandring av yngre arbeidstakere. Norge har innvandring + relativt høy fertilitet (~1,4).</p>
@@ -89,7 +92,7 @@
   <h2>Innenfor Norge er aldringen <em>ikke jevn</em>.</h2>
   <p class="akt-intro">Den nasjonale gjennomsnittet på 48 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
   <div class="fylke-graf">
-    <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — alle norske fylker</div>
+    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — alle norske fylker</div>
     <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSB MMMM (tab. 14746). Nord-Norge-fylker er fremhevet. OECD-snittet 2050 (~52) og EU-snittet (~57) markert som referanselinjer.</p>
     <div id="fylkeListe"></div>
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til nærmeste hele tall. Nye fylker etter 2024-reformen.</p>
@@ -105,25 +108,25 @@
 
   <div class="reform-grid">
     <div class="reform-kort">
-      <div class="land">🇸🇪 Sverige · 1999</div>
+      <div class="land"> Sverige · 1999</div>
       <h3>NDC + automatisk balansering</h3>
       <p>Notional Defined Contribution-system (1999) med automatisk balansering siden 2001. Pensjonen reguleres ned hvis systemet er i ubalanse — uten politiske vedtak. Pensjonsalder ikke fast; man jobber til man ønsker (eller må).</p>
       <p class="stikkord">Effekt: Sverige har <b>høyeste effektive pensjonsalder i Norden</b> (~66 år).</p>
     </div>
     <div class="reform-kort">
-      <div class="land">🇫🇮 Finland · 2017</div>
+      <div class="land"> Finland · 2017</div>
       <h3>2/3-kobling pensjonsalder/levealder</h3>
       <p>Når forventet gjenstående levealder ved 65 stiger med 1 år, økes pensjonsalder med 2/3 av det. Stortinget vedtok prinsippet i 2017. Stigning fra 63 år (2017) til estimert 68 år (2080).</p>
       <p class="stikkord">Effekt: Levealder-knyttet, ikke politisk forhandlet. Pensjonsalder følger faktisk levetid.</p>
     </div>
     <div class="reform-kort norge">
-      <div class="land">🇳🇴 Norge · 2011 og 2024</div>
+      <div class="land"> Norge · 2011 og 2024</div>
       <h3>Levealderjustering + Storting 2024</h3>
       <p>2011-pensjonsreformen innførte levealderjustering: hvert årskull får lavere pensjon hvis levealderen øker. Stortinget vedtok i juni 2024 prinsippet om <b>2/3-kobling</b> mellom pensjonsalder og levealder — samme prinsipp som Finland, ti år senere. Loven kommer etter 2025.</p>
       <p class="stikkord">Effekt: Vil endre forventet pensjonsalder gradvis. Bygger ned avstand til Sverige/Finland.</p>
     </div>
     <div class="reform-kort">
-      <div class="land">🇩🇰 Danmark · 2006</div>
+      <div class="land"> Danmark · 2006</div>
       <h3>1:1-kobling</h3>
       <p>Når levealder øker, øker også pensjonsalder med samme antall år. Hardest av de nordiske. Pensjonsalder 67 → estimert 74 år (2070).</p>
       <p class="stikkord">Effekt: Strengeste i Norden. Reflekterer at hver leveårsgevinst skal jobbes ut.</p>
@@ -133,7 +136,7 @@
   <p class="hint" style="font-size:13px;margin-top:18px;line-height:1.65"><b>Norges utfordring</b> er ikke pensjonsreform-nivå — det er gjennomslagsfart. 2024-vedtaket er tre tiår etter Sverige og ti år etter Finland. Det betyr at vi har samme demografi-trykk som naboene, men har valgt slakere takt på politiske svar. Til den arbeidskraftsmangelen som <a href="tema-arbeidskraft.html">NAV-undersøkelsen viser</a>, vil norske grep komme senere enn svenske/finske.</p>
 
   <div class="black-swan">
-    <div class="bs-icon">⚫</div>
+    <div class="bs-icon"></div>
     <div>
       <div class="bs-tag">Black Swan</div>
       <div class="bs-title">Hva hvis pensjonsalder må heves til 72?</div>
@@ -232,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="kpi"><div class="v">22 → 52</div><div class="l">OECD-snittet 2000 → 2050</div><div class="nh">Pensions at a Glance 2025 · +136 %</div></div>' +
       '<div class="kpi"><div class="v">~48</div><div class="l">Norge i 2050</div><div class="nh">SSB MMMM · ca 5 poeng under OECD</div></div>' +
       '<div class="kpi"><div class="v">~51</div><div class="l">Nord-Norge i 2050</div><div class="nh">SSB MMMM · litt under OECD-snittet</div></div>' +
-      '<div class="kpi"><div class="v" style="color:#B23B3B">70+</div><div class="l">Sør-Korea i 2050</div><div class="nh">OECDs raskest aldrende</div></div>';
+      '<div class="kpi"><div class="v" style="color:var(--neg)">70+</div><div class="l">Sør-Korea i 2050</div><div class="nh">OECDs raskest aldrende</div></div>';
   }
 
   // ─── AKT 02: Land-rangering ───
@@ -260,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(lListe){
     lListe.innerHTML = landData.map(function(d){
       var w = d.verdi / maxL * 100;
-      var col = d.erNorge ? 'var(--nl)' : d.erSnitt ? 'var(--ink2)' : (d.verdi >= 60 ? '#B23B3B' : d.verdi >= 50 ? 'var(--amber)' : '#6FA8C7');
+      var col = d.erNorge ? 'var(--nl)' : d.erSnitt ? 'var(--ink2)' : (d.verdi >= 60 ? 'var(--neg)' : d.verdi >= 50 ? 'var(--amber)' : 'var(--cat-3)');
       var cls = d.erNorge ? ' norge' : d.erSnitt ? ' snitt' : '';
       return '<div class="land-rad' + cls + '">' +
         '<div class="navn">' + d.navn + '</div>' +
@@ -316,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var maxF = Math.max.apply(null, fylkeData.map(function(d){return d.verdi;}));
       fListe.innerHTML = fylkeData.map(function(d){
         var w = d.verdi / maxF * 100;
-        var col = d.erNN ? 'var(--fi)' : (d.verdi >= 55 ? '#B23B3B' : d.verdi >= 48 ? 'var(--amber)' : (d.verdi >= 40 ? 'var(--aurora)' : '#6FA8C7'));
+        var col = d.erNN ? 'var(--fi)' : (d.verdi >= 55 ? 'var(--neg)' : d.verdi >= 48 ? 'var(--amber)' : (d.verdi >= 40 ? 'var(--aurora)' : 'var(--cat-3)'));
         var cls = d.erNN ? ' nordnorge' : '';
         var verdiTxt = fmt(d.verdi, 1);
         return '<div class="fylke-rad' + cls + '">' +

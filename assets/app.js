@@ -184,7 +184,7 @@ function renderList(){if(!elList) return;
       '<div class="kchip-bot">'+
         '<span class="kpop">'+fmt(k.pop)+'</span>'+
         '<div class="kchip-stats">'+grDot+rbDot+'</div>'+
-        '<button class="cmpadd '+(state.compare.includes(k.nr)?'on':'')+'" data-cmp="'+k.nr+'" title="Legg til i sammenligning">'+(state.compare.includes(k.nr)?'✓':'+')+'</button>'+
+        '<button class="cmpadd '+(state.compare.includes(k.nr)?'on':'')+'" data-cmp="'+k.nr+'" title="Legg til i sammenligning">'+(state.compare.includes(k.nr)?'●':'+')+'</button>'+
       '</div>'+
     '</div>';
   }).join('');
@@ -225,7 +225,7 @@ function barChart(rows,color,unit){
   let s=`<svg class="chart barchart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
   rows.forEach((r,i)=>{const y=i*rh, w=(700-lw-vw)*r.v/max;
     s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
-    s+=`<rect x="${lw}" y="${y+top}" width="${700-lw-vw}" height="${bh}" rx="4" fill="rgba(17,32,58,.05)"/>`;
+    s+=`<rect x="${lw}" y="${y+top}" width="${700-lw-vw}" height="${bh}" rx="4" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
     s+=`<rect class="bar-rect" x="${lw}" y="${y+top}" width="${w}" height="${bh}" rx="4" fill="${color}"/>`;
     s+=`<text class="val" x="700" y="${y+rh/2+4}" text-anchor="end">${fmt(r.v)}</text>`;});
   return s+'</svg>';
@@ -234,11 +234,11 @@ function rateBars(rows){ // rows:[{l,v(0-100 or null),c}]
   const n=rows.length, rh=34, h=n*rh+22, lw=210, pad=44;
   let s=`<svg class="chart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
   [0,25,50,75,100].forEach(t=>{const x=lw+(700-lw-pad)*t/100;
-    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${n*rh}" stroke="rgba(17,32,58,.08)"/>`;
+    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${n*rh}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
     s+=`<text class="axis" x="${x}" y="${n*rh+15}" text-anchor="middle">${t}%</text>`;});
   rows.forEach((r,i)=>{const y=i*rh;
     s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
-    s+=`<rect x="${lw}" y="${y+5}" width="${700-lw-pad}" height="${rh-12}" rx="4" fill="rgba(17,32,58,.05)"/>`;
+    s+=`<rect x="${lw}" y="${y+5}" width="${700-lw-pad}" height="${rh-12}" rx="4" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
     if(r.v==null){ s+=`<text class="val" x="${lw+8}" y="${y+rh/2+4}" fill="var(--ink3)">undertrykt</text>`; }
     else{ const w=(700-lw-pad)*r.v/100;
       s+=`<rect class="bar-rect" x="${lw}" y="${y+5}" width="${w}" height="${rh-12}" rx="4" fill="${r.c||'var(--syss)'}"/>`;
@@ -285,7 +285,7 @@ function projChart(k,mode){
     const X=i=>Xy(yrs[i]);
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
     for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
       svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
     [2000,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050].filter(y=>y>=yMin&&y<=yMax).forEach(yr=>{
       svg+=`<text class="axis" x="${Xy(yr)}" y="${300-B+15}" text-anchor="middle">${yr}</text>`;});
@@ -310,7 +310,7 @@ function projChart(k,mode){
     let band='';
     o.high.forEach((v,i)=>{band+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
     for(let i=n-1;i>=0;i--){band+=' L'+X(i).toFixed(1)+' '+Y(o.low[i]).toFixed(1);}
-    svg+=`<path d="${band}Z" fill="rgba(24,117,103,.12)" stroke="none"/>`;
+    svg+=`<path d="${band}Z" fill="color-mix(in srgb, var(--accent) 12%, transparent)" stroke="none"/>`;
     ['low','high'].forEach(kk=>{let d='';o[kk].forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
       svg+=`<path d="${d}" fill="none" stroke="var(--aurora-l)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;});
     let dm='';o.main.forEach((v,i)=>{dm+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
@@ -318,14 +318,14 @@ function projChart(k,mode){
     if(mw && state.showMVP){
       let dt='';mw.pop.forEach((v,i)=>{dt+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
       let arr=dm;for(let i=n-1;i>=0;i--){arr+=' L'+X(i).toFixed(1)+' '+Y(mw.pop[i]).toFixed(1);}
-      svg+=`<path d="${arr}Z" fill="rgba(194,107,38,.09)" stroke="none"/>`;
+      svg+=`<path d="${arr}Z" fill="color-mix(in srgb, var(--warn) 9%, transparent)" stroke="none"/>`;
       svg+=`<path d="${dt}" fill="none" stroke="var(--amber)" stroke-width="2.1" stroke-dasharray="6 3" stroke-linejoin="round"/>`;
       svg+=`<text x="${L+W+4}" y="${Y(mw.pop[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--amber)">${fmt(mw.pop[n-1])}</text>`;
     }
     if(state.sens&&mw&&state.showMVP){
       let sb='';mw.s125.forEach((v,i)=>{sb+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
       for(let i=n-1;i>=0;i--){sb+=' L'+X(i).toFixed(1)+' '+Y(mw.s75[i]).toFixed(1);}
-      svg+=`<path d="${sb}Z" fill="rgba(194,107,38,.13)" stroke="none"/>`;
+      svg+=`<path d="${sb}Z" fill="color-mix(in srgb, var(--warn) 13%, transparent)" stroke="none"/>`;
       [mw.s75,mw.s125].forEach(p=>{let d='';p.forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
         svg+=`<path d="${d}" fill="none" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".75"/>`;});
       svg+=`<text x="${L+W+4}" y="${Y(mw.s125[n-1])-6}" style="font-size:9px;fill:var(--amber)">+25%</text>`;
@@ -338,8 +338,8 @@ function projChart(k,mode){
     }
     if(us){
       let du='';us.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      svg+=`<path d="${du}" fill="none" stroke="#B23B3B" stroke-width="2.3" stroke-linejoin="round"/>`;
-      svg+=`<text x="${L+W+4}" y="${Y(us[n-1])+3}" style="font-size:10px;font-weight:700;fill:#B23B3B">${fmt(us[n-1])}</text>`;
+      svg+=`<path d="${du}" fill="none" stroke="var(--neg)" stroke-width="2.3" stroke-linejoin="round"/>`;
+      svg+=`<text x="${L+W+4}" y="${Y(us[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--neg)">${fmt(us[n-1])}</text>`;
     }
     const iNow=yrs.indexOf(2026);
     if(iNow>-1){svg+=`<circle cx="${X(iNow)}" cy="${Y(k.pop)}" r="3.5" fill="var(--ink)"/>`+
@@ -349,7 +349,7 @@ function projChart(k,mode){
     svg+=`<text x="${L+W+4}" y="${Y(lh)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(lh)}</text>`;
     svg+=`<text x="${L+W+4}" y="${Y(ll)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(ll)}</text>`;
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(mw&&state.showMVP?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(us?'<span><i style="background:#B23B3B"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:rgba(24,117,103,.4)"></i>SSB lav\u2013h\u00f8y</span></div>';
+    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(mw&&state.showMVP?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(us?'<span><i style="background:var(--neg)"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:color-mix(in srgb, var(--accent) 40%, transparent)"></i>SSB lav\u2013h\u00f8y</span></div>';
   } else if(mode==='dec'){
     const p0=(mw?mw.pop[0]:o.main[0]);
     const nat=mw?mw.nat[n-1]:0, mig=mw?mw.mig[n-1]:0;
@@ -364,18 +364,18 @@ function projChart(k,mode){
     // dekomponeringen finnes bare for TF-MVP, ikke for SSB MMMM eller TF-ATTR.
     const winLab=({kons:'Smalt 2017–2021',sentral:'Bredt vindu',opt:'Vektet 2022–2023'})[state.mw]||state.mw;
     svg+=`<text x="${L}" y="11" style="font-size:10.5px;fill:var(--ink3)">Bane: <tspan style="font-weight:700;fill:var(--amber)">TF-MVP · ${winLab}</tspan> — ikke SSB MMMM</text>`;
-    svg+=`<text x="${L+W-2}" y="11" text-anchor="end" style="font-size:11px;fill:var(--ink2)">Folketall <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:var(--ink)">${fmt(p0)}</tspan> → <tspan style="font-family:'Spline Sans Mono',monospace;font-weight:700;fill:${tot<0?'#B23B3B':'var(--aurora)'}">${fmt(p1)}</tspan></text>`;
+    svg+=`<text x="${L+W-2}" y="11" text-anchor="end" style="font-size:11px;fill:var(--ink2)">Folketall <tspan style="font-family:var(--font-mono);font-weight:700;fill:var(--ink)">${fmt(p0)}</tspan> → <tspan style="font-family:var(--font-mono);font-weight:700;fill:${tot<0?'var(--neg)':'var(--aurora)'}">${fmt(p1)}</tspan></text>`;
     // Y-akse: +/- gridlines
     for(let g=0;g<=4;g++){const val=mn+(mx-mn)*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
       svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${(val>=0?'+':'−')+fmt(Math.round(Math.abs(val)))}</text>`;}
     // Nullinje markeres tydeligere
     svg+=`<line x1="${L}" y1="${zeroY}" x2="${L+W}" y2="${zeroY}" stroke="var(--ink2)" stroke-width="1.4"/>`;
     // Tre rene endrings-stolper fra null
     const cols=[
-      {lab:'Naturlig endring',sub:'(fødsler − dødsfall)',val:nat,col:(nat<0?'#B23B3B':'var(--aurora)')},
-      {lab:'Netto flytting',sub:'(inn − ut)',val:mig,col:(mig<0?'#B23B3B':'var(--aurora)')},
-      {lab:'Sum 2026–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'#B23B3B':'var(--aurora)')}
+      {lab:'Naturlig endring',sub:'(fødsler − dødsfall)',val:nat,col:(nat<0?'var(--neg)':'var(--aurora)')},
+      {lab:'Netto flytting',sub:'(inn − ut)',val:mig,col:(mig<0?'var(--neg)':'var(--aurora)')},
+      {lab:'Sum 2026–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'var(--neg)':'var(--aurora)')}
     ];
     const bw=120, gap=(W-cols.length*bw)/(cols.length+1);
     cols.forEach((c,ci)=>{
@@ -386,12 +386,12 @@ function projChart(k,mode){
       svg+=`<rect x="${x}" y="${yT}" width="${bw}" height="${h}" rx="3" fill="${c.col}"/>`;
       // Verditall over (positiv) eller under (negativ) stolpen
       const labelY=c.val>=0?yT-7:yB+15;
-      svg+=`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" style="font-family:'Spline Sans Mono',monospace;font-size:14px;font-weight:700;fill:${c.col}">${(c.val>=0?'+':'−')}${fmt(Math.abs(Math.round(c.val)))}</text>`;
+      svg+=`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" style="font-family:var(--font-mono);font-size:14px;font-weight:700;fill:${c.col}">${(c.val>=0?'+':'−')}${fmt(Math.abs(Math.round(c.val)))}</text>`;
       // Kategori-etikett under
       svg+=`<text x="${x+bw/2}" y="${300-B+13}" text-anchor="middle" class="axis" style="font-size:11px;font-weight:600;fill:var(--ink)">${c.lab}</text>`;
     });
     svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:#B23B3B"></i>trekker ned</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
+    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:var(--neg)"></i>trekker ned</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
   } else if(mode==='fb'){
     const A6=o.a65, A2=o.a2064;   // SSB MMMM — hovedbane for forsørgerbyrde
     const r=A6.map((v,i)=>A2[i]?100*v/A2[i]:0);
@@ -402,9 +402,9 @@ function projChart(k,mode){
     const rp=(rmx-rmn)*0.18||4; rmn=Math.max(0,rmn-rp); rmx+=rp;
     const Ya=v=>aB-(v-rmn)/((rmx-rmn)||1)*(aB-aT);
     let s='<svg class="chart" viewBox="0 0 '+VB+' 372" preserveAspectRatio="xMidYMid meet" style="height:372px">';
-    s+='<text x="'+Lx+'" y="14" style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;fill:var(--ink)">Forsørgerbyrde — eldre (65+) per 100 i yrkesaktiv alder (20–64)</text>';
+    s+='<text x="'+Lx+'" y="14" style="font-family:var(--font-display);font-size:13px;font-weight:600;fill:var(--ink)">Forsørgerbyrde — eldre (65+) per 100 i yrkesaktiv alder (20–64)</text>';
     for(let g=0;g<=4;g++){const val=rmn+(rmx-rmn)*g/4,y=aB-(aB-aT)*g/4;
-      s+='<line x1="'+Lx+'" y1="'+y+'" x2="'+(Lx+Wx)+'" y2="'+y+'" stroke="rgba(17,32,58,.07)"/>';
+      s+='<line x1="'+Lx+'" y1="'+y+'" x2="'+(Lx+Wx)+'" y2="'+y+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
       s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y+3)+'" text-anchor="end">'+val.toFixed(0)+'</text>';}
     // 2026 reference + shaded added burden
     const y0=Ya(r[0]);
@@ -413,20 +413,20 @@ function projChart(k,mode){
     let ar='M'+Xc(0).toFixed(1)+' '+y0.toFixed(1);
     r.forEach((v,i)=>{ar+=' L'+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
     ar+=' L'+Xc(n-1).toFixed(1)+' '+y0.toFixed(1)+'Z';
-    s+='<path d="'+ar+'" fill="rgba(194,107,38,.12)" stroke="none"/>';
+    s+='<path d="'+ar+'" fill="color-mix(in srgb, var(--warn) 12%, transparent)" stroke="none"/>';
     let dl='';r.forEach((v,i)=>{dl+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
     s+='<path d="'+dl+'" fill="none" stroke="var(--amber)" stroke-width="2.8" stroke-linejoin="round"/>';
     [[0,r[0]],[n-1,r[n-1]]].forEach(p=>{const x=Xc(p[0]),y=Ya(p[1]),sup=p[1]?(100/p[1]):0;
       s+='<circle cx="'+x+'" cy="'+y+'" r="3.6" fill="var(--amber)" stroke="var(--paper2)" stroke-width="1.5"/>';
-      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y-9)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-family:\'Spline Sans Mono\',monospace;font-size:12px;font-weight:700;fill:var(--amber)">'+p[1].toFixed(0)+'</text>';
+      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y-9)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-family:var(--font-mono);font-size:12px;font-weight:700;fill:var(--amber)">'+p[1].toFixed(0)+'</text>';
       s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y+13)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-size:9.5px;fill:var(--ink3)">'+sup.toFixed(1)+' yrkesaktive/eldre</text>';});
     // caption + panel B: demografisk forskyvning
-    s+='<text x="'+Lx+'" y="232" style="font-family:\'Fraunces\',serif;font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2026 = 100)</text>';
+    s+='<text x="'+Lx+'" y="232" style="font-family:var(--font-display);font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2026 = 100)</text>';
     let bT=246,bB=336; let im=Math.min.apply(0,i20.concat(i65)), iM=Math.max.apply(0,i20.concat(i65));
     const ip=(iM-im)*0.12||5; im-=ip; iM+=ip;
     const Yb=v=>bB-(v-im)/((iM-im)||1)*(bB-bT);
     const y100=Yb(100);
-    s+='<line x1="'+Lx+'" y1="'+y100+'" x2="'+(Lx+Wx)+'" y2="'+y100+'" stroke="rgba(17,32,58,.18)" stroke-dasharray="2 3"/>';
+    s+='<line x1="'+Lx+'" y1="'+y100+'" x2="'+(Lx+Wx)+'" y2="'+y100+'" stroke="color-mix(in srgb, var(--ink) 18%, transparent)" stroke-dasharray="2 3"/>';
     s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y100+3)+'" text-anchor="end">100</text>';
     [['i65',i65,'var(--amber)','65+'],['i20',i20,'var(--nl)','20–64']].forEach(z=>{
       let d='';z[1].forEach((v,i)=>{d+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Yb(v).toFixed(1);});
@@ -441,7 +441,7 @@ function projChart(k,mode){
     // Aldring: grupperte stolper på 6 tidspunkter (2024, 2030, 2035, 2040, 2045, 2050)
     // — endringene mellom de tre aldersgruppene blir tydeligere som stolper enn som linjer.
     const S=[['a019','0–19 år','var(--nl)'],['a2064','20–64 år','var(--ink)'],['a65','65+ år','var(--amber)']];
-    if(o.a80) S.push(['a80','herav 80+ år','#B23B3B']);
+    if(o.a80) S.push(['a80','herav 80+ år','var(--neg)']);
     const wantYears=[2026,2030,2035,2040,2045,2050];
     let tps=wantYears.map(y=>yrs.indexOf(y)).filter(i=>i>=0);
     if(tps.length===0) tps=[0,n-1];
@@ -453,7 +453,7 @@ function projChart(k,mode){
     svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
     // Y-gridlines
     for(let g=0;g<=4;g++){const val=hi*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
       svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
     // Grupperte stolper per tidspunkt
     const groupW=W/tps.length;
@@ -557,7 +557,7 @@ function projCard(k){
         var warn='';
         if(Math.abs(ppDiff) >= 15){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
-          warn = '<div style="margin:10px 0 0;padding:10px 12px;background:rgba(194,107,38,.10);border:1px solid rgba(194,107,38,.32);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink)"><b>Stort avvik mot SSB:</b> TF-MVP med vinduet \u00ab'+winLabel+'\u00bb er <b>'+ppDiff.toFixed(0).replace('.',',')+' %</b> '+dir+' enn SSB MMMM ved 2050. Det skyldes at flyttetallene i det valgte vinduet var '+(ppDiff<0?'spesielt svake':'spesielt sterke')+' for denne kommunen; modellen forutsetter at det gjentar seg i 26 \u00e5r. Pr\u00f8v et annet vindu eller bytt til <b>TF-ATTR</b> for en strukturbasert sanity-sjekk.</div>';
+          warn = '<div style="margin:10px 0 0;padding:10px 12px;background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 32%, transparent);border-left:4px solid var(--amber);border-radius:0;font-size:12.5px;color:var(--ink)"><b>Stort avvik mot SSB:</b> TF-MVP med vinduet \u00ab'+winLabel+'\u00bb er <b>'+ppDiff.toFixed(0).replace('.',',')+' %</b> '+dir+' enn SSB MMMM ved 2050. Det skyldes at flyttetallene i det valgte vinduet var '+(ppDiff<0?'spesielt svake':'spesielt sterke')+' for denne kommunen; modellen forutsetter at det gjentar seg i 26 \u00e5r. Pr\u00f8v et annet vindu eller bytt til <b>TF-ATTR</b> for en strukturbasert sanity-sjekk.</div>';
         }
         return warn;
       })()+
@@ -597,10 +597,10 @@ function kostraCard(k){
       s+='<div style="position:absolute;top:'+(i?13:0)+'px;left:'+clamp(x,7,93)+'%;transform:translateX(-50%);font-size:9px;font-weight:700;color:'+rf[2]+';white-space:nowrap;line-height:1">'+rf[1]+'</div>';
       s+='<div style="position:absolute;top:24px;height:18px;width:2px;left:'+x+'%;transform:translateX(-50%);background:'+rf[2]+';opacity:'+(rf[3]?'.55':'1')+'"></div>'; });
     // track
-    s+='<div style="position:absolute;left:0;right:0;top:27px;height:9px;border-radius:5px;background:rgba(17,32,58,.09)"></div>';
+    s+='<div style="position:absolute;left:0;right:0;top:27px;height:9px;border-radius:0;background:color-mix(in srgb, var(--ink) 9%, transparent)"></div>';
     // value fill
     if(val!=null){ const xv=pc(val); const a=Math.min(z,xv), w=Math.abs(xv-z);
-      s+='<div style="position:absolute;top:27px;height:9px;border-radius:5px;left:'+a+'%;width:'+Math.max(w,0.8)+'%;background:'+col+'"></div>'; }
+      s+='<div style="position:absolute;top:27px;height:9px;border-radius:0;left:'+a+'%;width:'+Math.max(w,0.8)+'%;background:'+col+'"></div>'; }
     // zero marker for signed scales
     if(neg) s+='<div style="position:absolute;top:24px;height:15px;width:1px;left:'+z+'%;background:var(--ink3)"></div>';
     return s+'</div>';
@@ -609,13 +609,13 @@ function kostraCard(k){
     return '<div style="margin:0 0 16px">'+
       '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">'+
       '<span style="font-weight:600;color:var(--ink)">'+label+'</span>'+
-      '<span><b style="font-family:\'Spline Sans Mono\',monospace;font-size:17px;color:'+col+'">'+(val==null?'\u2013':(unit==='%'?sgn(val):fmt(Math.round(val))))+'</b>'+
+      '<span><b style="font-family:var(--font-mono);font-size:17px;color:'+col+'">'+(val==null?'\u2013':(unit==='%'?sgn(val):fmt(Math.round(val))))+'</b>'+
       '<span style="font-size:11px;color:var(--ink3)"> '+unit+'</span> '+
-      '<span style="font-size:10px;font-weight:700;color:'+col+';background:'+col+'1f;padding:2px 7px;border-radius:10px">'+verdict+'</span></span></div>'+
+      '<span style="font-size:10px;font-weight:700;color:'+col+';background:'+col+'1f;padding:2px 7px;border-radius:0">'+verdict+'</span></span></div>'+
       bar(val,dmin,dmax,col,refs)+
       '<p class="hint" style="margin:5px 0 0;font-size:11.5px">'+explain+'</p></div>';
   }
-  const GRN='#2E7D5B',AMB='var(--amber)',RED='#B23B3B';
+  const GRN='var(--pos)',AMB='var(--amber)',RED='var(--neg)';
   const ndr=num(ks.ndr),fond=num(ks.fond),gjeld=num(ks.gjeld);
   const vNdr=ndr==null?AMB:(ndr>=1.75?GRN:ndr>=0?AMB:RED);
   const vFond=fond==null?AMB:(fond>=10?GRN:fond>=4?AMB:RED);
@@ -638,7 +638,7 @@ function kostraCard(k){
   const SEC=[['omsorg_pct','Pleie og omsorg','a67','var(--amber)'],
              ['skole_pct','Grunnskole','a615','var(--nl)'],
              ['bhg_pct','Barnehage','a15','var(--aurora)'],
-             ['khelse_pct','Kommunehelse',null,'#6FA8C7'],
+             ['khelse_pct','Kommunehelse',null,'var(--cat-3)'],
              ['kultur_pct','Kultur',null,'var(--gold)'],
              ['kirke_pct','Kirke',null,'#9C8B6E']];
   const sv=f=>num(ks[f]);
@@ -646,11 +646,11 @@ function kostraCard(k){
   const annet=Math.max(0,100-summed);
   let mix='';
   {
-    const parts=SEC.map(s=>[s[1],sv(s[0])||0,s[3]]).concat([['Annet (adm., sosial, barnevern, vei, VAR m.m.)',annet,'rgba(17,32,58,.18)']]);
+    const parts=SEC.map(s=>[s[1],sv(s[0])||0,s[3]]).concat([['Annet (adm., sosial, barnevern, vei, VAR m.m.)',annet,'color-mix(in srgb, var(--ink) 18%, transparent)']]);
     const seg=parts.map(p=>p[1]>0?'<div style="width:'+p[1]+'%;background:'+p[2]+'" title="'+p[0]+' '+p[1].toFixed(1).replace('.',',')+' %"></div>':'').join('');
     const leg=parts.map(p=>'<span><i style="background:'+p[2]+'"></i>'+p[0].split(' (')[0]+' '+p[1].toFixed(0).replace('.',',')+' %</span>').join('');
     mix='<div style="margin:6px 0 0"><div style="font-weight:600;color:var(--ink);margin:0 0 6px">Hvor pengene g\u00e5r \u2014 andel av netto driftsutgifter</div>'+
-      '<div style="display:flex;height:26px;border-radius:6px;overflow:hidden;font-size:0">'+seg+'</div>'+
+      '<div style="display:flex;height:26px;border-radius:0;overflow:hidden;font-size:0">'+seg+'</div>'+
       '<div class="legend" style="margin-top:7px">'+leg+'</div>'+
       (ks.omsorg_pi!=null?'<p class="hint" style="margin:6px 0 0;font-size:11.5px">Helse og omsorg koster <b>'+fmt(Math.round(ks.omsorg_pi))+' kr</b> per innbygger \u2014 den st\u00f8rste og mest aldersf\u00f8lsomme posten.</p>':'')+'</div>';
   }
@@ -674,7 +674,7 @@ function kostraCard(k){
     const ff=v=>o.unit==='kr'?fmt(Math.round(v)):(o.signed?sgn(v):(''+(Math.round(v*10)/10)));
     let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="height:158px;width:100%">';
     [hi-pd*0.5,(hi+lo)/2,lo+pd*0.5].forEach(gv=>{const yy=Y(gv);
-      s+='<line x1="'+L+'" y1="'+yy.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+yy.toFixed(1)+'" stroke="rgba(17,32,58,.07)"/>';
+      s+='<line x1="'+L+'" y1="'+yy.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+yy.toFixed(1)+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
       s+='<text class="axis" x="'+(L-5)+'" y="'+(yy+3).toFixed(1)+'" text-anchor="end">'+ff(gv)+'</text>';});
     if(o.ref&&o.ref.val!=null){const ry=Y(o.ref.val);
       s+='<line x1="'+L+'" y1="'+ry.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+ry.toFixed(1)+'" stroke="var(--aurora)" stroke-width="1" stroke-dasharray="4 3"/>';
@@ -723,7 +723,7 @@ function kostraCard(k){
   let sec='', stacked='';
   if(mw&&mw.a67&&mw.pop&&n>1){
     const drv={a67:mw.a67,a615:mw.a615,a15:mw.a15,pop:mw.pop};
-    const SX=SEC.map(s=>({nm:s[1],f:s[0],d:s[2],c:s[3]})).concat([{nm:'Annet',f:null,d:null,c:'rgba(17,32,58,.30)'}]);
+    const SX=SEC.map(s=>({nm:s[1],f:s[0],d:s[2],c:s[3]})).concat([{nm:'Annet',f:null,d:null,c:'color-mix(in srgb, var(--ink) 30%, transparent)'}]);
     function renorm(raw){let su=0;raw.forEach(x=>su+=x||0);const an=Math.max(0,100-su);
       const arr=raw.map(x=>x||0).concat([an]);let t2=0;arr.forEach(x=>t2+=x);return arr.map(x=>t2?x/t2*100:0);}
     const HY=[],HS=[],HB=[];
@@ -738,7 +738,7 @@ function kostraCard(k){
     const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
     const SHOW=[0,1,2,3,4]; // omsorg, skole, barnehage, kommunehelse, kultur
     sec='<div style="margin:14px 0 2px;padding-top:12px;border-top:1px solid var(--line2)">'+
-      '<div style="font-weight:600;color:var(--ink)">Sektorandel \u2014 faktisk \u2192 demografidrevet, til 2050 <span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber)1f;padding:2px 7px;border-radius:10px">illustrasjon</span></div>'+
+      '<div style="font-weight:600;color:var(--ink)">Sektorandel \u2014 faktisk \u2192 demografidrevet, til 2050 <span style="font-size:10px;font-weight:700;color:var(--amber);background:color-mix(in srgb, var(--amber) 12%, transparent);padding:2px 7px;border-radius:0">illustrasjon</span></div>'+
       '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Heltrukket venstre for «i dag» = faktiske KOSTRA-andeler. Stiplet f\u00f8r «i dag» = landsdel. Stiplet etter «i dag» = demografidrevet ('+wlab+'-flyttebane, alt annet likt). Andel av netto driftsutgifter.</p>'+
       '<div style="'+GRID+'">'+
       SHOW.map(si=>lineChart({title:SX[si].nm,sub:'% av netto driftsutgifter',col:SX[si].c,unit:'pct',signed:false,
@@ -752,7 +752,7 @@ function kostraCard(k){
       const sy0=XY[0],sy1=XY[XY.length-1],VB=720,Lx=44,Rx=142,Tp=14,Wd=VB-Lx-Rx,Hh=200;
       const X=y=>Lx+((y-sy0)/((sy1-sy0)||1))*Wd, Y=p=>Tp+(1-p/100)*Hh;
       let g='<svg class="chart" viewBox="0 0 '+VB+' '+(Tp+Hh+26)+'" preserveAspectRatio="xMidYMid meet" style="height:240px">';
-      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="rgba(17,32,58,.07)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+'%</text>';}
+      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+'%</text>';}
       let cum=new Array(XY.length).fill(0);
       SX.forEach((s,si)=>{let tp='',bt='';
         for(let i=0;i<XY.length;i++){const t=cum[i]+ST[i][si];tp+=(i?' L':'M')+X(XY[i]).toFixed(1)+' '+Y(t).toFixed(1);}
@@ -800,8 +800,8 @@ function kostraCard(k){
       '<tr style="color:var(--ink3)"><td style="text-align:left;padding:2px 0">N\u00f8kkeltall</td><td style="text-align:right">Siste ('+(yr||tyr[tyr.length-1])+')</td><td style="text-align:right;padding-left:14px">Landsdel</td></tr>';
     grp[1].forEach(r=>{ tbl+='<tr style="border-top:1px solid var(--line2)">'+
       '<td style="text-align:left;padding:3px 0;color:var(--ink2)">'+r[1]+'</td>'+
-      '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;color:var(--ink)">'+F(num(ks[r[0]]),r[2])+'</td>'+
-      '<td style="text-align:right;padding-left:14px;font-family:\'Spline Sans Mono\',monospace;color:var(--ink3)">'+F(num(B[r[0]]),r[2])+'</td></tr>'; });
+      '<td style="text-align:right;font-family:var(--font-mono);color:var(--ink)">'+F(num(ks[r[0]]),r[2])+'</td>'+
+      '<td style="text-align:right;padding-left:14px;font-family:var(--font-mono);color:var(--ink3)">'+F(num(B[r[0]]),r[2])+'</td></tr>'; });
     tbl+='</table>';
   });
   const full='<details style="margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line2)"><summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Alle KOSTRA-n\u00f8kkeltall \u2014 siste verdi mot landsdelsmedian</summary><p class="hint" style="margin:6px 0 8px;font-size:11px">Utviklingen over tid vises i grafene over. Tabellen er sisteverdi-oppslaget.</p>'+tbl+'</details>';
@@ -838,7 +838,7 @@ function diagnoseCard(k){
   if(fond!=null){ if(fond>=10)pos++; else if(fond<4)neg++; }
   if(gj!=null){ if(gj<90)pos++; else if(gj>110)neg++; }
   const verdict=(neg>=2)?'svakt':((pos>=2&&neg===0)?'solid':'blandet');
-  const vc=(verdict==='svakt')?'#B23B3B':(verdict==='solid'?'#2E7D5B':'var(--amber)');
+  const vc=(verdict==='svakt')?'var(--neg)':(verdict==='solid'?'var(--pos)':'var(--amber)');
   const sgn1=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0).replace('.',',');
   // Yttergrense-spennvidde: smalt 2017-21-vindu som outlier-merknad
   let spread='';
@@ -856,9 +856,9 @@ function diagnoseCard(k){
   if(oad0!=null&&oad1!=null) s+='Aldringen er kjernen: forsørgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
   if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det økonomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'–':(ndr>=0?'':'−')+Math.abs(ndr).toFixed(1).replace('.',','))+' %</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'–':fond.toFixed(1).replace('.',','))+' %</b>, netto lånegjeld <b>'+(gj==null?'–':gj.toFixed(0).replace('.',','))+' %</b>. ';
   s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg — vist i grafene under.'+spread;
-  return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0 10px 10px 0">'+
+  return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0">'+
     '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon — demografi møter økonomi</h3>'+
-    '<span style="font-size:10px;font-weight:700;color:var(--aurora);background:rgba(24,117,103,0.15);padding:2px 8px;border-radius:10px">SSB MMMM · hovedbane</span></div>'+
+    '<span style="font-size:10px;font-weight:700;color:var(--aurora);background:color-mix(in srgb, var(--accent) 15%, transparent);padding:2px 8px;border-radius:0">SSB MMMM · hovedbane</span></div>'+
     '<p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--ink)">'+s+'</p>'+
     '<p class="hint" style="margin:8px 0 0;font-size:11px;opacity:.75">SSB MMMM er hovedbanen; strukturmodellen (TF-ATTR) er vår tilleggsbane. Yttergrense-modeller vises som outlier-kontekst. KOSTRA: siste tilgjengelige år.</p></div>';
 }
@@ -882,7 +882,7 @@ function robekProxy(nr){
 }
 function robekOverviewHTML(fylke){
   const P=DATA.proj, RB=P.robek||{kommuner:{}}; if(!P||!P.robek) return '';
-  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['#2E7D5B','#C9A23B','var(--amber)','#B23B3B'];
+  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['var(--pos)','var(--cat-5)','var(--amber)','var(--neg)'];
   const scope=fylke==='Alle'?'Nord-Norge':fylke;
   const sf=(f)=>'Statsforvalteren i '+(f==='Alle'?'fylket':f);
   const inF=K.filter(x=>fylke==='Alle'?true:x.fylke===fylke);
@@ -900,10 +900,10 @@ function robekOverviewHTML(fylke){
     : (b.pr.pts-a.pr.pts || b.st-a.st || a.navn.localeCompare(b.navn,'no')) );
   const seg=(v,t)=>'<button data-s="'+v+'" aria-selected="'+(so===v?'true':'false')+'">'+t+'</button>';
   const stCell=r=> r.st===2
-    ? '<span style="color:#B23B3B;font-weight:600">I ROBEK</span> <span style="color:var(--ink3);font-size:10px">\u00a728-1 '+r['let']+'</span>'
+    ? '<span style="color:var(--neg);font-weight:600">I ROBEK</span> <span style="color:var(--ink3);font-size:10px">\u00a728-1 '+r['let']+'</span>'
     : r.st===1 ? '<span style="color:var(--amber);font-weight:600">Over grensen</span> <span style="color:var(--ink3);font-size:10px">(d, behandles)</span>'
     : '<span style="color:var(--ink3)">\u2013</span>';
-  const pill=l=>'<span style="display:inline-block;padding:1px 8px;border-radius:9px;font-size:10.5px;font-weight:700;color:#fff;background:'+LC[l]+'">'+LV[l]+'</span>';
+  const pill=l=>'<span style="display:inline-block;padding:1px 8px;border-radius:0;font-size:10.5px;font-weight:700;color:#fff;background:'+LC[l]+'">'+LV[l]+'</span>';
   const fmtp=(v,unit)=> v==null?'\u2013':(v<0?'\u2212':'')+Math.abs(v).toFixed(unit==='0'?0:1).replace('.',',')+(unit==='%'?'\u2009%':'');
   const showFylke=fylke==='Alle';
   const headerTitle = fylke === 'Alle' ? 'ROBEK — landsdelsoversikt (Nord-Norge)' : 'ROBEK — fylkesoversikt (' + fylke + ')';
@@ -921,10 +921,10 @@ function robekOverviewHTML(fylke){
     (showFylke?'<td style="color:var(--ink3);font-size:11px">'+r.fylke+'</td>':'')+
     '<td style="font-size:11px">'+stCell(r)+'</td>'+
     '<td>'+pill(r.pr.lvl)+'</td>'+
-    '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.ndr!=null&&r.pr.ndr<0?'#B23B3B':'var(--ink2)')+'">'+fmtp(r.pr.ndr,'%')+'</td>'+
-    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.fond!=null&&r.pr.fond<3?'#B23B3B':'var(--ink2)')+'">'+fmtp(r.pr.fond,'%')+'</td>'+
-    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:'+(r.pr.gj!=null&&r.pr.gj>=110?'var(--amber)':'var(--ink2)')+'">'+fmtp(r.pr.gj,'0')+'\u2009%</td>'+
-    '<td style="text-align:right;padding-left:8px;font-family:\'Spline Sans Mono\',monospace;color:var(--ink3)">'+r.pr.neg+'/'+r.pr.nser+'</td></tr>').join('');
+    '<td style="text-align:right;font-family:var(--font-mono);color:'+(r.pr.ndr!=null&&r.pr.ndr<0?'var(--neg)':'var(--ink2)')+'">'+fmtp(r.pr.ndr,'%')+'</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:var(--font-mono);color:'+(r.pr.fond!=null&&r.pr.fond<3?'var(--neg)':'var(--ink2)')+'">'+fmtp(r.pr.fond,'%')+'</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:var(--font-mono);color:'+(r.pr.gj!=null&&r.pr.gj>=110?'var(--amber)':'var(--ink2)')+'">'+fmtp(r.pr.gj,'0')+'\u2009%</td>'+
+    '<td style="text-align:right;padding-left:8px;font-family:var(--font-mono);color:var(--ink3)">'+r.pr.neg+'/'+r.pr.nser+'</td></tr>').join('');
   const crit='<details style="margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line2)">'+
     '<summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Hva utl\u00f8ser ROBEK? (kommuneloven \u00a728-1)</summary>'+
     '<p class="hint" style="margin:6px 0 0;font-size:11.5px">Minst ett objektivt vilkår m\u00e5 ha inntruffet: '+
@@ -934,11 +934,11 @@ function robekOverviewHTML(fylke){
   return '<div class="card"><div class="ch"><h3 class="serif">'+headerTitle+'</h3></div>'+
     '<p class="hint">Faktisk registerstatus per <b>'+RB.oppdatert+'</b> (kilde: '+RB.kilde+'), satt mot den kalibrerte risikoproxyen p\u00e5 KOSTRA-fundamentene for alle '+inF.length+' kommuner i '+scopeText+'.</p>'+
     '<div style="display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin:8px 0 4px">'+
-    '<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:'+(reg.length?'#B23B3B':'#2E7D5B')+'">'+reg.length+'</span> <span style="color:var(--ink2);font-size:12.5px">i ROBEK ('+pctv.toFixed(0).replace('.',',')+' %)</span></div>'+
-    (pendF.length?'<div><span style="font-family:\'Fraunces\',serif;font-size:28px;font-weight:600;color:var(--amber)">'+pendF.length+'</span> <span style="color:var(--ink2);font-size:12.5px">over grensen (behandles)</span></div>':'')+
+    '<div><span style="font-family:var(--font-display);font-size:28px;font-weight:600;color:'+(reg.length?'var(--neg)':'var(--pos)')+'">'+reg.length+'</span> <span style="color:var(--ink2);font-size:12.5px">i ROBEK ('+pctv.toFixed(0).replace('.',',')+' %)</span></div>'+
+    (pendF.length?'<div><span style="font-family:var(--font-display);font-size:28px;font-weight:600;color:var(--amber)">'+pendF.length+'</span> <span style="color:var(--ink2);font-size:12.5px">over grensen (behandles)</span></div>':'')+
     '<div style="font-size:11.5px;color:var(--ink2)">Proxy: <b style="color:'+LC[3]+'">'+dist[3]+'</b> H\u00f8y \u00b7 <b style="color:'+LC[2]+'">'+dist[2]+'</b> Forh\u00f8yet \u00b7 <b style="color:'+LC[1]+'">'+dist[1]+'</b> Moderat \u00b7 <b style="color:'+LC[0]+'">'+dist[0]+'</b> Lav</div></div>'+
     '<div class="minseg" id="rbk" style="margin:6px 0 4px">'+seg('risk','Risiko')+seg('status','Status')+seg('navn','Navn')+(showFylke?seg('fylke','Fylke'):'')+'</div>'+
-    '<div style="max-height:460px;overflow:auto;border:1px solid var(--line2);border-radius:8px;padding:2px 10px"><table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead style="position:sticky;top:0;background:var(--paper2)">'+head+'</thead><tbody>'+body+'</tbody></table></div>'+
+    '<div style="max-height:460px;overflow:auto;border:1px solid var(--line2);border-radius:0;padding:2px 10px"><table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead style="position:sticky;top:0;background:var(--paper2)">'+head+'</thead><tbody>'+body+'</tbody></table></div>'+
     '<p class="hint" style="margin:6px 0 0;font-size:11px">Sorter med knappene over. <b>Risiko</b> = kalibrert proxy: disposisjonsfond (tyngst vektet \u2014 direkte utl\u00f8sende for bokstav d), driftsresultat, kronisk svakhet, l\u00e5negjeld kun som svak forsterker. Ikke de juridiske vilkårene.</p>'+
     crit+
     '<p class="hint" style="margin:10px 0 0;font-size:11px;opacity:.75">Kalibrert mot fasiten: alle '+totalAffected+' kommuner i/over ROBEK i Nord-Norge fanges (Forh\u00f8yet/H\u00f8y). Proxyen overvarsler fortsatt bevisst \u2014 mange kommuner har reelt svake fundamenter men unng\u00e5r registeret ved \u00e5 saldere budsjettet (vilkår a\u2013c er vedtak, ikke n\u00f8kkeltall). Registerstatus er et \u00f8yeblikksbilde og endres l\u00f8pende.</p></div>';
@@ -962,12 +962,12 @@ function robekCard(k){
   const ndr=pr.ndr, fond=pr.fond, gj=pr.gj, bdr=pr.bdr, yr=pr.yr, neg=pr.neg;
   const ndrs={length:pr.nser};
   const pts=pr.pts, lvl=pr.lvl;
-  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['#2E7D5B','#C9A23B','var(--amber)','#B23B3B'];
+  const LV=['Lav','Moderat','Forh\u00f8yet','H\u00f8y'], LC=['var(--pos)','var(--cat-5)','var(--amber)','var(--neg)'];
   const gauge='<div style="display:flex;gap:4px;margin:8px 0 2px">'+LV.map((t,i)=>
-    '<div style="flex:1;text-align:center"><div style="height:8px;border-radius:3px;background:'+(i<=lvl?LC[lvl]:'var(--line2)')+'"></div>'+
+    '<div style="flex:1;text-align:center"><div style="height:8px;border-radius:0;background:'+(i<=lvl?LC[lvl]:'var(--line2)')+'"></div>'+
     '<div style="font-size:10.5px;margin-top:3px;font-weight:'+(i===lvl?'700':'400')+';color:'+(i===lvl?LC[lvl]:'var(--ink3)')+'">'+t+'</div></div>').join('')+'</div>';
   const tag=(v,bad,warn,fmtv)=> v==null?'<span style="color:var(--ink3)">\u2013</span>':
-    '<b>'+fmtv+'</b> <span style="color:'+(bad?'#B23B3B':warn?'var(--amber)':'#2E7D5B')+';font-size:11px">'+(bad?'\u25cf':warn?'\u25cf':'\u25cf')+'</span>';
+    '<b>'+fmtv+'</b> <span style="color:'+(bad?'var(--neg)':warn?'var(--amber)':'var(--pos)')+';font-size:11px">'+(bad?'\u25cf':warn?'\u25cf':'\u25cf')+'</span>';
   const rows=[
     ['Netto driftsresultat'+(yr?' ('+yr+')':''), tag(ndr,ndr!=null&&ndr<0,ndr!=null&&ndr<1.75,(ndr==null?'':(ndr<0?'\u2212':'')+Math.abs(ndr).toFixed(1).replace('.',',')+'\u2009%')), 'TBU-norm +1,75 %'],
     ['\u00c5r med negativt resultat', '<b>'+neg+'</b> av '+ndrs.length+' siste \u00e5r', '\u22655 \u00e5r = kronisk (tungt vektet)'],
@@ -977,14 +977,14 @@ function robekCard(k){
   ];
   const tbl='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 0">'+rows.map(r=>
     '<tr style="border-top:1px solid var(--line2)"><td style="text-align:left;padding:4px 0;color:var(--ink2)">'+r[0]+'</td>'+
-    '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace">'+r[1]+'</td>'+
+    '<td style="text-align:right;font-family:var(--font-mono)">'+r[1]+'</td>'+
     '<td style="text-align:right;padding-left:12px;color:var(--ink3);font-size:10.5px">'+r[2]+'</td></tr>').join('')+'</table>';
   const pend=(RB.pending||{})[k.nr];
   const badge=letters
-    ? '<div style="background:#B23B3B12;border:1px solid #B23B3B55;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:#B23B3B">Registrert i ROBEK</b> \u2014 kommuneloven \u00a728-1 bokstav <b>'+letters+'</b>. '+sf(k.fylke)+' f\u00f8rer kontroll med budsjett, l\u00e5neopptak og lange leieavtaler. Status per '+RB.oppdatert+'.</div>'
+    ? '<div style="background:color-mix(in srgb, var(--neg) 7%, transparent);border:1px solid color-mix(in srgb, var(--neg) 33%, transparent);border-radius:0;padding:9px 12px;margin:6px 0 4px"><b style="color:var(--neg)">Registrert i ROBEK</b> \u2014 kommuneloven \u00a728-1 bokstav <b>'+letters+'</b>. '+sf(k.fylke)+' f\u00f8rer kontroll med budsjett, l\u00e5neopptak og lange leieavtaler. Status per '+RB.oppdatert+'.</div>'
     : pend
-    ? '<div style="background:var(--amber)14;border:1px solid var(--amber)66;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:var(--amber)">Over ROBEK-grensen \u2014 innmelding under behandling</b> (\u00a728-1 bokstav <b>'+pend.par+'</b>). '+pend.note+' <span style="color:var(--ink3)">Kilde: '+pend.kilde+', '+pend.oppdatert+'. Ikke f\u00f8rt inn i det offisielle registeret per '+RB.oppdatert+'.</span></div>'
-    : '<div style="background:#2E7D5B12;border:1px solid #2E7D5B55;border-radius:8px;padding:9px 12px;margin:6px 0 4px"><b style="color:#2E7D5B">Ikke registrert i ROBEK</b> per '+RB.oppdatert+' (kilde: '+RB.kilde+').</div>';
+    ? '<div style="background:color-mix(in srgb, var(--amber) 8%, transparent);border:1px solid color-mix(in srgb, var(--amber) 40%, transparent);border-radius:0;padding:9px 12px;margin:6px 0 4px"><b style="color:var(--amber)">Over ROBEK-grensen \u2014 innmelding under behandling</b> (\u00a728-1 bokstav <b>'+pend.par+'</b>). '+pend.note+' <span style="color:var(--ink3)">Kilde: '+pend.kilde+', '+pend.oppdatert+'. Ikke f\u00f8rt inn i det offisielle registeret per '+RB.oppdatert+'.</span></div>'
+    : '<div style="background:color-mix(in srgb, var(--pos) 7%, transparent);border:1px solid color-mix(in srgb, var(--pos) 33%, transparent);border-radius:0;padding:9px 12px;margin:6px 0 4px"><b style="color:var(--pos)">Ikke registrert i ROBEK</b> per '+RB.oppdatert+' (kilde: '+RB.kilde+').</div>';
   const read='Fundamentene gir <b style="color:'+LC[lvl]+'">'+LV[lvl]+'</b> risiko. '+
     (letters?'Kommunen er faktisk i registeret \u2014 her bekrefter proxyen den juridiske statusen.'
             :pend?'Kommunen er over den kvantitative grensen (bokstav d) \u2014 proxyen fanget presset f\u00f8r registeret rakk \u00e5 reflektere det.'
@@ -1209,13 +1209,13 @@ function tldrBanner(k, view){
       text+='I dag bærer 100 yrkesaktive (20–64) <b>'+oad0.toFixed(0).replace('.',',')+'</b> eldre (65+). I 2050 øker dette til <b>'+oad1.toFixed(0).replace('.',',')+'</b> — '+(oad1>oad0?'en tyngre bør':'fortsatt bærbart')+'. ';
     }
     if(fond!=null){
-      const fondGrade=fond<3?'<b style="color:#B23B3B">kritisk lav</b>':fond<5?'<b style="color:var(--amber)">tynn</b>':fond<10?'akseptabel':'<b style="color:var(--aurora)">solid</b>';
+      const fondGrade=fond<3?'<b style="color:var(--neg)">kritisk lav</b>':fond<5?'<b style="color:var(--amber)">tynn</b>':fond<10?'akseptabel':'<b style="color:var(--aurora)">solid</b>';
       text+='Disposisjonsfondet er '+fondGrade+' på <b>'+fond.toFixed(1).replace('.',',')+' %</b> av driftsinntektene. ';
     }
     if(ndr!=null){
       text+='Netto driftsresultat: <b>'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1).replace('.',',')+' %</b> (TBU-norm +1,75). ';
     }
-    text+='ROBEK-status: <b'+(inRobek?' style="color:#B23B3B"':pending?' style="color:var(--amber)"':' style="color:var(--aurora)"')+'>'+robekTxt+'</b>. ';
+    text+='ROBEK-status: <b'+(inRobek?' style="color:var(--neg)"':pending?' style="color:var(--amber)"':' style="color:var(--aurora)"')+'>'+robekTxt+'</b>. ';
     text+='<i>Hvor tungt blir aldringen å bære for kommunens budsjett?</i>';
     return '<div class="tldr t-burden">'+
       '<div class="tldr-tag">Seksjon 3 · Arbeid og forsørgerbyrde</div>'+
@@ -1225,7 +1225,7 @@ function tldrBanner(k, view){
         (oad1!=null?'<div class="tldr-num"><div class="nv '+(oad1>40?'warn':'')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="nl">Forsørgerbyrde 2050</div><div class="nh">eldre per 100 i jobb</div></div>':'')+
         (fond!=null?'<div class="tldr-num"><div class="nv '+(fond<3?'down':fond<5?'warn':'up')+'">'+fond.toFixed(1).replace('.',',')+' %</div><div class="nl">Disposisjonsfond</div><div class="nh">av driftsinntekter</div></div>':'')+
         (ndr!=null?'<div class="tldr-num"><div class="nv '+(ndr<0?'down':ndr<1.75?'warn':'up')+'">'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1).replace('.',',')+' %</div><div class="nl">Netto driftsresultat</div><div class="nh">TBU-norm +1,75</div></div>':'')+
-        '<div class="tldr-num"><div class="nv '+(inRobek?'down':pending?'warn':'up')+'">'+(inRobek?'I':pending?'●':'✓')+'</div><div class="nl">ROBEK-status</div><div class="nh">'+robekTxt+'</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(inRobek?'down':pending?'warn':'up')+'">'+(inRobek?'I':pending?'●':'●')+'</div><div class="nl">ROBEK-status</div><div class="nh">'+robekTxt+'</div></div>'+
       '</div>'+
     '</div>';
   }
@@ -1256,7 +1256,7 @@ function detail(){
       '<button class="khero-nav" data-knav="prev" '+(hasPrev?'':'disabled')+' title="Forrige kommune">←</button>'+
       '<div class="khero-id"><h2>'+k.navn+'</h2>'+
       '<span class="fy" style="background:transparent;color:'+(FY[k.fylke]||'var(--ink2)')+';border:1px solid '+(FY[k.fylke]||'var(--ink2)')+'44;padding:3px 10px">'+(k.isAgg?k.naggk+' kommuner':k.fylke)+'</span></div>'+
-      '<div class="khero-actions">'+(k.isAgg?'':'<button class="khero-cmp '+(inCmp?'on':'')+'" data-knav="cmp" title="Sammenlign">'+(inCmp?'✓ i sammenligning':'+ sammenlign')+'</button>')+'</div>'+
+      '<div class="khero-actions">'+(k.isAgg?'':'<button class="khero-cmp '+(inCmp?'on':'')+'" data-knav="cmp" title="Sammenlign">'+(inCmp?'● i sammenligning':'+ sammenlign')+'</button>')+'</div>'+
       '<button class="khero-nav" data-knav="next" '+(hasNext?'':'disabled')+' title="Neste kommune">→</button>'+
     '</div>'+
     statusBadges(k,st)+
@@ -1426,7 +1426,7 @@ function renderCompare(){
   if(state.compare.length<2) return false;
   const ks=state.compare.map(nr=>K.find(k=>k.nr===nr));
   elDet.innerHTML=`<div class="dhead"><h2 class="serif">Sammenligning</h2>
-    <span style="font-size:13px;color:var(--ink3)">${ks.length} kommuner — trykk ✓ i lista for å fjerne</span></div>
+    <span style="font-size:13px;color:var(--ink3)">${ks.length} kommuner — trykk ● i lista for å fjerne</span></div>
     <div class="cmpgrid" style="grid-template-columns:repeat(${ks.length},1fr)">
     ${ks.map(k=>{const med=medianAge(k.alder);const g=ageGroups(k.alder,'L');const mx=Math.max(...g.map(x=>x.v));
       return `<div class="cmpcol"><h4 class="serif">${k.navn}</h4>
@@ -1447,7 +1447,7 @@ function renderCompare(){
       </div>`;}).join('')}</div>`;
   return true;
 }
-const NATCOL=['var(--ink)','var(--nl)','var(--syss)','#2FA08C','#3E7CB1','#7E57A0','#C26B26','#B9912F','#A24A3C','#5A8C5A','#9C6BA0'];
+const NATCOL=['var(--ink)','var(--nl)','var(--syss)','var(--accent-text)','#3E7CB1','#7E57A0','var(--warn)','var(--cat-5)','#A24A3C','#5A8C5A','#9C6BA0'];
 function natColor(navn,i){
   if(navn==='Hele befolkningen')return 'var(--ink)';
   if(navn==='Befolkningen ekskl. innvandrere')return 'var(--nl)';
@@ -1475,12 +1475,12 @@ function natBars(N,met,sx){
   // gridlines
   const ticks = met==='rate' ? [0,25,50,75,100] : [0,.25,.5,.75,1].map(t=>t*maxv);
   ticks.forEach(t=>{const x=xS(t);
-    s+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-20}" stroke="rgba(17,32,58,.07)"/>`;
+    s+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-20}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
     s+=`<text class="axis" x="${x}" y="${H-6}" text-anchor="middle">${met==='rate'?t+'%':(t>=1000?Math.round(t/1000)+'k':t)}</text>`;});
   let y=8, di=0;
   blocks.forEach(b=>{
     s+=`<text class="ngrp" x="0" y="${y+15}">${b.cap}</text>`;
-    s+=`<line x1="0" y1="${y+hh-5}" x2="${VB}" y2="${y+hh-5}" stroke="rgba(17,32,58,.10)"/>`;
+    s+=`<line x1="0" y1="${y+hh-5}" x2="${VB}" y2="${y+hh-5}" stroke="color-mix(in srgb, var(--ink) 10%, transparent)"/>`;
     y+=hh;
     // national reference line within region block
     if(!b.ctx && natAvg!=null){const xr=xS(natAvg);
@@ -1489,7 +1489,7 @@ function natBars(N,met,sx){
     b.rows.forEach((r,ri)=>{
       const v=valOf(r), cy=y+rh/2, col=natColor(r.navn,idxOf[r.navn]);
       s+=`<text class="nlbl${b.ctx?' ctx':''}" x="${b.ctx?0:14}" y="${cy+4}">${r.navn}</text>`;
-      s+=`<rect x="${x0}" y="${y+5}" width="${x1-x0}" height="${rh-12}" rx="5" fill="rgba(17,32,58,.045)"/>`;
+      s+=`<rect x="${x0}" y="${y+5}" width="${x1-x0}" height="${rh-12}" rx="5" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
       if(v==null){
         s+=`<text class="val" x="${x0+10}" y="${cy+4}" fill="var(--ink3)">undertrykt</text>`;
       } else {
@@ -1552,10 +1552,10 @@ function renderNatTS(){
     let top='',bot='';
     for(let i=0;i<n;i++){if(A.vals[i]!=null)top+=(top?' L':'M')+X(i).toFixed(1)+' '+Y(A.vals[i]).toFixed(1);}
     for(let i=n-1;i>=0;i--){if(Bn.vals[i]!=null)bot+=' L'+X(i).toFixed(1)+' '+Y(Bn.vals[i]).toFixed(1);}
-    s+=`<path d="${top}${bot}Z" fill="rgba(194,107,38,.10)" stroke="none"/>`;
+    s+=`<path d="${top}${bot}Z" fill="color-mix(in srgb, var(--warn) 10%, transparent)" stroke="none"/>`;
     let li=n-1;while(li>=0&&(A.vals[li]==null||Bn.vals[li]==null))li--;
     if(li>=0){const gap=A.vals[li]-Bn.vals[li], my=(Y(A.vals[li])+Y(Bn.vals[li]))/2;
-      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:'Spline Sans Mono',monospace;font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1)+' pp':fmt(gap)}</text>`;}
+      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:var(--font-mono);font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1)+' pp':fmt(gap)}</text>`;}
   }
   // regions muted, then summary bold
   vis.filter(se=>!se.sum).forEach(se=>{
@@ -1604,12 +1604,12 @@ function renderModelEval(){
   let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
   // Gridlines + akse-tall
   [0,.25,.5,.75,1].forEach(t=>{const x=xS(t*mx);
-    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-28}" stroke="rgba(17,32,58,.07)"/>`;
+    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-28}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
     s+=`<text class="axis" x="${x}" y="${H-12}" text-anchor="middle">${(t*mx).toFixed(1).replace('.',',')} %</text>`;});
   s+=`<text class="axis" x="${x0}" y="${H-12}" text-anchor="start" style="fill:var(--ink3)">Gjennomsnittlig prosentfeil — lavere = mer treffsikkert →</text>`;
   let y=6;
   groups.forEach(g=>{
-    if(g.div) s+=`<line x1="0" y1="${y-3}" x2="${VB}" y2="${y-3}" stroke="rgba(17,32,58,.12)"/>`;
+    if(g.div) s+=`<line x1="0" y1="${y-3}" x2="${VB}" y2="${y-3}" stroke="color-mix(in srgb, var(--ink) 12%, transparent)"/>`;
     // Rad-etikett
     s+=`<text class="nlbl${g.hl?' ctx':''}" x="0" y="${y+gh/2-4}">${g.lab}</text>`;
     s+=`<text x="0" y="${y+gh/2+12}" style="font-size:9.5px;fill:var(--ink3)">${g.sub}</text>`;
@@ -1619,18 +1619,18 @@ function renderModelEval(){
       const isWin=g.winners[si];
       const col=series[si][1];
       // Spor (lett bakgrunn)
-      s+=`<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${bh-3}" rx="2.5" fill="rgba(17,32,58,.045)"/>`;
+      s+=`<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${bh-3}" rx="2.5" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
       // Stolpe — vinner får full opasitet, taperne blir blasse for å la mønsteret stå fram
       const op=isWin?1:0.42;
       s+=`<rect class="nbar" x="${x0}" y="${yb}" width="${w}" height="${bh-3}" rx="2.5" fill="${col}" opacity="${op}"${isWin?` stroke="${col}" stroke-width="0.6"`:''}/>`;
-      // Verditall — vinner får ✓ og fet skrift
+      // Verditall — vinner får ● og fet skrift
       const valTxt=v==null?'–':v.toFixed(2).replace('.',',');
-      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:'Spline Sans Mono',monospace;font-size:${isWin?'11.5px':'10.5px'};font-weight:${isWin?700:500};fill:${col};opacity:${isWin?1:0.7}">${valTxt}${isWin?' <tspan style="font-family:inherit;font-size:11px">✓</tspan>':''}</text>`;
+      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:var(--font-mono);font-size:${isWin?'11.5px':'10.5px'};font-weight:${isWin?700:500};fill:${col};opacity:${isWin?1:0.7}">${valTxt}${isWin?' <tspan style="font-family:inherit;font-size:11px">●</tspan>':''}</text>`;
     });
     y+=gh;
   });
   s+='</svg>';
-  s+='<div class="nleg" style="margin-top:8px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:8px">✓ markerer modellen med lavest feil i raden (toleranse 0,05 pp ved nær-likt).</span></div>';
+  s+='<div class="nleg" style="margin-top:8px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:8px">● markerer modellen med lavest feil i raden (toleranse 0,05 pp ved nær-likt).</span></div>';
   hosts.forEach(h=>{h.innerHTML=s;});
 }
 function renderBigPicture(){
@@ -1888,11 +1888,11 @@ function renderLevekar(){
     eierHost.innerHTML =
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px">'+
         '<div>'+
-          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:28px;font-weight:600;color:var(--ink)">'+fmt(hushTot)+'</div>'+
+          '<div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--ink)">'+fmt(hushTot)+'</div>'+
           '<div style="font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Total antall husholdninger</div>'+
         '</div>'+
         '<div>'+
-          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:28px;font-weight:600;color:var(--aurora)">'+pctSelv.toFixed(0).replace('.',',')+' %</div>'+
+          '<div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--aurora)">'+pctSelv.toFixed(0).replace('.',',')+' %</div>'+
           '<div style="font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Selveiere</div>'+
         '</div>'+
       '</div>'+
@@ -1928,11 +1928,11 @@ function renderLevekar(){
     });
     boligHost.innerHTML =
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:10px 0 16px">'+
-        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--ink)">'+fmt(bolTot)+'</div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:24px;font-weight:600;color:var(--ink)">'+fmt(bolTot)+'</div>'+
           '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Boliger totalt</div></div>'+
-        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--aurora)">'+bP(bolEne).toFixed(0).replace('.',',')+' %</div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:24px;font-weight:600;color:var(--aurora)">'+bP(bolEne).toFixed(0).replace('.',',')+' %</div>'+
           '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Eneboliger</div></div>'+
-        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:24px;font-weight:600;color:var(--amber)">'+bP(bolBlokk).toFixed(0).replace('.',',')+' %</div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:24px;font-weight:600;color:var(--amber)">'+bP(bolBlokk).toFixed(0).replace('.',',')+' %</div>'+
           '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Blokkleiligheter</div></div>'+
       '</div>'+
       rowsH +
@@ -1965,7 +1965,7 @@ function renderLevekar(){
     for(let g=0;g<=4;g++){
       const v = yMin + (yMax-yMin)*g/4;
       const y = Tp+(1-g/4)*H;
-      svg += `<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.07)"/>`;
+      svg += `<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
       svg += `<text class="axis" x="${L-6}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${Math.round(v/1000)}k</text>`;
     }
     // Referanselinjer
@@ -2008,8 +2008,8 @@ function renderLevekar(){
     const ratio = items[n-1].med / items[0].med;
     spennHost.innerHTML = svg +
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:14px">'+
-        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--ink)">'+Math.round(items[0].med/1000)+'k → '+Math.round(items[n-1].med/1000)+'k</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
-        '<div><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:600;color:var(--amber)">'+ratio.toFixed(2).replace('.',',')+'×</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Høyest / lavest</div></div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--ink)">'+Math.round(items[0].med/1000)+'k → '+Math.round(items[n-1].med/1000)+'k</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--amber)">'+ratio.toFixed(2).replace('.',',')+'×</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Høyest / lavest</div></div>'+
         '<div><div style="font-size:13px;color:var(--ink)">'+hi3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Topp 3</div></div>'+
         '<div><div style="font-size:13px;color:var(--ink)">'+lo3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Bunn 3</div></div>'+
       '</div>'+
@@ -2020,7 +2020,7 @@ function renderLevekar(){
     if(!tip){
       tip = document.createElement('div');
       tip.className = 'spenn-tip';
-      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--paper);padding:8px 11px;border-radius:6px;font-size:12px;line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:10;max-width:220px;white-space:normal';
+      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--paper);padding:8px 11px;border-radius:0;font-size:12px;line-height:1.45;box-shadow:none;z-index:10;max-width:220px;white-space:normal';
       spennHost.appendChild(tip);
     }
     const svgEl = spennHost.querySelector('svg.chart');
@@ -2031,10 +2031,10 @@ function renderLevekar(){
         const ndiffTxt = d.ndiff ? '<div style="margin-top:2px;font-size:11px;opacity:.85">'+(parseFloat(d.ndiff)>=0?'+':'')+d.ndiff+' % vs landsdel</div>' : '';
         tip.innerHTML = '<div style="font-weight:700;margin-bottom:2px">'+d.navn+'</div>'+
           '<div style="font-size:11px;opacity:.85;margin-bottom:6px">'+d.fylke+'</div>'+
-          '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:14px;font-weight:600">'+Math.round(+d.med/1000)+'k kr</div>'+
+          '<div style="font-family:var(--font-mono);font-size:14px;font-weight:600">'+Math.round(+d.med/1000)+'k kr</div>'+
           '<div style="font-size:11px;opacity:.85">median hush.inntekt</div>'+
           ndiffTxt+
-          '<div style="font-size:10.5px;opacity:.7;margin-top:6px;border-top:1px solid rgba(255,255,255,.15);padding-top:4px">Klikk for å åpne kommunen →</div>';
+          '<div style="font-size:10.5px;opacity:.7;margin-top:6px;border-top:1px solid color-mix(in srgb, var(--raised) 15%, transparent);padding-top:4px">Klikk for å åpne kommunen →</div>';
         tip.style.display = 'block';
         e.currentTarget.style.opacity = '0.65';
       });
@@ -2209,17 +2209,17 @@ function renderRente(){
   html+='<div class="sust-fylkebars">'+
     '<div class="sfb">'+
       '<h4>Faktisk netto rentekostnad</h4>'+
-      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(ndrTotal)+'/år</div>'+
+      '<div style="font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(ndrTotal)+'/år</div>'+
       '<div style="font-size:11.5px;color:var(--ink3)">'+fmtKrInnb(ndrPerInnb)+' per innbygger · regnskap (KOSTRA AGD97)</div>'+
     '</div>'+
     '<div class="sfb">'+
       '<h4>Renteeksponert gjeld</h4>'+
-      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(sumRxpKr*1000)+'</div>'+
+      '<div style="font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--ink2);margin:6px 0 2px">'+fmtMrd(sumRxpKr*1000)+'</div>'+
       '<div style="font-size:11.5px;color:var(--ink3)">1 pp lavere rente = '+(perPpKr/1e6).toFixed(0).replace('.',',')+' mill kr/år · '+fmtKrInnb(ppPerInnb)+'/innb'+(proxyKom>0?' († '+proxyKom+' kommuner bruker netto lånegjeld som proxy)':'')+'</div>'+
     '</div>'+
-    '<div class="sfb" style="background:'+(isSaving?'rgba(46,125,91,.06)':'rgba(178,59,59,.06)')+';border-color:'+(isSaving?'rgba(46,125,91,.25)':'rgba(178,59,59,.25)')+'">'+
-      '<h4 style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'Innsparing':'Merkostnad')+' ved ny rente</h4>'+
-      '<div style="font-family:\'Spline Sans Mono\',monospace;font-size:22px;font-weight:600;color:'+(isSaving?'#2E7D5B':'#B23B3B')+';margin:6px 0 2px">'+(isSaving?'−':'+')+fmtMrd(Math.abs(savingsKr))+'/år</div>'+
+    '<div class="sfb" style="background:'+(isSaving?'color-mix(in srgb, var(--pos) 6%, transparent)':'color-mix(in srgb, var(--neg) 6%, transparent)')+';border-color:'+(isSaving?'color-mix(in srgb, var(--pos) 25%, transparent)':'color-mix(in srgb, var(--neg) 25%, transparent)')+'">'+
+      '<h4 style="color:'+(isSaving?'var(--pos)':'var(--neg)')+'">'+(isSaving?'Innsparing':'Merkostnad')+' ved ny rente</h4>'+
+      '<div style="font-family:var(--font-mono);font-size:22px;font-weight:600;color:'+(isSaving?'var(--pos)':'var(--neg)')+';margin:6px 0 2px">'+(isSaving?'−':'+')+fmtMrd(Math.abs(savingsKr))+'/år</div>'+
       '<div style="font-size:11.5px;color:var(--ink3)">'+(isSaving?'−':'+')+fmtKrInnb(Math.abs(savingsPerInnb))+'/innb · '+Math.abs(dRate).toFixed(2).replace('.',',')+' pp endring</div>'+
     '</div>'+
   '</div>';
@@ -2240,8 +2240,8 @@ function renderRente(){
       '<td class="r">'+(r.ndr/1e6).toFixed(1).replace('.',',')+' mill</td>'+
       '<td class="r">'+Math.round(r.ndr/r.pop).toLocaleString('nb-NO')+' kr</td>'+
       '<td class="r">'+(r.rxp/1e6).toFixed(0).replace('.',',')+' mill</td>'+
-      '<td class="r" style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'−':'+')+(Math.abs(r.savKr)/1e6).toFixed(1).replace('.',',')+' mill</td>'+
-      '<td class="r" style="color:'+(isSaving?'#2E7D5B':'#B23B3B')+'">'+(isSaving?'−':'+')+Math.round(Math.abs(r.savPi)).toLocaleString('nb-NO')+' kr</td>'+
+      '<td class="r" style="color:'+(isSaving?'var(--pos)':'var(--neg)')+'">'+(isSaving?'−':'+')+(Math.abs(r.savKr)/1e6).toFixed(1).replace('.',',')+' mill</td>'+
+      '<td class="r" style="color:'+(isSaving?'var(--pos)':'var(--neg)')+'">'+(isSaving?'−':'+')+Math.round(Math.abs(r.savPi)).toLocaleString('nb-NO')+' kr</td>'+
     '</tr>';
   });
   html+='<div class="sust-table-wrap" style="margin-top:14px"><table class="sust-table">'+
@@ -2289,7 +2289,7 @@ function renderGjeld(){
   // ─── KPI-rad ───
   // Total gjeld (langsiktig), årlige renter, årlige avdrag, samlet gjeldsbetjening
   const ksNorm = sektor.ks_norm_netto_lanegjeld_pct || 85;
-  const nlanColor = data.nlan_pct > ksNorm ? '#B23B3B' : (data.nlan_pct > ksNorm*0.9 ? 'var(--amber)' : '#2E7D5B');
+  const nlanColor = data.nlan_pct > ksNorm ? 'var(--neg)' : (data.nlan_pct > ksNorm*0.9 ? 'var(--amber)' : 'var(--pos)');
   const kpiHTML =
     '<div class="kpi-rad" style="margin:8px 0 14px">' +
       '<div class="kpi"><div class="v">' + mrd(data.lan_kr) + ' mrd</div><div class="l">Langsiktig gjeld</div><div class="nh">' + pct(data.lan_pct) + ' av brutto driftsinntekter</div></div>' +
@@ -2308,8 +2308,8 @@ function renderGjeld(){
     {navn:'Pleie og omsorg',    pct: bench.omsorg_pct,  col:'var(--amber)',  type:'sektor'},
     {navn:'Grunnskole',         pct: bench.skole_pct,   col:'var(--nl)',     type:'sektor'},
     {navn:'Barnehage',          pct: bench.bhg_pct,     col:'var(--aurora)', type:'sektor'},
-    {navn:'Renter + avdrag',    pct: data.gjb_pct,      col:'#B23B3B',       type:'gjeld'},
-    {navn:'Kommunehelse',       pct: bench.khelse_pct,  col:'#6FA8C7',       type:'sektor'},
+    {navn:'Renter + avdrag',    pct: data.gjb_pct,      col:'var(--neg)',       type:'gjeld'},
+    {navn:'Kommunehelse',       pct: bench.khelse_pct,  col:'var(--cat-3)',       type:'sektor'},
     {navn:'Kultur',             pct: bench.kultur_pct,  col:'var(--gold)',   type:'sektor'},
   ].filter(r => r.pct != null);
   sektorRader.sort((a,b) => b.pct - a.pct);
@@ -2321,15 +2321,15 @@ function renderGjeld(){
     sektorRader.map(r => {
       const w = (r.pct / maxPct * 100).toFixed(1).replace('.',',');
       return '<div style="display:grid;grid-template-columns:160px 1fr 70px;gap:10px;align-items:center">' +
-        '<div style="font-size:12.5px;color:var(--ink);font-weight:' + (r.type==='gjeld'?'700':'500') + ';text-align:right">' + r.navn + (r.type==='gjeld'?' ★':'') + '</div>' +
-        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + r.pct.toFixed(1).replace('.',',') + ' %</div>' +
+        '<div style="font-size:12.5px;color:var(--ink);font-weight:' + (r.type==='gjeld'?'700':'500') + ';text-align:right">' + r.navn + (r.type==='gjeld'?' †':'') + '</div>' +
+        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + r.pct.toFixed(1).replace('.',',') + ' %</div>' +
         '</div>' +
         '<div style="font-size:10.5px;color:var(--ink3)">' + (r.type==='gjeld'?'av inntekter':'av utgifter') + '</div>' +
       '</div>';
     }).join('') +
     '</div>' +
-    '<p class="hint" style="font-size:11.5px;margin-top:8px;opacity:.75;font-style:italic">★ = gjeldsbetjening. Tallet er regnet av brutto driftsinntekter; sektorene er regnet av netto driftsutgifter. Sammenligningen viser <i>relativ størrelse</i>, ikke matematisk identisk denominator.</p>';
+    '<p class="hint" style="font-size:11.5px;margin-top:8px;opacity:.75;font-style:italic">† = gjeldsbetjening. Tallet er regnet av brutto driftsinntekter; sektorene er regnet av netto driftsutgifter. Sammenligningen viser <i>relativ størrelse</i>, ikke matematisk identisk denominator.</p>';
 
   // ─── Lånekilder — nasjonalt bakteppe ───
   const lkRaderMax = Math.max.apply(null, lanekilder.map(l => l.andel_pct));
@@ -2341,8 +2341,8 @@ function renderGjeld(){
       const w = (l.andel_pct / lkRaderMax * 100).toFixed(1).replace('.',',');
       return '<div style="display:grid;grid-template-columns:220px 1fr 50px;gap:10px;align-items:center">' +
         '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + l.navn + '</div>' +
-        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:var(--aurora);border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + fmt(l.andel_pct) + ' %</div>' +
+        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:var(--aurora);border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + fmt(l.andel_pct) + ' %</div>' +
         '</div>' +
         '<div></div>' +
       '</div>';
@@ -2355,8 +2355,8 @@ function renderGjeld(){
   const rentebindingHTML =
     '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Fastrente eller flytende?</h3></div>' +
     '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Hvis renten endrer seg, slår det først ut på flytende-andelen. Sektor-estimat: ' + rb.spennvidde + ' er fastrentebundet, resten flytende (3 mnd NIBOR + margin). <b>Anslaget er usikkert</b> — kilden er KBNs eget regnskap; ingen offentliggjort vektet snitt for sektoren.</p>' +
-    '<div style="display:flex;height:32px;border-radius:6px;overflow:hidden;border:1px solid var(--line2);margin:8px 0">' +
-      '<div style="width:' + fastr + '%;background:#6FA8C7;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Fastrente ~' + fastr + ' %</div>' +
+    '<div style="display:flex;height:32px;border-radius:0;overflow:hidden;border:1px solid var(--line2);margin:8px 0">' +
+      '<div style="width:' + fastr + '%;background:var(--cat-3);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Fastrente ~' + fastr + ' %</div>' +
       '<div style="width:' + flyt + '%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Flytende ~' + flyt + ' %</div>' +
     '</div>' +
     '<p class="hint" style="font-size:11px;opacity:.75;margin-top:4px">Snitt løpetid sektoren: ~' + (bakteppe.lopetid && bakteppe.lopetid.snitt_aar_estimat || 22) + ' år (estimat).</p>';
@@ -2365,15 +2365,15 @@ function renderGjeld(){
   const sektorHTML =
     '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Sektorbildet 2025</h3></div>' +
     '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:' + (sektor.netto_driftsresultat_2025_pct >= 1.75 ? '#2E7D5B' : 'var(--amber)') + '">' + fmt(sektor.netto_driftsresultat_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Netto driftsresultat 2025 (sektor)</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">KS-norm: ' + fmt(sektor.ks_norm_ndr_kommune_pct) + ' %</div></div>' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:#B23B3B">+' + fmt(sektor.finansutgifter_endring_2024_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Finansutgifter endring</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">2024→2025 — refinansierings­effekten</div></div>' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:8px"><div style="font-family:\'Spline Sans Mono\',monospace;font-size:18px;font-weight:700;color:' + (sektor.korrigert_netto_lanegjeld_2024_pct > sektor.ks_norm_netto_lanegjeld_pct ? '#B23B3B' : '#2E7D5B') + '">' + fmt(sektor.korrigert_netto_lanegjeld_2024_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Sektor netto lånegjeld 2024</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">Over KS-norm (' + fmt(sektor.ks_norm_netto_lanegjeld_pct) + ' %)</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.netto_driftsresultat_2025_pct >= 1.75 ? 'var(--pos)' : 'var(--amber)') + '">' + fmt(sektor.netto_driftsresultat_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Netto driftsresultat 2025 (sektor)</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">KS-norm: ' + fmt(sektor.ks_norm_ndr_kommune_pct) + ' %</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--neg)">+' + fmt(sektor.finansutgifter_endring_2024_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Finansutgifter endring</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">2024→2025 — refinansierings­effekten</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.korrigert_netto_lanegjeld_2024_pct > sektor.ks_norm_netto_lanegjeld_pct ? 'var(--neg)' : 'var(--pos)') + '">' + fmt(sektor.korrigert_netto_lanegjeld_2024_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Sektor netto lånegjeld 2024</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">Over KS-norm (' + fmt(sektor.ks_norm_netto_lanegjeld_pct) + ' %)</div></div>' +
     '</div>' +
     '<p class="hint" style="font-size:12px;margin-top:10px;font-style:italic">' + sektor.tbu_kilde + ' og ' + sektor.ks_kilde + '. KS-anbefalingen er at bufferne skal tåle <b>' + sektor.ks_buffer_test + '</b>.</p>';
 
   // ─── Avslutning + kilde ───
   const closingHTML =
-    '<p class="sub" style="margin-top:18px;padding:14px 16px;background:rgba(178,59,59,0.06);border-left:4px solid #B23B3B;border-radius:0 6px 6px 0">' +
+    '<p class="sub" style="margin-top:18px;padding:14px 16px;background:color-mix(in srgb, var(--neg) 6%, transparent);border-left:4px solid var(--neg);border-radius:0">' +
       '<b>Gjeld er ikke et problem fordi tallet er stort. Det er fordi det er låst.</b> Av ' + scopeNavn + 's driftsinntekter går <b>' + pct(data.gjb_pct) + '</b> til renter og avdrag — på linje med en mellomstor sektor som ' + (sektorRader.find(r => Math.abs(r.pct - data.gjb_pct) < 2 && r.type === 'sektor')?.navn || 'kommunehelse') + '. Forskjellen: gjeldsbetjening kan ikke kuttes når aldring presser tjenestebehovet de neste 25 år. KS-normen på maks ' + ksNorm + ' % netto lånegjeld er overskredet både her (' + pct(data.nlan_pct) + ') og nasjonalt.' +
     '</p>' +
     '<p class="hint" style="font-size:11px;margin-top:10px;opacity:.75">Kilder: SSB KOSTRA tab. 12143 (per-kommune); ' + bakteppe.kilde + '. Sist oppdatert: ' + bakteppe.sist_oppdatert + '. Nasjonalt bakteppe oppdateres manuelt årlig.</p>';
@@ -2424,9 +2424,9 @@ function renderHusholdninger(hostId, scope){
 
   // Type-rekkefølge med farger
   const TYPES = [
-    {key:'aleneboende',     label:'Aleneboende',                col:'#B23B3B'},
+    {key:'aleneboende',     label:'Aleneboende',                col:'var(--neg)'},
     {key:'par_uten_barn',   label:'Par uten barn',              col:'var(--amber)'},
-    {key:'par_med_barn',    label:'Par med barn 0–17',          col:'#2E7D5B'},
+    {key:'par_med_barn',    label:'Par med barn 0–17',          col:'var(--pos)'},
     {key:'enslig_forelder', label:'Enslig forelder',            col:'var(--fi)'},
     {key:'andre',           label:'Andre/flerfamilie',          col:'var(--ink3)'},
   ];
@@ -2459,15 +2459,15 @@ function renderHusholdninger(hostId, scope){
   innRader.sort((a, b) => b.median - a.median);
   const maxMed = Math.max.apply(null, innRader.map(r => r.median));
   const inntektsGrafHTML =
-    '<div style="font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;margin:8px 0 6px;color:var(--ink)">Median inntekt etter skatt — per husholdningstype</div>' +
+    '<div style="font-family:var(--font-display);font-size:14px;font-weight:600;margin:8px 0 6px;color:var(--ink)">Median inntekt etter skatt — per husholdningstype</div>' +
     '<div style="display:flex;flex-direction:column;gap:6px">' +
     innRader.map(r => {
       const w = (r.median / maxMed * 100).toFixed(1).replace('.',',');
       const diffVsMed = ((r.median/alle_med - 1) * 100);
       return '<div style="display:grid;grid-template-columns:160px 1fr 130px;gap:10px;align-items:center">' +
         '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + r.label + '</div>' +
-        '<div style="position:relative;height:22px;background:rgba(17,32,58,.05);border-radius:4px">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:\'Spline Sans Mono\',monospace;font-size:11.5px;font-weight:700">' + fmtKr(r.median) + ' kr</div>' +
+        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
+          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + fmtKr(r.median) + ' kr</div>' +
         '</div>' +
         '<div style="font-size:11px;color:var(--ink3);text-align:right">' + sgn(diffVsMed) + ' % vs median</div>' +
       '</div>';
@@ -2485,16 +2485,16 @@ function renderHusholdninger(hostId, scope){
     return '<div style="width:' + pct.toFixed(1).replace('.',',') + '%;background:' + r.col + ';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px" title="' + r.label + ' ' + r.n.toLocaleString('nb-NO') + '">' + (pct >= 7 ? pct.toFixed(0).replace('.',',') + ' %' : '') + '</div>';
   }).join('');
   const legendHTML = sammensetningRader.map(r =>
-    '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink2)"><i style="display:inline-block;width:10px;height:10px;background:' + r.col + ';border-radius:2px"></i>' + r.label + ' (' + fmtN(r.n) + ')</span>'
+    '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink2)"><i style="display:inline-block;width:10px;height:10px;background:' + r.col + ';border-radius:0"></i>' + r.label + ' (' + fmtN(r.n) + ')</span>'
   ).join(' ');
   const sammensetningHTML =
-    '<div style="margin-top:18px"><div style="font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)">Sammensetning — ' + fmtN(sumN) + ' husholdninger i ' + scopeNavn + '</div>' +
-    '<div style="display:flex;height:30px;border-radius:6px;overflow:hidden;font-size:0">' + segHTML + '</div>' +
+    '<div style="margin-top:18px"><div style="font-family:var(--font-display);font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)">Sammensetning — ' + fmtN(sumN) + ' husholdninger i ' + scopeNavn + '</div>' +
+    '<div style="display:flex;height:30px;border-radius:0;overflow:hidden;font-size:0">' + segHTML + '</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">' + legendHTML + '</div></div>';
 
   // Klartekst-tolkning
   const tolkningHTML =
-    '<p class="sub" style="margin-top:16px;padding:14px 16px;background:rgba(178,59,59,0.06);border-left:4px solid #B23B3B;border-radius:0 6px 6px 0;line-height:1.6;font-size:13.5px">' +
+    '<p class="sub" style="margin-top:16px;padding:14px 16px;background:color-mix(in srgb, var(--neg) 6%, transparent);border-left:4px solid var(--neg);border-radius:0;line-height:1.6;font-size:13.5px">' +
     '<b>Median lyver.</b> ' + scopeNavn + 's kommunemedian er <b>' + fmtKr(alle_med) + ' kr</b>, men det skjuler stor variasjon: ' +
     '<b>' + fmtPct(aleneN, alle_n) + '</b> er aleneboende med median <b>' + fmtKr(aleneMed) + ' kr</b> ' + (aleneVsMed != null ? '(' + sgn(aleneVsMed) + ' % under)' : '') + ', ' +
     'mens par med barn (kun ' + fmtPct(parMedBarnN, alle_n) + ' av husholdningene) har <b>' + fmtKr(parMedBarnMed) + ' kr</b> ' + (parVsMed != null ? '(' + sgn(parVsMed) + ' % over)' : '') + '. ' +
@@ -2549,7 +2549,7 @@ function renderHusholdninger(hostId, scope){
       for(let g=0; g<nTicks; g++){
         const v = yLo + yStep * g;
         const y = Y(v);
-        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
+        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
         svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? Math.round(v/1000)+'k' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
       }
       // Line
@@ -2564,11 +2564,11 @@ function renderHusholdninger(hostId, scope){
       const last = values.length - 1 - [...values].reverse().findIndex(v => v != null);
       if(first >= 0){
         svg += '<circle cx="' + X(first) + '" cy="' + Y(values[first]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[first]/1000)+'k' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
+        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[first]/1000)+'k' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
       }
       if(last >= 0){
         svg += '<circle cx="' + X(last) + '" cy="' + Y(values[last]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[last]/1000)+'k' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
+        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[last]/1000)+'k' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
       }
       // X-akse-år
       [years[0], years[Math.floor(years.length/2)], years[years.length-1]].forEach((yr, idx) => {
@@ -2593,7 +2593,7 @@ function renderHusholdninger(hostId, scope){
       for(let g=0; g<nTicks; g++){
         const v = yLo + yStep * g;
         const y = Y(v);
-        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="rgba(17,32,58,.07)"/>';
+        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
         svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + Math.round(v/1000) + 'k</text>';
       }
       linesData.forEach(line => {
@@ -2608,7 +2608,7 @@ function renderHusholdninger(hostId, scope){
         if(last >= 0){
           const val = line.values[last];
           svg += '<circle cx="' + X(last) + '" cy="' + Y(val) + '" r="3.5" fill="' + line.color + '"/>';
-          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)-3) + '" style="font-family:\'Spline Sans Mono\',monospace;font-size:11px;font-weight:700;fill:' + line.color + '">' + Math.round(val/1000) + 'k</text>';
+          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)-3) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + line.color + '">' + Math.round(val/1000) + 'k</text>';
           svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)+10) + '" style="font-size:10px;fill:' + line.color + ';opacity:.75">' + line.label + '</text>';
         }
       });
@@ -2620,17 +2620,17 @@ function renderHusholdninger(hostId, scope){
       return svg;
     }
     tidsserieHTML =
-      '<details style="margin-top:18px"><summary style="cursor:pointer;font-family:\'Fraunces\',serif;font-size:14px;font-weight:600;color:var(--ink);padding:6px 0;list-style:none">▾ Tidsserie 2005 → 2024 — strukturelle endringer</summary>' +
+      '<details style="margin-top:18px"><summary style="cursor:pointer;font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--ink);padding:6px 0;list-style:none">▾ Tidsserie 2005 → 2024 — strukturelle endringer</summary>' +
       '<div style="margin-top:12px">' +
-      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:8px 0 2px;color:var(--ink)">Andel aleneboende (%) — utvikling 2005 → 2024</div>' +
+      '<div style="font-family:var(--font-display);font-size:13px;font-weight:600;margin:8px 0 2px;color:var(--ink)">Andel aleneboende (%) — utvikling 2005 → 2024</div>' +
       '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85">Andelen av alle husholdninger som er aleneboende. Stigende kurve = økt enbo-tendens, vanligvis drivkraft for lavere inntekter per husholdning.</p>' +
-      lineChart(seriesAlene, '#B23B3B', aLo, aHi, aStep, '%') +
-      '<div style="font-family:\'Fraunces\',serif;font-size:13px;font-weight:600;margin:18px 0 2px;color:var(--ink)">Median inntekt etter skatt — tre husholdningstyper</div>' +
+      lineChart(seriesAlene, 'var(--neg)', aLo, aHi, aStep, '%') +
+      '<div style="font-family:var(--font-display);font-size:13px;font-weight:600;margin:18px 0 2px;color:var(--ink)">Median inntekt etter skatt — tre husholdningstyper</div>' +
       '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85"><b>NB:</b> Tallene er <b>nominelle kroner</b> (ikke inflasjonsjustert). Bruk avstanden mellom linjene og kurveformen, ikke absolutte beløp.</p>' +
       multiLineChart([
-        {values: seriesMedAlene, color:'#B23B3B', label:'aleneboende'},
+        {values: seriesMedAlene, color:'var(--neg)', label:'aleneboende'},
         {values: seriesMedAlle, color:'var(--ink2)', label:'alle'},
-        {values: seriesMedPar, color:'#2E7D5B', label:'par+barn'},
+        {values: seriesMedPar, color:'var(--pos)', label:'par+barn'},
       ], mLo, mHi, mStep) +
       '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i 2024 (1000 kr). Endring i avstanden mellom linjene over tid viser strukturell ulikhet — uavhengig av inflasjon.</p>' +
       '</div></details>';
@@ -2736,12 +2736,12 @@ function sustKommuneCard(k){
   // Status helper: returns color + label
   const stat = (val, ok) => {
     if(val==null) return {col:'var(--ink3)', lab:'–'};
-    return ok ? {col:'#2E7D5B', lab:''} : {col:'#B23B3B', lab:''};
+    return ok ? {col:'var(--pos)', lab:''} : {col:'var(--neg)', lab:''};
   };
   const row = (lab, valHtml, statusInfo, source) =>
     '<tr style="border-top:1px solid var(--line2)">'+
       '<td style="padding:6px 0;color:var(--ink2)">'+lab+'</td>'+
-      '<td style="text-align:right;font-family:\'Spline Sans Mono\',monospace;font-weight:600;color:'+(statusInfo&&statusInfo.col||'var(--ink2)')+'">'+valHtml+'</td>'+
+      '<td style="text-align:right;font-family:var(--font-mono);font-weight:600;color:'+(statusInfo&&statusInfo.col||'var(--ink2)')+'">'+valHtml+'</td>'+
       '<td style="text-align:right;color:var(--ink3);font-size:10.5px;padding-left:12px">'+source+'</td>'+
     '</tr>';
   const sectionHeader = (txt) =>
@@ -2840,14 +2840,14 @@ function renderSustainability(){
       indicators.forEach(ind=>{
         const n = sub.filter(ind.test).length;
         const p = t?(100*n/t):0;
-        const col = p>=60?'#B23B3B' : p>=30?'#C9A23B' : '#2E7D5B';
+        const col = p>=60?'var(--neg)' : p>=30?'var(--cat-5)' : 'var(--pos)';
         rows+='<div style="margin-bottom:8px">'+
-          '<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">'+ind.lab+'</span><span style="font-family:\'Spline Sans Mono\',monospace;color:'+col+';font-weight:600">'+n+' / '+t+'</span></div>'+
-          '<div style="height:6px;background:var(--line2);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+p+'%;background:'+col+'"></div></div>'+
+          '<div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">'+ind.lab+'</span><span style="font-family:var(--font-mono);color:'+col+';font-weight:600">'+n+' / '+t+'</span></div>'+
+          '<div style="height:6px;background:var(--line2);border-radius:0;overflow:hidden"><div style="height:100%;width:'+p+'%;background:'+col+'"></div></div>'+
         '</div>';
       });
       h+='<div class="card" style="padding:14px 16px;margin:0">'+
-        '<h4 style="margin:0 0 10px;font-family:\'Fraunces\',serif;font-weight:600">'+fy+' <span style="color:var(--ink3);font-weight:400;font-size:12px">· '+t+' kommuner</span></h4>'+
+        '<h4 style="margin:0 0 10px;font-family:var(--font-display);font-weight:600">'+fy+' <span style="color:var(--ink3);font-weight:400;font-size:12px">· '+t+' kommuner</span></h4>'+
         rows+
       '</div>';
     });
@@ -2950,7 +2950,7 @@ const prntBtn=document.getElementById('prntbtn');
 if(prntBtn)prntBtn.onclick=()=>window.print();
 const copyBtn=document.getElementById('copybtn');
 if(copyBtn)copyBtn.onclick=async()=>{
-  try{ await navigator.clipboard.writeText(location.href); copyBtn.textContent='Kopiert ✓';
+  try{ await navigator.clipboard.writeText(location.href); copyBtn.textContent='Kopiert';
     setTimeout(()=>copyBtn.textContent='Kopier lenke',1800);
   }catch(_){copyBtn.textContent='Marker URL manuelt';}
 };
@@ -3045,7 +3045,7 @@ function flowChartSVG(state){
   const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
   let svg=`<svg class="flow-chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
   for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
-    svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,.08)"/>`;
+    svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
     svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${fmt(Math.round(val))}</text>`;}
   // 0-akse fremhevet
   const y0=Y(0);
@@ -3054,14 +3054,14 @@ function flowChartSVG(state){
   yrs.forEach((yr,i)=>{if(yr%5===0||i===n-1) svg+=`<text class="axis" x="${X(i)}" y="${300-B+15}" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">${yr}</text>`;});
   // Innenlands linje (rødt — folk drar)
   let di='';inn.forEach((v,i)=>{di+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-  svg+=`<path d="${di}" fill="none" stroke="#B23B3B" stroke-width="2.4" stroke-linejoin="round"/>`;
+  svg+=`<path d="${di}" fill="none" stroke="var(--neg)" stroke-width="2.4" stroke-linejoin="round"/>`;
   // Utenlands linje (aurora — folk kommer)
   let du='';utl.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
   svg+=`<path d="${du}" fill="none" stroke="var(--aurora)" stroke-width="2.4" stroke-linejoin="round"/>`;
   // Punkter på siste år
-  svg+=`<circle cx="${X(n-1)}" cy="${Y(inn[n-1])}" r="3.5" fill="#B23B3B"/>`;
+  svg+=`<circle cx="${X(n-1)}" cy="${Y(inn[n-1])}" r="3.5" fill="var(--neg)"/>`;
   svg+=`<circle cx="${X(n-1)}" cy="${Y(utl[n-1])}" r="3.5" fill="var(--aurora)"/>`;
-  svg+=`<text x="${L+W+4}" y="${Y(inn[n-1])+3}" style="font-size:11px;font-weight:700;fill:#B23B3B">${fmt(inn[n-1])}</text>`;
+  svg+=`<text x="${L+W+4}" y="${Y(inn[n-1])+3}" style="font-size:11px;font-weight:700;fill:var(--neg)">${fmt(inn[n-1])}</text>`;
   svg+=`<text x="${L+W+4}" y="${Y(utl[n-1])+3}" style="font-size:11px;font-weight:700;fill:var(--aurora)">${fmt(utl[n-1])}</text>`;
   // 2022-marker for Ukraina-konteksten
   const i2022=yrs.indexOf(2022);
@@ -3072,7 +3072,7 @@ function flowChartSVG(state){
   svg+='</svg>';
   svg+='<div class="flow-legend">'+
     '<span><i style="background:var(--aurora)"></i>Nettoinnvandring fra utlandet</span>'+
-    '<span><i style="background:#B23B3B"></i>Innenlands nettoflytting (ofte negativ — folk drar sør)</span>'+
+    '<span><i style="background:var(--neg)"></i>Innenlands nettoflytting (ofte negativ — folk drar sør)</span>'+
     (excl?'<span style="color:var(--amber);font-weight:600">✱ Ukraina-effekt trukket fra (approks. via stock-delta)</span>':'')+
   '</div>';
   return svg;

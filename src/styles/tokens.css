@@ -1,0 +1,100 @@
+/* McHalvard-tokens for Nord-Norge-dashbordet.
+   Mørk variant er standard; lys aktiveres med data-tema="light" på <html>.
+   Vi bruker bevisst eget attributt (ikke data-theme / prefers-color-scheme),
+   slik at vertssider ikke kan vippe temaet. */
+
+:root {
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+  --radius-1: 2px;
+  --track-caps: .08em;
+  --page-max: 1180px;
+}
+
+/* ── Mørk (standard) ─────────────────────────────────────────── */
+:root:not([data-tema="light"]) {
+  color-scheme: dark;
+  --bg: #051C2C;
+  --panel: #0A2638;
+  --raised: #0E2E44;
+  --line: #1D3D55;
+  --line-soft: #143247;
+  --rule: #E6EDF4;
+  --ink: #EEF3F8;
+  --ink-2: #B5C3D2;
+  --ink-3: #8597AC;
+  --accent: #5C82FF;
+  --accent-text: #8AA6FF;
+  --accent-tint: #13305A;
+  --pos: #3FB67F; --pos-tint: #0F3A2C;
+  --neg: #F07272; --neg-tint: #42202A;
+  --warn: #E3B04B; --warn-tint: #3A3020;
+  --cat-1: #5C82FF;  /* blå */
+  --cat-2: #C9D6E3;  /* «navy» → lys blekk på mørk flate */
+  --cat-3: #22B8DE;  /* cyan */
+  --cat-4: #8DA2BC;  /* skifer */
+  --cat-5: #E3B04B;  /* gull */
+  --cat-6: #F08A45;  /* oransje */
+  --muted-mark: #3A5872;
+  --grid: #16354C;
+}
+
+/* ── Lys ─────────────────────────────────────────────────────── */
+:root[data-tema="light"] {
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --panel: #F5F7F9;
+  --raised: #FFFFFF;
+  --line: #DCE2E9;
+  --line-soft: #EBEFF3;
+  --rule: #0C2136;
+  --ink: #0C2136;
+  --ink-2: #43566B;
+  --ink-3: #6B7C91;
+  --accent: #2149D3;
+  --accent-text: #2149D3;
+  --accent-tint: #E8EDFB;
+  --pos: #177E52; --pos-tint: #E4F2EB;
+  --neg: #BF3B3B; --neg-tint: #F8E9E9;
+  --warn: #B07D1E; --warn-tint: #F9F1E0;
+  --cat-1: #2149D3;
+  --cat-2: #0C2136;
+  --cat-3: #0E9DC4;
+  --cat-4: #8DA2BC;
+  --cat-5: #D9A03C;
+  --cat-6: #E0742C;
+  --muted-mark: #B9C4D0;
+  --grid: #EBEFF3;
+}
+
+/* ── Fylker og bane-farger (data, ikke pynt) ─────────────────── */
+:root {
+  --fy-nordland: var(--cat-3);
+  --fy-troms: var(--cat-5);
+  --fy-finnmark: var(--cat-4);
+  --bane-ssb: var(--accent);
+  --bane-tf: var(--cat-6);
+  --bane-hist: var(--ink);
+}
+
+/* ── Gamle variabelnavn → McHalvard (all eksisterende CSS arver profilen) ── */
+:root {
+  --paper: var(--bg);
+  --paper2: var(--panel);
+  --ink2: var(--ink-2);
+  --ink3: var(--ink-3);
+  --line2: var(--line-soft);
+  --aurora: var(--accent);
+  --aurora-l: var(--accent-text);
+  --amber: var(--warn);
+  --gold: var(--cat-5);
+  --nl: var(--fy-nordland);
+  --tr: var(--fy-troms);
+  --fi: var(--fy-finnmark);
+  --syss: var(--cat-5);
+  --shadow: none;
+}
