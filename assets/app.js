@@ -214,37 +214,11 @@ function ageGroups(arr,mode){
 }
 function medianAge(arr){let t=arr.reduce((a,b)=>a+b,0),c=0;for(let i=0;i<arr.length;i++){c+=arr[i];if(c>=t/2)return i;}return 0;}
 function barChart(rows,color,unit){
-  // Radhøyden settes av antall rader; mellomrommet skalerer med raden i stedet
-  // for å være fast 8 px, slik at tette lister (ettårig alder, 106 rader) får
-  // merkbart tykkere stolper i stedet for tynne streker.
-  const max=Math.max(...rows.map(r=>r.v),1), n=rows.length, rh=Math.max(22,Math.min(34,460/n));
-  const gap=Math.min(7,Math.max(3,rh*0.2)), bh=rh-gap, top=gap/2;
-  const h=n*rh+10, lw=110, vw=58;
-  // Egen klasse: liggende stolper skal ikke klemmes av høydetak ment for
-  // linjediagram — da blir stolpene tynne streker i stedet for lesbare felt.
-  let s=`<svg class="chart barchart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
-  rows.forEach((r,i)=>{const y=i*rh, w=(700-lw-vw)*r.v/max;
-    s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
-    s+=`<rect x="${lw}" y="${y+top}" width="${700-lw-vw}" height="${bh}" rx="4" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
-    s+=`<rect class="bar-rect" x="${lw}" y="${y+top}" width="${w}" height="${bh}" rx="4" fill="${color}"/>`;
-    s+=`<text class="val" x="700" y="${y+rh/2+4}" text-anchor="end">${fmt(r.v)}</text>`;});
-  return s+'</svg>';
+  const n=rows.length, rh=n>40?15:n>20?20:27;
+  return NN.placeholder('hstolper',{grupper:[{rader:rows.map(r=>({l:String(r.l),v:r.v}))}],farge:color,format:'tall'},n*rh+20);
 }
-function rateBars(rows){ // rows:[{l,v(0-100 or null),c}]
-  const n=rows.length, rh=34, h=n*rh+22, lw=210, pad=44;
-  let s=`<svg class="chart" viewBox="0 0 700 ${h}" preserveAspectRatio="none" style="height:${h}px">`;
-  [0,25,50,75,100].forEach(t=>{const x=lw+(700-lw-pad)*t/100;
-    s+=`<line x1="${x}" y1="0" x2="${x}" y2="${n*rh}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
-    s+=`<text class="axis" x="${x}" y="${n*rh+15}" text-anchor="middle">${t}%</text>`;});
-  rows.forEach((r,i)=>{const y=i*rh;
-    s+=`<text class="lbl" x="0" y="${y+rh/2+4}">${r.l}</text>`;
-    s+=`<rect x="${lw}" y="${y+5}" width="${700-lw-pad}" height="${rh-12}" rx="4" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
-    if(r.v==null){ s+=`<text class="val" x="${lw+8}" y="${y+rh/2+4}" fill="var(--ink3)">undertrykt</text>`; }
-    else{ const w=(700-lw-pad)*r.v/100;
-      s+=`<rect class="bar-rect" x="${lw}" y="${y+5}" width="${w}" height="${rh-12}" rx="4" fill="${r.c||'var(--syss)'}"/>`;
-      s+=`<text class="val" x="${lw+w+6}" y="${y+rh/2+4}">${r.v.toFixed(1).replace('.',',')}%</text>`; }
-  });
-  return s+'</svg>';
+function rateBars(rows){ // rows:[{l,v(0-100 eller null),c}]
+  return NN.placeholder('hstolper',{grupper:[{rader:rows.map(r=>({l:r.l,v:r.v,farge:r.c}))}],format:'pst',maks:100},rows.length*27+20);
 }
 function sysCard(sj){
   const obj=sj[state.sysSex]||{};
@@ -424,12 +398,13 @@ function kostraCard(k){
     [refMed(FYB.gjeld)],0,Math.max(160,gjeld||0),
     'Rentb\u00e6rende gjeld fratrukket utl\u00e5n og ubundne midler, i % av inntektene. H\u00f8yere = mer s\u00e5rbar for renteoppgang. Landsdelsmedian: '+sgn(B.gjeld)+' %.');
   // ---- sektormiks (rikere) ----
-  const SEC=[['omsorg_pct','Pleie og omsorg','a67','var(--amber)'],
-             ['skole_pct','Grunnskole','a615','var(--nl)'],
-             ['bhg_pct','Barnehage','a15','var(--aurora)'],
-             ['khelse_pct','Kommunehelse',null,'var(--cat-3)'],
-             ['kultur_pct','Kultur',null,'var(--gold)'],
-             ['kirke_pct','Kirke',null,'var(--cat-5)']];
+  // McHalvard kategoripalett i fast rekkefølge (blå, blekk, cyan, skifer, gull, oransje)
+  const SEC=[['omsorg_pct','Pleie og omsorg','a67','var(--cat-1)'],
+             ['skole_pct','Grunnskole','a615','var(--cat-2)'],
+             ['bhg_pct','Barnehage','a15','var(--cat-3)'],
+             ['khelse_pct','Kommunehelse',null,'var(--cat-4)'],
+             ['kultur_pct','Kultur',null,'var(--cat-5)'],
+             ['kirke_pct','Kirke',null,'var(--cat-6)']];
   const sv=f=>num(ks[f]);
   let summed=0; SEC.forEach(s=>{const x=sv(s[0]); if(x!=null)summed+=x;});
   const annet=Math.max(0,100-summed);
@@ -449,49 +424,11 @@ function kostraCard(k){
   const tsB=(TS.bench||{})['Alle']||{};
   // ---- gjenbrukbart linjediagram ----
   function lineChart(o){
-    // o: {title,col,unit,signed, hx,hv,bench, px,pv, ref}
-    const all=[]; (o.hv||[]).forEach(v=>{if(v!=null)all.push(v);});
-    (o.bench||[]).forEach(v=>{if(v!=null)all.push(v);}); (o.pv||[]).forEach(v=>{if(v!=null)all.push(v);});
-    if(o.ref&&o.ref.val!=null) all.push(o.ref.val);
-    if(all.length<1) return '';
-    let lo=Math.min.apply(0,all), hi=Math.max.apply(0,all);
-    if(o.signed){lo=Math.min(lo,0);hi=Math.max(hi,0);}
-    const pd=(hi-lo)*0.15||1; lo-=pd; hi+=pd;
-    const yrs=(o.hx||[]).concat(o.px||[]); const y0=Math.min.apply(0,yrs), y1=Math.max.apply(0,yrs);
-    const W=340,H=158,L=38,R=10,T=14,Bm=22,Wd=W-L-R,Hh=H-T-Bm;
-    const X=y=>L+((y-y0)/((y1-y0)||1))*Wd, Y=v=>T+(1-(v-lo)/((hi-lo)||1))*Hh;
-    const ff=v=>o.unit==='kr'?fmt(Math.round(v)):(o.signed?sgn(v):(''+(Math.round(v*10)/10)));
-    let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="height:158px;width:100%">';
-    [hi-pd*0.5,(hi+lo)/2,lo+pd*0.5].forEach(gv=>{const yy=Y(gv);
-      s+='<line x1="'+L+'" y1="'+yy.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+yy.toFixed(1)+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
-      s+='<text class="axis" x="'+(L-5)+'" y="'+(yy+3).toFixed(1)+'" text-anchor="end">'+ff(gv)+'</text>';});
-    if(o.ref&&o.ref.val!=null){const ry=Y(o.ref.val);
-      s+='<line x1="'+L+'" y1="'+ry.toFixed(1)+'" x2="'+(L+Wd)+'" y2="'+ry.toFixed(1)+'" stroke="var(--aurora)" stroke-width="1" stroke-dasharray="4 3"/>';
-      s+='<text class="axis" x="'+(L+Wd)+'" y="'+(ry-4).toFixed(1)+'" text-anchor="end" style="fill:var(--aurora)">'+o.ref.label+'</text>';}
-    for(let yy=Math.ceil(y0/5)*5; yy<=y1; yy+=5){ if(yy<y0) continue;
-      s+='<text class="axis" x="'+X(yy).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle">'+yy+'</text>';}
-    function poly(xs,vs,col,w,dash){let d='',st=false;
-      for(let i=0;i<vs.length;i++){if(vs[i]==null){st=false;continue;}d+=(st?' L':'M')+X(xs[i]).toFixed(1)+' '+Y(vs[i]).toFixed(1);st=true;}
-      return d?'<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linejoin="round"'+(dash?' stroke-dasharray="'+dash+'"':'')+(dash?' opacity=".9"':'')+'/>':'';}
-    if(o.bench) s+=poly(o.hx,o.bench,'var(--ink3)',1,'2 3');
-    if(o.px&&o.pv){ const jx=X(o.px[0]);
-      s+='<line x1="'+jx.toFixed(1)+'" y1="'+T+'" x2="'+jx.toFixed(1)+'" y2="'+(T+Hh)+'" stroke="var(--ink)" stroke-width="0.75" stroke-dasharray="3 3"/>';
-      s+='<text class="axis" x="'+jx.toFixed(1)+'" y="'+(T-3)+'" text-anchor="middle" style="fill:var(--ink2);font-weight:700">i dag</text>';
-      s+=poly(o.px,o.pv,o.col,2,'5 3'); }
-    s+=poly(o.hx,o.hv,o.col,2.4,null);
-    // endepunkter
-    const hvi=[]; (o.hv||[]).forEach((v,i)=>{if(v!=null)hvi.push(i);});
-    if(hvi.length){const f=hvi[0],l=hvi[hvi.length-1];
-      s+='<circle cx="'+X(o.hx[f]).toFixed(1)+'" cy="'+Y(o.hv[f]).toFixed(1)+'" r="2.4" fill="'+o.col+'"/>';
-      s+='<circle cx="'+X(o.hx[l]).toFixed(1)+'" cy="'+Y(o.hv[l]).toFixed(1)+'" r="2.4" fill="'+o.col+'"/>';}
-    if(o.px&&o.pv){const pl=o.pv.length-1;
-      s+='<circle cx="'+X(o.px[pl]).toFixed(1)+'" cy="'+Y(o.pv[pl]).toFixed(1)+'" r="2.6" fill="'+o.col+'"/>';
-      s+='<text x="'+(X(o.px[pl])-3).toFixed(1)+'" y="'+(Y(o.pv[pl])-6).toFixed(1)+'" text-anchor="end" style="font-size:10px;font-weight:700;fill:'+o.col+'">'+ff(o.pv[pl])+'</text>';}
-    if(hvi.length){const l=hvi[hvi.length-1];
-      s+='<text x="'+(X(o.hx[l])+ (o.px?-2:4)).toFixed(1)+'" y="'+(Y(o.hv[l])-6).toFixed(1)+'" text-anchor="'+(o.px?'end':'start')+'" style="font-size:10px;font-weight:700;fill:'+o.col+'">'+ff(o.hv[l])+'</text>';}
-    s+='</svg>';
-    return '<div style="min-width:240px"><div style="font-size:12px;font-weight:600;color:var(--ink);margin:0 0 1px">'+o.title+'</div>'+
-      '<div style="font-size:10.5px;color:var(--ink3);margin:0 0 2px">'+o.sub+'</div>'+s+'</div>';
+    // o: {title,col,unit,signed, hx,hv,bench, px,pv, ref} — tegnes av diagrammotoren (src/charts/mini.js)
+    const har=(o.hv||[]).some(v=>v!=null)||(o.pv||[]).some(v=>v!=null);
+    if(!har) return '';
+    return '<div style="min-width:240px">'+NN.placeholder('mini',{tittel:o.title,sub:o.sub,hx:o.hx,hv:o.hv,bench:o.bench,px:o.px||null,pv:o.pv||null,
+      ref:(o.ref&&o.ref.val!=null)?{val:o.ref.val,label:o.ref.label}:null,signed:!!o.signed,unit:o.unit,farge:o.col},190)+'</div>';
   }
   const GRID='display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px 18px;margin:8px 0 0';
   // ---- 1) \u00d8konomi over tid (faktisk) ----
@@ -538,23 +475,8 @@ function kostraCard(k){
     const XY=HY.concat(PY.filter(y=>y>joinY)), ST=[];
     HY.forEach((y,idx)=>ST.push(HS[idx])); PY.forEach((y,idx)=>{ if(y>joinY||(!HY.length&&idx===0)) ST.push(PS[idx]); });
     if(XY.length>1){
-      const sy0=XY[0],sy1=XY[XY.length-1],VB=720,Lx=44,Rx=142,Tp=14,Wd=VB-Lx-Rx,Hh=200;
-      const X=y=>Lx+((y-sy0)/((sy1-sy0)||1))*Wd, Y=p=>Tp+(1-p/100)*Hh;
-      let g='<svg class="chart" viewBox="0 0 '+VB+' '+(Tp+Hh+26)+'" preserveAspectRatio="xMidYMid meet" style="height:240px">';
-      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+' %</text>';}
-      let cum=new Array(XY.length).fill(0);
-      SX.forEach((s,si)=>{let tp='',bt='';
-        for(let i=0;i<XY.length;i++){const t=cum[i]+ST[i][si];tp+=(i?' L':'M')+X(XY[i]).toFixed(1)+' '+Y(t).toFixed(1);}
-        for(let i=XY.length-1;i>=0;i--){bt+=' L'+X(XY[i]).toFixed(1)+' '+Y(cum[i]).toFixed(1);}
-        g+='<path d="'+tp+bt+' Z" fill="'+s.c+'" fill-opacity="'+(s.nm==='Annet'?'.5':'.9')+'" stroke="var(--paper2)" stroke-width="0.5"/>';
-        const my=Y(cum[XY.length-1]+ST[XY.length-1][si]/2);
-        if(ST[XY.length-1][si]>=4)g+='<text x="'+(Lx+Wd+6)+'" y="'+(my+3)+'" style="font-size:10px;font-weight:700;fill:var(--ink2)">'+s.nm+' '+ST[0][si].toFixed(0)+'\u2192'+ST[XY.length-1][si].toFixed(0).replace('.',',')+' %</text>';
-        for(let i=0;i<XY.length;i++)cum[i]+=ST[i][si];});
-      const jx=X(joinY);
-      g+='<line x1="'+jx+'" y1="'+Tp+'" x2="'+jx+'" y2="'+(Tp+Hh)+'" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>';
-      g+='<text x="'+jx+'" y="'+(Tp-3)+'" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--ink2)">i dag</text>';
-      for(let yy=Math.ceil(sy0/5)*5;yy<=sy1;yy+=5)g+='<text class="axis" x="'+X(yy)+'" y="'+(Tp+Hh+18)+'" text-anchor="middle">'+yy+'</text>';
-      g+='</svg>';
+      const sy0=XY[0];
+      const g=NN.placeholder('stablet',{x:XY,serier:SX.map((sx,si)=>({navn:sx.nm,data:ST.map(r=>Math.round(r[si]*10)/10),farge:sx.c})),iDag:joinY},290);
       stacked='<details style="margin:12px 0 0"><summary style="cursor:pointer;font-weight:600;color:var(--ink2);font-size:12.5px">Samlet sammensetning (alle sektorer stablet, '+(HY.length?HY[0]:sy0)+'\u20132050)</summary><p class="hint" style="margin:6px 0 6px;font-size:11px">Samme tall som over, men stablet til 100 % \u2014 se hvordan hele kaka vris.</p>'+g+'</details>';
     }
   }
@@ -849,7 +771,7 @@ function levekarKommuneCard(k){
     if(x.medianInntektEtterSkatt && x.hush_total){ sumMW += x.medianInntektEtterSkatt * x.hush_total; sumW += x.hush_total; }
   });
   const landsdelMed = sumW ? sumMW/sumW : null;
-  const NORGE_MED = 615000;
+  const NORGE_MED = 676100; // SSB 06944, hele landet, alle husholdninger, inntekt etter skatt, median 2024
   const diffLandsdel = (r.medianInntektEtterSkatt && landsdelMed) ? (r.medianInntektEtterSkatt/landsdelMed-1)*100 : null;
   const diffNorge = r.medianInntektEtterSkatt ? (r.medianInntektEtterSkatt/NORGE_MED-1)*100 : null;
   // Personinntekt-sammensetning
@@ -1220,27 +1142,25 @@ function renderCompare(){
     ${ks.map(k=>{const med=medianAge(k.alder);const g=ageGroups(k.alder,'L');const mx=Math.max(...g.map(x=>x.v));
       return `<div class="cmpcol"><h4 class="serif">${k.navn}</h4>
       <div class="cfy" style="color:${FY[k.fylke]}">${k.fylke}</div>
-      <div style="font-family:'Spline Sans Mono';font-size:22px;font-weight:600">${fmt(k.pop)}</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:600">${fmt(k.pop)}</div>
       <div style="font-size:12px;color:var(--ink3);margin-bottom:10px">folketall</div>
       <div style="display:flex;gap:14px;margin-bottom:12px">
-        <div><div style="font-size:18px;font-weight:600" class="mono">${k.andel.toFixed(1).replace('.',',')}%</div><div style="font-size:11px;color:var(--ink3)">innv.bakgr.</div></div>
+        <div><div style="font-size:18px;font-weight:600" class="mono">${k.andel.toFixed(1).replace('.',',')} %</div><div style="font-size:11px;color:var(--ink3)">innv.bakgr.</div></div>
         <div><div style="font-size:18px;font-weight:600" class="mono">${med}</div><div style="font-size:11px;color:var(--ink3)">medianalder</div></div>
         <div><div style="font-size:18px;font-weight:600;color:var(--syss)" class="mono">${(k.syss&&k.syss.rate.zzz!=null)?k.syss.rate.zzz.toFixed(1).replace('.',',')+' %':'–'}</div><div style="font-size:11px;color:var(--ink3)">syss. innv.</div></div>
       </div>
-      <svg class="miniline" viewBox="0 0 200 60" preserveAspectRatio="none">
-        ${g.map((x,i)=>`<rect x="${i*25+3}" y="${60-x.v/mx*54}" width="19" height="${x.v/mx*54}" rx="2" fill="${FY[k.fylke]}" opacity=".85"/>`).join('')}
-      </svg>
+      ${NN.placeholder('stolper',{kategorier:g.map(x=>x.l),serier:[{navn:'Personer',data:g.map(x=>x.v),farge:FY[k.fylke]}],ingenAkse:true,ingenY:true,hoyde:80},80)}
       <div style="font-size:11px;color:var(--ink3);margin-top:4px">aldersfordeling (livsfaser)</div>
       <div style="margin-top:12px;font-size:12.5px;color:var(--ink2)"><b>Største opprinnelse:</b><br>
         ${k.land.filter(l=>l[1]>0).slice(0,3).map(l=>l[0]+' ('+fmt(l[1])+')').join('<br>')||'–'}</div>
       </div>`;}).join('')}</div>`;
   return true;
 }
-const NATCOL=['var(--ink)','var(--nl)','var(--syss)','var(--accent-text)','var(--nl)','var(--fi)','var(--warn)','var(--cat-5)','var(--neg)','var(--pos)','var(--fi)'];
+const NATCOL=['var(--cat-3)','var(--cat-5)','var(--cat-6)','var(--cat-2)','var(--pos)','var(--neg)','var(--warn)','var(--cat-4)'];
 function natColor(navn,i){
   if(navn==='Hele befolkningen')return 'var(--ink)';
-  if(navn==='Befolkningen ekskl. innvandrere')return 'var(--nl)';
-  if(navn==='Innvandrere i alt')return 'var(--syss)';
+  if(navn==='Befolkningen ekskl. innvandrere')return 'var(--cat-4)';
+  if(navn==='Innvandrere i alt')return 'var(--accent)';
   return NATCOL[i%NATCOL.length];
 }
 function natBars(N,met,sx){
@@ -1251,49 +1171,16 @@ function natBars(N,met,sx){
   const regions=N.rows.filter(r=>SUMN.indexOf(r.navn)<0)
       .slice().sort((a,b)=>(valOf(b)==null?-1:valOf(b))-(valOf(a)==null?-1:valOf(a)));
   const natAvg = met==='rate' ? N.rows[idxOf['Hele befolkningen']].rate[sx] : null;
-  const VB=760, L=246, Rp=78, x0=L, x1=VB-Rp;
-  let maxv;
-  if(met==='rate'){maxv=100;}
-  else{maxv=Math.max(1,...N.rows.map(r=>r.cnt[sx]||0)); maxv=Math.ceil(maxv/100000)*100000;}
-  const xS=v=>x0+(x1-x0)*Math.max(0,Math.min(1,v/maxv));
-  const rh=30, hh=27, gap=12;
-  const blocks=[{cap:'Sammendrag',rows:summary,ctx:true},
-                {cap:met==='rate'?'Verdensregioner — rangert etter andel':'Verdensregioner — rangert etter antall',rows:regions,ctx:false}];
-  let H=8; blocks.forEach(b=>{H+=hh+b.rows.length*rh+gap;}); H+=18;
-  let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
-  // gridlines
-  const ticks = met==='rate' ? [0,25,50,75,100] : [0,.25,.5,.75,1].map(t=>t*maxv);
-  ticks.forEach(t=>{const x=xS(t);
-    s+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-20}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
-    s+=`<text class="axis" x="${x}" y="${H-6}" text-anchor="middle">${met==='rate'?t+' %':(t>=1000?fmt(Math.round(t/1000))+' 000':t)}</text>`;});
-  let y=8, di=0;
-  blocks.forEach(b=>{
-    s+=`<text class="ngrp" x="0" y="${y+15}">${b.cap}</text>`;
-    s+=`<line x1="0" y1="${y+hh-5}" x2="${VB}" y2="${y+hh-5}" stroke="color-mix(in srgb, var(--ink) 10%, transparent)"/>`;
-    y+=hh;
-    // national reference line within region block
-    if(!b.ctx && natAvg!=null){const xr=xS(natAvg);
-      s+=`<line x1="${xr}" y1="${y-4}" x2="${xr}" y2="${y+b.rows.length*rh}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>`;
-      s+=`<text class="nref" x="${xr}" y="${y-8}" text-anchor="middle">Nasjonalt snitt ${natAvg.toFixed(1).replace('.',',')}%</text>`;}
-    b.rows.forEach((r,ri)=>{
-      const v=valOf(r), cy=y+rh/2, col=natColor(r.navn,idxOf[r.navn]);
-      s+=`<text class="nlbl${b.ctx?' ctx':''}" x="${b.ctx?0:14}" y="${cy+4}">${r.navn}</text>`;
-      s+=`<rect x="${x0}" y="${y+5}" width="${x1-x0}" height="${rh-12}" rx="5" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
-      if(v==null){
-        s+=`<text class="val" x="${x0+10}" y="${cy+4}" fill="var(--ink3)">undertrykt</text>`;
-      } else {
-        const w=Math.max(2,xS(v)-x0);
-        s+=`<rect class="nbar" style="animation-delay:${(di*45)}ms" x="${x0}" y="${y+5}" width="${w}" height="${rh-12}" rx="5" fill="${col}"/>`;
-        const tx=x0+w+8;
-        s+=`<text class="nval" x="${tx}" y="${cy+4}" fill="${col}">${met==='rate'?v.toFixed(1).replace('.',',')+' %':fmt(v)}</text>`;
-        if(!b.ctx && met==='rate' && natAvg!=null){const d=v-natAvg;
-          s+=`<text class="ndelta" x="${tx}" y="${cy+15}">${d>=0?'+':'\u2212'}${Math.abs(d).toFixed(1)} pp vs. snitt</text>`;}
-      }
-      di++; y+=rh;
-    });
-    y+=gap;
-  });
-  return s+'</svg>';
+  const sumFarge={'Hele befolkningen':'ink','Befolkningen ekskl. innvandrere':'cat-4','Innvandrere i alt':'accent'};
+  const note=v=> (met==='rate'&&natAvg!=null&&v!=null) ? ((v-natAvg)>=0?'+':'−')+Math.abs(v-natAvg).toFixed(1).replace('.',',')+' p.e. mot snitt' : '';
+  return NN.placeholder('hstolper',{
+    format:met==='rate'?'pst':'tall', maks:met==='rate'?100:undefined,
+    grupper:[
+      {tittel:'Sammendrag', rader:summary.map(r=>({l:r.navn,v:valOf(r),farge:sumFarge[r.navn],uthev:r.navn==='Innvandrere i alt'}))},
+      {tittel:met==='rate'?'Verdensregioner, rangert etter andel':'Verdensregioner, rangert etter antall',
+       ref:natAvg!=null?{v:natAvg,tekst:'Nasjonalt snitt '+natAvg.toFixed(1).replace('.',',')+' %'}:null,
+       rader:regions.map(r=>({l:r.navn,v:valOf(r),note:note(valOf(r))}))}
+    ]}, (summary.length+regions.length)*27+90);
 }
 function renderNat(){
   const N=DATA.nat_syss; if(!N) return;
@@ -1323,51 +1210,17 @@ function renderNatTS(){
       +`<span class="ncap" style="margin-left:8px">Verdensregioner</span>${g2}</div>`;
   };
   if(!isFinite(lo)){host.innerHTML='<p class="hint" style="margin:8px 0 0">Ingen serier valgt.</p>'+legHTML();return;}
-  if(met==='rate'){lo=Math.max(0,Math.floor((lo-3)/5)*5);hi=Math.ceil((hi+3)/5)*5;}
-  else{lo=0;hi=Math.ceil(hi/5000)*5000;}
-  const VB=760, L=46, R=178, Tp=20, B=40, W=VB-L-R, H=366-Tp-B;
-  const X=i=>L+(n<2?0:i/(n-1)*W), Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
-  let s=`<svg class="chart nfade" viewBox="0 0 ${VB} 366" preserveAspectRatio="xMidYMid meet" style="height:366px">`;
-  for(let g=0;g<=5;g++){const val=lo+(hi-lo)*g/5, y=Y(val);
-    s+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,${g===0?'.16':'.06'})"/>`;
-    s+=`<text class="axis" x="${L-9}" y="${y+3}" text-anchor="end">${met==='rate'?val.toFixed(0).replace('.',',')+' %':fmt(Math.round(val/1000))+' 000'}</text>`;}
-  yrs.forEach((yr,i)=>{ if(i%2===0||i===n-1){
-    s+=`<text class="axis" x="${X(i)}" y="${366-B+18}" text-anchor="middle">${yr}</text>`;}});
-  const path=se=>{let d='',st=false;se.vals.forEach((v,i)=>{if(v==null){st=false;return;}
-    d+=(st?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);st=true;});return d;};
-  // integration-gap band between 'ekskl. innvandrere' and 'Innvandrere i alt'
   const A=byName('Befolkningen ekskl. innvandrere'), Bn=byName('Innvandrere i alt');
-  if(A&&Bn&&A.on&&Bn.on){
-    let top='',bot='';
-    for(let i=0;i<n;i++){if(A.vals[i]!=null)top+=(top?' L':'M')+X(i).toFixed(1)+' '+Y(A.vals[i]).toFixed(1);}
-    for(let i=n-1;i>=0;i--){if(Bn.vals[i]!=null)bot+=' L'+X(i).toFixed(1)+' '+Y(Bn.vals[i]).toFixed(1);}
-    s+=`<path d="${top}${bot}Z" fill="color-mix(in srgb, var(--warn) 10%, transparent)" stroke="none"/>`;
-    let li=n-1;while(li>=0&&(A.vals[li]==null||Bn.vals[li]==null))li--;
-    if(li>=0){const gap=A.vals[li]-Bn.vals[li], my=(Y(A.vals[li])+Y(Bn.vals[li]))/2;
-      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:var(--font-mono);font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1).replace('.',',')+' prosentenheter':fmt(gap)}</text>`;}
-  }
-  // regions muted, then summary bold
-  vis.filter(se=>!se.sum).forEach(se=>{
-    s+=`<path d="${path(se)}" fill="none" stroke="${se.c}" stroke-width="1.4" stroke-opacity=".42" stroke-linejoin="round" stroke-linecap="round"/>`;});
-  vis.filter(se=>se.sum).forEach(se=>{
-    const sw=se.navn==='Hele befolkningen'?2.9:(se.navn==='Innvandrere i alt'?2.6:2.2);
-    s+=`<path d="${path(se)}" fill="none" stroke="${se.c}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
-    let li=se.vals.length-1;while(li>=0&&se.vals[li]==null)li--;
-    if(li>=0)s+=`<circle cx="${X(li)}" cy="${Y(se.vals[li])}" r="3.4" fill="${se.c}" stroke="var(--paper2)" stroke-width="1.5"/>`;});
-  // de-collided direct end labels
-  const ends=vis.map(se=>{let li=se.vals.length-1;while(li>=0&&se.vals[li]==null)li--;
-    return li>=0?{se,li,v:se.vals[li],y:Y(se.vals[li])}:null;}).filter(Boolean)
-    .sort((a,b)=>a.y-b.y);
-  const G=14, top=Tp+4; let bot=Tp+H-2;
-  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<G) ends[i].y=ends[i-1].y+G;
-  for(let i=ends.length-1;i>0;i--) if(ends[i].y>bot){ends[i].y=bot;bot-=G;} 
-  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<G) ends[i].y=Math.min(bot,ends[i-1].y+G);
-  ends.forEach(e=>{const yl=Math.max(top,Math.min(bot,e.y)), xe=X(e.li), ye=Y(e.v), xl=L+W+8;
-    s+=`<path d="M${xe} ${ye} L${L+W+3} ${ye} L${xl-3} ${yl}" fill="none" stroke="${e.se.c}" stroke-width="1" stroke-opacity=".5"/>`;
-    s+=`<text x="${xl}" y="${yl+3.5}" style="font-family:inherit;font-size:${e.se.sum?'11px':'10px'};font-weight:${e.se.sum?700:600};fill:${e.se.c}">`
-      +`${met==='rate'?e.v.toFixed(1).replace('.',',')+' %':fmt(e.v)}<tspan dx="5" style="font-weight:600;fill:var(--ink3);font-size:9.5px">${e.se.navn.length>22?e.se.navn.slice(0,21)+'\u2026':e.se.navn}</tspan></text>`;});
-  s+='</svg>';
-  host.innerHTML=s+legHTML();
+  const harBand=A&&Bn&&A.on&&Bn.on;
+  let gapTxt='';
+  if(harBand){ let li=n-1; while(li>=0&&(A.vals[li]==null||Bn.vals[li]==null))li--;
+    if(li>=0){const gap=A.vals[li]-Bn.vals[li]; gapTxt=' Skravert felt = gapet mellom befolkningen ekskl. innvandrere og innvandrere i alt: '+(met==='rate'?gap.toFixed(1).replace('.',',')+' prosentenheter':fmt(gap))+' i '+yrs[li]+'.';} }
+  const spec={x:yrs, format:met==='rate'?'pst1':'tall', xTicks:yrs.filter((y,i)=>i%2===0||i===n-1), hoyde:360,
+    serier:vis.map(se=>({navn:se.navn, kort:se.navn.length>22?se.navn.slice(0,21)+'…':se.navn, data:se.vals, farge:se.c,
+      uthev:se.navn==='Hele befolkningen'||se.navn==='Innvandrere i alt', svak:!se.sum, etikett:se.sum})),
+    band:harBand?{x:yrs, lo:Bn.vals, hi:A.vals, farge:'warn'}:null,
+    yTittel:(met==='rate'?'Andel sysselsatte, 20–66 år.':'Antall sysselsatte, 20–66 år.')+' Verdensregionene er tonet ned; trykk på navnene under for å slå serier av og på.'+gapTxt};
+  host.innerHTML=NN.placeholder('linjer',spec,380)+legHTML();
 }
 function renderModelEval(){
   const B=DATA.proj&&DATA.proj.backtest; if(!B) return;
@@ -1378,49 +1231,9 @@ function renderModelEval(){
       v:[c.ssb,c.mvp,c.attr],hl:(c.cls===5||c.cls===6)}))
     .concat([{lab:'Alle 80',sub:'n='+B.all.n,v:[B.all.ssb,B.all.mvp,B.all.attr],hl:false,div:true},
              {lab:'Minst sentrale',sub:'klasse 5+6 · n='+B.least.n,v:[B.least.ssb,B.least.mvp,B.least.attr],hl:true}]);
-  const series=[['SSB-2020','var(--ink3)'],['TF-MVP','var(--amber)'],['TF-ATTR','var(--fi)']];
-  // Vinner per rad: laveste feil (med liten toleranse for «omtrent likt»)
-  groups.forEach(g=>{
-    const vals=g.v.filter(v=>v!=null);
-    if(!vals.length){ g.winners=[]; return; }
-    const minV=Math.min.apply(null,vals);
-    g.winners=g.v.map(v=>v!=null && (v-minV)<=0.05); // 0.05 pp toleranse for tie
-  });
-  const VB=760, x0=204, x1=VB-72;
-  let mx=0; groups.forEach(g=>g.v.forEach(v=>{if(v!=null)mx=Math.max(mx,v);})); mx=Math.ceil(mx*1.15*10)/10||1;
-  const xS=v=>x0+(x1-x0)*Math.max(0,v/mx);
-  const gh=64, pad=10, bh=(gh-2*pad)/3, H=groups.length*gh+34;
-  let s=`<svg class="chart" viewBox="0 0 ${VB} ${H}" preserveAspectRatio="xMidYMid meet" style="height:${H}px">`;
-  // Gridlines + akse-tall
-  [0,.25,.5,.75,1].forEach(t=>{const x=xS(t*mx);
-    s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-28}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
-    s+=`<text class="axis" x="${x}" y="${H-12}" text-anchor="middle">${(t*mx).toFixed(1).replace('.',',')} %</text>`;});
-  s+=`<text class="axis" x="${x0}" y="${H-12}" text-anchor="start" style="fill:var(--ink3)">Gjennomsnittlig prosentfeil — lavere = mer treffsikkert →</text>`;
-  let y=6;
-  groups.forEach(g=>{
-    if(g.div) s+=`<line x1="0" y1="${y-3}" x2="${VB}" y2="${y-3}" stroke="color-mix(in srgb, var(--ink) 12%, transparent)"/>`;
-    // Rad-etikett
-    s+=`<text class="nlbl${g.hl?' ctx':''}" x="0" y="${y+gh/2-4}">${g.lab}</text>`;
-    s+=`<text x="0" y="${y+gh/2+12}" style="font-size:9.5px;fill:var(--ink3)">${g.sub}</text>`;
-    g.v.forEach((v,si)=>{
-      const yb=y+pad+si*bh;
-      const w=v==null?0:Math.max(2,xS(v)-x0);
-      const isWin=g.winners[si];
-      const col=series[si][1];
-      // Spor (lett bakgrunn)
-      s+=`<rect x="${x0}" y="${yb}" width="${x1-x0}" height="${bh-3}" rx="2.5" fill="color-mix(in srgb, var(--ink) 5%, transparent)"/>`;
-      // Stolpe — vinner får full opasitet, taperne blir blasse for å la mønsteret stå fram
-      const op=isWin?1:0.42;
-      s+=`<rect class="nbar" x="${x0}" y="${yb}" width="${w}" height="${bh-3}" rx="2.5" fill="${col}" opacity="${op}"${isWin?` stroke="${col}" stroke-width="0.6"`:''}/>`;
-      // Verditall — vinner får ● og fet skrift
-      const valTxt=v==null?'–':v.toFixed(2).replace('.',',');
-      s+=`<text x="${x0+w+6}" y="${yb+bh/2+1}" style="font-family:var(--font-mono);font-size:${isWin?'11.5px':'10.5px'};font-weight:${isWin?700:500};fill:${col};opacity:${isWin?1:0.7}">${valTxt}${isWin?' <tspan style="font-family:inherit;font-size:11px">●</tspan>':''}</text>`;
-    });
-    y+=gh;
-  });
-  s+='</svg>';
-  s+='<div class="nleg" style="margin-top:8px">'+series.map(z=>`<button data-on="1" style="cursor:default"><span class="dot" style="background:${z[1]}"></span>${z[0]}</button>`).join('')+'<span style="font-size:11px;color:var(--ink3);margin-left:8px">● markerer modellen med lavest feil i raden (toleranse 0,05 pp ved nær-likt).</span></div>';
-  hosts.forEach(h=>{h.innerHTML=s;});
+  const series=[['SSB-2020','var(--accent)'],['TF-MVP','var(--cat-5)'],['TF-ATTR','var(--cat-3)']];
+  const html=NN.placeholder('backtest',{grupper:groups.map(g=>({lab:g.lab,sub:g.sub,v:g.v,uthev:g.hl})),serier:series},groups.length*54+80);
+  hosts.forEach(h=>{h.innerHTML=html;});
 }
 function renderBigPicture(){
   const host=document.getElementById('bigPicGraph');
@@ -1603,7 +1416,7 @@ function renderLevekar(){
     if(r.boliger_andre) bolAndre += r.boliger_andre;
   });
   // Norgessnitt for kontekst (omtrent fra SSB)
-  const NORGE_MED_INNT = 615000; // grovt nasjonalt 2024
+  const NORGE_MED_INNT = 676100; // SSB 06944, hele landet, alle husholdninger, inntekt etter skatt, median 2024
   // ---- Klartekst ----
   const tldrHost=document.getElementById('levekarTldr');
   const fmtKr = n => n==null?'–':(n>=1e6?(n/1e6).toFixed(2).replace('.',',')+' mill kr':(n>=1000?Math.round(n/1000)+' '+String(Math.round(n%1000)).padStart(3,'0')+' kr':Math.round(n)+' kr'));
@@ -1634,20 +1447,11 @@ function renderLevekar(){
     const max = Math.max(hoyKommune||1, NORGE_MED_INNT*1.2);
     const w = v => v/max*100;
     inntektHost.innerHTML =
-      '<div style="margin:14px 0 6px">'+
-        '<div class="bofast-row"><div class="blab">Lavest kommune</div>'+
-          '<div class="btrack"><div class="bfill ref" style="width:'+w(lavKommune||0).toFixed(1).replace('.',',')+'%;background:var(--ink3)"></div></div>'+
-          '<div class="bval">'+(lavKommune?fmt(Math.round(lavKommune/1000))+' 000':'–')+'</div></div>'+
-        '<div class="bofast-row"><div class="blab hl">Landsdelsmedian</div>'+
-          '<div class="btrack"><div class="bfill hl" style="width:'+w(landsdelMedian).toFixed(1).replace('.',',')+'%"></div></div>'+
-          '<div class="bval">'+Math.round(landsdelMedian/1000)+'k</div></div>'+
-        '<div class="bofast-row"><div class="blab">Norgesnitt (ref)</div>'+
-          '<div class="btrack"><div class="bfill ref" style="width:'+w(NORGE_MED_INNT).toFixed(1).replace('.',',')+'%;background:var(--aurora-l);opacity:.6"></div></div>'+
-          '<div class="bval">'+Math.round(NORGE_MED_INNT/1000)+'k</div></div>'+
-        '<div class="bofast-row"><div class="blab">Høyest kommune</div>'+
-          '<div class="btrack"><div class="bfill ref" style="width:'+w(hoyKommune||0).toFixed(1).replace('.',',')+'%;background:var(--amber)"></div></div>'+
-          '<div class="bval">'+(hoyKommune?fmt(Math.round(hoyKommune/1000))+' 000':'–')+'</div></div>'+
-      '</div>'+
+      NN.placeholder('hstolper',{format:'kr',grupper:[{rader:[
+        {l:'Lavest kommune',v:lavKommune||null},
+        {l:'Landsdelsmedian',v:Math.round(landsdelMedian),uthev:true},
+        {l:'Norge',v:NORGE_MED_INNT,farge:'cat-4'},
+        {l:'Høyest kommune',v:hoyKommune||null}]}]},140)+
       '<p class="hint" style="font-size:11px;margin-top:8px;font-style:italic">Median per kommune (SSB tabell 06944, 2024). Landsdelsmedianen er vektet snitt med antall husholdninger. «k» = 1 000 kr. Norgesnitt 2024 ≈ 615 000 kr (nasjonal SSB-publikasjon).</p>';
   }
   // ---- Graf B: Personinntekt-komponenter ----
@@ -1707,14 +1511,7 @@ function renderLevekar(){
       ['Bofellesskap', bolBofell, 'var(--fi)'],
       ['Andre', bolAndre, 'var(--ink3)']
     ];
-    let rowsH = '';
-    rows.forEach(r=>{
-      const p = bP(r[1]);
-      rowsH += '<div class="bofast-row">'+
-        '<div class="blab">'+r[0]+'</div>'+
-        '<div class="btrack"><div class="bfill" style="width:'+p.toFixed(1).replace('.',',')+'%;background:'+r[2]+'"></div></div>'+
-        '<div class="bval">'+fmt(r[1])+'</div></div>';
-    });
+    const rowsH = NN.placeholder('hstolper',{format:'tall',grupper:[{rader:rows.map((r,i)=>({l:r[0],v:r[1],uthev:i===0,farge:i===0?'accent':'muted',note:bP(r[1]).toFixed(0)+' %'}))}]},rows.length*27+20);
     boligHost.innerHTML =
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:10px 0 16px">'+
         '<div><div style="font-family:var(--font-mono);font-size:24px;font-weight:600;color:var(--ink)">'+fmt(bolTot)+'</div>'+
@@ -1740,56 +1537,10 @@ function renderLevekar(){
     });
     items.sort((a,b)=>a.med-b.med); // laveste først → høyeste til høyre
     const n = items.length;
-    const VB=760, L=42, R=46, Tp=26, B=92, W=VB-L-R, H=320-Tp-B;
-    const minV = items[0].med, maxV = items[n-1].med;
-    const padTop = (maxV-minV)*0.08;
-    const yMin = Math.floor((minV - padTop)/50000)*50000;
-    const yMax = Math.ceil((maxV + padTop)/50000)*50000;
-    const Y = v => Tp+(1-(v-yMin)/((yMax-yMin)||1))*H;
-    const barW = W/n * 0.85, gap = W/n * 0.15;
-    const xOf = i => L + i*(W/n) + gap/2;
-    const fyColor = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
-    let svg = `<svg class="chart" viewBox="0 0 ${VB} 320" preserveAspectRatio="xMidYMid meet" style="height:320px">`;
-    // Grid + Y-akse
-    for(let g=0;g<=4;g++){
-      const v = yMin + (yMax-yMin)*g/4;
-      const y = Tp+(1-g/4)*H;
-      svg += `<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
-      svg += `<text class="axis" x="${L-6}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${Math.round(v/1000)}k</text>`;
-    }
-    // Referanselinjer
-    if(landsdelMedian){
-      const yL = Y(landsdelMedian);
-      svg += `<line x1="${L}" y1="${yL}" x2="${L+W}" y2="${yL}" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
-      svg += `<text x="${L+W+4}" y="${yL+3}" style="font-size:10px;font-weight:700;fill:var(--ink2)">Landsdel ${Math.round(landsdelMedian/1000)}k</text>`;
-    }
-    const yN = Y(NORGE_MED_INNT);
-    if(yN >= Tp && yN <= Tp+H){
-      svg += `<line x1="${L}" y1="${yN}" x2="${L+W}" y2="${yN}" stroke="var(--aurora)" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/>`;
-      svg += `<text x="${L+W+4}" y="${yN-2}" style="font-size:10px;font-weight:700;fill:var(--aurora)">Norge ${Math.round(NORGE_MED_INNT/1000)}k</text>`;
-    }
-    // Søyler per kommune — klikkbare med JS-tooltip (bindes etter innerHTML)
-    items.forEach((it,i)=>{
-      const x = xOf(i);
-      const y = Y(it.med);
-      const h = (Tp+H) - y;
-      const col = fyColor[it.fylke]||'var(--ink2)';
-      const ndiff = landsdelMedian ? ((it.med-landsdelMedian)/landsdelMedian*100) : null;
-      svg += `<rect class="spenn-bar" data-i="${i}" data-nr="${it.nr}" data-navn="${it.navn.replace(/"/g,'&quot;')}" data-fylke="${it.fylke}" data-med="${it.med}" data-hush="${it.hush||0}" data-ndiff="${ndiff!=null?ndiff.toFixed(1):''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="${col}" rx="1" style="cursor:pointer;transition:opacity .12s"><title>${it.navn} (${it.fylke}) · ${Math.round(it.med/1000)}k kr · ${fmt(it.hush||0)} hush. — klikk for å åpne kommunen</title></rect>`;
-    });
-    // Markér topp 3 og bunn 3 med navn
-    const lab = (i, anchor) => {
-      const it = items[i];
-      const x = xOf(i) + barW/2;
-      const y = Y(it.med);
-      svg += `<text x="${x.toFixed(1)}" y="${(y-6).toFixed(1)}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--ink2)">${it.navn}</text>`;
-    };
-    lab(0); lab(1); lab(2);
-    lab(n-1); lab(n-2); lab(n-3);
-    // X-akse labels
-    svg += `<text x="${L}" y="${Tp+H+18}" style="font-size:10px;fill:var(--ink3)">← Lavest</text>`;
-    svg += `<text x="${L+W}" y="${Tp+H+18}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">Høyest →</text>`;
-    svg += '</svg>';
+    const svg = NN.placeholder('rang',{format:'kr',
+      rader:items.map(it=>({nr:+it.nr,navn:it.navn,fylke:it.fylke,v:it.med,
+        note:landsdelMedian?(((it.med-landsdelMedian)/landsdelMedian*100)>=0?'+':'−')+Math.abs((it.med-landsdelMedian)/landsdelMedian*100).toFixed(1).replace('.',',')+' % mot landsdelen':''})),
+      ref:[landsdelMedian?{y:Math.round(landsdelMedian),tekst:'Landsdel '+fmt(Math.round(landsdelMedian))}:null,{y:NORGE_MED_INNT,tekst:'Norge '+fmt(NORGE_MED_INNT),farge:'var(--accent-text)'}].filter(Boolean)},320);
     // Statistikk under
     const lo3 = items.slice(0,3).map(x=>x.navn).join(', ');
     const hi3 = items.slice(-3).reverse().map(x=>x.navn).join(', ');
@@ -1797,54 +1548,12 @@ function renderLevekar(){
     const ratio = items[n-1].med / items[0].med;
     spennHost.innerHTML = svg +
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:14px">'+
-        '<div><div style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--ink)">'+Math.round(items[0].med/1000)+'k → '+Math.round(items[n-1].med/1000)+'k</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
+        '<div><div style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--ink)">'+fmt(Math.round(items[0].med/1000)*1000)+' → '+fmt(Math.round(items[n-1].med/1000)*1000)+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Spennvidde</div></div>'+
         '<div><div style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--amber)">'+ratio.toFixed(2).replace('.',',')+'×</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Høyest / lavest</div></div>'+
         '<div><div style="font-size:13px;color:var(--ink)">'+hi3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Topp 3</div></div>'+
         '<div><div style="font-size:13px;color:var(--ink)">'+lo3+'</div><div style="font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Bunn 3</div></div>'+
       '</div>'+
-      '<p class="hint" style="margin-top:12px;font-size:11.5px;font-style:italic">Spennvidden mellom høyeste og laveste nord-norske kommune er '+Math.round(spread/1000)+'k kr. Hovedforklaringen er sammensetningen av lønn vs. pensjon — kommuner med mange yrkesaktive husholdninger (sentre, oljerelaterte) ligger over snittet; aldrende distriktskommuner med høy pensjons- og uføretrygdandel ligger under.</p>';
-    // Bind tooltip + klikk på spennvidde-søylene
-    spennHost.style.position = 'relative';
-    let tip = spennHost.querySelector('.spenn-tip');
-    if(!tip){
-      tip = document.createElement('div');
-      tip.className = 'spenn-tip';
-      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--accent);color:#fff;padding:8px 11px;border-radius:0;font-size:12px;line-height:1.45;box-shadow:none;z-index:10;max-width:220px;white-space:normal';
-      spennHost.appendChild(tip);
-    }
-    const svgEl = spennHost.querySelector('svg.chart');
-    const wrapRect = ()=>spennHost.getBoundingClientRect();
-    spennHost.querySelectorAll('rect.spenn-bar').forEach(rect=>{
-      rect.addEventListener('mouseenter', e=>{
-        const d = e.currentTarget.dataset;
-        const ndiffTxt = d.ndiff ? '<div style="margin-top:2px;font-size:11px;opacity:.85">'+(parseFloat(d.ndiff)>=0?'+':'')+d.ndiff+' % vs landsdel</div>' : '';
-        tip.innerHTML = '<div style="font-weight:700;margin-bottom:2px">'+d.navn+'</div>'+
-          '<div style="font-size:11px;opacity:.85;margin-bottom:6px">'+d.fylke+'</div>'+
-          '<div style="font-family:var(--font-mono);font-size:14px;font-weight:600">'+Math.round(+d.med/1000)+'k kr</div>'+
-          '<div style="font-size:11px;opacity:.85">median hush.inntekt</div>'+
-          ndiffTxt+
-          '<div style="font-size:10.5px;opacity:.7;margin-top:6px;border-top:1px solid color-mix(in srgb, var(--raised) 15%, transparent);padding-top:4px">Klikk for å åpne kommunen →</div>';
-        tip.style.display = 'block';
-        e.currentTarget.style.opacity = '0.65';
-      });
-      rect.addEventListener('mousemove', e=>{
-        const wr = wrapRect();
-        const tw = tip.offsetWidth, th = tip.offsetHeight;
-        let x = e.clientX - wr.left + 14;
-        let y = e.clientY - wr.top - th - 10;
-        if(x + tw > wr.width) x = e.clientX - wr.left - tw - 14;
-        if(y < 0) y = e.clientY - wr.top + 18;
-        tip.style.left = x + 'px';
-        tip.style.top = y + 'px';
-      });
-      rect.addEventListener('mouseleave', e=>{
-        tip.style.display = 'none';
-        e.currentTarget.style.opacity = '1';
-      });
-      rect.addEventListener('click', e=>{
-        window.location.href = 'kommune.html?k=' + e.currentTarget.dataset.nr;
-      });
-    });
+      '<p class="hint" style="margin-top:12px;font-size:11.5px;font-style:italic">Spennvidden mellom høyeste og laveste nord-norske kommune er '+fmt(Math.round(spread/1000)*1000)+' kr. Hovedforklaringen er sammensetningen av lønn vs. pensjon — kommuner med mange yrkesaktive husholdninger (sentre, oljerelaterte) ligger over snittet; aldrende distriktskommuner med høy pensjons- og uføretrygdandel ligger under.</p>';
   }
   attachMethodBadges();
 }
@@ -2206,7 +1915,7 @@ function renderHusholdninger(hostId, scope){
   const alle_med = alle.median;
   if(!alle_n || !alle_med) { host.innerHTML = '<p class="hint">Husholdningsdata ikke tilgjengelig for denne kommunen.</p>'; return; }
 
-  const fmtKr = n => n != null ? Math.round(n/1000) + 'k' : '–';
+  const fmtKr = n => n != null ? fmt(Math.round(n/1000)*1000)+'' : '–';
   const fmtN = n => n != null ? n.toLocaleString('nb-NO') : '–';
   const fmtPct = (a, b) => b ? ((a/b)*100).toFixed(0).replace('.',',') + ' %' : '–';
   const sgn = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(0).replace('.',',');
@@ -2327,86 +2036,14 @@ function renderHusholdninger(hostId, scope){
     const valsA = seriesAlene.filter(v => v != null);
     const aRange = niceTickRange(Math.min.apply(null, valsA), Math.max.apply(null, valsA), '%');
     const aLo = aRange.lo, aHi = aRange.hi, aStep = aRange.step;
+    const xT=[years[0], years[Math.floor(years.length/2)], years[years.length-1]];
     function lineChart(values, color, yLo, yHi, yStep, unit, yLabel){
-      const W = 720, H = 200, L = 50, R = 30, T = 16, Bm = 30;
-      const wW = W-L-R, wH = H-T-Bm;
-      const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
-      const X = i => L + i/(values.length-1) * wW;
-      let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
-      // Gridlines — variabelt antall basert på step (3–8 ticks)
-      const nTicks = Math.round((yHi - yLo) / yStep) + 1;
-      for(let g=0; g<nTicks; g++){
-        const v = yLo + yStep * g;
-        const y = Y(v);
-        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
-        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? fmt(Math.round(v/1000))+' 000' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
-      }
-      // Line
-      let path = '';
-      values.forEach((v, i) => {
-        if(v == null) return;
-        path += (path ? ' L' : 'M') + X(i) + ' ' + Y(v);
-      });
-      svg += '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.2" stroke-linejoin="round"/>';
-      // Start/end-tall
-      const first = values.findIndex(v => v != null);
-      const last = values.length - 1 - [...values].reverse().findIndex(v => v != null);
-      if(first >= 0){
-        svg += '<circle cx="' + X(first) + '" cy="' + Y(values[first]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? fmt(Math.round(values[first]/1000))+' 000' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
-      }
-      if(last >= 0){
-        svg += '<circle cx="' + X(last) + '" cy="' + Y(values[last]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? fmt(Math.round(values[last]/1000))+' 000' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
-      }
-      // X-akse-år
-      [years[0], years[Math.floor(years.length/2)], years[years.length-1]].forEach((yr, idx) => {
-        const i = idx === 0 ? 0 : idx === 1 ? Math.floor(years.length/2) : years.length-1;
-        svg += '<text x="' + X(i) + '" y="' + (H-12) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + yr + '</text>';
-      });
-      svg += '</svg>';
-      return svg;
+      return NN.placeholder('linjer',{x:years, serier:[{navn:unit==='%'?'Andel aleneboende':'Verdi', kort:unit==='%'?'Aleneboende':'', data:values, farge:'accent', uthev:true}],
+        format:unit==='%'?'pst1':'kr1000', xTicks:xT, hoyde:220},230);
     }
-    // Multi-line inntektsgraf
-    const allMedVals = seriesMedAlene.concat(seriesMedPar).concat(seriesMedAlle).filter(v => v != null);
-    const mRange = niceTickRange(Math.min.apply(null, allMedVals), Math.max.apply(null, allMedVals), 'kr');
-    const mLo = mRange.lo, mHi = mRange.hi, mStep = mRange.step;
-    function multiLineChart(linesData, yLo, yHi, yStep){
-      const W = 720, H = 240, L = 50, R = 60, T = 16, Bm = 30;
-      const wW = W-L-R, wH = H-T-Bm;
-      const Y = v => T + (1 - (v-yLo)/(yHi-yLo)) * wH;
-      const yrs = HUSH_DATA.years;
-      const X = i => L + i/(yrs.length-1) * wW;
-      let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="display:block;width:100%;height:auto">';
-      const nTicks = Math.round((yHi - yLo) / yStep) + 1;
-      for(let g=0; g<nTicks; g++){
-        const v = yLo + yStep * g;
-        const y = Y(v);
-        svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
-        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + Math.round(v/1000) + 'k</text>';
-      }
-      linesData.forEach(line => {
-        let path = '';
-        line.values.forEach((v, i) => {
-          if(v == null) return;
-          path += (path ? ' L' : 'M') + X(i) + ' ' + Y(v);
-        });
-        svg += '<path d="' + path + '" fill="none" stroke="' + line.color + '" stroke-width="2.2" stroke-linejoin="round"/>';
-        // Endpoint: kroner-verdi + etikett
-        const last = line.values.length - 1 - [...line.values].reverse().findIndex(v => v != null);
-        if(last >= 0){
-          const val = line.values[last];
-          svg += '<circle cx="' + X(last) + '" cy="' + Y(val) + '" r="3.5" fill="' + line.color + '"/>';
-          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)-3) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + line.color + '">' + Math.round(val/1000) + 'k</text>';
-          svg += '<text x="' + (X(last)+6) + '" y="' + (Y(val)+10) + '" style="font-size:10px;fill:' + line.color + ';opacity:.75">' + line.label + '</text>';
-        }
-      });
-      [yrs[0], yrs[Math.floor(yrs.length/2)], yrs[yrs.length-1]].forEach((yr, idx) => {
-        const i = idx === 0 ? 0 : idx === 1 ? Math.floor(yrs.length/2) : yrs.length-1;
-        svg += '<text x="' + X(i) + '" y="' + (H-12) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + yr + '</text>';
-      });
-      svg += '</svg>';
-      return svg;
+    function multiLineChart(linesData){
+      return NN.placeholder('linjer',{x:HUSH_DATA.years, serier:linesData.map(l=>({navn:l.label, kort:l.label, data:l.values, farge:l.color, uthev:l.label==='aleneboende'})),
+        format:'kr1000', xTicks:xT, hoyde:260},270);
     }
     tidsserieHTML =
       '<details style="margin-top:18px"><summary style="cursor:pointer;font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--ink);padding:6px 0;list-style:none">▾ Tidsserie 2005 → 2024 — strukturelle endringer</summary>' +
@@ -2417,11 +2054,11 @@ function renderHusholdninger(hostId, scope){
       '<div style="font-family:var(--font-display);font-size:13px;font-weight:600;margin:18px 0 2px;color:var(--ink)">Median inntekt etter skatt — tre husholdningstyper</div>' +
       '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85"><b>NB:</b> Tallene er <b>nominelle kroner</b> (ikke inflasjonsjustert). Bruk avstanden mellom linjene og kurveformen, ikke absolutte beløp.</p>' +
       multiLineChart([
-        {values: seriesMedAlene, color:'var(--neg)', label:'aleneboende'},
-        {values: seriesMedAlle, color:'var(--ink2)', label:'alle'},
-        {values: seriesMedPar, color:'var(--pos)', label:'par+barn'},
-      ], mLo, mHi, mStep) +
-      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i 2024 (1000 kr). Endring i avstanden mellom linjene over tid viser strukturell ulikhet — uavhengig av inflasjon.</p>' +
+        {values: seriesMedAlene, color:'accent', label:'aleneboende'},
+        {values: seriesMedAlle, color:'ink', label:'alle'},
+        {values: seriesMedPar, color:'cat-4', label:'par med barn'},
+      ]) +
+      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i siste år (kroner). Endring i avstanden mellom linjene over tid viser strukturell ulikhet — uavhengig av inflasjon.</p>' +
       '</div></details>';
   }
 
@@ -2825,44 +2462,14 @@ function flowChartSVG(state){
     const d = F.nordNorge.ukraineDelta[i];
     return v - (d||0);
   });
-  // Y range
-  let lo=Infinity, hi=-Infinity;
-  inn.concat(utl).forEach(v=>{if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}});
-  const pad=(hi-lo)*0.1||100; lo=Math.min(lo,0)-pad; hi=Math.max(hi,0)+pad;
-  const L=56,R=64,Tp=18,B=34,W=760-L-R,H=300-Tp-B;
-  const X=i=>L+(n<2?0:i/(n-1)*W);
-  const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
-  let svg=`<svg class="flow-chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
-  for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
-    svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
-    svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end" style="font-size:10px;fill:var(--ink3)">${fmt(Math.round(val))}</text>`;}
-  // 0-akse fremhevet
-  const y0=Y(0);
-  svg+=`<line x1="${L}" y1="${y0}" x2="${L+W}" y2="${y0}" stroke="var(--ink2)" stroke-width="1"/>`;
-  // x-akse etiketter (hvert 5. år)
-  yrs.forEach((yr,i)=>{if(yr%5===0||i===n-1) svg+=`<text class="axis" x="${X(i)}" y="${300-B+15}" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">${yr}</text>`;});
-  // Innenlands linje (rødt — folk drar)
-  let di='';inn.forEach((v,i)=>{di+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-  svg+=`<path d="${di}" fill="none" stroke="var(--neg)" stroke-width="2.4" stroke-linejoin="round"/>`;
-  // Utenlands linje (aurora — folk kommer)
-  let du='';utl.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-  svg+=`<path d="${du}" fill="none" stroke="var(--aurora)" stroke-width="2.4" stroke-linejoin="round"/>`;
-  // Punkter på siste år
-  svg+=`<circle cx="${X(n-1)}" cy="${Y(inn[n-1])}" r="3.5" fill="var(--neg)"/>`;
-  svg+=`<circle cx="${X(n-1)}" cy="${Y(utl[n-1])}" r="3.5" fill="var(--aurora)"/>`;
-  svg+=`<text x="${L+W+4}" y="${Y(inn[n-1])+3}" style="font-size:11px;font-weight:700;fill:var(--neg)">${fmt(inn[n-1])}</text>`;
-  svg+=`<text x="${L+W+4}" y="${Y(utl[n-1])+3}" style="font-size:11px;font-weight:700;fill:var(--aurora)">${fmt(utl[n-1])}</text>`;
-  // 2022-marker for Ukraina-konteksten
-  const i2022=yrs.indexOf(2022);
-  if(i2022>=0){
-    svg+=`<line x1="${X(i2022)}" y1="${Tp}" x2="${X(i2022)}" y2="${Tp+H}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>`;
-    svg+=`<text x="${X(i2022)}" y="${Tp-4}" text-anchor="middle" style="font-size:10px;font-weight:600;fill:var(--ink3)">Ukraina-invasjon</text>`;
-  }
-  svg+='</svg>';
+  let svg=NN.placeholder('linjer',{x:yrs, null:true, format:'endring', xTicks:yrs.filter((y,i)=>y%5===0||i===n-1), hoyde:300,
+    markor:[{x:2022, tekst:'Ukraina-invasjon'}],
+    serier:[{navn:'Nettoinnvandring fra utlandet', kort:'Utlandet', data:utl, farge:'accent', uthev:true},
+            {navn:'Innenlands nettoflytting', kort:'Innenlands', data:inn, farge:'neg'}]},320);
   svg+='<div class="flow-legend">'+
-    '<span><i style="background:var(--aurora)"></i>Nettoinnvandring fra utlandet</span>'+
+    '<span><i style="background:var(--accent)"></i>Nettoinnvandring fra utlandet</span>'+
     '<span><i style="background:var(--neg)"></i>Innenlands nettoflytting (ofte negativ — folk drar sør)</span>'+
-    (excl?'<span style="color:var(--amber);font-weight:600">✱ Ukraina-effekt trukket fra (approks. via stock-delta)</span>':'')+
+    (excl?'<span style="color:var(--warn);font-weight:600">Ukraina-effekten er trukket fra (tilnærmet via endring i bestanden)</span>':'')+
   '</div>';
   return svg;
 }
@@ -2883,17 +2490,11 @@ function bofastChartHTML(){
       '<h4 class="serif" style="font-size:15px;font-weight:600">'+koh.kohort_year+'-kohort · etter '+koh.botid_aar+' år</h4>'+
       '<span style="font-size:11px;color:var(--ink3)">Kilde: '+SOURCES[koh.source_id].publisher+'</span>'+
       '</div>';
-    Object.entries(koh.andel_bofast).forEach(([fy,pct])=>{
-      if(pct==null) return;
-      const isFinn = fy==='Finnmark';
-      const isRef = fy==='Møre og Romsdal' || fy==='Landssnitt';
-      const cls = isFinn?'hl':isRef?'ref':'';
-      html+='<div class="bofast-row">'+
-        '<div class="blab '+(isFinn?'hl':'')+'">'+fy+'</div>'+
-        '<div class="btrack"><div class="bfill '+cls+'" style="width:'+pct+'%"></div></div>'+
-        '<div class="bval">'+pct+' %</div>'+
-      '</div>';
+    const rader=Object.entries(koh.andel_bofast).filter(([fy,pct])=>pct!=null).map(([fy,pct])=>{
+      const isFinn = fy==='Finnmark', isRef = fy==='Møre og Romsdal' || fy==='Landssnitt';
+      return {l:fy, v:pct, uthev:isFinn, farge:isFinn?'accent':isRef?'cat-4':'muted'};
     });
+    html+=NN.placeholder('hstolper',{format:'pst',maks:100,grupper:[{rader}]},rader.length*27+20);
     if(koh.note) html+='<p class="hint" style="margin-top:8px;font-size:11.5px;font-style:italic">'+koh.note+'</p>';
     html+='</div>';
   });

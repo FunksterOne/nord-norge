@@ -261,16 +261,9 @@ document.addEventListener('DOMContentLoaded', function(){
   var maxL = Math.max.apply(null, landData.map(function(d){return d.verdi;}));
   var lListe = document.getElementById('landListe');
   if(lListe){
-    lListe.innerHTML = landData.map(function(d){
-      var w = d.verdi / maxL * 100;
-      var col = d.erNorge ? 'var(--accent)' : d.erSnitt ? 'var(--ink-3)' : 'var(--muted-mark)';
-      var cls = d.erNorge ? ' norge' : d.erSnitt ? ' snitt' : '';
-      return '<div class="land-rad' + cls + '">' +
-        '<div class="navn">' + d.navn + '</div>' +
-        '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + d.verdi + '</div></div>' +
-        '<div class="verdi">' + d.kommentar + '</div>' +
-      '</div>';
-    }).join('');
+    lListe.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: landData.map(function(d){
+      return {l:d.navn, v:d.verdi, note:d.kommentar, uthev:!!d.erNorge, farge: d.erNorge ? 'accent' : d.erSnitt ? 'cat-4' : 'muted'};
+    })}], kilde:'Personer 65+ per 100 i alderen 20–64 i 2050. Kilder: OECD Pensions at a Glance 2025, Eurostat EUROPOP, SSB 14746 (Norge).'}, landData.length*27+40);
   }
 
   // ─── AKT 03: Fylke-rangering ───
@@ -317,17 +310,10 @@ document.addEventListener('DOMContentLoaded', function(){
     var fListe = document.getElementById('fylkeListe');
     if(fListe){
       var maxF = Math.max.apply(null, fylkeData.map(function(d){return d.verdi;}));
-      fListe.innerHTML = fylkeData.map(function(d){
-        var w = d.verdi / maxF * 100;
-        var col = d.erNN ? 'var(--accent)' : 'var(--muted-mark)';
-        var cls = d.erNN ? ' nordnorge' : '';
-        var verdiTxt = fmt(d.verdi, 1);
-        return '<div class="fylke-rad' + cls + '">' +
-          '<div class="navn">' + d.navn + (d.eksternt ? ' <span style="color:var(--ink3);font-size:10px">(SSB)</span>' : '') + '</div>' +
-          '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + verdiTxt + '</div></div>' +
-          '<div class="verdi">' + (d.erNN ? 'NN-fylke' : '') + '</div>' +
-        '</div>';
-      }).join('');
+      fListe.innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{
+        refs:[{v:52, tekst:'OECD ≈ 52'}, {v:57, tekst:'EU ≈ 57'}],
+        rader: fylkeData.map(function(d){ return {l:d.navn, v:Math.round(d.verdi*10)/10, uthev:!!d.erNN, farge: d.erNN ? 'accent' : 'muted', note: d.erNN ? 'Nord-Norge' : ''}; })
+      }], kilde:'Forsørgerbyrde 2050 (65+ per 100 i alderen 20–64), SSB 14746 hovedalternativ MMMM. Nord-Norge-fylkene er uthevet.'}, fylkeData.length*27+60);
     }
   }
 });

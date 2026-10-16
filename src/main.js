@@ -14,6 +14,11 @@ import './charts/gap.js';
 import './charts/linjer.js';
 import './charts/spredning.js';
 import './charts/stolper.js';
+import './charts/hstolper.js';
+import './charts/mini.js';
+import './charts/stablet.js';
+import './charts/backtest.js';
+import './charts/rang.js';
 
 initTheme();
 initSearch();

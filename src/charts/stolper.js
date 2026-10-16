@@ -15,19 +15,20 @@ register('stolper', (el, width) => {
   const grupper = s.serier.length > 1;
   const etikett = new Map(s.kategorier.map((k, i) => [k, s.aksetekst ? s.aksetekst[i] : k]));
   const fig = Plot.plot(base({
-    width, height: s.hoyde || 260, marginRight: 16, marginBottom: 28,
+    width, height: s.hoyde || 260, marginRight: 16, marginBottom: s.ingenAkse ? 6 : 28, marginLeft: s.ingenY ? 6 : 56, marginTop: s.verdier ? 22 : 22,
     ...(grupper
       ? { fx: { label: null, tickSize: 0, padding: 0.18, tickFormat: k => etikett.get(k) ?? k, domain: s.kategorier }, x: { axis: null, domain: s.serier.map(se => se.navn), padding: 0.08 } }
-      : { x: { domain: s.kategorier, padding: 0.25, tickFormat: k => etikett.get(k) ?? k } }),
-    y: { nice: true, tickFormat: fmt },
+      : { x: { domain: s.kategorier, padding: 0.25, tickFormat: k => etikett.get(k) ?? k, axis: s.ingenAkse ? null : undefined } }),
+    y: s.ingenY ? { axis: null, nice: true } : { nice: true, tickFormat: fmt },
     color: { domain: s.serier.map(se => se.navn), range: s.serier.map(se => FARGE(se.farge)) },
     marks: [
       Plot.ruleY([0], { stroke: 'var(--line)' }),
       grupper
         ? Plot.barY(rows, { fx: 'k', x: 'serie', y: 'v', fill: 'serie' })
-        : Plot.barY(rows, { x: 'k', y: 'v', fill: d => FARGE(s.serier[0].farge) }),
+        : Plot.barY(rows, { x: 'k', y: 'v', fill: d => FARGE((s.serier[0].fargePer && s.serier[0].fargePer[d.i]) || s.serier[0].farge) }),
+      s.verdier && !grupper && Plot.text(rows, { x: 'k', y: 'v', text: d => fmt(d.v), dy: -8, fill: 'var(--ink-2)', fontSize: 11 }),
       Plot.tip(rows, Plot.pointer({ ...(grupper ? { fx: 'k', x: 'serie' } : { x: 'k' }), y: 'v', title: d => `${d.k}\n${d.serie}: ${fmt(d.v)}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
-    ],
+    ].filter(Boolean),
   }));
   const out = [fig];
   if (grupper) {

@@ -456,13 +456,9 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     if(pR) rader.push({navn: 'Hele landet', p: pR, farge: 'var(--ink3)', ref: true});
     rader.sort(function(a, b){ return b.p - a.p; });
-    var maxP = rader[0].p;
-    document.getElementById('kvmListe').innerHTML = rader.map(function(r){
-      return '<div style="display:grid;grid-template-columns:200px 1fr 70px;gap:10px;align-items:center;padding:2px 0' + (r.ref ? ';background:color-mix(in srgb, var(--ink) 4%, transparent);border-radius:0' : '') + '">' +
-        '<div style="font-size:12px;text-align:right' + (r.ref ? ';font-weight:700' : '') + '">' + r.navn + '</div>' +
-        '<div style="height:16px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + (r.p / maxP * 100) + '%;background:' + r.farge + ';border-radius:0;opacity:' + (r.ref ? '.55' : '.9') + (r.ref ? ';border-right:2px dashed var(--ink)' : '') + '"></div></div>' +
-        '<div style="font-family:var(--font-mono);font-size:11.5px;text-align:right">' + fmt(r.p) + '</div></div>';
-    }).join('');
+    document.getElementById('kvmListe').innerHTML = NN.placeholder('hstolper', {format:'kr', grupper:[{rader: rader.map(function(r){
+      return {l: r.navn, v: r.p, uthev: r.ref, farge: r.ref ? (r.navn === 'Hele landet' ? 'cat-4' : 'accent') : 'muted'};
+    })}], kilde:'Gjennomsnittlig kvadratmeterpris, alle boligtyper (SSB 14545, 2025). Uthevet: fylkessnitt og landet. Kommuner under SSBs publiseringsgrense er utelatt.'}, rader.length*20+40);
 
     // omsetninger mot fullførte nybygg per år
     var fuAar = {}, fuY = [], fuV = [];

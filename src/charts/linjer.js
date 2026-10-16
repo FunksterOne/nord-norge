@@ -14,10 +14,12 @@ const FARGE = f => {
 };
 const TEKSTFARGE = f => (f === 'accent' ? 'var(--accent-text)' : FARGE(f));
 const FMT = {
+  pst1: v => prosent(v, 1), kr1000: v => `${heltall(v)} kr`,
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => prosent(v, 1),
   endring: v => endring(Math.round(v), 0), kr: v => `${heltall(v)} kr`,
 };
 const AKSE = {
+  pst1: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => `${tall(v, 0)} %`,
   endring: v => endring(v, 0), kr: v => heltall(v),
 };
@@ -59,6 +61,10 @@ register('linjer', (el, width) => {
     marks.push(Plot.ruleX([s.iDag], { stroke: 'var(--ink-3)', strokeDasharray: '2,3' }));
     marks.push(Plot.text([s.iDag], { x: d => d, frameAnchor: 'top', dy: -14, text: () => 'I dag', fill: 'var(--ink-3)', fontSize: 11 }));
   }
+  (s.markor || []).forEach(m => {
+    marks.push(Plot.ruleX([m.x], { stroke: 'var(--ink-3)', strokeDasharray: '2,3', strokeOpacity: 0.7 }));
+    if (m.tekst) marks.push(Plot.text([m.x], { x: d => d, frameAnchor: 'top', dy: -14, text: () => m.tekst, fill: 'var(--ink-3)', fontSize: 11 }));
+  });
   (s.ref || []).forEach(r => {
     marks.push(Plot.ruleY([r.y], { stroke: 'var(--warn)', strokeWidth: 1.1 }));
     if (r.tekst) marks.push(Plot.text([r.y], { y: d => d, frameAnchor: 'left', dx: 4, dy: -8, text: () => r.tekst, fill: 'var(--warn)', fontSize: 11, textAnchor: 'start' }));
@@ -72,7 +78,7 @@ register('linjer', (el, width) => {
     } else if (se.stil === 'stolpe') {
       marks.push(Plot.rectY(d, { x: 'x', y: 'v', fill: c, interval: isYear ? 1 : undefined, inset: 1 }));
     } else {
-      marks.push(Plot.lineY(d, { x: 'x', y: 'v', stroke: c, strokeWidth: se.uthev ? 2.6 : 1.8, strokeDasharray: se.stil === 'stiplet' ? '5,3' : null }));
+      marks.push(Plot.lineY(d, { x: 'x', y: 'v', stroke: c, strokeWidth: se.uthev ? 2.6 : se.svak ? 1.2 : 1.8, strokeOpacity: se.svak ? 0.45 : 1, strokeDasharray: se.stil === 'stiplet' ? '5,3' : null }));
     }
   });
   marks.push(Plot.text(placed, { x: 'x', y: 'y', text: 'text', fill: d => TEKSTFARGE(d.farge), dx: 8, textAnchor: 'start', fontWeight: d => (d.uthev ? 600 : 500), fontSize: 11.5 }));

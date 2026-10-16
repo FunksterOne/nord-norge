@@ -99,7 +99,7 @@
   <p class="akt-intro">Topp seks næringer for arbeidskraftsmangel i Nord-Norge. To av dem er kommunale sektorer: helse og sosial, og undervisning. Det betyr at en stor del av rekrutteringskrisen ikke kan løses av markedet alene — kommunene må fylle stillingene med begrenset lønnsfleksibilitet. Det er her aldringen treffer hardest, fordi det er der den eldste delen av befolkningen øker tjenestebehovet.</p>
   <div class="arbeid-graf-wrap">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Topp 6 mangel-næringer i Nord-Norge 2026</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Stolpene viser antall manglende personer. Røde merker er kommunale sektorer. Tallet til høyre er landsdelens andel av nasjonal mangel. Nord-Norge har 8,8 % av befolkningen, så en andel klart over det betyr overrepresentert.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Stolpene viser antall manglende personer. Blå stolper er kommunale sektorer. Tallet til høyre er landsdelens andel av nasjonal mangel. Nord-Norge har 8,8 % av befolkningen, så en andel klart over det betyr overrepresentert.</p>
     <div id="naeringerListe"></div>
     <p class="hint" style="font-size:11px;margin-top:12px;opacity:.75;font-style:italic">Helse og sosial alene står for 1 750 manglende personer i Nord-Norge — 25 % av nasjonal mangel i sektoren. Offentlig administrasjon: 30 %. Undervisning: 23 %. Disse sektorene presses dobbelt — av aldring (etterspørsel) og av kohortkrymping (tilbud).</p>
   </div>
@@ -300,18 +300,11 @@ document.addEventListener('DOMContentLoaded', function(){
     var top6 = nb.landsdel.naeringer.slice(0, 6);
     var maxV = Math.max.apply(null, top6.map(function(x){ return x.mangel_nn; }));
     var maxLabel = Math.ceil(maxV / 250) * 250;
-    liste.innerHTML = top6.map(function(n){
-      var w = n.mangel_nn / maxLabel * 100;
+    liste.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: top6.map(function(n){
       var isKom = KOMMUNAL.some(function(k){ return n.navn.indexOf(k.split(' ')[0]) === 0 || n.navn.indexOf(k) >= 0; });
-      var col = isKom ? 'var(--neg)' : 'var(--aurora)';
       var navnKort = n.navn.replace(/, faglig.*$/, '').replace(/Bygge- og /,'Bygg/').replace(/Overnattings- og serveringsvirksomhet/,'Overnatting/servering').replace(/Eiendomsvirksomhet.*$/,'Eiendom og faglig tjenesteyting').replace(/Offentlig administrasjon og forsvar/,'Offentlig administrasjon');
-      var tag = isKom ? '<span class="tag-kom">Kommunal</span>' : '';
-      return '<div class="naering-rad' + (isKom?' kommunal':'') + '">' +
-        '<div class="navn">' + navnKort + tag + '</div>' +
-        '<div class="bar"><div style="width:' + w + '%;background:' + col + '">' + fmt(n.mangel_nn) + '</div></div>' +
-        '<div class="andel">' + fmt(n.andel_pct) + ' % av nasjonalt</div>' +
-      '</div>';
-    }).join('');
+      return {l: navnKort + (isKom ? ' (kommunal)' : ''), v: n.mangel_nn, uthev: isKom, farge: isKom ? 'accent' : 'muted', note: String(n.andel_pct).replace('.', ',') + ' % av nasjonalt'};
+    })}]}, 230);
   }
 
   // ─── AKT 03: Demografi (SSB MMMM, aggregert Nord-Norge) ───
