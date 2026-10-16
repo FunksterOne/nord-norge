@@ -1860,22 +1860,55 @@ function renderGjeld(){
     '</div>' +
     '<p class="hint" style="font-size:11px;opacity:.75;margin-top:4px">Snitt løpetid sektoren: ~' + (bakteppe.lopetid && bakteppe.lopetid.snitt_aar_estimat || 22) + ' år (estimat).</p>';
 
-  // ─── Sektornivå-konklusjon ───
+  // ─── Sektornivå-konklusjon (KOSTRA, kommunekonsern, fra SSB 12143) ───
+  const KO = bakteppe.kostra || null;
+  const sAar = sektor.aar || (KO && KO.aar) || 2025;
+  const sForrige = (KO && KO.forrige_aar) || sAar - 1;
+  const sv = k => sektor[k];
+  const kort = (verdi, farge, tittel, under) =>
+    '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + farge + '">' + verdi + '</div><div style="font-size:11.5px;color:var(--ink2)">' + tittel + '</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">' + under + '</div></div>';
+  const ndrS = sv('netto_driftsresultat_' + sAar + '_pct'), fondS = sv('disposisjonsfond_' + sAar + '_pct');
+  const nlanS = sv('netto_lanegjeld_' + sAar + '_pct'), finS = sv('finansutgifter_endring_' + sForrige + '_' + sAar + '_pct');
+  const f1 = v => Math.abs(v).toFixed(1).replace('.', ',');
+  const fmtSgn = v => v == null ? '–' : (v >= 0 ? '+' : '−') + f1(v) + ' %';
+  const sektorKort =
+    (ndrS != null ? kort(fmtSgn(ndrS), ndrS >= sektor.ks_norm_ndr_kommune_pct ? 'var(--pos)' : 'var(--amber)', 'Netto driftsresultat ' + sAar, 'TBU-norm: ' + fmt(sektor.ks_norm_ndr_kommune_pct) + ' % · ' + sForrige + ': ' + fmtSgn(sv('netto_driftsresultat_' + sForrige + '_pct'))) : '') +
+    (fondS != null ? kort(f1(fondS) + ' %', fondS >= sektor.ks_norm_disposisjonsfond_pct ? 'var(--pos)' : 'var(--amber)', 'Disposisjonsfond ' + sAar, 'KS: om lag ' + fmt(sektor.ks_norm_disposisjonsfond_pct) + ' % i snitt') : '') +
+    (nlanS != null ? kort(f1(nlanS) + ' %', nlanS > ksNorm ? 'var(--neg)' : 'var(--pos)', 'Netto lånegjeld ' + sAar, (nlanS > ksNorm ? 'Over' : 'Under') + ' KS-grensen (' + fmt(ksNorm) + ' %) · ' + sForrige + ': ' + fmt(sv('netto_lanegjeld_' + sForrige + '_pct')) + ' %') : '') +
+    (finS != null ? kort(fmtSgn(finS), finS > 0 ? 'var(--neg)' : 'var(--pos)', 'Netto finansutgifter, endring i kroner', sForrige + '–' + sAar + ' · renter ' + fmtSgn(sv('rente_endring_' + sForrige + '_' + sAar + '_pct'))) : '');
+  // Sammenligning: landet og de tre nordnorske fylkene (summert for kommunene i området)
+  let sektorTabell = '';
+  if (KO && KO.omrader) {
+    const rekke = ['Landet', 'Landet uten Oslo', 'Nordland', 'Troms', 'Finnmark'].filter(n => KO.omrader[n]);
+    const aktivt = (state.fylke && state.fylke !== 'Alle') ? state.fylke : null;
+    const celle = (v, bra) => '<td style="text-align:right;font-family:var(--font-mono);padding:5px 8px;color:' + (v == null ? 'var(--ink3)' : bra ? 'var(--ink)' : 'var(--neg)') + '">' + (v == null ? '–' : (v < 0 ? '−' : '') + f1(v) + ' %') + '</td>';
+    sektorTabell =
+      '<div style="overflow-x:auto;margin-top:12px"><table style="width:100%;border-collapse:collapse;font-size:12px">' +
+      '<thead><tr style="color:var(--ink3);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em"><th style="text-align:left;padding:5px 8px">' + sAar + ', % av brutto driftsinntekter</th><th style="text-align:right;padding:5px 8px">Netto driftsresultat</th><th style="text-align:right;padding:5px 8px">Disposisjonsfond</th><th style="text-align:right;padding:5px 8px">Netto lånegjeld</th><th style="text-align:right;padding:5px 8px">Renter og avdrag</th></tr></thead><tbody>' +
+      rekke.map(n => { const o = KO.omrader[n]; const uth = n === aktivt || (!aktivt && n === 'Landet');
+        return '<tr style="border-top:1px solid var(--line2)' + (uth ? ';background:color-mix(in srgb, var(--accent) 8%, transparent)' : '') + '"><td style="padding:5px 8px;' + (uth ? 'font-weight:600' : '') + '">' + n + '</td>' +
+          celle(o.ndr, o.ndr != null && o.ndr >= sektor.ks_norm_ndr_kommune_pct) + celle(o.fond, o.fond != null && o.fond >= sektor.ks_norm_disposisjonsfond_pct) + celle(o.nlan, o.nlan != null && o.nlan <= ksNorm) + celle(o.gjeldsbetjening, true) + '</tr>'; }).join('') +
+      '</tbody></table></div>' +
+      '<p class="hint" style="font-size:11px;margin-top:6px">Kommunene i området summert (kommunekonsern), ikke median. Rødt = svakere enn normen (TBU 1,75 % netto driftsresultat, KS om lag 5 % disposisjonsfond, KS 85 % netto lånegjeld). Kilde: ' + KO.kilde + '.</p>';
+  }
   const sektorHTML =
-    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Sektorbildet 2025</h3></div>' +
-    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.netto_driftsresultat_2025_pct >= 1.75 ? 'var(--pos)' : 'var(--amber)') + '">' + fmt(sektor.netto_driftsresultat_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Netto driftsresultat 2025 (sektor)</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">TBU-norm: ' + fmt(sektor.ks_norm_ndr_kommune_pct) + ' %</div></div>' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--neg)">+' + fmt(sektor.finansutgifter_endring_2024_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Finansutgifter endring</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">2024\u20132025 — refinansierings­effekten</div></div>' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.netto_lanegjeld_2025_pct > ksNorm ? 'var(--neg)' : 'var(--pos)') + '">' + fmt(sektor.netto_lanegjeld_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Kommunene i landet, netto lånegjeld 2025</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">SSB 12143 · ' + (sektor.netto_lanegjeld_2025_pct > ksNorm ? 'over' : 'under') + ' KS-grensen (' + fmt(ksNorm) + ' %)</div></div>' +
-    '</div>' +
-    '<p class="hint" style="font-size:12px;margin-top:10px;font-style:italic">' + sektor.tbu_kilde + ' og ' + sektor.ks_kilde + '. KS-anbefalingen er at bufferne skal tåle <b>' + sektor.ks_buffer_test + '</b>.</p>';
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Sektorbildet ' + sAar + ' — kommunene i landet</h3></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">' + sektorKort + '</div>' +
+    sektorTabell +
+    '<p class="hint" style="font-size:12px;margin-top:10px;font-style:italic">Normer: ' + sektor.tbu_kilde + ' og ' + sektor.ks_kilde + '. KS-anbefalingen er at bufferne skal tåle <b>' + sektor.ks_buffer_test + '</b>.</p>';
 
   // ─── Avslutning + kilde ───
+  const overHer = data.nlan_pct != null && data.nlan_pct > ksNorm, overLand = nlanS != null && nlanS > ksNorm;
+  const normSetning = 'KS-grensen på ' + ksNorm + ' % netto lånegjeld er ' +
+    (overHer && overLand ? 'overskredet både her (' + pct(data.nlan_pct) + ') og for kommunene i landet samlet (' + fmt(nlanS) + ' %).'
+      : overHer ? 'overskredet her (' + pct(data.nlan_pct) + '), men ikke for landet samlet (' + fmt(nlanS) + ' %).'
+      : overLand ? 'ikke overskredet her (' + pct(data.nlan_pct) + '), men for kommunene i landet samlet (' + fmt(nlanS) + ' %).'
+      : 'ikke overskredet her (' + pct(data.nlan_pct) + ').');
   const closingHTML =
     '<p class="sub" style="margin-top:18px;padding:14px 16px;background:color-mix(in srgb, var(--neg) 6%, transparent);border-left:4px solid var(--neg);border-radius:0">' +
-      '<b>Gjeld er ikke et problem fordi tallet er stort. Det er fordi det er låst.</b> Av ' + (/s$/.test(scopeNavn) ? scopeNavn + "'" : scopeNavn + 's') + ' driftsinntekter går <b>' + pct(data.gjb_pct) + '</b> til renter og avdrag — på linje med en mellomstor sektor som ' + (sektorRader.find(r => Math.abs(r.pct - data.gjb_pct) < 2 && r.type === 'sektor')?.navn || 'kommunehelse') + '. Forskjellen: gjeldsbetjening kan ikke kuttes når aldring presser tjenestebehovet de neste 25 år. KS-normen på maks ' + ksNorm + ' % netto lånegjeld er overskredet både her (' + pct(data.nlan_pct) + ') og nasjonalt.' +
+      '<b>Gjeld er ikke et problem fordi tallet er stort. Det er fordi det er låst.</b> Av ' + (/s$/.test(scopeNavn) ? scopeNavn + "'" : scopeNavn + 's') + ' driftsinntekter går <b>' + pct(data.gjb_pct) + '</b> til renter og avdrag — på linje med en mellomstor sektor som ' + (sektorRader.find(r => Math.abs(r.pct - data.gjb_pct) < 2 && r.type === 'sektor')?.navn || 'kommunehelse').toLowerCase() + '. Forskjellen: gjeldsbetjening kan ikke kuttes når aldring presser tjenestebehovet de neste 25 år. ' + normSetning +
     '</p>' +
-    '<p class="hint" style="font-size:11px;margin-top:10px;opacity:.75">Kilder: SSB KOSTRA tab. 12143 (per-kommune); ' + bakteppe.kilde + '. Sist oppdatert: ' + bakteppe.sist_oppdatert + '. Nasjonalt bakteppe oppdateres manuelt årlig.</p>';
+    '<p class="hint" style="font-size:11px;margin-top:10px;opacity:.75">Kilder: SSB KOSTRA tab. 12143 (kommuner og sektortall); ' + bakteppe.kilde + '. Sist oppdatert: ' + bakteppe.sist_oppdatert + '. Sektortallene hentes fra SSB ved hver kjøring av fetch_gjeld.py; lånekilder og rentebinding oppdateres manuelt.</p>';
 
   host.innerHTML = kpiHTML + compareHTML + lanekildeHTML + rentebindingHTML + sektorHTML + closingHTML;
 }

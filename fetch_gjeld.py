@@ -99,8 +99,8 @@ def parse(d):
 # ─── Nasjonalt KBN/TBU/KS-bakteppe (hardkodet — oppdateres manuelt årlig) ───
 # Kilder per Q1 2026. Se docstring øverst for fulle referanser.
 GJELD_BAKTEPPE = {
-    "sist_oppdatert": "2026-05-20",
-    "kilde": "KBN Q4-2025, KLP Kommunekreditt 2025, NOU 2025:10 (TBU), KS regnskapsundersøkelse 2025, KS FoU 2025",
+    "sist_oppdatert": None,  # settes til hentedato i main()
+    "kilde": "SSB 12143 (KOSTRA, kommunekonsern), KBN Q4-2025, KLP Kommunekreditt 2025, NOU 2025:10 (TBU), KS-rapport mai 2025",
     # Lånekildefordeling — markedsandel av kommunesektorens samlede gjeld
     "lanekilder": [
         {"navn": "Kommunalbanken (KBN)", "andel_pct": 49.7, "kilde": "KBN Q4-2025",
@@ -120,18 +120,14 @@ GJELD_BAKTEPPE = {
         "spennvidde": "25–35 % fastrente",
         "er_estimat": True
     },
-    # Sektornivå-tall (2025)
+    # Normer og kilder for sektoren. Selve sektortallene (netto driftsresultat, disposisjonsfond,
+    # netto lånegjeld, finansutgifter) hentes fra SSB 12143 i hent_sektor() og legges inn her.
     "sektor": {
-        "netto_driftsresultat_2024_pct": -0.4,
-        "netto_driftsresultat_2025_pct": 2.1,
-        "korrigert_netto_lanegjeld_2024_pct": 87.7,
         "ks_norm_netto_lanegjeld_pct": 85.0,
         "ks_norm_disposisjonsfond_pct": 5.0,
         "ks_norm_ndr_kommune_pct": 1.75,
-        "finansutgifter_endring_2024_2025_pct": 15.0,
-        "rente_endring_2024_2025_pct": 8.5,
-        "tbu_kilde": "NOU 2025:10",
-        "ks_kilde": "KS FoU 2025 — Oslo Economics/Telemarksforsking",
+        "tbu_kilde": "TBU, NOU 2025:10",
+        "ks_kilde": "KS-rapport mai 2025 (Oslo Economics og Telemarksforskning)",
         "ks_buffer_test": "+2 prosentpoeng renteøkning over 3 år + inntektssvikt i 10. persentil"
     },
     # Typisk løpetid (estimat)
@@ -142,6 +138,40 @@ GJELD_BAKTEPPE = {
         "kilde": "KBN typiske strukturer; ikke publisert vektet snitt"
     }
 }
+
+
+SEKTOR_REG = {"EAK": "Landet", "EAKUO": "Landet uten Oslo", "EKA18": "Nordland", "EKA55": "Troms", "EKA56": "Finnmark"}
+SEKTOR_BEG = {"AGD23": "ndr", "56": "fond", "KG31": "nlan", "KG39": "rxp", "KG25": "lan", "AGD97": "renter", "AGD21": "avdrag", "AGD86": "finans"}
+
+
+def hent_sektor():
+    """KOSTRA-nøkkeltall (kommunekonsern) for landet og Nord-Norge-fylkene, siste to år, fra SSB 12143."""
+    meta = json.loads(urllib.request.urlopen("https://data.ssb.no/api/v0/no/table/12143", timeout=60).read().decode("utf-8"))
+    tid = next(v for v in meta["variables"] if v["code"] == "Tid")["values"][-2:]
+    ut = {}
+    for cc, felt in (("KOSbelopbrinv0000", "pct"), ("KOSbelop0000", "kr")):
+        d = post_ssb({"query": [
+            {"code": "KOKkommuneregion0000", "selection": {"filter": "item", "values": list(SEKTOR_REG)}},
+            {"code": "KOKartkap0000", "selection": {"filter": "item", "values": list(SEKTOR_BEG)}},
+            {"code": "ContentsCode", "selection": {"filter": "item", "values": [cc]}},
+            {"code": "Tid", "selection": {"filter": "item", "values": tid}}], "response": {"format": "json-stat2"}})
+        for reg, beg in parse(d).items():
+            for b, aar in beg.items():
+                for y, v in aar.items():
+                    ut.setdefault(SEKTOR_REG[reg], {}).setdefault(y, {})[SEKTOR_BEG[b] + "_" + felt] = v
+    siste, forrige = tid[-1], tid[-2]
+    omr = {}
+    for navn, aar in ut.items():
+        a, f = aar.get(siste, {}), aar.get(forrige, {})
+        rec = {k: a.get(k + "_pct") for k in ("ndr", "fond", "nlan", "rxp", "lan", "renter", "avdrag", "finans")}
+        rec["gjeldsbetjening"] = round((a.get("renter_pct") or 0) + (a.get("avdrag_pct") or 0), 1)
+        for k in ("renter", "finans"):
+            if a.get(k + "_kr") and f.get(k + "_kr"):
+                rec[k + "_endring_kr_pct"] = round((a[k + "_kr"] / f[k + "_kr"] - 1) * 100, 1)
+        rec["forrige"] = {k: f.get(k + "_pct") for k in ("ndr", "fond", "nlan")}
+        omr[navn] = rec
+    return {"aar": int(siste), "forrige_aar": int(forrige), "omrader": omr,
+            "kilde": "SSB tabell 12143, KOSTRA kommunekonsern, % av brutto driftsinntekter"}
 
 
 def main():
@@ -158,6 +188,22 @@ def main():
         "kommuner": {},
         "bakteppe": GJELD_BAKTEPPE,
     }
+    print("Fetching 12143 sektortall (landet og fylker)...", flush=True)
+    kostra = hent_sektor()
+    GJELD_BAKTEPPE["sist_oppdatert"] = datetime.date.today().isoformat()
+    GJELD_BAKTEPPE["kostra"] = kostra
+    L = kostra["omrader"]["Landet"]
+    GJELD_BAKTEPPE["sektor"].update({
+        "aar": kostra["aar"],
+        f"netto_driftsresultat_{kostra['aar']}_pct": L["ndr"],
+        f"netto_driftsresultat_{kostra['forrige_aar']}_pct": L["forrige"]["ndr"],
+        f"netto_lanegjeld_{kostra['aar']}_pct": L["nlan"],
+        f"netto_lanegjeld_{kostra['forrige_aar']}_pct": L["forrige"]["nlan"],
+        f"disposisjonsfond_{kostra['aar']}_pct": L["fond"],
+        f"finansutgifter_endring_{kostra['forrige_aar']}_{kostra['aar']}_pct": L.get("finans_endring_kr_pct"),
+        f"rente_endring_{kostra['forrige_aar']}_{kostra['aar']}_pct": L.get("renter_endring_kr_pct"),
+        "netto_lanegjeld_kilde": "SSB 12143, kommunekonsern, landet",
+    })
 
     for c in CODES:
         kr = kr_data.get(c, {})
@@ -179,8 +225,12 @@ def main():
             if ndr is None:
                 continue
             # Avled BDI (brutto driftsinntekter) fra ndr_kr / ndr_pct hvis mulig
+            # Avled BDI fra posten med størst andel (langsiktig gjeld, ~240 %), så avrundingen
+            # i prosenttallet (én desimal) gir minst mulig feil. Netto renter brukes bare som reserve.
             bdi = None
-            if ndr_p and ndr_p > 0:
+            if lan and lan_p and lan_p > 0:
+                bdi = round(lan / (lan_p / 100))
+            elif ndr_p and ndr_p > 0:
                 bdi = round(ndr / (ndr_p / 100))
             # Beregn gjeldsbetjening = renter + avdrag
             gjb_kr = None
@@ -239,6 +289,15 @@ def main():
         return tot
 
     payload["fylker"] = {"Nordland": agg(NL, "Nordland"), "Troms": agg(TR, "Troms"), "Finnmark": agg(FI, "Finnmark")}
+    # Fylkestallene i prosent tas direkte fra SSB (EKA-regionene), som er eksakte summer for kommunene i fylket
+    for nm in ("Nordland", "Troms", "Finnmark"):
+        o = kostra["omrader"].get(nm)
+        if not o: continue
+        f = payload["fylker"][nm]
+        for k_ut, k_inn in (("ndr_pct","renter"), ("avd_pct","avdrag"), ("fin_pct","finans"), ("lan_pct","lan"), ("nlan_pct","nlan"), ("rxp_pct","rxp")):
+            if o.get(k_inn) is not None: f[k_ut] = o[k_inn]
+        if o.get("renter") is not None and o.get("avdrag") is not None: f["gjb_pct"] = round(o["renter"] + o["avdrag"], 2)
+        f["kilde_pct"] = "SSB 12143 (fylkessum)"
     payload["landsdel"] = agg(CODES, "Nord-Norge")
 
     # Print summary
