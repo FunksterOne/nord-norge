@@ -6,9 +6,9 @@ export function tall(v, des = 0) {
   if (v == null || Number.isNaN(v)) return '–';
   let f = nfCache.get(des);
   if (!f) { f = new Intl.NumberFormat('nb-NO', { minimumFractionDigits: des, maximumFractionDigits: des }); nfCache.set(des, f); }
-  return f.format(v).replace(/ /g, ' ').replace('-', '−');
+  return f.format(v).replace(/[   ]/g, ' ').replace('-', '−');
 }
-export const heltall = v => (v == null ? '–' : nf0.format(Math.round(v)).replace(/ /g, ' ').replace('-', '−'));
+export const heltall = v => (v == null ? '–' : nf0.format(Math.round(v)).replace(/[   ]/g, ' ').replace('-', '−'));
 export const prosent = (v, des = 1) => (v == null ? '–' : `${tall(v, des)} %`);
 export const endring = (v, des = 1) => (v == null ? '–' : `${v > 0 ? '+' : ''}${tall(v, des)}`);
 export const endringPst = (v, des = 1) => (v == null ? '–' : `${endring(v, des)} %`);
@@ -20,10 +20,14 @@ export function akse(v) {
   return heltall(v);
 }
 
-// Kort visningsnavn for tospråklige kommunenavn i trange lister.
-const KORT = {
-  'Aarborte - Hattfjelldal': 'Hattfjelldal', 'Loabák - Lavangen': 'Lavangen', 'Hábmer - Hamarøy': 'Hamarøy',
-  'Guovdageaidnu - Kautokeino': 'Kautokeino', 'Kárášjohka - Karasjok': 'Karasjok', 'Deatnu - Tana': 'Tana',
-  'Unjárga - Nesseby': 'Nesseby', 'Gáivuotna - Kåfjord - Kaivuono': 'Kåfjord', 'Dielddanuorri - Tjeldsund': 'Tjeldsund',
-};
-export const kortNavn = n => KORT[n] || String(n).split(' - ')[0];
+// Kort visningsnavn for tospråklige kommunenavn i trange lister:
+// velg den delen som ikke har samiske/kvenske spesialtegn; ellers første del.
+const UNNTAK = { 'Aarborte - Hattfjelldal': 'Hattfjelldal', 'Guovdageaidnu - Kautokeino': 'Kautokeino', 'Deatnu - Tana': 'Tana', 'Dielddanuorri - Tjeldsund': 'Tjeldsund' };
+const SAMISK = /[áčđŋšŧžÁČĐŊŠŦŽäÄ]/;
+export function kortNavn(n) {
+  n = String(n);
+  if (UNNTAK[n]) return UNNTAK[n];
+  const deler = n.split(' - ');
+  if (deler.length === 1) return n;
+  return deler.find(d => !SAMISK.test(d)) || deler[0];
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hvem blir værende? · Flyktningestrømmen 2000–2024 · Nord-Norge dashboard</title>
+<title>Hvem blir værende? · Flyttestrømmene 2002–2025 · Nord-Norge dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -57,9 +57,9 @@
 </header>
 
 <section class="tema-hero">
-  <div class="tag">Temaserie 01 · Flyttehistorien 2000–2024</div>
+  <div class="tag">Temaserie 01 · Flyttehistorien 2002–2025</div>
   <h1>Hvem blir <em>værende</em>?</h1>
-  <p class="lede">Folk strømmer inn til Nord-Norge fra utlandet hvert år — og enda flere flytter sørover. Hvor mange blir værende, hvor lenge, og hva betyr det for landsdelen? Denne siden gjør bevegelsen synlig.</p>
+  <p class="lede">Folk strømmer inn til Nord-Norge fra utlandet hvert år — samtidig flytter mange sørover, slik at nettotapet innenlands har vært stort i hvert eneste år siden 2002. Hvor mange blir værende, hvor lenge, og hva betyr det for landsdelen? Denne siden gjør bevegelsen synlig.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
@@ -74,7 +74,7 @@
 <section class="akt">
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>25 år med flytting <em>inn og ut</em></h2>
-  <p class="akt-intro">Tre flyttestrømmer fra og til Nord-Norge per år 2002–2025. Grønt: innvandring fra utlandet (inkluderer flyktninger og arbeidsinnvandring). Grå: utvandring til utlandet. Rød: nettoflytting innenlands — folk som drar sørover. Ukrainere er vist separat under.</p>
+  <p class="akt-intro">Tre flyttestrømmer fra og til Nord-Norge per år 2002–2025. Blått: innvandring fra utlandet (inkluderer flyktninger og arbeidsinnvandring). Grått: utvandring til utlandet. Rødt: nettoflytting innenlands — folk som drar sørover. Ukrainere er vist separat under.</p>
   <div class="trakt-wrap"><div id="traktGraf"></div></div>
   <p class="hint" style="font-size:12px;font-style:italic;margin-top:4px">Kilde: SSB-tabell 09588 (innenlands flyttinger). Flyktning­andelen kan ikke skilles ut direkte uten innvandringsgrunn-kobling, men majoriteten av innvandringen fra land utenfor EØS er flyktning­motivert.</p>
 
@@ -105,7 +105,7 @@
   <h2>Hva ville Nord-Norge vært <em>uten</em> denne strømmen?</h2>
   <p class="akt-intro">Sett opp regnestykket. På 25 år har landsdelen netto mottatt <b id="aktNetto">—</b> personer fra utlandet, men samtidig mistet <b id="aktInnenlands">—</b> netto til andre deler av Norge. Hvis hverken inn- eller utflytting hadde skjedd, ville folketallet vært betydelig høyere — innvandringen fra utlandet har vært det som har holdt landsdelen oppe.</p>
   <table class="kvote-tabell">
-    <thead><tr><th>Regnestykke 2000–2024</th><th>Personer</th></tr></thead>
+    <thead><tr><th>Regnestykke 2002–2025</th><th>Personer</th></tr></thead>
     <tbody>
       <tr><td>Brutto innvandring til Nord-Norge (SSB 09588, sum 2002–2024)</td><td id="bruttoInn">—</td></tr>
       <tr><td>Av disse: ukrainske statsborgere bosatt 2022–2025</td><td id="ukrStock">—</td></tr>
@@ -242,63 +242,18 @@ document.addEventListener('DOMContentLoaded', function(){
   var netto = sumInn - sumUt + sumNettoInnland;
   document.getElementById('nettoTotal').textContent = (netto >= 0 ? '+' : '−') + fmt(Math.abs(netto));
 
-  // ─── Trakt-graf ───
-  var VB = 880, H = 460, PAD = {l:50, r:60, t:30, b:60};
-  var W = VB - PAD.l - PAD.r;
-  var IH = H - PAD.t - PAD.b;
-  var n = yrs.length;
-  var maxInn = Math.max.apply(null, nn.innvandring);
-  var maxUt = Math.max.apply(null, nn.utvandring.concat(nn.nettoInnland.map(function(v){return Math.abs(v||0);})));
-  var halfH = IH / 2;
-  var Y_top = PAD.t + halfH;
-  var x = function(i){ return PAD.l + (W / (n-1)) * i; };
-  var yInn = function(v){ return Y_top - (v / maxInn) * (halfH - 8); };
-  var yUt = function(v){ return Y_top + (v / maxUt) * (halfH - 8); };
-
-  var svg = '<svg viewBox="0 0 ' + VB + ' ' + H + '" style="display:block;width:100%;height:auto">';
-  // Grid + akser
-  svg += '<line x1="' + PAD.l + '" y1="' + Y_top + '" x2="' + (PAD.l+W) + '" y2="' + Y_top + '" stroke="var(--ink3)" stroke-width="1"/>';
-  svg += '<text x="' + (PAD.l-8) + '" y="' + (Y_top+4) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">0</text>';
-  // X-akse: hvert 5. år
-  for(var i=0; i<n; i+=3){
-    svg += '<text x="' + x(i) + '" y="' + (Y_top + halfH + 16) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yrs[i] + '</text>';
-  }
-  // Y-akse for innvandring (topp)
-  for(var v=2000; v<=maxInn; v+=2000){
-    var yy = yInn(v);
-    svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
-    svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">+' + (v/1000) + 'k</text>';
-  }
-  // Y-akse for utstrøm (bunn)
-  for(var v=2000; v<=maxUt; v+=2000){
-    var yy = yUt(v);
-    svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
-    svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">−' + (v/1000) + 'k</text>';
-  }
-  // Innvandring (aurora bånd opp)
-  var innPath = 'M' + x(0) + ' ' + Y_top;
-  nn.innvandring.forEach(function(v, i){ innPath += ' L' + x(i) + ' ' + yInn(v); });
-  innPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
-  svg += '<path d="' + innPath + '" fill="var(--aurora)" fill-opacity="0.30"/>';
-  svg += '<polyline points="' + nn.innvandring.map(function(v,i){return x(i)+','+yInn(v);}).join(' ') + '" fill="none" stroke="var(--aurora)" stroke-width="1.6"/>';
-  // Utvandring (bunn) — mørk pil
-  var utPath = 'M' + x(0) + ' ' + Y_top;
-  nn.utvandring.forEach(function(v, i){ utPath += ' L' + x(i) + ' ' + yUt(v); });
-  utPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
-  svg += '<path d="' + utPath + '" fill="var(--ink2)" fill-opacity="0.20"/>';
-  svg += '<polyline points="' + nn.utvandring.map(function(v,i){return x(i)+','+yUt(v);}).join(' ') + '" fill="none" stroke="var(--ink2)" stroke-width="1.4"/>';
-  // Netto innland sør (mørkest)
-  var nettoPath = 'M' + x(0) + ' ' + Y_top;
-  nn.nettoInnland.forEach(function(v, i){ nettoPath += ' L' + x(i) + ' ' + yUt(Math.abs(v||0)); });
-  nettoPath += ' L' + x(n-1) + ' ' + Y_top + ' Z';
-  svg += '<path d="' + nettoPath + '" fill="var(--neg)" fill-opacity="0.25"/>';
-  svg += '<polyline points="' + nn.nettoInnland.map(function(v,i){return x(i)+','+yUt(Math.abs(v||0));}).join(' ') + '" fill="none" stroke="var(--neg)" stroke-width="1.6"/>';
-  // Forklaringer
-  svg += '<text x="' + (PAD.l+10) + '" y="' + (PAD.t+18) + '" style="font-size:12px;font-weight:600;fill:var(--aurora)">Innvandring fra utlandet (brutto)</text>';
-    svg += '<text x="' + (PAD.l+10) + '" y="' + (H-30) + '" style="font-size:12px;font-weight:600;fill:var(--neg)">Netto flyttet sør (innenlands)</text>';
-  svg += '<text x="' + (PAD.l+W-180) + '" y="' + (H-30) + '" style="font-size:11px;fill:var(--ink2);font-weight:600">Utvandring til utlandet</text>';
-  svg += '</svg>';
-    document.getElementById('traktGraf').innerHTML = svg;
+  // ─── Trakt-graf: én felles skala for inn- og utstrømmer ───
+  if(window.NN) document.getElementById('traktGraf').innerHTML = NN.placeholder('linjer', {
+    x: yrs,
+    serier: [
+      {navn:'Innvandring fra utlandet (brutto)', kort:'Innvandring', data: nn.innvandring, farge:'accent', stil:'område', uthev:true},
+      {navn:'Utvandring til utlandet (brutto)', kort:'Utvandring', data: nn.utvandring.map(function(v){ return v==null?null:-v; }), farge:'cat-4', stil:'område'},
+      {navn:'Nettoflytting innenlands', kort:'Netto innenlands', data: nn.nettoInnland, farge:'neg', stil:'område'}
+    ],
+    format:'endring', null:true, xTicks:[2002,2005,2010,2015,2020,2025], hoyde:400,
+    yTittel:'Personer per år. Over null: inn til Nord-Norge. Under null: ut av Nord-Norge. Samme skala over og under.',
+    kilde:'Kilde: SSB tabell 09588 (flytting, 2002–2025).'
+  }, 440);
 
   // ─── Ukraina per-år stolpegraf (netto-tilstrømning per år, basert på endring i beholdning) ───
   var spHost = document.getElementById('ukrSparkline');
@@ -342,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function(){
       sp += '<rect x="' + bx(i) + '" y="' + y0 + '" width="' + bw + '" height="' + h + '" fill="' + fill + '" rx="2"/>';
       // Verditall over stolpen (kun synlig på stolper > ~3 % av maks)
       if(d > yTop * 0.04){
-        sp += '<text x="' + (bx(i)+bw/2) + '" y="' + (y0-6) + '" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:' + (isWar ? '#5b3aa8' : 'var(--ink3)') + '">' + fmt(d) + '</text>';
+        sp += '<text x="' + (bx(i)+bw/2) + '" y="' + (y0-6) + '" text-anchor="middle" style="font-size:11.5px;font-weight:700;fill:' + (isWar ? 'var(--accent)' : 'var(--ink3)') + '">' + fmt(d) + '</text>';
       }
     });
     // Y-akse-tittel

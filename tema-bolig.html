@@ -14,7 +14,7 @@
 <style>
 .velger{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
 .velger button{font-family:var(--font-sans);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:0;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);cursor:pointer}
-.velger button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.velger button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
 .graf-kort{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .graf-kort h3{font-family:var(--font-display);font-size:15px;font-weight:600;margin:0 0 4px}
 .graf-kort svg{width:100%;height:auto;display:block}
@@ -71,12 +71,10 @@
     <h3>Igangsettingstillatelser og fullførte boliger — 12 måneders rullerende sum</h3>
     <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB byggearealstatistikk (tabell 05889), 2000–2026. Kommuneserier skjøtet til 2024-grensene.</p>
     <div id="rullGraf"></div>
-    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser</span><span><i style="background:var(--nl)"></i>Fullførte boliger</span></div>
   </div>
   <div class="graf-kort">
     <h3>Per kvartal, 2022–2026</h3>
     <div id="kvartGraf"></div>
-    <div class="legend"><span><i style="background:var(--aurora)"></i>Igangsettingstillatelser</span><span><i style="background:var(--nl)"></i>Fullført</span></div>
   </div>
 </section>
 
@@ -87,9 +85,9 @@
   <p class="akt-intro">Boligbehov styres av husholdninger, ikke hoder. Når husholdningene blir mindre — flere aleneboende eldre, færre barnefamilier — trengs det flere boliger per tusen innbyggere. BB-KVOTE-modellen beregner årlig behov per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen, på alle framskrivingsbanene i dashbordet.</p>
   <div class="graf-kort">
     <h3>Årlig boligbehov mot faktisk tilførsel — <span id="gapTittelOmr">Nord-Norge</span></h3>
-    <p class="hint" style="font-size:12px;margin:2px 0 10px">Mørk linje = fullførte boliger per år (SSB). Grønn linje = beregnet årlig behov, hovedbane (SSB MMMM × trendkvote). Skravert bånd = spennet over 8 kombinasjoner: fire befolkningsbaner (SSB MMMM som hovedbane, SSBs egne lav- og høybaner, samt vår tilleggsbane TF-ATTR) × to husholdningskvoter. Området velges over.</p>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">Hvit linje (svart i lys visning) = fullførte boliger per år (SSB). Blå linje = beregnet årlig behov, hovedbane (SSB MMMM × trendkvote). Skravert bånd = spennet over 8 kombinasjoner: fire befolkningsbaner (SSB MMMM som hovedbane, SSBs egne lav- og høybaner, samt vår tilleggsbane TF-ATTR) × to husholdningskvoter. Området velges over.</p>
     <div id="gapGraf"></div>
-    <div class="legend"><span><i style="background:var(--ink2)"></i>Fullført per år</span><span><i style="background:var(--aurora)"></i>Behov, hovedbane</span><span><i style="background:color-mix(in srgb, var(--accent) 25%, transparent)"></i>Behovsspenn</span></div>
+    <div class="legend"><span><i style="background:var(--ink)"></i>Fullført per år</span><span><i style="background:var(--aurora)"></i>Behov, hovedbane</span><span><i style="background:color-mix(in srgb, var(--accent) 25%, transparent)"></i>Behovsspenn</span></div>
   </div>
   <div class="graf-kort">
     <h3>Fylkene: behov mot tilførsel</h3>
@@ -237,6 +235,9 @@ document.addEventListener('DOMContentLoaded', function(){
   function sisteAar(){ return Q[nQ-1].slice(0,4); }
 
   // ---------- felles SVG-hjelpere ----------
+  // Kvartalskode «2026K2» → desimalår og norsk etikett
+  function qx(t){ return +t.slice(0,4) + (+t.slice(5) - 1) / 4; }
+  function qlab(t){ return t.slice(5) + '. kv. ' + t.slice(0,4); }
   function linePath(pts){
     var d = '';
     pts.forEach(function(p, i){ d += (i ? ' L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); });
@@ -284,56 +285,30 @@ document.addEventListener('DOMContentLoaded', function(){
     var o = bolig(valg);
     var xs = [], ig = [], fu = [];
     for(var i = 3; i < nQ; i++){ xs.push(i); ig.push(r12(o.ig, i)); fu.push(r12(o.fu, i)); }
-    var W = 920, H = 300, L = 56, R = 14, T = 12, Bm = 30;
-    var ymax = niceMax(Math.max.apply(null, ig.concat(fu)) * 1.05);
-    function X(j){ return L + j / (xs.length - 1) * (W - L - R); }
-    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Rullerende byggetakt">';
-    for(var g = 0; g <= 4; g++){
-      var gv = ymax / 4 * g;
-      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)" stroke-width="1"/>';
-      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
-    }
-    xs.forEach(function(qi, j){
-      var t = Q[qi];
-      if(/K1$/.test(t) && (+t.slice(0,4)) % 4 === 2){
-        svg += '<text x="' + X(j) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + t.slice(0,4) + '</text>';
-      }
-    });
-    svg += '<path d="' + linePath(ig.map(function(v, j){ return [X(j), Y(v)]; })) + '" fill="none" stroke="var(--aurora)" stroke-width="2.4"/>';
-    svg += '<path d="' + linePath(fu.map(function(v, j){ return [X(j), Y(v)]; })) + '" fill="none" stroke="var(--nl)" stroke-width="2.4"/>';
-    svg += '<text x="' + (W - R) + '" y="' + (Y(ig[ig.length-1]) - 7) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--aurora)">' + fmt(ig[ig.length-1]) + '</text>';
-    svg += '<text x="' + (W - R) + '" y="' + (Y(fu[fu.length-1]) + 14) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--nl)">' + fmt(fu[fu.length-1]) + '</text>';
-    svg += '</svg>';
-    document.getElementById('rullGraf').innerHTML = svg;
+    var xq = xs.map(function(qi){ return qx(Q[qi]); });
+    var aarTicks = []; for(var ty = 2002; ty <= +Q[nQ-1].slice(0,4); ty += 4) aarTicks.push(ty);
+    document.getElementById('rullGraf').innerHTML = NN.placeholder('linjer', {
+      x: xq, xEtikett: xs.map(function(qi){ return qlab(Q[qi]); }),
+      serier: [
+        {navn:'Igangsettingstillatelser', kort:'Igangsatt', data: ig, farge:'accent', uthev:true},
+        {navn:'Fullførte boliger', kort:'Fullført', data: fu, farge:'cat-4'}
+      ],
+      format:'tall', null:true, xTicks: aarTicks, hoyde: 300,
+      yTittel:'Boliger, sum siste fire kvartaler', kilde:'Kilde: SSB tabell 05889, kommuneserier skjøtet til 2024-inndelingen.'
+    }, 320);
   }
 
   // ---------- akt 01: kvartalsgraf ----------
   function renderKvart(){
     var o = bolig(valg);
     var n = 18, start = nQ - n;
-    var W = 920, H = 240, L = 50, R = 10, T = 12, Bm = 30;
-    var vals = [];
-    for(var i = start; i < nQ; i++){ vals.push(o.ig[i], o.fu[i]); }
-    var ymax = niceMax(Math.max.apply(null, vals) * 1.1);
-    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
-    var bw = (W - L - R) / n;
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Kvartalsvis byggeaktivitet">';
-    for(var g = 0; g <= 3; g++){
-      var gv = ymax / 3 * g;
-      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>';
-      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
-    }
-    for(var j = 0; j < n; j++){
-      var qi = start + j, x0 = L + j * bw;
-      svg += '<rect x="' + (x0 + bw * 0.14) + '" width="' + (bw * 0.32) + '" y="' + Y(o.ig[qi]) + '" height="' + (Y(0) - Y(o.ig[qi])) + '" fill="var(--aurora)" rx="2"/>';
-      svg += '<rect x="' + (x0 + bw * 0.52) + '" width="' + (bw * 0.32) + '" y="' + Y(o.fu[qi]) + '" height="' + (Y(0) - Y(o.fu[qi])) + '" fill="var(--nl)" rx="2"/>';
-      if(/K1$/.test(Q[qi])){
-        svg += '<text x="' + (x0 + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + Q[qi].slice(0,4) + '</text>';
-      }
-    }
-    svg += '</svg>';
-    document.getElementById('kvartGraf').innerHTML = svg;
+    var kat = [], ig2 = [], fu2 = [], akse = [];
+    for(var i = start; i < nQ; i++){ kat.push(qlab(Q[i])); ig2.push(o.ig[i]); fu2.push(o.fu[i]); akse.push(/K1$/.test(Q[i]) ? Q[i].slice(0,4) : ''); }
+    document.getElementById('kvartGraf').innerHTML = NN.placeholder('stolper', {
+      kategorier: kat, aksetekst: akse,
+      serier: [{navn:'Igangsettingstillatelser', data: ig2, farge:'accent'}, {navn:'Fullførte boliger', data: fu2, farge:'cat-4'}],
+      format:'tall', hoyde: 250
+    }, 290);
   }
 
   // ---------- akt 02: gap-graf ----------
@@ -349,34 +324,18 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     var by = BE.years;                      // 2026..2049
     var alleX = histAar.concat(by);
-    var x0 = alleX[0], x1 = alleX[alleX.length - 1];
-    var alle = histVal.concat(be.hoved, be.lo, be.hi, [0]);
-    var ymin = Math.min.apply(null, alle), ymax = Math.max.apply(null, alle) * 1.08;
-    if(ymin > 0) ymin = 0;
-    var W = 920, H = 300, L = 56, R = 14, T = 12, Bm = 30;
-    function X(a){ return L + (a - x0) / (x1 - x0) * (W - L - R); }
-    function Y(v){ return T + (1 - (v - ymin) / (ymax - ymin)) * (H - T - Bm); }
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Behov mot tilførsel">';
-    for(var g = 0; g <= 4; g++){
-      var gv = ymin + (ymax - ymin) / 4 * g;
-      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>';
-      svg += '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv / 10) * 10) + '</text>';
-    }
-    if(ymin < 0) svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0) + '" y2="' + Y(0) + '" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="2 3"/>';
-    for(var a = Math.ceil(x0 / 5) * 5; a <= x1; a += 5){
-      svg += '<text x="' + X(a) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + a + '</text>';
-    }
-    // bånd
-    var band = 'M';
-    by.forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.hi[i]).toFixed(1) + ' L'; });
-    by.slice().reverse().forEach(function(a, i){ band += X(a).toFixed(1) + ' ' + Y(be.lo[by.length - 1 - i]).toFixed(1) + ' L'; });
-    svg += '<path d="' + band.slice(0, -2) + ' Z" fill="color-mix(in srgb, var(--accent) 18%, transparent)" stroke="none"/>';
-    svg += '<path d="' + linePath(histAar.map(function(a, i){ return [X(a), Y(histVal[i])]; })) + '" fill="none" stroke="var(--ink2)" stroke-width="2.2"/>';
-    svg += '<path d="' + linePath(by.map(function(a, i){ return [X(a), Y(be.hoved[i])]; })) + '" fill="none" stroke="var(--aurora)" stroke-width="2.6"/>';
-    svg += '<line x1="' + X(2026) + '" x2="' + X(2026) + '" y1="' + T + '" y2="' + (H - Bm) + '" stroke="var(--ink3)" stroke-dasharray="3 4"/>';
-    svg += '<text x="' + X(2026) + '" y="' + (T + 10) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">i dag</text>';
-    svg += '</svg>';
-    document.getElementById('gapGraf').innerHTML = svg;
+    var hSerie = histVal.concat(by.map(function(){ return null; }));
+    var bSerie = histAar.map(function(){ return null; }).concat(be.hoved);
+    document.getElementById('gapGraf').innerHTML = NN.placeholder('linjer', {
+      x: alleX,
+      serier: [
+        {navn:'Fullførte boliger per år', kort:'Fullført', data: hSerie, farge:'ink'},
+        {navn:'Beregnet behov, hovedbane', kort:'Behov', data: bSerie, farge:'accent', uthev:true}
+      ],
+      band: {x: by, lo: be.lo, hi: be.hi, farge:'accent'},
+      format:'tall', null:true, iDag:2026, xTicks:[2005,2010,2015,2020,2025,2030,2035,2040,2045], hoyde: 300,
+      yTittel:'Boliger per år. Skravert bånd = spennet over åtte kombinasjoner av befolkningsbaner og husholdningskvoter.'
+    }, 320);
   }
 
   // ---------- akt 02: fylkestabell + kalibrering ----------
@@ -512,26 +471,16 @@ document.addEventListener('DOMContentLoaded', function(){
       if(fuAar[a].length === 4){ fuY.push(+a); fuV.push(fuAar[a].reduce(function(s, v){ return s + v; }, 0)); }
     });
     var oY = M.oms_years, oV = M.oms_landsdel.oms;
-    var W = 920, H = 280, L = 56, R = 14, T = 12, Bm = 30;
-    var x0 = oY[0], x1 = oY[oY.length-1];
-    var ymax = niceMax(Math.max.apply(null, oV) * 1.06);
-    function X(a){ return L + (a - x0) / (x1 - x0) * (W - L - R); }
-    function Y(v){ return T + (1 - v / ymax) * (H - T - Bm); }
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Bruktomsetninger mot nybygg">';
-    for(var g = 0; g <= 4; g++){
-      var gv = ymax / 4 * g;
-      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(gv) + '" y2="' + Y(gv) + '" stroke="var(--line2)"/>' +
-        '<text x="' + (L - 8) + '" y="' + (Y(gv) + 4) + '" text-anchor="end" style="font-size:10.5px;fill:var(--ink3)">' + fmt(Math.round(gv)) + '</text>';
-    }
-    for(var a = 1995; a <= x1; a += 5){
-      svg += '<text x="' + X(a) + '" y="' + (H - 8) + '" text-anchor="middle" style="font-size:10.5px;fill:var(--ink3)">' + a + '</text>';
-    }
-    svg += '<path d="' + linePath(oY.map(function(a, i){ return [X(a), Y(oV[i])]; })) + '" fill="none" stroke="var(--ink2)" stroke-width="2.4"/>';
-    svg += '<path d="' + linePath(fuY.map(function(a, i){ return [X(a), Y(fuV[i])]; })) + '" fill="none" stroke="var(--nl)" stroke-width="2.4"/>';
-    svg += '<text x="' + (W - R) + '" y="' + (Y(oV[oV.length-1]) - 8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--ink2)">' + fmt(oV[oV.length-1]) + '</text>';
-    svg += '<text x="' + (W - R) + '" y="' + (Y(fuV[fuV.length-1]) + 15) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--nl)">' + fmt(fuV[fuV.length-1]) + '</text>';
-    svg += '</svg>';
-    document.getElementById('omsGraf').innerHTML = svg;
+    var fuSerie = oY.map(function(a){ var j = fuY.indexOf(a); return j < 0 ? null : fuV[j]; });
+    document.getElementById('omsGraf').innerHTML = NN.placeholder('linjer', {
+      x: oY,
+      serier: [
+        {navn:'Omsetninger i bruktmarkedet', kort:'Brukt', data: oV, farge:'accent', uthev:true},
+        {navn:'Fullførte nybygg', kort:'Nybygg', data: fuSerie, farge:'cat-4'}
+      ],
+      format:'tall', null:true, xTicks:[1995,2000,2005,2010,2015,2020,2025], hoyde: 280,
+      kilde:'Kilde: SSB tabell 06726 (omsetninger, fritt salg) og 05889 (fullførte boliger).'
+    }, 300);
 
     // pris-avstanden nybygg mot brukt (eneboliger)
     var ny = M.nybygg, nyP = null, nyAar = null;

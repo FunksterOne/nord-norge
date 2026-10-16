@@ -154,7 +154,7 @@ function renderDec(el, width, k, o) {
   return [head, fig];
 }
 
-function renderFb(el, width, k, o) {
+function renderFb(el, width, k, o, sp = {}) {
   const yrs = L.DATA.proj.years;
   const r = o.a65.map((v, i) => ({ year: yrs[i], v: o.a2064[i] ? 100 * v / o.a2064[i] : null }));
   const i65 = o.a65.map((v, i) => ({ year: yrs[i], v: 100 * v / o.a65[0], g: '65+' }));
@@ -167,10 +167,12 @@ function renderFb(el, width, k, o) {
   const figA = Plot.plot(base({
     width, height: 230, marginRight: 56,
     x: { ticks, tickFormat: String },
-    y: { nice: true, tickFormat: v => tall(v, 0) },
+    y: { nice: true, tickFormat: v => tall(v, 0), domain: sp.ref ? [Math.min(...r.map(d => d.v)) - 2, Math.max(sp.ref, ...r.map(d => d.v)) + 2] : undefined },
     marks: [
       Plot.areaY(r, { x: 'year', y1: r0, y2: 'v', fill: 'var(--accent)', fillOpacity: 0.12 }),
       Plot.ruleY([r0], { stroke: 'var(--ink-3)', strokeDasharray: '2,3' }),
+      sp.ref && Plot.ruleY([sp.ref], { stroke: 'var(--warn)', strokeWidth: 1.2 }),
+      sp.ref && Plot.text([sp.ref], { y: d => d, frameAnchor: 'right', dx: 52, dy: -8, text: () => `OECD 2050 ≈ ${sp.ref}`, fill: 'var(--warn)', fontSize: 11 }),
       Plot.lineY(r, { x: 'year', y: 'v', stroke: 'var(--accent)', strokeWidth: 2.6 }),
       Plot.dot([r[0], r[r.length - 1]], { x: 'year', y: 'v', r: 4.5, fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2 }),
       Plot.text([r[0]], { x: 'year', y: 'v', text: d => tall(d.v, 0), dy: -12, fill: 'var(--ink)', fontWeight: 600, fontSize: 13 }),
@@ -232,7 +234,7 @@ register('proj', (el, width) => {
   if (!o || !k) return document.createTextNode('');
   if (s.mode === 'tot') return renderTot(el, width, k, o);
   if (s.mode === 'dec') return renderDec(el, width, k, o);
-  if (s.mode === 'fb') return renderFb(el, width, k, o);
+  if (s.mode === 'fb') return renderFb(el, width, k, o, s);
   return renderAge(el, width, k, o);
 });
 

@@ -69,9 +69,11 @@
   <!-- Hero-graf: hele landsdelen 2000-2050 -->
   <div class="card hero-chart" id="bigPicChart">
     <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000 → 2050</h3></div>
-    <p class="hint">Heltrukken mørk linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Auroragrønn = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Lilla = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Amber = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
+    <p class="hint">Linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Blå = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Grå prikket = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Gul stiplet = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
     <div id="bigPicGraph"></div>
   </div>
+
+  <div id="fylkeVisuelt"></div>
 
   <!-- Drilldown: modeller, kildedata, backtest -->
   <details class="explain" style="margin-top:18px">
@@ -493,6 +495,21 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>de neste 25 årene</em>';
   document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026');
   document.title = fylke + ' - Nord-Norge dashboard';
+
+  // Kart over fylket + små multipler for fylkets kommuner
+  var fv = document.getElementById('fylkeVisuelt');
+  if(fv && window.NN){
+    var nK = K.filter(function(x){ return x.fylke === fylke; });
+    var nNed = nK.filter(function(x){ var o = DATA.proj.kommuner[x.nr]; return o && o.main[o.main.length-1] < o.main[0]; }).length;
+    fv.innerHTML =
+      '<section class="exhibit" style="margin-top:40px"><div class="kicker">Kartet · ' + fylke + '</div>' +
+      '<h2 class="exhibit-h">' + nNed + ' av ' + nK.length + ' kommuner i ' + fylke + ' får færre innbyggere mot 2050 etter SSBs hovedalternativ</h2>' +
+      '<p class="exhibit-lede">Bytt indikator øverst. Pek for tall, klikk for kommunesiden. Nabofylkene vises dempet.</p>' +
+      NN.placeholder('kart', {ind:'endring', controls:true, fylke:fylke}, 560) + '</section>' +
+      '<section class="exhibit"><div class="kicker">Kommunene i ' + fylke + ' · små multipler</div>' +
+      '<h2 class="exhibit-h">Hver kommune sin kurve 2000–2050, sortert etter endring mot 2050</h2>' +
+      NN.placeholder('skjebner', {fylke:fylke}, 420) + '</section>';
+  }
 
   // Erstatt "Nord-Norge"/"landsdelen" i titler og hint-tekster med valgt fylke.
   // Bruker tekstnode-erstatning sa lenker og struktur bevares.

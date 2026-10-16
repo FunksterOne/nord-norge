@@ -8,6 +8,11 @@ import './charts/proj.js';
 import './charts/map.js';
 import './charts/plassering.js';
 import './charts/trykk.js';
+import './charts/skjebner.js';
+import './charts/gap.js';
+import './charts/linjer.js';
+import './charts/spredning.js';
+import './charts/stolper.js';
 
 initTheme();
 initSearch();

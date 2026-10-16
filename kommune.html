@@ -28,7 +28,7 @@
 .bf-modes{display:flex;gap:6px;flex-wrap:wrap;background:var(--paper2);padding:6px;border-radius:0;border:1px solid var(--line2)}
 .bf-modes button{flex:1;min-width:120px;font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:0;font-weight:500;transition:all .12s ease}
 .bf-modes button:hover{color:var(--ink);background:var(--paper)}
-.bf-modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
+.bf-modes button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:600}
 .bf-graph{padding:14px 18px 8px;background:var(--paper);border:1px solid var(--line2);border-radius:0}
 .bf-graph svg.chart{width:100%;height:auto;max-height:520px;display:block}
 /* Liggende stolpediagram setter høyden selv (én rad per årskull) — høydetaket
@@ -54,7 +54,7 @@
 .bf-radio{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;background:var(--paper);padding:5px;border-radius:0;border:1px solid var(--line2)}
 .bf-radio button{font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;border-radius:0;font-weight:500;text-align:left}
 .bf-radio button:hover{background:var(--paper2);color:var(--ink)}
-.bf-radio button[aria-pressed="true"]{background:var(--aurora);color:var(--paper);font-weight:600;border-color:var(--aurora)}
+.bf-radio button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:600;border-color:var(--aurora)}
 .bf-radio button[aria-pressed="true"] em{color:color-mix(in srgb, var(--raised) 85%, transparent)}
 .bf-radio button .bf-r-title{display:block;font-size:13px}
 .bf-radio button .bf-r-sub{display:block;font-size:11px;opacity:.7;margin-top:2px;font-weight:400}
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var forGrunnskole = k.alder.slice(0,6).reduce(function(s,x){return s+x;},0);
     var a80 = k.alder.slice(80).reduce(function(s,x){return s+x;},0);
     var sj = k.syss, sjr = sj?sj.rate:null;
-    var sjVal = sjr && sjr.zzz!=null ? sjr.zzz.toFixed(1).replace('.',',')+'%' : '–';
+    var sjVal = sjr && sjr.zzz!=null ? sjr.zzz.toFixed(1).replace('.',',')+' %' : '–';
     var sjGap = (sjr && sjr.zzz!=null && sjr.tot!=null) ? (sjr.tot-sjr.zzz).toFixed(1).replace('.',',') : null;
     // Forrige/neste innen samme fylke
     var fk = K.filter(function(x){return x.fylke===k.fylke;}).sort(function(a,b){return b.pop-a.pop;});
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function(){
       statusBadges(k, st) +
       '<div class="kpis kpis-7">' +
         popKpi(k, '') +
-        '<div class="kpi"><div class="v">' + k.andel.toFixed(1).replace('.',',') + '%</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
+        '<div class="kpi"><div class="v">' + k.andel.toFixed(1).replace('.',',') + ' %</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
         '<div class="kpi"><div class="v">' + (forGrunnskole/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">Under skolealder</div><div class="s">' + fmt(forGrunnskole) + ' barn 0–5 år</div></div>' +
         '<div class="kpi"><div class="v">' + (a80/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">80 år og over</div><div class="s">' + fmt(a80) + ' personer</div></div>' +
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function renderLevekarPanel(k, host){
     var L = (typeof LEVEKAR_DATA !== 'undefined') ? LEVEKAR_DATA.kommuner[String(k.nr)] : null;
     var NORGE_INNT = 615000;
-    var fmtKr = function(n){ return n == null ? '–' : Math.round(n/1000) + 'k'; };
+    var fmtKr = function(n){ return n == null ? '–' : fmt(Math.round(n/1000)) + ' 000'; };
 
     var med = L ? L.medianInntektEtterSkatt : null;
     var pctSelv = L ? L.pct_selveier : null;
@@ -863,8 +863,8 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="bf-panel">'+
         // KPI-rad
         '<div class="bf-kpis">'+
-          '<div class="k"><div class="v">'+(med != null ? Math.round(med/1000)+'k' : '–')+'</div><div class="l">Median husholdningsinntekt</div><div class="h">'+(diffNorge != null ? (diffNorge >= 0 ? '+' : '−')+Math.abs(diffNorge).toFixed(0).replace('.',',')+' % vs Norge' : 'etter skatt')+'</div></div>'+
-          '<div class="k"><div class="v">'+(lonn != null ? Math.round(lonn/1000)+'k' : '–')+'</div><div class="l">Median lønn</div><div class="h">bosatte 17+ med lønn</div></div>'+
+          '<div class="k"><div class="v">'+(med != null ? fmt(Math.round(med/1000))+' 000' : '–')+'</div><div class="l">Median husholdningsinntekt</div><div class="h">'+(diffNorge != null ? (diffNorge >= 0 ? '+' : '−')+Math.abs(diffNorge).toFixed(0).replace('.',',')+' % vs Norge' : 'etter skatt')+'</div></div>'+
+          '<div class="k"><div class="v">'+(lonn != null ? fmt(Math.round(lonn/1000))+' 000' : '–')+'</div><div class="l">Median lønn</div><div class="h">bosatte 17+ med lønn</div></div>'+
           '<div class="k"><div class="v">'+(andelLonn != null ? andelLonn.toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Lønnsandel av inntekt</div><div class="h">'+(andelTrygd != null ? andelTrygd.toFixed(0).replace('.',',')+' % trygd' : '')+'</div></div>'+
           '<div class="k"><div class="v">'+(pctSelv != null ? pctSelv.toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Selveiere</div><div class="h">av husholdningene</div></div>'+
         '</div>'+

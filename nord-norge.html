@@ -63,9 +63,23 @@
   <!-- Hero-graf: hele landsdelen 2000-2050 -->
   <div class="card hero-chart" id="bigPicChart">
     <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000 → 2050</h3></div>
-    <p class="hint">Heltrukken mørk linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Auroragrønn = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Lilla = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Amber = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
+    <p class="hint">Linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Blå = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Grå prikket = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Gul stiplet = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
     <div id="bigPicGraph"></div>
   </div>
+
+  <section class="exhibit" style="margin-top:40px">
+    <div class="kicker">Kartet · alle 80 kommuner</div>
+    <h2 class="exhibit-h">Landsdelen samlet holder seg nesten flatt — men bak tallet krymper flertallet av kommunene</h2>
+    <p class="exhibit-lede">Bytt indikator for aldring, forsørgerbyrde, innvandring, folketall og ROBEK-status. Pek for tall, klikk for kommunesiden.</p>
+    <div data-nnchart="kart" data-spec='{"ind":"endring","controls":true}' style="min-height:560px"></div>
+  </section>
+
+  <section class="exhibit">
+    <div class="kicker">80 skjebner · små multipler</div>
+    <h2 class="exhibit-h">Hver kommune har sin egen kurve — samme skala, sortert fra sterkest vekst til størst nedgang</h2>
+    <p class="exhibit-lede">Hver rute er én kommune, 2000–2050. Den grå delen er det som har skjedd; den fargede er SSBs hovedalternativ. Pek for detaljer, klikk for å åpne kommunen.</p>
+    <div data-nnchart="skjebner" data-spec='{"fylke":"Alle"}' style="min-height:700px"></div>
+  </section>
 
   <!-- Drilldown: modeller, kildedata, backtest -->
   <details class="explain" style="margin-top:18px">

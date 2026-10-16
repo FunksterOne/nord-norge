@@ -18,8 +18,8 @@
 .vekt-wrap{padding:30px 24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .vekt-row{display:grid;grid-template-columns:1fr 80px 1fr;gap:20px;align-items:center}
 .vekt-side{padding:24px 18px;border-radius:0}
-.vekt-side.o6{background:color-mix(in srgb, var(--cat-5) 15%, transparent);border:1px solid color-mix(in srgb, var(--cat-5) 40%, transparent)}
-.vekt-side.rest{background:color-mix(in srgb, var(--accent) 10%, transparent);border:1px solid color-mix(in srgb, var(--accent) 30%, transparent)}
+.vekt-side.o6{background:var(--accent-tint);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent)}
+.vekt-side.rest{background:var(--panel);border:1px solid var(--line)}
 .vekt-side h3{font-family:var(--font-display);font-size:14px;font-weight:600;margin:0 0 4px;letter-spacing:.04em;text-transform:uppercase}
 .vekt-side .v{font-family:var(--font-display);font-size:54px;font-weight:600;line-height:1;color:var(--ink);margin:6px 0 2px}
 .vekt-side .pct{font-family:var(--font-mono);font-size:13px;color:var(--ink2);font-weight:600}
@@ -35,11 +35,11 @@
 .gap-tabell th.r{text-align:right}
 .gap-tabell td{padding:11px 14px;border-bottom:1px solid var(--line2);color:var(--ink2)}
 .gap-tabell td.r{text-align:right;font-family:var(--font-mono);color:var(--ink)}
-.gap-tabell td.o6{color:var(--cat-5);font-weight:600}
-.gap-tabell td.rest{color:var(--pos);font-weight:600}
+.gap-tabell td.o6{color:var(--accent-text);font-weight:600}
+.gap-tabell td.rest{color:var(--ink-2);font-weight:600}
 .gap-tabell tr:last-child td{border-bottom:0}
-.kpi-rad .kpi .v.amber{color:var(--amber)}
-.kpi-rad .kpi .v.aur{color:var(--aurora)}
+.kpi-rad .kpi .v.amber{color:var(--accent-text)}
+.kpi-rad .kpi .v.aur{color:var(--ink-2)}
 .o6-liste{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:14px 0}
 .o6-liste a{padding:10px 14px;background:var(--paper2);border:1px solid color-mix(in srgb, var(--cat-5) 40%, transparent);border-radius:0;text-decoration:none;display:flex;justify-content:space-between;align-items:baseline}
 .o6-liste a:hover{background:var(--paper);border-color:var(--amber)}
@@ -145,7 +145,7 @@
   <div class="kpi-rad" id="konsekvensKPI"></div>
   <div class="duo-graph">
     <h3 style="font-family:var(--font-display);font-size:15px;font-weight:600;margin:0 0 8px">Befolkning 2000 → 2050 — to baner</h3>
-    <p class="hint" style="font-size:11.5px;margin:0 0 10px">Histori­kk + framskriving (SSB MMMM). Aurora = O6 samlet, amber = de 74 samlet. Skala­forskjellen er normalisert til indeks 100 = 2000.</p>
+    <p class="hint" style="font-size:11.5px;margin:0 0 10px">Historikk + framskriving (SSB MMMM). Blå = O6 samlet, grå = de 74 samlet. Skala­forskjellen er normalisert til indeks 100 = 2000.</p>
     <div id="duoGraf"></div>
   </div>
 
@@ -320,10 +320,13 @@ document.addEventListener('DOMContentLoaded', function(){
       return '<tr><td>'+label+'<div style="font-size:11px;color:var(--ink3);font-style:italic">'+hint+'</div></td><td class="r">—</td><td class="r">—</td><td class="r">—</td></tr>';
     }
     var diff = o6v - restv;
-    var diffStr = (diff >= 0 ? '+' : '−') + Math.abs(diff).toFixed(d).replace('.',',') + unit;
+    var nf = function(v){ return v.toLocaleString('nb-NO', {minimumFractionDigits:d, maximumFractionDigits:d}); };
+    // Forskjell mellom to prosentandeler oppgis i prosentenheter
+    var dUnit = unit === ' %' ? ' p.e.' : unit;
+    var diffStr = (diff >= 0 ? '+' : '−') + nf(Math.abs(diff)) + dUnit;
     return '<tr><td>'+label+'<div style="font-size:11px;color:var(--ink3);font-style:italic">'+hint+'</div></td>'+
-           '<td class="r o6">'+o6v.toFixed(d).replace('.',',')+unit+'</td>'+
-           '<td class="r rest">'+restv.toFixed(d).replace('.',',')+unit+'</td>'+
+           '<td class="r o6">'+nf(o6v)+unit+'</td>'+
+           '<td class="r rest">'+nf(restv)+unit+'</td>'+
            '<td class="r">'+diffStr+'</td></tr>';
   }
   tbody.innerHTML =
@@ -344,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v amber">' + inROBEK + '</div><div class="l">av O6 i ROBEK</div><div class="nh">av 6 kommuner</div></div>' +
     '<div class="kpi"><div class="v aur">' + restROBEK + '</div><div class="l">av de 74 i ROBEK</div><div class="nh">av 74 kommuner</div></div>' +
     '<div class="kpi"><div class="v">' + (medO6 != null && medRest != null ? (medRest - medO6).toFixed(1).replace('.',',') : '—') + ' år</div><div class="l">Aldersgap</div><div class="nh">74 - O6 medianalder</div></div>' +
-    '<div class="kpi"><div class="v">' + (sysO6 != null && sysRest != null ? '+' + (sysO6 - sysRest).toFixed(1).replace('.',',') : '—') + ' prosentenheter</div><div class="l">Sysselsettings­gap</div><div class="nh">O6 over 74</div></div>';
+    '<div class="kpi"><div class="v">' + (sysO6 != null && sysRest != null ? '+' + (sysO6 - sysRest).toFixed(1).replace('.',',') : '—') + '</div><div class="l">Sysselsettingsgap, prosentenheter</div><div class="nh">O6 over 74</div></div>';
 
   // Duo-graf: befolkning 2000-2050, indeksert
   if(DATA.proj && DATA.proj.years){
@@ -393,51 +396,15 @@ document.addEventListener('DOMContentLoaded', function(){
     var o6Idx = o6Series.map(function(v){ return v / o6Base * 100; });
     var rIdx = restSeries.map(function(v){ return v / rBase * 100; });
 
-    var VB = 760, H = 360, PAD = {l:60, r:40, t:30, b:60};
-    var W = VB - PAD.l - PAD.r, IH = H - PAD.t - PAD.b;
-    var minY = Math.min.apply(null, o6Idx.concat(rIdx)) - 3;
-    var maxY = Math.max.apply(null, o6Idx.concat(rIdx)) + 3;
-    var x = function(i){ return PAD.l + (W / (seriesYears.length-1)) * i; };
-    var y = function(v){ return PAD.t + (1 - (v-minY)/(maxY-minY)) * IH; };
-
-    var svg = '<svg viewBox="0 0 ' + VB + ' ' + H + '" style="display:block;width:100%;height:auto">';
-    // Grid
-    for(var v = Math.ceil(minY/5)*5; v <= maxY; v += 5){
-      var yy = y(v);
-      svg += '<line x1="' + PAD.l + '" y1="' + yy + '" x2="' + (PAD.l+W) + '" y2="' + yy + '" stroke="var(--line2)" stroke-dasharray="2 4"/>';
-      svg += '<text x="' + (PAD.l-8) + '" y="' + (yy+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + v + '</text>';
-    }
-    // 100-linje markert
-    var y100 = y(100);
-    svg += '<line x1="' + PAD.l + '" y1="' + y100 + '" x2="' + (PAD.l+W) + '" y2="' + y100 + '" stroke="var(--ink3)" stroke-width="1"/>';
-    // X-akse
-    seriesYears.forEach(function(yr, i){
-      if(i === 0 || i === seriesYears.length-1 || yr % 10 === 0){
-        svg += '<text x="' + x(i) + '" y="' + (PAD.t+IH+18) + '" text-anchor="middle" style="font-size:10px;fill:var(--ink3)">' + yr + '</text>';
-      }
-    });
-    // Vertikal linje for "i dag"
-    var nowIdx = seriesYears.indexOf(2026);
-    if(nowIdx === -1) nowIdx = seriesYears.indexOf(2025);
-    if(nowIdx > 0){
-      svg += '<line x1="' + x(nowIdx) + '" y1="' + PAD.t + '" x2="' + x(nowIdx) + '" y2="' + (PAD.t+IH) + '" stroke="var(--ink3)" stroke-dasharray="3 3" stroke-width="1"/>';
-      svg += '<text x="' + (x(nowIdx)+4) + '" y="' + (PAD.t+12) + '" style="font-size:10px;fill:var(--ink3)">i dag</text>';
-    }
-    // Linjer
-    var pts1 = o6Idx.map(function(v,i){ return x(i)+','+y(v); }).join(' ');
-    var pts2 = rIdx.map(function(v,i){ return x(i)+','+y(v); }).join(' ');
-    svg += '<polyline points="' + pts2 + '" fill="none" stroke="var(--aurora)" stroke-width="2.5"/>';
-    svg += '<polyline points="' + pts1 + '" fill="none" stroke="var(--amber)" stroke-width="2.5"/>';
-    // Endepunkter
-    var lastIdx = seriesYears.length-1;
-    svg += '<circle cx="' + x(lastIdx) + '" cy="' + y(o6Idx[lastIdx]) + '" r="4" fill="var(--amber)"/>';
-    svg += '<text x="' + (x(lastIdx)-4) + '" y="' + (y(o6Idx[lastIdx])-8) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--amber)">O6: ' + o6Idx[lastIdx].toFixed(0) + '</text>';
-    svg += '<circle cx="' + x(lastIdx) + '" cy="' + y(rIdx[lastIdx]) + '" r="4" fill="var(--aurora)"/>';
-    svg += '<text x="' + (x(lastIdx)-4) + '" y="' + (y(rIdx[lastIdx])+14) + '" text-anchor="end" style="font-size:11px;font-weight:700;fill:var(--aurora)">74: ' + rIdx[lastIdx].toFixed(0) + '</text>';
-    // Y-akse label
-    svg += '<text x="' + PAD.l + '" y="' + (PAD.t-10) + '" style="font-size:10.5px;fill:var(--ink2)">Indeks (2000 = 100)</text>';
-    svg += '</svg>';
-    document.getElementById('duoGraf').innerHTML = svg;
+    if(window.NN) document.getElementById('duoGraf').innerHTML = NN.placeholder('linjer', {
+      x: seriesYears,
+      serier: [
+        {navn:'De seks største (O6)', kort:'O6', data:o6Idx.map(function(v){return Math.round(v*10)/10;}), farge:'accent', uthev:true},
+        {navn:'De 74 øvrige', kort:'De 74', data:rIdx.map(function(v){return Math.round(v*10)/10;}), farge:'cat-4'}
+      ],
+      format:'indeks', iDag:2026, ref:[{y:100, tekst:'2000-nivå'}], xTicks:[2000,2010,2020,2030,2040,2050],
+      yTittel:'Folketall, indeks (2000 = 100). Faktisk til 2025, SSB hovedalternativ (MMMM) fra 2026.', hoyde:330
+    }, 360);
   }
 });
 </script>

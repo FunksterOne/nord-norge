@@ -86,3 +86,38 @@ export function placeholder(name, spec = {}, height = 300) {
 export function spec(el) {
   try { return JSON.parse(el.dataset.spec || '{}'); } catch { return {}; }
 }
+
+// Grådig etikettplassering uten kollisjon. items: [{x, y, r, text}] i dataenheter.
+// Bruker skalaene fra en ferdig tegnet figur; returnerer [{x, y, text, anchor}] i dataenheter.
+export function placeLabels(fig, items, { font = 11, pad = 3 } = {}) {
+  const sx = fig.scale('x'), sy = fig.scale('y');
+  if (!sx || !sy) return [];
+  const boxes = [];
+  const hit = b => boxes.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
+  // punktene selv er hindringer
+  for (const it of items) {
+    const px = sx.apply(it.x), py = sy.apply(it.y), r = it.r || 4;
+    boxes.push({ x0: px - r, x1: px + r, y0: py - r, y1: py + r });
+  }
+  const out = [];
+  const sorted = [...items].sort((a, b) => (b.prio || 0) - (a.prio || 0));
+  for (const it of sorted) {
+    const px = sx.apply(it.x), py = sy.apply(it.y), r = (it.r || 4) + pad;
+    const w = it.text.length * font * 0.58, h = font + 2;
+    const cand = [
+      { cx: px, cy: py - r - h / 2, anchor: 'middle' },
+      { cx: px, cy: py + r + h / 2, anchor: 'middle' },
+      { cx: px + r + w / 2, cy: py, anchor: 'start' },
+      { cx: px - r - w / 2, cy: py, anchor: 'end' },
+    ];
+    for (const c of cand) {
+      const b = { x0: c.cx - w / 2, x1: c.cx + w / 2, y0: c.cy - h / 2, y1: c.cy + h / 2 };
+      if (hit(b)) continue;
+      boxes.push(b);
+      const ax = c.anchor === 'start' ? b.x0 : c.anchor === 'end' ? b.x1 : c.cx;
+      out.push({ x: sx.invert ? sx.invert(ax) : it.x, y: sy.invert(c.cy), text: it.text, anchor: c.anchor });
+      break;
+    }
+  }
+  return out;
+}

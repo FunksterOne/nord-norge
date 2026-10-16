@@ -254,7 +254,7 @@ function sysCard(sj){
   if(R.zzz!=null && R.tot!=null){
     foot='Innvandrere ligger <b>'+(R.tot-R.zzz).toFixed(1).replace('.',',')+' prosentpoeng</b> under hele befolkningen her';
     if(R.ddd!=null && R.eee!=null)
-      foot+=', og forskjellen vestlig ('+R.ddd.toFixed(1).replace('.',',')+'%) vs. ikke-vestlig ('+R.eee.toFixed(1).replace('.',',')+'%) er '+(R.ddd-R.eee).toFixed(1).replace('.',',')+' prosentenheter';
+      foot+=', og forskjellen vestlig ('+R.ddd.toFixed(1).replace('.',',')+'%) vs. ikke-vestlig ('+R.eee.toFixed(1).replace('.',',')+' %) er '+(R.ddd-R.eee).toFixed(1).replace('.',',')+' prosentenheter';
     foot+='.';
   } else { foot='Antall sysselsatte innvandrere: '+(sj.cnt&&sj.cnt.zzz!=null?fmt(sj.cnt.zzz):'\u2013')+'.'; }
   const sel=x=>state.sysSex===x?'true':'false';
@@ -429,7 +429,7 @@ function kostraCard(k){
              ['bhg_pct','Barnehage','a15','var(--aurora)'],
              ['khelse_pct','Kommunehelse',null,'var(--cat-3)'],
              ['kultur_pct','Kultur',null,'var(--gold)'],
-             ['kirke_pct','Kirke',null,'#9C8B6E']];
+             ['kirke_pct','Kirke',null,'var(--cat-5)']];
   const sv=f=>num(ks[f]);
   let summed=0; SEC.forEach(s=>{const x=sv(s[0]); if(x!=null)summed+=x;});
   const annet=Math.max(0,100-summed);
@@ -541,14 +541,14 @@ function kostraCard(k){
       const sy0=XY[0],sy1=XY[XY.length-1],VB=720,Lx=44,Rx=142,Tp=14,Wd=VB-Lx-Rx,Hh=200;
       const X=y=>Lx+((y-sy0)/((sy1-sy0)||1))*Wd, Y=p=>Tp+(1-p/100)*Hh;
       let g='<svg class="chart" viewBox="0 0 '+VB+' '+(Tp+Hh+26)+'" preserveAspectRatio="xMidYMid meet" style="height:240px">';
-      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+'%</text>';}
+      for(let q=0;q<=4;q++){const yy=Tp+Hh*q/4;g+='<line x1="'+Lx+'" y1="'+yy+'" x2="'+(Lx+Wd)+'" y2="'+yy+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';g+='<text class="axis" x="'+(Lx-6)+'" y="'+(yy+3)+'" text-anchor="end">'+(100-25*q)+' %</text>';}
       let cum=new Array(XY.length).fill(0);
       SX.forEach((s,si)=>{let tp='',bt='';
         for(let i=0;i<XY.length;i++){const t=cum[i]+ST[i][si];tp+=(i?' L':'M')+X(XY[i]).toFixed(1)+' '+Y(t).toFixed(1);}
         for(let i=XY.length-1;i>=0;i--){bt+=' L'+X(XY[i]).toFixed(1)+' '+Y(cum[i]).toFixed(1);}
         g+='<path d="'+tp+bt+' Z" fill="'+s.c+'" fill-opacity="'+(s.nm==='Annet'?'.5':'.9')+'" stroke="var(--paper2)" stroke-width="0.5"/>';
         const my=Y(cum[XY.length-1]+ST[XY.length-1][si]/2);
-        if(ST[XY.length-1][si]>=4)g+='<text x="'+(Lx+Wd+6)+'" y="'+(my+3)+'" style="font-size:10px;font-weight:700;fill:var(--ink2)">'+s.nm+' '+ST[0][si].toFixed(0)+'\u2192'+ST[XY.length-1][si].toFixed(0).replace('.',',')+'%</text>';
+        if(ST[XY.length-1][si]>=4)g+='<text x="'+(Lx+Wd+6)+'" y="'+(my+3)+'" style="font-size:10px;font-weight:700;fill:var(--ink2)">'+s.nm+' '+ST[0][si].toFixed(0)+'\u2192'+ST[XY.length-1][si].toFixed(0).replace('.',',')+' %</text>';
         for(let i=0;i<XY.length;i++)cum[i]+=ST[i][si];});
       const jx=X(joinY);
       g+='<line x1="'+jx+'" y1="'+Tp+'" x2="'+jx+'" y2="'+(Tp+Hh)+'" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>';
@@ -807,9 +807,9 @@ function kommuneStatus(k){
 }
 function statusBadges(k,s){
   if(k.isAgg) return '';
-  const gtxt = s.growth==='up' ? '↑ vekst '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+'%' :
-               s.growth==='down' ? '↓ krymper '+s.growthPct.toFixed(0).replace('.',',')+'%' :
-               '→ stabilt '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+'%';
+  const gtxt = s.growth==='up' ? '↑ vekst '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+' %' :
+               s.growth==='down' ? '↓ krymper '+s.growthPct.toFixed(0).replace('.',',')+' %' :
+               '→ stabilt '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+' %';
   const rtxt = s.robek==='in' ? '● i ROBEK' :
                s.robek==='pending' ? '● ROBEK under behandling' :
                '● ROBEK-trygg';
@@ -864,7 +864,7 @@ function levekarKommuneCard(k){
     '<div class="ch"><h3 class="serif">Levekår og inntekt</h3></div>'+
     '<p class="hint">Hva tjener husholdningene i '+k.navn+', hvor kommer pengene fra, hvordan bor de? Kilder: SSB 12558 (inntekt 2024), 14780 (personinntekt 2025), 14891 (eierstatus 2025), 06265 (boliger 2026).</p>'+
     '<div class="kpis" style="margin-top:14px">'+
-      '<div class="kpi"><div class="v">'+(r.medianInntektEtterSkatt?Math.round(r.medianInntektEtterSkatt/1000)+'k':'–')+'</div><div class="l">Median hush.-inntekt</div><div class="s">etter skatt'+(diffLandsdel!=null?' · '+(diffLandsdel>=0?'+':'−')+Math.abs(diffLandsdel).toFixed(0).replace('.',',')+' % vs landsdel':'')+'</div></div>'+
+      '<div class="kpi"><div class="v">'+(r.medianInntektEtterSkatt?fmt(Math.round(r.medianInntektEtterSkatt/1000))+' 000':'–')+'</div><div class="l">Median hush.-inntekt</div><div class="s">etter skatt'+(diffLandsdel!=null?' · '+(diffLandsdel>=0?'+':'−')+Math.abs(diffLandsdel).toFixed(0).replace('.',',')+' % vs landsdel':'')+'</div></div>'+
       '<div class="kpi"><div class="v">'+fmt0(r.hush_total)+'</div><div class="l">Husholdninger</div><div class="s">'+(r.pct_selveier!=null?r.pct_selveier.toFixed(0).replace('.',',')+' % selveiere':'')+'</div></div>'+
       '<div class="kpi"><div class="v">'+fmt0(bolTot)+'</div><div class="l">Boliger</div><div class="s">'+eneP.toFixed(0).replace('.',',')+' % enebolig · '+blokkP.toFixed(0).replace('.',',')+' % blokk</div></div>'+
       (rang?'<div class="kpi"><div class="v">'+rang.rang+'</div><div class="l">Rang i Nord-Norge</div><div class="s">av '+rang.total+' kommuner, høyest inntekt = 1</div></div>':'')+
@@ -893,8 +893,8 @@ function originCard(k,vesP,iveP,lands,shown){
     '<h3 class="serif">Opprinnelse — vestlig/ikke-vestlig og land</h3>'+
     '<p class="hint">Av '+fmt(k.bc)+' med innvandrerbakgrunn (innvandrere + norskfødte med innvandrerforeldre).</p>'+
     '<div class="split">'+
-      '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+'%':'')+'</div>'+
-      '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+'%':'')+'</div></div>'+
+      '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+' %':'')+'</div>'+
+      '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+' %':'')+'</div></div>'+
     '<div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · '+fmt(k.ves)+'</span>'+
       '<span><i style="background:var(--amber)"></i>Ikke-vestlig · '+fmt(k.ive)+'</span></div>'+
     '<div class="origin-section">'+
@@ -1032,7 +1032,7 @@ function detail(){
   if(state.csearch) lands=lands.filter(l=>l[0].toLowerCase().includes(state.csearch.toLowerCase()));
   const shown=lands.slice(0,state.csearch?lands.length:state.topN);
   const sj=k.syss, sjr=sj?sj.rate:null;
-  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1).replace('.',',')+'%':'–';
+  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1).replace('.',',')+' %':'–';
   const sjGap=(sjr&&sjr.zzz!=null&&sjr.tot!=null)?(sjr.tot-sjr.zzz).toFixed(1).replace('.',','):null;
   const st=kommuneStatus(k);
   const flist=filtered(); const fi=flist.findIndex(x=>x.nr===k.nr);
@@ -1117,7 +1117,7 @@ function _oldDetailUnused(){
   if(state.csearch) lands=lands.filter(l=>l[0].toLowerCase().includes(state.csearch.toLowerCase()));
   const shown=lands.slice(0,state.csearch?lands.length:state.topN);
   const sj=k.syss, sjr=sj?sj.rate:null;
-  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1).replace('.',',')+'%':'–';
+  const sjVal=sjr&&sjr.zzz!=null?sjr.zzz.toFixed(1).replace('.',',')+' %':'–';
   const sjGap=(sjr&&sjr.zzz!=null&&sjr.tot!=null)?(sjr.tot-sjr.zzz).toFixed(1).replace('.',','):null;
   const st=kommuneStatus(k);
   const flist=filtered(); const fi=flist.findIndex(x=>x.nr===k.nr);
@@ -1165,8 +1165,8 @@ function _oldDetailUnused(){
     <h3 class="serif">Vestlig vs. ikke-vestlig bakgrunn</h3>
     <p class="hint">Av ${fmt(k.bc)} med innvandrerbakgrunn (innvandrere + norskfødte med innvandrerforeldre).</p>
     <div class="split">
-      <div class="v" style="width:${vesP}%">${vesP>8?vesP+'%':''}</div>
-      <div class="i" style="width:${iveP}%">${iveP>8?iveP+'%':''}</div></div>
+      <div class="v" style="width:${vesP}%">${vesP>8?vesP+' %':''}</div>
+      <div class="i" style="width:${iveP}%">${iveP>8?iveP+' %':''}</div></div>
     <div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · ${fmt(k.ves)}</span>
       <span><i style="background:var(--amber)"></i>Ikke-vestlig · ${fmt(k.ive)}</span></div>
   </div>
@@ -1225,7 +1225,7 @@ function renderCompare(){
       <div style="display:flex;gap:14px;margin-bottom:12px">
         <div><div style="font-size:18px;font-weight:600" class="mono">${k.andel.toFixed(1).replace('.',',')}%</div><div style="font-size:11px;color:var(--ink3)">innv.bakgr.</div></div>
         <div><div style="font-size:18px;font-weight:600" class="mono">${med}</div><div style="font-size:11px;color:var(--ink3)">medianalder</div></div>
-        <div><div style="font-size:18px;font-weight:600;color:var(--syss)" class="mono">${(k.syss&&k.syss.rate.zzz!=null)?k.syss.rate.zzz.toFixed(1).replace('.',',')+'%':'–'}</div><div style="font-size:11px;color:var(--ink3)">syss. innv.</div></div>
+        <div><div style="font-size:18px;font-weight:600;color:var(--syss)" class="mono">${(k.syss&&k.syss.rate.zzz!=null)?k.syss.rate.zzz.toFixed(1).replace('.',',')+' %':'–'}</div><div style="font-size:11px;color:var(--ink3)">syss. innv.</div></div>
       </div>
       <svg class="miniline" viewBox="0 0 200 60" preserveAspectRatio="none">
         ${g.map((x,i)=>`<rect x="${i*25+3}" y="${60-x.v/mx*54}" width="19" height="${x.v/mx*54}" rx="2" fill="${FY[k.fylke]}" opacity=".85"/>`).join('')}
@@ -1236,7 +1236,7 @@ function renderCompare(){
       </div>`;}).join('')}</div>`;
   return true;
 }
-const NATCOL=['var(--ink)','var(--nl)','var(--syss)','var(--accent-text)','#3E7CB1','#7E57A0','var(--warn)','var(--cat-5)','#A24A3C','#5A8C5A','#9C6BA0'];
+const NATCOL=['var(--ink)','var(--nl)','var(--syss)','var(--accent-text)','var(--nl)','var(--fi)','var(--warn)','var(--cat-5)','var(--neg)','var(--pos)','var(--fi)'];
 function natColor(navn,i){
   if(navn==='Hele befolkningen')return 'var(--ink)';
   if(navn==='Befolkningen ekskl. innvandrere')return 'var(--nl)';
@@ -1265,7 +1265,7 @@ function natBars(N,met,sx){
   const ticks = met==='rate' ? [0,25,50,75,100] : [0,.25,.5,.75,1].map(t=>t*maxv);
   ticks.forEach(t=>{const x=xS(t);
     s+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-20}" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>`;
-    s+=`<text class="axis" x="${x}" y="${H-6}" text-anchor="middle">${met==='rate'?t+'%':(t>=1000?Math.round(t/1000)+'k':t)}</text>`;});
+    s+=`<text class="axis" x="${x}" y="${H-6}" text-anchor="middle">${met==='rate'?t+' %':(t>=1000?fmt(Math.round(t/1000))+' 000':t)}</text>`;});
   let y=8, di=0;
   blocks.forEach(b=>{
     s+=`<text class="ngrp" x="0" y="${y+15}">${b.cap}</text>`;
@@ -1285,7 +1285,7 @@ function natBars(N,met,sx){
         const w=Math.max(2,xS(v)-x0);
         s+=`<rect class="nbar" style="animation-delay:${(di*45)}ms" x="${x0}" y="${y+5}" width="${w}" height="${rh-12}" rx="5" fill="${col}"/>`;
         const tx=x0+w+8;
-        s+=`<text class="nval" x="${tx}" y="${cy+4}" fill="${col}">${met==='rate'?v.toFixed(1).replace('.',',')+'%':fmt(v)}</text>`;
+        s+=`<text class="nval" x="${tx}" y="${cy+4}" fill="${col}">${met==='rate'?v.toFixed(1).replace('.',',')+' %':fmt(v)}</text>`;
         if(!b.ctx && met==='rate' && natAvg!=null){const d=v-natAvg;
           s+=`<text class="ndelta" x="${tx}" y="${cy+15}">${d>=0?'+':'\u2212'}${Math.abs(d).toFixed(1)} pp vs. snitt</text>`;}
       }
@@ -1330,7 +1330,7 @@ function renderNatTS(){
   let s=`<svg class="chart nfade" viewBox="0 0 ${VB} 366" preserveAspectRatio="xMidYMid meet" style="height:366px">`;
   for(let g=0;g<=5;g++){const val=lo+(hi-lo)*g/5, y=Y(val);
     s+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="rgba(17,32,58,${g===0?'.16':'.06'})"/>`;
-    s+=`<text class="axis" x="${L-9}" y="${y+3}" text-anchor="end">${met==='rate'?val.toFixed(0).replace('.',',')+'%':Math.round(val/1000)+'k'}</text>`;}
+    s+=`<text class="axis" x="${L-9}" y="${y+3}" text-anchor="end">${met==='rate'?val.toFixed(0).replace('.',',')+' %':fmt(Math.round(val/1000))+' 000'}</text>`;}
   yrs.forEach((yr,i)=>{ if(i%2===0||i===n-1){
     s+=`<text class="axis" x="${X(i)}" y="${366-B+18}" text-anchor="middle">${yr}</text>`;}});
   const path=se=>{let d='',st=false;se.vals.forEach((v,i)=>{if(v==null){st=false;return;}
@@ -1344,7 +1344,7 @@ function renderNatTS(){
     s+=`<path d="${top}${bot}Z" fill="color-mix(in srgb, var(--warn) 10%, transparent)" stroke="none"/>`;
     let li=n-1;while(li>=0&&(A.vals[li]==null||Bn.vals[li]==null))li--;
     if(li>=0){const gap=A.vals[li]-Bn.vals[li], my=(Y(A.vals[li])+Y(Bn.vals[li]))/2;
-      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:var(--font-mono);font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1)+' pp':fmt(gap)}</text>`;}
+      s+=`<text x="${X(li)-8}" y="${my+3}" text-anchor="end" style="font-family:var(--font-mono);font-size:10px;fill:var(--amber);font-weight:600">gap ${met==='rate'?gap.toFixed(1).replace('.',',')+' prosentenheter':fmt(gap)}</text>`;}
   }
   // regions muted, then summary bold
   vis.filter(se=>!se.sum).forEach(se=>{
@@ -1365,7 +1365,7 @@ function renderNatTS(){
   ends.forEach(e=>{const yl=Math.max(top,Math.min(bot,e.y)), xe=X(e.li), ye=Y(e.v), xl=L+W+8;
     s+=`<path d="M${xe} ${ye} L${L+W+3} ${ye} L${xl-3} ${yl}" fill="none" stroke="${e.se.c}" stroke-width="1" stroke-opacity=".5"/>`;
     s+=`<text x="${xl}" y="${yl+3.5}" style="font-family:inherit;font-size:${e.se.sum?'11px':'10px'};font-weight:${e.se.sum?700:600};fill:${e.se.c}">`
-      +`${met==='rate'?e.v.toFixed(1).replace('.',',')+'%':fmt(e.v)}<tspan dx="5" style="font-weight:600;fill:var(--ink3);font-size:9.5px">${e.se.navn.length>22?e.se.navn.slice(0,21)+'\u2026':e.se.navn}</tspan></text>`;});
+      +`${met==='rate'?e.v.toFixed(1).replace('.',',')+' %':fmt(e.v)}<tspan dx="5" style="font-weight:600;fill:var(--ink3);font-size:9.5px">${e.se.navn.length>22?e.se.navn.slice(0,21)+'\u2026':e.se.navn}</tspan></text>`;});
   s+='</svg>';
   host.innerHTML=s+legHTML();
 }
@@ -1519,8 +1519,8 @@ function renderComposition(){
     const lands=agg.land.filter(l=>l[1]>0).slice(0,15);
     origHost.innerHTML=
       '<div class="split" style="margin-bottom:10px">'+
-        '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+'%':'')+'</div>'+
-        '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+'%':'')+'</div></div>'+
+        '<div class="v" style="width:'+vesP+'%">'+(vesP>8?vesP+' %':'')+'</div>'+
+        '<div class="i" style="width:'+iveP+'%">'+(iveP>8?iveP+' %':'')+'</div></div>'+
       '<div class="legend"><span><i style="background:var(--nl)"></i>Vestlig · '+fmt(agg.ves)+'</span>'+
         '<span><i style="background:var(--amber)"></i>Ikke-vestlig · '+fmt(agg.ive)+'</span></div>'+
       '<h4 class="serif" style="font-size:14px;font-weight:600;margin:18px 0 6px">Topp 15 opprinnelsesland</h4>'+
@@ -1637,7 +1637,7 @@ function renderLevekar(){
       '<div style="margin:14px 0 6px">'+
         '<div class="bofast-row"><div class="blab">Lavest kommune</div>'+
           '<div class="btrack"><div class="bfill ref" style="width:'+w(lavKommune||0).toFixed(1).replace('.',',')+'%;background:var(--ink3)"></div></div>'+
-          '<div class="bval">'+(lavKommune?Math.round(lavKommune/1000)+'k':'–')+'</div></div>'+
+          '<div class="bval">'+(lavKommune?fmt(Math.round(lavKommune/1000))+' 000':'–')+'</div></div>'+
         '<div class="bofast-row"><div class="blab hl">Landsdelsmedian</div>'+
           '<div class="btrack"><div class="bfill hl" style="width:'+w(landsdelMedian).toFixed(1).replace('.',',')+'%"></div></div>'+
           '<div class="bval">'+Math.round(landsdelMedian/1000)+'k</div></div>'+
@@ -1646,7 +1646,7 @@ function renderLevekar(){
           '<div class="bval">'+Math.round(NORGE_MED_INNT/1000)+'k</div></div>'+
         '<div class="bofast-row"><div class="blab">Høyest kommune</div>'+
           '<div class="btrack"><div class="bfill ref" style="width:'+w(hoyKommune||0).toFixed(1).replace('.',',')+'%;background:var(--amber)"></div></div>'+
-          '<div class="bval">'+(hoyKommune?Math.round(hoyKommune/1000)+'k':'–')+'</div></div>'+
+          '<div class="bval">'+(hoyKommune?fmt(Math.round(hoyKommune/1000))+' 000':'–')+'</div></div>'+
       '</div>'+
       '<p class="hint" style="font-size:11px;margin-top:8px;font-style:italic">Median per kommune (SSB tabell 06944, 2024). Landsdelsmedianen er vektet snitt med antall husholdninger. «k» = 1 000 kr. Norgesnitt 2024 ≈ 615 000 kr (nasjonal SSB-publikasjon).</p>';
   }
@@ -1809,7 +1809,7 @@ function renderLevekar(){
     if(!tip){
       tip = document.createElement('div');
       tip.className = 'spenn-tip';
-      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--paper);padding:8px 11px;border-radius:0;font-size:12px;line-height:1.45;box-shadow:none;z-index:10;max-width:220px;white-space:normal';
+      tip.style.cssText = 'position:absolute;pointer-events:none;display:none;background:var(--accent);color:#fff;padding:8px 11px;border-radius:0;font-size:12px;line-height:1.45;box-shadow:none;z-index:10;max-width:220px;white-space:normal';
       spennHost.appendChild(tip);
     }
     const svgEl = spennHost.querySelector('svg.chart');
@@ -2339,7 +2339,7 @@ function renderHusholdninger(hostId, scope){
         const v = yLo + yStep * g;
         const y = Y(v);
         svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (L+wW) + '" y2="' + y + '" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
-        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? Math.round(v/1000)+'k' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
+        svg += '<text x="' + (L-6) + '" y="' + (y+3) + '" text-anchor="end" style="font-size:10px;fill:var(--ink3)">' + (unit==='kr' ? fmt(Math.round(v/1000))+' 000' : Math.round(v) + (unit==='%' ? ' %' : '')) + '</text>';
       }
       // Line
       let path = '';
@@ -2353,11 +2353,11 @@ function renderHusholdninger(hostId, scope){
       const last = values.length - 1 - [...values].reverse().findIndex(v => v != null);
       if(first >= 0){
         svg += '<circle cx="' + X(first) + '" cy="' + Y(values[first]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[first]/1000)+'k' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
+        svg += '<text x="' + (X(first)+6) + '" y="' + (Y(values[first])-8) + '" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? fmt(Math.round(values[first]/1000))+' 000' : Math.round(values[first]) + (unit==='%' ? '%' : '')) + '</text>';
       }
       if(last >= 0){
         svg += '<circle cx="' + X(last) + '" cy="' + Y(values[last]) + '" r="4" fill="' + color + '"/>';
-        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? Math.round(values[last]/1000)+'k' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
+        svg += '<text x="' + (X(last)-6) + '" y="' + (Y(values[last])-8) + '" text-anchor="end" style="font-family:var(--font-mono);font-size:11px;font-weight:700;fill:' + color + '">' + (unit==='kr' ? fmt(Math.round(values[last]/1000))+' 000' : Math.round(values[last]) + (unit==='%' ? '%' : '')) + '</text>';
       }
       // X-akse-år
       [years[0], years[Math.floor(years.length/2)], years[years.length-1]].forEach((yr, idx) => {
