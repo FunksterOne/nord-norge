@@ -1830,35 +1830,45 @@ function renderGjeld(){
     '</div>' +
     '<p class="hint" style="font-size:11.5px;margin-top:8px;opacity:.75;font-style:italic">† = gjeldsbetjening. Tallet er regnet av brutto driftsinntekter; sektorene er regnet av netto driftsutgifter. Sammenligningen viser <i>relativ størrelse</i>, ikke matematisk identisk denominator.</p>';
 
-  // ─── Lånekilder — nasjonalt bakteppe ───
-  const lkRaderMax = Math.max.apply(null, lanekilder.map(l => l.andel_pct));
-  const lanekildeHTML =
-    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Hvor lånes pengene fra? <span style="font-size:11px;color:var(--ink3);font-weight:400">— nasjonalt bakteppe</span></h3></div>' +
-    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Norske kommuner låner fra fire hovedkilder. Kommunalbanken (KBN) er størst, men taper markedsandel til obligasjonsmarkedet. Per kommune kan miksen variere — disse tallene er <b>sektor-aggregat</b>.</p>' +
-    '<div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">' +
-    lanekilder.map(l => {
-      const w = (l.andel_pct / lkRaderMax * 100).toFixed(1).replace('.',',');
-      return '<div style="display:grid;grid-template-columns:220px 1fr 50px;gap:10px;align-items:center">' +
-        '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + l.navn + '</div>' +
-        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:var(--aurora);border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + fmt(l.andel_pct) + ' %</div>' +
-        '</div>' +
-        '<div></div>' +
-      '</div>';
-    }).join('') +
+  // ─── Lånekilder — nasjonalt bakteppe (SSB K2, tabell 06718) ───
+  const lkMeta = bakteppe.lanekilder_meta || {};
+  const f1l = v => (Math.round(v * 10) / 10).toFixed(1).replace('.', ',');
+  const lkMax = Math.max.apply(null, lanekilder.map(l => l.andel_pct));
+  const stolpe = (navn, andel, sub, farge, inn) =>
+    '<div style="display:grid;grid-template-columns:minmax(150px,240px) 1fr;gap:10px;align-items:center' + (inn ? ';margin-top:-2px' : '') + '">' +
+      '<div style="font-size:' + (inn ? '11.5px' : '12.5px') + ';color:' + (inn ? 'var(--ink2)' : 'var(--ink)') + ';font-weight:' + (inn ? 400 : 500) + ';text-align:right">' + (inn ? 'herav ' : '') + navn + '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px"><div style="height:' + (inn ? 10 : 16) + 'px;width:' + (andel / lkMax * 80).toFixed(1) + '%;background:' + farge + '"></div>' +
+      '<span style="font-family:var(--font-mono);font-size:11.5px;color:var(--ink)">' + f1l(andel) + ' %</span>' + (sub ? '<span style="font-size:11px;color:var(--ink3)">' + sub + '</span>' : '') + '</div>' +
     '</div>';
-
-  // ─── Fastrente vs flytende ───
-  const fastr = rb.fastrente_pct_estimat || 30;
-  const flyt = rb.flytende_pct_estimat || 70;
-  const rentebindingHTML =
-    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Fastrente eller flytende?</h3></div>' +
-    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Hvis renten endrer seg, slår det først ut på flytende-andelen. Sektor-estimat: ' + rb.spennvidde + ' er fastrentebundet, resten flytende (3 mnd NIBOR + margin). <b>Anslaget er usikkert</b> — kilden er KBNs eget regnskap; ingen offentliggjort vektet snitt for sektoren.</p>' +
-    '<div style="display:flex;height:32px;border-radius:0;overflow:hidden;border:1px solid var(--line2);margin:8px 0">' +
-      '<div style="width:' + fastr + '%;background:var(--cat-3);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Fastrente ~' + fastr + ' %</div>' +
-      '<div style="width:' + flyt + '%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">Flytende ~' + flyt + ' %</div>' +
+  const lanekildeHTML =
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Hvor lånes pengene fra? <span style="font-size:11px;color:var(--ink3);font-weight:400">— kommunesektoren i hele landet</span></h3></div>' +
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Kommunesektoren skyldte <b>' + (lkMeta.total_mrd ? f1l(lkMeta.total_mrd) : '–') + ' milliarder kroner</b> til norske långivere i ' + (lkMeta.periode_navn || lkMeta.periode || '') + '. Banker og kredittforetak — i praksis Kommunalbanken — står for nesten halvparten, og nær en tredjedel er tatt opp direkte i obligasjons- og sertifikatmarkedet. Tallene gjelder sektoren samlet; miksen varierer mellom kommuner.</p>' +
+    '<div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">' +
+    lanekilder.map((l, i) =>
+      stolpe(l.navn, l.andel_pct, l.belop_mrd != null ? f1l(l.belop_mrd) + ' mrd kr' : '', i === 0 ? 'var(--accent)' : 'var(--muted-mark)', false) +
+      (l.herav || []).map(h => stolpe(h.navn, h.andel_pct, h.note, 'color-mix(in srgb, var(--accent) 55%, transparent)', true)).join('')
+    ).join('') +
     '</div>' +
-    '<p class="hint" style="font-size:11px;opacity:.75;margin-top:4px">Snitt løpetid sektoren: ~' + (bakteppe.lopetid && bakteppe.lopetid.snitt_aar_estimat || 22) + ' år (estimat).</p>';
+    '<p class="hint" style="font-size:11px;opacity:.8;margin-top:6px">Kilde: ' + (lkMeta.kilde || 'SSB 06718') + '. Kommunalbankens andel er avledet: bankens egen markedsandel (' + (lanekilder[0] && lanekilder[0].herav && lanekilder[0].herav[0].markedsandel ? f1l(lanekilder[0].herav[0].markedsandel.verdi) + ' % i ' + lanekilder[0].herav[0].markedsandel.periode : '') + ') regnes uten Husbanken i nevneren og er omregnet til andel av all gjeld. Gjeld til utenlandske långivere er ikke med.</p>';
+
+  // ─── Rentebinding (SSB tabell 10648: lån fra banker og kredittforetak) ───
+  const rbFl = rb.flytende_pct, rbKort = rb.kort_pct, rbLang = rb.lang_pct;
+  const rbTrend = rb.flytende_trend ? Object.keys(rb.flytende_trend).sort() : [];
+  const rbFoerste = rbTrend.length ? rbTrend[0] : null;
+  const segment = (andel, farge, tekst) => andel > 0 ? '<div style="width:' + andel + '%;background:' + farge + ';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11.5px;white-space:nowrap;overflow:hidden">' + tekst + '</div>' : '';
+  const rentebindingHTML = rbFl == null ? '' :
+    '<div class="ch" style="margin-top:24px"><h3 class="serif" style="font-size:16px">Fastrente eller flytende?</h3></div>' +
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Av kommunesektorens lån i banker og kredittforetak (' + f1l(rb.grunnlag_mrd) + ' milliarder kroner, ' + f1l(rb.andel_av_gjelden_pct) + ' % av gjelden) hadde <b>' + f1l(rbFl) + ' %</b> flytende rente ved utgangen av ' + (rb.periode_navn || rb.periode) + '. ' +
+      (rbFoerste && rbFoerste !== rb.periode ? 'Andelen har falt fra ' + f1l(rb.flytende_trend[rbFoerste]) + ' % i ' + ((rb.trend_navn && rb.trend_navn[rbFoerste]) || rbFoerste) + ' — sektoren har bundet mer av renten. ' : '') +
+      'Når renten endres, slår det raskest ut på den flytende delen.</p>' +
+    '<div style="display:flex;height:30px;border-radius:0;overflow:hidden;border:1px solid var(--line2);margin:8px 0">' +
+      segment(rbFl, 'var(--amber)', 'Flytende ' + f1l(rbFl) + ' %') +
+      segment(rbKort, 'color-mix(in srgb, var(--cat-3) 60%, var(--amber))', f1l(rbKort) + ' %') +
+      segment(rbLang, 'var(--cat-3)', 'Bundet over 1 år ' + f1l(rbLang) + ' %') +
+    '</div>' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink2)"><span><i style="display:inline-block;width:10px;height:10px;background:var(--amber);margin-right:4px"></i>Inntil 3 måneder (flytende)</span><span><i style="display:inline-block;width:10px;height:10px;background:color-mix(in srgb, var(--cat-3) 60%, var(--amber));margin-right:4px"></i>3–12 måneder</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--cat-3);margin-right:4px"></i>Over 1 år</span></div>' +
+    '<p class="hint" style="font-size:11.5px;margin-top:8px">For resten av gjelden finnes ingen samlet statistikk. Sertifikatlånene har høyst tolv måneders løpetid. Kommunalbanken hadde fastrente på ' + f1l(rb.kbn_fastrente.verdi) + ' % av utlånene (' + rb.kbn_fastrente.periode + '), og ' + rb.klpkk_flytende.verdi + ' % av KLP Kommunekreditts utlån har flytende rente (' + rb.klpkk_flytende.periode + '). Gjennomsnittlig avdragstid i sektoren er ' + ((bakteppe.lopetid && bakteppe.lopetid.tekst) || '25–30 år') + ' (' + ((bakteppe.lopetid && bakteppe.lopetid.kilde) || 'TBU') + ').</p>' +
+    '<p class="hint" style="font-size:11px;opacity:.8">Kilde: ' + rb.kilde + '; ' + rb.kbn_fastrente.kilde + '; ' + rb.klpkk_flytende.kilde + '.</p>';
 
   // ─── Sektornivå-konklusjon (KOSTRA, kommunekonsern, fra SSB 12143) ───
   const KO = bakteppe.kostra || null;

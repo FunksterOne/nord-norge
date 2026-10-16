@@ -96,30 +96,12 @@ def parse(d):
     return out
 
 
-# ─── Nasjonalt KBN/TBU/KS-bakteppe (hardkodet — oppdateres manuelt årlig) ───
-# Kilder per Q1 2026. Se docstring øverst for fulle referanser.
+# ─── Nasjonalt bakteppe ───
+# Sektortall, lånekilder og rentebinding hentes fra SSB ved hver kjøring (se hent_sektor, hent_lanekilder,
+# hent_rentebinding). Bare normene under og KBN/KLP-konstantene over hent_sektor oppdateres manuelt.
 GJELD_BAKTEPPE = {
     "sist_oppdatert": None,  # settes til hentedato i main()
-    "kilde": "SSB 12143 (KOSTRA, kommunekonsern), KBN Q4-2025, KLP Kommunekreditt 2025, NOU 2025:10 (TBU), KS-rapport mai 2025",
-    # Lånekildefordeling — markedsandel av kommunesektorens samlede gjeld
-    "lanekilder": [
-        {"navn": "Kommunalbanken (KBN)", "andel_pct": 49.7, "kilde": "KBN Q4-2025",
-         "note": "Synker (var 50,2 % ved utgangen av 2024)"},
-        {"navn": "Obligasjonsmarkedet", "andel_pct": 24.0, "kilde": "TBU/KS estimat",
-         "note": "Voksende — særlig lave kredittspreader 2024–2025"},
-        {"navn": "KLP Kommunekreditt", "andel_pct": 10.0, "kilde": "KLP 2025 (avledet fra OMF-volum)",
-         "note": "23,0 mrd kr OMF utestående 31.12.2025"},
-        {"navn": "Andre (banker, sertifikater, Husbanken)", "andel_pct": 16.3, "kilde": "Avledet",
-         "note": "Inkluderer kommunenes lokale banker og lange sertifikatlån"},
-    ],
-    # Fastrente vs flytende — estimat, ikke offentliggjort eksplisitt på sektornivå
-    "rentebinding": {
-        "fastrente_pct_estimat": 30,
-        "flytende_pct_estimat": 70,
-        "kilde": "KBN regnskapsført til virkelig verdi (~28 %) brukes som proxy",
-        "spennvidde": "25–35 % fastrente",
-        "er_estimat": True
-    },
+    "kilde": "SSB 12143 (KOSTRA), SSB 06718 (K2), SSB 10648, KBN kvartalsrapport 2. kvartal 2026, KLP Kommunekreditt 2025, NOU 2025:10 (TBU), KS-rapport mai 2025",
     # Normer og kilder for sektoren. Selve sektortallene (netto driftsresultat, disposisjonsfond,
     # netto lånegjeld, finansutgifter) hentes fra SSB 12143 i hent_sektor() og legges inn her.
     "sektor": {
@@ -129,19 +111,113 @@ GJELD_BAKTEPPE = {
         "tbu_kilde": "TBU, NOU 2025:10",
         "ks_kilde": "KS-rapport mai 2025 (Oslo Economics og Telemarksforskning)",
         "ks_buffer_test": "+2 prosentpoeng renteøkning over 3 år + inntektssvikt i 10. persentil"
-    },
-    # Typisk løpetid (estimat)
-    "lopetid": {
-        "snitt_aar_estimat": 22,
-        "spennvidde_aar": "20–30",
-        "er_estimat": True,
-        "kilde": "KBN typiske strukturer; ikke publisert vektet snitt"
     }
 }
 
 
 SEKTOR_REG = {"EAK": "Landet", "EAKUO": "Landet uten Oslo", "EKA18": "Nordland", "EKA55": "Troms", "EKA56": "Finnmark"}
 SEKTOR_BEG = {"AGD23": "ndr", "56": "fond", "KG31": "nlan", "KG39": "rxp", "KG25": "lan", "AGD97": "renter", "AGD21": "avdrag", "AGD86": "finans"}
+
+
+# ─── Tall SSB ikke publiserer (oppdateres manuelt ved ny kvartalsrapport) ───
+# KBNs markedsandel av utlån til kommunesektoren, uten Husbanken i nevneren (KBN kvartalsrapport 2. kvartal 2026, 6.8.2026)
+KBN_UTLAN_ANDEL_EKS_HUSBANKEN = {"verdi": 48.9, "periode": "2. kvartal 2026", "kilde": "KBN kvartalsrapport 2. kvartal 2026"}
+# KBNs fastrenteandel: lån til virkelig verdi + virkelig verdi-sikring delt på alle utlån (note 3)
+KBN_FASTRENTE_ANDEL = {"verdi": 36.4, "periode": "2. kvartal 2026", "kilde": "KBN kvartalsrapport 2. kvartal 2026, note 3"}
+# KLP Kommunekreditt: andel av utlånsvolumet med flytende rente (årsrapport 2025)
+KLPKK_FLYTENDE_ANDEL = {"verdi": 88, "periode": "2025", "kilde": "KLP Kommunekreditt, årsrapport 2025"}
+# Gjennomsnittlig avdragstid for sektoren (TBU, NOU 2025:10 kap. 4). Gjenværende løpetid publiseres ikke.
+AVDRAGSTID = {"tekst": "25–30 år", "kilde": "TBU, NOU 2025:10, kap. 4"}
+
+
+def ssb_post(tabell, query):
+    req = urllib.request.Request(f"https://data.ssb.no/api/v0/no/table/{tabell}",
+        data=json.dumps({"query": query, "response": {"format": "json-stat2"}}).encode("utf-8"),
+        headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        d = json.loads(r.read().decode("utf-8"))
+    ids, size = d["id"], d["size"]
+    cats = {k: list(d["dimension"][k]["category"]["index"]) for k in ids}
+    ut = {}
+    for i, v in enumerate(d["value"]):
+        rest, co = i, {}
+        for j in range(len(ids) - 1, -1, -1):
+            co[ids[j]] = cats[ids[j]][rest % size[j]]; rest //= size[j]
+        ut[tuple(co[k] for k in ids)] = (co, v)
+    return ut
+
+
+def siste_tid(tabell):
+    meta = json.loads(urllib.request.urlopen(f"https://data.ssb.no/api/v0/no/table/{tabell}", timeout=60).read().decode("utf-8"))
+    return next(v for v in meta["variables"] if v["code"] == "Tid")["values"]
+
+
+MND = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"]
+
+
+def periodenavn(t):
+    """2026M08 -> august 2026, 2026K2 -> 2. kvartal 2026."""
+    if "M" in t: return f"{MND[int(t[5:]) - 1]} {t[:4]}"
+    if "K" in t: return f"{t[5:]}. kvartal {t[:4]}"
+    return t
+
+
+def hent_lanekilder():
+    """Kommuneforvaltningens innenlandske bruttogjeld etter kilde (SSB K2, tabell 06718), siste måned."""
+    tid = siste_tid("06718")[-1]
+    koder = {"LTOT": "I alt", "L202+L203": "Banker og kredittforetak", "L214": "Obligasjoner og sertifikater",
+             "L201": "Husbanken (statlige låneinstitutter)", "L206": "KLP og andre livsforsikringsselskaper", "L204": "Finansieringsforetak"}
+    r = ssb_post("06718", [
+        {"code": "Valuta", "selection": {"filter": "item", "values": ["00"]}},
+        {"code": "Lantaker2", "selection": {"filter": "item", "values": ["Kred02"]}},
+        {"code": "Kredittkilde", "selection": {"filter": "item", "values": list(koder)}},
+        {"code": "Tid", "selection": {"filter": "item", "values": [tid]}}])
+    belop = {co["Kredittkilde"]: v for co, v in r.values()}
+    tot = belop["LTOT"]
+    kilder = []
+    for k in ("L202+L203", "L214", "L201", "L206", "L204"):
+        if belop.get(k) is None: continue
+        kilder.append({"navn": koder[k], "belop_mrd": round(belop[k] / 1000, 1), "andel_pct": round(belop[k] / tot * 100, 1)})
+    rest = tot - sum(belop.get(k) or 0 for k in ("L202+L203", "L214", "L201", "L206", "L204"))
+    if rest > tot * 0.001:
+        kilder.append({"navn": "Andre", "belop_mrd": round(rest / 1000, 1), "andel_pct": round(rest / tot * 100, 1)})
+    # KBN er en del av «banker og kredittforetak». Markedsandelen (uten Husbanken) omregnes til andel av all gjeld.
+    kbn = KBN_UTLAN_ANDEL_EKS_HUSBANKEN["verdi"] * (tot - (belop.get("L201") or 0)) / tot
+    kilder[0]["herav"] = [{"navn": "Kommunalbanken (KBN)", "andel_pct": round(kbn, 1),
+                           "note": "avledet fra KBNs markedsandel",
+                           "markedsandel": KBN_UTLAN_ANDEL_EKS_HUSBANKEN}]
+    return {"periode": tid, "periode_navn": periodenavn(tid), "total_mrd": round(tot / 1000, 1), "kilder": kilder,
+            "kilde": f"SSB tabell 06718 (kredittindikator K2), kommuneforvaltningen, innenlandsk bruttogjeld, {periodenavn(tid)}"}
+
+
+def hent_rentebinding():
+    """Rentebinding for kommuneforvaltningens lån i banker og kredittforetak (SSB tabell 10648), siste kvartal og trend."""
+    alle = siste_tid("10648")
+    siste = alle[-1]
+    ett_aar = f"{int(siste[:4]) - 1}{siste[4:]}"
+    perioder = [t for t in (f"{int(siste[:4]) - 3}K4", f"{int(siste[:4]) - 2}K4", f"{int(siste[:4]) - 1}K4", ett_aar, siste) if t in alle]
+    perioder = sorted(dict.fromkeys(perioder))
+    r = ssb_post("10648", [
+        {"code": "Laangiver960", "selection": {"filter": "item", "values": ["02"]}},
+        {"code": "Utlanstype", "selection": {"filter": "item", "values": ["00b"]}},
+        {"code": "Sektor", "selection": {"filter": "item", "values": ["58"]}},
+        {"code": "Rentebinding", "selection": {"filter": "item", "values": ["99", "08", "09"]}},
+        {"code": "ContentsCode", "selection": {"filter": "item", "values": ["UtlaanBelop"]}},
+        {"code": "Tid", "selection": {"filter": "item", "values": perioder}}])
+    b = {}
+    for co, v in r.values():
+        b[(co["Tid"], co["Rentebinding"])] = v
+    def andeler(t):
+        tot, fl, kort = b.get((t, "99")), b.get((t, "08")), b.get((t, "09"))
+        if not tot or fl is None: return None
+        kort = kort or 0
+        return {"flytende_pct": round(fl / tot * 100, 1), "kort_pct": round(kort / tot * 100, 1),
+                "lang_pct": round((tot - fl - kort) / tot * 100, 1), "grunnlag_mrd": round(tot / 1000, 1)}
+    trend = {t: andeler(t)["flytende_pct"] for t in perioder if andeler(t)}
+    return {"periode": siste, "periode_navn": periodenavn(siste), **andeler(siste), "flytende_trend": trend,
+            "trend_navn": {t: periodenavn(t) for t in trend},
+            "kbn_fastrente": KBN_FASTRENTE_ANDEL, "klpkk_flytende": KLPKK_FLYTENDE_ANDEL,
+            "kilde": f"SSB tabell 10648, utlån fra banker og kredittforetak til kommuneforvaltningen, {periodenavn(siste)}"}
 
 
 def hent_sektor():
@@ -192,6 +268,14 @@ def main():
     kostra = hent_sektor()
     GJELD_BAKTEPPE["sist_oppdatert"] = datetime.date.today().isoformat()
     GJELD_BAKTEPPE["kostra"] = kostra
+    print("Fetching 06718 (lånekilder) og 10648 (rentebinding)...", flush=True)
+    lk = hent_lanekilder()
+    rb = hent_rentebinding()
+    GJELD_BAKTEPPE["lanekilder"] = lk["kilder"]
+    GJELD_BAKTEPPE["lanekilder_meta"] = {k: lk[k] for k in ("periode", "periode_navn", "total_mrd", "kilde")}
+    rb["andel_av_gjelden_pct"] = lk["kilder"][0]["andel_pct"]
+    GJELD_BAKTEPPE["rentebinding"] = rb
+    GJELD_BAKTEPPE["lopetid"] = AVDRAGSTID
     L = kostra["omrader"]["Landet"]
     GJELD_BAKTEPPE["sektor"].update({
         "aar": kostra["aar"],
