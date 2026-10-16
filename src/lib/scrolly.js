@@ -66,22 +66,57 @@ function build(sec) {
       </article>`).join('')}
     </div>`;
   const chart = sec.querySelector('[data-nnchart]');
+  const graf = sec.querySelector('.nn-scrolly-graf');
+  const artikler = [...sec.querySelectorAll('.nn-steg')];
   let current = steps[0].ind;
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      const ind = e.target.dataset.ind;
-      sec.querySelectorAll('.nn-steg').forEach(a => a.classList.toggle('aktiv', a === e.target));
-      if (ind !== current) {
-        current = ind;
-        const sp = JSON.parse(chart.dataset.spec); sp.ind = ind;
-        chart.dataset.spec = JSON.stringify(sp);
-        chart.classList.add('bytter');
-        setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 140);
-      }
-    }
-  }, { rootMargin: '-45% 0px -45% 0px' });
-  sec.querySelectorAll('.nn-steg').forEach(a => io.observe(a));
+  let aktiv = 0;
+
+  // Kartflaten skal ikke hoppe når forklaringen bytter høyde (ROBEK har lavere forklaring enn fargeskalaene).
+  // På smal skjerm kan forklaringsteksten brytes over to linjer for enkelte indikatorer; den plassen settes av fra start.
+  // Flaten måles etter at kartet er tegnet. Tillegget for smal skjerm legges bare på én gang, så sløyfen
+  // ResizeObserver → minstehøyde → ResizeObserver stopper av seg selv (ny høyde = lagret høyde).
+  let størst = 0;
+  const lås = () => {
+    if (!chart.querySelector('svg')) return; // plassholderen før tegning skal ikke telle
+    const h0 = graf.getBoundingClientRect().height + (størst === 0 && window.innerWidth < 860 ? 26 : 0);
+    if (h0 > størst + 1) { størst = h0; graf.style.minHeight = `${Math.ceil(h0)}px`; }
+  };
+  new MutationObserver(lås).observe(chart, { childList: true });
+  new ResizeObserver(lås).observe(graf);
+
+  const bytt = i => {
+    if (i === aktiv) return;
+    aktiv = i;
+    artikler.forEach((a, j) => a.classList.toggle('aktiv', j === i));
+    const ind = artikler[i].dataset.ind;
+    if (ind === current) return;
+    current = ind;
+    const sp = JSON.parse(chart.dataset.spec); sp.ind = ind;
+    chart.dataset.spec = JSON.stringify(sp);
+    chart.classList.add('bytter');
+    setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 140);
+  };
+
+  // Et kapittel er aktivt når overskriften har passert lesestreken. På bred skjerm ligger streken
+  // på 55 % av vinduet; på smal skjerm står kartet øverst, og streken legges i tekstfeltet under kartet.
+  const lesestrek = () => {
+    const H = window.innerHeight;
+    if (window.innerWidth >= 860) return H * 0.55;
+    const gb = Math.max(0, graf.getBoundingClientRect().bottom);
+    return gb + (H - gb) * 0.4;
+  };
+  let venter = false;
+  const sjekk = () => {
+    venter = false;
+    const linje = lesestrek();
+    let i = 0;
+    artikler.forEach((a, j) => { if (a.querySelector('.kicker').getBoundingClientRect().top <= linje) i = j; });
+    bytt(i);
+  };
+  const påRull = () => { if (!venter) { venter = true; requestAnimationFrame(sjekk); } };
+  window.addEventListener('scroll', påRull, { passive: true });
+  window.addEventListener('resize', påRull, { passive: true });
+  sjekk();
 }
 
 export function initScrolly() {
