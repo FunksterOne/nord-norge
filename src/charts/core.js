@@ -32,7 +32,7 @@ export { Plot };
 function draw(el) {
   const render = registry.get(el.dataset.nnchart);
   if (!render) return;
-  const width = Math.max(280, Math.floor(el.clientWidth || el.parentElement?.clientWidth || 720));
+  const width = Math.max(200, Math.floor(el.clientWidth || el.parentElement?.clientWidth || 720));
   if (el.__w === width && el.__drawn) return;
   el.__w = width;
   try {
@@ -55,6 +55,13 @@ const ro = new ResizeObserver(entries => {
   }
 });
 
+// Diagrammer som tegnes mens de er skjult (lukket fane, lukket <details>), får en reservebredde.
+// ResizeObserver varsler ikke alltid når de blir synlige (innhold i lukket <details> hoppes over),
+// så hvert diagram sjekker bredden sin på nytt når det kommer til syne.
+const synlig = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) draw(e.target);
+}, { rootMargin: '200px 0px' });
+
 function scan(root) {
   const list = root.matches?.('[data-nnchart]') ? [root] : [];
   root.querySelectorAll?.('[data-nnchart]').forEach(n => list.push(n));
@@ -63,6 +70,7 @@ function scan(root) {
     el.__mounted = true;
     draw(el);
     ro.observe(el);
+    synlig.observe(el);
   }
 }
 
