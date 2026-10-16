@@ -284,7 +284,7 @@
   <div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Hvor mangler vi flest?</h3></div>
   <p class="hint" style="font-size:12.5px;margin-bottom:6px">Topp 6 mangel-næringer i Nord-Norge — sortert etter antall. Tallet til høyre viser landsdelens andel av nasjonal mangel i samme næring.</p>
   <div id="navTop6Graf"></div>
-  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — spørreundersøkelse blant virksomheter, publisert mai 2026. Tall rundet til nærmeste 50. Data per fylke; kan ikke brytes ned til kommunenivå. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
+  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — svar fra 13 119 virksomheter, publisert 20. mai 2026. Tall rundet til nærmeste 50. Data per fylke; kan ikke brytes ned til kommunenivå. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
 
 <button class="nextstep" data-next="levekar">
   <div class="ns-l">
@@ -425,8 +425,8 @@
           <li><b>Sysselsettingsrate 20–66</b> — SSB tabell 13563. Nasjonalt snitt 76,7 % (2025).</li>
           <li><b>Uføreandel 18–67</b> — SSB tabell 11715. Nasjonalt snitt 10,7 % (2025).</li>
           <li><b>Netto driftsresultat</b> — TBU-norm +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget).</li>
-          <li><b>Disposisjonsfond</b> — KS FoU mai 2025: minst 5 % av driftsinntektene anbefales.</li>
-          <li><b>Netto lånegjeld</b> — KS/Riksrevisjonen: ikke over 75 % av driftsinntektene.</li>
+          <li><b>Disposisjonsfond</b> — KS-rapport (Oslo Economics og Telemarksforskning, mai 2025): om lag 5 % av driftsinntektene i gjennomsnitt, tilpasset hver kommune.</li>
+          <li><b>Netto lånegjeld</b> — KS (2025): korrigert netto lånegjeld bør ikke overstige 85 % av driftsinntektene. Dashbordet bruker netto lånegjeld uten korreksjon for ubundne investeringsfond, som ligger noe høyere.</li>
           <li><b>ROBEK-status</b> — kommuneloven §28-1. Statsforvalteren fører kontrollen.</li>
         </ul>
         <p>Hver indikator står på egne ben. Det er ingen sammensatt dom — bare en oversikt over hvor kommunene ligger mot hver enkelt norm. Demografiske tall er framskrevet med SSB MMMM, dashbordets hovedbane (tabell 14746).</p>
@@ -557,10 +557,11 @@ document.addEventListener('DOMContentLoaded', function(){
     if(kpiEl){
       var sb = nb.landsdel.sysselsetting_barometer_2026_vektet;
       var natSb = nb.nasjonalt.sysselsetting_barometer_2026;
+      var fb = (function(){ var F = nb.fylker, b = function(f){ return F[f].sysselsetting_barometer['2026']; }; return {t: b('Troms'), n: b('Nordland'), f: b('Finnmark')}; })();
       kpiEl.innerHTML =
         '<div class="kpi"><div class="v down">' + fmtNb(nb.landsdel.mangel_total) + '</div><div class="l">Mangel i Nord-Norge</div><div class="nh">2026 · estimert</div></div>' +
         '<div class="kpi"><div class="v">' + fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">vs ' + fmt(nb.landsdel.befolkning_andel_pct) + ' % av befolkningen</div></div>' +
-        '<div class="kpi"><div class="v up">' + (sb >= 0 ? '+' : '') + fmt(sb) + ' %</div><div class="l">Sysselsettings­barometer 2026</div><div class="nh">vektet snitt Nord-Norge (Norge ' + (natSb >= 0 ? '+' : '') + fmt(natSb) + ' %)</div></div>' +
+        '<div class="kpi"><div class="v up">+' + fmt(fb.t) + ' %</div><div class="l">Netto andel virksomheter som venter flere ansatte</div><div class="nh">Troms høyest i landet, Nordland +' + fmt(fb.n) + ' %, Finnmark +' + fmt(fb.f) + ' % (landet +' + fmt(natSb) + ' %)</div></div>' +
         '<div class="kpi"><div class="v">' + fmtNb(nb.landsdel.naeringer[0].mangel_nn) + '</div><div class="l">Helse og sosial</div><div class="nh">' + fmt(nb.landsdel.naeringer[0].andel_pct) + ' % av nasjonal mangel</div></div>';
     }
 

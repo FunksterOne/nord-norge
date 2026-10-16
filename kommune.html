@@ -776,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Sjekk mot eksterne normer
     var ndrOK = ndr != null && ndr >= 1.75;
     var fondOK = fond != null && fond >= 5;
-    var gjeldOK = gj != null && gj <= 75;
+    var gjeldOK = gj != null && gj <= 85;
     var statColor = function(ok){ return ok === true ? 'var(--pos)' : ok === false ? 'var(--neg)' : 'var(--ink2)'; };
 
     var fmtP = function(v, d){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.abs(v).toFixed(d == null ? 1 : d).replace('.',',') + ' %'; };
@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var verdictTekst = '<b>' + k.navn + '</b>s kommuneøkonomi er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
     if(ndr != null) verdictTekst += 'Netto driftsresultat ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-norm +1¾ %). ';
     if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
-    if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 0) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på 75 %). ';
+    if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 0) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på 85 %). ';
     if(inROBEK) verdictTekst += 'Kommunen er <b>registrert i ROBEK</b> (kommuneloven §28-1) — Statsforvalteren fører tilsyn. ';
     else if(pending) verdictTekst += 'Kommunen er <b>over ROBEK-grensen</b> og er under behandling.';
 
@@ -801,8 +801,8 @@ document.addEventListener('DOMContentLoaded', function(){
         // KPI-rad: 4 KOSTRA-indikatorer mot eksterne normer
         '<div class="bf-kpis">'+
           '<div class="k"><div class="v" style="color:'+statColor(ndrOK)+'">'+fmtP(ndr)+'</div><div class="l">Netto driftsresultat</div><div class="h">TBU-norm: +1¾ % '+(ndr!=null?'· '+(ndrOK?'innenfor':'under'):'')+'</div></div>'+
-          '<div class="k"><div class="v" style="color:'+statColor(fondOK)+'">'+fmtP(fond)+'</div><div class="l">Disposisjonsfond</div><div class="h">KS-anbefaling: ≥5 % '+(fond!=null?'· '+(fondOK?'innenfor':'under'):'')+'</div></div>'+
-          '<div class="k"><div class="v" style="color:'+statColor(gjeldOK)+'">'+fmtP(gj, 0)+'</div><div class="l">Netto lånegjeld</div><div class="h">KS-grense: ≤75 % '+(gj!=null?'· '+(gjeldOK?'innenfor':'over'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+statColor(fondOK)+'">'+fmtP(fond)+'</div><div class="l">Disposisjonsfond</div><div class="h">KS: om lag 5 % '+(fond!=null?'· '+(fondOK?'innenfor':'under'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+statColor(gjeldOK)+'">'+fmtP(gj, 0)+'</div><div class="l">Netto lånegjeld</div><div class="h">KS-grense: ≤85 % '+(gj!=null?'· '+(gjeldOK?'innenfor':'over'):'')+'</div></div>'+
           '<div class="k"><div class="v" style="color:'+robekColor+'">'+robekStatus+'</div><div class="l">ROBEK-status</div><div class="h">§28-1 (Statsforvalteren)</div></div>'+
         '</div>'+
         // Tolkning

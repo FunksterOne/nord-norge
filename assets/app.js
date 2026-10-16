@@ -1866,7 +1866,7 @@ function renderGjeld(){
     '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px">' +
       '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.netto_driftsresultat_2025_pct >= 1.75 ? 'var(--pos)' : 'var(--amber)') + '">' + fmt(sektor.netto_driftsresultat_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Netto driftsresultat 2025 (sektor)</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">TBU-norm: ' + fmt(sektor.ks_norm_ndr_kommune_pct) + ' %</div></div>' +
       '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--neg)">+' + fmt(sektor.finansutgifter_endring_2024_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Finansutgifter endring</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">2024\u20132025 — refinansierings­effekten</div></div>' +
-      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.korrigert_netto_lanegjeld_2024_pct > sektor.ks_norm_netto_lanegjeld_pct ? 'var(--neg)' : 'var(--pos)') + '">' + fmt(sektor.korrigert_netto_lanegjeld_2024_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Sektor netto lånegjeld 2024</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">Over anbefalt øvre grense (' + fmt(ksNorm) + ' %)</div></div>' +
+      '<div style="padding:12px 14px;background:var(--paper2);border:1px solid var(--line2);border-radius:0"><div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:' + (sektor.netto_lanegjeld_2025_pct > ksNorm ? 'var(--neg)' : 'var(--pos)') + '">' + fmt(sektor.netto_lanegjeld_2025_pct) + ' %</div><div style="font-size:11.5px;color:var(--ink2)">Kommunene i landet, netto lånegjeld 2025</div><div style="font-size:10.5px;color:var(--ink3);margin-top:2px">SSB 12143 · ' + (sektor.netto_lanegjeld_2025_pct > ksNorm ? 'over' : 'under') + ' KS-grensen (' + fmt(ksNorm) + ' %)</div></div>' +
     '</div>' +
     '<p class="hint" style="font-size:12px;margin-top:10px;font-style:italic">' + sektor.tbu_kilde + ' og ' + sektor.ks_kilde + '. KS-anbefalingen er at bufferne skal tåle <b>' + sektor.ks_buffer_test + '</b>.</p>';
 
@@ -2103,7 +2103,7 @@ function landsdelSysselsRate(){
    - OECD SCIRN (årlig befolkningsendring)
    - OECD-standard forsørgerbyrde (65+/20–64)
    - TBU-norm netto driftsresultat (+1,75 %)
-   - KS FoU mai 2025 (disposisjonsfond ≥ 5 %, netto lånegjeld ≤ 75 %)
+   - KS-rapport mai 2025 (disposisjonsfond om lag 5 %, korrigert netto lånegjeld ≤ 85 %)
    - Kommuneloven §28-1 (ROBEK)
    - SSB-snitt for sysselsetting og uføreandel (referansenivå) */
 const EXT_NORMS = {
@@ -2113,7 +2113,7 @@ const EXT_NORMS = {
   nasjUfor: 10.7,         // SSB 11715, 2025: 10,7 % uføretrygdede 18–67
   tbuNDR: 1.75,           // TBU-norm netto driftsresultat
   ksFond: 5.0,            // KS FoU mai 2025 anbefalt minimum
-  ksGjeld: 75.0,          // KS/Riksrevisjonen øvre grense
+  ksGjeld: 85.0,          // KS 2025: korrigert netto lånegjeld ≤ 85 % (75 % var Riksrevisjonens analysegrense i 2015)
 };
 function evaluateKommune(k){
   // Alle indikatorer måles mot SSB MMMM (tabell 14746) — dashbordets hovedbane.
@@ -2192,8 +2192,8 @@ function sustKommuneCard(k){
     row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt 10,7 %')+
     sectionHeader('Kommuneøkonomi'+(e.yr?' ('+e.yr+')':''))+
     row('Netto driftsresultat', e.ndr!=null?fmt1(e.ndr)+' %':'–', stat(e.ndr, ndrOK), 'TBU-norm · +1¾ % av brutto driftsinntekter')+
-    row('Disposisjonsfond', e.fond!=null?fmt1(e.fond)+' %':'–', stat(e.fond, fondOK), 'KS FoU mai 2025 · ≥5 % anbefalt minimum')+
-    row('Netto lånegjeld', e.gj!=null?fmt0(e.gj)+' %':'–', stat(e.gj, gjeldOK), 'KS/Riksrevisjonen · ≤75 % av driftsinntekter')+
+    row('Disposisjonsfond', e.fond!=null?fmt1(e.fond)+' %':'–', stat(e.fond, fondOK), 'KS-rapport mai 2025 · om lag 5 % i snitt')+
+    row('Netto lånegjeld', e.gj!=null?fmt0(e.gj)+' %':'–', stat(e.gj, gjeldOK), 'KS 2025 · ≤85 % av driftsinntekter')+
     row('ROBEK-status', e.inROBEK?'I ROBEK':(e.pendingROBEK?'Behandles':'Trygg'), stat(1, robekOK), 'Kommuneloven §28-1')+
     '</table>';
   return '<div class="card">'+

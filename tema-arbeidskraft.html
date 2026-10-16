@@ -81,14 +81,14 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 04 · Arbeidskraft og aldring 2026–2050</div>
   <h1>Hvem skal <em>bære</em>?</h1>
-  <p class="lede">NAVs ferske bedriftsundersøkelse viser at norske virksomheter mangler 33 850 personer i 2026. Nord-Norge står for nesten 18 % av mangelen, mens vi bare har 9 % av befolkningen. Samtidig peker demografien på at den arbeidsføre gruppen 20–64 år krymper i tre av fire kommuner mot 2050. Mangelen i dag er forhåndsvarselet for det som kommer.</p>
+  <p class="lede">NAVs bedriftsundersøkelse viser at norske virksomheter mangler 33 750 personer i 2026. Nord-Norge står for 17,3 % av mangelen, mens landsdelen har 8,7 % av befolkningen. Samtidig peker demografien på at den arbeidsføre gruppen 20–64 år krymper i tre av fire kommuner mot 2050. Mangelen i dag er forhåndsvarselet for det som kommer.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 01 · Sjokket</div>
   <h2>Bedrifter i Nord-Norge mangler <em id="sjokkMangel">—</em> personer <em>akkurat nå</em>.</h2>
-  <p class="akt-intro">Tallet er fra NAVs bedriftsundersøkelse for 2026, basert på en spørreundersøkelse blant virksomheter våren 2026. Nord-Norge er <b id="sjokkAndel">—</b> av landets mangel — mer enn dobbelt så stor andel som vi har av befolkningen (8,7 %). Det er ikke en framskriving mot 2050. Det er bedrifter som ikke får ansatt noen i mai 2026.</p>
+  <p class="akt-intro">Tallet er fra NAVs bedriftsundersøkelse for 2026, basert på svar fra 13 119 virksomheter (svarprosent 77) innhentet 26. januar–6. mars 2026. Nord-Norge er <b id="sjokkAndel">—</b> av landets mangel — mer enn dobbelt så stor andel som vi har av befolkningen (8,7 %). Det er ikke en framskriving mot 2050. Det er bedrifter som ikke får ansatt noen i mai 2026.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
 </section>
 
@@ -123,7 +123,7 @@
 <section class="akt">
   <div class="akt-num">Akt 03½ · Gapet</div>
   <h2>Hvor stort er gapet — <em>hvert 5. år</em>?</h2>
-  <p class="akt-intro">Dagens NAV-mangel er 5 950 personer i hele Nord-Norge. Det er bedriftenes faktiske rekrutteringshull i 2026 — ett øyeblikksbilde. Hva skjer når vi løfter blikket fram til 2050 og spør: hvor mange flere stillinger trenger vi å fylle <i>bare for å holde tritt med befolkningsbehovet</i>? Gapet skissert under er beregnet, ikke målt — men det er beregnet ut fra to ubestridelige fakta: brukergruppene vokser (særlig 65+), og arbeidsfør gruppen krymper.</p>
+  <p class="akt-intro">Dagens NAV-mangel er 5 850 personer i hele Nord-Norge. Det er bedriftenes faktiske rekrutteringshull i 2026 — ett øyeblikksbilde. Hva skjer når vi løfter blikket fram til 2050 og spør: hvor mange flere stillinger trenger vi å fylle <i>bare for å holde tritt med befolkningsbehovet</i>? Gapet skissert under er beregnet, ikke målt — men det er beregnet ut fra to ubestridelige fakta: brukergruppene vokser (særlig 65+), og arbeidsfør gruppen krymper.</p>
 
   <div class="kpi-rad" id="gapKPI"></div>
 
@@ -224,12 +224,12 @@
   </div>
 
   <div class="sitat">
-    <blockquote>«Den lange historien med naturlig befolknings­overskudd i distriktene er definitivt over. Distriktene er ikke lenger i stand til å reprodusere seg selv. Arbeidskraften til offentlig sektor må komme fra innvandring, eller fra omfordeling mellom kommuner.»</blockquote>
-    <div class="kilde"><b>Norman-utvalget</b> · NOU 2020:15 <i>Det handler om Norge</i> · Distriktsdemografi­utvalget</div>
+    <blockquote>«Det befolkningsframskrivingene klart viser, er at den lange historien med fødselsoverskudd i distriktene definitivt er forbi. Distriktene er ikke lenger i stand til å reprodusere seg selv, langt mindre å forsyne byene med folk.»</blockquote>
+    <div class="kilde"><b>Norman-utvalget</b> · NOU 2020:15 <i>Det handler om Norge</i>, kap. 1.1, s. 14</div>
   </div>
 
   <div class="sitat">
-    <p class="sitat-tekst">Helse- og sosialtjenestene mangler allerede 7 100 personer nasjonalt, 1 750 av dem i Nord-Norge. Sektoren er den største utgiftsposten i kommunene, og samtidig den hvor mangelen vil vokse raskest i takt med aldringen. Lønnsfleksibilitet alene løser ikke dette — bemanningsnormene må endres.</p>
+    <p class="sitat-tekst">Helse- og sosialtjenestene mangler allerede 7 200 personer nasjonalt, om lag 1 750 av dem i Nord-Norge. Sektoren er den største utgiftsposten i kommunene, og samtidig den hvor mangelen vil vokse raskest i takt med aldringen. Lønnsfleksibilitet alene løser ikke dette — bemanningsnormene må endres.</p>
     <div class="kilde">Oppsummert etter <b>NAV 2026</b> (nasjonale tall) og <b>KS regnskapsundersøkelse 2025</b></div>
   </div>
 
@@ -288,9 +288,9 @@ document.addEventListener('DOMContentLoaded', function(){
   if(sjokkKPI){
     sjokkKPI.innerHTML =
       '<div class="kpi"><div class="v down">' + fmt(nb.landsdel.mangel_total) + '</div><div class="l">Mangel i Nord-Norge</div><div class="nh">2026 · NAV-estimat</div></div>' +
-      '<div class="kpi"><div class="v">' + fmt(nb.nasjonalt.mangel_total) + '</div><div class="l">Nasjonal mangel</div><div class="nh">33 850 totalt</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(nb.nasjonalt.mangel_total) + '</div><div class="l">Nasjonal mangel</div><div class="nh">95 %-intervall 26 700–42 300</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">mot ' + (BEFK_DATA.landsdel / BEFK_DATA.riket * 100).toFixed(1).replace('.', ',') + ' % befolkningsandel</div></div>' +
-      '<div class="kpi"><div class="v up">' + pct(nb.landsdel.sysselsetting_barometer_2026_vektet, 1) + '</div><div class="l">Forventet vekst 2026</div><div class="nh">topp 2 i landet (Troms+Nordland)</div></div>';
+      '<div class="kpi"><div class="v up">' + pct(nb.fylker.Troms.sysselsetting_barometer['2026'], 1) + '</div><div class="l">Netto andel virksomheter som venter flere ansatte</div><div class="nh">Troms og Nordland (' + pct(nb.fylker.Nordland.sysselsetting_barometer['2026'], 1) + ') høyest i landet</div></div>';
   }
 
   // ─── AKT 02: Topp 6 næringer ───
@@ -422,12 +422,12 @@ document.addEventListener('DOMContentLoaded', function(){
     var gc = document.getElementById('gapClose');
     if(gc){
       var diff20 = komGap[komGap.length-1].gap - komGap[0].gap;
-      gc.innerHTML = 'Det kommunale gapet vokser fra <b>+' + fmt(Math.round(komGap[0].gap)) + '</b> stillinger i 2030 til <b>+' + fmt(Math.round(gap2050)) + '</b> i 2050 — en vekst på <b>' + (gap2050/komGap[0].gap).toFixed(1).replace('.',',') + ' ganger</b> på 20 år. Dagens NAV-mangel (5 950) er én øyeblikkstilstand. Det vi ser nedover langs grafen er <b>strukturen</b>: aldring tvinger fram høyere bemanningsbehov i sektorene kommunene selv driver, mens den arbeidsføre gruppen krymper. Totalt for hele arbeidsmarkedet i Nord-Norge blir gapet i 2050 ca <b>+' + fmt(Math.round(totGap2050)) + '</b> personer — som må tettes gjennom innvandring, automatisering, eller en akseptert reduksjon av tjenestestandarden.';
+      gc.innerHTML = 'Det kommunale gapet vokser fra <b>+' + fmt(Math.round(komGap[0].gap)) + '</b> stillinger i 2030 til <b>+' + fmt(Math.round(gap2050)) + '</b> i 2050 — en vekst på <b>' + (gap2050/komGap[0].gap).toFixed(1).replace('.',',') + ' ganger</b> på 20 år. Dagens NAV-mangel (5 850) er én øyeblikkstilstand. Det vi ser nedover langs grafen er <b>strukturen</b>: aldring tvinger fram høyere bemanningsbehov i sektorene kommunene selv driver, mens den arbeidsføre gruppen krymper. Totalt for hele arbeidsmarkedet i Nord-Norge blir gapet i 2050 ca <b>+' + fmt(Math.round(totGap2050)) + '</b> personer — som må tettes gjennom innvandring, automatisering, eller en akseptert reduksjon av tjenestestandarden.';
     }
 
     // ─── AKT 04: Mismatch + kilder ───
     var mismatchS = document.getElementById('mismatchSysselV');
-    if(mismatchS) mismatchS.textContent = pct(nb.landsdel.sysselsetting_barometer_2026_vektet, 1);
+    if(mismatchS) mismatchS.textContent = pct(nb.fylker.Nordland.sysselsetting_barometer['2026'], 1) + ' / ' + pct(nb.fylker.Troms.sysselsetting_barometer['2026'], 1);
     var mismatchD = document.getElementById('mismatchDemoV');
     if(mismatchD){
       var changePct = (a2050/a2024-1)*100;

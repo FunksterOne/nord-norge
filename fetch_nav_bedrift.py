@@ -207,8 +207,23 @@ def build_payload(xlsx_path: Path):
     nat_stramhet = t5.get("I alt", {}).get("stramhet")
     nat_ci = t5.get("I alt", {}).get("ci")
 
-    # Befolkningsandel som referanse (Nord-Norge ca. 8,8 % av Norge)
-    NN_POP_SHARE = 8.8
+    # Befolkningsandel som referanse: Nord-Norge 8,7 % av Norge (SSB 01222, 2. kvartal 2026)
+    NN_POP_SHARE = 8.7
+
+    # Navs offisielle totaler (Tabell 1 og Figur 3, avrundet til nærmeste 50). Summen av de avrundede
+    # cellene i Tabell V1 avviker fra disse (5 950 mot 5 850 for Nord-Norge), så totalene settes eksplisitt.
+    OFFISIELLE = {"I alt": 33750, "Nordland": 2950, "Troms": 2050, "Finnmark": 850}
+    for f in NN_FYLKER:
+        fylker_data[f]["mangel_total"] = OFFISIELLE[f]
+    nn_total = sum(OFFISIELLE[f] for f in NN_FYLKER)
+    nat_total = OFFISIELLE["I alt"]
+    nat_overall = OFFISIELLE["I alt"]
+    # Nasjonale næringstall fra Tabell 5 der de finnes (V1-summen gir f.eks. 7 100 mot 7 200 for helse og sosial)
+    for x in landsdel_naeringer:
+        t = t5.get(x["navn"], {}).get("mangel")
+        if t:
+            x["mangel_nat"] = t
+            x["andel_pct"] = round(x["mangel_nn"] / t * 100, 1)
 
     payload = {
         "retrieved_at": datetime.date.today().isoformat(),
