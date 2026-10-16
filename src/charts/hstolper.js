@@ -24,12 +24,16 @@ register('hstolper', (el, width) => {
   const maks = s.maks || Math.max(neg ? 0 : 1, ...alle.map(r => r.v), ...refs.map(r => r.v));
   const min = neg ? Math.min(...alle.map(r => r.v)) : 0;
   const longest = Math.max(4, ...s.grupper.flatMap(g => g.rader.map(r => String(r.l).length)));
-  // På smale skjermer får lange etiketter ikke plass til venstre; da legges de over stolpen.
-  const over = !s.etikettBredde && width < 600 && 14 + longest * 6.6 > width * 0.42;
+  // Etiketten legges over stolpen når diagrammet har merknader (merknaden står da på etikettlinjen,
+  // så stolpene får hele bredden), og på smale skjermer når lange etiketter ikke får plass til venstre.
+  const harNoter = alle.some(r => r.note);
+  const smal = width < 600;
+  const over = !s.etikettBredde && (harNoter || (smal && 14 + longest * 6.6 > width * 0.42));
   const left = over ? 4 : s.etikettBredde || Math.min(Math.round(width * 0.42), 14 + longest * 6.6);
-  // Smal visning: merknaden flyttes opp på etikettlinjen, så bare tallet står ved stolpen.
+  // Bred skjerm: merknaden høyrejusteres på etikettlinjen. Smal skjerm: den henges på etter etiketten.
   const etikett = r => fmt(r.v) + (r.note && !over ? `  ${r.note}` : '');
-  const radTekst = r => r.l + (r.note && over ? ` · ${r.note}` : '');
+  const radTekst = r => r.l + (r.note && over && smal ? ` · ${r.note}` : '');
+  const noteHøyre = over && harNoter && !smal;
   const høyreTekst = Math.max(40, ...alle.filter(r => r.v >= 0).map(r => tekstBredde(etikett(r), 11.5)));
   const venstreTekst = neg ? Math.max(40, ...alle.filter(r => r.v < 0).map(r => tekstBredde(etikett(r), 11.5))) : 0;
   const right = Math.min(Math.round(width * 0.38), Math.round(høyreTekst + 18));
@@ -62,6 +66,7 @@ register('hstolper', (el, width) => {
         Plot.text(vals.filter(r => r.v >= 0), { x: 'v', y: 'key', text: etikett, dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
         Plot.text(vals.filter(r => r.v < 0), { x: 'v', y: 'key', text: etikett, dx: -6, textAnchor: 'end', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
         overHer && Plot.text(rader, { y: 'key', frameAnchor: 'left', text: radTekst, dy: -14, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: 11.5 }),
+        overHer && noteHøyre && Plot.text(rader.filter(r => r.note), { y: 'key', frameAnchor: 'right', text: 'note', dy: -14, textAnchor: 'end', fill: 'var(--ink-3)', fontSize: 11 }),
         tom.length && Plot.text(tom, { x: 0, y: 'key', text: () => 'undertrykt', dx: 6, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 11 }),
         Plot.tip(vals, Plot.pointerY({ x: 'v', y: 'key', title: r => `${r.l}\n${fmt(r.v)}${r.note ? `\n${r.note}` : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
       ].filter(Boolean),
