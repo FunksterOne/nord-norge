@@ -5,7 +5,7 @@ LEVEKAR_DATA i index.html. Brukes til ny Akt 2.3 «Levekår og inntekt».
 Kilder:
   06944  Inntekt husholdninger — per-kommune median + antall (kommune-spesifikke verdier)
   14780  Personinntekt etter komponenter (lønn, pensjon, uføretrygd)
-  11084  Eierstatus husholdninger — antall + andel selveiere/leiere
+  14891  Eierstatus husholdninger — antall + andel selveiere/leiere (erstatter 11084)
   06265  Boliger etter bygningstype — antall boliger fordelt
 
 OBS: 12558 (desiler) ble droppet — tabellen returnerer nasjonale desil-grenser
@@ -68,7 +68,7 @@ def fetch_inntekt_husholdninger():
             {"code":"Region","selection":{"filter":"item","values":CODES}},
             {"code":"HusholdType","selection":{"filter":"item","values":["0000"]}},  # alle husholdninger
             {"code":"ContentsCode","selection":{"filter":"item","values":["InntSkatt","AntallHushold"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2024"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YR["06944"]]}},
         ],
         "response":{"format":"json-stat2"}}
     return parse(post_ssb("06944", body))
@@ -82,22 +82,22 @@ def fetch_personinntekt_komponenter():
             {"code":"Kjonn","selection":{"filter":"item","values":["0"]}},  # begge kjønn
             {"code":"Populasjon","selection":{"filter":"item","values":["03","04"]}},  # bosatte 17+, m/beløp
             {"code":"ContentsCode","selection":{"filter":"item","values":["GjSnitt","Median","AntPersoner","Belop"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2025"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YR["14780"]]}},
         ],
         "response":{"format":"json-stat2"}}
     return parse(post_ssb("14780", body))
 
 def fetch_eierstatus():
-    """11084 — eierstatus husholdninger."""
+    """14891 — eierstatus husholdninger (erstatter 11084)."""
     body = {
         "query": [
             {"code":"Region","selection":{"filter":"item","values":CODES}},
-            {"code":"EierStatus","selection":{"filter":"item","values":["1","2","3","4"]}},
+            {"code":"EierStatus","selection":{"filter":"item","values":list(EIER_LABEL)}},
             {"code":"ContentsCode","selection":{"filter":"item","values":["Husholdning","HusholdningProsent"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2024"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YR[EIER_TAB]]}},
         ],
         "response":{"format":"json-stat2"}}
-    return parse(post_ssb("11084", body))
+    return parse(post_ssb(EIER_TAB, body))
 
 def fetch_boliger():
     """06265 — boliger etter bygningstype."""
@@ -106,22 +106,39 @@ def fetch_boliger():
             {"code":"Region","selection":{"filter":"item","values":CODES}},
             {"code":"BygnType","selection":{"filter":"item","values":["01","02","03","04","05","999"]}},
             {"code":"ContentsCode","selection":{"filter":"item","values":["Boliger"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2026"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YR["06265"]]}},
         ],
         "response":{"format":"json-stat2"}}
     return parse(post_ssb("06265", body))
 
 INNT_LABEL = {"11":"lonn", "12":"pensjon", "124":"uforetrygd"}
-EIER_LABEL = {"1":"total", "2":"selveier", "3":"andels", "4":"leier"}
+# 14891 (erstatter 11084 fra SSB-revisjonen 14.9.2026): 0 = I alt, 1 = Selveier,
+# 2 = Andels-/aksjeeier, 3 = Leier. (11084 brukte 1 = I alt ... 4 = Leier.)
+EIER_TAB = "14891"
+EIER_LABEL = {"0":"total", "1":"selveier", "2":"andels", "3":"leier"}
+
+# Nyeste aar per tabell settes i main() fra metadata.
+YR = {}
+
+
+def siste_aar(table_id):
+    with urllib.request.urlopen(f"https://data.ssb.no/api/v0/no/table/{table_id}", timeout=60) as r:
+        m = json.loads(r.read().decode("utf-8"))
+    return next(v for v in m["variables"] if v["code"] == "Tid")["values"][-1]
+
+
 BYGN_LABEL = {"01":"enebolig", "02":"tomannsbolig", "03":"rekkehus",
               "04":"boligblokk", "05":"bofellesskap", "999":"andre"}
 
 def main():
+    for tab in ("06944", "14780", EIER_TAB, "06265"):
+        YR[tab] = siste_aar(tab)
+    print("Nyeste aar per tabell:", YR, flush=True)
     print("Fetching 06944 (husholdningsinntekt per kommune)...", flush=True)
     inntekt_rows = fetch_inntekt_husholdninger()
     print("Fetching 14780 (personinntekt komponenter)...", flush=True)
     pers_rows = fetch_personinntekt_komponenter()
-    print("Fetching 11084 (eierstatus)...", flush=True)
+    print(f"Fetching {EIER_TAB} (eierstatus)...", flush=True)
     eier_rows = fetch_eierstatus()
     print("Fetching 06265 (boliger)...", flush=True)
     bolig_rows = fetch_boliger()
@@ -129,9 +146,9 @@ def main():
     payload = {
         "retrieved_at": datetime.date.today().isoformat(),
         "source_id": "SSB_STATBANK",
-        "tables": ["06944", "14780", "11084", "06265"],
-        "years": {"husholdningsinntekt": "2024", "personinntekt": "2025",
-                  "eierstatus": "2024", "boliger": "2026"},
+        "tables": ["06944", "14780", EIER_TAB, "06265"],
+        "years": {"husholdningsinntekt": YR["06944"], "personinntekt": YR["14780"],
+                  "eierstatus": YR[EIER_TAB], "boliger": YR["06265"]},
         "kommuner": {}
     }
 
@@ -186,7 +203,7 @@ def main():
             # Antall bosatte 17+ totalt (uavhengig av om de har lønn) — bruk lønn-rad som proxy
             rec["personBosatte17plus"] = v
 
-    # 11084 — eierstatus
+    # 14891 — eierstatus
     for r in eier_rows:
         nr = r["Region"]; eier = r["EierStatus"]; cc = r["ContentsCode"]; v = r["_value"]
         if nr not in payload["kommuner"]: continue
@@ -226,7 +243,7 @@ def main():
     print("Bodø (1804) sample:")
     print(f"  Median inntekt etter skatt: {b['medianInntektEtterSkatt']} kr")
     print(f"  Antall husholdninger (approks): {b['antallHusholdninger']}")
-    print(f"  Hush total (fra 11084): {b['hush_total']}")
+    print(f"  Hush total (fra {EIER_TAB}): {b['hush_total']}")
     print(f"  Andel selveiere: {b['pct_selveier']}%")
     print(f"  Lønn median: {b['personLonn_median']} kr · snitt: {b['personLonn_snitt']} kr")
     print(f"  Pensjon median: {b['personPensjon_median']} kr")
@@ -248,7 +265,7 @@ def main():
     block = f"{marker_start}\n{js_lit}\n{marker_end}"
     if marker_start in html:
         pat = re.compile(r"/\* LEVEKAR_DATA BEGIN \*/.*?/\* LEVEKAR_DATA END \*/", re.DOTALL)
-        new_html = pat.sub(block, html)
+        new_html = pat.sub(lambda _m: block, html)
     else:
         anchor = "/* ARBEID_DATA END */"
         if anchor not in html:

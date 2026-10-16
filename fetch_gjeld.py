@@ -259,7 +259,7 @@ def main():
     block = f"{marker_start}\n{js_lit}\n{marker_end}"
     if marker_start in html:
         pat = re.compile(r"/\* GJELD_DATA BEGIN \*/.*?/\* GJELD_DATA END \*/", re.DOTALL)
-        new_html = pat.sub(block, html)
+        new_html = pat.sub(lambda _m: block, html)
     else:
         for anchor in ("/* RENTE_DATA END */", "/* SSB_FLOWS END */"):
             if anchor in html:

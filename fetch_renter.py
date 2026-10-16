@@ -130,7 +130,7 @@ def main():
     block = f"{marker_start}\n{js_lit}\n{marker_end}"
     if marker_start in html:
         pat = re.compile(r"/\* RENTE_DATA BEGIN \*/.*?/\* RENTE_DATA END \*/", re.DOTALL)
-        new_html = pat.sub(block, html)
+        new_html = pat.sub(lambda _m: block, html)
     else:
         # Insert right after SSB_FLOWS END marker
         anchor = "/* SSB_FLOWS END */"

@@ -200,7 +200,7 @@ def main():
     lit = "const BOLIG_DATA = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
     block = "/* BOLIG_DATA BEGIN */\n" + lit + "\n/* BOLIG_DATA END */"
     if "/* BOLIG_DATA BEGIN */" in js:
-        js = re.sub(r"/\* BOLIG_DATA BEGIN \*/.*?/\* BOLIG_DATA END \*/", block, js, flags=re.DOTALL)
+        js = re.sub(r"/\* BOLIG_DATA BEGIN \*/.*?/\* BOLIG_DATA END \*/", lambda _m: block, js, flags=re.DOTALL)
     else:
         anchor = "/* KJONN_DATA END */"
         if anchor not in js:

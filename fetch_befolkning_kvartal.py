@@ -8,8 +8,9 @@ presenteres. VIKTIG: alle modeller (framskriving, BB-KVOTE, TF-baner) forblir
 forankret i 1.1.2026 — kvartalstallene har ingen aldersfordeling paa
 kommuneniva og kan ikke brukes som modellanker.
 
-Kontroll: 01222 "Befolkning ved inngangen av kvartalet" for K1 skal vaere lik
-1.1-ankeret (sum av alder-arrayene) for hver kommune.
+Kontroll: 01222 "Befolkning ved inngangen av kvartalet" skal for K1 vaere lik
+1.1-ankeret (sum av alder-arrayene), og for K2-K4 lik utgangen av forrige
+kvartal, for hver kommune.
 """
 import json
 import re
@@ -51,20 +52,38 @@ def main():
         "riket": utg.get("0"),
     }
 
-    # Kontroll mot 1.1-ankeret i dashbordet (kun meningsfull for K1)
+    # Kontroll av kvartalsinngangen:
+    #  - K1: inngangen (1.1) skal vaere lik 1.1-ankeret (sum av alder-arrayene).
+    #  - K2-K4: inngangen skal vaere lik utgangen av forrige kvartal. Sammenlignes
+    #    med BEFK_DATA som allerede ligger i data.js dersom den gjelder forrige
+    #    kvartal; ellers hentes forrige kvartals utgang direkte fra 01222.
     js = DATA_JS.read_text(encoding="utf-8")
     linjer = js.split("\n")
     idx = next(i for i, l in enumerate(linjer) if l.startswith("const DATA = "))
     DATA = json.loads(linjer[idx][len("const DATA = "):].rstrip(";"))
     if kv == 1:
-        avvik = [(k, sum(DATA["kommuner"][k]["alder"]), inng.get(k))
-                 for k in CODES if sum(DATA["kommuner"][k]["alder"]) != inng.get(k)]
-        if avvik:
-            print(f"ADVARSEL: {len(avvik)} kommuner der 01222-inngang != 1.1-anker:")
-            for k, a, b in avvik[:5]:
-                print(f"  {k}: anker {a}, 01222 {b}")
+        ref = {k: sum(DATA["kommuner"][k]["alder"]) for k in CODES}
+        ref_navn = "1.1-ankeret"
+    else:
+        forrige = f"{aar}K{kv - 1}"
+        m = re.search(r"const BEFK_DATA = (\{.*?\});\n", js)
+        gammel = json.loads(m.group(1)) if m else None
+        if gammel and gammel.get("kvartal") == forrige:
+            ref = {k: gammel["kommuner"].get(k) for k in CODES}
+            ref_navn = f"utgangen av {forrige} (BEFK_DATA i data.js)"
         else:
-            print("Kontroll OK: 01222-inngangen er identisk med 1.1-ankeret for alle 80.")
+            q2 = [q[0], {"code": "ContentsCode", "selection": {"filter": "item",
+                                                                "values": ["Folketallet11"]}},
+                  {"code": "Tid", "selection": {"filter": "item", "values": [forrige]}}]
+            ref = {co["Region"]: v for co, v in celler(post_ssb("01222", q2))}
+            ref_navn = f"utgangen av {forrige} (01222)"
+    avvik = [(k, ref.get(k), inng.get(k)) for k in CODES if ref.get(k) != inng.get(k)]
+    if avvik:
+        print(f"ADVARSEL: {len(avvik)} kommuner der 01222-inngang != {ref_navn}:")
+        for k, a, b in avvik[:5]:
+            print(f"  {k}: referanse {a}, 01222-inngang {b}")
+    else:
+        print(f"Kontroll OK: 01222-inngangen er identisk med {ref_navn} for alle 80.")
     delta = payload["landsdel"] - sum(inng.get(k) or 0 for k in CODES)
     print(f"Landsdel per {dato_norsk}: {payload['landsdel']} "
           f"({'+' if delta >= 0 else ''}{delta} i kvartalet). Riket: {payload['riket']}.")
@@ -72,7 +91,8 @@ def main():
     lit = "const BEFK_DATA = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
     block = "/* BEFK_DATA BEGIN */\n" + lit + "\n/* BEFK_DATA END */"
     if "/* BEFK_DATA BEGIN */" in js:
-        js = re.sub(r"/\* BEFK_DATA BEGIN \*/.*?/\* BEFK_DATA END \*/", block, js, flags=re.DOTALL)
+        js = re.sub(r"/\* BEFK_DATA BEGIN \*/.*?/\* BEFK_DATA END \*/", lambda _m: block, js,
+                    flags=re.DOTALL)
     else:
         js = js.replace("/* MARKED_DATA END */", "/* MARKED_DATA END */\n" + block)
     DATA_JS.write_text(js, encoding="utf-8")

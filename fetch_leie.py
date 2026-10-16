@@ -2,9 +2,16 @@
 """Henter leiemarkedet og injiserer LEIE_DATA i assets/data.js.
 
 Kilder:
-  11084  Eierstatus, husholdninger (K), 2015-2024. EierStatus 4 = Leier.
-         Kommuneserier skjotes til 2024-grensene via KLASS (som fetch_bolig.py).
+  14891  Eierstatus, husholdninger (K), 2015-. EierStatus 0 = I alt, 3 = Leier.
+         Erstatter 11084 (avviklet; v0-API gir 400). SSB reviderte hele
+         boforholdsstatistikken 14. september 2026 for 2015-2025, saa nivaaene
+         (saerlig antall leiere) er IKKE sammenlignbare med tidligere 11084-tall.
+         14891 publiseres paa dagens kommunegrenser for hele perioden, saa
+         KLASS-skjoeting er ikke lenger noedvendig.
   12008  Kommunalt disponerte boliger (K), KOSTRA — per 1 000 innbyggere.
+
+Feltnavn: l15/a15 = 2015 (leiere/alle husholdninger). l24/a24 = SISTE aar
+(`aar`, f.eks. 2025). Navnene beholdes av hensyn til eksisterende render-kode.
 
 Avgrensning (dokumentert i metode.html): aldersfordelt leieandel og
 utleieboliger etter eiertype finnes bare i Microdata/forskningsdata, ikke i
@@ -16,34 +23,32 @@ import re
 import datetime
 from pathlib import Path
 
-from fetch_bolig import get, post_ssb, celler, bygg_familier, CODES, fylke
+from fetch_bolig import get, post_ssb, celler, CODES, fylke
 
 HERE = Path(__file__).parent
 DATA_JS = HERE / "assets" / "data.js"
 
-AAR = [str(a) for a in range(2015, 2025)]
+TAB = "14891"
+FYLKESKODE = {"Nordland": "18", "Troms": "55", "Finnmark": "56"}
 
 
 def main():
-    print("Bygger skjotetabell...", flush=True)
-    familier, split_i_nord = bygg_familier()
-    alle_koder = sorted({k for fam in familier.values() for k in fam} | set(split_i_nord) | {"0"})
-
-    print("Henter 11084 (eierstatus husholdninger, 2015-2024)...", flush=True)
-    meta = get("https://data.ssb.no/api/v0/no/table/11084")
-    reg_ok = set(next(v for v in meta["variables"] if v["code"] == "Region")["values"])
+    meta = get(f"https://data.ssb.no/api/v0/no/table/{TAB}")
+    tid = next(v for v in meta["variables"] if v["code"] == "Tid")["values"]
+    siste = tid[-1]
+    print(f"Henter {TAB} (eierstatus husholdninger, 2015 og {siste})...", flush=True)
     q = [{"code": "Region", "selection": {"filter": "item",
-                                          "values": [k for k in alle_koder if k in reg_ok]}},
-         {"code": "EierStatus", "selection": {"filter": "item", "values": ["1", "4"]}},
+                                          "values": CODES + list(FYLKESKODE.values()) + ["0"]}},
+         {"code": "EierStatus", "selection": {"filter": "item", "values": ["0", "3"]}},
          {"code": "ContentsCode", "selection": {"filter": "item", "values": ["Husholdning"]}},
-         {"code": "Tid", "selection": {"filter": "item", "values": AAR}}]
-    d = post_ssb("11084", q)
+         {"code": "Tid", "selection": {"filter": "item", "values": ["2015", siste]}}]
     tall = {}
-    for co, v in celler(d):
+    for co, v in celler(post_ssb(TAB, q)):
         tall[(co["Region"], co["EierStatus"], co["Tid"])] = v
 
-    def spleis(fam, status, aar):
-        return int(sum(tall.get((k, status, aar), 0) or 0 for k in fam))
+    def rec(kode):
+        return {"l15": tall.get((kode, "3", "2015")), "l24": tall.get((kode, "3", siste)),
+                "a15": tall.get((kode, "0", "2015")), "a24": tall.get((kode, "0", siste))}
 
     print("Henter 12008 (kommunalt disponerte boliger)...", flush=True)
     meta12 = get("https://data.ssb.no/api/v0/no/table/12008")
@@ -64,36 +69,32 @@ def main():
 
     payload = {
         "retrieved_at": datetime.date.today().isoformat(),
-        "tables": ["11084", "12008"],
-        "aar": "2024", "aar_komm": aar12,
-        "kommuner": {}, "fylker": {}, "landsdel": {}, "riket": {},
+        "tables": [TAB, "12008"],
+        "aar": siste, "aar_komm": aar12,
+        "felt_note": f"l15/a15 = 2015; l24/a24 = siste år ({siste}). Kilde {TAB} "
+                     "(SSB-revisjon 14.9.2026, erstatter 11084; nivåene er ikke "
+                     "sammenlignbare med tidligere publiserte tall).",
+        "kommuner": {k: rec(k) for k in CODES},
+        "fylker": {f: rec(c) for f, c in FYLKESKODE.items()},
+        "landsdel": {}, "riket": rec("0"),
         "komm1000": komm,
     }
-    for k in CODES:
-        fam = familier[k]
-        payload["kommuner"][k] = {
-            "l15": spleis(fam, "4", "2015"), "l24": spleis(fam, "4", "2024"),
-            "a15": spleis(fam, "1", "2015"), "a24": spleis(fam, "1", "2024")}
-    for f in ["Nordland", "Troms", "Finnmark"]:
-        fam = [c for k in CODES if fylke(k) == f for c in familier[k]] + \
-              [o for o, fy in split_i_nord.items() if fy == f]
-        payload["fylker"][f] = {
-            "l15": spleis(fam, "4", "2015"), "l24": spleis(fam, "4", "2024"),
-            "a15": spleis(fam, "1", "2015"), "a24": spleis(fam, "1", "2024")}
-    fam_alle = [c for k in CODES for c in familier[k]] + list(split_i_nord)
-    payload["landsdel"] = {
-        "l15": spleis(fam_alle, "4", "2015"), "l24": spleis(fam_alle, "4", "2024"),
-        "a15": spleis(fam_alle, "1", "2015"), "a24": spleis(fam_alle, "1", "2024")}
-    payload["riket"] = {
-        "l15": spleis(["0"], "4", "2015"), "l24": spleis(["0"], "4", "2024"),
-        "a15": spleis(["0"], "1", "2015"), "a24": spleis(["0"], "1", "2024")}
+    payload["landsdel"] = {f: sum(payload["fylker"][fy][f] or 0 for fy in FYLKESKODE)
+                           for f in ("l15", "l24", "a15", "a24")}
 
-    # --- kontroller mot kbnn-artikkelen (KPB, juli 2026) -----------------
+    # --- kontroller ---------------------------------------------------------
+    for fy in FYLKESKODE:
+        s = sum(payload["kommuner"][k]["a24"] or 0 for k in CODES if fylke(k) == fy)
+        if s != payload["fylker"][fy]["a24"]:
+            print(f"ADVARSEL: sum kommuner {fy} {s} != fylkestall {payload['fylker'][fy]['a24']}")
     L = payload["landsdel"]
     vl = (L["l24"] - L["l15"]) / L["l15"] * 100
     va = (L["a24"] - L["a15"]) / L["a15"] * 100
-    print(f"\nKontroll landsdel: {L['l24']} leiehusholdninger 2024 (kbnn: ~57 000), "
-          f"vekst 2015-2024 {vl:.1f} % (kbnn: 12,6 %), alle husholdninger {va:.1f} % (kbnn: 8,6 %)")
+    print(f"\nLandsdel: {L['l24']} leiehusholdninger {siste} ({L['l24'] / L['a24'] * 100:.1f} %), "
+          f"vekst 2015-{siste} {vl:.1f} %, alle husholdninger {va:.1f} %. "
+          "(kbnn/KPB juli 2026 paa gammel 11084-serie: ~57 000, 12,6 %, 8,6 %)")
+    R = payload["riket"]
+    print(f"Riket: {R['l24']} leiehusholdninger {siste} (SSB-artikkel 2025: 713 623)")
     topp = sorted(((komm.get(k) or 0, k) for k in CODES), reverse=True)[:3]
     print("Kommunalt disponerte per 1 000 innb., topp 3:",
           [(t[1], t[0]) for t in topp], f"({aar12})")
@@ -102,7 +103,8 @@ def main():
     lit = "const LEIE_DATA = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
     block = "/* LEIE_DATA BEGIN */\n" + lit + "\n/* LEIE_DATA END */"
     if "/* LEIE_DATA BEGIN */" in js:
-        js = re.sub(r"/\* LEIE_DATA BEGIN \*/.*?/\* LEIE_DATA END \*/", block, js, flags=re.DOTALL)
+        js = re.sub(r"/\* LEIE_DATA BEGIN \*/.*?/\* LEIE_DATA END \*/", lambda _m: block, js,
+                    flags=re.DOTALL)
     else:
         anchor = "/* BEFK_DATA END */" if "/* BEFK_DATA END */" in js else "/* MARKED_DATA END */"
         js = js.replace(anchor, anchor + "\n" + block)

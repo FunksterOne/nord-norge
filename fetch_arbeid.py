@@ -3,8 +3,10 @@
 index.html. Brukes for ærlig forsørgerbyrde-beregning og uføre-indikator.
 
 Kilder:
-  11715  Uføretrygdede etter alder per kommune (2024)
-  13563  Prioritert arbeidsstyrkestatus per kommune (2024)
+  11715  Uføretrygdede etter alder per kommune
+  13563  Prioritert arbeidsstyrkestatus per kommune
+
+Året settes automatisk til nyeste år som finnes i begge tabellene.
 """
 import json
 import re
@@ -60,7 +62,7 @@ def fetch_uforetrygdede():
             {"code":"Region","selection":{"filter":"item","values":CODES}},
             {"code":"Alder","selection":{"filter":"item","values":["18-67"]}},
             {"code":"ContentsCode","selection":{"filter":"item","values":["UforetygdPers","UforetrygdPros"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2024"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YEAR]}},
         ],
         "response":{"format":"json-stat2"}}
     return parse(post_ssb("11715", body))
@@ -76,12 +78,29 @@ def fetch_arbeidsstyrke():
             {"code":"Alder","selection":{"filter":"item","values":["20-66"]}},
             {"code":"InnvandrKat","selection":{"filter":"item","values":["A-G"]}},
             {"code":"ContentsCode","selection":{"filter":"item","values":["Bosatte"]}},
-            {"code":"Tid","selection":{"filter":"item","values":["2024"]}},
+            {"code":"Tid","selection":{"filter":"item","values":[YEAR]}},
         ],
         "response":{"format":"json-stat2"}}
     return parse(post_ssb("13563", body))
 
+def siste_felles_aar(*tabeller):
+    """Nyeste år som finnes i alle tabellene."""
+    sett = None
+    for t in tabeller:
+        with urllib.request.urlopen(f"https://data.ssb.no/api/v0/no/table/{t}", timeout=60) as r:
+            m = json.loads(r.read().decode("utf-8"))
+        tid = set(next(v for v in m["variables"] if v["code"] == "Tid")["values"])
+        sett = tid if sett is None else sett & tid
+    return max(sett)
+
+
+YEAR = None
+
+
 def main():
+    global YEAR
+    YEAR = siste_felles_aar("11715", "13563")
+    print(f"Nyeste felles år i 11715/13563: {YEAR}", flush=True)
     print("Fetching 11715 (uføretrygdede)...", flush=True)
     ufo_rows = fetch_uforetrygdede()
     print("Fetching 13563 (arbeidsstyrkestatus)...", flush=True)
@@ -103,7 +122,7 @@ def main():
         "retrieved_at": datetime.date.today().isoformat(),
         "source_ids": ["SSB_STATBANK"],
         "tables": ["11715", "13563"],
-        "year": "2024",
+        "year": YEAR,
         "alder_arb": "20-66",
         "alder_ufo": "18-67",
         "kommuner": {}
@@ -150,7 +169,7 @@ def main():
     block = f"{marker_start}\n{js_lit}\n{marker_end}"
     if marker_start in html:
         pat = re.compile(r"/\* ARBEID_DATA BEGIN \*/.*?/\* ARBEID_DATA END \*/", re.DOTALL)
-        new_html = pat.sub(block, html)
+        new_html = pat.sub(lambda _m: block, html)
     else:
         anchor = "/* RENTE_DATA END */"
         if anchor not in html:

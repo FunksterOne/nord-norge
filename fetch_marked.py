@@ -154,7 +154,7 @@ def main():
     lit = "const MARKED_DATA = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
     block = "/* MARKED_DATA BEGIN */\n" + lit + "\n/* MARKED_DATA END */"
     if "/* MARKED_DATA BEGIN */" in js:
-        js = re.sub(r"/\* MARKED_DATA BEGIN \*/.*?/\* MARKED_DATA END \*/", block, js, flags=re.DOTALL)
+        js = re.sub(r"/\* MARKED_DATA BEGIN \*/.*?/\* MARKED_DATA END \*/", lambda _m: block, js, flags=re.DOTALL)
     else:
         anchor = "/* BEHOV_DATA END */"
         if anchor not in js:
