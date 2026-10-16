@@ -6,12 +6,12 @@ Interaktivt, frittstående dashbord for de 80 kommunene i Nord-Norge (Nordland, 
 
 ## Teknisk oppbygning
 
-- 13 HTML-sider (forside, landsdel, fylke, kommune, sammenligning, metode og sju temasider) bygges med **Vite** (`npm run build` → `dist/`). Vercel bygger automatisk ved push til `main` (se `vercel.json`).
+- 14 HTML-sider (forside, landsdel, fylke, kommune, sammenligning, metode og åtte temasider) bygges med **Vite** (`npm run build` → `dist/`). Vercel bygger automatisk ved push til `main` (se `vercel.json`).
 - **Profil:** McHalvard, mørk visning som standard (`data-tema`), tokens i `src/styles/tokens.css`.
 - **Diagrammotor:** `src/charts/` med Observable Plot og D3. Eldre kode i `assets/app.js` setter inn plassholdere (`NN.placeholder(navn, spesifikasjon)`) som tegnes, tilpasses bredden og følger temaet automatisk.
-  Typer: `proj` (befolkningsbaner), `kart` (kommunekart med rangering), `plassering` (bisverm «hvor står kommunen»), `skjebner` (små multipler), `trykkmatrise` (regioner, animert), `gap` (differansediagram), `linjer`, `stolper`, `spredning`.
+  Typer: `proj` (befolkningsbaner), `kart` (kommunekart med rangering), `plassering` (bisverm «hvor står kommunen»), `skjebner` (små multipler), `trykkmatrise` (regioner, animert), `gap` (differansediagram), `lq` (næringskonsentrasjon per region), `naeringvekst` (manualdiagram), `linjer`, `stolper`, `hstolper`, `mini`, `stablet`, `backtest`, `rang`, `spredning`.
 - **Søk:** Ctrl K eller «/» på alle sider (`src/lib/search.js`). Rullestyrt fortelling på forsiden (`src/lib/scrolly.js`).
-- **Data:** `assets/data.js` (innbakte datablokker) oppdateres av `fetch_*.py` mot SSB PxWebApi; `fetch_kostra.py` og `update_robek.py` for KOSTRA og ROBEK. Kart: `geo/nn-kommuner.json` (Kartverket 2024, CC BY 4.0).
+- **Data:** `assets/data.js` (innbakte datablokker) oppdateres av `fetch_*.py` mot SSB PxWebApi; `fetch_kostra.py` og `update_robek.py` for KOSTRA og ROBEK, `fetch_naering.py` for sysselsatte per næring (SSB 13470, SØAs næringsgrupper). Kart: `geo/nn-kommuner.json` (Kartverket 2024, CC BY 4.0).
 
 ## Lokalt
 

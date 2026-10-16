@@ -18,5 +18,6 @@ export const L = {
   get ARBEID() { return typeof ARBEID_DATA !== 'undefined' ? ARBEID_DATA : null; },
   get LEVEKAR() { return typeof LEVEKAR_DATA !== 'undefined' ? LEVEKAR_DATA : null; },
   get GJELD() { return typeof GJELD_DATA !== 'undefined' ? GJELD_DATA : null; },
+  get NAERING() { return typeof NAERING_DATA !== 'undefined' ? NAERING_DATA : null; }, // eslint-disable-line no-undef
   MW(o) { return typeof window.MW === 'function' ? window.MW(o) : null; },
 };
