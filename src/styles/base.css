@@ -108,7 +108,10 @@ svg text { font-family: var(--font-sans); }
 .wrap > *, .akt > *, section > *, .card > * { min-width: 0; }
 @media (max-width: 720px) {
   .wrap { padding: 20px 16px 56px !important; }
-  table { display: block; overflow-x: auto; max-width: 100%; }
+  table, .kildetabell, .gap-tabell, .kvote-tabell, .sust-table, .source-table { display: block !important; overflow-x: auto; max-width: 100% !important; width: 100% !important; }
+  select { max-width: 100%; }
+  .nn-actions, .nn-actions > * { max-width: 100%; min-width: 0; }
+  .cmpgrid { grid-template-columns: 1fr !important; }
   .nn-actions { margin-left: 0; width: 100%; flex-wrap: wrap; }
   .nn-actions select { flex: 1 1 100%; min-width: 0; }
   .akt h2 { font-size: 26px; }
@@ -153,3 +156,12 @@ svg text { font-family: var(--font-sans); }
 .nn-palett-l li .s { font-size: 12px; color: var(--ink-3); }
 .nn-palett-l li.tom { color: var(--ink-3); cursor: default; }
 .nn-palett-hint { display: flex; gap: 16px; padding: 9px 18px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-3); }
+
+/* Forside og temakort: nøytrale flater, tung linje øverst (farge er for data, ikke pynt) */
+.landing-temaer .lt-card, .landing-card, .neste-tema-blokk a.ntb-card {
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  border-top: 3px solid var(--rule) !important;
+}
+.landing-temaer .lt-card:hover, .landing-card:hover, .neste-tema-blokk a.ntb-card:hover { border-top-color: var(--accent) !important; background: var(--raised) !important; }
+.landing-temaer .lt-num, .landing-card .lnum, .neste-tema-blokk .ntb-num { color: var(--accent-text) !important; }
