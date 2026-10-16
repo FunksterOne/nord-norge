@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
 <meta name="color-scheme" content="dark light">
-<script>try{if(localStorage.getItem("nn-tema")==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
+<script>try{var q=new URLSearchParams(location.search).get("tema");if(q==="light"||q==="dark")localStorage.setItem("nn-tema",q);if((q||localStorage.getItem("nn-tema"))==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
 <link rel="stylesheet" href="assets/styles.css">
 <script type="module" src="/src/main.js"></script>
 <style>
@@ -204,6 +204,14 @@
 </div>
 
 <div class="metode-card">
+  <h2>Regioner, kart og visualisering</h2>
+  <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Regioninndeling.</b> De 13 regionene (Helgeland, Salten uten Bodø, Bodø, Ofoten, Lofoten, Vesterålen, Sør-Troms, Midt-Troms, Tromsø, Nord-Troms, Alta, Vest-Finnmark, Øst-Finnmark) følger Samfunnsøkonomisk Analyses rapport <i>Nord-Norge 2040 — Store muligheter, for få folk</i> (rapport 33-2026, 29. september 2026). Rapporten oppgir ikke kommunelister; tilordningen følger regionrådene per 2026. Lødingen regnes til Vesterålen (medlem av Vesterålen regionråd). Regionene er et analysenivå, ikke et forvaltningsnivå.</p>
+  <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Kartgrunnlag.</b> Kommunegrenser for 2024-inndelingen fra Kartverket (CC BY 4.0), klippet etter kystlinje og forenklet til TopoJSON (82 kB) for raske kart. Kartene viser indikatorene per kommune; tynn linje er regiongrense, tykk linje fylkesgrense.</p>
+  <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Diagrammer.</b> Figurene tegnes med Observable Plot og D3 i nettleseren, direkte fra de samme datablokkene som tallene i teksten. Det betyr at figur og tekst alltid viser samme årgang. Alle tall formateres etter norsk konvensjon (komma, mellomrom som tusenskille og før prosenttegn). Siden åpner i mørk visning; lys visning kan velges øverst til høyre og huskes i nettleseren.</p>
+  <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Sist oppdatert.</b> Alle datablokker ble hentet på nytt fra SSB og regjeringen.no 16. oktober 2026: folketall per <span data-befk-dato>1. juli 2026</span> (01222), KOSTRA 2025 (endelige tall), ROBEK-registeret per 9. oktober 2026, sysselsetting og uføretrygd 2025, eierstatus 2025 (ny tabell 14891).</p>
+</div>
+
+<div class="metode-card">
   <h2>Forbehold</h2>
   <ul style="margin:0;padding-left:20px;color:var(--ink2);font-size:13.5px;line-height:1.65">
     <li>Framskrivinger er <b>ikke prognoser</b>. De viser hva demografien alene gir «alt annet likt», og forutsetningene kan etterprøves.</li>
@@ -237,7 +245,7 @@
     </div>
   </div>
   <div class="nnf-bottom">
-    <span>Vanilla HTML/CSS/JS — ingen avhengigheter</span>
+    <span>Bygget med Vite, Observable Plot og D3 · Kart: Kartverket (CC BY 4.0)</span>
     <span>·</span>
     <span>Halvard Nordang, 2026</span>
   </div>

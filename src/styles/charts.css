@@ -49,3 +49,21 @@
 .nn-d3tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s; background: var(--raised); border: 1px solid var(--line); border-top: 2px solid var(--accent); padding: 8px 10px; font-size: 12px; line-height: 1.5; color: var(--ink); min-width: 190px; z-index: 5; }
 .nn-d3tip b { font-weight: 600; }
 .nn-trykk svg text { font-family: var(--font-sans); }
+/* Rullestyrt fortelling */
+.nn-scrolly { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; margin-top: 8px; }
+.nn-scrolly-graf { position: sticky; top: 24px; }
+.nn-scrolly-graf .nnchart { transition: opacity .14s ease; }
+.nn-scrolly-graf .nnchart.bytter { opacity: .25; }
+.nn-steg { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; padding: 24px 0; opacity: .38; transition: opacity .25s ease; }
+.nn-steg.aktiv { opacity: 1; }
+.nn-steg:first-child { min-height: 50vh; justify-content: flex-start; padding-top: 40px; }
+.nn-steg:last-child { min-height: 60vh; }
+.nn-steg h3 { font: 600 24px/1.25 var(--font-display); color: var(--ink); margin: 8px 0 10px; }
+.nn-steg p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
+@media (max-width: 860px) {
+  .nn-scrolly { grid-template-columns: 1fr; gap: 0; }
+  .nn-scrolly-graf { top: 0; z-index: 2; background: var(--bg); padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .nn-scrolly-graf .nnchart { min-height: 0 !important; }
+  .nn-steg { min-height: 60vh; }
+  .nn-steg h3 { font-size: 20px; }
+}

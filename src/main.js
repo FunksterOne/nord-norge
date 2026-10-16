@@ -3,6 +3,7 @@ import './styles/base.css';
 import './styles/charts.css';
 import { initTheme } from './lib/theme.js';
 import { initSearch } from './lib/search.js';
+import { initScrolly } from './lib/scrolly.js';
 import { startCharts, placeholder } from './charts/core.js';
 import './charts/proj.js';
 import './charts/map.js';
@@ -19,6 +20,7 @@ initSearch();
 // Gammel kode (assets/app.js) bruker NN.placeholder() for å be om nye diagrammer.
 window.NN = { placeholder };
 startCharts();
+initScrolly();
 
 // Ferskeste folketallsdato (01222) fylles inn der siden ber om det.
 document.addEventListener('DOMContentLoaded', () => {
