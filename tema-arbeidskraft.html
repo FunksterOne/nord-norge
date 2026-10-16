@@ -40,6 +40,23 @@
 .mismatch-blokk .arrow-pair .col .v.down{color:#B23B3B}
 .mismatch-blokk .arrow-pair .col .l{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em}
 .mismatch-blokk .arrow-pair .arr{font-size:34px;color:var(--ink3);text-align:center;line-height:1}
+
+.reg-tbl-wrap{padding:22px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;margin:14px 0;overflow-x:auto}
+.reg-tbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px}
+.reg-tbl thead th{text-align:right;padding:10px 10px;color:var(--ink2);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2);cursor:pointer;user-select:none;white-space:nowrap}
+.reg-tbl thead th:first-child{text-align:left}
+.reg-tbl thead th:hover{color:var(--ink)}
+.reg-tbl thead th.sorted{color:var(--ink)}
+.reg-tbl thead th .arr{font-size:9px;color:var(--ink3);margin-left:4px}
+.reg-tbl thead th.sorted .arr{color:var(--ink)}
+.reg-tbl tbody td{padding:9px 10px;border-bottom:1px solid var(--line2);text-align:right;font-family:'Spline Sans Mono',monospace;color:var(--ink)}
+.reg-tbl tbody td:first-child{text-align:left;font-family:inherit;font-weight:500;white-space:nowrap}
+.reg-tbl tbody td .fylkeprick{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:1px}
+.reg-tbl tbody td.kcount{color:var(--ink3);font-size:11px}
+.reg-tbl tbody td.pos{color:#2E7D5B}
+.reg-tbl tbody td.neg{color:#B23B3B}
+.reg-tbl tbody tr:hover{background:var(--paper)}
+.reg-tbl tbody tr:last-child td{border-bottom:0}
 </style>
 </head>
 <body class="tema-page">
@@ -121,6 +138,29 @@
   </div>
 
   <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:rgba(178,59,59,0.06);border-left:4px solid #B23B3B;border-radius:0 6px 6px 0;line-height:1.6"><b id="gapClose">—</b></p>
+</section>
+
+<!-- ────────────────── AKT 03¾ — REGIONLAG ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03¾ · Zoom</div>
+  <h2>Hvor er trykket størst — <em>region for region</em>?</h2>
+  <p class="akt-intro">Fylke er for grovt, 80 kommuner er for mye. Samfunnsøkonomisk Analyses rapport <i>Nord-Norge 2040</i> (sept. 2026) deler landsdelen i 13 regioner som følger regionrådene. Rangeringen under viser hvordan demografien og arbeidsmarkedet rammer ulikt: størrelse i dag, veksten vi har bak oss, aldringstrykket nå, og hvor mye arbeidsføre som blir borte mot 2050. Klikk på en kolonne for å sortere.</p>
+  <div class="reg-tbl-wrap">
+    <table class="reg-tbl" id="regTbl">
+      <thead><tr>
+        <th data-k="navn" title="Region etter SØAs 13-regionsinndeling">Region <span class="arr"></span></th>
+        <th data-k="n" title="Antall kommuner i regionen">Komm. <span class="arr"></span></th>
+        <th data-k="pop" title="Folketall per 1.1.2026 (summert fra SSB)">Folketall 2026 <span class="arr"></span></th>
+        <th data-k="d1526" title="Prosentvis endring 2015 → 2026, basert på hist-serie">Endring 2015–26 <span class="arr"></span></th>
+        <th data-k="r65" title="Andel 65+ av totalbefolkning i dag">65+ i dag <span class="arr"></span></th>
+        <th data-k="wfPct" title="Prosentvis endring i arbeidsføre 20–64 fra 2026 til 2050 (SSB MMMM)">Arb.føre 2050 <span class="arr"></span></th>
+        <th data-k="burd50" title="Forsørgerbyrde 2050: eldre (65+) per 100 i arbeidsfør alder (20–64), SSB MMMM">Forsørg.b. 2050 <span class="arr"></span></th>
+      </tr></thead>
+      <tbody id="regTblBody"></tbody>
+    </table>
+    <p class="hint" style="font-size:11.5px;margin-top:12px;line-height:1.55">Grunnlag: SSB folketall per kommune (1.1.2026), SSB framskriving MMMM (tab. 14746), aggregert til regioner via kommune-mapping (Lødingen regnes til Vesterålen regionråd). Regioninndelingen er en analysetilnærming fra <b>SØA 2026</b> — ikke en forvaltningsnivå. Dashbordets tall for den enkelte kommune endres ikke; dette er bare et nytt aggregeringsnivå.</p>
+  </div>
+  <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:rgba(17,32,58,0.04);border-left:4px solid var(--ink2);border-radius:0 6px 6px 0;line-height:1.6"><b>Slik leser du tabellen.</b> Tyngst trykk ligger der aldringen allerede er høy <i>og</i> den arbeidsføre gruppen krymper mest. Sorter på <b>«Arb.føre 2050»</b> for å se hvilke regioner som mister mest arbeidskraft, eller på <b>«Forsørg.b. 2050»</b> for å se hvor eldrebyrden pr. yrkesaktive blir størst. Tromsø og Bodø står lenger ned på begge listene — det er distriktsregionene som bærer tyngden.</p>
 </section>
 
 <!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
@@ -507,6 +547,92 @@ document.addEventListener('DOMContentLoaded', function(){
       var changePct = (a2050/a2024-1)*100;
       mismatchD.textContent = pct(changePct, 1);
     }
+
+    // ─── AKT 03¾: Regionlag (13 SØA-regioner) ───
+    (function renderRegTbl(){
+      if(typeof REGIONS === 'undefined' || typeof AGG === 'undefined') return;
+      var body = document.getElementById('regTblBody');
+      if(!body) return;
+      var FY_COL = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+      // Hent arbeidsføre- og 65+-tall for første og siste år fra DATA.proj
+      var yrLast = (DATA.proj.years||[]).length - 1;
+      var rows = REGIONS.map(function(r, i){
+        var nr = -(101+i);
+        var ag = AGG[nr];
+        if(!ag) return null;
+        // Antall kommuner i regionen
+        var n = ag.naggk || 0;
+        // Folketall nå (summert alder)
+        var pop = ag.pop;
+        // Historisk endring 2015 -> 2026 — bare dersom alle kommuner i regionen har 2015-tall
+        // (ellers slår kommunereformen 2020 inn og gir meningsløs vekst)
+        var regionKs = K.filter(function(x){return x.region === r.id;});
+        var h15 = ag.hist && ag.hist['2015'];
+        var h25 = ag.hist && ag.hist['2025'];
+        var allHave2015 = regionKs.every(function(x){return x.hist && x.hist['2015']!=null;});
+        var d1526 = (h15 && h25 && allHave2015) ? (h25/h15 - 1)*100 : null;
+        // 65+ i dag — alders-array 0..105
+        var e65 = 0;
+        for(var a=65; a<106; a++) e65 += (ag.alder[a]||0);
+        var r65 = pop ? (e65/pop*100) : null;
+        // Arbeidsføre endring 2026 -> 2050 og forsørgerbyrde 2050 fra proj.kommuner[nr]
+        var pk = DATA.proj.kommuner[String(nr)];
+        var wfPct=null, burd50=null;
+        if(pk && pk.a2064 && pk.a65){
+          var a0 = pk.a2064[0], aL = pk.a2064[yrLast];
+          var e0 = pk.a65[0],  eL = pk.a65[yrLast];
+          wfPct = a0 ? (aL/a0 - 1)*100 : null;
+          burd50 = aL ? (eL/aL*100) : null;
+        }
+        return {navn:r.navn, fylke:r.fylke, n:n, pop:pop, d1526:d1526, r65:r65, wfPct:wfPct, burd50:burd50};
+      }).filter(Boolean);
+
+      var sortKey='burd50', sortDir=-1; // start: størst forsørgerbyrde 2050 øverst
+      function render(){
+        var sorted = rows.slice();
+        if(sortKey==='navn'){
+          sorted.sort(function(a,b){ return a.navn.localeCompare(b.navn,'nb') * sortDir; });
+        } else {
+          sorted.sort(function(a,b){
+            var va=a[sortKey], vb=b[sortKey];
+            if(va==null) return 1; if(vb==null) return -1;
+            return (va-vb)*sortDir;
+          });
+        }
+        // Oppdater kolonne-indikator
+        var ths = document.querySelectorAll('#regTbl thead th');
+        ths.forEach(function(th){
+          var k = th.getAttribute('data-k');
+          var arr = th.querySelector('.arr');
+          if(k===sortKey){ th.classList.add('sorted'); if(arr) arr.textContent = sortDir>0 ? '▲' : '▼'; }
+          else { th.classList.remove('sorted'); if(arr) arr.textContent=''; }
+        });
+        // Bygg rader
+        body.innerHTML = sorted.map(function(r){
+          var ferp = '<span class="fylkeprick" style="background:' + FY_COL[r.fylke] + '"></span>';
+          function fp(v,digit){ return v==null ? '—' : (v>=0?'+':'') + v.toFixed(digit||1).replace('.',',') + ' %'; }
+          function cls(v){ return v==null ? '' : (v>=0 ? ' class="pos"' : ' class="neg"'); }
+          return '<tr>' +
+            '<td>' + ferp + r.navn + '</td>' +
+            '<td class="kcount">' + r.n + '</td>' +
+            '<td>' + fmt(r.pop) + '</td>' +
+            '<td' + cls(r.d1526) + '>' + fp(r.d1526) + '</td>' +
+            '<td>' + (r.r65==null ? '—' : r.r65.toFixed(1).replace('.',',') + ' %') + '</td>' +
+            '<td' + cls(r.wfPct) + '>' + fp(r.wfPct) + '</td>' +
+            '<td>' + (r.burd50==null ? '—' : Math.round(r.burd50)) + '</td>' +
+          '</tr>';
+        }).join('');
+      }
+      document.querySelectorAll('#regTbl thead th').forEach(function(th){
+        th.addEventListener('click', function(){
+          var k = th.getAttribute('data-k');
+          if(sortKey===k){ sortDir = -sortDir; }
+          else { sortKey=k; sortDir = (k==='navn' ? 1 : -1); }
+          render();
+        });
+      });
+      render();
+    })();
 
     // Akt 04: hvor kommer arbeidskraften fra?
     if(typeof SSB_FLOWS !== 'undefined'){

@@ -29,9 +29,10 @@ const K = Object.entries(DATA.kommuner).map(([nr,o])=>{
   const a = DATA.innv[nr]||{bc:0,ves:0,ive:0,innv:0,norskf:0,land:[]};
   const sy = (DATA.syss&&DATA.syss[nr])||null;
   const pop = o.alder.reduce((s,x)=>s+x,0);
+  const kreg = (typeof KREGION!=='undefined') ? (KREGION[nr]||null) : null;
   return {nr:+nr,navn:o.navn,fylke:o.fylke,alder:o.alder,pop,
     bc:a.bc,ves:a.ves,ive:a.ive,innv:a.innv,norskf:a.norskf,land:a.land,syss:sy,
-    hist:o.hist||null,
+    hist:o.hist||null, region:kreg,
     andel: pop? a.bc/pop*100 : 0};
 });
 const SM = DATA.syss_meta||{grupper:{}};
@@ -110,6 +111,13 @@ const AGG={};
   AGG[-55]=build(K.filter(k=>k.fylke==='Troms'),-55,'Troms \u2014 hele fylket','Troms');
   AGG[-56]=build(K.filter(k=>k.fylke==='Finnmark'),-56,'Finnmark \u2014 hele fylket','Finnmark');
   AGG[-1]=build(K.slice(),-1,'Nord-Norge \u2014 hele landsdelen','Alle');
+  // Regioner (S\u00d8A 13-regioninndeling). Negative nr -101 .. -113 for aggregat-oppslag.
+  if(typeof REGIONS !== 'undefined'){
+    REGIONS.forEach((r,i)=>{
+      const list = K.filter(k=>k.region===r.id);
+      if(list.length) AGG[-(101+i)] = build(list, -(101+i), r.navn, r.fylke);
+    });
+  }
 })();
 function resolveSel(){ return K.find(x=>x.nr===state.sel) || AGG[state.sel] || null; }
 // Returnerer aggregat for valgt fylke (eller landsdel hvis state.fylke = 'Alle').
