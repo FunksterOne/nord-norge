@@ -508,7 +508,11 @@ document.addEventListener('DOMContentLoaded', function(){
       NN.placeholder('kart', {ind:'endring', controls:true, fylke:fylke}, 560) + '</section>' +
       '<section class="exhibit"><div class="kicker">Kommunene i ' + fylke + ' · små multipler</div>' +
       '<h2 class="exhibit-h">Hver kommune sin kurve 2000–2050, sortert etter endring mot 2050</h2>' +
-      NN.placeholder('skjebner', {fylke:fylke}, 420) + '</section>';
+      NN.placeholder('skjebner', {fylke:fylke}, 420) + '</section>' +
+      '<section class="exhibit"><div class="kicker">Befolkningspyramiden · ' + fylke + ' 2000–2050</div>' +
+      '<h2 class="exhibit-h" data-pyr-tittel>Befolkningspyramiden for ' + fylke + '</h2>' +
+      '<p class="exhibit-lede">Trykk «Spill av» for å se aldersprofilen endre seg år for år. Det svarte omrisset er dagens befolkning.</p>' +
+      NN.placeholder('pyramide', {id: fylke.toLowerCase()}, 520) + '</section>';
   }
 
   // Erstatt "Nord-Norge"/"landsdelen" i titler og hint-tekster med valgt fylke.

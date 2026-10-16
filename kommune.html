@@ -582,7 +582,13 @@ document.addEventListener('DOMContentLoaded', function(){
     var shown = landsAll.slice(0, state.topN);
     var originHTML = originCard(k, vesP, iveP, landsAll, shown);
 
-    host.innerHTML =
+    var pyrId = k.nr > 0 ? String(k.nr) : ({'-1':'nn','-18':'nordland','-55':'troms','-56':'finnmark'})[String(k.nr)] ||
+      (k.nr <= -101 && k.nr >= -113 && typeof REGIONS !== 'undefined' ? 'r-' + REGIONS[-k.nr - 101].id : null);
+    var pyrHTML = pyrId && window.NN ?
+      '<div class="card" style="margin-bottom:18px"><div class="ch"><h3 data-pyr-tittel>Befolkningspyramide 2000–2050</h3></div>' +
+      '<p class="hint" style="margin:0 0 10px;font-size:12px">Trykk «Spill av» eller dra i glidebryteren. Det svarte omrisset er dagens befolkning, så endringen mot hvert år blir synlig.</p>' +
+      NN.placeholder('pyramide', {id: pyrId}, 520) + '</div>' : '';
+    host.innerHTML = pyrHTML +
       '<div class="bf-panel">'+
         // Modus-bryter + graf
         '<div class="bf-modes" id="amModes">'+modeBtns+'</div>'+

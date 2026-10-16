@@ -20,6 +20,7 @@ import './charts/stablet.js';
 import './charts/backtest.js';
 import './charts/rang.js';
 import './charts/naering.js';
+import './charts/pyramide.js';
 
 initTheme();
 initSearch();
