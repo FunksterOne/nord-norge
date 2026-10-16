@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { readdirSync, cpSync, mkdirSync } from 'node:fs';
+import { readdirSync, cpSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = import.meta.dirname;
@@ -13,7 +13,7 @@ const copyLegacy = () => ({
   closeBundle() {
     mkdirSync(resolve(root, 'dist/assets'), { recursive: true });
     for (const f of ['data.js', 'app.js']) cpSync(resolve(root, 'assets', f), resolve(root, 'dist/assets', f));
-    cpSync(resolve(root, 'geo'), resolve(root, 'dist/geo'), { recursive: true });
+    if (existsSync(resolve(root, 'geo'))) cpSync(resolve(root, 'geo'), resolve(root, 'dist/geo'), { recursive: true });
   }
 });
 

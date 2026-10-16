@@ -267,220 +267,9 @@ function sysCard(sj){
     rateBars(rows)+'<p class="hint" style="margin:14px 0 0">'+foot+'</p></div>';
 }
 function projChart(k,mode){
-  const P=DATA.proj; const nr=k.nr; const o=P&&P.kommuner[nr]; if(!o) return '';
-  const mw=MW(o);
-  const yrs=P.years, n=yrs.length;
-  const L=52,R=66,Tp=14,B=30,W=760-L-R,H=300-Tp-B;
-  const X=i=>L+(n<2?0:i/(n-1)*W);
-  let lo,hi,svg='';
-  if(mode==='tot'){
-    lo=Infinity;hi=-Infinity;
-    const us=state.ukr?((state.ukrbase==='attr')?(o['ukra'+state.ukr]||null):((mw&&mw['u'+state.ukr])||null)):null;
-    const hist=k.hist||{}; const histYears=Object.keys(hist).map(Number).sort((a,b)=>a-b); const histVals=histYears.map(y=>hist[y]);
-    o.low.concat(o.high,(mw?mw.pop:[]),o.tfattr||[],us||[],(state.sens&&mw?mw.s75:[]),(state.sens&&mw?mw.s125:[]),histVals).forEach(v=>{if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}});
-    const pad=(hi-lo)*0.08||hi*0.05; lo-=pad; hi+=pad;
-    const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
-    const yMin=histYears.length?Math.min(histYears[0],yrs[0]):yrs[0]; const yMax=yrs[n-1];
-    const Xy=yr=>L+(yMax===yMin?0:(yr-yMin)/(yMax-yMin)*W);
-    const X=i=>Xy(yrs[i]);
-    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
-    for(let g=0;g<=4;g++){const val=lo+(hi-lo)*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
-      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
-    [2000,2005,2010,2015,2020,2025,2030,2035,2040,2045,2050].filter(y=>y>=yMin&&y<=yMax).forEach(yr=>{
-      svg+=`<text class="axis" x="${Xy(yr)}" y="${300-B+15}" text-anchor="middle">${yr}</text>`;});
-    // "I dag"-skille mellom historikk og framskriving
-    if(histYears.length){
-      const xToday=Xy(2026);
-      svg+=`<line x1="${xToday}" y1="${Tp}" x2="${xToday}" y2="${Tp+H}" stroke="var(--ink2)" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>`;
-      svg+=`<text x="${xToday}" y="${Tp-3}" text-anchor="middle" style="font-size:10px;font-weight:700;fill:var(--ink2)">I dag</text>`;
-    }
-    // Historisk linje (2000-2025) — solid mørk
-    if(histYears.length){
-      let dh='';
-      histYears.forEach((yr,i)=>{dh+=(i?' L':'M')+Xy(yr).toFixed(1)+' '+Y(hist[yr]).toFixed(1);});
-      // Bro frem til 2026 (projeksjonens start) hvis hist slutter før
-      const lastHistY=histYears[histYears.length-1];
-      if(lastHistY<yrs[0]){
-        dh+=' L'+Xy(yrs[0]).toFixed(1)+' '+Y(o.main[0]).toFixed(1);
-      }
-      svg+=`<path d="${dh}" fill="none" stroke="var(--ink2)" stroke-width="2" stroke-linejoin="round"/>`;
-      histYears.forEach(yr=>{svg+=`<circle cx="${Xy(yr)}" cy="${Y(hist[yr])}" r="3" fill="var(--ink2)"/>`;});
-    }
-    let band='';
-    o.high.forEach((v,i)=>{band+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-    for(let i=n-1;i>=0;i--){band+=' L'+X(i).toFixed(1)+' '+Y(o.low[i]).toFixed(1);}
-    svg+=`<path d="${band}Z" fill="color-mix(in srgb, var(--accent) 12%, transparent)" stroke="none"/>`;
-    ['low','high'].forEach(kk=>{let d='';o[kk].forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      svg+=`<path d="${d}" fill="none" stroke="var(--aurora-l)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>`;});
-    let dm='';o.main.forEach((v,i)=>{dm+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-    svg+=`<path d="${dm}" fill="none" stroke="var(--aurora)" stroke-width="2.6" stroke-linejoin="round"/>`;
-    if(mw && state.showMVP){
-      let dt='';mw.pop.forEach((v,i)=>{dt+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      let arr=dm;for(let i=n-1;i>=0;i--){arr+=' L'+X(i).toFixed(1)+' '+Y(mw.pop[i]).toFixed(1);}
-      svg+=`<path d="${arr}Z" fill="color-mix(in srgb, var(--warn) 9%, transparent)" stroke="none"/>`;
-      svg+=`<path d="${dt}" fill="none" stroke="var(--amber)" stroke-width="2.1" stroke-dasharray="6 3" stroke-linejoin="round"/>`;
-      svg+=`<text x="${L+W+4}" y="${Y(mw.pop[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--amber)">${fmt(mw.pop[n-1])}</text>`;
-    }
-    if(state.sens&&mw&&state.showMVP){
-      let sb='';mw.s125.forEach((v,i)=>{sb+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      for(let i=n-1;i>=0;i--){sb+=' L'+X(i).toFixed(1)+' '+Y(mw.s75[i]).toFixed(1);}
-      svg+=`<path d="${sb}Z" fill="color-mix(in srgb, var(--warn) 13%, transparent)" stroke="none"/>`;
-      [mw.s75,mw.s125].forEach(p=>{let d='';p.forEach((v,i)=>{d+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-        svg+=`<path d="${d}" fill="none" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".75"/>`;});
-      svg+=`<text x="${L+W+4}" y="${Y(mw.s125[n-1])-6}" style="font-size:9px;fill:var(--amber)">+25%</text>`;
-      svg+=`<text x="${L+W+4}" y="${Y(mw.s75[n-1])+12}" style="font-size:9px;fill:var(--amber)">\u221225%</text>`;
-    }
-    if(o.tfattr){
-      let da='';o.tfattr.forEach((v,i)=>{da+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      svg+=`<path d="${da}" fill="none" stroke="var(--fi)" stroke-width="2.1" stroke-dasharray="1 4" stroke-linecap="round" stroke-linejoin="round"/>`;
-      svg+=`<text x="${L+W+4}" y="${Y(o.tfattr[n-1])-7}" style="font-size:10px;font-weight:700;fill:var(--fi)">${fmt(o.tfattr[n-1])}</text>`;
-    }
-    if(us){
-      let du='';us.forEach((v,i)=>{du+=(i?' L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
-      svg+=`<path d="${du}" fill="none" stroke="var(--neg)" stroke-width="2.3" stroke-linejoin="round"/>`;
-      svg+=`<text x="${L+W+4}" y="${Y(us[n-1])+3}" style="font-size:10px;font-weight:700;fill:var(--neg)">${fmt(us[n-1])}</text>`;
-    }
-    const iNow=yrs.indexOf(2026);
-    if(iNow>-1){svg+=`<circle cx="${X(iNow)}" cy="${Y(k.pop)}" r="3.5" fill="var(--ink)"/>`+
-      `<text x="${X(iNow)}" y="${Y(k.pop)-9}" text-anchor="middle" style="font-size:10px;font-weight:600;fill:var(--ink)">faktisk 2026</text>`;}
-    const le=o.main[n-1],lh=o.high[n-1],ll=o.low[n-1];
-    svg+=`<text x="${L+W+4}" y="${Y(le)+3}" style="font-size:10.5px;font-weight:700;fill:var(--aurora)">${fmt(le)}</text>`;
-    svg+=`<text x="${L+W+4}" y="${Y(lh)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(lh)}</text>`;
-    svg+=`<text x="${L+W+4}" y="${Y(ll)+3}" style="font-size:9.5px;fill:var(--aurora-l)">${fmt(ll)}</text>`;
-    svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+(histYears.length?'<span><i style="background:var(--ink2)"></i>Historisk 2000\u20132025</span>':'')+'<span><i style="background:var(--aurora)"></i>SSB MMMM</span>'+(o.tfattr?'<span><i style="background:var(--fi)"></i>TF-ATTR</span>':'')+(mw&&state.showMVP?'<span><i style="background:var(--amber)"></i>TF-MVP</span>':'')+(us?'<span><i style="background:var(--neg)"></i>Ukraina ('+(state.ukrbase==='attr'?'TF-ATTR':'TF-MVP')+'-basis)</span>':'')+'<span><i style="background:color-mix(in srgb, var(--accent) 40%, transparent)"></i>SSB lav\u2013h\u00f8y</span></div>';
-  } else if(mode==='dec'){
-    const p0=(mw?mw.pop[0]:o.main[0]);
-    const nat=mw?mw.nat[n-1]:0, mig=mw?mw.mig[n-1]:0;
-    const tot=nat+mig, p1=p0+tot;
-    // Symmetrisk skala rundt null slik at små og store endringer blir sammenlignbare
-    const maxMag=Math.max(Math.abs(nat),Math.abs(mig),Math.abs(tot),1);
-    const yRange=maxMag*1.25, mn=-yRange, mx=yRange;
-    const Y=v=>Tp+(1-(v-mn)/((mx-mn)||1))*H;
-    const zeroY=Y(0);
-    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
-    // Folketall start → slutt som annotasjon øverst, med tydelig bane-merking:
-    // dekomponeringen finnes bare for TF-MVP, ikke for SSB MMMM eller TF-ATTR.
-    const winLab=({kons:'Smalt 2017–2021',sentral:'Bredt vindu',opt:'Vektet 2022–2023'})[state.mw]||state.mw;
-    svg+=`<text x="${L}" y="11" style="font-size:10.5px;fill:var(--ink3)">Bane: <tspan style="font-weight:700;fill:var(--amber)">TF-MVP · ${winLab}</tspan> — ikke SSB MMMM</text>`;
-    svg+=`<text x="${L+W-2}" y="11" text-anchor="end" style="font-size:11px;fill:var(--ink2)">Folketall <tspan style="font-family:var(--font-mono);font-weight:700;fill:var(--ink)">${fmt(p0)}</tspan> → <tspan style="font-family:var(--font-mono);font-weight:700;fill:${tot<0?'var(--neg)':'var(--aurora)'}">${fmt(p1)}</tspan></text>`;
-    // Y-akse: +/- gridlines
-    for(let g=0;g<=4;g++){const val=mn+(mx-mn)*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
-      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${(val>=0?'+':'−')+fmt(Math.round(Math.abs(val)))}</text>`;}
-    // Nullinje markeres tydeligere
-    svg+=`<line x1="${L}" y1="${zeroY}" x2="${L+W}" y2="${zeroY}" stroke="var(--ink2)" stroke-width="1.4"/>`;
-    // Tre rene endrings-stolper fra null
-    const cols=[
-      {lab:'Naturlig endring',sub:'(fødsler − dødsfall)',val:nat,col:(nat<0?'var(--neg)':'var(--aurora)')},
-      {lab:'Netto flytting',sub:'(inn − ut)',val:mig,col:(mig<0?'var(--neg)':'var(--aurora)')},
-      {lab:'Sum 2026–2050',sub:'naturlig + flytting',val:tot,col:(tot<0?'var(--neg)':'var(--aurora)')}
-    ];
-    const bw=120, gap=(W-cols.length*bw)/(cols.length+1);
-    cols.forEach((c,ci)=>{
-      const x=L+gap+ci*(bw+gap);
-      const yT=c.val>=0?Y(c.val):zeroY;
-      const yB=c.val>=0?zeroY:Y(c.val);
-      const h=Math.max(2,yB-yT);
-      svg+=`<rect x="${x}" y="${yT}" width="${bw}" height="${h}" rx="3" fill="${c.col}"/>`;
-      // Verditall over (positiv) eller under (negativ) stolpen
-      const labelY=c.val>=0?yT-7:yB+15;
-      svg+=`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" style="font-family:var(--font-mono);font-size:14px;font-weight:700;fill:${c.col}">${(c.val>=0?'+':'−')}${fmt(Math.abs(Math.round(c.val)))}</text>`;
-      // Kategori-etikett under
-      svg+=`<text x="${x+bw/2}" y="${300-B+13}" text-anchor="middle" class="axis" style="font-size:11px;font-weight:600;fill:var(--ink)">${c.lab}</text>`;
-    });
-    svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--aurora)"></i>bidrar opp</span><span><i style="background:var(--neg)"></i>trekker ned</span> <span style="color:var(--ink3)">eksakt dekomponering av TF-MVP-banen</span></div>';
-  } else if(mode==='fb'){
-    const A6=o.a65, A2=o.a2064;   // SSB MMMM — hovedbane for forsørgerbyrde
-    const r=A6.map((v,i)=>A2[i]?100*v/A2[i]:0);
-    const i65=A6.map((v,i)=>A6[0]?100*v/A6[0]:100), i20=A2.map((v,i)=>A2[0]?100*v/A2[0]:100);
-    const VB=760, Lx=54, Rx=74, Wx=VB-Lx-Rx, Xc=i=>Lx+(n<2?0:i/(n-1)*Wx);
-    // panel A: forsørgerbyrde-rate
-    let aT=26,aB=200; let rmn=Math.min.apply(0,r),rmx=Math.max.apply(0,r);
-    const rp=(rmx-rmn)*0.18||4; rmn=Math.max(0,rmn-rp); rmx+=rp;
-    const Ya=v=>aB-(v-rmn)/((rmx-rmn)||1)*(aB-aT);
-    let s='<svg class="chart" viewBox="0 0 '+VB+' 372" preserveAspectRatio="xMidYMid meet" style="height:372px">';
-    s+='<text x="'+Lx+'" y="14" style="font-family:var(--font-display);font-size:13px;font-weight:600;fill:var(--ink)">Forsørgerbyrde — eldre (65+) per 100 i yrkesaktiv alder (20–64)</text>';
-    for(let g=0;g<=4;g++){const val=rmn+(rmx-rmn)*g/4,y=aB-(aB-aT)*g/4;
-      s+='<line x1="'+Lx+'" y1="'+y+'" x2="'+(Lx+Wx)+'" y2="'+y+'" stroke="color-mix(in srgb, var(--ink) 7%, transparent)"/>';
-      s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y+3)+'" text-anchor="end">'+val.toFixed(0)+'</text>';}
-    // 2026 reference + shaded added burden
-    const y0=Ya(r[0]);
-    s+='<line x1="'+Lx+'" y1="'+y0+'" x2="'+(Lx+Wx)+'" y2="'+y0+'" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 3"/>';
-    s+='<text class="axis" x="'+(Lx+Wx)+'" y="'+(y0-5)+'" text-anchor="end" style="fill:var(--ink3)">2026-nivå</text>';
-    let ar='M'+Xc(0).toFixed(1)+' '+y0.toFixed(1);
-    r.forEach((v,i)=>{ar+=' L'+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
-    ar+=' L'+Xc(n-1).toFixed(1)+' '+y0.toFixed(1)+'Z';
-    s+='<path d="'+ar+'" fill="color-mix(in srgb, var(--warn) 12%, transparent)" stroke="none"/>';
-    let dl='';r.forEach((v,i)=>{dl+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Ya(v).toFixed(1);});
-    s+='<path d="'+dl+'" fill="none" stroke="var(--amber)" stroke-width="2.8" stroke-linejoin="round"/>';
-    [[0,r[0]],[n-1,r[n-1]]].forEach(p=>{const x=Xc(p[0]),y=Ya(p[1]),sup=p[1]?(100/p[1]):0;
-      s+='<circle cx="'+x+'" cy="'+y+'" r="3.6" fill="var(--amber)" stroke="var(--paper2)" stroke-width="1.5"/>';
-      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y-9)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-family:var(--font-mono);font-size:12px;font-weight:700;fill:var(--amber)">'+p[1].toFixed(0)+'</text>';
-      s+='<text x="'+(p[0]?x-4:x+4)+'" y="'+(y+13)+'" text-anchor="'+(p[0]?'end':'start')+'" style="font-size:9.5px;fill:var(--ink3)">'+sup.toFixed(1)+' yrkesaktive/eldre</text>';});
-    // caption + panel B: demografisk forskyvning
-    s+='<text x="'+Lx+'" y="232" style="font-family:var(--font-display);font-size:12px;font-weight:600;fill:var(--ink2)">Hvorfor: forskyvningen mellom eldre og yrkesaktive (indeksert, 2026 = 100)</text>';
-    let bT=246,bB=336; let im=Math.min.apply(0,i20.concat(i65)), iM=Math.max.apply(0,i20.concat(i65));
-    const ip=(iM-im)*0.12||5; im-=ip; iM+=ip;
-    const Yb=v=>bB-(v-im)/((iM-im)||1)*(bB-bT);
-    const y100=Yb(100);
-    s+='<line x1="'+Lx+'" y1="'+y100+'" x2="'+(Lx+Wx)+'" y2="'+y100+'" stroke="color-mix(in srgb, var(--ink) 18%, transparent)" stroke-dasharray="2 3"/>';
-    s+='<text class="axis" x="'+(Lx-8)+'" y="'+(y100+3)+'" text-anchor="end">100</text>';
-    [['i65',i65,'var(--amber)','65+'],['i20',i20,'var(--nl)','20–64']].forEach(z=>{
-      let d='';z[1].forEach((v,i)=>{d+=(i?' L':'M')+Xc(i).toFixed(1)+' '+Yb(v).toFixed(1);});
-      s+='<path d="'+d+'" fill="none" stroke="'+z[2]+'" stroke-width="2.2" stroke-linejoin="round"/>';
-      const lv=z[1][n-1], dd=lv-100;
-      s+='<text x="'+(Lx+Wx+5)+'" y="'+(Yb(lv)+3)+'" style="font-size:10px;font-weight:700;fill:'+z[2]+'">'+z[3]+' '+(dd>=0?'+':'\u2212')+Math.abs(dd).toFixed(0).replace('.',',')+'%</text>';});
-    yrs.forEach((yr,i)=>{if(i%4===0||i===n-1)s+='<text class="axis" x="'+Xc(i)+'" y="356" text-anchor="middle">'+yr+'</text>';});
-    s+='</svg>';
-    s+='<div class="legend" style="margin-top:8px"><span><i style="background:var(--amber)"></i>Forsørgerbyrde / 65+</span><span><i style="background:var(--nl)"></i>20–64 år</span> <span style="color:var(--ink3)">SSB MMMM (tabell 14746) — hovedbanen; flyttevindu påvirker ikke denne grafen</span></div>';
-    svg=s;
-  } else {
-    // Aldring: grupperte stolper på 6 tidspunkter (2024, 2030, 2035, 2040, 2045, 2050)
-    // — endringene mellom de tre aldersgruppene blir tydeligere som stolper enn som linjer.
-    const S=[['a019','0–19 år','var(--nl)'],['a2064','20–64 år','var(--ink)'],['a65','65+ år','var(--amber)']];
-    if(o.a80) S.push(['a80','herav 80+ år','var(--neg)']);
-    const wantYears=[2026,2030,2035,2040,2045,2050];
-    let tps=wantYears.map(y=>yrs.indexOf(y)).filter(i=>i>=0);
-    if(tps.length===0) tps=[0,n-1];
-    lo=0;hi=-Infinity;
-    S.forEach(s=>tps.forEach(i=>{const v=o[s[0]][i]; if(v!=null) hi=Math.max(hi,v);}));
-    // Ekstra takhøyde: verditallene står loddrett over hver stolpe.
-    hi=Math.ceil(hi*1.16/1000)*1000;
-    const Y=v=>Tp+(1-(v-lo)/((hi-lo)||1))*H;
-    svg=`<svg class="chart" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="height:300px">`;
-    // Y-gridlines
-    for(let g=0;g<=4;g++){const val=hi*g/4,y=Tp+(1-g/4)*H;
-      svg+=`<line x1="${L}" y1="${y}" x2="${L+W}" y2="${y}" stroke="color-mix(in srgb, var(--ink) 8%, transparent)"/>`;
-      svg+=`<text class="axis" x="${L-8}" y="${y+3}" text-anchor="end">${fmt(Math.round(val))}</text>`;}
-    // Grupperte stolper per tidspunkt
-    const groupW=W/tps.length;
-    const groupPad=groupW*0.16;
-    const innerW=groupW-groupPad*2;
-    const barW=innerW/S.length;
-    tps.forEach((tpIdx,ti)=>{
-      const groupX=L+ti*groupW+groupPad;
-      const yr=yrs[tpIdx];
-      svg+=`<text class="axis" x="${groupX+innerW/2}" y="${300-B+15}" text-anchor="middle" style="font-size:11px;font-weight:600;fill:var(--ink2)">${yr}</text>`;
-      S.forEach((s,si)=>{
-        const v=o[s[0]][tpIdx];
-        if(v==null) return;
-        const bx=groupX+si*barW+1;
-        const bbw=Math.max(2,barW-2);
-        const by=Y(v);
-        const bh=Math.max(2,Tp+H-by);
-        svg+=`<rect x="${bx}" y="${by}" width="${bbw}" height="${bh}" rx="2" fill="${s[2]}"/>`;
-        // Verditall over hver stolpe, loddrett så de får plass ved fire serier
-        const lx=bx+bbw/2, ly=by-5;
-        svg+=`<text x="${lx}" y="${ly}" text-anchor="start" transform="rotate(-90 ${lx} ${ly})" style="font-size:9px;font-weight:700;fill:${s[2]}">${fmt(v)}</text>`;
-      });
-    });
-    svg+='</svg>';
-    svg+='<div class="legend" style="margin-top:8px">'+S.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join('')+' <span style="color:var(--ink3)">SSB MMMM hovedalternativ.'+(o.a80?' <b>80+ er en delmengde av 65+</b> — søylene skal ikke summeres.':'')+'</span></div>';
-  }
-  return svg;
+  // Tegnes av den nye diagrammotoren (src/charts/proj.js). Her settes bare en plassholder inn.
+  const o=DATA.proj&&DATA.proj.kommuner[k.nr]; if(!o||!window.NN) return '';
+  return NN.placeholder('proj',{nr:k.nr,mode:mode,u:state.ukr,b:state.ukrbase,m:state.showMVP?1:0,s:state.sens,w:state.mw},mode==='fb'?470:340);
 }
 function projCard(k){
   const P=DATA.proj; const o=P&&P.kommuner[k.nr]; if(!o) return '';
@@ -727,7 +516,7 @@ function kostraCard(k){
     function renorm(raw){let su=0;raw.forEach(x=>su+=x||0);const an=Math.max(0,100-su);
       const arr=raw.map(x=>x||0).concat([an]);let t2=0;arr.forEach(x=>t2+=x);return arr.map(x=>t2?x/t2*100:0);}
     const HY=[],HS=[],HB=[];
-    tyr.forEach((Y0,i)=>{ if(Y0>2024) return; const om=tsK.omsorg_pct&&tsK.omsorg_pct[i]; if(om==null) return;
+    tyr.forEach((Y0,i)=>{  const om=tsK.omsorg_pct&&tsK.omsorg_pct[i]; if(om==null) return;
       HY.push(Y0); HS.push(renorm(SEC.map(s=>tsK[s[0]]?tsK[s[0]][i]:0)));
       HB.push(renorm(SEC.map(s=>tsB[s[0]]?tsB[s[0]][i]:0))); });
     const base=HS.length?HS[HS.length-1]:renorm(SEC.map(s=>sv(s[0])));
@@ -1073,7 +862,7 @@ function levekarKommuneCard(k){
   const blokkP = bolTot ? r.boliger_boligblokk/bolTot*100 : 0;
   return '<div class="card">'+
     '<div class="ch"><h3 class="serif">Levekår og inntekt</h3></div>'+
-    '<p class="hint">Hva tjener husholdningene i '+k.navn+', hvor kommer pengene fra, hvordan bor de? Kilder: SSB 12558 (inntekt 2024), 14780 (personinntekt 2025), 11084 (eierstatus 2024), 06265 (boliger 2026).</p>'+
+    '<p class="hint">Hva tjener husholdningene i '+k.navn+', hvor kommer pengene fra, hvordan bor de? Kilder: SSB 12558 (inntekt 2024), 14780 (personinntekt 2025), 14891 (eierstatus 2025), 06265 (boliger 2026).</p>'+
     '<div class="kpis" style="margin-top:14px">'+
       '<div class="kpi"><div class="v">'+(r.medianInntektEtterSkatt?Math.round(r.medianInntektEtterSkatt/1000)+'k':'–')+'</div><div class="l">Median hush.-inntekt</div><div class="s">etter skatt'+(diffLandsdel!=null?' · '+(diffLandsdel>=0?'+':'−')+Math.abs(diffLandsdel).toFixed(0).replace('.',',')+' % vs landsdel':'')+'</div></div>'+
       '<div class="kpi"><div class="v">'+fmt0(r.hush_total)+'</div><div class="l">Husholdninger</div><div class="s">'+(r.pct_selveier!=null?r.pct_selveier.toFixed(0).replace('.',',')+' % selveiere':'')+'</div></div>'+
@@ -1296,7 +1085,7 @@ function detail(){
             '<button data-m="5" aria-selected="'+(state.ageMode==='5')+'">5-årig</button>'+
             '<button data-m="L" aria-selected="'+(state.ageMode==='L')+'">Livsfaser</button>'+
           '</div></div>'+
-        '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder '+med+' år. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per 1. april 2026.</p>'+
+        '<p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Medianalder '+med+' år. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per '+(typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026')+'.</p>'+
         barChart(ageGroups(k.alder,state.ageMode==='1'?'1':state.ageMode==='5'?'5':'L'),'var(--aurora)')+
       '</div>'+
       originCard(k,vesP,iveP,lands,shown)+
@@ -1834,7 +1623,7 @@ function renderLevekar(){
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
         (landsdelMedian?'<div class="tldr-num"><div class="nv">'+(landsdelMedian/1000).toFixed(0).replace('.',',')+' k</div><div class="nl">Median hush.-inntekt</div><div class="nh">etter skatt, 2024</div></div>':'')+
-        '<div class="tldr-num"><div class="nv">'+fmt(hushTot)+'</div><div class="nl">Antall husholdninger</div><div class="nh">SSB 11084, 2024</div></div>'+
+        '<div class="tldr-num"><div class="nv">'+fmt(hushTot)+'</div><div class="nl">Antall husholdninger</div><div class="nh">SSB 14891, 2025</div></div>'+
         '<div class="tldr-num"><div class="nv '+(andelUfore>=12?'down':andelUfore>=8?'warn':'')+'">'+andelUfore.toFixed(0).replace('.',',')+' %</div><div class="nl">Andel uføretrygd</div><div class="nh">av total personinntekt</div></div>'+
         '<div class="tldr-num"><div class="nv">'+fmt(bolTot)+'</div><div class="nl">Antall boliger</div><div class="nh">SSB 06265, 2026</div></div>'+
       '</div>';
@@ -2682,8 +2471,8 @@ function landsdelSysselsRate(){
 const EXT_NORMS = {
   scirnAnnual: -0.15,     // OECD SCIRN: ≥0,15 %/år nedgang = "shrinking"
   oecd2050: 52,           // OECD-snitt forsørgerbyrde 65+/20-64 i 2050
-  nasjSyss: 79,           // SSB ~79 % sysselsetting 20-66 (nasjonalt snitt 2024)
-  nasjUfor: 10.5,         // SSB ~10,5 % uføretrygdede 18-67 (nasjonalt snitt 2024)
+  nasjSyss: 76.7,         // SSB 13563, 2025: 2 629 263 sysselsatte av 3 428 369 i alderen 20–66
+  nasjUfor: 10.7,         // SSB 11715, 2025: 10,7 % uføretrygdede 18–67
   tbuNDR: 1.75,           // TBU-norm netto driftsresultat
   ksFond: 5.0,            // KS FoU mai 2025 anbefalt minimum
   ksGjeld: 75.0,          // KS/Riksrevisjonen øvre grense
@@ -2760,7 +2549,7 @@ function sustKommuneCard(k){
     row('Befolkningsendring 2026→2050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
     row('Årlig endring (geometrisk)', e.annualPct!=null?(e.annualPct>=0?'+':'−')+Math.abs(e.annualPct).toFixed(2).replace('.',',')+' %':'–', stat(e.annualPct, popOK), 'OECD SCIRN-terskel: −0,15 %/år')+
     row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
-    sectionHeader('Arbeidsmarked og helse (2024)')+
+    sectionHeader('Arbeidsmarked og helse ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')')+
     row('Sysselsettingsrate 20–66', e.syssRate!=null?fmt0(e.syssRate)+' %':'–', stat(e.syssRate, sysOK), 'SSB 13563 · nasjonalt snitt ~79 %')+
     row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt ~10,5 %')+
     sectionHeader('Kommuneøkonomi'+(e.yr?' ('+e.yr+')':''))+

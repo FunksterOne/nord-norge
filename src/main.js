@@ -1,5 +1,22 @@
 import './styles/tokens.css';
 import './styles/base.css';
+import './styles/charts.css';
 import { initTheme } from './lib/theme.js';
+import { initSearch } from './lib/search.js';
+import { startCharts, placeholder } from './charts/core.js';
+import './charts/proj.js';
+import './charts/map.js';
+import './charts/plassering.js';
+import './charts/trykk.js';
 
 initTheme();
+initSearch();
+// Gammel kode (assets/app.js) bruker NN.placeholder() for å be om nye diagrammer.
+window.NN = { placeholder };
+startCharts();
+
+// Ferskeste folketallsdato (01222) fylles inn der siden ber om det.
+document.addEventListener('DOMContentLoaded', () => {
+  const d = typeof BEFK_DATA !== 'undefined' ? BEFK_DATA.dato_norsk : null; // eslint-disable-line no-undef
+  if (d) document.querySelectorAll('[data-befk-dato]').forEach(el => { el.textContent = d; });
+});

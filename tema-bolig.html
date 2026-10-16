@@ -152,7 +152,7 @@
   <div class="kpi-rad" id="leieKPI"></div>
   <div class="graf-kort">
     <h3>Andel husholdninger i leid bolig, 2024 — de 20 høyeste</h3>
-    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 11084 (registerbasert boforhold). Kommuneserier skjøtet til 2024-grensene. Fylkes-, landsdels- og landssnitt som referanserader.</p>
+    <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 14891 (registerbasert boforhold, revidert september 2026; brudd mot tidligere tabell 11084). Fylkes-, landsdels- og landssnitt som referanserader.</p>
     <div id="leieListe"></div>
   </div>
   <div class="graf-kort">
@@ -163,7 +163,7 @@
   <div class="kal-kort" style="background:color-mix(in srgb, var(--nl) 6%, transparent);border-color:color-mix(in srgb, var(--nl) 25%, transparent)">
     <h3>Fra kbnn-analysen av leiemarkedet (KPB, juli 2026)</h3>
     <p style="font-size:13px;line-height:1.6;margin:0 0 6px">Tall som bare finnes i forskningsdata (Microdata), gjengitt med kilde: rundt <b>90 000 personer</b> i Nord-Norge bor i leid bolig. <b>38,5 %</b> av alle mellom 20 og 29 år leier, og leieandelen øker også i 40- og 50-årene. <b>Privatpersoner eier over halvparten</b> av utleieboligene. Flere søker kommunal bolig, men færre får innvilget. I Rødøy leier <b>16,2 %</b> av husholdningene kommunalt — høyest i landsdelen.</p>
-    <p class="hint" style="font-size:11.5px;margin:0">Kilde: <a href="https://www.kbnn.no/artikkel/leiemarkedet-i-nord-norge-strammer-seg-til" target="_blank" rel="noopener">kbnn: Leiemarkedet i Nord-Norge strammer seg til</a> (8. juli 2026). Grafene over bygger på åpne SSB-tabeller og kan avvike noe i definisjon.</p>
+    <p class="hint" style="font-size:11.5px;margin:0">Kilde: <a href="https://www.kbnn.no/artikkel/leiemarkedet-i-nord-norge-strammer-seg-til" target="_blank" rel="noopener">kbnn: Leiemarkedet i Nord-Norge strammer seg til</a> (8. juli 2026). Grafene over bygger på åpne SSB-tabeller og kan avvike noe i definisjon. SSB reviderte boforholdsstatistikken 14. september 2026 (ny tabell 14891); kbnn-tallene bygger på den tidligere versjonen, så nivåene er ikke direkte sammenlignbare.</p>
   </div>
 </section>
 
@@ -566,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }).sort(function(a, b){ return b.v - a.v; });
     document.getElementById('leieKPI').innerHTML =
       '<div class="kpi"><div class="v">' + fmt(L.l24) + '</div><div class="l">Leiehusholdninger ' + LE.aar + '</div><div class="s">' + andelL.toFixed(1).replace('.', ',') + ' % av husholdningene (landet: ' + andelR.toFixed(1).replace('.', ',') + ' %)</div></div>' +
-      '<div class="kpi"><div class="v">+' + vl.toFixed(1).replace('.', ',') + ' %</div><div class="l">Vekst i leiehusholdninger</div><div class="s">2015–2024 — mot +' + va.toFixed(1).replace('.', ',') + ' % for alle husholdninger</div></div>' +
+      '<div class="kpi"><div class="v">+' + vl.toFixed(1).replace('.', ',') + ' %</div><div class="l">Vekst i leiehusholdninger</div><div class="s">2015–' + LE.aar + ' — mot +' + va.toFixed(1).replace('.', ',') + ' % for alle husholdninger</div></div>' +
       '<div class="kpi"><div class="v">~90 000</div><div class="l">Personer i leid bolig</div><div class="s">kbnn/Microdata, 2024</div></div>' +
       '<div class="kpi"><div class="v">' + toppKomm[0].v + '</div><div class="l">Kommunale boliger per 1 000 innb.</div><div class="s">høyest: ' + DATA.kommuner[toppKomm[0].nr].navn + ' (' + LE.aar_komm + ')</div></div>';
 

@@ -111,6 +111,9 @@
 <!-- Kommune-hero: tittel, fylke, KPIs, navigasjon -->
 <div class="k-hero" id="kommuneHero"></div>
 
+<!-- Plassering blant de 80 + kart -->
+<section class="exhibit" id="kPlassering"></section>
+
 <!-- Seksjons-nav -->
 <nav class="nn-secnav" id="secnav">
   <button data-sec="befolkning" aria-current="true">1 · Befolkning</button>
@@ -217,6 +220,18 @@ document.addEventListener('DOMContentLoaded', function(){
   fLink.textContent = k.fylke;
   fLink.href = 'fylke.html?f=' + encodeURIComponent(k.fylke);
   document.title = k.navn + ' — Nord-Norge dashboard';
+
+  // Plassering blant de 80 kommunene + lite kart
+  var plass = document.getElementById('kPlassering');
+  if(plass && window.NN){
+    plass.innerHTML =
+      '<div class="kicker">Sammenligning · alle 80 kommuner</div>' +
+      '<h2 class="exhibit-h">Hvor står ' + k.navn.split(' - ')[0] + ' blant kommunene i Nord-Norge?</h2>' +
+      '<div class="nn-pl-grid">' +
+        NN.placeholder('plassering', {nr:k.nr}, 520) +
+        '<div>' + NN.placeholder('kart', {ind:'endring', highlight:k.nr, fylke:k.fylke, side:false, height:430}, 430) + '</div>' +
+      '</div>';
+  }
 
   // Kommune-velger (alle 80, alfabetisk)
   var picker = document.getElementById('kommunePicker');
@@ -574,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">Aldersstruktur 1.1.2026 · '+currentMode.lab+' — '+currentMode.sub+'</p>'+
           chartHtml+
-          '<p class="hint" style="margin:8px 0 0;font-size:11.5px">SSB tabell 07459. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per 1. april 2026.</p>'+
+          '<p class="hint" style="margin:8px 0 0;font-size:11.5px">SSB tabell 07459. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per '+(typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026')+'.</p>'+
         '</div>'+
         // KPI-rad
         '<div class="bf-kpis">'+
@@ -644,8 +659,8 @@ document.addEventListener('DOMContentLoaded', function(){
         '</div>'+
         // KPI-rad
         '<div class="bf-kpis">'+
-          '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 (2024)</div></div>'+
-          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 (2024)</div></div>'+
+          '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
+          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
           (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde i dag</div><div class="h">65+ per 100 yrkesaktive · SSB MMMM</div></div>' : '')+
           (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde 2050</div><div class="h">'+(aldring != null ? '+'+aldring.toFixed(0).replace('.',',')+' fra i dag' : '')+'</div></div>' : '')+
         '</div>'+

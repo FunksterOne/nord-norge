@@ -42,7 +42,7 @@
 </header>
 
 <div style="margin-bottom:20px">
-  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall per 1. april 2026</div>
+  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall per <span data-befk-dato>1. juli 2026</span></div>
   <h1 class="serif" style="margin:6px 0 12px" id="ftitle">Fylke</h1>
   <p class="essence" id="fessence">Velg seksjon nedenfor for å se hvordan dette fylket utvikler seg mot 2050.</p>
 </div>
@@ -186,7 +186,7 @@
         <button data-m="L" aria-pressed="false">Livsfaser</button>
       </div>
     </div>
-    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de 80 kommunene i Nordland, Troms og Finnmark. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per 1. april 2026.</p>
+    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de 80 kommunene i Nordland, Troms og Finnmark. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per <span data-befk-dato>1. juli 2026</span>.</p>
     <div id="compAgeGraph"></div>
   </div>
 
@@ -289,7 +289,7 @@
     <details>
       <summary>Slik bruker du denne siden</summary>
       <div class="hbody">
-        <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 12558), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (11084), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
+        <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 12558), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (14891), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
         <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (drill-down kommer i en senere runde).</p>
       </div>
     </details>
@@ -316,7 +316,7 @@
   <!-- Kort C: Eierstatus + antall husholdninger -->
   <div class="card" id="levekarEierCard">
     <div class="ch"><h3 class="serif">Hvordan bor de — selveiere eller leiere?</h3></div>
-    <p class="hint">Antall husholdninger og hvordan de eier boligen sin (selveier, andels-/aksjeeier i borettslag eller sameie, eller leier). SSB tabell 11084, 2024.</p>
+    <p class="hint">Antall husholdninger og hvordan de eier boligen sin (selveier, andels-/aksjeeier i borettslag eller sameie, eller leier). SSB tabell 14891 (boforhold, revidert september 2026), 2025.</p>
     <div id="levekarEierGraph"></div>
   </div>
 
@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Oppdater brodsmuler + headere
   document.getElementById('bcFylke').textContent = fylke;
   document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>de neste 25 årene</em>';
-  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per 1. april 2026';
+  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026');
   document.title = fylke + ' - Nord-Norge dashboard';
 
   // Erstatt "Nord-Norge"/"landsdelen" i titler og hint-tekster med valgt fylke.

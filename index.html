@@ -70,6 +70,14 @@
   <p class="essence">Nord-Norges skjebne mot 2050 er en flyttehistorie. Fødsler og dødsfall regnes likt i alle modeller — det er hvor folk flytter som driver utfallet. Vi følger <b>Hammerfest</b> gjennom hele løypa: en finnmarkskommune som har vokst i 25 år, men som likevel står midt i de samme spørsmålene som nabokommunene som krymper.</p>
 </section>
 
+
+<section class="exhibit exhibit-kart" aria-labelledby="kartTittel">
+  <div class="kicker">Kartet · alle 80 kommuner</div>
+  <h2 class="exhibit-h" id="kartTittel"><span id="kartAntall">48</span> av 80 kommuner får færre innbyggere mot 2050 etter SSBs hovedalternativ</h2>
+  <p class="exhibit-lede">Bytt indikator for å se aldring, forsørgerbyrde, innvandring, folketall og ROBEK-status. Pek på en kommune for tall, klikk for å åpne kommunesiden.</p>
+  <div data-nnchart="kart" data-spec='{"ind":"endring","controls":true}' style="min-height:560px"></div>
+</section>
+
 <div class="landing-cards">
   <a class="landing-card" data-nivå="nn" href="nord-norge.html">
     <div class="lnum">Nivå 1</div>
@@ -232,6 +240,11 @@
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof K === 'undefined') return;
+  // Antall kommuner med nedgang mot 2050 (SSB MMMM) i karttittelen
+  var ka = document.getElementById('kartAntall');
+  if(ka && DATA.proj){
+    ka.textContent = K.filter(function(x){ var o = DATA.proj.kommuner[x.nr]; return o && o.main[o.main.length-1] < o.main[0]; }).length;
+  }
   // Fylke-velger på landing — bygg opp dynamisk fra K så antall alltid stemmer med data
   var landFylke = document.getElementById('landFylke');
   if(landFylke){

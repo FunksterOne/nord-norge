@@ -1,0 +1,51 @@
+/* Diagrammer (Observable Plot) i McHalvard-stil */
+.nnchart { position: relative; width: 100%; }
+.nnchart svg { display: block; max-width: 100%; height: auto; }
+.nnchart [aria-label="tip"] path, .nnchart g[aria-label="tip"] > path { filter: none; }
+.nnchart text { font-variant-numeric: tabular-nums; }
+.nnchart g[aria-label="tip"] text { fill: var(--ink); }
+.nnchart g[aria-label="tip"] tspan:first-child { font-weight: 600; }
+.nnchart g[aria-label="x-axis tick label"] text, .nnchart g[aria-label="y-axis tick label"] text,
+.nnchart g[aria-label="fx-axis tick label"] text { fill: var(--ink-3); }
+.nn-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 12px; color: var(--ink-2); }
+.nn-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.nn-legend i { display: inline-block; width: 14px; height: 10px; }
+.nn-legend .nn-legend-note { color: var(--ink-3); }
+.nn-chart-note { font-size: 12.5px; color: var(--ink-2); margin: 6px 0 8px; }
+.nn-chart-note b { color: var(--ink); font-weight: 600; }
+.nn-subhead { font: 600 13px/1.3 var(--font-sans); color: var(--ink); margin: 10px 0 2px; }
+.nn-seg { display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 12px; border: 1px solid var(--line); width: fit-content; max-width: 100%; }
+.nn-seg button { font: 500 12.5px/1 var(--font-sans); color: var(--ink-2); background: transparent; border: 0; border-right: 1px solid var(--line); padding: 9px 13px; cursor: pointer; border-radius: 0 !important; }
+.nn-seg button:last-child { border-right: 0; }
+.nn-seg button:hover { color: var(--ink); background: var(--panel); }
+.nn-seg button[aria-selected="true"] { background: var(--accent); color: #fff; }
+.nn-source { font-size: 11px; color: var(--ink-3); margin-top: 8px; line-height: 1.45; }
+.nnchart figure { margin: 0; }
+.nnchart figure > div[class$="-swatches"], .nnchart figure > svg:first-child:not(:last-child) { margin-bottom: 6px; }
+@media (max-width: 720px) { .nn-seg { width: 100%; } .nn-seg button { flex: 1 1 auto; padding: 9px 8px; } }
+.nn-kart-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 28px; align-items: start; }
+@media (max-width: 760px) { .nn-kart-grid { grid-template-columns: 1fr; } }
+.nn-rank { border-top: 3px solid var(--rule); padding-top: 12px; }
+.nn-rank-h { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); margin: 14px 0 6px; }
+.nn-rank-h:first-child { margin-top: 0; }
+.nn-rank-sub { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
+.nn-rank-list { list-style: none; margin: 0; padding: 0; }
+.nn-rank-list li { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 72px; gap: 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.nn-rank-list a { color: var(--ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nn-rank-list a:hover { color: var(--accent-text); text-decoration: underline; }
+.nn-rank-list .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.nn-rank-bar { height: 8px; background: var(--line-soft); position: relative; }
+.nn-rank-bar i { position: absolute; left: 0; top: 0; bottom: 0; }
+.nn-pl-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .nn-pl-grid { grid-template-columns: 1fr; } }
+.nn-pl-row { padding: 10px 0 4px; border-bottom: 1px solid var(--line-soft); }
+.nn-pl-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; align-items: baseline; }
+.nn-pl-navn { font-size: 13px; color: var(--ink-2); }
+.nn-pl-verdi { font: 600 17px/1 var(--font-display); color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.nn-pl-rang { font-size: 11.5px; color: var(--ink-3); min-width: 78px; text-align: right; }
+.nn-pl-ref { display: flex; gap: 8px; align-items: center; font-size: 11px; color: var(--ink-3); margin-top: -2px; }
+.nn-pl-ref i { width: 12px; height: 0; border-top: 2px solid var(--warn); }
+.nn-pl-ref span { margin-left: auto; }
+.nn-d3tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s; background: var(--raised); border: 1px solid var(--line); border-top: 2px solid var(--accent); padding: 8px 10px; font-size: 12px; line-height: 1.5; color: var(--ink); min-width: 190px; z-index: 5; }
+.nn-d3tip b { font-weight: 600; }
+.nn-trykk svg text { font-family: var(--font-sans); }
