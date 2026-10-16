@@ -54,11 +54,10 @@
 .nn-scrolly-graf { position: sticky; top: 24px; }
 .nn-scrolly-graf .nnchart { transition: opacity .14s ease; }
 .nn-scrolly-graf .nnchart.bytter { opacity: .25; }
-/* Kapitlene har egen høyde; avstanden mellom dem gjør at bare ett står ved kartet om gangen.
-   Luften under siste kapittel holder kartet på plass til det er lest. */
-.nn-scrolly-steg { padding-bottom: 24vh; }
+/* Kapitlene har egen høyde og fast avstand. Luft over første og under siste kapittel settes i
+   scrolly.js ut fra kartets høyde, slik at hvert kapittel passerer kartets midtlinje. */
 .nn-steg { padding: 0; opacity: .3; transition: opacity .25s ease; }
-.nn-steg + .nn-steg { margin-top: 36vh; }
+.nn-steg + .nn-steg { margin-top: 18vh; }
 .nn-steg.aktiv { opacity: 1; }
 .nn-steg h3 { font: 600 24px/1.25 var(--font-display); color: var(--ink); margin: 8px 0 10px; }
 .nn-steg p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
@@ -66,8 +65,7 @@
   .nn-scrolly { grid-template-columns: 1fr; gap: 0; }
   .nn-scrolly-graf { top: 0; z-index: 2; background: var(--bg); padding: 6px 0; border-bottom: 1px solid var(--line); }
   .nn-scrolly-graf .nnchart { min-height: 0 !important; }
-  .nn-steg + .nn-steg { margin-top: 34vh; }
-  .nn-scrolly-steg { padding-bottom: 20vh; }
+  .nn-steg + .nn-steg { margin-top: 24vh; }
   .nn-steg h3 { font-size: 20px; }
 }
 .nn-hst-tittel { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); margin: 14px 0 4px; padding-top: 8px; border-top: 1px solid var(--line-soft); }

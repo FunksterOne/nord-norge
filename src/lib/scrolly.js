@@ -97,25 +97,47 @@ function build(sec) {
     setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 140);
   };
 
-  // Et kapittel er aktivt når overskriften har passert lesestreken. På bred skjerm ligger streken
-  // på 55 % av vinduet; på smal skjerm står kartet øverst, og streken legges i tekstfeltet under kartet.
-  const lesestrek = () => {
+  // Synkronisering: kapittelet hvis midtpunkt ligger nærmest kartets midtlinje er aktivt.
+  // Bred skjerm: kartet sentreres loddrett i vinduet, første kapittel starter ved kartets midte, og
+  // luften under siste kapittel lar det nå midten før kartet slipper. Smal skjerm: kartet står øverst,
+  // og midtlinjen er midt i tekstfeltet under kartet.
+  const stegKol = sec.querySelector('.nn-scrolly-steg');
+  const bred = () => window.innerWidth >= 860;
+  let midtlinje = window.innerHeight / 2;
+  const oppsett = () => {
     const H = window.innerHeight;
-    if (window.innerWidth >= 860) return H * 0.55;
-    const gb = Math.max(0, graf.getBoundingClientRect().bottom);
-    return gb + (H - gb) * 0.4;
+    const G = graf.getBoundingClientRect().height;
+    const første = artikler[0].getBoundingClientRect().height;
+    const siste = artikler[artikler.length - 1].getBoundingClientRect().height;
+    if (bred()) {
+      const T = Math.max(16, Math.round((H - G) / 2));
+      graf.style.top = `${T}px`;
+      midtlinje = T + G / 2;
+      stegKol.style.paddingTop = `${Math.max(0, Math.round(G / 2 - første / 2))}px`;
+      stegKol.style.paddingBottom = `${Math.max(0, Math.round(G / 2 - siste / 2 + 40))}px`;
+    } else {
+      graf.style.top = '';
+      midtlinje = G + (H - G) / 2;
+      stegKol.style.paddingTop = '';
+      stegKol.style.paddingBottom = '24px'; // kartet slipper rett etter siste kapittel, så teksten ikke ruller inn bak det
+    }
   };
   let venter = false;
   const sjekk = () => {
     venter = false;
-    const linje = lesestrek();
-    let i = 0;
-    artikler.forEach((a, j) => { if (a.querySelector('.kicker').getBoundingClientRect().top <= linje) i = j; });
+    let i = 0, best = Infinity;
+    artikler.forEach((a, j) => {
+      const r = a.getBoundingClientRect();
+      const d = Math.abs((r.top + r.bottom) / 2 - midtlinje);
+      if (d < best) { best = d; i = j; }
+    });
     bytt(i);
   };
   const påRull = () => { if (!venter) { venter = true; requestAnimationFrame(sjekk); } };
   window.addEventListener('scroll', påRull, { passive: true });
-  window.addEventListener('resize', påRull, { passive: true });
+  window.addEventListener('resize', () => { oppsett(); påRull(); }, { passive: true });
+  new ResizeObserver(() => { oppsett(); påRull(); }).observe(graf);
+  oppsett();
   sjekk();
 }
 
