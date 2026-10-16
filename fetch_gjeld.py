@@ -120,12 +120,18 @@ SEKTOR_BEG = {"AGD23": "ndr", "56": "fond", "KG31": "nlan", "KG39": "rxp", "KG25
 
 
 # ─── Tall SSB ikke publiserer (oppdateres manuelt ved ny kvartalsrapport) ───
+# Sist kontrollert 16.10.2026 mot KBNs kvartalsrapport for 2. kvartal 2026 (signert 6.8.2026) og
+# KLP Kommunekreditts rapport for 2. kvartal 2026 (signert 13.8.2026). KBNs rapport for 3. kvartal
+# kommer normalt i begynnelsen av november.
 # KBNs markedsandel av utlån til kommunesektoren, uten Husbanken i nevneren (KBN kvartalsrapport 2. kvartal 2026, 6.8.2026)
 KBN_UTLAN_ANDEL_EKS_HUSBANKEN = {"verdi": 48.9, "periode": "2. kvartal 2026", "kilde": "KBN kvartalsrapport 2. kvartal 2026"}
 # KBNs fastrenteandel: lån til virkelig verdi + virkelig verdi-sikring delt på alle utlån (note 3)
+# Q2 2026: (36 203 FVO + 100 387 virkelig verdi-sikring) / 375 460 utlån til kunder = 36,4 %
 KBN_FASTRENTE_ANDEL = {"verdi": 36.4, "periode": "2. kvartal 2026", "kilde": "KBN kvartalsrapport 2. kvartal 2026, note 3"}
-# KLP Kommunekreditt: andel av utlånsvolumet med flytende rente (årsrapport 2025)
-KLPKK_FLYTENDE_ANDEL = {"verdi": 88, "periode": "2025", "kilde": "KLP Kommunekreditt, årsrapport 2025"}
+# KLP Kommunekreditt: andel av utlånsvolumet med flytende rente. Oppgis bare i årsrapporten (ikke i
+# kvartalsrapportene), så 2025 er siste tall. Utlån til kunder var 21,7 mrd kr per 30.06.2026 (22,5 per 31.12.2025).
+KLPKK_FLYTENDE_ANDEL = {"verdi": 88, "periode": "31.12.2025", "kilde": "KLP Kommunekreditt, årsrapport 2025"}
+KLPKK_UTLAN = {"mrd_kr": 21.7, "dato": "30.06.2026", "kilde": "KLP Kommunekreditt, kvartalsrapport 2. kvartal 2026"}
 # Gjennomsnittlig avdragstid for sektoren (TBU, NOU 2025:10 kap. 4). Gjenværende løpetid publiseres ikke.
 AVDRAGSTID = {"tekst": "25–30 år", "kilde": "TBU, NOU 2025:10, kap. 4"}
 
@@ -216,7 +222,7 @@ def hent_rentebinding():
     trend = {t: andeler(t)["flytende_pct"] for t in perioder if andeler(t)}
     return {"periode": siste, "periode_navn": periodenavn(siste), **andeler(siste), "flytende_trend": trend,
             "trend_navn": {t: periodenavn(t) for t in trend},
-            "kbn_fastrente": KBN_FASTRENTE_ANDEL, "klpkk_flytende": KLPKK_FLYTENDE_ANDEL,
+            "kbn_fastrente": KBN_FASTRENTE_ANDEL, "klpkk_flytende": KLPKK_FLYTENDE_ANDEL, "klpkk_utlan": KLPKK_UTLAN,
             "kilde": f"SSB tabell 10648, utlån fra banker og kredittforetak til kommuneforvaltningen, {periodenavn(siste)}"}
 
 
