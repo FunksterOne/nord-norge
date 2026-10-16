@@ -20,16 +20,10 @@
 .drv dt{color:var(--ink-3);font-weight:600;font-size:11px;letter-spacing:var(--track-caps);text-transform:uppercase;padding-top:2px}
 .drv dd{margin:0;color:var(--ink-2)}
 .drv dd b{color:var(--ink);font-weight:600}
-.kamp{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
-.kamp > div{padding:18px 20px;background:var(--panel);border:1px solid var(--line)}
-.kamp h4{font:600 11px/1.3 var(--font-sans);letter-spacing:var(--track-caps);text-transform:uppercase;margin:0 0 10px}
-.kamp .vinn h4{color:var(--pos)} .kamp .tap h4{color:var(--neg)}
-.kamp ol{margin:0;padding-left:20px;font-size:14px;line-height:1.7;color:var(--ink)}
-.kamp ol li::marker{color:var(--ink-3);font-variant-numeric:tabular-nums}
 .nn-scrollx{overflow-x:auto}
 .nn-scrollx > div{min-width:700px}
 .kildeboks{padding:16px 18px;border-left:3px solid var(--accent);background:var(--panel);font-size:12.5px;color:var(--ink-2);line-height:1.6;margin:18px 0}
-@media (max-width:720px){.kamp{grid-template-columns:1fr}.drv dl{grid-template-columns:1fr}}
+@media (max-width:720px){.drv dl{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="tema-page">
@@ -60,9 +54,9 @@
   <h2>Arbeidslivet kan etterspørre <em>42 000</em> flere enn det finnes folk til i 2040</h2>
   <p class="akt-intro">SØA framskriver etterspørselen etter arbeidskraft næring for næring og sammenligner med tilbudet: befolkningen 15–74 år med dagens sysselsettingsandel. Etterspørselen øker med rundt 33 000 sysselsatte fram mot 2040, mens tilbudet faller med om lag 9 000. Skal behovet dekkes av folk som allerede bor i landsdelen, må sysselsettingsandelen opp fra 67 til 79 prosent.</p>
   <div class="kpi-rad" id="naerKPI"></div>
-  <div class="arbeid-graf-wrap card">
-    <div class="ch"><h3>Sysselsatte i Nord-Norge: faktisk 2025, tilgjengelig og etterspurt 2040</h3></div>
-    <div data-nnchart="stolper" data-spec='{"kategorier":["2025 (faktisk)","2040 · mellomalternativ","2040 · lavalternativ"],"serier":[{"navn":"Sysselsatte / tilgjengelig arbeidskraft","data":[248217,239025,234993],"farge":"cat-4"},{"navn":"Etterspurt arbeidskraft","data":[null,281069,279207],"farge":"accent"}],"format":"tall","hoyde":280,"kilde":"Kilde: SØA (2026), figur 18. Mellomalternativ = SSBs hovedalternativ for alle kommuner; lavalternativ = sterk aldring i kommuner med sentralitet 5–6. Tilgjengelig = befolkning 15–74 år × sysselsettingsandelen i 2025."}' style="min-height:320px"></div>
+  <div class="card">
+    <div class="ch"><h3>Sysselsatte i Nord-Norge: faktisk 2025 og tilgjengelig mot etterspurt arbeidskraft i 2040</h3></div>
+    <div data-nnchart="tilbudgap" data-spec='{"rader":[{"l":"2025, faktisk","tilbud":248217},{"l":"2040, mellomalternativ","tilbud":239025,"etterspurt":281069},{"l":"2040, lavalternativ","tilbud":234993,"etterspurt":279207}],"kilde":"Kilde: SØA (2026), figur 18. Mellomalternativ = SSBs hovedalternativ for alle kommuner; lavalternativ = sterk aldring i kommuner med sentralitet 5–6. Tilgjengelig = befolkning 15–74 år × sysselsettingsandelen i 2025."}' style="min-height:250px"></div>
   </div>
 </section>
 
@@ -101,7 +95,7 @@
   <p class="akt-intro">Verdiskaping per årsverk er driftsresultat pluss lønnskostnader, delt på antall årsverk. Det sier noe om hvor mye hver næring kan betale for arbeidskraften — og dermed hvem som vinner når folk blir knappe. Snittet for næringslivet i Nord-Norge er rundt 1,4 millioner kroner.</p>
   <div class="card">
     <div class="ch"><h3>Verdiskaping per årsverk i Nord-Norge, snitt 2022–2024 (1 000 kr)</h3></div>
-    <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"refs":[{"v":1400,"tekst":"Snitt ≈ 1 400"}],"rader":[{"l":"Petroleum","v":11168},{"l":"Finansielle tjenester","v":7934},{"l":"Energiproduksjon","v":5592},{"l":"Havbruk","v":3704,"uthev":true,"farge":"accent"},{"l":"Kraftforedlende industri","v":2206},{"l":"Fiskeri og fiskeindustri","v":1677,"uthev":true,"farge":"accent"},{"l":"IKT-tjenester","v":1627},{"l":"Næringseiendom","v":1426},{"l":"Annen industri, bergverk og skogbruk","v":1418},{"l":"Kunnskapsbaserte tjenester","v":1146},{"l":"Transport og logistikk av varer","v":1109},{"l":"Teknologiindustri","v":1107},{"l":"Anlegg","v":1005},{"l":"Transport av personer","v":972},{"l":"Kultur, fritid og media","v":921},{"l":"Byggenæring","v":894},{"l":"Andre forretningsmessige tjenester","v":811},{"l":"Detaljhandel","v":784},{"l":"Personrettede tjenester","v":780},{"l":"Landbruk og landbruksbasert industri","v":759},{"l":"Reiseliv","v":630,"uthev":true,"farge":"warn"}]}],"kilde":"Kilde: SØA (2026), figur 9, basert på årsregnskap i SAFE (SØAs foretaks- og enhetsregister). Sjømat er uthevet i blått, reiseliv i gult."}' style="min-height:470px"></div>
+    <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"refs":[{"v":1400,"tekst":"Snitt ≈ 1 400"}],"rader":[{"l":"Petroleum","v":11168,"uthev":true,"farge":"accent"},{"l":"Finansielle tjenester","v":7934},{"l":"Energiproduksjon","v":5592},{"l":"Havbruk","v":3704},{"l":"Kraftforedlende industri","v":2206},{"l":"Fiskeri og fiskeindustri","v":1677},{"l":"IKT-tjenester","v":1627},{"l":"Næringseiendom","v":1426},{"l":"Annen industri, bergverk og skogbruk","v":1418},{"l":"Kunnskapsbaserte tjenester","v":1146},{"l":"Transport og logistikk av varer","v":1109},{"l":"Teknologiindustri","v":1107},{"l":"Anlegg","v":1005},{"l":"Transport av personer","v":972},{"l":"Kultur, fritid og media","v":921},{"l":"Byggenæring","v":894},{"l":"Andre forretningsmessige tjenester","v":811},{"l":"Detaljhandel","v":784},{"l":"Personrettede tjenester","v":780},{"l":"Landbruk og landbruksbasert industri","v":759},{"l":"Reiseliv","v":630,"uthev":true,"farge":"accent"}]}],"kilde":"Kilde: SØA (2026), figur 9, basert på årsregnskap i SAFE (SØAs foretaks- og enhetsregister). Næringene i overskriften er uthevet."}' style="min-height:500px"></div>
   </div>
 </section>
 
@@ -112,7 +106,7 @@
   <p class="akt-intro">SØA går gjennom næring for næring: markedsutvikling, naturressurser, kraft, teknologi, regulering og kapital. Under er hovedpunktene, med tallene rapporten bygger på.</p>
   <div class="card">
     <div class="ch"><h3>Økt etterspørsel etter arbeidskraft fram mot 2040, utvalgte næringer</h3></div>
-    <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"rader":[{"l":"Offentlig sektor (særlig helse og omsorg)","v":20000,"uthev":true,"farge":"accent","note":"drevet av flere eldre"},{"l":"Reiseliv","v":4300,"note":"+33 %"},{"l":"Sjømat","v":2500,"note":"havbruk"},{"l":"Forsvar","v":1800,"note":"langtidsplanen"},{"l":"Kraftforedlende industri","v":500,"note":"2–3 nye etableringer"},{"l":"IKT-tjenester","v":300,"note":"i underkant av"}]}],"kilde":"Kilde: SØA (2026), framskriving i mellomalternativet. Tallene er avrundet slik rapporten oppgir dem."}' style="min-height:230px"></div>
+    <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"rader":[{"l":"Offentlig sektor (særlig helse og omsorg)","v":20000,"uthev":true,"farge":"accent","note":"flere eldre"},{"l":"Reiseliv","v":4300,"note":"+33 %"},{"l":"Sjømat","v":2500,"note":"særlig havbruk"},{"l":"Forsvar","v":1800,"note":"langtidsplanen for forsvaret"},{"l":"Kraftforedlende industri","v":500,"note":"2–3 nye etableringer"},{"l":"IKT-tjenester","v":300,"note":"noe under"}]}],"kilde":"Kilde: SØA (2026), framskriving i mellomalternativet. Tallene er avrundet slik rapporten oppgir dem."}' style="min-height:230px"></div>
   </div>
 
   <div class="drv-grid">
@@ -148,12 +142,11 @@
 <section class="akt">
   <div class="akt-num">Akt 06 · Konsekvens</div>
   <h2>Næringene med lavest lønnsevne <em>taper først</em> i kampen om folk</h2>
-  <p class="akt-intro">SØA har beregnet hvordan arbeidskraften kan fordele seg i 2040 når den trekkes mot næringer som kan betale mest. Ingen næring får dekket hele behovet. Rangeringen under går fra den som får dekket mest til den som får dekket minst.</p>
-  <div class="kamp">
-    <div class="vinn"><h4>Får dekket mest av behovet</h4><ol><li>Petroleum</li><li>Forsvar</li><li>Forretningsmessige tjenester</li><li>Sjømat</li><li>Offentlig administrasjon</li><li>Industri</li><li>Helse</li><li>Høyere utdanning</li></ol></div>
-    <div class="tap"><h4>Størst mangel</h4><ol><li>Reiseliv</li><li>Landbruk og næringsmiddelindustri</li><li>Omsorg</li><li>Varehandel og transport</li><li>Grunnutdanning</li><li>Infrastrukturtjenester</li><li>Bygg og anlegg</li><li>Personrettede tjenester</li></ol></div>
+  <p class="akt-intro">SØA har beregnet hvordan arbeidskraften kan fordele seg i 2040 når den trekkes mot næringer som kan betale mest. Ingen næring får dekket hele behovet. Figuren viser hvor stor del av etterspørselen hver næring ikke får dekket: petroleum mangler rundt 1 prosent, reiselivet 23 prosent.</p>
+  <div class="card">
+    <div class="ch"><h3>Rekruttering relativt til etterspurt arbeidskraft i 2040, per næring (prosent)</h3></div>
+    <div data-nnchart="hstolper" data-spec='{"format":"pst","grupper":[{"rader":[{"l":"Petroleum","v":-1.4,"uthev":true,"farge":"accent"},{"l":"Forsvar","v":-7.9},{"l":"Forretningsmessige tjenester","v":-9.4},{"l":"Sjømat","v":-10.7},{"l":"Offentlig administrasjon","v":-11.9},{"l":"Industri","v":-12.2},{"l":"Helse","v":-12.6},{"l":"Høyere utdanning","v":-14.2},{"l":"Personrettede tjenester","v":-14.8},{"l":"Bygg og anlegg","v":-15.0},{"l":"Infrastrukturtjenester","v":-15.4},{"l":"Grunnutdanning","v":-16.4},{"l":"Varehandel og transport","v":-17.9},{"l":"Omsorg","v":-18.6},{"l":"Landbruk og næringsmiddelindustri","v":-19.3},{"l":"Reiseliv","v":-23.0,"uthev":true,"farge":"accent"}]}],"kilde":"Kilde: SØA (2026), figur 19, mellomalternativet. Verdiene er avlest fra figuren i rapporten (±0,5 prosentpoeng). Beregningen er en forenkling: høyere priser kan gi reiselivet mer lønnsevne enn modellen antar."}' style="min-height:400px"></div>
   </div>
-  <p class="hint" style="font-size:12px">Kilde: SØA (2026), figur 19, mellomalternativet. Beregningen er en forenkling: høyere priser kan gi reiselivet mer lønnsevne enn modellen antar.</p>
   <div class="card" style="margin-top:18px">
     <div class="ch"><h3>Allerede i dag: mangel på arbeidskraft per næring i Nord-Norge, 2026</h3></div>
     <div id="navMangel"></div>
@@ -216,9 +209,9 @@ document.addEventListener('DOMContentLoaded', function(){
   var nm = document.getElementById('navMangel');
   if(nm && typeof NAV_BEDRIFT !== 'undefined' && window.NN){
     var rows = NAV_BEDRIFT.landsdel.naeringer.slice(0, 10).map(function(n){
-      return {l: n.navn.replace(/, faglig.*$/, '').replace(/Overnattings- og serveringsvirksomhet/, 'Overnatting og servering'), v: n.mangel_nn, note: String(n.andel_pct).replace('.', ',') + ' % av nasjonal mangel'};
+      return {l: n.navn.replace(/, faglig.*$/, '').replace(/Overnattings- og serveringsvirksomhet/, 'Overnatting og servering'), v: n.mangel_nn, note: n.andel_pct.toFixed(1).replace('.', ',') + ' % av landets mangel'};
     });
-    nm.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: rows}], kilde:'Kilde: NAVs bedriftsundersøkelse 2026. Estimert mangel = antall personer virksomhetene ikke fikk ansatt.'}, rows.length*27+40);
+    nm.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: rows}], kilde:'Kilde: NAVs bedriftsundersøkelse 2026. Estimert mangel = antall personer virksomhetene ikke fikk ansatt.'}, rows.length*22+40);
   }
 });
 </script>

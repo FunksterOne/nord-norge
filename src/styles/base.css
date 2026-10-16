@@ -70,7 +70,7 @@ tr.total td, tfoot td { border-top: 2px solid var(--rule) !important; font-weigh
 
 /* Figurer nummereres automatisk («Figur 01») */
 body { counter-reset: figur; }
-.card > .ch h3, .arbeid-graf-wrap > div:first-child, .exhibit-title {
+.card > .ch h3, .arbeid-graf-wrap:not(.card) > div:first-child, .exhibit-title {
   counter-increment: figur;
 }
 .card > .ch h3::before, .exhibit-title::before {

@@ -1,23 +1,40 @@
 // Liggende stolper, eventuelt i grupper med egen tittel.
 // Spesifikasjon: { grupper:[{tittel, rader:[{l, v, farge, uthev, note}] , ref:{v, tekst}}],
 //                  format:'tall'|'pst'|'pst2', maks, farge, etikettBredde }
+// Stolpetykkelsen er fast (rundt 14 px) uansett antall rader, slik at figurene ser like ut på tvers av sidene.
+// Negative verdier tegnes mot venstre fra en nullinje; verdien står da på venstre side av stolpen.
 import { Plot, register, spec } from './core.js';
 import { heltall, tall } from '../lib/format.js';
 
 const FARGE = f => (!f ? 'var(--muted-mark)' : f.startsWith('var(') || f.startsWith('color-mix') ? f : ({ accent: 'var(--accent)', ink: 'var(--ink)', neg: 'var(--neg)', pos: 'var(--pos)', warn: 'var(--warn)', muted: 'var(--muted-mark)' })[f] || `var(--${f})`);
-const FMT = { tall1: v => tall(v, 1), tall: v => heltall(v), kr: v => `${heltall(v)} kr`, pst: v => `${tall(v, 1)} %`, pst2: v => `${tall(v, 2)} %` };
+const MINUS = '−';
+const FMT = {
+  tall1: v => tall(v, 1), tall: v => heltall(v), kr: v => `${heltall(v)} kr`,
+  pst: v => `${tall(v, 1)} %`, pst2: v => `${tall(v, 2)} %`,
+};
+const tekstBredde = (s, px) => String(s).length * px * 0.56;
 
 register('hstolper', (el, width) => {
   const s = spec(el);
-  const fmt = FMT[s.format || 'tall'];
+  const fmt0 = FMT[s.format || 'tall'];
+  const fmt = v => (v < 0 ? MINUS + fmt0(-v) : fmt0(v));
   const alle = s.grupper.flatMap(g => g.rader).filter(r => r.v != null);
-  const maks = s.maks || Math.max(1, ...alle.map(r => r.v), ...s.grupper.flatMap(g => [g.ref, ...(g.refs || [])].filter(Boolean).map(r => r.v)));
+  const refs = s.grupper.flatMap(g => [g.ref, ...(g.refs || [])].filter(Boolean));
+  const neg = alle.some(r => r.v < 0);
+  const maks = s.maks || Math.max(neg ? 0 : 1, ...alle.map(r => r.v), ...refs.map(r => r.v));
+  const min = neg ? Math.min(...alle.map(r => r.v)) : 0;
   const longest = Math.max(4, ...s.grupper.flatMap(g => g.rader.map(r => String(r.l).length)));
   const left = s.etikettBredde || Math.min(Math.round(width * 0.42), 14 + longest * 6.6);
+  const etikett = r => fmt(r.v) + (r.note ? `  ${r.note}` : '');
+  const høyreTekst = Math.max(40, ...alle.filter(r => r.v >= 0).map(r => tekstBredde(etikett(r), 11.5)));
+  const venstreTekst = neg ? Math.max(40, ...alle.filter(r => r.v < 0).map(r => tekstBredde(etikett(r), 11.5))) : 0;
+  const right = Math.min(Math.round(width * 0.38), Math.round(høyreTekst + 18));
   const out = [];
   for (const g of s.grupper) {
     const n = g.rader.length;
-    const rh = n > 40 ? 15 : n > 20 ? 20 : 27;
+    const tett = n > 40;
+    const rh = tett ? 15 : 22;
+    const harRef = !!(g.ref || g.refs);
     const rader = g.rader.map((r, i) => ({ ...r, key: `${i}\u0000${r.l}` }));
     const vals = rader.filter(r => r.v != null);
     const tom = rader.filter(r => r.v == null);
@@ -25,18 +42,20 @@ register('hstolper', (el, width) => {
       const t = document.createElement('div'); t.className = 'nn-hst-tittel'; t.textContent = g.tittel; out.push(t);
     }
     const fig = Plot.plot({
-      width, height: n * rh + ((g.ref || g.refs) ? 30 : 12), marginLeft: left, marginRight: 96, marginTop: (g.ref || g.refs) ? 22 : 4, marginBottom: 6,
-      style: { background: 'transparent', fontFamily: 'var(--font-sans)', fontSize: n > 40 ? '10px' : '12px', color: 'var(--ink-2)', overflow: 'visible' },
-      x: { domain: [0, maks], axis: null },
-      y: { domain: rader.map(r => r.key), tickFormat: k => k.split('\u0000')[1], tickSize: 0, padding: n > 40 ? 0.12 : 0.22, label: null },
+      width, height: n * rh + (harRef ? 30 : 12), marginLeft: left, marginRight: right, marginTop: harRef ? 22 : 4, marginBottom: 6,
+      style: { background: 'transparent', fontFamily: 'var(--font-sans)', fontSize: tett ? '10px' : '12px', color: 'var(--ink-2)', overflow: 'visible' },
+      x: { domain: [min, maks], axis: null, insetLeft: venstreTekst ? venstreTekst + 16 : 0 },
+      y: { domain: rader.map(r => r.key), tickFormat: k => k.split('\u0000')[1], tickSize: 0, paddingInner: tett ? 0.12 : 0.36, paddingOuter: 0.18, label: null },
       marks: [
-        Plot.barX(rader, { x: maks, y: 'key', fill: 'var(--line-soft)' }),
+        !neg && Plot.barX(rader, { x: maks, y: 'key', fill: 'var(--line-soft)' }),
+        neg && Plot.ruleX([0], { stroke: 'var(--line)' }),
         Plot.barX(vals, { x: 'v', y: 'key', fill: r => FARGE(r.farge || (r.uthev ? 'accent' : s.farge)) }),
         ...[g.ref, ...(g.refs || [])].filter(Boolean).flatMap((r, ri) => [
           Plot.ruleX([r.v], { stroke: r.farge || 'var(--ink-3)', strokeDasharray: '3,3' }),
           Plot.text([r.v], { x: d => d, frameAnchor: 'top', dy: ri % 2 ? -2 : -12, text: () => r.tekst, fill: r.farge || 'var(--ink-3)', fontSize: 11 }),
         ]),
-        Plot.text(vals, { x: 'v', y: 'key', text: r => fmt(r.v) + (r.note ? `  ${r.note}` : ''), dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: n > 40 ? 10 : 11.5 }),
+        Plot.text(vals.filter(r => r.v >= 0), { x: 'v', y: 'key', text: etikett, dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
+        Plot.text(vals.filter(r => r.v < 0), { x: 'v', y: 'key', text: etikett, dx: -6, textAnchor: 'end', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
         tom.length && Plot.text(tom, { x: 0, y: 'key', text: () => 'undertrykt', dx: 6, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 11 }),
         Plot.tip(vals, Plot.pointerY({ x: 'v', y: 'key', title: r => `${r.l}\n${fmt(r.v)}${r.note ? `\n${r.note}` : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
       ].filter(Boolean),

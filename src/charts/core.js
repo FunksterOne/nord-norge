@@ -39,6 +39,8 @@ function draw(el) {
     const node = render(el, width);
     el.replaceChildren(...(Array.isArray(node) ? node : [node]).filter(Boolean));
     el.__drawn = true;
+    // Plassholderens minstehøyde skal bare hindre hopp før tegning; etterpå bestemmer diagrammet høyden selv.
+    el.style.minHeight = '';
   } catch (err) {
     console.error('Diagramfeil', el.dataset.nnchart, err);
     el.textContent = 'Diagrammet kunne ikke tegnes.';
