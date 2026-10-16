@@ -55,9 +55,9 @@
 </header>
 
 <section class="tema-hero">
-  <div class="tag">Temaserie 07 · Boligmarkedet 2000 → 2050</div>
+  <div class="tag">Temaserie 07 · Boligmarkedet 2000–2050</div>
   <h1>Bygges det <em>nok</em> der folk skal bo?</h1>
-  <p class="lede">Boligbyggingen i Nord-Norge har falt til det laveste nivået på over tjue år, og fallet i igangsettingstillatelser siste tolv måneder er langt sterkere enn i landet ellers (−25 % mot −3 %). Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
+  <p class="lede">Boligbyggingen i Nord-Norge har falt til det laveste nivået på over tjue år, og fallet i igangsettingstillatelser siste tolv måneder er langt sterkere enn i landet som helhet (−25 % mot −3 %). Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — BYGGETAKTEN ────────────────── -->
@@ -130,7 +130,7 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Sårbarheten</div>
   <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
-  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. To kommuner står for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
+  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. I første halvår 2026 stod to kommuner for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
   <div class="kpi-rad" id="sarbKPI"></div>
   <div class="graf-kort">
     <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettingstillatelser, siste 12 måneder</h3>
@@ -146,10 +146,10 @@
 <section class="akt">
   <div class="akt-num">Akt 05 · Leiemarkedet</div>
   <h2>Stadig flere konkurrerer om <em>leieboligene</em>.</h2>
-  <p class="akt-intro">Når færre kan kjøpe, må flere leie. Leiehusholdningene i Nord-Norge vokser halvannen gang raskere enn husholdningene samlet, og markedet skal dekke alt fra studenter og pendlere til flyktninger og lavinntektshusholdninger. Der det private leiemarkedet er tynt, blir kommunale boliger siste skanse — og i de minst sentrale kommunene er den kommunale andelen høyest.</p>
+  <p class="akt-intro">Når færre kan kjøpe, må flere leie. Leiehusholdningene i Nord-Norge har økt med <span id="leieVekst">7 %</span> siden 2015, litt saktere enn husholdningene samlet (<span id="husVekst">9 %</span>). Markedet skal likevel dekke alt fra studenter og pendlere til flyktninger og lavinntektshusholdninger. Der det private leiemarkedet er tynt, blir kommunale boliger siste skanse — og i de minst sentrale kommunene er den kommunale andelen høyest.</p>
   <div class="kpi-rad" id="leieKPI"></div>
   <div class="graf-kort">
-    <h3>Andel husholdninger i leid bolig, 2024 — de 20 høyeste</h3>
+    <h3>Andel husholdninger i leid bolig, 2025 — de 20 høyeste</h3>
     <p class="hint" style="font-size:12px;margin:2px 0 10px">SSB tabell 14891 (registerbasert boforhold, revidert september 2026; brudd mot tidligere tabell 11084). Fylkes-, landsdels- og landssnitt som referanserader.</p>
     <div id="leieListe"></div>
   </div>
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var fu12 = r12(bo.fu, i1);
       var dg = behov5 > 0 ? fu12 / behov5 * 100 : null;
       var farge = dg == null ? 'var(--ink3)' : dg >= 90 ? 'var(--aurora)' : dg >= 50 ? 'var(--amber)' : 'var(--neg)';
-      return '<tr><td>' + f + '</td><td>' + fmt(behov5) + ' <span class="spenn">(' + fmt(lo) + '–' + fmt(hi) + ')</span></td>' +
+      return '<tr><td>' + f + '</td><td>' + fmt(behov5) + ' <span class="spenn">(' + fmt(lo) + ' til ' + fmt(hi) + ')</span></td>' +
         '<td>' + fmt(fu12) + '</td>' +
         '<td style="color:' + farge + ';font-weight:700">' + (dg == null ? '–' : Math.round(dg) + ' %') + '</td></tr>';
     }).join('');
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var hiL = Math.max.apply(null, Object.keys(beL.w).map(function(c){ return beL.w[c][0]; }));
     var fu12L = r12(boL.fu, i1);
     var dgL = Math.round(fu12L / beL.w.m_tr[0] * 100);
-    rader += '<tr style="border-top:2px solid var(--line)"><td><b>Nord-Norge</b></td><td><b>' + fmt(beL.w.m_tr[0]) + '</b> <span class="spenn">(' + fmt(loL) + '–' + fmt(hiL) + ')</span></td>' +
+    rader += '<tr style="border-top:2px solid var(--line)"><td><b>Nord-Norge</b></td><td><b>' + fmt(beL.w.m_tr[0]) + '</b> <span class="spenn">(' + fmt(loL) + ' til ' + fmt(hiL) + ')</span></td>' +
       '<td><b>' + fmt(fu12L) + '</b></td><td style="font-weight:700;color:' + (dgL >= 90 ? 'var(--aurora)' : dgL >= 50 ? 'var(--amber)' : 'var(--neg)') + '">' + dgL + ' %</td></tr>';
     document.getElementById('behTabell').innerHTML =
       '<thead><tr><th>Område</th><th>Behov per år 2026–2030</th><th>Fullført siste 12 mnd</th><th>Dekningsgrad</th></tr></thead><tbody>' + rader + '</tbody>';
@@ -374,16 +374,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ---------- akt 02: pedagogisk poeng ----------
   function renderPed(){
-    var antall = 0, totalt = 0;
+    var antall = 0, totalt = 0, fallende = 0;
     Object.keys(BE.kommuner).forEach(function(nr){
       var be = BE.kommuner[nr]; if(!be) return;
       totalt++;
       var o = DATA.proj.kommuner[nr];
       var fall = o.main[o.main.length - 1] < o.main[0];
+      if(fall) fallende++;
       if(fall && be.w.m_tr[0] > 0) antall++;
     });
     document.getElementById('pedPoeng').innerHTML =
-      '<b>' + antall + '</b> av landsdelens ' + totalt + ' kommuner har fallende folketall på hovedbanen mot 2050 — men fortsatt et <i>positivt</i> beregnet boligbehov i 2026–2030, fordi husholdningene blir mindre og gamle boliger går ut av massen.';
+      'Av de <b>' + fallende + '</b> kommunene med fallende folketall på hovedbanen mot 2050 har <b>' + antall + '</b> fortsatt et <i>positivt</i> beregnet boligbehov i 2026–2030, fordi husholdningene blir mindre og gamle boliger går ut av massen.';
   }
 
   // ---------- akt 03 ----------
@@ -493,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function(){
       txt += ' På landsbasis er forholdet ' + (riketNy / riket01).toFixed(1).replace('.', ',') + ' (' + fmt(riketNy) + ' mot ' + fmt(riket01) + ' kr/m²) — avstanden er størst der bruktprisene er lavest.';
     }
     if(tromsSist){
-      txt += ' Unntaket er Troms: bruktprisen har steget til <b>' + fmt(tromsSist) + ' kr/m²</b> i ' + (tromsKvNavn.slice(5) + '. kvartal ' + tromsKvNavn.slice(0, 4)) + ' (alle boligtyper) — det er der nybygging først kan bli lønnsom igjen.';
+      txt += ' Troms skiller seg ut: bruktprisen var <b>' + fmt(tromsSist) + ' kr/m²</b> i ' + (tromsKvNavn.slice(5) + '. kvartal ' + tromsKvNavn.slice(0, 4)) + ' (alle boligtyper) — det er der nybygging først kan bli lønnsom igjen.';
     }
     document.getElementById('gapTekst').innerHTML = txt;
   }
@@ -502,6 +503,10 @@ document.addEventListener('DOMContentLoaded', function(){
   function renderLeie(){
     if(typeof LEIE_DATA === 'undefined') return;
     var LE = LEIE_DATA;
+    var pv = function(a, b){ return (b / a - 1) * 100; };
+    var lv = document.getElementById('leieVekst'), hv = document.getElementById('husVekst');
+    if(lv && LE.landsdel) lv.textContent = pv(LE.landsdel.l15, LE.landsdel.l24).toFixed(1).replace('.', ',') + ' %';
+    if(hv && LE.landsdel) hv.textContent = pv(LE.landsdel.a15, LE.landsdel.a24).toFixed(1).replace('.', ',') + ' %';
     var L = LE.landsdel, R = LE.riket;
     var vl = (L.l24 - L.l15) / L.l15 * 100;
     var va = (L.a24 - L.a15) / L.a15 * 100;

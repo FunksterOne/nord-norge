@@ -170,3 +170,6 @@ svg text { font-family: var(--font-sans); }
 body:has(.nn-sokknapp-fast) { padding-bottom: 64px; }
 /* Segmentvelgere brytes på smale skjermer i stedet for å gi vannrett rulling */
 .minseg { flex-wrap: wrap; max-width: 100%; }
+
+/* Oppsummeringer i sitatboks som ikke er direkte sitater: samme flate, uten kursiv og anførselstegn */
+.sitat .sitat-tekst { font: 400 16px/1.55 var(--font-display); color: var(--ink); margin: 0 0 10px; }

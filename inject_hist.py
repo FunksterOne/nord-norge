@@ -77,7 +77,16 @@ def main():
         prefix = m.group(1)
         nr = m.group(2)
         close = m.group(3)
-        h = hist.get(nr, {})
+        h = dict(hist.get(nr, {}))
+        # Narvik (1806) og Hamarøy (1875) mangler i agg_KommSummer før 2020. Bruk rekonstruksjonen
+        # fra fetch_pyramide.py (gamle kommuner, Tysfjord fordelt etter delingen i 2020).
+        pyr = HERE / "data" / "pyramide" / f"{nr}.json"
+        if pyr.exists() and any(y not in h for y in YEARS):
+            d = json.loads(pyr.read_text(encoding="utf-8"))
+            for y in YEARS:
+                if y not in h and int(y) in d["aar"]:
+                    i = d["aar"].index(int(y))
+                    h[y] = sum(d["m"][i]) + sum(d["k"][i])
         if not h:
             skipped += 1
             return m.group(0)

@@ -52,7 +52,7 @@
     <thead><tr><th>Kode</th><th>Innhold</th><th>Periode</th></tr></thead>
     <tbody>
       <tr><td class="kode">07459</td><td>Folketall etter alder og kjønn per kommune</td><td>1.1.2000–2026</td></tr>
-      <tr><td class="kode">14746</td><td>Befolkningsframskriving, MMMM-banen + lav/høy (2026-årgangen)</td><td>2026 → 2050</td></tr>
+      <tr><td class="kode">14746</td><td>Befolkningsframskriving, MMMM-banen + lav/høy (2026-årgangen)</td><td>2026–2050</td></tr>
       <tr><td class="kode">09817</td><td>Innvandrere og norskfødte med innvandrerforeldre, etter opprinnelsesland</td><td>2026</td></tr>
       <tr><td class="kode">11607</td><td>Sysselsetting etter landgruppe, alder 20–66</td><td>4. kv. 2025</td></tr>
       <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting)</td><td>2017–2025</td></tr>
@@ -60,7 +60,7 @@
       <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
       <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2025</td></tr>
       <tr><td class="kode">13563</td><td>Arbeidsstyrkestatus 20–66 år</td><td>2025</td></tr>
-      <tr><td class="kode">12143</td><td>KOSTRA: netto driftsresultat, renteeksp. gjeld</td><td>2015–2025</td></tr>
+      <tr><td class="kode">12143</td><td>KOSTRA: netto driftsresultat, disposisjonsfond, netto lånegjeld (KG31)</td><td>2015–2025</td></tr>
       <tr><td class="kode">06944</td><td>Husholdningsinntekt etter skatt, median</td><td>2024</td></tr>
       <tr><td class="kode">14780</td><td>Personinntekt (lønn, pensjon, uføretrygd)</td><td>2025</td></tr>
       <tr><td class="kode">14891</td><td>Eierstatus husholdninger (erstatter 11084 fra september 2026)</td><td>2025</td></tr>
@@ -76,7 +76,7 @@
       <tr><td class="kode">01222</td><td>Kvartalsvis befolkning og endringer (ferskeste folketall)</td><td>1997–2026K2</td></tr>
     </tbody>
   </table>
-  <p class="hint" style="margin-top:10px"><b>To folketallsdatoer.</b> Kvartalstallene (01222) vises som ferskeste måling der folketall presenteres — per <span data-befk-dato>1. juli 2026</span>. Alle modeller (framskrivingen, TF-banene, BB-KVOTE) er forankret i 1.1.2026, som er basisåret i SSB 14746 og eneste dato med aldersfordeling på kommunenivå. Eierstatus-tabellen 11084 brukes både for eie/leie-fordelingen (2024) og leiemarkedsutviklingen 2015–2024 (kommuneserier skjøtet). Aldersfordelt leieandel og utleieboliger etter eiertype finnes bare i forskningsdata (Microdata) og gjengis som redaksjonelt innhold med kilde kbnn/KPB (juli 2026).</p>
+  <p class="hint" style="margin-top:10px"><b>To folketallsdatoer.</b> Kvartalstallene (01222) vises som ferskeste måling der folketall presenteres — per <span data-befk-dato>1. juli 2026</span>. Alle modeller (framskrivingen, TF-banene, BB-KVOTE) er forankret i 1.1.2026, som er basisåret i SSB 14746 og eneste dato med aldersfordeling på kommunenivå. Eierstatus-tabellen 14891 brukes både for eie/leie-fordelingen (2025) og leiemarkedsutviklingen 2015–2025 (kommuneserier skjøtet). Aldersfordelt leieandel og utleieboliger etter eiertype finnes bare i forskningsdata (Microdata) og gjengis som redaksjonelt innhold med kilde kbnn/KPB (juli 2026).</p>
   <h3 style="margin-top:24px">Andre kilder</h3>
   <table class="kildetabell">
     <thead><tr><th>Kilde</th><th>Innhold</th><th>Periode</th></tr></thead>
@@ -91,9 +91,9 @@
   <h3>SSB MMMM (offisiell bane)</h3>
   <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på Middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
   <h3>Strukturmodellen (TF-ATTR) — vår tilleggsbane</h3>
-  <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020→2024. <b>SSB MMMM er hovedbanen i hele dashbordet</b> — alle nøkkeltall, indikatorer og vurderinger mot eksterne normer regnes på den. Strukturmodellen vises ved siden av som en gjennomsiktig tilleggsbane, aldri som grunnlaget for vurderingen.</p>
+  <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020–2024. <b>SSB MMMM er hovedbanen i hele dashbordet</b> — alle nøkkeltall, indikatorer og vurderinger mot eksterne normer regnes på den. Strukturmodellen vises ved siden av som en gjennomsiktig tilleggsbane, aldri som grunnlaget for vurderingen.</p>
   <h3>Yttergrense-modellene (TF-MVP) — outlier-spekter</h3>
-  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (før korona-boom), <b>Bredt vindu</b>, og <b>Vektet 2022–2023</b>. Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
+  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (snitt før innvandringstoppen, standard), <b>Median 2017–2025</b> (demper toppen i 2022–23) og <b>Snitt 2017–2025</b> (gir 2022–23 full vekt). Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
   <h3>Basisår og rebasering (14746-migreringen, august 2026)</h3>
   <p>Dashbordet gikk i august 2026 fra SSBs 2024-baserte framskriving (tabell 14288) til 2026-årgangen (tabell 14746, publisert 12. juni 2026). SSB-banene er hentet på nytt. TF-ATTR- og TF-MVP-banene er <b>rebasert mekanisk</b>: nivåjustert til faktisk folketall 1.1.2026, med uendret vekstprofil — de er ikke rekjørt med nye rater. Ukraina- og sensitivitetsscenariene er lagt på de rebaserte banene med effektprofil per år etter basisåret, slik at sjokkene fortsatt inntreffer i første framskrivingsår.</p>
 </div>
@@ -132,7 +132,7 @@
   <h2>Eksterne normer for indikatorer</h2>
   <p class="hint">Hver indikator i kommunekortet vurderes mot sin autoritative eksterne norm. Ingen interne terskler eller sammensatte klassifiseringer.</p>
   <ul class="norm-list">
-    <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2026→2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som «shrinking».</li>
+    <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2026–2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som «shrinking».</li>
     <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbyrde (65+/20–64) i 2050.</b> OECD-snitt ≈ 52 eldre per 100 i yrkesaktiv alder (Pensions at a Glance 2025).</li>
     <li><span class="norm-tag">SSB</span><b>Sysselsettingsrate 20–66.</b> Nasjonalt snitt 76,7 % i 2025 (SSB 13563).</li>
     <li><span class="norm-tag">SSB</span><b>Uføreandel 18–67.</b> Nasjonalt snitt 10,7 % i 2025 (SSB 11715).</li>
@@ -144,7 +144,7 @@
 </div>
 
 <div class="metode-card">
-  <h2>Backtest 2020 → 2024</h2>
+  <h2>Backtest 2020–2024</h2>
   <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Strukturmodellen (TF-ATTR) traff bedre enn SSB MMMM i de små, minst sentrale kommunene, der prognoser pleier å bomme mest. Det er bakgrunnen for å vise den som tilleggsbane ved siden av hovedbanen SSB MMMM.</p>
   <div id="bteval_metode" style="margin-top:14px"></div>
 </div>
@@ -201,7 +201,7 @@
       <tr><td class="kode">NDC</td><td>Notional Defined Contribution (Sverige-pensjons­modellen)</td></tr>
       <tr><td class="kode">OADR</td><td>Old-Age Dependency Ratio — forsørgerbyrde 65+ / 20–64</td></tr>
       <tr><td class="kode">BIN</td><td>Business Index North</td></tr>
-      <tr><td class="kode">Black Swan</td><td>Uventet hendelse som endrer alt (Taleb)</td></tr>
+      <tr><td class="kode">Svart svane</td><td>Uventet hendelse som endrer alt (Taleb: «black swan»)</td></tr>
     </tbody>
   </table>
 </div>
@@ -220,7 +220,6 @@
     <li>Framskrivinger er <b>ikke prognoser</b>. De viser hva demografien alene gir «alt annet likt», og forutsetningene kan etterprøves.</li>
     <li>Den fulle krysstabuleringen <i>kommune × alder × opprinnelsesland</i> finnes ikke hos SSB — dimensjonene er delt på tre kilder (07459, 09817, 11607).</li>
     <li>SSB 12558 (desiler husholdningsinntekt) gir nasjonale grenser også for kommune-spørringer — derfor brukes 06944 for per-kommune median.</li>
-    <li>«Renteeksponert gjeld» (KG39) manglet i KOSTRA for 14 kommuner — netto lånegjeld (KG31) brukes som proxy der.</li>
     <li>Nasjonalt bakteppe (KBN/KLP/TBU/KS) oppdateres <b>manuelt en gang i året</b> når årsrapportene publiseres. Dato i hver datasett-blokk vises som «sist oppdatert».</li>
   </ul>
 </div>

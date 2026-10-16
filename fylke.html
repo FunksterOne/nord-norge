@@ -68,8 +68,8 @@
 
   <!-- Hero-graf: hele landsdelen 2000-2050 -->
   <div class="card hero-chart" id="bigPicChart">
-    <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000 → 2050</h3></div>
-    <p class="hint">Linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Blå = SSBs offisielle bane 2026 → 2050 (MMMM, tabell 14746), med lav–høy-bånd. Grå prikket = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Gul stiplet = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
+    <div class="ch"><h3 class="serif">Nord-Norge totalt: 2000–2050</h3></div>
+    <p class="hint">Linje med prikker = faktisk folketall 1.1.2000–2025 (SSB tabell 07459, kommuner 2024-sammenslåtte tidsserier). Blå = SSBs offisielle bane 2026–2050 (MMMM, tabell 14746), med lav–høy-bånd. Grå prikket = strukturmodellen fra Telemarksforskning (vår tilleggsbane). Gul stiplet = yttergrense-modeller med flyttesnitt fra valgte historiske vinduer (vises på etterspørsel). Den vertikale streken markerer <b>i dag</b> — bruk reisen videre for å se hvordan dette varierer fra kommune til kommune.</p>
     <div id="bigPicGraph"></div>
   </div>
 
@@ -103,7 +103,7 @@
           <li><b>Jobbvekst</b> — lokal endring i sysselsetting</li>
           <li><b>Sentralitet</b> — SSBs 1–6-skala (1 = mest sentral, 6 = minst)</li>
         </ul>
-        <p style="font-size:12.5px">Spørsmålet er ikke «hva gjorde folk i fjor?» men «hvor mye flytting tilsier næringsgrunnlaget og geografien?». Robust mot uvanlige år; <b>traff bedre enn SSB i 2020→2024-backtesten for de minst sentrale kommunene</b>.</p>
+        <p style="font-size:12.5px">Spørsmålet er ikke «hva gjorde folk i fjor?» men «hvor mye flytting tilsier næringsgrunnlaget og geografien?». Robust mot uvanlige år; <b>traff bedre enn SSB i 2020–2024-backtesten for de minst sentrale kommunene</b>.</p>
         <div class="dims"><span class="chip">strukturbasert</span><span class="chip">tilleggsbane</span><span class="chip">treffer utkant</span></div>
       </div>
       <div class="src">
@@ -120,9 +120,9 @@
       </div>
     </div>
     <div class="note" style="margin-top:18px;background:color-mix(in srgb, var(--accent) 6%, transparent);border-color:color-mix(in srgb, var(--accent) 22%, transparent)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
-    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020→2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
+    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020–2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
 
-      <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020 → 2024</h3>
+      <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020–2024</h3>
       <p class="sub">En backtest spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
       <p class="sub" style="margin-top:8px">Radene grupperer kommunene etter SSBs sentralitetsskala (1 = mest sentral, 6 = minst). Det er i de minst sentrale kommunene prognoser pleier å bomme mest — og det er der TF-modellene kan tilføre mest verdi. ● markerer modellen med lavest feil per rad.</p>
       <div id="bteval_intro" data-helpfor="<b>Slik leser du backtesten.</b> Vi gir SSB og Telemarksforskning basis i 2020, ruller fram til 2024, og sammenligner med faktisk registrert folketall. Lavere prosent = mindre feil. Sentralitet 1 er Oslo-typen, 6 er minst sentralt — der det er vanskeligst å treffe."></div>
@@ -163,7 +163,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 1.2</div>
     <div class="ns-t">Utforsk kommunene</div>
-    <div class="ns-h">Den store linja for hele landsdelen skjuler enorme forskjeller. Bodø vokser; de svakeste utkantkommunene mister opptil 17 % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
+    <div class="ns-h" id="nsStorLinje">Den store linja for fylket skjuler store forskjeller mellom kommunene. Neste kapittel lar deg dykke ned i hver enkelt.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -188,7 +188,7 @@
         <button data-m="L" aria-pressed="false">Livsfaser</button>
       </div>
     </div>
-    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de 80 kommunene i Nordland, Troms og Finnmark. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per <span data-befk-dato>1. juli 2026</span>.</p>
+    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de <span id="fyAntallK">—</span> kommunene i fylket. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per <span data-befk-dato>1. juli 2026</span>.</p>
     <div id="compAgeGraph"></div>
   </div>
 
@@ -208,7 +208,7 @@
     <details style="margin-top:12px;font-size:13px">
       <summary style="cursor:pointer;font-weight:600;color:var(--ink2)">▾ Hvordan henger dette sammen med landsdelens samlede flyt?</summary>
       <div style="margin-top:10px;color:var(--ink2);line-height:1.6">
-        <p>To ulike måter å telle på: <b>kortsiktig bofasthet</b> (Monitor) sier at 80–90 % blir værende første 5 år. <b>Akkumulert nettoflytting</b> (KBNN/Telemarksforskning) sier at over 25 år har 5 av 6 flyktninger flyttet videre sør. Begge er sanne. Spørsmålene er ulike: «hvor godt forankrer kommunen i begynnelsen?» vs. «hvor er folk om 25 år?».</p>
+        <p>To ulike måter å telle på: <b>kortsiktig bofasthet</b> (Monitor) sier at 65–90 % blir værende de første fem årene, avhengig av kull. <b>Akkumulert nettoflytting</b> (KBNN/Telemarksforskning) sier at over 25 år har 5 av 6 flyktninger flyttet videre sør. Begge er sanne. Spørsmålene er ulike: «hvor godt forankrer kommunen i begynnelsen?» vs. «hvor er folk om 25 år?».</p>
         <p>SSBs flyttestatistikk for hele landsdelen 2002–2025 (tabell 09588) viser at nettoinnvandring fra utlandet i de fleste år er positiv, mens innenlandsk nettoflytting er negativ — folk drar sørover. Ukraina-invasjonen i 2022 ga et midlertidig løft i nettoinnvandring.</p>
       </div>
     </details>
@@ -236,7 +236,7 @@
 
   <!-- Hero: forsørgerbyrde for landsdelen -->
   <div class="card hero-chart" id="burdenChart">
-    <div class="ch"><h3 class="serif">Forsørgerbyrde 2026 → 2050 · Nord-Norge totalt</h3></div>
+    <div class="ch"><h3 class="serif">Forsørgerbyrde 2026–2050 · Nord-Norge totalt</h3></div>
     <p class="hint">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Heltrukken linje viser hvor mange eldre arbeidstakerne må bære. Indekspanelet under viser hvorfor — eldregruppen vokser mens arbeidsføre står stille eller faller. Bane: SSB MMMM (tabell 14746).</p>
     <div id="burdenGraph"></div>
   </div>
@@ -271,7 +271,7 @@
   <div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Topp 6 mangel-næringer</h3></div>
   <p class="hint" style="font-size:12.5px;margin-bottom:6px">Estimert mangel på arbeidskraft i 2026, sortert etter antall. Tall rundet til nærmeste 50.</p>
   <div id="navFylkeTop6"></div>
-  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — spørreundersøkelse til ca. 7 000 virksomheter. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
+  <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — spørreundersøkelse blant virksomheter. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
 
 <button class="nextstep" data-next="levekar">
   <div class="ns-l">
@@ -291,7 +291,7 @@
     <details>
       <summary>Slik bruker du denne siden</summary>
       <div class="hbody">
-        <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 12558), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (14891), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
+        <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 06944), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (14891), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
         <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (drill-down kommer i en senere runde).</p>
       </div>
     </details>
@@ -409,8 +409,8 @@
         <ul style="margin:6px 0 6px 22px;list-style:disc;color:var(--ink2)">
           <li><b>Befolkningsendring 2026–2050</b> — OECD SCIRN definerer befolkningsnedgang ≥ 0,15 %/år som «shrinking».</li>
           <li><b>Forsørgerbyrde 2050 (65+/20–64)</b> — OECD-standardratio. OECD-snitt 2050 ≈ 52 eldre per 100 i yrkesaktiv alder (Pensions at a Glance 2025).</li>
-          <li><b>Sysselsettingsrate 20–66</b> — SSB tabell 13563. Nasjonalt snitt ~79 %.</li>
-          <li><b>Uføreandel 18–67</b> — SSB tabell 11715. Nasjonalt snitt ~10,5 %.</li>
+          <li><b>Sysselsettingsrate 20–66</b> — SSB tabell 13563. Nasjonalt snitt 76,7 % (2025).</li>
+          <li><b>Uføreandel 18–67</b> — SSB tabell 11715. Nasjonalt snitt 10,7 % (2025).</li>
           <li><b>Netto driftsresultat</b> — TBU-norm +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget).</li>
           <li><b>Disposisjonsfond</b> — KS FoU mai 2025: minst 5 % av driftsinntektene anbefales.</li>
           <li><b>Netto lånegjeld</b> — KS/Riksrevisjonen: ikke over 75 % av driftsinntektene.</li>
@@ -497,6 +497,16 @@ document.addEventListener('DOMContentLoaded', function(){
   document.title = fylke + ' - Nord-Norge dashboard';
 
   // Kart over fylket + små multipler for fylkets kommuner
+  // Fylkesspesifikke tall i teksten (vekst og nedgang mot 2050, antall kommuner)
+  (function(){
+    var ks = K.filter(function(x){ return x.fylke === fylke; });
+    var ak = document.getElementById('fyAntallK'); if(ak) ak.textContent = ks.length;
+    var ns = document.getElementById('nsStorLinje'); if(!ns || !DATA.proj) return;
+    var e = ks.map(function(x){ var o = DATA.proj.kommuner[x.nr]; return o ? {navn: x.navn.split(' - ')[0], v: (o.main[o.main.length-1]/o.main[0]-1)*100} : null; }).filter(Boolean).sort(function(a,b){ return b.v - a.v; });
+    if(!e.length) return;
+    var topp = e[0], bunn = e[e.length-1];
+    ns.textContent = 'Den store linja for ' + fylke + ' skjuler store forskjeller. ' + topp.navn + ' vokser mest (' + (topp.v>=0?'+':'−') + Math.abs(topp.v).toFixed(0) + ' %), mens ' + bunn.navn + ' mister ' + Math.abs(bunn.v).toFixed(0) + ' % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.';
+  })();
   var fv = document.getElementById('fylkeVisuelt');
   if(fv && window.NN){
     var nK = K.filter(function(x){ return x.fylke === fylke; });

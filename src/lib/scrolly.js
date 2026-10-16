@@ -4,7 +4,7 @@ import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
 import { redraw } from '../charts/core.js';
 
-const median = a => { const b = [...a].sort((x, y) => x - y); return b[Math.floor(b.length / 2)]; };
+const median = a => { const b = [...a].sort((x, y) => x - y); const m = b.length / 2; return b.length % 2 ? b[Math.floor(m)] : (b[m - 1] + b[m]) / 2; };
 
 function fakta() {
   const P = L.DATA.proj;

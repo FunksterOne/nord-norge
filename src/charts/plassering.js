@@ -35,7 +35,7 @@ register('plassering', (el, width) => {
 
     const head = document.createElement('div');
     head.className = 'nn-pl-head';
-    head.innerHTML = `<span class="nn-pl-navn">${d.navn}</span><span class="nn-pl-verdi">${d.tekst(mine.v)}</span><span class="nn-pl-rang">nr. ${rank} av ${rows.length}</span>`;
+    head.innerHTML = `<span class="nn-pl-navn">${d.navn}</span><span class="nn-pl-verdi">${d.tekst(mine.v)}</span><span class="nn-pl-rang" title="Rangert etter verdi, høyeste verdi er nr. 1">nr. ${rank} av ${rows.length} (høyest = 1)</span>`;
     const others = rows.filter(r => r.nr !== me.nr);
     const fig = Plot.plot({
       width, height: d.key === 'fond' ? 122 : (compact ? 92 : 88),
