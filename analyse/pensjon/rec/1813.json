@@ -1,0 +1,30 @@
+{
+  "nr": "1813",
+  "navn": "Brønnøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/451b4e42-b179-43d1-9b6e-1006ee0da3a3/121157/169956",
+  "kilde_side": "note 11 Pensjonsforpliktelser, PDF-s. 43–44 (egenkapitalinnskudd KLP: note 5, PDF-s. 37)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (KLP felles)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1427334572,
+  "pensjonsmidler": 1443431381,
+  "netto_forpliktelse": -16096809,
+  "netto_inkl_aga": -15799991,
+  "aarets_pensjonskostnad": 59024458,
+  "innbetalt_premie": 59425795,
+  "aarets_premieavvik": 401337,
+  "akkumulert_premieavvik": 79271819,
+  "akkumulert_premieavvik_inkl_aga": 83314682,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 2475925,
+  "premiefond_bruk": 57546300,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 4.5, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Skannet, signert PDF uten tekstlag; tallene er lest manuelt fra sidebilder og bør kontrolleres. Kilde: vedlegg «Regnskap 2025 Brønnøy kommune» til kommunestyresak «Regnskap 2025» (møte 24.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 964983291_PROD-964983291». Samlede tall brukt; tabell per ordning: KLP felles brutto 1 341 614 357 / midler 1 363 531 130 (netto −21 916 773, ingen AGA), SPK brutto 85 720 215 / midler 79 900 251 (netto 5 819 964, AGA 296 818). Kommunen har netto pensjonsmidler (overfinansiert). SPK er regnskapsført med forpliktelse. Sykepleiere er ikke skilt ut fra KLP felles. Svakheter i noten: «Utbetalinger» er ført med positivt fortegn (104 370 592) både i forpliktelse- og middelavstemmingen, og «Lønnsvekst» er oppgitt til 4,50 % (andre kommuner oppgir 2,97 %); tallene er gjengitt som de står. Planendringer ført mot egenkapitalen: −9 131 580 på midlene; estimatavvik forpliktelse −63 385 897, midler −72 645 900. Amortisering av tidligere års premieavvik 22 407 982; noteteksten angir 1/7 per år for avvik fra 2014. Premiefond: 73 398 436 inngående, tilført 61 306 325, brukt 57 546 300, 77 158 461 utgående. Regnskapsførte pensjonsutgifter 22 006 645 kr høyere enn betalt premie. Saksfremlegget opplyser at kommunen betalte ca. 107 mill. kr til KLP og SPK før bruk av premiefond (57,5 mill.)."
+}

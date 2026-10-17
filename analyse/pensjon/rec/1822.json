@@ -1,0 +1,30 @@
+{
+  "nr": "1822",
+  "navn": "Leirfjord",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/45a25b4d-b040-4204-9afd-c14865c76823/52083/115846",
+  "kilde_side": "note 8 Pensjonsforpliktelser, s. 18–20 (PDF-s. 19–21)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 447791770,
+  "pensjonsmidler": 448454053,
+  "netto_forpliktelse": -662283,
+  "netto_inkl_aga": -499252,
+  "aarets_pensjonskostnad": 19250301,
+  "innbetalt_premie": 15630951,
+  "aarets_premieavvik": -3619350,
+  "akkumulert_premieavvik": 25960975,
+  "akkumulert_premieavvik_inkl_aga": 27284983,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 21369327,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Årsregnskap 2025 Leirfjord kommune (Revidert)» til sak «Årsregnskap og årsmelding 2025 Leirfjord kommune» i Elements Publikum; lenken krever HTTP-header «Tenant: 945034572_PROD-945034572». Noten oppgir tall per ordning (KLP og SPK); summert av meg. KLP: brutto 415 184 163, midler 417 780 138 (netto −2 595 975), premie 12 343 035, netto kostnad 15 366 518 + adm. 561 147, premieavvik −3 584 630, akkumulert 23 984 513 (inkl. AGA 25 207 723). SPK: brutto 32 607 607, midler 30 673 915 (netto 1 933 692), premie 3 287 916, netto kostnad 3 221 685 + adm. 100 951, premieavvik −34 720, akkumulert 1 976 462 (inkl. AGA 2 077 260). Netto inkl. AGA beregnet fra balanselinjene (forpliktelser inkl. AGA 447 954 801 − midler); merk at noten legger positiv AGA (64 413) på den overfinansierte KLP-ordningen. Fortegn i PDF-teksten er spredt (minustegn på egne linjer); verdiene er kontrollert mot summene. Amortisering av tidligere års premieavvik 8 432 633 (KLP 7 951 767, SPK 480 866); 7 år. Premiefond brukt 21 369 327. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP). Medlemsstatus KLP: 283 aktive, 552 oppsatte, 281 pensjonister."
+}

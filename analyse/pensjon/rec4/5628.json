@@ -1,0 +1,12 @@
+{"nr":"5628","navn":"Tana","regnskapsaar":2025,
+"kilde_url":"https://prod01.elementscloud.no/publikum/Documents/ShowDocument/0cbe12cc-0a9a-439f-9b7e-b1d3b215f068/81136/148144",
+"kilde_side":"note 11 Pensjonsforpliktelser, s. 15–17 (PDF-side 16–18); vedlegg til kommunestyresak «Årsregnskap 2025», møte 18.06.2026",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen (inkl. sykepleiere)","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":673534462,"pensjonsmidler":707142303,"netto_forpliktelse":-33607841,"netto_inkl_aga":null,
+"aarets_pensjonskostnad":20458265,"innbetalt_premie":17663058,"aarets_premieavvik":-3714317,
+"akkumulert_premieavvik":21190795,"akkumulert_premieavvik_inkl_aga":21190795,"amortisering_aar":7,
+"reguleringspremie":null,"egenkapitaltilskudd_klp":null,"premiefond_bruk":35681471,
+"forutsetninger":{"diskonteringsrente":4.0,"avkastning":4.5,"lonnsvekst":2.97,"g_regulering":2.97,"pensjonsregulering":2.2},
+"sykepleiere_separat":false,
+"merknader":"Noten oppgir hele kroner for KLP og SPK med sumkolonne; tallene er notens sum. Pensjonsmidlene overstiger forpliktelsen (netto overfinansiert 33,6 mill.; KLP −35,7 mill., SPK +2,1 mill.). Årets pensjonskostnad er netto pensjonskostnad ekskl. adm. (20 458 265); inkl. adm. 21 377 376. Årets premieavvik er negativt (premie lavere enn kostnad): KLP −3 444 712, SPK −269 605. Akkumulert premieavvik 31.12: 21 190 795 (KLP 20 938 279 + SPK 252 516); arbeidsgiveravgift oppgitt som 0 (Finnmark, sone 5). Amortiseringstabellen i noten skriver KLP 20 398 279 og sum 20 650 795 – trolig tallomstokking; avstemmingen 34 179 750 − 3 444 712 − 9 796 759 = 20 938 279 støtter beløpet brukt her. 7 års amortisering for premieavvik fra 2014 og senere (10 år for 2011–2013, ingen saldo igjen). Bruk av premiefond (KLP) 35 681 471; saldo 31.12 57 970 253. Reguleringspremie og egenkapitalinnskudd KLP ikke oppgitt i noten. Sykepleiere ikke skilt ut. Forventet avkastning SPK 4,0 %. Balanseoppstillingen i PDF-en viser ikke premieavvik som egen linje i tekstuttrekket; akkumulert beløp er hentet fra noten."}

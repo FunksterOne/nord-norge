@@ -1,0 +1,10 @@
+# Kildedokumenter og mellomfiler: store, og kan hentes på nytt fra lenkene i postene
+pdf/
+bilder/
+organisering/dl/
+regelverk/kilder/
+rec4_orig/
+*.log
+.gstack/
+verktoy*/*.png
+verktoy/elements.js.txt

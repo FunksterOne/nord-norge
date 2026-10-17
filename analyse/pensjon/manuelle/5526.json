@@ -1,0 +1,42 @@
+{
+  "nr": "5526",
+  "navn": "Sørreisa",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sorreisa.kommune.no/download/18.25c6ef6919e48e7478821/1779343816136/Kontrollutvalget%20innkalling%20270526.pdf",
+  "kilde_side": "balanse PDF-side 34, note 11 PDF-side 44–45 (bilde), revisors brev s. 15, årsmelding s. 57–58",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen og sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 638121825,
+  "pensjonsmidler": 714827471,
+  "netto_forpliktelse": -76705646,
+  "netto_inkl_aga": -76619538,
+  "aarets_pensjonskostnad": 23234733,
+  "innbetalt_premie": 45153361,
+  "aarets_premieavvik": 21918628,
+  "akkumulert_premieavvik": 74856570,
+  "akkumulert_premieavvik_inkl_aga": 78674255,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 6400000,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Kontrollutvalgets møtedokumenter 27. mai 2026 på kommunens nettside; notetabellene er bilder og lest visuelt. Summert KLP (felles+sykepleiere) og SPK: netto kostnad 20 662 430 + 2 572 303; premie 42 804 513 + 2 348 848; årets premieavvik 22 142 083 − 223 455; amortisering 15 022 210 + 144 221 = 15 166 431. Akkumulert premieavvik inkl. AGA: KLP 77 821 741, SPK 852 514. Balansen viser premieavvik 77 821 737 som eiendel og 1 322 229 under kortsiktig gjeld med positivt fortegn; revisor påpeker at årets SPK-premieavvik er ført feil vei (446 912 for mye inntektsført), rettes i 2026. KOSTRA (76,5 mill.) = eiendel minus gjeldsposten. AGA 5,1 %. Premiefond 01.01: 74 625 372, tilført 32 571 871, brukt 6 400 000, 31.12: 100 797 247. Estimatavvik 2025: KLP forpliktelse +61 842 047, midler +41 024 087. Per ordning: KLP felles −67 942 988, KLP sykepleiere −10 451 041, SPK +1 688 383. Disposisjonsfond bare 3 255 691 (7 318 882 i 2024)."
+}

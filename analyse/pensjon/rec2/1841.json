@@ -1,0 +1,29 @@
+{
+  "nr": "1841",
+  "navn": "Fauske",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-05052026.pdf",
+  "kilde_side": "vedlegg b) Fauske kommune, Årsregnskap med noter 2025: note 12 Pensjon (PDF-s. 254–257), balanse kommunekassen (PDF-s. 241–243)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1562210000,
+  "pensjonsmidler": 1591432000,
+  "netto_forpliktelse": -29221000,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 58361000,
+  "innbetalt_premie": 55932000,
+  "aarets_premieavvik": -4770000,
+  "akkumulert_premieavvik": 116438000,
+  "akkumulert_premieavvik_inkl_aga": 122377000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 2709000,
+  "premiefond_bruk": 70324000,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Regnskapet for 2025 er lagt fram for kontrollutvalget 05.05.2026 (vedlegg b). Noten oppgir tall i hele 1000 kr, og jeg har omregnet dem til kroner, så presisjonen er ±1000 kr. Noten har kolonner for KLP, SPK og sum, og summene er brukt (KLP-fellesordning og sykepleiere er slått sammen). Brutto forpliktelse er KLP 1 473 967 + SPK 88 244 = 1 562 210 tusen. Balansen for kommunekassen viser 1 562 476 tusen; avviket er 266 tusen og ikke forklart. Pensjonsmidlene, 1 591 432 tusen, stemmer med balansen. Akkumulert premieavvik er KLP 111 135 + SPK 5 303 tusen; balansen viser 122 377 tusen inkl. AGA (5,1 %). Premiefondet brukte 70 324 tusen, og saldoen per 31.12.2025 er 86 036 tusen. Egenkapitaltilskuddet til KLP er 2 709 tusen. Konsolidert regnskap (inkl. Fauna KF): brutto 1 568 697, midler 1 597 910 og netto pensjonskostnad 58 772 tusen. SPK har forventet avkastning 4,0 %. Fauna KF har en egen, liten KLP-ordning med amortisering over 1 år."
+}

@@ -1,0 +1,28 @@
+{
+  "nr": "1853",
+  "navn": "Evenes",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.evenes.kommune.no/api/presentation/v2/nye-innsyn/filer/v-ce85da45__e974__40aa__9389__91591987aaf5-76749_1_A!d-2025008213!5pn1hE?pid=1",
+  "kilde_side": "Årsregnskap 2025 (vedlegg til kommunestyrets sak om årsregnskap og årsberetning 2025, møte 16.06.2026): note 5 Pensjon, s. 17–18 (skannet)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 327798037,
+  "pensjonsmidler": 318078929,
+  "netto_forpliktelse": 9719108,
+  "netto_inkl_aga": 10366022,
+  "aarets_pensjonskostnad": 8932412,
+  "innbetalt_premie": 11017950,
+  "aarets_premieavvik": 1726047,
+  "akkumulert_premieavvik": 17861987,
+  "akkumulert_premieavvik_inkl_aga": 18772948,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 11627116,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Årsregnskapet er skannet og har ingen tekst. Tallene er derfor lest manuelt fra forstørrede sidebilder og avstemt mot KOSTRA-tabell 13545 (midler 318 079 tusen, forpliktelse inkl. AGA 328 445 tusen, premieavvik 18 773 tusen), som stemmer. Noten har kolonner for KLP, SPK og sum, og summene er brukt. Brutto forpliktelse: KLP 313 891 387 + SPK 13 906 650. Midler: KLP 304 985 651 + SPK 13 093 278. Noten viser netto som midler − forpliktelse (−9 719 108), og det er lagt inn som positiv netto forpliktelse. AGA på netto er 646 914. Netto pensjonskostnad ekskl. adm.: KLP 7 558 635 + SPK 1 373 777. Premie inkl. adm.: KLP 9 603 565 + SPK 1 414 385. Premieavvik: KLP 1 729 536 + SPK −3 489. Akkumulert premieavvik: KLP 17 173 535 + SPK 688 452, og AGA er 910 961. Kommunestyret har vedtatt amortisering over 15 år for gamle avvik, med 1/10 for avvik etter 2010 og 1/7 for avvik etter 2013; 7 år gjelder derfor nye avvik. Premiefondet (KLP) hadde 552 185 per 01.01., ble tilført 14 776 451, brukt med 11 627 116 og hadde 3 701 520 per 31.12. SPK har avkastning 4,0 %."
+}

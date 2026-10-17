@@ -1,0 +1,30 @@
+{
+  "nr": "1825",
+  "navn": "Grane",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod02.elementscloud.no/publikum/Documents/ShowDocument/de1fc514-4acf-4317-b588-e41b33967f47/11837/21021",
+  "kilde_side": "note 9 Pensjonsforpliktelser (kap. 5.9), s. 37–38",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 338439766,
+  "pensjonsmidler": 340107175,
+  "netto_forpliktelse": -1667409,
+  "netto_inkl_aga": -1596146,
+  "aarets_pensjonskostnad": 14342703,
+  "innbetalt_premie": 20285861,
+  "aarets_premieavvik": 5943158,
+  "akkumulert_premieavvik": 5943158,
+  "akkumulert_premieavvik_inkl_aga": 5955963,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 8258745,
+  "forutsetninger": {
+    "diskonteringsrente": 3.5, "avkastning": 4.0, "lonnsvekst": 2.48, "g_regulering": 2.48, "pensjonsregulering": 2.48
+  },
+  "sykepleiere_separat": null,
+  "merknader": "Kilde: vedlegg «Grane kommunes årsregnskap 2025» til kommunestyresak «Grane kommunes årsregnskap og årsmelding 2025 – Desisjon» i Elements Publikum (prod02); lenken krever HTTP-header «Tenant: 940643112_PROD-940643112». Notetabellene er bilder i PDF-en og er lest manuelt. Kommunen amortiserer premieavvik over 1 år («amortiseringsperiode 1 år»); hele premieavviket for 2024 (6 984 322) er amortisert i 2025, og akkumulert premieavvik er lik årets. Netto inkl. AGA = −1 667 409 + AGA 71 263. FORBEHOLD 1: Forutsetningstabellen viser avkastning 4,00 % (KLP) / 3,50 % (SPK), diskonteringsrente 3,50 % og lønnsvekst/G-/pensjonsregulering 2,48 % — dette ser ut som utdaterte satser (2024-forskriften har 4,00/4,50 og 2,97 %); gjengitt som oppgitt. FORBEHOLD 2: Tabellen per ordning viser bare KLP felles (brutto 277 549 075 / midler 275 893 483) og SPK (19 682 123 / 18 284 814), men sumkolonnen (338 439 765 / 340 107 175) er ca. 41 mill. høyere; en kolonne (trolig KLP sykepleiere) mangler i tabellen. Derfor sykepleiere_separat = null. Premiefond: 6 796 515 inngående, tilført 15 390 435, brukt 8 258 745, 13 928 205 utgående. Regnskapsførte pensjonsutgifter 5 943 158 kr lavere enn betalt premie (inkl. amortisering ca. 1 mill. lavere ifølge tabellen)."
+}

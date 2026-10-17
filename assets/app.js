@@ -1664,6 +1664,7 @@ function renderEconomy(){
   }
   renderRente();
   renderGjeld();
+  renderPensjon();
 }
 function renderRente(){
   const host=document.getElementById('renteContent');
@@ -1921,6 +1922,117 @@ function renderGjeld(){
     '<p class="hint" style="font-size:11px;margin-top:10px;opacity:.75">Kilder: SSB KOSTRA tab. 12143 (kommuner og sektortall); ' + bakteppe.kilde + '. Sist oppdatert: ' + bakteppe.sist_oppdatert + '. Sektortallene hentes fra SSB ved hver kjøring av fetch_gjeld.py; lånekilder og rentebinding oppdateres manuelt.</p>';
 
   host.innerHTML = kpiHTML + compareHTML + lanekildeHTML + rentebindingHTML + sektorHTML + closingHTML;
+}
+
+/* === Pensjon: premieavvik og fremskrevet pensjonskostnad (PENSJON_DATA, fetch_pensjon.py) ===
+   renderPensjon() fyller #pensjonContent på landsdels- og fylkessiden for valgt scope.
+   pensjonFigur(o, hoyde) gir viftediagrammet (basis med lav–høy-bånd) for et kommune-, fylkes- eller landsdelsobjekt. */
+function pensjonFigur(o, hoyde){
+  const P = PENSJON_DATA;
+  return NN.placeholder('linjer', {
+    x: P.aar,
+    serier: [
+      {navn:'Høyt scenario', kort:'Høy', data:o.R.hoy, farge:'muted', stil:'stiplet'},
+      {navn:'Basis', kort:'Basis', data:o.R.basis, farge:'accent', uthev:true},
+      {navn:'Lavt scenario', kort:'Lav', data:o.R.lav, farge:'muted', stil:'stiplet'}
+    ],
+    band: {x:P.aar, lo:o.R.lav, hi:o.R.hoy, farge:'accent'},
+    markor: [{x:2027}, {x:2033}],
+    format:'pst1', null:true, xTicks:[2025,2030,2040,2050], hoyde: hoyde || 280,
+    kilde:'Regnskapsført pensjonskostnad inkl. arbeidsgiveravgift, % av brutto driftsinntekter. Egne beregninger på grunnlag av pensjonsnotene 2025, KOSTRA (SSB 13202, 12364, 12367) og KDDs beregningsforutsetninger.'
+  }, (hoyde || 280) + 20);
+}
+function pensjonTall(v, d){
+  if(v == null) return '–';
+  const f = Math.pow(10, d == null ? 1 : d), r = Math.round(Math.abs(v) * f) / f;
+  return (v < 0 && r ? '−' : '') + r.toFixed(d == null ? 1 : d).replace('.', ',');
+}
+function renderPensjon(){
+  if(typeof PENSJON_DATA === 'undefined') return;
+  const host = document.getElementById('pensjonContent');
+  if(!host) return;
+  const P = PENSJON_DATA, M = P.meta;
+  const fy = (state.fylke && state.fylke !== 'Alle') ? state.fylke : null;
+  const o = fy ? P.fylker[fy] : P.landsdel;
+  const scopeNavn = fy || 'Nord-Norge';
+  const p1 = v => pensjonTall(v) + ' %';
+  const i30 = P.aar.indexOf(2030), i50 = P.aar.indexOf(2050);
+  const ks = currentK().filter(k => P.kommuner[k.nr]);
+  const kn = k => (k.navn.split(' - ').find(d => !/[áčđŋšŧžÁČĐŊŠŦŽäÄ]/.test(d)) || k.navn);
+
+  const kpiHTML =
+    '<div class="kpi-rad" style="margin:8px 0 14px">' +
+      '<div class="kpi"><div class="v' + (o.pa > M.landet_pa ? ' down' : '') + '">' + p1(o.pa) + '</div><div class="l">Akkumulert premieavvik</div><div class="nh">' + pensjonTall(o.pa_kr / 1e6) + ' mrd kr · landet ' + p1(M.landet_pa) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + p1(o.df) + '</div><div class="l">Disposisjonsfond</div><div class="nh">premieavviket er større i ' + o.pa_over_df + ' av ' + o.n + ' kommuner</div></div>' +
+      '<div class="kpi"><div class="v">' + p1(o.R.basis[i30]) + '</div><div class="l">Pensjonskostnad 2030</div><div class="nh">basis · ' + p1(o.R.basis[0]) + ' i 2025 · spenn ' + pensjonTall(o.R.lav[i30]) + '–' + p1(o.R.hoy[i30]) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + p1(o.R.basis[i50]) + '</div><div class="l">Pensjonskostnad 2050</div><div class="nh">basis · spenn ' + pensjonTall(o.R.lav[i50]) + '–' + p1(o.R.hoy[i50]) + '</div></div>' +
+    '</div>';
+
+  const leadHTML =
+    '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Kommunene i ' + scopeNavn + ' har betalt ' + pensjonTall(o.pa_kr / 1e6) + ' milliarder kroner mer i pensjonspremie enn de har ført som kostnad — <b>' + p1(o.pa) + '</b> av driftsinntektene (' + p1(o.pa24) + ' året før). ' +
+    'Beløpet utgiftsføres de neste sju årene. Pensjonsordningene er fullt finansiert; risikoen ligger i at etterslepet skal utgiftsføres, og i at premien i dag holdes nede av KLPs overskudd på premiefondet.</p>';
+
+  const figHTML =
+    '<div class="ch" style="margin-top:16px"><h3 class="serif" style="font-size:16px">Pensjonskostnaden i ' + scopeNavn + ' fram mot 2050</h3></div>' +
+    pensjonFigur(o, 280) +
+    '<p class="hint" style="font-size:11.5px;margin-top:6px">Basis er uthevet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er usikre. I høyt scenario dekker premiefondet bare en firedel av 2025-nivået, og premien kommunene betaler stiger fra ' + p1(o.P25) + ' til ' + p1(o.P30.hoy) + ' av driftsinntektene i 2030.</p>';
+
+  const rader = ks.map(k => { const d = P.kommuner[k.nr]; return {l:kn(k), v:Math.round(d.pa * 10) / 10, farge: d.pa > d.df ? 'warn' : 'muted', note:'fond ' + pensjonTall(d.df) + ' %'}; })
+    .sort((a, b) => b.v - a.v);
+  const listeHTML =
+    '<div class="ch" style="margin-top:22px"><h3 class="serif" style="font-size:16px">Premieavvik per kommune, 2025</h3></div>' +
+    '<p class="hint" style="font-size:12px;margin-bottom:6px">Akkumulert premieavvik i % av driftsinntektene. Oransje: premieavviket er større enn disposisjonsfondet (vist til høyre). Det er ikke en norm, men viser om kommunen har oppspart buffer som kan bære amortiseringen.</p>' +
+    NN.placeholder('hstolper', {format:'pst', grupper:[{rader:rader, ref:{v:M.landet_pa, tekst:'Landet ' + p1(M.landet_pa)}}],
+      kilde:'Kilde: SSB 13202 og 12364 (KOSTRA 2025, kommunekonsern). Premieavvik netto, inkl. arbeidsgiveravgift.'}, rader.length * (rader.length > 40 ? 17 : 27) + 60);
+
+  const kasser = M.org.kasser.filter(x => !fy || ks.some(k => String(k.nr) === x.nr));
+  const orgHTML =
+    '<p class="hint" style="font-size:12.5px;margin-top:14px"><b>Hvem bærer risikoen?</b> ' +
+    (kasser.length ? kasser.map(x => x.navn + ' (solvenskapitaldekning ' + x.solvens_pct + ' %)').join(', ') + (kasser.length > 1 ? ' er egne kommunale kasser' : ' er en egen kommunal kasse') + '; de øvrige kommunene har fellesordningen i KLP (' + M.org.klp_solvens_pct + ' %). '
+      : 'Alle kommunene i ' + scopeNavn + ' har fellesordningen i KLP (solvenskapitaldekning ' + M.org.klp_solvens_pct + ' %). ') +
+    'Lærerne er i Statens pensjonskasse. Hele bildet: <a href="tema-pensjon.html">Pensjonsetterslepet</a> · <a href="metode.html#pensjon">metode</a>.</p>' +
+    '<p class="hint" style="font-size:11px;opacity:.75">Kilder: ' + M.kilde + '. Sist oppdatert: ' + M.sist_oppdatert + '.</p>';
+
+  host.innerHTML = kpiHTML + leadHTML + figHTML + listeHTML + orgHTML;
+}
+// Pensjonsblokk på kommunesiden (Økonomi-fanen)
+function pensjonKommuneCard(k){
+  if(typeof PENSJON_DATA === 'undefined') return '';
+  const P = PENSJON_DATA, M = P.meta, d = P.kommuner[String(k.nr)];
+  if(!d) return '';
+  const p1 = v => pensjonTall(v) + ' %';
+  const i30 = P.aar.indexOf(2030), i50 = P.aar.indexOf(2050);
+  const navn = (k.navn.split(' - ').find(x => !/[áčđŋšŧžÁČĐŊŠŦŽäÄ]/.test(x)) || k.navn);
+  const overDf = d.pa > d.df;
+  const egen = d.lev !== 'KLP';
+  const dR = d.R.basis[i50] - d.R.basis[0];
+  const belop = d.pa_kr >= 1e6 ? pensjonTall(d.pa_kr / 1e6) + ' milliarder' : Math.round(d.pa_kr / 1000).toLocaleString('nb-NO') + ' millioner';
+  let tekst = '<b>' + navn + '</b> har ' + belop + ' kroner i premieavvik som ennå ikke er utgiftsført — <b>' + p1(d.pa) + '</b> av driftsinntektene, mot ' + p1(M.landet_pa) + ' for landet. ';
+  tekst += overDf ? 'Det er mer enn disposisjonsfondet (' + p1(d.df) + '), så kommunen har ikke oppspart buffer som dekker etterslepet. ' : 'Disposisjonsfondet (' + p1(d.df) + ') er større enn etterslepet. ';
+  tekst += d.amort === 1 ? 'Kommunen utgiftsfører premieavviket året etter, så etterslepet bygges ikke opp. ' : 'Beløpet utgiftsføres de neste sju årene. ';
+  tekst += 'Regnskapsført pensjonskostnad er ' + p1(d.R.basis[0]) + ' av driftsinntektene i 2025 og ' + p1(d.R.basis[i50]) + ' i 2050 i basisscenariet' +
+    (d.amort !== 1 && Math.abs(dR) >= 0.5 ? ' — ' + (dR > 0 ? 'en økning' : 'en nedgang') + ' på ' + pensjonTall(Math.abs(dR)) + ' prosentpoeng' : '') + '. ' +
+    (d.amort === 1 ? 'Med ettårig amortisering føres hele fjorårets avvik i ett år, så kostnaden svinger mer fra år til år enn kurven viser. ' : '');
+  const grunnlag = d.grunnlag === 'note' ? 'Pensjonsnoten i årsregnskapet 2025' : 'Bare KOSTRA — kostnaden er anslått';
+  const tagCol = d.grunnlag === 'note' && !d.svak ? 'var(--ink2)' : 'var(--warn)';
+  return '<div class="ch" style="margin-top:18px">' +
+      '<div class="h-row" style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3 class="serif" style="font-size:16px">Pensjon — etterslepet og kostnaden fram mot 2050</h3>' +
+      '<span class="tag" style="font-size:11px;color:' + tagCol + '">' + grunnlag + '</span></div>' +
+      '<div class="kpi-rad" style="margin:10px 0 12px">' +
+        '<div class="kpi"><div class="v' + (d.pa > M.landet_pa ? ' down' : '') + '">' + p1(d.pa) + '</div><div class="l">Akkumulert premieavvik</div><div class="nh">av driftsinntektene · landet ' + p1(M.landet_pa) + '</div></div>' +
+        '<div class="kpi"><div class="v">' + p1(d.df) + '</div><div class="l">Disposisjonsfond</div><div class="nh">' + (overDf ? 'mindre enn premieavviket' : 'større enn premieavviket') + '</div></div>' +
+        '<div class="kpi"><div class="v">' + p1(d.R.basis[i30]) + '</div><div class="l">Pensjonskostnad 2030</div><div class="nh">basis · ' + p1(d.R.basis[0]) + ' i 2025 · spenn ' + pensjonTall(d.R.lav[i30]) + '–' + p1(d.R.hoy[i30]) + '</div></div>' +
+        '<div class="kpi"><div class="v">' + p1(d.R.basis[i50]) + '</div><div class="l">Pensjonskostnad 2050</div><div class="nh">basis · spenn ' + pensjonTall(d.R.lav[i50]) + '–' + p1(d.R.hoy[i50]) + '</div></div>' +
+      '</div>' +
+      '<p class="hint" style="font-size:12.5px;margin-bottom:8px">' + tekst + '</p>' +
+      pensjonFigur(d, 240) +
+      '<p class="hint" style="font-size:11.5px;margin-top:6px">' +
+        (egen ? 'Fellesordningen ligger i ' + d.lev + ', en egen kommunal pensjonskasse; kommunen bærer selv risikoen for avkastning, uførhet og levealder. ' : 'Fellesordningen ligger i KLP, der risikoen deles med om lag 330 kommuner. ') +
+        'Lærerne er i Statens pensjonskasse. Amortiseringstid: ' + d.amort + ' år. Stiplede linjer: 2027 (forholdstall 0,75) og 2033 (dagens etterslep utgiftsført). Årene 2026–2027 er usikre. ' +
+        (d.svak ? '<b>Forbehold:</b> ' + d.svak + ' ' : '') +
+        (d.url ? '<a href="' + d.url + '" target="_blank" rel="noopener">Årsregnskapet 2025</a> · ' : '') +
+        '<a href="tema-pensjon.html?k=' + k.nr + '#framover">Pensjonsetterslepet</a> · <a href="metode.html#pensjon">metode</a></p>' +
+    '</div>';
 }
 
 /* === Husholdninger × type × inntekt — SSB 06944 =============================== */

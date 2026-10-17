@@ -1,0 +1,52 @@
+{
+  "nr": "5538",
+  "navn": "Storfjord",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.storfjord.kommune.no/download/18.78b8d2c51a08633d475db3/1789124091715/Avlagt+a%CC%8Arsregnskap+2025+Storfjord+kommune.pdf",
+  "kilde_side": "note 10, PDF-side 11–13 (bilde), balanse s. 27",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "sykepleiere"
+    },
+    {
+      "ordning": "Folkevalgte",
+      "leverandor": "KLP",
+      "gruppe": "folkevalgte"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 430268077,
+  "pensjonsmidler": 429907018,
+  "netto_forpliktelse": 361059,
+  "netto_inkl_aga": 361059,
+  "aarets_pensjonskostnad": 17086415,
+  "innbetalt_premie": 22933266,
+  "aarets_premieavvik": 5846851,
+  "akkumulert_premieavvik": 24667958,
+  "akkumulert_premieavvik_inkl_aga": 24667958,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 12206629,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "«Avlagt årsregnskap 2025» på kommunens årsregnskapsside, publisert etter at gruppeagenten søkte (den fant bare en versjon uten note 10). Notesidene er bilder og lest visuelt. AGA-sone 5 (0 %). Noten oppgir årets premieavvik som −5 846 851 i én tabell, men B−A = +5 846 851 og akkumulert premieavvik øker tilsvarende. Amortisering 6 088 248. Sum gjenstående premieavvik 01.01 korrigert til 24 909 355 (noten sier fjorårets tall var feil). Premiefond 01.01: 10 923 717, tilført 17 154 195, brukt 12 206 629, 31.12: 15 871 283. Estimatavvik 2025: forpliktelse +36 809 418, midler +27 215 679. Per ordning: KLP felles +6 723 979, KLP sykepleiere −6 425 651, KLP folkevalgte −1 209 384, SPK +1 272 115. Disposisjonsfond 10 498 831. Stemmer med balansen og KOSTRA (24,7 mill.)."
+}

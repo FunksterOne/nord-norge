@@ -1,0 +1,490 @@
+[
+ [
+  {
+   "nr": "1804",
+   "navn": "Bodø",
+   "fylke": "Nordland",
+   "pop": 53638
+  },
+  {
+   "nr": "1806",
+   "navn": "Narvik",
+   "fylke": "Nordland",
+   "pop": 21647
+  },
+  {
+   "nr": "1811",
+   "navn": "Bindal",
+   "fylke": "Nordland",
+   "pop": 1361
+  },
+  {
+   "nr": "1812",
+   "navn": "Sømna",
+   "fylke": "Nordland",
+   "pop": 2006
+  },
+  {
+   "nr": "1813",
+   "navn": "Brønnøy",
+   "fylke": "Nordland",
+   "pop": 7841
+  },
+  {
+   "nr": "1815",
+   "navn": "Vega",
+   "fylke": "Nordland",
+   "pop": 1202
+  },
+  {
+   "nr": "1816",
+   "navn": "Vevelstad",
+   "fylke": "Nordland",
+   "pop": 477
+  },
+  {
+   "nr": "1818",
+   "navn": "Herøy (Nordland)",
+   "fylke": "Nordland",
+   "pop": 1874
+  },
+  {
+   "nr": "1820",
+   "navn": "Alstahaug",
+   "fylke": "Nordland",
+   "pop": 7489
+  },
+  {
+   "nr": "1822",
+   "navn": "Leirfjord",
+   "fylke": "Nordland",
+   "pop": 2392
+  },
+  {
+   "nr": "1824",
+   "navn": "Vefsn",
+   "fylke": "Nordland",
+   "pop": 13481
+  },
+  {
+   "nr": "1825",
+   "navn": "Grane",
+   "fylke": "Nordland",
+   "pop": 1415
+  },
+  {
+   "nr": "1826",
+   "navn": "Aarborte - Hattfjelldal",
+   "fylke": "Nordland",
+   "pop": 1255
+  },
+  {
+   "nr": "1827",
+   "navn": "Dønna",
+   "fylke": "Nordland",
+   "pop": 1445
+  },
+  {
+   "nr": "1828",
+   "navn": "Nesna",
+   "fylke": "Nordland",
+   "pop": 1796
+  },
+  {
+   "nr": "1832",
+   "navn": "Hemnes",
+   "fylke": "Nordland",
+   "pop": 4486
+  },
+  {
+   "nr": "1833",
+   "navn": "Rana - Raane",
+   "fylke": "Nordland",
+   "pop": 25844
+  },
+  {
+   "nr": "1834",
+   "navn": "Lurøy",
+   "fylke": "Nordland",
+   "pop": 1953
+  },
+  {
+   "nr": "1835",
+   "navn": "Træna",
+   "fylke": "Nordland",
+   "pop": 443
+  },
+  {
+   "nr": "1836",
+   "navn": "Rødøy",
+   "fylke": "Nordland",
+   "pop": 1140
+  }
+ ],
+ [
+  {
+   "nr": "1837",
+   "navn": "Meløy",
+   "fylke": "Nordland",
+   "pop": 6074
+  },
+  {
+   "nr": "1838",
+   "navn": "Gildeskål",
+   "fylke": "Nordland",
+   "pop": 2024
+  },
+  {
+   "nr": "1839",
+   "navn": "Beiarn",
+   "fylke": "Nordland",
+   "pop": 1032
+  },
+  {
+   "nr": "1840",
+   "navn": "Saltdal",
+   "fylke": "Nordland",
+   "pop": 4865
+  },
+  {
+   "nr": "1841",
+   "navn": "Fauske - Fuossko",
+   "fylke": "Nordland",
+   "pop": 9707
+  },
+  {
+   "nr": "1845",
+   "navn": "Sørfold - Fuolldá",
+   "fylke": "Nordland",
+   "pop": 1819
+  },
+  {
+   "nr": "1848",
+   "navn": "Steigen",
+   "fylke": "Nordland",
+   "pop": 2679
+  },
+  {
+   "nr": "1851",
+   "navn": "Lødingen",
+   "fylke": "Nordland",
+   "pop": 1964
+  },
+  {
+   "nr": "1853",
+   "navn": "Evenes - Evenássi",
+   "fylke": "Nordland",
+   "pop": 1397
+  },
+  {
+   "nr": "1856",
+   "navn": "Røst",
+   "fylke": "Nordland",
+   "pop": 471
+  },
+  {
+   "nr": "1857",
+   "navn": "Værøy",
+   "fylke": "Nordland",
+   "pop": 656
+  },
+  {
+   "nr": "1859",
+   "navn": "Flakstad",
+   "fylke": "Nordland",
+   "pop": 1235
+  },
+  {
+   "nr": "1860",
+   "navn": "Vestvågøy",
+   "fylke": "Nordland",
+   "pop": 11606
+  },
+  {
+   "nr": "1865",
+   "navn": "Vågan",
+   "fylke": "Nordland",
+   "pop": 9905
+  },
+  {
+   "nr": "1866",
+   "navn": "Hadsel",
+   "fylke": "Nordland",
+   "pop": 8374
+  },
+  {
+   "nr": "1867",
+   "navn": "Bø",
+   "fylke": "Nordland",
+   "pop": 2609
+  },
+  {
+   "nr": "1868",
+   "navn": "Øksnes",
+   "fylke": "Nordland",
+   "pop": 4613
+  },
+  {
+   "nr": "1870",
+   "navn": "Sortland - Suortá",
+   "fylke": "Nordland",
+   "pop": 10748
+  },
+  {
+   "nr": "1871",
+   "navn": "Andøy",
+   "fylke": "Nordland",
+   "pop": 4525
+  },
+  {
+   "nr": "1874",
+   "navn": "Moskenes",
+   "fylke": "Nordland",
+   "pop": 976
+  }
+ ],
+ [
+  {
+   "nr": "1875",
+   "navn": "Hábmer - Hamarøy",
+   "fylke": "Nordland",
+   "pop": 2808
+  },
+  {
+   "nr": "5501",
+   "navn": "Tromsø",
+   "fylke": "Troms",
+   "pop": 79943
+  },
+  {
+   "nr": "5503",
+   "navn": "Harstad - Hárstták",
+   "fylke": "Troms",
+   "pop": 25204
+  },
+  {
+   "nr": "5510",
+   "navn": "Kvæfjord",
+   "fylke": "Troms",
+   "pop": 2901
+  },
+  {
+   "nr": "5512",
+   "navn": "Dielddanuorri - Tjeldsund",
+   "fylke": "Troms",
+   "pop": 4144
+  },
+  {
+   "nr": "5514",
+   "navn": "Ibestad",
+   "fylke": "Troms",
+   "pop": 1287
+  },
+  {
+   "nr": "5516",
+   "navn": "Gratangen - Rivtták",
+   "fylke": "Troms",
+   "pop": 1062
+  },
+  {
+   "nr": "5518",
+   "navn": "Loabák - Lavangen",
+   "fylke": "Troms",
+   "pop": 1002
+  },
+  {
+   "nr": "5520",
+   "navn": "Bardu",
+   "fylke": "Troms",
+   "pop": 4004
+  },
+  {
+   "nr": "5522",
+   "navn": "Salangen",
+   "fylke": "Troms",
+   "pop": 2132
+  },
+  {
+   "nr": "5524",
+   "navn": "Målselv",
+   "fylke": "Troms",
+   "pop": 6819
+  },
+  {
+   "nr": "5526",
+   "navn": "Sørreisa",
+   "fylke": "Troms",
+   "pop": 3528
+  },
+  {
+   "nr": "5528",
+   "navn": "Dyrøy",
+   "fylke": "Troms",
+   "pop": 1077
+  },
+  {
+   "nr": "5530",
+   "navn": "Senja",
+   "fylke": "Troms",
+   "pop": 14946
+  },
+  {
+   "nr": "5532",
+   "navn": "Balsfjord",
+   "fylke": "Troms",
+   "pop": 5625
+  },
+  {
+   "nr": "5534",
+   "navn": "Karlsøy",
+   "fylke": "Troms",
+   "pop": 2235
+  },
+  {
+   "nr": "5536",
+   "navn": "Lyngen - Ivgu - Yykeä",
+   "fylke": "Troms",
+   "pop": 2732
+  },
+  {
+   "nr": "5538",
+   "navn": "Storfjord - Omasvuotna - Omasvuono",
+   "fylke": "Troms",
+   "pop": 1848
+  },
+  {
+   "nr": "5540",
+   "navn": "Gáivuotna - Kåfjord - Kaivuono",
+   "fylke": "Troms",
+   "pop": 1939
+  },
+  {
+   "nr": "5542",
+   "navn": "Skjervøy",
+   "fylke": "Troms",
+   "pop": 2802
+  }
+ ],
+ [
+  {
+   "nr": "5544",
+   "navn": "Nordreisa - Ráisa - Raisi",
+   "fylke": "Troms",
+   "pop": 4863
+  },
+  {
+   "nr": "5546",
+   "navn": "Kvænangen",
+   "fylke": "Troms",
+   "pop": 1125
+  },
+  {
+   "nr": "5601",
+   "navn": "Alta",
+   "fylke": "Finnmark",
+   "pop": 22074
+  },
+  {
+   "nr": "5603",
+   "navn": "Hammerfest - Hámmerfeasta",
+   "fylke": "Finnmark",
+   "pop": 11391
+  },
+  {
+   "nr": "5605",
+   "navn": "Sør-Varanger",
+   "fylke": "Finnmark",
+   "pop": 9947
+  },
+  {
+   "nr": "5607",
+   "navn": "Vadsø",
+   "fylke": "Finnmark",
+   "pop": 5808
+  },
+  {
+   "nr": "5610",
+   "navn": "Kárásjohka - Karasjok",
+   "fylke": "Finnmark",
+   "pop": 2524
+  },
+  {
+   "nr": "5612",
+   "navn": "Guovdageaidnu - Kautokeino",
+   "fylke": "Finnmark",
+   "pop": 2886
+  },
+  {
+   "nr": "5614",
+   "navn": "Loppa",
+   "fylke": "Finnmark",
+   "pop": 846
+  },
+  {
+   "nr": "5616",
+   "navn": "Hasvik",
+   "fylke": "Finnmark",
+   "pop": 987
+  },
+  {
+   "nr": "5618",
+   "navn": "Måsøy",
+   "fylke": "Finnmark",
+   "pop": 1089
+  },
+  {
+   "nr": "5620",
+   "navn": "Nordkapp",
+   "fylke": "Finnmark",
+   "pop": 2945
+  },
+  {
+   "nr": "5622",
+   "navn": "Porsanger - Porsángu - Porsanki",
+   "fylke": "Finnmark",
+   "pop": 3906
+  },
+  {
+   "nr": "5624",
+   "navn": "Lebesby",
+   "fylke": "Finnmark",
+   "pop": 1249
+  },
+  {
+   "nr": "5626",
+   "navn": "Gamvik",
+   "fylke": "Finnmark",
+   "pop": 1019
+  },
+  {
+   "nr": "5628",
+   "navn": "Deatnu - Tana",
+   "fylke": "Finnmark",
+   "pop": 2806
+  },
+  {
+   "nr": "5630",
+   "navn": "Berlevåg",
+   "fylke": "Finnmark",
+   "pop": 864
+  },
+  {
+   "nr": "5632",
+   "navn": "Båtsfjord",
+   "fylke": "Finnmark",
+   "pop": 2104
+  },
+  {
+   "nr": "5634",
+   "navn": "Vardø",
+   "fylke": "Finnmark",
+   "pop": 1969
+  },
+  {
+   "nr": "5636",
+   "navn": "Unjárga - Nesseby",
+   "fylke": "Finnmark",
+   "pop": 874
+  }
+ ]
+]

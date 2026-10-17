@@ -1,0 +1,30 @@
+{
+  "nr": "1820",
+  "navn": "Alstahaug",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/6e60afb0-7d39-4f3d-8e34-cb0255d19b63/105511/203479",
+  "kilde_side": "note 8 Pensjon, s. 22–24",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1269538470,
+  "pensjonsmidler": 1266579857,
+  "netto_forpliktelse": 2958613,
+  "netto_inkl_aga": 3487762,
+  "aarets_pensjonskostnad": 55069232,
+  "innbetalt_premie": 51920963,
+  "aarets_premieavvik": -3148269,
+  "akkumulert_premieavvik": 77286014,
+  "akkumulert_premieavvik_inkl_aga": 81227600,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 56398382,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Årsregnskap 2025 Alstahaug kommune (Revidert)» til kommunestyresak «Årsberetning og årsregnskap 2025» (18.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 938712441_PROD-938712441». Noten oppgir tall per ordning (KLP og SPK); summert av meg. KLP: brutto 1 192 069 389, midler 1 194 042 652, netto −1 973 263, premie 44 437 020, netto kostnad 45 355 740 + adm. 1 809 249, premieavvik −2 727 969, akkumulert 74 332 189 (inkl. AGA 78 123 130). SPK: brutto 77 469 081, midler 72 537 205, netto 4 931 875, premie 7 483 943, netto kostnad 7 660 694 + adm. 243 549, premieavvik −420 300, akkumulert 2 953 825 (inkl. AGA 3 104 470). Netto beregnet som brutto − midler (2 958 613; per-ordningssummen gir 2 958 612). Netto inkl. AGA = sum av «Sum netto forpliktelser inkl. aga» (−1 690 538 + 5 178 300); merk at noten legger positiv AGA (282 725) til en negativ netto forpliktelse i KLP, noe som virker inkonsistent. Amortisering av tidligere års premieavvik 22 169 787. Premiefond brukt 56 398 382. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP). Sykepleiere ikke skilt ut. Medlemsstatus KLP: 855 aktive, 1 455 oppsatte, 712 pensjonister."
+}

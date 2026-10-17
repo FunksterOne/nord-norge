@@ -1,0 +1,30 @@
+{
+  "nr": "1836",
+  "navn": "Rødøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod02.elementscloud.no/publikum/Documents/ShowDocument/41bcb94e-34f0-4ad3-82a1-c93a5ebdea40/64865/119741",
+  "kilde_side": "note 8 Pensjonsforpliktelser, PDF-s. 18–20 (del 1 KLP s. 19, del 2 SPK s. 20)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 313480164,
+  "pensjonsmidler": 325052106,
+  "netto_forpliktelse": -11571942,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 10915231,
+  "innbetalt_premie": 13008208,
+  "aarets_premieavvik": 2092977,
+  "akkumulert_premieavvik": 1970360,
+  "akkumulert_premieavvik_inkl_aga": 2070849,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 11328087,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Skannet, signert PDF uten tekstlag («Årsregnskap 2025 signert», vedlegg til sak «Rødøy kommune – Årsregnskap og årsberetning 2025» i Elements Publikum prod02); tallene er lest manuelt fra sidebilder. Lenken krever HTTP-header «Tenant: 945717173_PROD-945717173». Noten har separate tabeller for KLP og SPK; summert av meg. KLP: brutto 292 771 224, midler 305 542 160 (netto −12 770 936), kostnad inkl. adm. 8 801 203, premie 10 887 145, premieavvik +2 085 942, akkumulert 1 963 325 (inkl. AGA 2 063 455). SPK: brutto 20 708 940, midler 19 509 946 (netto 1 198 994), kostnad 2 114 028, premie 2 121 063, premieavvik +7 035, akkumulert 7 035 (inkl. AGA 7 394). Premieavvik amortiseres i praksis over 1 år: hele fjorårets premieavvik (KLP 6 390 525, SPK 356 324) er amortisert i 2025, og akkumulert ≈ årets avvik; noteteksten gjengir likevel standardteksten om 1/7. Mindre avvik i KLP-tabellen: gjenstående 01.01. 6 267 908 mot fjorårets premieavvik 6 390 525. AGA av netto forpliktelse er ikke oppgitt. Noteteksten viser til virkning «i 2024» (gammel tekst). Premiefond: 21 734 117 inngående, tilført 13 863 039, brukt 11 328 087, 24 269 069 utgående. Avkastning KLP 4,50 %, SPK 4,00 %; G- og pensjonsregulering oppgitt som én linje (2,97 %)."
+}

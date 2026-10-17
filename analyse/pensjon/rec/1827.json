@@ -1,0 +1,30 @@
+{
+  "nr": "1827",
+  "navn": "Dønna",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/6a700633-582d-470a-8c6e-f057b1e71066/44305/81838",
+  "kilde_side": "note 8 Pensjonsforpliktelser, s. 16–18 (PDF-s. 17–19)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 337953607,
+  "pensjonsmidler": 327481520,
+  "netto_forpliktelse": 10472087,
+  "netto_inkl_aga": 11171531,
+  "aarets_pensjonskostnad": 14713189,
+  "innbetalt_premie": 4773770,
+  "aarets_premieavvik": -9939419,
+  "akkumulert_premieavvik": 6312571,
+  "akkumulert_premieavvik_inkl_aga": 6634512,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 24680780,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Dønna kommune – Årsregnskap 2025 (20.02.2026)» til kommunestyresak «Årsregnskap og årsmelding for Dønna kommune, 2025» (23.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 945114878_PROD-945114878». Noten oppgir tall per ordning (KLP og SPK); summert av meg. KLP: brutto 315 742 398, midler 306 583 801, premie 2 527 746, netto kostnad 11 932 558 + adm. 514 635, premieavvik −9 919 447, akkumulert 6 332 543 (inkl. AGA 6 655 502). SPK: brutto 22 211 209, midler 20 897 719, premie 2 246 024, netto kostnad 2 194 431 + adm. 71 565, premieavvik −19 972, akkumulert −19 972 (inkl. AGA −20 990). Ulik amortiseringstid: KLP 7 år, SPK 1 år (amortisering_aar = 7 gjelder hoveddelen). Svært lav betalt KLP-premie fordi 24 680 780 kr av premiefondet ble brukt; derav stort negativt premieavvik. Fortegnsfeil i noten: netto forpliktelse for KLP vises som −9 158 597 selv om forpliktelsen overstiger midlene; netto er beregnet som brutto − midler (10 472 087) og netto inkl. AGA fra balanselinjene (338 653 052 − 327 481 521). Premieavviket for KLP står også som −9 919 477 ett sted (skrivefeil). Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP). Medlemsstatus KLP: 199 aktive, 338 oppsatte, 217 pensjonister."
+}

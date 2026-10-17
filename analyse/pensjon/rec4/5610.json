@@ -1,0 +1,12 @@
+{"nr":"5610","navn":"Karasjok","regnskapsaar":2025,
+"kilde_url":"https://www.karasjok.kommune.no/_f/p1/i4c0d8b65-c1ac-48f2-917e-0a4bdda239be/arsregnskap-med-noter-2025.pdf",
+"kilde_side":"note 10 Pensjon, s. 22–23 (PDF-side 23–24); balanse PDF-side 10–11; note 5 aksjer og andeler PDF-side 19",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Sykepleierordningen","leverandor":"KLP","gruppe":"sykepleiere"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":650160000,"pensjonsmidler":639749000,"netto_forpliktelse":10411000,"netto_inkl_aga":null,
+"aarets_pensjonskostnad":23047000,"innbetalt_premie":28319000,"aarets_premieavvik":4487000,
+"akkumulert_premieavvik":4487000,"akkumulert_premieavvik_inkl_aga":null,"amortisering_aar":1,
+"reguleringspremie":20763000,"egenkapitaltilskudd_klp":1089127,"premiefond_bruk":17529000,
+"forutsetninger":{"diskonteringsrente":4.0,"avkastning":4.5,"lonnsvekst":2.97,"g_regulering":2.97,"pensjonsregulering":2.2},
+"sykepleiere_separat":false,
+"merknader":"Noten oppgir beløp i hele tusen per leverandør (KLP og SPK) og sum; tallene her er notens SUM-kolonne ×1000. KLP-kolonnen dekker fellesordning og sykepleiere samlet (sykepleiere ikke skilt ut i noten; egenkapitalinnskudd er oppgitt separat: 1 010 573 fellesordning + 78 554 sykepleiere = 1 089 127). SPK har her også forpliktelse og midler (brutto 27 344, midler 25 650 tusen). Brutto forpliktelse oppgis som 650 160 i estimattabellen og 650 161 i spesifikasjonen (avrunding). Innbetalt premie 28 319 er premie til innbetaling etter bruk av premiefond 17 529; samlet premie før premiefond 45 848. Forventet avkastning SPK 4,00 %, KLP 4,50 %. Pensjonsregulering kun oppgitt for KLP. Ett års amortisering: premieavviket kostnadsføres året etter. Balansen viser premieavvik 4 487 tusen som omløpsmiddel (2024: 10 516); notene sier ikke om det inkluderer arbeidsgiveravgift, men beløpet er lik årets premieavvik ekskl. AGA i noten. Årets premieavvik består av KLP 4 589 og SPK −102."}

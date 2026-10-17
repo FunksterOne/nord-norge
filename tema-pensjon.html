@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensjonsetterslepet · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{var q=new URLSearchParams(location.search).get("tema");if(q==="light"||q==="dark")localStorage.setItem("nn-tema",q);if((q||localStorage.getItem("nn-tema"))==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
+<link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
+<style>
+.pj-steg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 6px}
+.pj-steg > div{padding:16px 18px;background:var(--paper2);border:1px solid var(--line2);border-top:3px solid var(--line)}
+.pj-steg > div.uth{border-top-color:var(--accent)}
+.pj-steg .nr{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--ink3);margin-bottom:6px}
+.pj-steg h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.pj-steg p{font-size:13px;line-height:1.55;color:var(--ink2);margin:0}
+.pj-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
+.pj-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.pj-velg{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 10px;font-size:13px;color:var(--ink2)}
+.pj-velg select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line2);padding:6px 10px;border-radius:0;max-width:100%}
+.pj-tabell{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.pj-tabell th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--line2)}
+.pj-tabell th:first-child,.pj-tabell td:first-child{text-align:left}
+.pj-tabell td{padding:6px 8px;border-top:1px solid var(--line2);text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.pj-tabell td:first-child{font-family:var(--font-sans)}
+.pj-tabell tr.uth td{background:color-mix(in srgb, var(--accent) 8%, transparent);font-weight:600}
+.pj-tabell tr.sum td{border-top:2px solid var(--ink);font-weight:600}
+.pj-scroll{overflow-x:auto}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Pensjonsetterslepet</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-naering.html">← Næringene</a>
+    <a class="btn" href="metode.html#pensjon">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 09 · Kommunale pensjoner 2025–2050</div>
+  <h1>Pensjonsetterslepet: <em id="heroMrd">–</em> som allerede er betalt</h1>
+  <p class="lede" id="heroLede"></p>
+</section>
+
+<!-- ────────────────── AKT 01 — MEKANISMEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Mekanismen</div>
+  <h2>Kommunen betaler én sum, men <em>fører en annen</em>.</h2>
+  <p class="akt-intro">De ansatte i kommunene har ytelsesbasert tjenestepensjon. Kommunen betaler hvert år en premie til pensjonsleverandøren, som regel KLP. Regnskapet skal likevel ikke belastes med premien, men med en beregnet pensjonskostnad som bygger på langsiktige forutsetninger om rente, lønnsvekst og regulering. Forskjellen mellom de to kalles premieavvik.</p>
+  <div class="pj-steg">
+    <div><div class="nr">01</div><h3>Premien betales</h3><p>Pengene går ut av kassen samme år. Premien svinger med lønnsoppgjøret, reguleringen av pensjonene og hvor mye av KLPs overskudd som står på kommunens premiefond.</p></div>
+    <div><div class="nr">02</div><h3>Kostnaden beregnes</h3><p>Pensjonskostnaden er jevnere. Den regnes ut med forutsetninger Kommunal- og distriktsdepartementet fastsetter hvert år (budsjett- og regnskapsforskriften §§ 3-5 og 3-6).</p></div>
+    <div class="uth"><div class="nr">03</div><h3>Forskjellen skyves</h3><p>Når premien er høyere enn kostnaden, føres forskjellen i balansen som en eiendel. Den utgiftsføres de sju neste årene, eller året etter hvis kommunestyret har valgt det. Pengene er brukt, men kostnaden kommer senere.</p></div>
+  </div>
+  <div class="kpi-rad" id="flytKPI"></div>
+  <p class="hint" style="font-size:12px;margin-top:6px" id="flytNote"></p>
+</section>
+
+<!-- ────────────────── AKT 02 — BILDET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Bildet</div>
+  <h2>Etterslepet er størst i <em>Troms</em> — og bufferen er tynnest der det er størst.</h2>
+  <p class="akt-intro" id="bildeIntro"></p>
+  <div class="pj-boks">
+    <div class="tittel">Akkumulert premieavvik i prosent av brutto driftsinntekter, 2025</div>
+    <div id="fylkeGraf"></div>
+  </div>
+  <div class="pj-boks">
+    <div class="tittel">Kommunene med størst etterslep og minst buffer</div>
+    <p class="hint" style="font-size:12px;margin-bottom:8px">Kommuner der premieavviket er over 10 % av driftsinntektene og større enn disposisjonsfondet. Disposisjonsfondet er kommunens frie oppsparte midler i driften.</p>
+    <div class="pj-scroll"><table class="pj-tabell" id="risikoTabell"></table></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 03 — HVEM BÆRER RISIKOEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Hvem bærer risikoen?</div>
+  <h2>77 kommuner deler risikoen i KLP. <em>Tre</em> bærer den selv.</h2>
+  <p class="akt-intro" id="orgIntro"></p>
+  <div class="kpi-rad" id="orgKPI"></div>
+  <div class="black-swan">
+    <div class="bs-icon">◆</div>
+    <div>
+      <div class="bs-tag">Det som holder premien nede</div>
+      <div class="bs-title">Premiefondet er overskudd, ikke en fast inntekt</div>
+      <p id="pfTekst"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — FRAMOVER ────────────────── -->
+<section class="akt" id="framover">
+  <div class="akt-num">Akt 04 · Framover</div>
+  <h2>Kostnaden holder seg til 2033 — så avgjør <em>premiefondet</em> resten.</h2>
+  <p class="akt-intro" id="framIntro"></p>
+  <div class="pj-boks">
+    <div class="tittel">Regnskapsført pensjonskostnad i prosent av brutto driftsinntekter, 2025–2050</div>
+    <div class="pj-velg"><label for="pjVelg">Vis for</label><select id="pjVelg"></select><span id="pjGrunnlag" style="font-size:12px;color:var(--ink3)"></span></div>
+    <div id="framGraf"></div>
+    <p class="hint" style="font-size:11.5px;margin-top:6px">Linjen er basisscenariet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er usikre: Det tekniske beregningsutvalget venter at kostnaden for kommunesektoren faller i 2026 og stiger i 2027, mens modellen ikke fanger opp virkningen av den høye avkastningen i 2025.</p>
+  </div>
+  <div class="kpi-rad" id="framKPI"></div>
+  <div class="pj-boks">
+    <div class="tittel">Forutsetningene i de tre scenariene</div>
+    <div class="pj-scroll"><table class="pj-tabell" id="scenTabell"></table></div>
+  </div>
+  <div class="black-swan">
+    <div class="bs-icon">◆</div>
+    <div>
+      <div class="bs-tag">Høyt scenario</div>
+      <div class="bs-title">Hva skjer hvis KLPs overskudd uteblir?</div>
+      <p id="hoyTekst"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 05 — KILDENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Stemmene</div>
+  <h2>Hva sier kildene?</h2>
+  <div class="sitat">
+    <p class="sitat-tekst">Det akkumulerte premieavviket i kommunesektoren var om lag 63 milliarder kroner ved utgangen av 2025, og premiefondene over 45 milliarder. Departementet har vurdert kortere amortiseringstid, men valgt å senke forholdstallet i beregningene i stedet, slik at kostnaden nærmer seg premien.</p>
+    <div class="kilde">Oppsummert etter <b>Prop. 94 S (2025–2026)</b>, kommuneproposisjonen for 2027, kapittel 8.4</div>
+  </div>
+  <div class="sitat">
+    <p class="sitat-tekst">Forholdstallet mellom diskonteringsrente og lønnsvekst settes til 0,88 for 2026 og 0,75 for 2027, mot 1,0 tidligere. Fra 2026 kompenseres pensjonsveksten gjennom den kommunale deflatoren, ikke krone for krone.</p>
+    <div class="kilde">Oppsummert etter <b>KDDs rundskriv H-4/25 og H-2/26</b> og <b>Prop. 1 S (2026–2027)</b></div>
+  </div>
+  <div class="sitat">
+    <p class="sitat-tekst">Premieavviket gir kommunene en renteulempe, fordi pengene er betalt før kostnaden føres. For sektoren er ulempen om lag 2,8 milliarder kroner i 2026.</p>
+    <div class="kilde">Oppsummert etter <b>Prop. 94 S (2025–2026)</b> og <b>NOU 2025:10</b> fra Det tekniske beregningsutvalget</div>
+  </div>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Videre lesning</div>
+    <div class="ntb-grid">
+      <a class="ntb-card" href="nord-norge.html?sec=refugees">
+        <div class="ntb-num">Økonomi</div>
+        <h4>Hvor solid står kommuneøkonomien?</h4>
+        <p>Driftsresultat, disposisjonsfond, gjeld og pensjon for hele landsdelen</p>
+      </a>
+      <a class="ntb-card ntb-o6" href="tema-o6.html">
+        <div class="ntb-num">02</div>
+        <h4>Store mot små</h4>
+        <p>Hvordan Nord-Norges 80 kommuner sliter ulikt</p>
+      </a>
+      <a class="ntb-card ntb-arbeid" href="tema-arbeidskraft.html">
+        <div class="ntb-num">04</div>
+        <h4>Hvem skal bære?</h4>
+        <p>Arbeidskraftsmangel og aldring 2026–2050</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Nord-Norge dashboard</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva forutsetningene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Kilder og metode</h4>
+      <p>Pensjonsnotene i kommunenes årsregnskap for 2025, KOSTRA (SSB) og departementets beregningsforutsetninger. Modellen og forbeholdene er beskrevet på <a href="metode.html#pensjon"><b>metodesiden</b></a>.</p>
+      <p style="margin-top:8px"><a href="metode.html#pensjon">→ Se metode og kilder</a></p>
+    </div>
+    <div class="nnf-col">
+      <h4>Navigasjon</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank" target="_blank" rel="noopener">SSB statistikkbank</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge" target="_blank" rel="noopener">Kildekode (GitHub)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Bygget med Vite, Observable Plot og D3 · Kart: Kartverket (CC BY 4.0)</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof PENSJON_DATA === 'undefined') return;
+  var PD = PENSJON_DATA, M = PD.meta, LD = PD.landsdel, F = M.flyt2025, O = M.org;
+  var f1 = function(v){ if(v == null) return '–'; var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var f0 = function(v){ return v == null ? '–' : Math.round(v).toLocaleString('nb-NO'); };
+  var p1 = function(v){ return f1(v) + ' %'; };
+  // Kort visningsnavn for tospråklige kommunenavn (samme regel som kortNavn i src/lib/format.js)
+  var UNNTAK = {'Aarborte - Hattfjelldal':'Hattfjelldal','Guovdageaidnu - Kautokeino':'Kautokeino','Deatnu - Tana':'Tana','Dielddanuorri - Tjeldsund':'Tjeldsund'};
+  var kort = function(n){ if(UNNTAK[n]) return UNNTAK[n]; var d = n.split(' - '); return d.length === 1 ? n : (d.find(function(x){ return !/[áčđŋšŧžÁČĐŊŠŦŽäÄ]/.test(x); }) || d[0]); };
+  var navn = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? kort(k.navn) : nr; };
+  var iAar = function(t){ return PD.aar.indexOf(t); };
+  var mrdPa = LD.pa_kr / 1e6;
+
+  // ─── Hero ───
+  document.getElementById('heroMrd').textContent = f1(mrdPa) + ' milliarder';
+  document.getElementById('heroLede').innerHTML =
+    'De 80 kommunene i Nord-Norge har betalt ' + f1(mrdPa) + ' milliarder kroner mer i pensjonspremie enn de har ført som kostnad. ' +
+    'Det tilsvarer ' + p1(LD.pa) + ' av driftsinntektene, mot ' + p1(M.landet_pa) + ' for landet. Pensjonsordningene er fullt finansiert — forpliktelsen er ' + f1(F.forpl_mrd) + ' og midlene ' + f1(F.midler_mrd) + ' milliarder kroner — ' +
+    'så risikoen ligger ikke i underdekning. Den ligger i at etterslepet skal utgiftsføres, og i at premien i dag holdes nede av KLPs overskudd.';
+
+  // ─── Akt 01: flyten i 2025 ───
+  document.getElementById('flytKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + f1(F.premie_mrd) + ' mrd</div><div class="l">Betalt premie 2025</div><div class="nh">etter bruk av premiefond · ' + F.n + ' kommuner</div></div>' +
+    '<div class="kpi"><div class="v">' + f1(F.kostnad_mrd) + ' mrd</div><div class="l">Beregnet netto kostnad 2025</div><div class="nh">før amortisering</div></div>' +
+    '<div class="kpi"><div class="v">' + f1(F.amort_mrd) + ' mrd</div><div class="l">Eldre avvik utgiftsført 2025</div><div class="nh">amortisering · ' + F.n_amort + ' kommuner</div></div>' +
+    '<div class="kpi"><div class="v down">' + f1(mrdPa) + ' mrd</div><div class="l">Akkumulert premieavvik</div><div class="nh">' + p1(LD.pa) + ' av driftsinntektene ved utgangen av 2025</div></div>';
+  document.getElementById('flytNote').innerHTML = 'Beholdningen krympet i 2025: nytt premieavvik var ' + f1(F.nytt_pa_mrd) + ' milliarder kroner, mens ' + f1(F.amort_mrd) + ' milliarder eldre avvik ble utgiftsført. Andelen av driftsinntektene falt fra ' + p1(LD.pa24) + ' til ' + p1(LD.pa) + '. Grunnlag: pensjonsnotene i årsregnskapet for 2025 (premie og kostnad uten arbeidsgiveravgift) og KOSTRA (SSB 13202, kommunekonsern).';
+
+  // ─── Akt 02: fylker og risikogruppe ───
+  var FY = PD.fylker;
+  document.getElementById('bildeIntro').innerHTML =
+    'Troms har ' + p1(FY.Troms.pa) + ' av driftsinntektene stående som premieavvik, mot ' + p1(FY.Nordland.pa) + ' i Nordland og ' + p1(FY.Finnmark.pa) + ' i Finnmark. ' +
+    'I ' + LD.pa_over_df + ' av 80 kommuner er premieavviket større enn disposisjonsfondet. Det betyr ikke at kommunene mangler penger til pensjon — premien er betalt — men at de ikke har oppspart buffer som kan ta amortiseringen hvis driften svekkes.';
+  var rader = [
+    {l:'Troms', v:FY.Troms.pa, farge:'accent', uthev:true},
+    {l:'Nord-Norge', v:LD.pa, farge:'ink'},
+    {l:'Nordland', v:FY.Nordland.pa, farge:'muted'},
+    {l:'Finnmark', v:FY.Finnmark.pa, farge:'muted'}
+  ].sort(function(a,b){ return b.v - a.v; });
+  document.getElementById('fylkeGraf').innerHTML = NN.placeholder('hstolper', {format:'pst', grupper:[{rader:rader, ref:{v:M.landet_pa, tekst:'Landet ' + p1(M.landet_pa)}}],
+    kilde:'Akkumulert premieavvik inkludert arbeidsgiveravgift, netto (eiendel minus gjeld), kommunekonsern. Kilde: SSB 13202 og 12364 (KOSTRA 2025).'}, 4*27+60);
+  var rt = '<thead><tr><th>Kommune</th><th>Premieavvik</th><th>Disposisjonsfond</th><th>Amortisering</th><th>Pensjonskostnad 2030</th></tr></thead><tbody>';
+  LD.risiko.forEach(function(nr){
+    var k = PD.kommuner[nr];
+    rt += '<tr><td><a href="kommune.html?k=' + nr + '&sec=okonomi">' + navn(nr) + '</a>' + (k.lev !== 'KLP' ? ' <span style="color:var(--ink3);font-size:11px">egen kasse</span>' : '') + '</td><td>' + p1(k.pa) + '</td><td>' + p1(k.df) + '</td><td>' + k.amort + ' år</td><td>' + p1(k.R.basis[iAar(2030)]) + '</td></tr>';
+  });
+  rt += '</tbody>';
+  document.getElementById('risikoTabell').innerHTML = rt;
+
+  // ─── Akt 03: organisering og premiefond ───
+  var kasser = O.kasser.map(function(x){ return x.navn.replace(' kommunale pensjonskasse', '').replace(' Pensjonskasse', '') + ' (' + x.solvens_pct + ' %)'; });
+  document.getElementById('orgIntro').innerHTML =
+    'Fellesordningen og sykepleierordningen ligger i KLP for ' + O.klp_kommuner + ' av kommunene. Der deles svingninger i uførhet, levealder og avkastning med om lag 330 kommuner. ' +
+    'Bodø, Tromsø og Harstad har egne kommunale pensjonskasser. Lærerne er i Statens pensjonskasse i alle 80 kommuner; der bærer staten avkastnings- og reguleringsrisikoen. ' +
+    'Bufferen i de tre egne kassene er langt tynnere enn i KLP, og alle tre har fått kapital fra kommunen. Solvenskapitaldekningen var ' + kasser.join(', ') + ' ved utgangen av 2025, mot ' + O.kommunale_kasser_snitt_pct + ' % i snitt for kommunale kasser og ' + O.klp_solvens_pct + ' % i KLP.';
+  document.getElementById('orgKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + O.klp_kommuner + '</div><div class="l">Kommuner i KLP</div><div class="nh">solvenskapitaldekning ' + O.klp_solvens_pct + ' % per 30. juni 2026</div></div>' +
+    O.kasser.map(function(x){ return '<div class="kpi"><div class="v' + (x.solvens_pct < O.kommunale_kasser_snitt_pct ? ' down' : '') + '">' + x.solvens_pct + ' %</div><div class="l">' + x.navn + '</div><div class="nh">kommunen har skutt inn ' + f1(x.ek_innskutt_mill) + ' mill. kr</div></div>'; }).join('');
+  document.getElementById('pfTekst').innerHTML =
+    'Når KLP får høyere avkastning enn den garanterte renten, går overskuddet til kundenes premiefond. Fondet kan bare brukes til premie. I 2025 brukte ' + F.n_premiefond + ' av kommunene til sammen <b>' + f1(F.premiefond_mrd) + ' milliarder kroner</b> fra premiefondet — i medianen like mye som hele den beregnede pensjonskostnaden (' + f1(M.pf_median_mot_kostnad) + ' ganger). ' +
+    'Det er bakgrunnen for at den betalte premien i flere kommuner var lavere enn kostnaden. Overskuddet varierer med finansmarkedene og kan ikke budsjetteres som en fast inntekt.';
+
+  // ─── Akt 04: framskriving ───
+  var Rb = LD.R.basis, Rl = LD.R.lav, Rh = LD.R.hoy, i30 = iAar(2030), i40 = iAar(2040), i50 = iAar(2050), S = M.scenarier;
+  document.getElementById('framIntro').innerHTML =
+    'Regnskapsført pensjonskostnad var ' + p1(Rb[0]) + ' av driftsinntektene i 2025. I basisscenariet er den ' + p1(Rb[i30]) + ' i 2030 og ' + p1(Rb[i50]) + ' i 2050. ' +
+    'Fram mot 2033 trekker to krefter hver sin vei: departementet senker forholdstallet, så den beregnede kostnaden øker, mens dagens etterslep utgiftsføres ferdig og avlaster driften. Etter 2033 avgjøres nivået av hvor mye av premien KLPs overskudd fortsatt dekker, og av hvor raskt pensjonsutbetalingene vokser. Spennet i 2050 er ' + f1(Rl[i50]) + '–' + p1(Rh[i50]) + '.';
+  var sel = document.getElementById('pjVelg');
+  var opts = '<option value="landsdel">Nord-Norge</option>' + ['Nordland','Troms','Finnmark'].map(function(f){ return '<option value="f:' + f + '">' + f + '</option>'; }).join('');
+  var kn = Object.keys(PD.kommuner).sort(function(a,b){ return navn(a).localeCompare(navn(b), 'nb'); });
+  opts += '<optgroup label="Kommuner">' + kn.map(function(nr){ return '<option value="' + nr + '">' + navn(nr) + '</option>'; }).join('') + '</optgroup>';
+  sel.innerHTML = opts;
+  function tegn(){
+    var v = sel.value, o, gr = '';
+    if(v === 'landsdel') o = LD;
+    else if(v.indexOf('f:') === 0) o = FY[v.slice(2)];
+    else { o = PD.kommuner[v]; gr = o.grunnlag === 'note' ? 'Grunnlag: pensjonsnoten i årsregnskapet 2025' : 'Grunnlag: bare KOSTRA-tall — kostnaden er anslått'; if(o.svak) gr += ' · ' + o.svak; }
+    document.getElementById('pjGrunnlag').textContent = gr;
+    document.getElementById('framGraf').innerHTML = NN.placeholder('linjer', {
+      x: PD.aar,
+      serier: [
+        {navn:'Høyt scenario', kort:'Høy', data:o.R.hoy, farge:'muted', stil:'stiplet'},
+        {navn:'Basis', kort:'Basis', data:o.R.basis, farge:'accent', uthev:true},
+        {navn:'Lavt scenario', kort:'Lav', data:o.R.lav, farge:'muted', stil:'stiplet'}
+      ],
+      band: {x: PD.aar, lo: o.R.lav, hi: o.R.hoy, farge:'accent'},
+      markor: [{x:2027}, {x:2033}],
+      format:'pst1', null:true, xTicks:[2025,2030,2040,2050], hoyde:320,
+      kilde:'Egne beregninger på grunnlag av pensjonsnotene 2025, KOSTRA (SSB 13202, 12364, 12367) og KDDs beregningsforutsetninger. Inkludert arbeidsgiveravgift.'
+    }, 340);
+    document.getElementById('framKPI').innerHTML = [[2030,i30],[2040,i40],[2050,i50]].map(function(a){
+      return '<div class="kpi"><div class="v">' + p1(o.R.basis[a[1]]) + '</div><div class="l">Pensjonskostnad ' + a[0] + ', basis</div><div class="nh">spenn ' + f1(o.R.lav[a[1]]) + '–' + p1(o.R.hoy[a[1]]) + ' av driftsinntektene</div></div>';
+    }).join('') +
+      '<div class="kpi"><div class="v">' + p1(o.P30.basis) + '</div><div class="l">Betalt premie 2030, basis</div><div class="nh">' + p1(o.P25) + ' i 2025 · høyt scenario ' + p1(o.P30.hoy) + '</div></div>';
+  }
+  sel.addEventListener('change', tegn);
+  var start = new URLSearchParams(location.search).get('k');
+  if(start && PD.kommuner[start]) sel.value = start;
+  tegn();
+
+  document.getElementById('scenTabell').innerHTML =
+    '<thead><tr><th>Forutsetning</th><th>Lav</th><th>Basis</th><th>Høy</th></tr></thead><tbody>' +
+    '<tr><td>Økning i beregnet kostnad når forholdstallet senkes til 0,75 (2027)</td><td>+' + S.lav.kostnad_pct + ' %</td><td>+' + S.basis.kostnad_pct + ' %</td><td>+' + f1(S.hoy.kostnad_pct) + ' %</td></tr>' +
+    '<tr><td>Strukturell vekst i pensjonskostnaden fra 2028, per år</td><td>' + f1(S.lav.struktur_pct) + ' %</td><td>' + f1(S.basis.struktur_pct) + ' %</td><td>' + f1(S.hoy.struktur_pct) + ' %</td></tr>' +
+    '<tr><td>Hvor mye av premien premiefondet dekker fra 2027 (2025 = 100 %)</td><td>' + S.lav.premiefond_pct + ' %</td><td>' + S.basis.premiefond_pct + ' %</td><td>' + S.hoy.premiefond_pct + ' %</td></tr>' +
+    '<tr class="sum"><td>Pensjonskostnad 2050, Nord-Norge</td><td>' + p1(Rl[i50]) + '</td><td>' + p1(Rb[i50]) + '</td><td>' + p1(Rh[i50]) + '</td></tr>' +
+    '</tbody>';
+  document.getElementById('hoyTekst').innerHTML =
+    'I det høye scenariet dekker premiefondet bare en firedel av det det dekket i 2025. Da øker premien kommunene betaler fra ' + p1(LD.P25) + ' til ' + p1(LD.P30.hoy) + ' av driftsinntektene i 2030 — penger som må finnes samme år. ' +
+    'Samtidig bygges et nytt premieavvik opp, og det må utgiftsføres de sju neste årene. Pensjonskostnaden stiger da til ' + p1(Rh[i50]) + ' av driftsinntektene i 2050. Salangen beskriver allerede i årsberetningen for 2025 at premieavvik og bruk av premiefond har gitt likviditetsutfordringer.';
+});
+</script>
+</body>
+</html>

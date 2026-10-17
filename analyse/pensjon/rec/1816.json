@@ -1,0 +1,32 @@
+{
+  "nr": "1816",
+  "navn": "Vevelstad",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowMeetingDocument/c3a77b20-aa6d-4e54-932e-e062bd5bf96b/249/MI/1086",
+  "kilde_side": "møteinnkalling kommunestyret 18.06.2026, vedlegg 1 Årsregnskap 2025, note 8 Pensjonsforpliktelser, PDF-s. 106",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 160031197,
+  "pensjonsmidler": 161164490,
+  "netto_forpliktelse": -1133293,
+  "netto_inkl_aga": -1191091,
+  "aarets_pensjonskostnad": 5173531,
+  "innbetalt_premie": 10849479,
+  "aarets_premieavvik": 5675948,
+  "akkumulert_premieavvik": 13875598,
+  "akkumulert_premieavvik_inkl_aga": 13978384,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 1007037,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Årsregnskapet er ikke publisert som egen fil; det ligger som skannede bildesider i den samlede møteinnkallingen til kommunestyret 18.06.2026 (286 sider, sak «Godkjenning av årsregnskap for 2025») i Elements Publikum; lenken krever HTTP-header «Tenant: 940651034_PROD-940651034». Tallene er lest manuelt fra sidebilder. Samlede tall brukt; per ordning brutto/midler: KLP felles 135 000 215 / 134 732 464; KLP folkevalgte 3 601 204 / 4 535 880; SPK 6 791 987 / 6 397 206; KLP sykepleiere vises som «#####» (for smal kolonne) og er beregnet som rest: 14 637 791 / 15 498 940 (netto −861 149 stemmer med noten). Netto pensjonsmidler (overfinansiert). Amortisering av tidligere års premieavvik 2 309 622; 1/7 per år etter noteteksten. Akkumulert premieavvik økte fra 10,5 til 13,9 mill. Noten inneholder ufylt malstekst («kr. xxx lavere (ev. høyere)»). KS-avstemmingsskjemaet i samme dokument viser en differanse på 206 112 kr i pensjonsforpliktelse inkl. AGA (oppretting av AGA for 2024). Premiefond: 1 002 997 inngående, tilført 6 851 264, brukt 1 007 037, 6 847 224 utgående. Avkastning KLP 4,5 %, SPK 4,00 %; G- og pensjonsregulering oppgitt som én linje (2,97 %)."
+}

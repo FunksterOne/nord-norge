@@ -1,0 +1,42 @@
+{
+ "nr": "5546",
+ "navn": "Kvænangen",
+ "regnskapsaar": 2025,
+ "kilde_url": "https://innsynpluss.onacos.no/api/presentation/v2/nye-innsyn/filer/v-5aa3fc36__7e40__40ea__a576__ab19a6e397dc-56655_1_A!d-1100030535!kTE5EU?pid=108",
+ "kilde_side": "note 11 Pensjon, s. 22–24 (PDF-side 22–24; KLP-oppstilling s. 23, SPK s. 24); balanse PDF-side 11–12; aksjer og andeler (egenkapitalinnskudd KLP) note s. ca. 19–20",
+ "konsern_eller_kasse": "kommunekasse",
+ "leverandorer": [
+  {
+   "ordning": "Fellesordningen (inkl. ev. sykepleiere)",
+   "leverandor": "KLP",
+   "gruppe": "fellesordning"
+  },
+  {
+   "ordning": "Lærere",
+   "leverandor": "SPK",
+   "gruppe": "laerere"
+  }
+ ],
+ "brutto_pensjonsforpliktelse": 357644887,
+ "pensjonsmidler": 353251952,
+ "netto_forpliktelse": 4392935,
+ "netto_inkl_aga": 4392935,
+ "aarets_pensjonskostnad": 15224549,
+ "innbetalt_premie": 19679821,
+ "aarets_premieavvik": 4455272,
+ "akkumulert_premieavvik": 20477948,
+ "akkumulert_premieavvik_inkl_aga": 20477948,
+ "amortisering_aar": 7,
+ "reguleringspremie": null,
+ "egenkapitaltilskudd_klp": 629193,
+ "premiefond_bruk": 10407547,
+ "forutsetninger": {
+  "diskonteringsrente": 4.0,
+  "avkastning": 4.5,
+  "lonnsvekst": 2.97,
+  "g_regulering": 2.97,
+  "pensjonsregulering": 2.2
+ },
+ "sykepleiere_separat": false,
+ "merknader": "Kilde: «Forskriftsskjema og noter til årsregnskap 2025» (v10032025), vedlegg til saksframlegg 2026/2050 «Godkjenning av årsregnskap 2025» i Acos innsyn (filen ligger bak Azure WAF og krever nettleser for nedlasting). Kvænangens nettside har bare årsregnskap 2023. Noten gjengir KLPs og SPKs aktuarrapporter hver for seg; tallene er summert av meg. KLP (sumside, sykepleiere ikke skilt ut): brutto 343 707 119, midler 340 219 056, netto 3 488 063; netto kostnad 13 285 218 + adm. 517 327; premie 18 350 993; premieavvik 4 548 448; amortisert 5 166 162; akkumulert premieavvik 20 571 124; 7 års amortisering. SPK: brutto 13 937 768, midler 13 032 896, netto 904 872; netto kostnad 1 378 610 + adm. 43 394; premie 1 328 828; premieavvik −93 176; amortisert 313 577; 1 års amortisering, rest −93 180. Årets pensjonskostnad = netto kostnad inkl. administrasjon (15 224 549), uten amortisering; samlet kostnad inkl. amortisering er 20 704 288. Summen av premieavvik og amortisering ga en merutgift på 1 024 467 (amortisering 5 479 739 mot premieavvik 4 455 272). Akkumulert premieavvik fra balansen: fordring 20 477 948 (2024: 21 502 415), ingen gjeld; samsvarer med KLP 20 571 124 + SPK −93 180 (4 kr avrunding). Balansen: pensjonsmidler 353 251 952, forpliktelse 357 644 887 – lik summen av KLP og SPK. Ingen arbeidsgiveravgift (Nord-Troms, tiltakssonen med 0 % AGA). Premiefond 19 572 345 pr. 01.01.2025, brukt 10 407 547. Egenkapitalinnskudd KLP 629 193 i 2025 (akkumulert 9 924 376). KLP-forpliktelsen fikk estimatavvik 28 042 488, hvorav 20 597 300 er merket planendring. Forventet avkastning SPK 4,00 %. Reguleringspremie ikke oppgitt. METODEMERKNAD: Kildedokumentet ble hentet gjennom Acos Innsyn Pluss med en hodeløs nettleser (gstack browse), før metoden ble stanset fordi den kommer forbi en botsjekk (Azure WAF). Dokumentet er offentlig; tallene er beholdt etter koordinatorens beslutning. Lokal kopi (pdf/5546/arsregnskap-2025.pdf) er slettet og er ikke hentet på nytt."
+}

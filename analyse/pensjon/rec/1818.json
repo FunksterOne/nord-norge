@@ -1,0 +1,30 @@
+{
+  "nr": "1818",
+  "navn": "Herøy (Nordland)",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/ec96ed8c-4e93-4ba6-b5b6-d8a9d2a99d18/46303/92104",
+  "kilde_side": "note 8 Pensjon, s. 21–22",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 367063426,
+  "pensjonsmidler": 365513071,
+  "netto_forpliktelse": 1550355,
+  "netto_inkl_aga": 1798835,
+  "aarets_pensjonskostnad": 13838605,
+  "innbetalt_premie": 12582481,
+  "aarets_premieavvik": -1256124,
+  "akkumulert_premieavvik": 22799764,
+  "akkumulert_premieavvik_inkl_aga": 23962551,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 16725801,
+  "forutsetninger": {
+    "diskonteringsrente": 4.1, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Årsregnskap 2025 Herøy kommune» til kommunestyresak «Årsberetning og regnskap 2025 Herøy kommune» (26.05.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 872417982_PROD-872417982». Noten oppgir tall per ordning (KLP og SPK); summert av meg. KLP: brutto 349 555 843, midler 348 798 827, netto inkl. AGA 965 036, netto kostnad 11 596 729 + adm. 458 465, premie 10 572 818, premieavvik −1 482 376, akkumulert 20 620 364 (inkl. AGA 21 672 002). SPK: brutto 17 507 583, midler 16 714 244, netto inkl. AGA 833 799, netto kostnad 1 724 976 + adm. 58 435, premie 2 009 663, premieavvik +226 252, akkumulert 2 179 400 (inkl. AGA 2 290 549). Årets pensjonskostnad er netto kostnad inkl. administrasjon, slik at premie − kostnad = premieavvik. Amortisering av tidligere års premieavvik 7 003 175 (KLP 6 563 682, SPK 439 493). Diskonteringsrente for KLP er oppgitt til 4,10 % (SPK 4,00 %) — høyere enn de 4,00 % andre kommuner bruker. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP). Sykepleiere ikke skilt ut. Medlemsstatus KLP: 204 aktive, 399 oppsatte, 240 pensjonister."
+}

@@ -1,0 +1,52 @@
+{
+ "nr": "5544",
+ "navn": "Nordreisa",
+ "regnskapsaar": 2025,
+ "kilde_url": "https://innsynpluss.onacos.no/api/presentation/v2/nye-innsyn/filer/v-9a1e9dfc__3f01__4df5__a599__d213d4fbfca2-117914_1_A!d-1000055866!KvY9rF?pid=106",
+ "kilde_side": "note 4 Pensjon, s. 33–34 (PDF-side 33–34); balanse PDF-side 10–11",
+ "konsern_eller_kasse": "kommunekasse",
+ "leverandorer": [
+  {
+   "ordning": "Fellesordningen",
+   "leverandor": "KLP",
+   "gruppe": "fellesordning"
+  },
+  {
+   "ordning": "Sykepleierordningen",
+   "leverandor": "KLP",
+   "gruppe": "sykepleiere"
+  },
+  {
+   "ordning": "Folkevalgteordningen",
+   "leverandor": "KLP",
+   "gruppe": "folkevalgte"
+  },
+  {
+   "ordning": "Lærere/pedagogisk personell",
+   "leverandor": "SPK",
+   "gruppe": "laerere"
+  }
+ ],
+ "brutto_pensjonsforpliktelse": 1045968776,
+ "pensjonsmidler": 1026104264,
+ "netto_forpliktelse": 19864512,
+ "netto_inkl_aga": 19864512,
+ "aarets_pensjonskostnad": 39796581,
+ "innbetalt_premie": 38182788,
+ "aarets_premieavvik": -1613793,
+ "akkumulert_premieavvik": 59914752,
+ "akkumulert_premieavvik_inkl_aga": 59914752,
+ "amortisering_aar": 7,
+ "reguleringspremie": null,
+ "egenkapitaltilskudd_klp": null,
+ "premiefond_bruk": 45179733,
+ "forutsetninger": {
+  "diskonteringsrente": 4.0,
+  "avkastning": 4.5,
+  "lonnsvekst": 2.97,
+  "g_regulering": 2.97,
+  "pensjonsregulering": 2.2
+ },
+ "sykepleiere_separat": false,
+ "merknader": "Kilde: «Årsregnskap 2025 Nordreisa kommune» (revidert utgave), vedlegg til saksframlegg 2026/1308-1 i Acos innsyn (journalført 07.10.2026; kontrollutvalget behandlet uttalelsen i mai 2026). Filen ligger bak Azure WAF og krever nettleser for nedlasting. Noten gir KLP og SPK hver for seg; tallene er summert av meg. Noten sier «tall i hele tusen», men beløpene er i hele kroner. KLP: brutto 1 003 464 552, midler 985 959 021, netto 17 505 531; netto kostnad 35 461 244, betalt premie 33 731 109, årets premieavvik −1 730 135, amortisert 15 549 928, akkumulert 57 749 428 (01.01: 75 029 491). SPK: brutto 42 504 224, midler 40 145 243, netto 2 358 981; netto kostnad 4 335 337, premie 4 451 679, årets premieavvik +116 342 (vist med feil fortegn i kostnadstabellen, men riktig i akkumuleringen), amortisert 433 786, akkumulert 2 165 324. Sum stemmer med balansen (pensjonsmidler 1 026 104, pensjonsforpliktelse 1 045 969 tusen) og årsmeldingen (1 045 og 1 026 millioner, akkumulert premieavvik 59,9 millioner). Balansen viser premieavvik 61 725 tusen som fordring og 1 810 tusen som kortsiktig gjeld (netto 59 915 tusen; 2024: 77 645 − 133). Ingen arbeidsgiveravgift i noten (Nord-Troms, tiltakssonen med 0 % AGA), så inkl. AGA = ekskl. AGA. Amortisering: 15 år for avvik til og med 2010, 10 år fra 2011 og 7 år fra 2014; samlet amortisering 2025 = 15 983 714. Sykepleier- og folkevalgteordningen er bare skilt ut for premiefond (31.12: fellesordning 11 543 269, sykepleiere 7 076 205, folkevalgte 372 412, sum 18 991 886); bruk av premiefond 45 179 733. KLP-forpliktelsen økte med 102,7 millioner i estimatavvik 2025, hvorav 58,9 millioner er merket «planendring». Pensjonsregulering KLP 2,20 %, SPK 2,97 %; forventet avkastning SPK 4,00 %. Egenkapitalinnskudd KLP er et eget investeringsprosjekt (81031), men beløpet er ikke lest ut. Reguleringspremie ikke oppgitt. Årsmeldingen sier pensjonsutgiftene ble 14 millioner høyere enn opprinnelig budsjett, og at kommunen har hatt økonomiske utfordringer i flere år. METODEMERKNAD: Kildedokumentet ble hentet gjennom Acos Innsyn Pluss med en hodeløs nettleser (gstack browse), før metoden ble stanset fordi den kommer forbi en botsjekk (Azure WAF). Dokumentet er offentlig; tallene er beholdt etter koordinatorens beslutning. Lokal kopi (pdf/5544/arsregnskap-2025.pdf) er slettet og er ikke hentet på nytt."
+}

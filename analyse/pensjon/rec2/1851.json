@@ -1,0 +1,29 @@
+{
+  "nr": "1851",
+  "navn": "Lødingen",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.lodingen.kommune.no/api/presentation/v2/nye-innsyn/filer/v-a2ef74fd__6121__42a2__b5d6__00a80b13637e-53452_1_A!d-1100028851!NZdhW2?pid=1",
+  "kilde_side": "Årsregnskap Lødingen kommune 2025 (vedlegg til kommunestyrets møte 07.05.2026): balanse s. 8–9, balansespesifikasjon s. 10–12, note 10 Pensjon s. 23–24",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 497212585,
+  "pensjonsmidler": 474360437,
+  "netto_forpliktelse": 22852148,
+  "netto_inkl_aga": 24017608,
+  "aarets_pensjonskostnad": 17925642,
+  "innbetalt_premie": 19033435,
+  "aarets_premieavvik": 446073,
+  "akkumulert_premieavvik": 24612238,
+  "akkumulert_premieavvik_inkl_aga": 25867462,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 18603481,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": true,
+  "merknader": "Noten gir samlede tall for KLP og SPK, i tillegg til en fordeling per ordning. Den tabellen er feilmerket «31.12.2024», men summerer til tallene for 2025: KLP felles 411 187 107 / 388 692 233, KLP sykepleiere 62 313 850 / 63 357 086 og SPK 23 711 628 / 22 311 118. Kolonnen for folkevalgte er tom. Netto pensjonskostnad ekskl. adm. er 17 925 642, og 18 587 342 med adm. Premieinnbetalingen er 19 033 435, og årets premieavvik er 446 073. Balansen viser forpliktelse 498 378 046 inkl. AGA (1 165 460) og midler 474 360 437, som stemmer med KOSTRA. Akkumulert premieavvik er hentet fra balansekontoene, KLP 23 122 647 + SPK 1 489 591 ekskl. AGA, og 25 867 462 inkl. AGA, som stemmer med balansen og KOSTRA. Noten avviker: tabellen viser 17 693 889 (18 596 277 inkl. AGA), og IB 2025 der (23 122 647) er lik balansens UB for KLP. Tabellen ser derfor ut til å være feilført, og balansetallene er brukt. Premiefondet hadde 125 895 per 01.01., ble tilført 18 729 119, brukt med 18 603 481 og hadde 251 537 per 31.12. SPK har avkastning 4,0 %."
+}

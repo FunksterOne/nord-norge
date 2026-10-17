@@ -1,0 +1,28 @@
+{
+  "nr": "1867",
+  "navn": "Bø",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowMeetingDocument/fd1f80dc-0311-4eae-aa66-8b1ec3efe3a8/399/MI/1404",
+  "kilde_side": "Møteinnkalling for kommunestyret 21.05.2026 (PS 25/2026 Årsregnskap og årsmelding 2025), vedlagt Årsregnskap 2025: note 11 Pensjonsforpliktelser, s. 118–119 (skannet)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 681144159,
+  "pensjonsmidler": 667195683,
+  "netto_forpliktelse": 13948476,
+  "netto_inkl_aga": 14659849,
+  "aarets_pensjonskostnad": 24226964,
+  "innbetalt_premie": 16796273,
+  "aarets_premieavvik": -8340099,
+  "akkumulert_premieavvik": 35085639,
+  "akkumulert_premieavvik_inkl_aga": 36875007,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 35545057,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "Årsregnskapet i innkallingen er skannet og har ingen tekst. Tallene er derfor lest manuelt fra forstørrede sidebilder (PDF-s. 118–119). Kontrollsummene i noten går opp. Kostnad, premie og premieavvik er oppgitt samlet for KLP og SPK. Forpliktelse og midler er oppgitt per ordning: KLP brutto 647 969 612 og midler 636 309 950, SPK brutto 33 174 547 og midler 30 885 733. Netto pensjonskostnad ekskl. adm. er beregnet slik: 26 462 766 + 26 528 511 − 28 764 313. Med adm. er den 25 136 372. Innbetalt premie er 16 796 273. Årets premieavvik er −8 340 099, fordi premiefondet dekket 35 545 057 og senket premien. Akkumulert premieavvik er 35 085 639 og 36 875 007 inkl. AGA. Premiefondet hadde 16 595 275 per 01.01., ble tilført 31 277 233, brukt med 35 545 057 og hadde 12 327 451 per 31.12. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK oppgir avkastning 4,0 %. Balanseoppstillingen er ikke kontrollert."
+}

@@ -1,0 +1,28 @@
+{
+  "nr": "1839",
+  "navn": "Beiarn",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/05/Innkalling-Beiarn-04062026.pdf",
+  "kilde_side": "vedlegg b) til sak 09/26, Årsregnskap 2025 (datert 09.04.2026): note 9 Pensjonsforpliktelser (PDF-s. 81–83, skannet)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (inkl. sykepleiere)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 299894755,
+  "pensjonsmidler": 296589802,
+  "netto_forpliktelse": 3304953,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 11621801,
+  "innbetalt_premie": 12504941,
+  "aarets_premieavvik": 423450,
+  "akkumulert_premieavvik": 16900782,
+  "akkumulert_premieavvik_inkl_aga": 17762722,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 12102219,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "Årsregnskapet i innkallingen til kontrollutvalget 04.06.2026 er skannet og har ingen tekst. Tallene er derfor lest manuelt fra sidebilder (PDF-s. 81–83) og bør kontrolleres. Summeringene går opp internt, så tallene er trolig lest riktig. Tallene er summert av meg fra del 1 KLP og del 2 SPK, kommunekassen. Brutto forpliktelse: KLP 287 525 017 + SPK 12 369 738. Midler: KLP 284 890 526 + SPK 11 699 276. Netto pensjonskostnad ekskl. adm.: KLP 10 400 887 + SPK 1 220 914. Med adm. er den 10 820 559 + 1 260 932. Innbetalt premie inkl. adm.: KLP 11 194 093 + SPK 1 310 848. Årets premieavvik: KLP 373 534 + SPK 49 916. Akkumulert premieavvik: KLP 15 639 063 + SPK 1 261 719, og inkl. AGA 16 436 655 + 1 326 067. Premiefondet hadde 6 748 148 per 01.01., ble brukt med 12 102 219 og hadde 7 662 876 per 31.12. Amortisering 1/7 for avvik fra 2014 og senere, med eldre rester over 10 og 15 år. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK har avkastning 4,0 %. Ifølge noten er det ingen avvik mot det konsoliderte regnskapet, og Beiarn Næringseiendom KF har ingen ansatte. Balanseoppstillingen er ikke kontrollert, fordi den også er skannet."
+}

@@ -1,0 +1,32 @@
+{
+  "nr": "1815",
+  "navn": "Vega",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/30c3cd3b-1c5f-4d1e-835d-cfc8f3404d46/22010/40340",
+  "kilde_side": "note 8 Pensjonsforpliktelser, s. 21–22 (PDF-s. 30–31)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 282744915,
+  "pensjonsmidler": 279992567,
+  "netto_forpliktelse": 2752348,
+  "netto_inkl_aga": 2892718,
+  "aarets_pensjonskostnad": 9668172,
+  "innbetalt_premie": 8548576,
+  "aarets_premieavvik": -1119596,
+  "akkumulert_premieavvik": 14224565,
+  "akkumulert_premieavvik_inkl_aga": 15010979,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 12633827,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Kilde: vedlegg «Regnskap 2025» til kommunestyresak «Årsregnskap og årsberetning 2025» (18.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 941017975_PROD-941017975». PDF-en er skannet med OCR-tekstlag; tallene stemmer internt. Samlede tall brukt; per ordning brutto/midler: KLP felles 227 898 197 / 223 697 738; KLP sykepleiere 37 255 546 / 38 532 094; KLP folkevalgte 3 356 556 / 4 421 549; SPK 14 234 616 / 13 341 186. SPK regnskapsført med forpliktelse. Netto inkl. AGA = sum bokført netto 2 892 718 (AGA 140 370, inkl. negativ AGA på overfinansierte ordninger). Negativt premieavvik 2025 (−1 119 596). Amortisering av tidligere års premieavvik 4 789 519; noteteksten angir 1/7 per år fra 2014. Premiefond brukt 12 633 827 (noten viser fondsbeholdningen med negativt fortegn 2025). Regnskapsførte pensjonsutgifter 5 909 115 kr høyere enn betalt premie. Forventet avkastning oppgitt 4,50 % også for SPK (avvik fra vanlig 4,00 %)."
+}

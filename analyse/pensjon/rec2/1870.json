@@ -1,0 +1,29 @@
+{
+  "nr": "1870",
+  "navn": "Sortland",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sortland.kommune.no/api/presentation/v2/nye-innsyn/filer/v-d33b2efd__7f7c__446d__981d__f06a96add893-254209_1_A!d-1100138120!wtEdyX?pid=4",
+  "kilde_side": "Årsrapport Sortland kommune 2025, signert versjon (vedlegg til kommunestyresak 026/26, 22.06.2026): balanse s. 62, note 12 Pensjon s. 73 (sidene er bilder)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1820803000,
+  "pensjonsmidler": 1906034000,
+  "netto_forpliktelse": -85231000,
+  "netto_inkl_aga": -84854000,
+  "aarets_pensjonskostnad": 74882000,
+  "innbetalt_premie": 130391000,
+  "aarets_premieavvik": 55508000,
+  "akkumulert_premieavvik": 178701000,
+  "akkumulert_premieavvik_inkl_aga": 187815000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 20000000,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": true,
+  "merknader": "Notesidene i den signerte årsrapporten er bilder. Tallene er derfor lest manuelt fra forstørrede sidebilder og oppgitt i hele 1000 kr, så presisjonen er ±1000 kr. Kontrollsummene i noten går opp. Brutto forpliktelse: fellesordning 1 482 372 + sykepleiere 233 070 + SPK 105 361 = 1 820 803 tusen. Pensjonsmidler: 1 523 031 + 285 028 + 97 975 = 1 906 034 tusen, som stemmer med balansen. Netto er −85 231 tusen, og AGA på netto er 377 tusen, bare for SPK. Netto pensjonskostnad (inkl. adm., men adm.-linjen er tom) er 74 882 tusen, betalt premie 130 391 tusen. Noten viser årets premieavvik som −55 508, men premien er større enn kostnaden, så verdien er lagt inn som positiv etter skjemaets fortegnskonvensjon. Akkumulert premieavvik er 178 701 tusen + AGA 9 114 tusen. Premiefondet er oppgitt netto: 101 460 tusen per 01.01., tilført netto 79 156 tusen, brukt netto −20 000 tusen og 160 616 tusen per 31.12. Kostnaden og premien er bare oppgitt samlet, ikke per ordning. Årsberetningen nevner 1,89 mrd. i pensjonsforpliktelse, men noten viser 1,82 mrd.; avviket er ikke undersøkt nærmere. SPK har avkastning 4,0 % og pensjonsregulering 2,97 %."
+}

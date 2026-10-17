@@ -1,0 +1,12 @@
+{"nr":"5632","navn":"Båtsfjord","regnskapsaar":2025,
+"kilde_url":"https://prod01.elementscloud.no/publikum/Documents/ShowDocument/cc01d0d9-ac1f-4a54-86f6-2efa8cd4ebae/35200/70496",
+"kilde_side":"note 10 Pensjon, s. 18–19 (PDF-side 20–21); balanse PDF-side 9; vedlegg «Årsregnskap 2025 - 08.06.26» til kommunestyresak «Årsregnskap og årsberetning 2025», møte 17.06.2026",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen (inkl. sykepleiere)","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":489615252,"pensjonsmidler":473760723,"netto_forpliktelse":15854529,"netto_inkl_aga":15854529,
+"aarets_pensjonskostnad":13364723,"innbetalt_premie":16155596,"aarets_premieavvik":2249025,
+"akkumulert_premieavvik":7966879,"akkumulert_premieavvik_inkl_aga":7966879,"amortisering_aar":7,
+"reguleringspremie":null,"egenkapitaltilskudd_klp":859698,"premiefond_bruk":17466930,
+"forutsetninger":{"diskonteringsrente":4.0,"avkastning":4.5,"lonnsvekst":2.97,"g_regulering":2.97,"pensjonsregulering":2.2},
+"sykepleiere_separat":false,
+"merknader":"Noten oppgir hele kroner for KLP og SPK med sumkolonne; tallene er notens sum (brutto forpliktelse KLP 470 654 823 + SPK 18 960 429; midler KLP 455 640 154 + SPK 18 120 569). Årets premieavvik: noten viser (A−B) = −2 249 025, dvs. forfalt premie høyere enn kostnad; ført her med skjemaets fortegn som +2 249 025 (KLP 1 984 684, SPK 264 341). Innbetalt premie = forfalt premie ekskl. adm. 15 613 748 + adm.kostnad 541 848 = 16 155 596. Årets pensjonskostnad = beregnet netto pensjonskostnad (A) 13 364 723. Akkumulert premieavvik 31.12: 7 966 879 (KLP 6 907 341, SPK 1 059 538); AGA 0 (Finnmark, sone 5). Balansen viser premieavvik som omløpsmiddel 11 103 961 og som kortsiktig gjeld 3 137 082 (netto 7 966 879, stemmer med noten). Netto forpliktelse inkl. AGA er lik netto (AGA 0). 7 års amortisering (både KLP og SPK). Bruk av premiefond 17 466 930 (kommunestyrevedtak 2024 om å bruke hele premiefondet til KLP-faktura); saldo 31.12 4 306 492. Egenkapitalinnskudd KLP 859 698 (note om aksjer og andeler). Reguleringspremie ikke oppgitt. Sykepleiere ikke skilt ut i noten. Forventet avkastning SPK 4,0 %."}

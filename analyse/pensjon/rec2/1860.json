@@ -1,0 +1,29 @@
+{
+  "nr": "1860",
+  "navn": "Vestvågøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://innsyn.onacos.no/vestvagoy/pluss/wfdocument.ashx?journalpostid=2021148311&dokid=1834450&versjon=1&variant=A&",
+  "kilde_side": "Årsregnskap og årsberetning 2025 (vedlegg til kontrollutvalgets møte 21.05.2026): balanse s. 52–53, note 6 s. 62–68",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1795529183,
+  "pensjonsmidler": 1754549467,
+  "netto_forpliktelse": 40979716,
+  "netto_inkl_aga": 43069681,
+  "aarets_pensjonskostnad": 79074095,
+  "innbetalt_premie": 121061496,
+  "aarets_premieavvik": 39039552,
+  "akkumulert_premieavvik": 126575341,
+  "akkumulert_premieavvik_inkl_aga": 133029546,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 3063157,
+  "premiefond_bruk": 28523204,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Tallene er summert av meg fra KLP-sumsiden (felles og sykepleiere samlet) og SPK. Brutto forpliktelse: KLP 1 673 817 661 + SPK 121 711 522. Balansen viser 1 797 619 148, som er inkl. AGA på 5,1 % av netto forpliktelse (2 089 965). Netto inkl. AGA er hentet fra balansen. Pensjonsmidler: KLP 1 640 387 999 + SPK 114 161 468, som stemmer med balansen. Netto pensjonskostnad: KLP 67 042 284 + SPK 12 031 811. Innbetalt premie: KLP 109 102 310 + SPK 11 959 186. Årets premieavvik: KLP 39 501 479 + SPK -461 927. Akkumulert premieavvik ekskl. AGA: KLP 122 483 133 + SPK 4 092 208. Tallet inkl. AGA er balansens netto (eiendel 136 517 159 − gjeld 3 487 613), som tilsvarer 5,1 % AGA. Premiefondet ble brukt med 26 141 062 i KLP felles og 2 382 142 i KLP sykepleiere. Tabellen er merket «i 1000 kr», men verdiene er åpenbart i kroner. Aktivert egenkapitalinnskudd i KLP er 3 063 157 (note om kapitalkonto). KLP-noten viser planendring på 98 799 368. SPK oppgir avkastning 4,0 %. Ny kommune: det finnes en fellesnemnd for Vest-Lofoten kommune."
+}

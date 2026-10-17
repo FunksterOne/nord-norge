@@ -1,0 +1,28 @@
+{
+  "nr": "1874",
+  "navn": "Moskenes",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://innsyn.lofoten.nu/Moskenes/innsyn/wfdocument.ashx?journalpostid=2021019849&dokid=1405950&versjon=1&variant=A&",
+  "kilde_side": "Årsregnskap Moskenes kommune 2025 (vedlegg til kommunestyrets sak, møte 09.06.2026): balanse s. 8–9, note 9 s. 17",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 214592937,
+  "pensjonsmidler": 218349702,
+  "netto_forpliktelse": -3756765,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 6056186,
+  "innbetalt_premie": 7071903,
+  "aarets_premieavvik": 776960,
+  "akkumulert_premieavvik": null,
+  "akkumulert_premieavvik_inkl_aga": 15970000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 7744479,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.0, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Noten gir bare samlede tall for KLP og SPK, uten fordeling per ordning. Pensjonskostnaden ekskl. adm. er beregnet slik: opptjening 7 080 541 + rente 8 433 517 − forventet avkastning 9 457 872. Med adm. er netto kostnad 6 294 941. Årets premieavvik er 776 960. Amortiseringen over 7 år er negativ (−3 967 360), altså tilbakeføring av tidligere negative avvik. Premiefondet hadde 6 917 605 per 01.01., ble brukt med 7 744 479 og hadde 8 467 469 per 31.12. Balansen i tusen kroner viser forpliktelse 214 825, som tilsvarer brutto 214 593 + AGA og liten differanse, og midler 218 350. Premieavviket er 16 147 på eiendelssiden og 177 på gjeldssiden. Netto 15 970 tusen er antatt å være inkl. AGA, fordi tallet ekskl. AGA ikke er oppgitt. Noten oppgir forventet avkastning 4,00 % både for KLP og SPK, som er uvanlig, fordi KLP normalt bruker 4,5 %. Kommunen har et stort akkumulert merforbruk (162,5 mill. i balansen)."
+}

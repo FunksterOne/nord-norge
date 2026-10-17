@@ -1,0 +1,28 @@
+{
+  "nr": "1840",
+  "navn": "Saltdal",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Saltdal-29042026.pdf",
+  "kilde_side": "vedlegg a) til sak 11/26 i kontrollutvalget, Saltdal kommune regnskap 2025: note 9 s. 18–23 (PDF-s. 77–82), balanse tabell 8 konsolidert s. 10 (PDF-s. 69)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (inkl. sykepleiere)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1238566586,
+  "pensjonsmidler": 1271219483,
+  "netto_forpliktelse": -32652897,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 41228886,
+  "innbetalt_premie": 70572771,
+  "aarets_premieavvik": 27701616,
+  "akkumulert_premieavvik": 115620576,
+  "akkumulert_premieavvik_inkl_aga": 121567231,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 25437245,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Regnskapet for 2025 er lagt fram for kontrollutvalget 29.04.2026 (udatert versjon). Noten gjelder Saltdal kommune (kommunekassen). Tallene er summert av meg fra KLP og SPK. Brutto forpliktelse: KLP 1 189 574 862 + SPK 48 991 724 = 1 238 566 586. SPK-tabellen oppgir 48 697 154 i kolonnen for 2025, men spesifikasjonen gir UB 48 991 724, som også stemmer med netto 3 083 724. Pensjonsmidler: KLP 1 225 311 483 + SPK 45 908 000. Balansen som ble funnet, er konsolidert (kasse + Saltdal Utvikling KF): forpliktelse 1 239 399 387, pensjonsmidler 1 271 219 482 og premieavvik 121 567 231. Balansen for kommunekassen (tabell 6) lot seg ikke trekke ut som tekst. Netto pensjonskostnad: KLP 36 384 926 + SPK 4 843 960. Innbetalt premie inkl. adm.: KLP 65 802 310 + SPK 4 770 461. Årets premieavvik: KLP 27 932 204 + SPK -230 588. Akkumulert premieavvik ekskl. AGA: KLP 112 900 488 + SPK 2 720 088. Feltet inkl. AGA er den konsoliderte balanseverdien (omtrent 5,1 % AGA). Premiefondsbruk i 2025 er 25 437 245. KLP-noten viser planendring på 72 074 385. Ingen egen sykepleiertabell. Egenkapitalinnskudd KLP er oppført med 2 090 (tusen kr) i en budsjettabell, men det er uklart hvilken kolonne tallet tilhører; feltet er derfor satt til null. SPK oppgir avkastning 4,0 %."
+}

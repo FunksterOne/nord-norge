@@ -1,0 +1,12 @@
+{"nr":"5624","navn":"Lebesby","regnskapsaar":2025,
+"kilde_url":"https://www.lebesby.kommune.no/download/18.628541b919d9a49ccc2430f/1777027954304/%C3%85rsregnskap%20Lebesby%20kommune%202025.pdf",
+"kilde_side":"note 4 Pensjon, s. 19–21 (PDF-side 21–23); balanse s. 10–11 og 14 (PDF-side 12–14)",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":386142069,"pensjonsmidler":397888717,"netto_forpliktelse":-11746648,"netto_inkl_aga":null,
+"aarets_pensjonskostnad":13271366,"innbetalt_premie":22912169,"aarets_premieavvik":9124503,
+"akkumulert_premieavvik":35398370,"akkumulert_premieavvik_inkl_aga":null,"amortisering_aar":7,
+"reguleringspremie":null,"egenkapitaltilskudd_klp":null,"premiefond_bruk":6562011,
+"forutsetninger":{"diskonteringsrente":4.0,"avkastning":4.5,"lonnsvekst":2.97,"g_regulering":2.97,"pensjonsregulering":null},
+"sykepleiere_separat":false,
+"merknader":"Noten oppgir hele kroner per leverandør (4.4 KLP, 4.5 SPK); tallene her er summert av meg. Brutto: KLP 369 057 342 + SPK 17 084 727 (lik balansen 386 142 069). Midler: KLP 381 769 921 + SPK 16 118 796 (lik balansen 397 888 717). Netto er negativ, dvs. overfinansiert (KLP −12 712 579, SPK +965 931). Netto pensjonskostnad 13 271 366 er ekskl. administrasjonskostnader (KLP 460 211 + SPK 56 089); premie til betaling 22 912 169 (KLP 21 139 974 + SPK 1 772 195) inkluderer administrasjon. Årets premieavvik 9 124 503 (KLP 9 095 469 + SPK 29 034; noten viser fortegnet negativt i kostnadsoppstillingen, men det er et positivt avvik/inntekt). Amortisert 2025: 6 878 748. Akkumulert premieavvik fra balansen 35 398 370 (KLP 34 675 782 + SPK 722 588); note 4.2 splitter i positivt 35 472 742 og negativt 74 372, men balansen viser ingen gjeldsført premieavvik 31.12.25 (2024: −131 045 SPK). Det går ikke fram om beløpet inkluderer arbeidsgiveravgift; ingen egen AGA-post på premieavvik i balansen. Amortisering 7 år (kommunen brukte tidligere 15 år for eldre avvik, nå 7 år). Premiefond: inngående 13 417 544, tilført 18 189 429, brukt 6 562 011, utgående 25 044 962. Sykepleierordningen er ikke nevnt (ikke skilt ut). Reguleringspremie og egenkapitalinnskudd KLP er ikke oppgitt. Forventet avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering ikke oppgitt (SPK: G- og pensjonsregulering 2,97 %). Estimatavvik amortiseres fullt samme år (akkumulert 0)."}

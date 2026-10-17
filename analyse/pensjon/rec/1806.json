@@ -1,0 +1,42 @@
+{
+  "nr": "1806",
+  "navn": "Narvik",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://oldweb.narvik.kommune.no/innsynfront/wfdocument.ashx?journalpostid=2022268851&dokid=2060597&versjon=1&variant=A&",
+  "kilde_side": "note 11 Pensjon, s. 21–22 (PDF-s. 22–23)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen/sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 4281602650,
+  "pensjonsmidler": 4170610345,
+  "netto_forpliktelse": 110992305,
+  "netto_inkl_aga": 116652913,
+  "aarets_pensjonskostnad": 145291791,
+  "innbetalt_premie": 77977635,
+  "aarets_premieavvik": -67314136,
+  "akkumulert_premieavvik": 138074437,
+  "akkumulert_premieavvik_inkl_aga": 145625220,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 233858022,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Årsregnskap 2025 Narvik kommune – Kommunekassen» til kommunestyresak «Narvik kommunes årsregnskap 2025» (kommunestyret 18.06.2026), hentet fra kommunens historiske innsyn (ACOS). Noten viser bare samlede tall for KLP og SPK, ikke per ordning. Netto inkl. AGA = netto 110 992 305 + AGA 5 660 608. Netto pensjonskostnad er inkl. administrasjon (5 384 999). Svært negativt premieavvik i 2025 (−67,3 mill.): betalt premie bare 78,0 mill. fordi 233,9 mill. av premiefondet ble brukt (premiefond 94,8 mill. inngående, tilført 195,3 mill., 56,2 mill. utgående; noten viser fondet med negativt fortegn). Amortisering av tidligere års premieavvik 57 862 447; samlet pensjonskostnad 203 154 238. Hele akkumulert premieavvik amortiseres over 7 år. Narvik har valgt selvrisiko for AFP 62–64. Estimatavvik 2025: midler 222 692 054, forpliktelse 304 288 487. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (oppgitt kun i KLP-kolonnen). Kontrollutvalgets innkalling (mai/juni 2026) omtaler revisjonsbrev nr. 4 om feil bokføring av bruk av premiefond. Premie − kostnad gir −67 314 156, mens noten oppgir premieavvik −67 314 136 (20 kr avvik; administrasjon er oppgitt som 5 384 999 i kostnadstabellen og 5 384 979 i middeltabellen)."
+}

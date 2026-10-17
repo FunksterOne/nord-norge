@@ -1,0 +1,32 @@
+{
+  "nr": "1811",
+  "navn": "Bindal",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/35ec98f0-988e-401d-bdf9-23834afc69b7/31731/52625",
+  "kilde_side": "note 9 Pensjonsforpliktelser, PDF-s. 22",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 437314851,
+  "pensjonsmidler": 434941009,
+  "netto_forpliktelse": 2373842,
+  "netto_inkl_aga": 2494907,
+  "aarets_pensjonskostnad": 13309668,
+  "innbetalt_premie": 16866114,
+  "aarets_premieavvik": 3556446,
+  "akkumulert_premieavvik": 13130181,
+  "akkumulert_premieavvik_inkl_aga": 13799820,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 15751456,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Skannet, signert PDF uten tekstlag (ingen OCR tilgjengelig); tallene er lest manuelt fra gjengitte sidebilder av note 9 og bør kontrolleres mot kilden. Kilden er vedlegg «Signert årsregnskap 2025 – Endelig versjon» til kommunestyresak «Regnskap 2025 Bindal kommune» (møte 18.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 964983380_PROD-964983380». Noten oppgir samlede tall og en egen tabell per ordning (KLP felles, KLP sykepleiere, KLP folkevalgte, SPK); samlede tall er brukt. Per ordning brutto/midler: KLP felles 369 104 053 / 363 783 404; KLP sykepl. 52 992 474 / 56 476 328; KLP folkevalgte 1 487 475 / 1 856 060; SPK 13 730 849 / 12 825 217. SPK er regnskapsført med forpliktelse. Premieavvik oppstått fra og med 2023 amortiseres over 1 år; eldre premieavvik (2014–2022) amortiseres med 1/7 per år og er ferdig i 2029 — derav amortisering_aar = 1 for nye avvik. Amortisering av tidligere års premieavvik i 2025: 8 585 177. Årets pensjonskostnad er «beregnet netto pensjonskostnad inkl. adm.» (adm. 536 918); premieavvik = innbetalt premie inkl. adm. − denne. Premiefond: 10 095 070 inngående, tilført 19 790 407, brukt 15 751 456, 14 134 021 utgående. Estimatavvik ført mot egenkapitalen: forpliktelse 36 355 090, midler 25 249 285. Forutsetninger: avkastning KLP 4,50 %, SPK 4,00 %; G- og pensjonsregulering er oppgitt som én linje (2,97 %)."
+}

@@ -1,0 +1,30 @@
+{
+  "nr": "1845",
+  "navn": "Sørfold",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/05/Innkalling-Sorfold-05062026.pdf",
+  "kilde_side": "vedlegg a) Årsregnskap 2025: balanse s. 34–38 (PDF-s. 46–50), note 3 Pensjonsutgifter s. 42–43 (PDF-s. 54–55); årsberetning s. 25–26 (PDF-s. 92–93)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 545112498,
+  "pensjonsmidler": 550161252,
+  "netto_forpliktelse": -5048754,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 18843739,
+  "innbetalt_premie": 22515858,
+  "aarets_premieavvik": 3672119,
+  "akkumulert_premieavvik": 38505740,
+  "akkumulert_premieavvik_inkl_aga": 40466744,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 18331848,
+  "forutsetninger": {"diskonteringsrente": null, "avkastning": null, "lonnsvekst": null, "g_regulering": null, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "Årsregnskapet for 2025 er lagt fram for kontrollutvalget 05.06.2026. Noten har én kolonne for KLP og én for SPK, og summene er mine. Brutto forpliktelse: KLP 511 919 876 + SPK 33 192 622, ekskl. AGA. Balansen viser 545 611 362, som også inneholder AGA av netto forpliktelse (KLP 378 175 + SPK 120 689). Pensjonsmidler: KLP 519 335 072 + SPK 30 826 180, som stemmer med balansen. Pensjonskostnad ekskl. adm.: KLP 15 556 449 + SPK 3 287 290. Med adm. er den 16 183 541 + 3 382 600. Årets premie: KLP 19 661 968 + SPK 2 853 890. Premieavvik: KLP +4 105 519. For SPK er tallet oppgitt som 433 400 uten fortegn, men det er negativt, fordi premien er lavere enn kostnaden og SPK-saldoen ble redusert. Akkumulert premieavvik etter balansekontoene: KLP 37 493 813 + SPK 1 011 927 ekskl. AGA, og 40 466 744 inkl. AGA. Amortiseringen er blandet: KLP har 282 936 over 15 år (gammelt avvik) og 9 404 717 over 7 år, SPK 383 757 over 7 år. Premiefondet hadde 16 769 141 per 01.01., ble brukt med 18 331 848 og hadde 23 707 019 per 31.12. I årsberetningen står det at hele reguleringspremien ble dekket av premiefondet; budsjettert reguleringspremie var 18 549 256. KLP-egenkapitalinnskuddet står i balansen med 15 915 032 (14 985 121 i 2024), som tilsvarer en økning på 929 911 i 2025, men årets innbetaling er ikke oppgitt direkte. Aktuarielle forutsetninger er ikke oppgitt i noten. KLP-ordningene (felles, sykepleiere, folkevalgte) er ikke spesifisert i noten."
+}

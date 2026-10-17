@@ -1,0 +1,30 @@
+{
+  "nr": "1832",
+  "navn": "Hemnes",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/e2ace578-4d89-4f79-ae27-d71638ac9248/55156/93622",
+  "kilde_side": "note 9 Pensjonsforpliktelser, PDF-s. 32–33",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1068460909,
+  "pensjonsmidler": 1061847881,
+  "netto_forpliktelse": 6613028,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 42045497,
+  "innbetalt_premie": 41923582,
+  "aarets_premieavvik": -121915,
+  "akkumulert_premieavvik": 69268114,
+  "akkumulert_premieavvik_inkl_aga": 72800788,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 45642123,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Skannet PDF uten tekstlag («Regnskap 2025_F2», vedlegg til kommunestyresak «Årsregnskap 2025» (10.06.2026) i Elements Publikum); tallene er lest manuelt fra sidebilder. Lenken krever HTTP-header «Tenant: 846316442_PROD-846316442». Noten viser bare samlede tall for KLP og SPK, ikke per ordning. AGA av netto forpliktelse er oppgitt som −337 265 selv om netto forpliktelse er positiv (6 613 028); fortegnet er uklart, derfor er netto inkl. AGA satt til null. Amortisering av tidligere års premieavvik 18 318 452; 1/7 per år etter noteteksten. Premiefond: 32 032 264 inngående, tilført 47 087 874, brukt 45 642 123, 33 478 015 utgående. Regnskapsførte pensjonsutgifter 18 063 102 kr høyere enn betalt premie. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP)."
+}

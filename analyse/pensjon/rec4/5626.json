@@ -1,0 +1,12 @@
+{"nr":"5626","navn":"Gamvik","regnskapsaar":2025,
+"kilde_url":"https://gamvik.kommune.no/api/presentation/v2/nye-innsyn/filer/v-7f1f483d__734f__4ced__9dc6__a2152af36264-37639_1_A!d-1100018178!hKBoMe?pid=1",
+"kilde_side":"note 9 Pensjonsforpliktelser, s. 16–17 (PDF-side 16–17); balanse PDF-side 9; investeringsregnskap og balansespesifikasjon (KLP egenkapitaltilskudd, premieavvik og pensjonsmidler per leverandør)",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":316730898,"pensjonsmidler":303544485,"netto_forpliktelse":13186413,"netto_inkl_aga":13186413,
+"aarets_pensjonskostnad":9955088,"innbetalt_premie":9409163,"aarets_premieavvik":-545925,
+"akkumulert_premieavvik":10217994,"akkumulert_premieavvik_inkl_aga":10217994,"amortisering_aar":7,
+"reguleringspremie":null,"egenkapitaltilskudd_klp":570501,"premiefond_bruk":12722813,
+"forutsetninger":{"diskonteringsrente":4.0,"avkastning":4.5,"lonnsvekst":2.97,"g_regulering":2.97,"pensjonsregulering":2.2},
+"sykepleiere_separat":false,
+"merknader":"Kilde: «Årsregnskap Gamvik kommune 2025» (avlagt 18.02.2026), vedlegg til kommunestyresak 32/26 (møte 18.06.2026) i kommunens Acos-møtekalender; ikke lagt ut under Budsjett og økonomiplaner. Noten oppgir hele kroner og bare sum for alle ordninger (ikke per leverandør). Balansespesifikasjonen viser per leverandør: pensjonsmidler KLP 294 201 058 og SPK 9 343 426; premieavvik KLP 10 269 094 og SPK −51 101. Netto pensjonskostnad 9 955 088 er inkl. administrasjon (367 729); ekskl. adm. 9 587 359. Innbetalt premie 9 409 163 inkl. adm., etter bruk av premiefond 12 722 813 (premiefondet gikk fra 147 323 til 258 418; tilført 12 833 908). Årets premieavvik er negativt (−545 925, premie lavere enn kostnad; 2024: −2 466 514). Amortisert 3 289 447; pensjonsutgiften ble 3 835 372 høyere enn betalt premie. Akkumulert premieavvik 10 217 994 (balansen 10 217 993; 2024: 14 053 366); AGA oppgitt som 0, så inkl. AGA = ekskl. AGA. Arbeidsgiveravgift av netto pensjonsforpliktelse også oppgitt som 0, så netto inkl. AGA er satt lik netto. Amortisering 7 år for avvik fra 2014 og senere (10 år 2011–2013, 15 år 2002–2010). Egenkapitaltilskudd KLP 570 501 fra investeringsregnskapet. Forventet avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (KLP). Sykepleierordning ikke nevnt. Reguleringspremie ikke oppgitt. Gamvik er registrert i ROBEK (jf. budsjett 2026)."}

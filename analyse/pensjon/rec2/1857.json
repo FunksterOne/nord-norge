@@ -1,0 +1,30 @@
+{
+  "nr": "1857",
+  "navn": "Værøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://innsyn.lofoten.nu/Varoy/innsyn/wfdocument.ashx?journalpostid=2021015265&dokid=1373662&versjon=1&variant=A&",
+  "kilde_side": "Årsregnskap 2025 med noter og årsberetning (vedlegg til kommunestyrets møte 16.06.2026): balanse s. 9–10, note 11 s. 19–21",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 179232496,
+  "pensjonsmidler": 176959115,
+  "netto_forpliktelse": 2273381,
+  "netto_inkl_aga": 2389323,
+  "aarets_pensjonskostnad": 6708055,
+  "innbetalt_premie": 6394171,
+  "aarets_premieavvik": -572173,
+  "akkumulert_premieavvik": -572173,
+  "akkumulert_premieavvik_inkl_aga": -601353,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 7863222,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null},
+  "sykepleiere_separat": true,
+  "merknader": "Noten oppgir brutto forpliktelse og midler per ordning (s. 19). Forpliktelse: KLP felles 159 335 834 + KLP sykepleiere 10 936 472 + KLP folkevalgte 772 983 + SPK 8 187 207. Midler: 156 702 554 + 11 444 093 + 1 025 224 + 7 787 244. Netto inkl. AGA (2 389 323) stemmer med balansen (179 348 438 − 176 959 115). Kostnad og premie er oppgitt for KLP samlet og SPK, og summene er mine. Netto pensjonskostnad ekskl. adm.: KLP 5 900 823 + SPK 807 232. Innbetalt premie inkl. adm.: KLP 5 480 488 + SPK 913 683. Årets premieavvik: KLP −649 009 + SPK +76 836. Amortiseringstiden er 1 år: hele fjorårets premieavvik (1 785 282 + 300 129) ble amortisert i 2025, så akkumulert premieavvik er lik årets premieavvik. Akkumulert premieavvik inkl. AGA er −601 353 (balanse: eiendel 80 755, gjeld 682 108). Premiefondet hadde 5 261 436 per 01.01., ble brukt med 7 863 222 og hadde 5 593 562 per 31.12. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK oppgir avkastning 4,0 %. AFP 62–64 i KLP finansieres med 100 % utjevning."
+}

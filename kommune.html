@@ -816,6 +816,8 @@ document.addEventListener('DOMContentLoaded', function(){
         // ROBEK-status-kort
         '<div>' + robekCard(k) + '</div>'+
       '</div>';
+        // Pensjon: premieavvik og fremskrevet pensjonskostnad (PENSJON_DATA)
+        (typeof pensjonKommuneCard === 'function' ? pensjonKommuneCard(k) : '')+
   }
 
   // ─── Dedikert Levekår-panel ───

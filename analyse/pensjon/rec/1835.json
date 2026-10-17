@@ -1,0 +1,32 @@
+{
+  "nr": "1835",
+  "navn": "Træna",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/2ae29625-6452-4d4a-b092-49f4224817b1/15218/27997",
+  "kilde_side": "note 11 Pensjonsforpliktelse, PDF-s. 23–24",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 147434675,
+  "pensjonsmidler": 160109210,
+  "netto_forpliktelse": -12674535,
+  "netto_inkl_aga": -12658129,
+  "aarets_pensjonskostnad": 4770115,
+  "innbetalt_premie": 7886059,
+  "aarets_premieavvik": 3115944,
+  "akkumulert_premieavvik": 3115994,
+  "akkumulert_premieavvik_inkl_aga": 3274907,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": null,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «20260602 Årsregnskap 2025 endelig» til kommunestyresak «Årsregnskap og årsberetning 2025» i Elements Publikum; lenken krever HTTP-header «Tenant: 940192692_PROD-940192692». Tabellene er bilder i PDF-en; tallene er lest manuelt fra gjengitte sidebilder. Noten viser bare samlede tall (KLP + SPK), ikke per ordning; ordningene sykepleiere og folkevalgte nevnes i teksten om premiefond, men tallene er ikke skilt ut. Kommunen amortiserer premieavvik over 1 år (oppgitt eksplisitt); premieavviket for 2024 (3 103 901) er tilbakeført i 2025. Avvik i noten: årets premieavvik er 3 115 944 i første tabell (= premie 7 886 059 − kostnad 4 770 115), men 3 115 994 i de øvrige tabellene; akkumulert premieavvik er gjengitt som 3 115 994. Netto pensjonsmidler (overfinansiert); netto inkl. AGA = −12 674 535 + AGA 16 406. Regnskapsførte pensjonsutgifter 12 094 kr lavere enn betalt premie. Premiefond nevnt, men beløp ikke oppgitt. Avkastning KLP 4,50 %, SPK 4,00 %; G- og pensjonsregulering oppgitt som én linje (2,97 %)."
+}

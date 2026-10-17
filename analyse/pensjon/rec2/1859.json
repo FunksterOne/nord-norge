@@ -1,0 +1,28 @@
+{
+  "nr": "1859",
+  "navn": "Flakstad",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://innsyn.lofoten.nu/Flakstad/innsyn/wfdocument.ashx?journalpostid=2021026215&dokid=1421727&versjon=1&variant=A&",
+  "kilde_side": "Regnskap Flakstad kommune 2025, sendt revisjon 13.05.2026 (vedlegg til kommunestyrets møte 16.06.2026): balanse s. 8–9, note 4 s. 13–15",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 295519957,
+  "pensjonsmidler": 295780513,
+  "netto_forpliktelse": -260556,
+  "netto_inkl_aga": -233655,
+  "aarets_pensjonskostnad": 8260250,
+  "innbetalt_premie": 8243663,
+  "aarets_premieavvik": -401017,
+  "akkumulert_premieavvik": 16204646,
+  "akkumulert_premieavvik_inkl_aga": 17031082,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 13855130,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "PDF-en er skannet og tekstgjenkjent, men saldoavstemmingene går opp. Tallene er summert av meg fra KLP (4.4) og SPK (4.5). Brutto forpliktelse: KLP 286 006 356 + SPK 9 513 601. Balansen viser 295 546 858, som er inkl. AGA på SPKs netto forpliktelse (26 902). Netto inkl. AGA er hentet fra balansen. Pensjonsmidler: KLP 286 794 393 + SPK 8 986 120, som stemmer med balansen. Netto pensjonskostnad ekskl. adm.: KLP 7 321 010 + SPK 939 240; adm.-kostnaden er 351 002 + 33 428. Premie: KLP 7 244 432 + SPK 999 231. Premieavvik, definert som premie − kostnad − adm.: KLP −427 580 + SPK +26 563. Fortegnene i noten er inkonsekvente, men avstemmingen av akkumulert premieavvik bekrefter disse fortegnene. Noteteksten oppgir −421 469, som er samme beløp inkl. AGA. Akkumulert premieavvik: KLP 15 944 984 + SPK 259 662, og inkl. AGA (813 194 + 13 243) blir det 17 031 082, som stemmer med netto i balansen (19 343 447 − 2 312 365). Amortisering: 7 år for avvik fra 2014 og senere, og eldre avvik over 15 og 10 år. Premiefondet hadde 8 951 636 per 01.01., ble tilført 14 161 527, brukt med 13 855 130 og hadde 9 258 033 per 31.12. Pensjonsregulering er ikke oppgitt. SPK har avkastning 4,0 %. Kommunen skal inngå i nye Vest-Lofoten kommune."
+}

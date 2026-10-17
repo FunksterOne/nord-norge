@@ -1,0 +1,47 @@
+{
+  "nr": "1804",
+  "navn": "Bodø",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://bodo.kommune.no/_f/p1/i613bb3db-2559-4d83-922a-33eaa75d6035/arsregnskap-2025-bodo-kommune.pdf",
+  "kilde_side": "note 11 Pensjon, PDF-s. 17–19",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Bodø pensjonskasse (BPK)",
+      "leverandor": "Bodø kommunale pensjonskasse",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "KLP",
+      "leverandor": "KLP",
+      "gruppe": "sykepleiere"
+    },
+    {
+      "ordning": "Statens pensjonskasse",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 6357532000,
+  "pensjonsmidler": 6310280000,
+  "netto_forpliktelse": 47252000,
+  "netto_inkl_aga": 55855000,
+  "aarets_pensjonskostnad": 274619000,
+  "innbetalt_premie": 414005000,
+  "aarets_premieavvik": 139386000,
+  "akkumulert_premieavvik": 389655000,
+  "akkumulert_premieavvik_inkl_aga": 420437000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": null,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.22
+  },
+  "sykepleiere_separat": null,
+  "merknader": "Noten oppgir tall i hele tusen per ordning (BPK, KLP, SPK) med sumkolonne; summene er brukt og omregnet til kroner. Bodø har egen pensjonskasse (Bodø pensjonskasse, BPK) som hovedordning. Noten sier ikke hvilke grupper som er i KLP; KLP-kolonnen er antatt å være sykepleierordningen (lovpålagt i KLP), derfor sykepleiere_separat = null. SPK (lærere) er her regnskapsført med full forpliktelse (466 390 tusen) og midler (436 165 tusen). Per ordning (tusen): brutto BPK 4 990 552 / KLP 900 590 / SPK 466 390; midler 4 911 867 / 962 249 / 436 165. Netto er beregnet som brutto − midler (47 252 tusen); noten viser 47 251 tusen (avrunding). Netto inkl. AGA = pensjonsforpliktelse i balansen inkl. AGA (6 366 135) − midler (6 310 280); AGA beregnes bare på BPK og SPK, KLP har netto overfinansiering. Årets pensjonskostnad = netto pensjonskostnad 255 074 tusen + administrasjon 19 545 tusen = 274 619 tusen (inkl. adm., slik at premie inkl. adm. − kostnad = premieavvik 139 386); samlet kostnad inkl. amortisering av premieavvik (69 872) og administrasjon (19 545) er 344 491 tusen. Innbetalt premie 414 005 tusen er inkl. administrasjon. Akkumulert premieavvik inkl. AGA 420 437 tusen, amortiseres over 7 år (plan 2026–2032). Forutsetninger: BPK/KLP avkastning 4,50 %, SPK 4,00 %; diskonteringsrente 4,00 % for alle; lønnsvekst og G 2,97 %; pensjonsregulering BPK 2,22 %, KLP 2,20 %. Noteteksten nevner feilaktig «For 2024» i en overskrift."
+}

@@ -1,0 +1,30 @@
+{
+  "nr": "1824",
+  "navn": "Vefsn",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/dc6d3738-fe37-4346-80e8-350a511b4f87/177430/459113",
+  "kilde_side": "note 11 Pensjonsforpliktelser, s. 23–24",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 2333064000,
+  "pensjonsmidler": 2314524000,
+  "netto_forpliktelse": 18540000,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 95204000,
+  "innbetalt_premie": 85779000,
+  "aarets_premieavvik": -9425000,
+  "akkumulert_premieavvik": 130508000,
+  "akkumulert_premieavvik_inkl_aga": 137172000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 104339000,
+  "forutsetninger": {
+    "diskonteringsrente": 3.5, "avkastning": 4.0, "lonnsvekst": 2.48, "g_regulering": 2.48, "pensjonsregulering": 1.71
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kilde: vedlegg «Årsregnskap 2025 KV» (kommunekassen) til kommunestyresak «Årsregnskap 2025 Vefsn kommune» (18.06.2026) i Elements Publikum; lenken krever HTTP-header «Tenant: 844824122_PROD-844824122». Skannet PDF med svakt OCR-lag; tabellene er lest fra sidebilder. Tall i hele tusen, omregnet til kroner. Bare samlede tall; forutsetningstabellen viser bare KLP (SPK «–»), så det er uklart om SPK inngår i forpliktelsen. FORBEHOLD: Avstemmingen av netto forpliktelse er inkonsistent — noten viser netto 41 912 tusen (= inngående 32 487 + årets premieavvik 9 425, estimatavvik 0), mens «herav»-linjene gir brutto 2 333 064, midler 2 314 524 og AGA −946 tusen. Netto er her beregnet som brutto − midler (18 540 tusen); netto inkl. AGA er satt til null. Forutsetningene (avkastning 4,00 %, diskonteringsrente 3,50 %, lønnsvekst 2,48 %, G 2,48 %, pensjonsregulering 1,71 %) ser utdaterte ut sammenlignet med andre kommuners 2025-noter; teksten viser også til «2024». Premiefond (tusen): 79 055 inngående, tilført 105 047, brukt 104 339, 79 763 utgående (lest fra OCR, summen stemmer). Amortisering av tidligere års premieavvik 39 464 tusen; 1/7 per år etter teksten."
+}

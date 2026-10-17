@@ -1,0 +1,42 @@
+{
+  "nr": "5542",
+  "navn": "Skjervøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.skjervoy.kommune.no/download/18.559dad6619ed43a91867388/1782826466890/Innkalling%20til%20m%C3%B8te%20i%20kontrollutvalget%20i%20Skjerv%C3%B8y%20kommune%20-%20onsdag%2013.05.2026.pdf",
+  "kilde_side": "balanse PDF-side 37, note 5 PDF-side 46–47",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen og sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 651644102,
+  "pensjonsmidler": 664603361,
+  "netto_forpliktelse": -12959259,
+  "netto_inkl_aga": -12959259,
+  "aarets_pensjonskostnad": 25831714,
+  "innbetalt_premie": 40835751,
+  "aarets_premieavvik": 13998662,
+  "akkumulert_premieavvik": 55997960,
+  "akkumulert_premieavvik_inkl_aga": 55997960,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": null,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Kontrollutvalgets møtedokumenter 13. mai 2026 på kommunens nettside; tekstbasert PDF. Summert KLP-sumside og SPK: brutto 615 248 221 + 36 395 881 (= balansen), midler 630 386 713 + 34 216 648 (= balansen), netto kostnad 22 235 333 + 3 596 381, premie 37 175 496 + 3 660 255, årets premieavvik 14 058 304 − 59 642, amortisering 11 315 549 + 392 065 = 11 707 614. Akkumulert premieavvik i balansen 55 997 960 (note: KLP 54 495 603 + SPK 1 502 344). AGA-sone 5 (0 %). KLP-forpliktelsen fikk estimatavvik 56 771 407, hvorav planendring 36 051 741 (trolig AFP og særaldersregler). SPK-noten har «#REF!» i én celle. KLP-medlemmer 01.01.2025: 402 aktive, 724 oppsatte, 368 pensjoner. Disposisjonsfond 96 207 629. Premiefond ikke oppgitt i de leste sidene. Stemmer med KOSTRA (56,0 mill.)."
+}

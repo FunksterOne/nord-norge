@@ -74,6 +74,10 @@
       <tr><td class="kode">13500</td><td>Kvadratmeterpris nye eneboliger, landsdeler</td><td>2021–2025</td></tr>
       <tr><td class="kode">12008</td><td>KOSTRA: kommunalt disponerte boliger per 1 000 innbyggere</td><td>2015–2025</td></tr>
       <tr><td class="kode">01222</td><td>Kvartalsvis befolkning og endringer (ferskeste folketall)</td><td>1997–2026K2</td></tr>
+      <tr><td class="kode">13202</td><td>KOSTRA: balansen — pensjonsforpliktelse, pensjonsmidler og premieavvik (kommunekonsern)</td><td>2020–2025</td></tr>
+      <tr><td class="kode">12364</td><td>KOSTRA: brutto driftsinntekter, frie inntekter og disposisjonsfond (kommunekonsern)</td><td>2020–2025</td></tr>
+      <tr><td class="kode">13551</td><td>KOSTRA: økonomisk oversikt drift — sammensetningen av driftsinntektene</td><td>2020–2025</td></tr>
+      <tr><td class="kode">12367</td><td>KOSTRA: detaljerte driftstall — pensjon (art 090), arbeidsgiveravgift og lønn</td><td>2020–2025</td></tr>
     </tbody>
   </table>
   <p class="hint" style="margin-top:10px"><b>To folketallsdatoer.</b> Kvartalstallene (01222) vises som ferskeste måling der folketall presenteres — per <span data-befk-dato>1. juli 2026</span>. Alle modeller (framskrivingen, TF-banene, BB-KVOTE) er forankret i 1.1.2026, som er basisåret i SSB 14746 og eneste dato med aldersfordeling på kommunenivå. Eierstatus-tabellen 14891 brukes både for eie/leie-fordelingen (2025) og leiemarkedsutviklingen 2015–2025 (kommuneserier skjøtet). Aldersfordelt leieandel og utleieboliger etter eiertype finnes bare i forskningsdata (Microdata) og gjengis som redaksjonelt innhold med kilde kbnn/KPB (juli 2026).</p>
@@ -141,6 +145,25 @@
     <li><span class="norm-tag">KS</span><b>Netto lånegjeld.</b> KS (2025): korrigert netto lånegjeld bør ikke overstige 85 % av driftsinntektene. Dashbordet bruker netto lånegjeld uten korreksjon for ubundne investeringsfond, som ligger noe høyere. Riksrevisjonen brukte 75 % som analysegrense i 2015 (Dokument 3:5 (2014–2015)).</li>
     <li><span class="norm-tag">Kommuneloven §28-1</span><b>ROBEK.</b> Statsforvalteren registrerer kommuner som bryter vilkår a-f. Påvirker låneopptak, budsjetter og lengre leieavtaler.</li>
   </ul>
+</div>
+
+<div class="metode-card" id="pensjon">
+  <h2>Kommunale pensjoner og premieavvik</h2>
+  <p class="hint">Brukes på temasiden <a href="tema-pensjon.html">Pensjonsetterslepet</a> og i Økonomi-fanen på kommune-, fylkes- og landsdelssidene. Analysegrunnlaget ligger i <code>analyse/pensjon/</code>; datablokken bygges med <code>fetch_pensjon.py</code>.</p>
+  <h3>Brutto driftsinntekter (BDI) som nevner</h3>
+  <p>Brutto driftsinntekter er summen av kommunekonsernets driftsinntekter i ett år (SSB 12364): skatt på inntekt og formue, rammetilskudd, eiendomsskatt, øremerkede tilskudd, refusjoner, brukerbetalinger og salgs- og leieinntekter. Finansinntekter, bruk av fond og lån er ikke med. I Nord-Norge er rammetilskuddet den største posten (33,5 % i 2025, mot 29,9 % i landet), og skatteinntektene en mindre del (27,6 % mot 36,0 %). BDI er standardnevneren i KOSTRA og i normene for driftsresultat, fond og gjeld, så pensjonstallene kan sammenlignes med dem og på tvers av kommunestørrelse. <b>Forbehold:</b> om lag en femdel av BDI er øremerkede tilskudd og refusjoner som er bundet til bestemte formål. Målt mot frie inntekter (61 % av BDI) blir pensjonsandelen om lag 1,6 ganger høyere.</p>
+  <h3>Premieavvik</h3>
+  <p>Kommunen betaler en pensjonspremie, men regnskapet belastes med en beregnet pensjonskostnad (budsjett- og regnskapsforskriften §§ 3-5 og 3-6). Forskjellen, premieavviket, føres i balansen og utgiftsføres over sju år, eller året etter hvis kommunestyret har vedtatt det. Dashbordet viser akkumulert premieavvik netto (eiendel minus gjeld) inkludert arbeidsgiveravgift, fra KOSTRA-balansen (SSB 13202, kommunekonsern), slik at alle 80 kommuner er sammenlignbare. Sammenligningen med disposisjonsfondet er ikke en norm; den viser om kommunen har oppspart buffer som kan bære amortiseringen.</p>
+  <h3>Pensjonsnotene i årsregnskapene</h3>
+  <p>Premie, kostnad, premiefond, amortiseringstid og leverandør er hentet fra pensjonsnoten i årsregnskapet for 2025 for 74 kommuner. For Målselv, Lyngen, Kåfjord, Balsfjord og Andøy lå regnskapet bak en botsjekk i kommunens innsynsløsning, og Berlevåg har ikke publisert regnskapet; for disse seks er kostnaden anslått fra pensjonsposten i KOSTRA (art 090). Om lag hver tredje note har interne avvik; der noten og balansen er uenige, er balansen brukt. Notene for Hamarøy og Lurøy går ikke opp og er merket.</p>
+  <h3>Fremskrivingen 2026–2050</h3>
+  <p>Regnskapsført pensjonskostnad = beregnet netto kostnad med arbeidsgiveravgift + amortisering av premieavvik. Fram til 2033 regnes premieavviket ut lag for lag: beholdningen for 2025 utgiftsføres med fallende beløp over sju år, der første års beløp er kalibrert mot kommunens faktiske amortisering i 2025, og nye avvik legges til som egne lag. Etter 2033 er beholdningen utgiftsført, og kostnaden følges som andel av BDI. Lønn og BDI antas å vokse likt (3,5 % nominelt per år). Modellen gir 7,3 % av BDI i 2025; den faktiske pensjonsposten i KOSTRA (art 090 med arbeidsgiveravgift) er 7,1 %.</p>
+  <ul class="norm-list">
+    <li><span class="norm-tag">Lav</span><b>Beregnet kostnad +5 %</b> når forholdstallet senkes til 0,75 i 2027, ingen strukturell vekst, premiefondet dekker like mye som i 2025.</li>
+    <li><span class="norm-tag">Basis</span><b>Beregnet kostnad +10 %</b>, strukturell vekst 0,5 % per år fra 2028, premiefondet dekker 75 % av 2025-nivået.</li>
+    <li><span class="norm-tag">Høy</span><b>Kostnaden tar igjen premien</b> (+21 %, departementets mål), strukturell vekst 1,0 % per år, premiefondet dekker 25 % av 2025-nivået.</li>
+  </ul>
+  <p><b>Forbehold.</b> Forholdstallet (realrenten i beregningen) er 1,0 for 2025, 0,88 for 2026 og 0,75 for 2027 (KDDs rundskriv H-3/25, H-4/25 og H-2/26). Det tekniske beregningsutvalget venter at kostnaden for sektoren faller i 2026 og stiger i 2027 (Prop. 1 S (2026–2027)); modellen fanger ikke opp virkningen av den høye avkastningen i 2025, så årene 2026–2027 er usikre. Premiefondets dekning er en forutsetning, ikke en prognose. Organiseringen (KLP, de egne kassene i Bodø, Tromsø og Harstad, Statens pensjonskasse for lærerne) bygger på kassenes årsrapporter for 2025, Finanstilsynet og KLPs kvartalsrapport for 2. kvartal 2026.</p>
 </div>
 
 <div class="metode-card">

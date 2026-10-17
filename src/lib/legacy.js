@@ -1,7 +1,7 @@
 // Tilgang til globale strukturer fra de klassiske skriptene (assets/data.js, assets/app.js).
 // Toppnivå-const/let i klassiske skript blir ikke egenskaper på window, men er
 // synlige som globale navn – derfor typeof-vakter i stedet for window.X.
-/* global DATA, K, AGG, state, REGIONS, KREGION, NAV_BEDRIFT, BEFK_DATA, BOLIG_DATA, BEHOV_DATA, MARKED_DATA, SSB_FLOWS, ARBEID_DATA, LEVEKAR_DATA, GJELD_DATA */
+/* global DATA, K, AGG, state, REGIONS, KREGION, NAV_BEDRIFT, BEFK_DATA, BOLIG_DATA, BEHOV_DATA, MARKED_DATA, SSB_FLOWS, ARBEID_DATA, LEVEKAR_DATA, GJELD_DATA, PENSJON_DATA */
 export const L = {
   get DATA() { return typeof DATA !== 'undefined' ? DATA : null; },
   get K() { return typeof K !== 'undefined' ? K : []; },
@@ -18,6 +18,7 @@ export const L = {
   get ARBEID() { return typeof ARBEID_DATA !== 'undefined' ? ARBEID_DATA : null; },
   get LEVEKAR() { return typeof LEVEKAR_DATA !== 'undefined' ? LEVEKAR_DATA : null; },
   get GJELD() { return typeof GJELD_DATA !== 'undefined' ? GJELD_DATA : null; },
+  get PENSJON() { return typeof PENSJON_DATA !== 'undefined' ? PENSJON_DATA : null; },
   get NAERING() { return typeof NAERING_DATA !== 'undefined' ? NAERING_DATA : null; }, // eslint-disable-line no-undef
   MW(o) { return typeof window.MW === 'function' ? window.MW(o) : null; },
 };

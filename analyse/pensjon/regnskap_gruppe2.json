@@ -1,0 +1,886 @@
+[
+  {
+    "nr": "1837",
+    "navn": "Meløy",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Sak-14-Regnskap-2025-Uttalelse-fra-kontrollutvalget.pdf",
+    "kilde_side": "vedlegg d) Årsregnskap 2025 (datert 25.02.2026): balanse s. 9, note 4 s. 16–20 i regnskapet (PDF-s. 106, 113–117)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1438514965,
+    "pensjonsmidler": 1375037559,
+    "netto_forpliktelse": 63477406,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 52644598,
+    "innbetalt_premie": 45992851,
+    "aarets_premieavvik": -8585640,
+    "akkumulert_premieavvik": 49678163,
+    "akkumulert_premieavvik_inkl_aga": 52211744,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 2504927,
+    "premiefond_bruk": 63898462,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Kilde er årsregnskapet 2025 slik det ble lagt fram for kontrollutvalget 21.04.2026 (vedlegg til sak 14/26); kommunens egen nettside har bare 2024-regnskapet. Tall summert av meg fra to noter: KLP (fellesordning + sykepleiere samlet) og SPK. Brutto forpliktelse: KLP 1 364 739 468 + SPK 73 775 497 = 1 438 514 965; balansen viser 1 442 005 897 (avvik 3 490 932, ikke forklart i noten). Pensjonsmidler: KLP 1 306 948 881 + SPK 68 088 678 = 1 375 037 559 (= balansen). Netto pensjonskostnad KLP 45 329 738 + SPK 7 314 860. Innbetalt premie inkl. adm.: KLP 39 850 039 + SPK 6 142 812. Årets premieavvik KLP -7 195 292 + SPK -1 390 348. Akkumulert premieavvik ekskl. AGA KLP 48 914 512 + SPK 763 651; balansen 52 211 744 er inkl. AGA (5,1 %). Premiefondsuttak KLP fellesordning 56 046 951 + sykepleiere 7 851 511 (foreløpige tall). KLP-noten viser planendring på 82 508 159 i estimatavvik 2025. Forutsetninger fra KLP-noten; SPK oppgir avkastning 4,0 %. SPK-ordningen antas å gjelde lærere (noten sier bare «SPK»). Disposisjonsfond for premieavvik er brukt opp."
+  },
+  {
+    "nr": "1838",
+    "navn": "Gildeskål",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Gildeskal-22042026.pdf",
+    "kilde_side": "vedlegg b) Årsregnskap 2025 (oversendt revisor 24.02.2026): balanse s. 8, note 2 s. 10–13 (PDF-s. 68, 70–73)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 537504284,
+    "pensjonsmidler": 533890910,
+    "netto_forpliktelse": 3613374,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 15192348,
+    "innbetalt_premie": 17712403,
+    "aarets_premieavvik": 1903411,
+    "akkumulert_premieavvik": null,
+    "akkumulert_premieavvik_inkl_aga": 37758681,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 939034,
+    "premiefond_bruk": 15785204,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": null,
+    "merknader": "Kilde er årsregnskapet 2025 lagt fram for kontrollutvalget 22.04.2026 (vedlegg b i innkallingen). Noten og balansen stemmer ikke overens. Brutto forpliktelse og pensjonsmidler er tatt fra balansen (537 504 284 / 533 890 910). Noten viser bare to tabeller: «Pensjonsutgifter KLP» (brutto 438 813 510, midler 431 650 420, 221 aktive) og SPK (brutto 28 718 223, midler 27 076 978); summen er 467 531 733 / 458 727 398, altså omtrent 70 mill. under balansen. Hypotese: KLP-sykepleierordningen er med i balansen, men ikke i noten. Dette er ikke bekreftet. Pensjonskostnad, premie og premieavvik er derfor summen av KLP-tabellen og SPK og kan være ufullstendige: netto pensjonskostnad 12 356 153 + 2 836 195, innbetalt premie inkl. adm. 14 751 911 + 2 960 492, årets premieavvik 1 872 190 + 31 221. Akkumulert premieavvik inkl. AGA er 37 758 681 i balansen, bekreftet i årsberetningen (37,8 mill. inkl. AGA). Noten gir KLP 29 783 716 + SPK 1 086 718 = 30 870 434 ekskl. AGA, som ikke går opp mot balansen; feltet ekskl. AGA er derfor satt til null. Bruk av premiefond 15 785 203,94 og saldo 14 883 279 per 31.12.2025. KLP-noten viser planendring på 28 075 662. SPK oppgir forventet avkastning 4,0 %. Status: delvis. KOSTRA (SSB 13545) viser de samme balansetallene (537 504 / 533 891 / 37 759 tusen), så avviket mot noten gjenstår."
+  },
+  {
+    "nr": "1839",
+    "navn": "Beiarn",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/05/Innkalling-Beiarn-04062026.pdf",
+    "kilde_side": "vedlegg b) til sak 09/26, Årsregnskap 2025 (datert 09.04.2026): note 9 Pensjonsforpliktelser (PDF-s. 81–83, skannet)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen (inkl. sykepleiere)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 299894755,
+    "pensjonsmidler": 296589802,
+    "netto_forpliktelse": 3304953,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 11621801,
+    "innbetalt_premie": 12504941,
+    "aarets_premieavvik": 423450,
+    "akkumulert_premieavvik": 16900782,
+    "akkumulert_premieavvik_inkl_aga": 17762722,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 12102219,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Årsregnskapet i innkallingen til kontrollutvalget 04.06.2026 er skannet og har ingen tekst. Tallene er derfor lest manuelt fra sidebilder (PDF-s. 81–83) og bør kontrolleres. Summeringene går opp internt, så tallene er trolig lest riktig. Tallene er summert av meg fra del 1 KLP og del 2 SPK, kommunekassen. Brutto forpliktelse: KLP 287 525 017 + SPK 12 369 738. Midler: KLP 284 890 526 + SPK 11 699 276. Netto pensjonskostnad ekskl. adm.: KLP 10 400 887 + SPK 1 220 914. Med adm. er den 10 820 559 + 1 260 932. Innbetalt premie inkl. adm.: KLP 11 194 093 + SPK 1 310 848. Årets premieavvik: KLP 373 534 + SPK 49 916. Akkumulert premieavvik: KLP 15 639 063 + SPK 1 261 719, og inkl. AGA 16 436 655 + 1 326 067. Premiefondet hadde 6 748 148 per 01.01., ble brukt med 12 102 219 og hadde 7 662 876 per 31.12. Amortisering 1/7 for avvik fra 2014 og senere, med eldre rester over 10 og 15 år. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK har avkastning 4,0 %. Ifølge noten er det ingen avvik mot det konsoliderte regnskapet, og Beiarn Næringseiendom KF har ingen ansatte. Balanseoppstillingen er ikke kontrollert, fordi den også er skannet. KOSTRA (SSB 13545) viser midler 296 590 og forpliktelse 300 063 tusen. Det siste er 168 tusen over notens brutto, trolig AGA på netto."
+  },
+  {
+    "nr": "1840",
+    "navn": "Saltdal",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Saltdal-29042026.pdf",
+    "kilde_side": "vedlegg a) til sak 11/26 i kontrollutvalget, Saltdal kommune regnskap 2025: note 9 s. 18–23 (PDF-s. 77–82), balanse tabell 8 konsolidert s. 10 (PDF-s. 69)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen (inkl. sykepleiere)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1238566586,
+    "pensjonsmidler": 1271219483,
+    "netto_forpliktelse": -32652897,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 41228886,
+    "innbetalt_premie": 70572771,
+    "aarets_premieavvik": 27701616,
+    "akkumulert_premieavvik": 115620576,
+    "akkumulert_premieavvik_inkl_aga": 121567231,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 25437245,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Regnskapet for 2025 er lagt fram for kontrollutvalget 29.04.2026 (udatert versjon). Noten gjelder Saltdal kommune (kommunekassen). Tallene er summert av meg fra KLP og SPK. Brutto forpliktelse: KLP 1 189 574 862 + SPK 48 991 724 = 1 238 566 586. SPK-tabellen oppgir 48 697 154 i kolonnen for 2025, men spesifikasjonen gir UB 48 991 724, som også stemmer med netto 3 083 724. Pensjonsmidler: KLP 1 225 311 483 + SPK 45 908 000. Balansen som ble funnet, er konsolidert (kasse + Saltdal Utvikling KF): forpliktelse 1 239 399 387, pensjonsmidler 1 271 219 482 og premieavvik 121 567 231. Balansen for kommunekassen (tabell 6) lot seg ikke trekke ut som tekst. Netto pensjonskostnad: KLP 36 384 926 + SPK 4 843 960. Innbetalt premie inkl. adm.: KLP 65 802 310 + SPK 4 770 461. Årets premieavvik: KLP 27 932 204 + SPK -230 588. Akkumulert premieavvik ekskl. AGA: KLP 112 900 488 + SPK 2 720 088. Feltet inkl. AGA er den konsoliderte balanseverdien (omtrent 5,1 % AGA). Premiefondsbruk i 2025 er 25 437 245. KLP-noten viser planendring på 72 074 385. Ingen egen sykepleiertabell. Egenkapitalinnskudd KLP er oppført med 2 090 (tusen kr) i en budsjettabell, men det er uklart hvilken kolonne tallet tilhører; feltet er derfor satt til null. SPK oppgir avkastning 4,0 %."
+  },
+  {
+    "nr": "1841",
+    "navn": "Fauske",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-05052026.pdf",
+    "kilde_side": "vedlegg b) Fauske kommune, Årsregnskap med noter 2025: note 12 Pensjon (PDF-s. 254–257), balanse kommunekassen (PDF-s. 241–243)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1562210000,
+    "pensjonsmidler": 1591432000,
+    "netto_forpliktelse": -29221000,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 58361000,
+    "innbetalt_premie": 55932000,
+    "aarets_premieavvik": -4770000,
+    "akkumulert_premieavvik": 116438000,
+    "akkumulert_premieavvik_inkl_aga": 122377000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 2709000,
+    "premiefond_bruk": 70324000,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Regnskapet for 2025 er lagt fram for kontrollutvalget 05.05.2026 (vedlegg b). Noten oppgir tall i hele 1000 kr, og jeg har omregnet dem til kroner, så presisjonen er ±1000 kr. Noten har kolonner for KLP, SPK og sum, og summene er brukt (KLP-fellesordning og sykepleiere er slått sammen). Brutto forpliktelse er KLP 1 473 967 + SPK 88 244 = 1 562 210 tusen. Balansen for kommunekassen viser 1 562 476 tusen; avviket er 266 tusen og ikke forklart. Pensjonsmidlene, 1 591 432 tusen, stemmer med balansen. Akkumulert premieavvik er KLP 111 135 + SPK 5 303 tusen; balansen viser 122 377 tusen inkl. AGA (5,1 %). Premiefondet brukte 70 324 tusen, og saldoen per 31.12.2025 er 86 036 tusen. Egenkapitaltilskuddet til KLP er 2 709 tusen. Konsolidert regnskap (inkl. Fauna KF): brutto 1 568 697, midler 1 597 910 og netto pensjonskostnad 58 772 tusen. SPK har forventet avkastning 4,0 %. Fauna KF har en egen, liten KLP-ordning med amortisering over 1 år."
+  },
+  {
+    "nr": "1845",
+    "navn": "Sørfold",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/05/Innkalling-Sorfold-05062026.pdf",
+    "kilde_side": "vedlegg a) Årsregnskap 2025: balanse s. 34–38 (PDF-s. 46–50), note 3 Pensjonsutgifter s. 42–43 (PDF-s. 54–55); årsberetning s. 25–26 (PDF-s. 92–93)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Folkevalgte",
+        "leverandor": "KLP",
+        "gruppe": "folkevalgte"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 545112498,
+    "pensjonsmidler": 550161252,
+    "netto_forpliktelse": -5048754,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 18843739,
+    "innbetalt_premie": 22515858,
+    "aarets_premieavvik": 3672119,
+    "akkumulert_premieavvik": 38505740,
+    "akkumulert_premieavvik_inkl_aga": 40466744,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 18331848,
+    "forutsetninger": {
+      "diskonteringsrente": null,
+      "avkastning": null,
+      "lonnsvekst": null,
+      "g_regulering": null,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Årsregnskapet for 2025 er lagt fram for kontrollutvalget 05.06.2026. Noten har én kolonne for KLP og én for SPK, og summene er mine. Brutto forpliktelse: KLP 511 919 876 + SPK 33 192 622, ekskl. AGA. Balansen viser 545 611 362, som også inneholder AGA av netto forpliktelse (KLP 378 175 + SPK 120 689). Pensjonsmidler: KLP 519 335 072 + SPK 30 826 180, som stemmer med balansen. Pensjonskostnad ekskl. adm.: KLP 15 556 449 + SPK 3 287 290. Med adm. er den 16 183 541 + 3 382 600. Årets premie: KLP 19 661 968 + SPK 2 853 890. Premieavvik: KLP +4 105 519. For SPK er tallet oppgitt som 433 400 uten fortegn, men det er negativt, fordi premien er lavere enn kostnaden og SPK-saldoen ble redusert. Akkumulert premieavvik etter balansekontoene: KLP 37 493 813 + SPK 1 011 927 ekskl. AGA, og 40 466 744 inkl. AGA. Amortiseringen er blandet: KLP har 282 936 over 15 år (gammelt avvik) og 9 404 717 over 7 år, SPK 383 757 over 7 år. Premiefondet hadde 16 769 141 per 01.01., ble brukt med 18 331 848 og hadde 23 707 019 per 31.12. I årsberetningen står det at hele reguleringspremien ble dekket av premiefondet; budsjettert reguleringspremie var 18 549 256. KLP-egenkapitalinnskuddet står i balansen med 15 915 032 (14 985 121 i 2024), som tilsvarer en økning på 929 911 i 2025, men årets innbetaling er ikke oppgitt direkte. Aktuarielle forutsetninger er ikke oppgitt i noten. KLP-ordningene (felles, sykepleiere, folkevalgte) er ikke spesifisert i noten."
+  },
+  {
+    "nr": "1848",
+    "navn": "Steigen",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Steigen-20042026.pdf",
+    "kilde_side": "vedlegg a) Årsmelding 2025 med årsregnskap: balanse s. 116–118, note 11 Pensjon s. 127–128 (PDF-s. 126–128, 137–138)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (fellesordning m.m., ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 560864959,
+    "pensjonsmidler": 576118535,
+    "netto_forpliktelse": -15253576,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 21104594,
+    "innbetalt_premie": null,
+    "aarets_premieavvik": 11144084,
+    "akkumulert_premieavvik": null,
+    "akkumulert_premieavvik_inkl_aga": 40092688,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 899645,
+    "premiefond_bruk": 9490304,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Årsregnskapet for 2025 er tatt inn i årsmeldingen 2025, som ble lagt fram for kontrollutvalget 20.04.2026. Noten har én tabell for KLP og én for SPK, og summene er mine. Brutto forpliktelse: KLP 520 959 344 + SPK 39 905 615. Balansen viser 560 990 588, som er inkl. AGA av SPKs netto forpliktelse (125 629). Pensjonsmidler: KLP 538 676 237 + SPK 37 442 298, som stemmer med balansen. Pensjonskostnad ekskl. adm.: KLP 17 159 955 + SPK 3 944 639. Med adm. er den 17 835 500 + 4 067 351. Feltet for årets premie er tomt i noten, og innbetalt premie er derfor satt til null. Årets premieavvik: KLP 11 283 414 + SPK -139 330. Akkumulert premieavvik i balansen er 40 092 688 og antas å være inkl. AGA, men noten bekrefter det ikke, og tallet ekskl. AGA er ikke oppgitt. Amortisering: hovedsakelig 7 år; KLP har et lite restbeløp over 15 år (191 035), og for SPK er det 1 442 over 15 år. Premiefondet hadde 22 477 028 per 01.01., ble brukt med 9 490 304 og hadde 36 615 369 per 31.12. Noten oppgir «G- og pensjonsregulering» som én sats på 2,97 %. Pensjonsregulering er derfor satt til null. SPK oppgir avkastning 4,0 %. Egenkapitalinnskuddet til KLP er 899 645 (finansforvaltningsrapport). Noten skiller ikke ut sykepleierordningen."
+  },
+  {
+    "nr": "1851",
+    "navn": "Lødingen",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.lodingen.kommune.no/api/presentation/v2/nye-innsyn/filer/v-a2ef74fd__6121__42a2__b5d6__00a80b13637e-53452_1_A!d-1100028851!NZdhW2?pid=1",
+    "kilde_side": "Årsregnskap Lødingen kommune 2025 (vedlegg til kommunestyrets møte 07.05.2026): balanse s. 8–9, balansespesifikasjon s. 10–12, note 10 Pensjon s. 23–24",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 497212585,
+    "pensjonsmidler": 474360437,
+    "netto_forpliktelse": 22852148,
+    "netto_inkl_aga": 24017608,
+    "aarets_pensjonskostnad": 17925642,
+    "innbetalt_premie": 19033435,
+    "aarets_premieavvik": 446073,
+    "akkumulert_premieavvik": 24612238,
+    "akkumulert_premieavvik_inkl_aga": 25867462,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 18603481,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": true,
+    "merknader": "Noten gir samlede tall for KLP og SPK, i tillegg til en fordeling per ordning. Den tabellen er feilmerket «31.12.2024», men summerer til tallene for 2025: KLP felles 411 187 107 / 388 692 233, KLP sykepleiere 62 313 850 / 63 357 086 og SPK 23 711 628 / 22 311 118. Kolonnen for folkevalgte er tom. Netto pensjonskostnad ekskl. adm. er 17 925 642, og 18 587 342 med adm. Premieinnbetalingen er 19 033 435, og årets premieavvik er 446 073. Balansen viser forpliktelse 498 378 046 inkl. AGA (1 165 460) og midler 474 360 437, som stemmer med KOSTRA. Akkumulert premieavvik er hentet fra balansekontoene, KLP 23 122 647 + SPK 1 489 591 ekskl. AGA, og 25 867 462 inkl. AGA, som stemmer med balansen og KOSTRA. Noten avviker: tabellen viser 17 693 889 (18 596 277 inkl. AGA), og IB 2025 der (23 122 647) er lik balansens UB for KLP. Tabellen ser derfor ut til å være feilført, og balansetallene er brukt. Premiefondet hadde 125 895 per 01.01., ble tilført 18 729 119, brukt med 18 603 481 og hadde 251 537 per 31.12. SPK har avkastning 4,0 %."
+  },
+  {
+    "nr": "1853",
+    "navn": "Evenes",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.evenes.kommune.no/api/presentation/v2/nye-innsyn/filer/v-ce85da45__e974__40aa__9389__91591987aaf5-76749_1_A!d-2025008213!5pn1hE?pid=1",
+    "kilde_side": "Årsregnskap 2025 (vedlegg til kommunestyrets sak om årsregnskap og årsberetning 2025, møte 16.06.2026): note 5 Pensjon, s. 17–18 (skannet)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 327798037,
+    "pensjonsmidler": 318078929,
+    "netto_forpliktelse": 9719108,
+    "netto_inkl_aga": 10366022,
+    "aarets_pensjonskostnad": 8932412,
+    "innbetalt_premie": 11017950,
+    "aarets_premieavvik": 1726047,
+    "akkumulert_premieavvik": 17861987,
+    "akkumulert_premieavvik_inkl_aga": 18772948,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 11627116,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Årsregnskapet er skannet og har ingen tekst. Tallene er derfor lest manuelt fra forstørrede sidebilder og avstemt mot KOSTRA-tabell 13545 (midler 318 079 tusen, forpliktelse inkl. AGA 328 445 tusen, premieavvik 18 773 tusen), som stemmer. Noten har kolonner for KLP, SPK og sum, og summene er brukt. Brutto forpliktelse: KLP 313 891 387 + SPK 13 906 650. Midler: KLP 304 985 651 + SPK 13 093 278. Noten viser netto som midler − forpliktelse (−9 719 108), og det er lagt inn som positiv netto forpliktelse. AGA på netto er 646 914. Netto pensjonskostnad ekskl. adm.: KLP 7 558 635 + SPK 1 373 777. Premie inkl. adm.: KLP 9 603 565 + SPK 1 414 385. Premieavvik: KLP 1 729 536 + SPK −3 489. Akkumulert premieavvik: KLP 17 173 535 + SPK 688 452, og AGA er 910 961. Kommunestyret har vedtatt amortisering over 15 år for gamle avvik, med 1/10 for avvik etter 2010 og 1/7 for avvik etter 2013; 7 år gjelder derfor nye avvik. Premiefondet (KLP) hadde 552 185 per 01.01., ble tilført 14 776 451, brukt med 11 627 116 og hadde 3 701 520 per 31.12. SPK har avkastning 4,0 %."
+  },
+  {
+    "nr": "1856",
+    "navn": "Røst",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://prod02.elementscloud.no/publikum/Documents/ShowMeetingDocument/cf95ef36-f8f6-439d-96c0-b7d44ab87cbe/464/MI/2031",
+    "kilde_side": "Møteinnkalling for kommunestyret 20.05.2026 (PS 26/17 Årsregnskap, årsberetning og årsmelding 2025), vedlagt årsregnskap: balanse s. 10, note 11 s. 19 (PDF-s. 36, 45)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 143823000,
+    "pensjonsmidler": 139020000,
+    "netto_forpliktelse": 4803000,
+    "netto_inkl_aga": 5048000,
+    "aarets_pensjonskostnad": 4836000,
+    "innbetalt_premie": 4787000,
+    "aarets_premieavvik": -262000,
+    "akkumulert_premieavvik": 7355000,
+    "akkumulert_premieavvik_inkl_aga": 7730000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 6655000,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Noten oppgir tallene i hele 1000 kr, og jeg har omregnet dem til kroner (±1000 kr). Den gir bare samlede tall for KLP og SPK. Netto pensjonskostnad ekskl. adm. er beregnet slik: opptjening 5 204 + rente 5 621 − avkastning 5 989. Med adm. er den 5 048. Forfalt premie inkl. adm. er 4 787. Årets premieavvik er −262 (B − A). Balansen viser forpliktelse 144 068 inkl. AGA på netto (245) og midler 139 020. Netto inkl. AGA er derfor 5 048. Premieavviket i balansen er 8 150 på eiendelssiden og 419 på gjeldssiden, netto 7 731, mens noten viser 7 730 inkl. AGA. Premiefondet hadde 240 per 01.01., ble tilført 6 634, brukt med 6 655 og hadde 219 per 31.12. SPK oppgir avkastning 4,0 % og pensjonsregulering 2,97 %. Årsregnskapet ble behandlet i kommunestyret 20.05.2026."
+  },
+  {
+    "nr": "1857",
+    "navn": "Værøy",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://innsyn.lofoten.nu/Varoy/innsyn/wfdocument.ashx?journalpostid=2021015265&dokid=1373662&versjon=1&variant=A&",
+    "kilde_side": "Årsregnskap 2025 med noter og årsberetning (vedlegg til kommunestyrets møte 16.06.2026): balanse s. 9–10, note 11 s. 19–21",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Folkevalgte",
+        "leverandor": "KLP",
+        "gruppe": "folkevalgte"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 179232496,
+    "pensjonsmidler": 176959115,
+    "netto_forpliktelse": 2273381,
+    "netto_inkl_aga": 2389323,
+    "aarets_pensjonskostnad": 6708055,
+    "innbetalt_premie": 6394171,
+    "aarets_premieavvik": -572173,
+    "akkumulert_premieavvik": -572173,
+    "akkumulert_premieavvik_inkl_aga": -601353,
+    "amortisering_aar": 1,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 7863222,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": true,
+    "merknader": "Noten oppgir brutto forpliktelse og midler per ordning (s. 19). Forpliktelse: KLP felles 159 335 834 + KLP sykepleiere 10 936 472 + KLP folkevalgte 772 983 + SPK 8 187 207. Midler: 156 702 554 + 11 444 093 + 1 025 224 + 7 787 244. Netto inkl. AGA (2 389 323) stemmer med balansen (179 348 438 − 176 959 115). Kostnad og premie er oppgitt for KLP samlet og SPK, og summene er mine. Netto pensjonskostnad ekskl. adm.: KLP 5 900 823 + SPK 807 232. Innbetalt premie inkl. adm.: KLP 5 480 488 + SPK 913 683. Årets premieavvik: KLP −649 009 + SPK +76 836. Amortiseringstiden er 1 år: hele fjorårets premieavvik (1 785 282 + 300 129) ble amortisert i 2025, så akkumulert premieavvik er lik årets premieavvik. Akkumulert premieavvik inkl. AGA er −601 353 (balanse: eiendel 80 755, gjeld 682 108). Premiefondet hadde 5 261 436 per 01.01., ble brukt med 7 863 222 og hadde 5 593 562 per 31.12. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK oppgir avkastning 4,0 %. AFP 62–64 i KLP finansieres med 100 % utjevning."
+  },
+  {
+    "nr": "1859",
+    "navn": "Flakstad",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://innsyn.lofoten.nu/Flakstad/innsyn/wfdocument.ashx?journalpostid=2021026215&dokid=1421727&versjon=1&variant=A&",
+    "kilde_side": "Regnskap Flakstad kommune 2025, sendt revisjon 13.05.2026 (vedlegg til kommunestyrets møte 16.06.2026): balanse s. 8–9, note 4 s. 13–15",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 295519957,
+    "pensjonsmidler": 295780513,
+    "netto_forpliktelse": -260556,
+    "netto_inkl_aga": -233655,
+    "aarets_pensjonskostnad": 8260250,
+    "innbetalt_premie": 8243663,
+    "aarets_premieavvik": -401017,
+    "akkumulert_premieavvik": 16204646,
+    "akkumulert_premieavvik_inkl_aga": 17031082,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 13855130,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "PDF-en er skannet og tekstgjenkjent, men saldoavstemmingene går opp. Tallene er summert av meg fra KLP (4.4) og SPK (4.5). Brutto forpliktelse: KLP 286 006 356 + SPK 9 513 601. Balansen viser 295 546 858, som er inkl. AGA på SPKs netto forpliktelse (26 902). Netto inkl. AGA er hentet fra balansen. Pensjonsmidler: KLP 286 794 393 + SPK 8 986 120, som stemmer med balansen. Netto pensjonskostnad ekskl. adm.: KLP 7 321 010 + SPK 939 240; adm.-kostnaden er 351 002 + 33 428. Premie: KLP 7 244 432 + SPK 999 231. Premieavvik, definert som premie − kostnad − adm.: KLP −427 580 + SPK +26 563. Fortegnene i noten er inkonsekvente, men avstemmingen av akkumulert premieavvik bekrefter disse fortegnene. Noteteksten oppgir −421 469, som er samme beløp inkl. AGA. Akkumulert premieavvik: KLP 15 944 984 + SPK 259 662, og inkl. AGA (813 194 + 13 243) blir det 17 031 082, som stemmer med netto i balansen (19 343 447 − 2 312 365). Amortisering: 7 år for avvik fra 2014 og senere, og eldre avvik over 15 og 10 år. Premiefondet hadde 8 951 636 per 01.01., ble tilført 14 161 527, brukt med 13 855 130 og hadde 9 258 033 per 31.12. Pensjonsregulering er ikke oppgitt. SPK har avkastning 4,0 %. Kommunen skal inngå i nye Vest-Lofoten kommune."
+  },
+  {
+    "nr": "1860",
+    "navn": "Vestvågøy",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://innsyn.onacos.no/vestvagoy/pluss/wfdocument.ashx?journalpostid=2021148311&dokid=1834450&versjon=1&variant=A&",
+    "kilde_side": "Årsregnskap og årsberetning 2025 (vedlegg til kontrollutvalgets møte 21.05.2026): balanse s. 52–53, note 6 s. 62–68",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1795529183,
+    "pensjonsmidler": 1754549467,
+    "netto_forpliktelse": 40979716,
+    "netto_inkl_aga": 43069681,
+    "aarets_pensjonskostnad": 79074095,
+    "innbetalt_premie": 121061496,
+    "aarets_premieavvik": 39039552,
+    "akkumulert_premieavvik": 126575341,
+    "akkumulert_premieavvik_inkl_aga": 133029546,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 3063157,
+    "premiefond_bruk": 28523204,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Tallene er summert av meg fra KLP-sumsiden (felles og sykepleiere samlet) og SPK. Brutto forpliktelse: KLP 1 673 817 661 + SPK 121 711 522. Balansen viser 1 797 619 148, som er inkl. AGA på 5,1 % av netto forpliktelse (2 089 965). Netto inkl. AGA er hentet fra balansen. Pensjonsmidler: KLP 1 640 387 999 + SPK 114 161 468, som stemmer med balansen. Netto pensjonskostnad: KLP 67 042 284 + SPK 12 031 811. Innbetalt premie: KLP 109 102 310 + SPK 11 959 186. Årets premieavvik: KLP 39 501 479 + SPK -461 927. Akkumulert premieavvik ekskl. AGA: KLP 122 483 133 + SPK 4 092 208. Tallet inkl. AGA er balansens netto (eiendel 136 517 159 − gjeld 3 487 613), som tilsvarer 5,1 % AGA. Premiefondet ble brukt med 26 141 062 i KLP felles og 2 382 142 i KLP sykepleiere. Tabellen er merket «i 1000 kr», men verdiene er åpenbart i kroner. Aktivert egenkapitalinnskudd i KLP er 3 063 157 (note om kapitalkonto). KLP-noten viser planendring på 98 799 368. SPK oppgir avkastning 4,0 %. Ny kommune: det finnes en fellesnemnd for Vest-Lofoten kommune."
+  },
+  {
+    "nr": "1865",
+    "navn": "Vågan",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://innsyn.lofoten.nu/Vagan/innsyn/wfdocument.ashx?journalpostid=2021156113&dokid=1900917&versjon=1&variant=A&",
+    "kilde_side": "Årsregnskap Vågan kommune 2025 (vedlegg til kontrollutvalgets møte 20.05.2026): balanse s. 9–10, note 10 s. 21",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1590127062,
+    "pensjonsmidler": 1654410375,
+    "netto_forpliktelse": -64283313,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 63324659,
+    "innbetalt_premie": 65433888,
+    "aarets_premieavvik": -551458,
+    "akkumulert_premieavvik": null,
+    "akkumulert_premieavvik_inkl_aga": 108672000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 68063796,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Noten gir bare samlede tall for KLP og SPK, uten fordeling per ordning. PDF-en er skannet og tekstgjenkjent, så teksten er delvis forvansket. Bevegelsene i forpliktelse og midler går likevel opp mot UB, så hovedtallene er sannsynligvis lest riktig. Pensjonskostnaden ekskl. adm. er beregnet slik: opptjening 72 132 985 + rente 61 673 923 − forventet avkastning 70 482 249. Med adm. er netto kostnad 65 985 346. Årets premie er 65 433 888. Årets premieavvik er −551 458, altså en premie lavere enn kostnaden. Amortisering: 31 121 302 over 7 år og 316 286 over 15 år. Premiefondet hadde 121 349 911 per 01.01., ble brukt med 68 063 796 og hadde 125 759 790 per 31.12. Balansen er oppgitt i tusen kroner: forpliktelse 1 590 450 (inkl. AGA på SPKs netto forpliktelse; noten sier at AGA ikke er bokført for KLP fordi midlene er større enn forpliktelsen) og midler 1 654 410. Premieavviket er 109 459 på eiendelssiden og 787 på gjeldssiden. Netto 108 672 tusen er antatt å være inkl. AGA; noten oppgir ikke akkumulert premieavvik ekskl. AGA. AGA-kolonnen i noten viser 81 096 480 / 84 374 929, som ser ut som AGA på brutto tall og ikke er brukt. SPK oppgir avkastning 4,0 %. Kommunen er i ROBEK. Et konsolidert regnskap med to KF-er finnes separat. KOSTRA (SSB 13545) viser forpliktelse 1 592 326 tusen mot 1 590 450 i den skannede balansen; midler og premieavvik stemmer."
+  },
+  {
+    "nr": "1866",
+    "navn": "Hadsel",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://opengov.360online.com/Meetings/hadsel_kommune/File/Details/464395.pdf?fileName=Regnskapsdokument%20Hadsel%20kommune%202025&fileSize=1229497",
+    "kilde_side": "Regnskapsdokument Hadsel kommune 2025 (vedlegg til kommunestyresak 47/26, 25.06.2026): balanse s. 8–11, note 10 KLP s. 28, note 10 SPK s. 29",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen (inkl. sykepleiere)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1339376646,
+    "pensjonsmidler": 1334692359,
+    "netto_forpliktelse": 4684287,
+    "netto_inkl_aga": 4923186,
+    "aarets_pensjonskostnad": 57199777,
+    "innbetalt_premie": 85204666,
+    "aarets_premieavvik": 25739390,
+    "akkumulert_premieavvik": 87343789,
+    "akkumulert_premieavvik_inkl_aga": 91798324,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": 2218094,
+    "premiefond_bruk": null,
+    "forutsetninger": {
+      "diskonteringsrente": null,
+      "avkastning": null,
+      "lonnsvekst": null,
+      "g_regulering": null,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Tallene er summert av meg fra note 10 KLP og note 10 SPK. Brutto forpliktelse: KLP 1 251 506 354 + SPK 87 870 292, som stemmer med balansekontoene 240550001/2. Balanselinjen 1 339 137 747 er nettoført med AGA-kontoene (−23 002 og +261 901). Pensjonsmidler: KLP 1 251 957 382 + SPK 82 734 977, som stemmer med balansen. Netto inkl. AGA: 4 684 287 + AGA på netto (−23 002 + 261 901). Netto pensjonskostnad ekskl. adm.: KLP 48 519 531 + SPK 8 680 246. Premie inkl. adm.: KLP 76 256 273 + SPK 8 948 393. Premieavvik: KLP 25 757 394 + SPK −18 004. Akkumulert premieavvik: KLP 82 264 746 + SPK 5 079 043, og balansen er 91 798 324 inkl. AGA (5,1 %). Aktivert egenkapitalinnskudd i KLP er 2 218 094 (note 2 Kapitalkonto). I balansen er egenkapitalinnskuddet ført på egne kontoer for fellesordning og sykepleiere, så sykepleierordningen finnes, men noten slår den sammen med KLP. Aktuarielle forutsetninger og premiefond er ikke oppgitt i regnskapsdokumentet. Kommunen er i Vesterålen og har AGA-sone 5,1 %. KOSTRA-avvik: SSB tabell 13545 (kasse 2025) viser midler 1 326 044 og forpliktelse 1 330 489 tusen, omtrent 8,6 mill. lavere enn regnskapsdokumentet som ble lagt fram for kommunestyret (1 334 692 / 1 339 138). Trolig er KOSTRA rapportert før en korreksjon."
+  },
+  {
+    "nr": "1867",
+    "navn": "Bø",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowMeetingDocument/fd1f80dc-0311-4eae-aa66-8b1ec3efe3a8/399/MI/1404",
+    "kilde_side": "Møteinnkalling for kommunestyret 21.05.2026 (PS 25/2026 Årsregnskap og årsmelding 2025), vedlagt Årsregnskap 2025: note 11 Pensjonsforpliktelser, s. 118–119 (skannet)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 681144159,
+    "pensjonsmidler": 667195683,
+    "netto_forpliktelse": 13948476,
+    "netto_inkl_aga": 14659849,
+    "aarets_pensjonskostnad": 24226964,
+    "innbetalt_premie": 16796273,
+    "aarets_premieavvik": -8340099,
+    "akkumulert_premieavvik": 35085639,
+    "akkumulert_premieavvik_inkl_aga": 36875007,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 35545057,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Årsregnskapet i innkallingen er skannet og har ingen tekst. Tallene er derfor lest manuelt fra forstørrede sidebilder (PDF-s. 118–119). Kontrollsummene i noten går opp. Kostnad, premie og premieavvik er oppgitt samlet for KLP og SPK. Forpliktelse og midler er oppgitt per ordning: KLP brutto 647 969 612 og midler 636 309 950, SPK brutto 33 174 547 og midler 30 885 733. Netto pensjonskostnad ekskl. adm. er beregnet slik: 26 462 766 + 26 528 511 − 28 764 313. Med adm. er den 25 136 372. Innbetalt premie er 16 796 273. Årets premieavvik er −8 340 099, fordi premiefondet dekket 35 545 057 og senket premien. Akkumulert premieavvik er 35 085 639 og 36 875 007 inkl. AGA. Premiefondet hadde 16 595 275 per 01.01., ble tilført 31 277 233, brukt med 35 545 057 og hadde 12 327 451 per 31.12. Forutsetningen oppgis som «G- og pensjonsregulering» 2,97 % samlet. SPK oppgir avkastning 4,0 %. Balanseoppstillingen er ikke kontrollert."
+  },
+  {
+    "nr": "1868",
+    "navn": "Øksnes",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.oksnes.kommune.no/api/presentation/v2/nye-innsyn/filer/v-d8cad916__46db__494b__a3e7__5241057da539-84181_1_A!d-1100035133!14tQ54?pid=1",
+    "kilde_side": "Øksnes kommunes regnskap 2025 (vedlegg til kommunestyrets møte 18.06.2026): balansespesifikasjon s. 14–15, note 11 Pensjoner s. 31–32 (tabellen på s. 32 er et bilde)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Folkevalgte",
+        "leverandor": "KLP",
+        "gruppe": "folkevalgte"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 824614124,
+    "pensjonsmidler": 794327934,
+    "netto_forpliktelse": 30286190,
+    "netto_inkl_aga": 31831000,
+    "aarets_pensjonskostnad": 35800000,
+    "innbetalt_premie": 34885000,
+    "aarets_premieavvik": -2210000,
+    "akkumulert_premieavvik": 41451000,
+    "akkumulert_premieavvik_inkl_aga": 43565000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 34768000,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": true,
+    "merknader": "Brutto forpliktelse og midler i kroner er hentet fra balansekontoene: forpliktelse KLP alle ordninger 777 244 399 + SPK 47 369 725, midler 750 351 761 + 43 976 173. Noten i hele 1000 kr gir samme tall (824 614 / 794 328). Noten fordeler tallene per ordning (i tusen): KLP felles 658 693 / 627 363, KLP sykepleiere 114 681 / 117 792, KLP folkevalgte 3 870 / 5 196 og SPK 47 370 / 43 976. Øvrige felt er fra noten i tusen kr (±1000 kr), med kostnad og premie samlet for KLP og SPK. Netto pensjonskostnad ekskl. adm. er 37 621 + 32 105 − 33 926 = 35 800; med adm. er den 37 095. Innbetalt premie er 34 885, og premieavviket er −2 210 (B − A). Akkumulert premieavvik er 41 451 og 43 565 inkl. AGA. Premiefondet hadde 234 per 01.01., ble tilført 34 937, brukt med 34 768 og hadde 403 per 31.12. (tusen kr). Egenkapitaltilskuddet til KLP økte i balansen fra 21 197 948 til 22 640 612 (+1 442 664), men årets innbetaling er ikke oppgitt direkte; feltet er derfor satt til null. KLP-regulering er oppgitt som 2,97 % for G og 2,2 % for pensjon. SPK har avkastning 4,0 %."
+  },
+  {
+    "nr": "1870",
+    "navn": "Sortland",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://www.sortland.kommune.no/api/presentation/v2/nye-innsyn/filer/v-d33b2efd__7f7c__446d__981d__f06a96add893-254209_1_A!d-1100138120!wtEdyX?pid=4",
+    "kilde_side": "Årsrapport Sortland kommune 2025, signert versjon (vedlegg til kommunestyresak 026/26, 22.06.2026): balanse s. 62, note 12 Pensjon s. 73 (sidene er bilder)",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "Fellesordningen",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Sykepleiere",
+        "leverandor": "KLP",
+        "gruppe": "sykepleiere"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 1820803000,
+    "pensjonsmidler": 1906034000,
+    "netto_forpliktelse": -85231000,
+    "netto_inkl_aga": -84854000,
+    "aarets_pensjonskostnad": 74882000,
+    "innbetalt_premie": 130391000,
+    "aarets_premieavvik": 55508000,
+    "akkumulert_premieavvik": 178701000,
+    "akkumulert_premieavvik_inkl_aga": 187815000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 20000000,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.5,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": true,
+    "merknader": "Notesidene i den signerte årsrapporten er bilder. Tallene er derfor lest manuelt fra forstørrede sidebilder og oppgitt i hele 1000 kr, så presisjonen er ±1000 kr. Kontrollsummene i noten går opp. Brutto forpliktelse: fellesordning 1 482 372 + sykepleiere 233 070 + SPK 105 361 = 1 820 803 tusen. Pensjonsmidler: 1 523 031 + 285 028 + 97 975 = 1 906 034 tusen, som stemmer med balansen. Netto er −85 231 tusen, og AGA på netto er 377 tusen, bare for SPK. Netto pensjonskostnad (inkl. adm., men adm.-linjen er tom) er 74 882 tusen, betalt premie 130 391 tusen. Noten viser årets premieavvik som −55 508, men premien er større enn kostnaden, så verdien er lagt inn som positiv etter skjemaets fortegnskonvensjon. Akkumulert premieavvik er 178 701 tusen + AGA 9 114 tusen. Premiefondet er oppgitt netto: 101 460 tusen per 01.01., tilført netto 79 156 tusen, brukt netto −20 000 tusen og 160 616 tusen per 31.12. Kostnaden og premien er bare oppgitt samlet, ikke per ordning. Årsberetningen nevner 1,89 mrd. i pensjonsforpliktelse, men noten viser 1,82 mrd.; avviket er ikke undersøkt nærmere. SPK har avkastning 4,0 % og pensjonsregulering 2,97 %. KOSTRA (SSB 13545) bekrefter forpliktelse 1 821 180 tusen (inkl. AGA 377) og midler 1 906 034. Tallet 1,89 mrd. i årsberetningen er altså feil eller avrundet."
+  },
+  {
+    "nr": "1871",
+    "navn": "Andøy",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://data.ssb.no/api/pxwebapi/v2/tables/13545/data?lang=no&valueCodes[KOKkommuneregion0000]=1871&valueCodes[KOKkapittel0000]=KG50,KG82,KG61,KG89&valueCodes[KOKregnskapsomfa0000]=B&valueCodes[ContentsCode]=KOSbelop0000&valueCodes[Tid]=2025",
+    "kilde_side": "KOSTRA/SSB tabell 13545, balanse for kommunekassen 2025 (A.4 Pensjonsmidler, D.3 Pensjonsforpliktelse, B.3.4 og E.1.6 Premieavvik), i 1000 kr",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [],
+    "brutto_pensjonsforpliktelse": null,
+    "pensjonsmidler": 912603000,
+    "netto_forpliktelse": null,
+    "netto_inkl_aga": 15568000,
+    "aarets_pensjonskostnad": null,
+    "innbetalt_premie": null,
+    "aarets_premieavvik": null,
+    "akkumulert_premieavvik": null,
+    "akkumulert_premieavvik_inkl_aga": 56193000,
+    "amortisering_aar": null,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": null,
+    "forutsetninger": {
+      "diskonteringsrente": null,
+      "avkastning": null,
+      "lonnsvekst": null,
+      "g_regulering": null,
+      "pensjonsregulering": null
+    },
+    "sykepleiere_separat": null,
+    "merknader": "REGNSKAPET STÅR BAK EN BOTSJEKK. Årsregnskapet for 2025 («Andøy kommune - Årsregnskap 2025», vedlegg til kommunestyresak «Årsberetning og årsregnskap 2025», møte 29.06.2026) finnes i kommunens ACOS-innsyn, men nedlasting gir HTTP 403 med «Azure WAF JS Challenge». Sjekken er ikke forsøkt omgått. Framsikt-publikasjonen «Årsberetning og årsregnskap 2025» har bare hovedoversikter og ingen noter eller balanse. Ingen annen åpen kilde er funnet (kommunens nettside eller Euronext). Tallene er derfor KOSTRA-tall fra balansen for kommunekassen 2025, i tusen kr: pensjonsmidler 912 603 og pensjonsforpliktelse 928 171. Balanselinjen for forpliktelsen inneholder normalt også AGA av netto forpliktelse, så brutto ekskl. AGA er satt til null, og differansen er ført som netto inkl. AGA (15 568). Premieavviket er 57 235 på eiendelssiden og 1 042 på gjeldssiden, netto 56 193, normalt inkl. AGA. Til sammenligning var tallene for 2024: midler 833 765, forpliktelse 824 060 og premieavvik 80 941 / 1 042. Leverandører (trolig KLP og SPK), kostnad, premie og forutsetninger er ikke tilgjengelige."
+  },
+  {
+    "nr": "1874",
+    "navn": "Moskenes",
+    "regnskapsaar": 2025,
+    "kilde_url": "https://innsyn.lofoten.nu/Moskenes/innsyn/wfdocument.ashx?journalpostid=2021019849&dokid=1405950&versjon=1&variant=A&",
+    "kilde_side": "Årsregnskap Moskenes kommune 2025 (vedlegg til kommunestyrets sak, møte 09.06.2026): balanse s. 8–9, note 9 s. 17",
+    "konsern_eller_kasse": "kommunekasse",
+    "leverandorer": [
+      {
+        "ordning": "KLP (ikke spesifisert)",
+        "leverandor": "KLP",
+        "gruppe": "fellesordning"
+      },
+      {
+        "ordning": "Lærere",
+        "leverandor": "SPK",
+        "gruppe": "laerere"
+      }
+    ],
+    "brutto_pensjonsforpliktelse": 214592937,
+    "pensjonsmidler": 218349702,
+    "netto_forpliktelse": -3756765,
+    "netto_inkl_aga": null,
+    "aarets_pensjonskostnad": 6056186,
+    "innbetalt_premie": 7071903,
+    "aarets_premieavvik": 776960,
+    "akkumulert_premieavvik": null,
+    "akkumulert_premieavvik_inkl_aga": 15970000,
+    "amortisering_aar": 7,
+    "reguleringspremie": null,
+    "egenkapitaltilskudd_klp": null,
+    "premiefond_bruk": 7744479,
+    "forutsetninger": {
+      "diskonteringsrente": 4.0,
+      "avkastning": 4.0,
+      "lonnsvekst": 2.97,
+      "g_regulering": 2.97,
+      "pensjonsregulering": 2.2
+    },
+    "sykepleiere_separat": false,
+    "merknader": "Noten gir bare samlede tall for KLP og SPK, uten fordeling per ordning. Pensjonskostnaden ekskl. adm. er beregnet slik: opptjening 7 080 541 + rente 8 433 517 − forventet avkastning 9 457 872. Med adm. er netto kostnad 6 294 941. Årets premieavvik er 776 960. Amortiseringen over 7 år er negativ (−3 967 360), altså tilbakeføring av tidligere negative avvik. Premiefondet hadde 6 917 605 per 01.01., ble brukt med 7 744 479 og hadde 8 467 469 per 31.12. Balansen i tusen kroner viser forpliktelse 214 825, som tilsvarer brutto 214 593 + AGA og liten differanse, og midler 218 350. Premieavviket er 16 147 på eiendelssiden og 177 på gjeldssiden. Netto 15 970 tusen er antatt å være inkl. AGA, fordi tallet ekskl. AGA ikke er oppgitt. Noten oppgir forventet avkastning 4,00 % både for KLP og SPK, som er uvanlig, fordi KLP normalt bruker 4,5 %. Kommunen har et stort akkumulert merforbruk (162,5 mill. i balansen)."
+  }
+]

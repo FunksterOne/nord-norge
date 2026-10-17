@@ -1,0 +1,30 @@
+{
+  "nr": "1868",
+  "navn": "Øksnes",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.oksnes.kommune.no/api/presentation/v2/nye-innsyn/filer/v-d8cad916__46db__494b__a3e7__5241057da539-84181_1_A!d-1100035133!14tQ54?pid=1",
+  "kilde_side": "Øksnes kommunes regnskap 2025 (vedlegg til kommunestyrets møte 18.06.2026): balansespesifikasjon s. 14–15, note 11 Pensjoner s. 31–32 (tabellen på s. 32 er et bilde)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 824614124,
+  "pensjonsmidler": 794327934,
+  "netto_forpliktelse": 30286190,
+  "netto_inkl_aga": 31831000,
+  "aarets_pensjonskostnad": 35800000,
+  "innbetalt_premie": 34885000,
+  "aarets_premieavvik": -2210000,
+  "akkumulert_premieavvik": 41451000,
+  "akkumulert_premieavvik_inkl_aga": 43565000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 34768000,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": true,
+  "merknader": "Brutto forpliktelse og midler i kroner er hentet fra balansekontoene: forpliktelse KLP alle ordninger 777 244 399 + SPK 47 369 725, midler 750 351 761 + 43 976 173. Noten i hele 1000 kr gir samme tall (824 614 / 794 328). Noten fordeler tallene per ordning (i tusen): KLP felles 658 693 / 627 363, KLP sykepleiere 114 681 / 117 792, KLP folkevalgte 3 870 / 5 196 og SPK 47 370 / 43 976. Øvrige felt er fra noten i tusen kr (±1000 kr), med kostnad og premie samlet for KLP og SPK. Netto pensjonskostnad ekskl. adm. er 37 621 + 32 105 − 33 926 = 35 800; med adm. er den 37 095. Innbetalt premie er 34 885, og premieavviket er −2 210 (B − A). Akkumulert premieavvik er 41 451 og 43 565 inkl. AGA. Premiefondet hadde 234 per 01.01., ble tilført 34 937, brukt med 34 768 og hadde 403 per 31.12. (tusen kr). Egenkapitaltilskuddet til KLP økte i balansen fra 21 197 948 til 22 640 612 (+1 442 664), men årets innbetaling er ikke oppgitt direkte; feltet er derfor satt til null. KLP-regulering er oppgitt som 2,97 % for G og 2,2 % for pensjon. SPK har avkastning 4,0 %."
+}

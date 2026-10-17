@@ -1,0 +1,52 @@
+{
+  "nr": "5522",
+  "navn": "Salangen",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.salangen.kommune.no/download/18.628541b919d9a49ccc2b986/1777467945048/Salangen%20kommune%20-%20innkalling%20til%20m%C3%B8te%20i%20kontrollutvalget%2006.05.2026%20-%20samlet.pdf",
+  "kilde_side": "note 11, PDF-side 38–39 (skannet, lest av sidebilde); årsberetning s. 19–20",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "sykepleiere"
+    },
+    {
+      "ordning": "Folkevalgte",
+      "leverandor": "KLP",
+      "gruppe": "folkevalgte"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 583143988,
+  "pensjonsmidler": 598925746,
+  "netto_forpliktelse": -15781758,
+  "netto_inkl_aga": -15855174,
+  "aarets_pensjonskostnad": 23857058,
+  "innbetalt_premie": 43556490,
+  "aarets_premieavvik": 19699432,
+  "akkumulert_premieavvik": 56190969,
+  "akkumulert_premieavvik_inkl_aga": 59056711,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 5974420,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Kontrollutvalgets samlede møtedokumenter 6. mai 2026 på kommunens nettside; regnskapet er skannet og tallene lest av sidebilder. Amortisering 2025: 10 056 668. AGA 5,1 % på akkumulert premieavvik (2 865 742). Premiefond 01.01: 19 659 034, tilført 25 558 347, brukt 5 974 420, 31.12: 39 242 961. Per ordning: KLP felles −6 986 122, KLP sykepleiere −8 172 470, KLP folkevalgte −2 062 713, SPK +1 439 548 (netto). Estimatavvik 2025: forpliktelse +46 045 902, midler +31 615 550. SPK pensjonsregulering oppgitt 0,00 %. Årsberetningen: premieavviket økte med 9,6 mill. kr inkl. AGA; likviditetsutfordringer knyttes til premieavvik, amortiseringsvalg og bruk av premiefond. Stemmer med KOSTRA 13545 (59,1 mill. kr)."
+}

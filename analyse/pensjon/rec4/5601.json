@@ -1,0 +1,12 @@
+{"nr":"5601","navn":"Alta","regnskapsaar":2025,
+"kilde_url":"https://prod02.elementscloud.no/publikum/Documents/ShowDocument/0dfb022d-5b2b-428b-aecb-31af5dd9fdcf/528254/758640",
+"kilde_side":"note 9 Pensjon, s. 44–45 (PDF-side 45–46); balanse PDF-side 6–7; hovedbokspesifikasjon premieavvik/egenkapitalinnskudd; konsernnote 4 s. 66",
+"konsern_eller_kasse":"kommunekasse",
+"leverandorer":[{"ordning":"Fellesordningen (inkl. sykepleiere)","leverandor":"KLP","gruppe":"fellesordning"},{"ordning":"Lærere","leverandor":"SPK","gruppe":"laerere"}],
+"brutto_pensjonsforpliktelse":3357804804,"pensjonsmidler":3209582654,"netto_forpliktelse":148222150,"netto_inkl_aga":null,
+"aarets_pensjonskostnad":179180286,"innbetalt_premie":195605038,"aarets_premieavvik":9850179,
+"akkumulert_premieavvik":158851759,"akkumulert_premieavvik_inkl_aga":null,"amortisering_aar":7,
+"reguleringspremie":null,"egenkapitaltilskudd_klp":5762510,"premiefond_bruk":119300000,
+"forutsetninger":{"diskonteringsrente":null,"avkastning":null,"lonnsvekst":null,"g_regulering":null,"pensjonsregulering":null},
+"sykepleiere_separat":false,
+"merknader":"Årsregnskapet 2025 er ikke lagt ut på kommunens nettside (der ligger bare 2024); hentet som vedlegg til kommunestyresak PS 55/2026 (30. juni 2026) i Elements innsyn. Noten oppgir hele kroner per leverandør (KLP, SPK) og sum «Alle ordn.»; tallene her er sumkolonnen. Sykepleiere er ikke skilt ut fra KLP. SPK har også forpliktelse (280 531 681) og midler (261 979 084). Netto pensjonskostnad 179 180 286 er ekskl. administrasjon (6 574 573) og amortisering (34 291 837); samlet kostnad 220 046 696. Innbetalt premie 195 605 038 er inkl. administrasjon. Årets premieavvik 9 850 179 (KLP 12 065 423, SPK −2 215 244). Balansen viser premieavvik som eiendel 158 851 759 (KLP 151 266 373 + SPK 7 585 386; 2024: 183 293 417) og 0 som gjeld; avstemmer eksakt med 183 293 417 + 9 850 179 − 34 291 837, altså ekskl. AGA. Notens kommentartekst oppgir avvikende avrundede tall (årets premieavvik 10,2 mill., amortisering 34,7 mill.) og at akkumulert premieavvik 158,8 mill. fordeles over syv år; konsernnoten bekrefter amortiseringstid 7 år. Premiefond KLP: brukt 119,3 mill. i 2025 (avrundet, fra kommentar). Egenkapitalinnskudd KLP 5 762 510 (fra kommentar til balansen/oversikt). Beregningsforutsetninger og reguleringspremie er ikke oppgitt i noten. Netto forpliktelse oppgitt ekskl. AGA. Oppgitte brutto pensjonsmidler 3 209 582 654 i noten (3 209 582 655 i spesifikasjonen, avrunding)."}

@@ -1,0 +1,30 @@
+{
+  "nr": "1828",
+  "navn": "Nesna",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/0a9f84fc-cd55-41a0-97cd-3e65c11e3007/42947/68681",
+  "kilde_side": "note 11 Pensjon, s. 19–20",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 425340499,
+  "pensjonsmidler": 418193479,
+  "netto_forpliktelse": 7147020,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 19191166,
+  "innbetalt_premie": 20370268,
+  "aarets_premieavvik": 1179102,
+  "akkumulert_premieavvik": 25116552,
+  "akkumulert_premieavvik_inkl_aga": null,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 17738040,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Skannet, signert PDF uten tekstlag («Årsregnskap_Nesna_kommune_2025», vedlegg til sak «Regnskap og årsmelding 2025» i Elements Publikum); tallene er lest manuelt fra sidebilder. Lenken krever HTTP-header «Tenant: 939600515_PROD-939600515». Noten har kolonner KLP, SPK og sum; sumkolonnen er brukt. KLP: brutto 403 812 708, midler 397 959 126, netto 5 853 582, premieavvik +1 218 823, akkumulert 23 884 214. SPK: brutto 21 527 791, midler 20 234 353, netto 1 293 438, premieavvik −39 721, akkumulert 1 232 338. Noten oppgir «netto pensjonskostnad (eks. adm)» 18 457 489; årets pensjonskostnad her er inkl. administrasjon (733 677) = 19 191 166, slik at premie − kostnad = premieavvik 1 179 102. Amortisering av tidligere års premieavvik 6 050 143; 1/7 per år etter teksten. AGA av netto forpliktelse og av akkumulert premieavvik er ikke oppgitt (AGA-sats 5,1 % brukt i effekttabellen; 5,1 % av akkumulert premieavvik ville gitt ca. 26,4 mill. inkl. AGA, ikke registrert). Pensjonsregulering ikke oppgitt. Netto effekt av premieavviksføringen inkl. AGA: tilleggsbelastning 5 119 464 kr i 2025. Kommunestyret fikk også en orientering om vurdering av innmelding i ROBEK etter årsregnskapet 2025."
+}

@@ -1,0 +1,28 @@
+{
+  "nr": "1838",
+  "navn": "Gildeskål",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Gildeskal-22042026.pdf",
+  "kilde_side": "vedlegg b) Årsregnskap 2025 (oversendt revisor 24.02.2026): balanse s. 8, note 2 s. 10–13 (PDF-s. 68, 70–73)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 537504284,
+  "pensjonsmidler": 533890910,
+  "netto_forpliktelse": 3613374,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 15192348,
+  "innbetalt_premie": 17712403,
+  "aarets_premieavvik": 1903411,
+  "akkumulert_premieavvik": null,
+  "akkumulert_premieavvik_inkl_aga": 37758681,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 939034,
+  "premiefond_bruk": 15785204,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": null,
+  "merknader": "Kilde er årsregnskapet 2025 lagt fram for kontrollutvalget 22.04.2026 (vedlegg b i innkallingen). Noten og balansen stemmer ikke overens. Brutto forpliktelse og pensjonsmidler er tatt fra balansen (537 504 284 / 533 890 910). Noten viser bare to tabeller: «Pensjonsutgifter KLP» (brutto 438 813 510, midler 431 650 420, 221 aktive) og SPK (brutto 28 718 223, midler 27 076 978); summen er 467 531 733 / 458 727 398, altså omtrent 70 mill. under balansen. Hypotese: KLP-sykepleierordningen er med i balansen, men ikke i noten. Dette er ikke bekreftet. Pensjonskostnad, premie og premieavvik er derfor summen av KLP-tabellen og SPK og kan være ufullstendige: netto pensjonskostnad 12 356 153 + 2 836 195, innbetalt premie inkl. adm. 14 751 911 + 2 960 492, årets premieavvik 1 872 190 + 31 221. Akkumulert premieavvik inkl. AGA er 37 758 681 i balansen, bekreftet i årsberetningen (37,8 mill. inkl. AGA). Noten gir KLP 29 783 716 + SPK 1 086 718 = 30 870 434 ekskl. AGA, som ikke går opp mot balansen; feltet ekskl. AGA er derfor satt til null. Bruk av premiefond 15 785 203,94 og saldo 14 883 279 per 31.12.2025. KLP-noten viser planendring på 28 075 662. SPK oppgir forventet avkastning 4,0 %. Status: delvis."
+}

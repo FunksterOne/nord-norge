@@ -1,0 +1,28 @@
+{
+  "nr": "1848",
+  "navn": "Steigen",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Innkalling-Steigen-20042026.pdf",
+  "kilde_side": "vedlegg a) Årsmelding 2025 med årsregnskap: balanse s. 116–118, note 11 Pensjon s. 127–128 (PDF-s. 126–128, 137–138)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (fellesordning m.m., ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 560864959,
+  "pensjonsmidler": 576118535,
+  "netto_forpliktelse": -15253576,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 21104594,
+  "innbetalt_premie": null,
+  "aarets_premieavvik": 11144084,
+  "akkumulert_premieavvik": null,
+  "akkumulert_premieavvik_inkl_aga": 40092688,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 899645,
+  "premiefond_bruk": 9490304,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "Årsregnskapet for 2025 er tatt inn i årsmeldingen 2025, som ble lagt fram for kontrollutvalget 20.04.2026. Noten har én tabell for KLP og én for SPK, og summene er mine. Brutto forpliktelse: KLP 520 959 344 + SPK 39 905 615. Balansen viser 560 990 588, som er inkl. AGA av SPKs netto forpliktelse (125 629). Pensjonsmidler: KLP 538 676 237 + SPK 37 442 298, som stemmer med balansen. Pensjonskostnad ekskl. adm.: KLP 17 159 955 + SPK 3 944 639. Med adm. er den 17 835 500 + 4 067 351. Feltet for årets premie er tomt i noten, og innbetalt premie er derfor satt til null. Årets premieavvik: KLP 11 283 414 + SPK -139 330. Akkumulert premieavvik i balansen er 40 092 688 og antas å være inkl. AGA, men noten bekrefter det ikke, og tallet ekskl. AGA er ikke oppgitt. Amortisering: hovedsakelig 7 år; KLP har et lite restbeløp over 15 år (191 035), og for SPK er det 1 442 over 15 år. Premiefondet hadde 22 477 028 per 01.01., ble brukt med 9 490 304 og hadde 36 615 369 per 31.12. Noten oppgir «G- og pensjonsregulering» som én sats på 2,97 %. Pensjonsregulering er derfor satt til null. SPK oppgir avkastning 4,0 %. Egenkapitalinnskuddet til KLP er 899 645 (finansforvaltningsrapport). Noten skiller ikke ut sykepleierordningen."
+}

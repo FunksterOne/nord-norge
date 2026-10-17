@@ -1,0 +1,28 @@
+{
+  "nr": "1865",
+  "navn": "Vågan",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://innsyn.lofoten.nu/Vagan/innsyn/wfdocument.ashx?journalpostid=2021156113&dokid=1900917&versjon=1&variant=A&",
+  "kilde_side": "Årsregnskap Vågan kommune 2025 (vedlegg til kontrollutvalgets møte 20.05.2026): balanse s. 9–10, note 10 s. 21",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1590127062,
+  "pensjonsmidler": 1654410375,
+  "netto_forpliktelse": -64283313,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 63324659,
+  "innbetalt_premie": 65433888,
+  "aarets_premieavvik": -551458,
+  "akkumulert_premieavvik": null,
+  "akkumulert_premieavvik_inkl_aga": 108672000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 68063796,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Noten gir bare samlede tall for KLP og SPK, uten fordeling per ordning. PDF-en er skannet og tekstgjenkjent, så teksten er delvis forvansket. Bevegelsene i forpliktelse og midler går likevel opp mot UB, så hovedtallene er sannsynligvis lest riktig. Pensjonskostnaden ekskl. adm. er beregnet slik: opptjening 72 132 985 + rente 61 673 923 − forventet avkastning 70 482 249. Med adm. er netto kostnad 65 985 346. Årets premie er 65 433 888. Årets premieavvik er −551 458, altså en premie lavere enn kostnaden. Amortisering: 31 121 302 over 7 år og 316 286 over 15 år. Premiefondet hadde 121 349 911 per 01.01., ble brukt med 68 063 796 og hadde 125 759 790 per 31.12. Balansen er oppgitt i tusen kroner: forpliktelse 1 590 450 (inkl. AGA på SPKs netto forpliktelse; noten sier at AGA ikke er bokført for KLP fordi midlene er større enn forpliktelsen) og midler 1 654 410. Premieavviket er 109 459 på eiendelssiden og 787 på gjeldssiden. Netto 108 672 tusen er antatt å være inkl. AGA; noten oppgir ikke akkumulert premieavvik ekskl. AGA. AGA-kolonnen i noten viser 81 096 480 / 84 374 929, som ser ut som AGA på brutto tall og ikke er brukt. SPK oppgir avkastning 4,0 %. Kommunen er i ROBEK. Et konsolidert regnskap med to KF-er finnes separat."
+}

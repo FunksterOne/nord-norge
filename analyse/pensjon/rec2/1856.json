@@ -1,0 +1,28 @@
+{
+  "nr": "1856",
+  "navn": "Røst",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod02.elementscloud.no/publikum/Documents/ShowMeetingDocument/cf95ef36-f8f6-439d-96c0-b7d44ab87cbe/464/MI/2031",
+  "kilde_side": "Møteinnkalling for kommunestyret 20.05.2026 (PS 26/17 Årsregnskap, årsberetning og årsmelding 2025), vedlagt årsregnskap: balanse s. 10, note 11 s. 19 (PDF-s. 36, 45)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "KLP (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 143823000,
+  "pensjonsmidler": 139020000,
+  "netto_forpliktelse": 4803000,
+  "netto_inkl_aga": 5048000,
+  "aarets_pensjonskostnad": 4836000,
+  "innbetalt_premie": 4787000,
+  "aarets_premieavvik": -262000,
+  "akkumulert_premieavvik": 7355000,
+  "akkumulert_premieavvik_inkl_aga": 7730000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 6655000,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Noten oppgir tallene i hele 1000 kr, og jeg har omregnet dem til kroner (±1000 kr). Den gir bare samlede tall for KLP og SPK. Netto pensjonskostnad ekskl. adm. er beregnet slik: opptjening 5 204 + rente 5 621 − avkastning 5 989. Med adm. er den 5 048. Forfalt premie inkl. adm. er 4 787. Årets premieavvik er −262 (B − A). Balansen viser forpliktelse 144 068 inkl. AGA på netto (245) og midler 139 020. Netto inkl. AGA er derfor 5 048. Premieavviket i balansen er 8 150 på eiendelssiden og 419 på gjeldssiden, netto 7 731, mens noten viser 7 730 inkl. AGA. Premiefondet hadde 240 per 01.01., ble tilført 6 634, brukt med 6 655 og hadde 219 per 31.12. SPK oppgir avkastning 4,0 % og pensjonsregulering 2,97 %. Årsregnskapet ble behandlet i kommunestyret 20.05.2026."
+}

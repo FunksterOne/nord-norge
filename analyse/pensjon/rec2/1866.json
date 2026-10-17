@@ -1,0 +1,28 @@
+{
+  "nr": "1866",
+  "navn": "Hadsel",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://opengov.360online.com/Meetings/hadsel_kommune/File/Details/464395.pdf?fileName=Regnskapsdokument%20Hadsel%20kommune%202025&fileSize=1229497",
+  "kilde_side": "Regnskapsdokument Hadsel kommune 2025 (vedlegg til kommunestyresak 47/26, 25.06.2026): balanse s. 8–11, note 10 KLP s. 28, note 10 SPK s. 29",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (inkl. sykepleiere)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1339376646,
+  "pensjonsmidler": 1334692359,
+  "netto_forpliktelse": 4684287,
+  "netto_inkl_aga": 4923186,
+  "aarets_pensjonskostnad": 57199777,
+  "innbetalt_premie": 85204666,
+  "aarets_premieavvik": 25739390,
+  "akkumulert_premieavvik": 87343789,
+  "akkumulert_premieavvik_inkl_aga": 91798324,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 2218094,
+  "premiefond_bruk": null,
+  "forutsetninger": {"diskonteringsrente": null, "avkastning": null, "lonnsvekst": null, "g_regulering": null, "pensjonsregulering": null},
+  "sykepleiere_separat": false,
+  "merknader": "Tallene er summert av meg fra note 10 KLP og note 10 SPK. Brutto forpliktelse: KLP 1 251 506 354 + SPK 87 870 292, som stemmer med balansekontoene 240550001/2. Balanselinjen 1 339 137 747 er nettoført med AGA-kontoene (−23 002 og +261 901). Pensjonsmidler: KLP 1 251 957 382 + SPK 82 734 977, som stemmer med balansen. Netto inkl. AGA: 4 684 287 + AGA på netto (−23 002 + 261 901). Netto pensjonskostnad ekskl. adm.: KLP 48 519 531 + SPK 8 680 246. Premie inkl. adm.: KLP 76 256 273 + SPK 8 948 393. Premieavvik: KLP 25 757 394 + SPK −18 004. Akkumulert premieavvik: KLP 82 264 746 + SPK 5 079 043, og balansen er 91 798 324 inkl. AGA (5,1 %). Aktivert egenkapitalinnskudd i KLP er 2 218 094 (note 2 Kapitalkonto). I balansen er egenkapitalinnskuddet ført på egne kontoer for fellesordning og sykepleiere, så sykepleierordningen finnes, men noten slår den sammen med KLP. Aktuarielle forutsetninger og premiefond er ikke oppgitt i regnskapsdokumentet. Kommunen er i Vesterålen og har AGA-sone 5,1 %."
+}

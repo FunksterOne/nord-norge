@@ -1,0 +1,30 @@
+{
+  "nr": "1834",
+  "navn": "Lurøy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod01.elementscloud.no/publikum/Documents/ShowDocument/53e6a4b2-03f1-4f2e-a6b4-278928b1112b/38550/72383",
+  "kilde_side": "note 9 Pensjon, PDF-s. 14–15 (notesider 5–6); balanse PDF-s. 7–8",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (ikke spesifisert)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 436288896,
+  "pensjonsmidler": 534067471,
+  "netto_forpliktelse": -97778575,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": null,
+  "innbetalt_premie": null,
+  "aarets_premieavvik": 17430893,
+  "akkumulert_premieavvik": 17430893,
+  "akkumulert_premieavvik_inkl_aga": 18319869,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": null,
+  "forutsetninger": {
+    "diskonteringsrente": null, "avkastning": null, "lonnsvekst": null, "g_regulering": null, "pensjonsregulering": null
+  },
+  "sykepleiere_separat": false,
+  "merknader": "DELVIS. Kilde: vedlegg «2025 Årsoppgjøret med noter» til kommunestyresak «Regnskap og årsberetning 2025» i Elements Publikum; lenken krever HTTP-header «Tenant: 940667852_PROD-940667852». Note 9 er ikke en ordinær pensjonsnote, men et bilag med posteringer (lest fra sidebilder): ingen pensjonskostnad, premie, premiefond eller forutsetninger er oppgitt. Brutto forpliktelse = KLP 403 154 255 + SPK 33 134 641; midler = KLP 502 907 716 + SPK 31 159 755 (tall fra årsoppgavene). Midlene overstiger forpliktelsen med 97,8 mill. (KLP-midler 25 % over forpliktelsen), noe som er uvanlig og bør kontrolleres. Noten kaller likevel differansen «nettoforpliktelse» og beregner AGA 4 986 707 av den; balansen viser pensjonsforpliktelse 431 302 188, dvs. forpliktelsen minus AGA — fortegnsfeil i AGA-føringen er sannsynlig. Netto inkl. AGA er derfor satt til null. Årets premieavvik 17 430 893 (KLP 17 476 114, SPK −45 221) + AGA 888 976 = 18 319 869, som er lik balanseført premieavvik; premieavviket for 2024 (9 549 423 + AGA 487 021) er tilbakeført i sin helhet i 2025 — altså 1 års amortisering. Leverandører: KLP og SPK (fra posteringstekstene); ordningene er ikke spesifisert."
+}

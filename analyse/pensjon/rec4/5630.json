@@ -1,0 +1,31 @@
+{
+ "nr": "5630",
+ "navn": "Berlevåg",
+ "regnskapsaar": null,
+ "kilde_url": null,
+ "kilde_side": null,
+ "konsern_eller_kasse": null,
+ "leverandorer": [],
+ "brutto_pensjonsforpliktelse": null,
+ "pensjonsmidler": null,
+ "netto_forpliktelse": null,
+ "netto_inkl_aga": null,
+ "aarets_pensjonskostnad": null,
+ "innbetalt_premie": null,
+ "aarets_premieavvik": null,
+ "akkumulert_premieavvik": null,
+ "akkumulert_premieavvik_inkl_aga": null,
+ "amortisering_aar": null,
+ "reguleringspremie": null,
+ "egenkapitaltilskudd_klp": null,
+ "premiefond_bruk": null,
+ "forutsetninger": {
+  "diskonteringsrente": null,
+  "avkastning": null,
+  "lonnsvekst": null,
+  "g_regulering": null,
+  "pensjonsregulering": null
+ },
+ "sykepleiere_separat": null,
+ "merknader": "Ikke funnet. Årsregnskap 2025 og 2024 er ikke publisert på kommunens nye nettsted (Sitevision, «under utvikling» per oktober 2026; ingen økonomi-/årsregnskapsside, søk på «regnskap» gir bare siden Vestre Varanger Økonomi). Kommunen bruker ikke Elements eller nye-innsyn; postlistene på nettstedet dekker bare uke 36–42 2026. Det gamle CustomPublish-arkivet (img4.custompublish.com) er fortsatt nåbart for enkeltfiler, men uten oversiktsside; nettsøk fant ikke årsregnskap 2024/2025 der (postliste uke 24 2025 viser at «Årsregnskap og årsberetning 2024 - Berlevåg kommune» og kontrollutvalgets uttalelse ble journalført). Formannskapets møteinnkalling 10.06.2025 inneholder ikke regnskapet. Nyeste funne regnskapsdokument med pensjonstall er konsolidert regnskap 2023 (https://img4.custompublish.com/getfile.php/5303942.804.jkn7numsn7wskt/KONSOLIDERT%2BREGNSKAP%2B2023.pdf) – ikke brukt fordi skjemaet krever 2025 eller 2024. Leverandør(er) ikke bekreftet fra kilde (trolig KLP og SPK). Bør innhentes direkte fra kommunen/Vestre Varanger økonomi eller via innsynsbegjæring."
+}

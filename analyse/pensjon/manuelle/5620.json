@@ -1,0 +1,30 @@
+{
+  "nr": "5620",
+  "navn": "Nordkapp",
+  "regnskapsaar": 2025,
+  "kilde_url": "Fil fra Halvard: Downloads/Nordkapp_kommune_Signert__rsregnskap_2025_45892_1_A_2717866.pdf (signert årsregnskap 2025)",
+  "kilde_side": "balanse s. 9–10, kapitalkonto s. 17, note 11 s. 21, kommentar s. 8",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen (alle unntatt lærere)", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 687941086,
+  "pensjonsmidler": 735790591,
+  "netto_forpliktelse": -47849505,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 20817205,
+  "innbetalt_premie": 36326544,
+  "aarets_premieavvik": 15509339,
+  "akkumulert_premieavvik": 60521019,
+  "akkumulert_premieavvik_inkl_aga": 60521019,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 5000000,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.0, "lonnsvekst": 3.0, "g_regulering": 3.0, "pensjonsregulering": 3.0
+  },
+  "sykepleiere_separat": false,
+  "merknader": "PDF med tekstlag fra tekstgjenkjenning; tall kontrollert mot balansen og kapitalkontoen. Brutto forpliktelse: balansen 687 941 086, bekreftet av kapitalkontoen (603 177 122 + økning 84 763 964); noten viser 687 641 086 og netto −47 848 505, som ikke går opp mot midlene (735 790 591) — trolig lesefeil i noten, balansetallet brukt. Pensjonsmidler 2024: 643 626 504 (økning 92 164 087). Noten: opptjening 23 543 505, rentekostnad 26 797 197, forventet avkastning −31 069 902, adm. 903 673, netto pensjonskostnad 20 817 205, premie 36 326 544. Noten oppgir årets premieavvik 25 467 260, men premie minus netto kostnad gir 15 509 339 — det beregnede tallet er lagt inn. Heller ikke det går opp mot balansen: 74 076 160 + 15 509 339 − amortisering 18 243 844 = 71 341 655 mot bokført 60 521 019; kommentaren s. 8 forklarer en reduksjon på 14 mill. kr med en feilføring i 2024 som er rettet. Amortisering 2025: 15-årslag 268 275, 7-årslag 17 975 569, sum 18 243 844; samlet pensjonskostnad 39 061 049. Premieavvik som gjeld 0. Nordkapp ligger i AGA-sone 5 (0 %), derfor er beløp inkl. og ekskl. AGA like. Premiefond 01.01: 41 031 470, tilført 31 565 386, brukt 5 000 000, 31.12: 72 596 856 (ikke i balansen). Estimatavvik 31.12: 50 029 882 og «virkningen av planendringer» 39 435 526; kolonneplasseringen (midler/forpliktelser) er uklar i tekstlaget. Forutsetningene er avrundet til hele prosent i noten: avkastning 4 % (både KLP og SPK, mens KDD sier 4,50 % for KLP), diskonteringsrente 4 %, lønnsvekst 3 %, G- og pensjonsregulering 3 % samlet. Reguleringspremie og egenkapitalinnskudd er ikke oppgitt. Byttet fra DNB til KLP 01.01.2014. Disposisjonsfond 70 520 673 (47 754 528 i 2024; økningen skyldes omklassifisering fra bundne fond). KOSTRA-konsern 2025: premieavvik 60 880 tusen (4 som gjeld), forpliktelse 710 916, midler 758 308; avviket mot kassen er Nordkapp Havn KF."
+}

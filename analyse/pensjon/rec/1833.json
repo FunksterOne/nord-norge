@@ -1,0 +1,32 @@
+{
+  "nr": "1833",
+  "navn": "Rana - Raane",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://pub.framsikt.net/2025/rana/mr-202512-arsnorana25",
+  "kilde_side": "kapittel «Noter», note 11 Pensjon (Framsikt-publisering, tabeller som bilder)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 4089225000,
+  "pensjonsmidler": 4160105000,
+  "netto_forpliktelse": -70880000,
+  "netto_inkl_aga": -70155000,
+  "aarets_pensjonskostnad": 145568000,
+  "innbetalt_premie": 112163000,
+  "aarets_premieavvik": -33405000,
+  "akkumulert_premieavvik": 139297000,
+  "akkumulert_premieavvik_inkl_aga": 146401000,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 200494000,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Årsregnskapet med noter er bare publisert i Framsikt (lenket fra årsberetningen https://pub.framsikt.net/2025/rana/mr-202512-arsrana25); notetabellene er bilder og er lest manuelt. Tall i hele tusen, omregnet til kroner. Brukt kolonnen «Sum 2025» (kommunen); noten har også en konsernkolonne (brutto 4 121 421, midler 4 199 147, akkumulert premieavvik 141 031 tusen). Per ordning (tusen) brutto/midler: KLP felles 3 244 710 / 3 277 225; KLP sykepleiere 631 649 / 684 231; SPK 212 866 / 198 649. SPK regnskapsført med forpliktelse. Netto pensjonsmidler (overfinansiert); AGA (725 tusen) bare på SPK. Premieavvik per ordning: KLP felles −54 990, sykepleiere +23 405, SPK −1 820 tusen; det negative premieavviket i fellesordningen skyldes bruk av 200 mill. kr fra premiefondet (premiefond: KLP 227 661 → 187 107 tusen; noten viser fondet med negativt fortegn). Amortisering av tidligere års premieavvik 48 544 tusen; amortiseringstid 7 år. Folkevalgte er bare skilt ut i premiefondtabellen. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP)."
+}

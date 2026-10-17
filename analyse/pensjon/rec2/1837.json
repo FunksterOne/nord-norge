@@ -1,0 +1,29 @@
+{
+  "nr": "1837",
+  "navn": "Meløy",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.sekretariatet.no/wp-content/uploads/2026/04/Sak-14-Regnskap-2025-Uttalelse-fra-kontrollutvalget.pdf",
+  "kilde_side": "vedlegg d) Årsregnskap 2025 (datert 25.02.2026): balanse s. 9, note 4 s. 16–20 i regnskapet (PDF-s. 106, 113–117)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleiere", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 1438514965,
+  "pensjonsmidler": 1375037559,
+  "netto_forpliktelse": 63477406,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 52644598,
+  "innbetalt_premie": 45992851,
+  "aarets_premieavvik": -8585640,
+  "akkumulert_premieavvik": 49678163,
+  "akkumulert_premieavvik_inkl_aga": 52211744,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": 2504927,
+  "premiefond_bruk": 63898462,
+  "forutsetninger": {"diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2},
+  "sykepleiere_separat": false,
+  "merknader": "Kilde er årsregnskapet 2025 slik det ble lagt fram for kontrollutvalget 21.04.2026 (vedlegg til sak 14/26); kommunens egen nettside har bare 2024-regnskapet. Tall summert av meg fra to noter: KLP (fellesordning + sykepleiere samlet) og SPK. Brutto forpliktelse: KLP 1 364 739 468 + SPK 73 775 497 = 1 438 514 965; balansen viser 1 442 005 897 (avvik 3 490 932, ikke forklart i noten). Pensjonsmidler: KLP 1 306 948 881 + SPK 68 088 678 = 1 375 037 559 (= balansen). Netto pensjonskostnad KLP 45 329 738 + SPK 7 314 860. Innbetalt premie inkl. adm.: KLP 39 850 039 + SPK 6 142 812. Årets premieavvik KLP -7 195 292 + SPK -1 390 348. Akkumulert premieavvik ekskl. AGA KLP 48 914 512 + SPK 763 651; balansen 52 211 744 er inkl. AGA (5,1 %). Premiefondsuttak KLP fellesordning 56 046 951 + sykepleiere 7 851 511 (foreløpige tall). KLP-noten viser planendring på 82 508 159 i estimatavvik 2025. Forutsetninger fra KLP-noten; SPK oppgir avkastning 4,0 %. SPK-ordningen antas å gjelde lærere (noten sier bare «SPK»). Disposisjonsfond for premieavvik er brukt opp."
+}

@@ -13,6 +13,7 @@ const SIDER = [
   ['Fire fremtider mot 2040', 'tema-scenarier.html', 'Tema 06'],
   ['Bygges det nok? Boligmarkedet', 'tema-bolig.html', 'Tema 07'],
   ['Hva skal vi leve av? Næringslivet, sjømat, reiseliv, forsvar', 'tema-naering.html', 'Tema 08'],
+  ['Pensjonsetterslepet: kommunale pensjoner og premieavvik', 'tema-pensjon.html', 'Tema 09'],
   ['Metode og kilder', 'metode.html', 'Referanse'],
 ];
 

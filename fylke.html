@@ -387,6 +387,12 @@
     <div style="margin-top:14px" id="gjeldContent"></div>
   </details>
 
+  <!-- Pensjon — premieavvik og fremskrevet pensjonskostnad -->
+  <details class="explain" style="margin-top:14px" id="pensjonDetails">
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Pensjon — etterslepet som allerede er betalt, og kostnaden fram mot 2050</summary>
+    <div style="margin-top:14px" id="pensjonContent"></div>
+  </details>
+
 <button class="nextstep" data-next="robek">
   <div class="ns-l">
     <div class="ns-n">→ 6</div>
@@ -613,6 +619,10 @@ document.addEventListener('DOMContentLoaded', function(){
         window.scrollTo({top:0, behavior:'smooth'});
       };
     });
+    // Seksjon fra adressen (?sec=refugees), så lenker kan gå rett til en fane
+    var startSec = new URLSearchParams(location.search).get('sec');
+    var startBtn = startSec && secnav.querySelector('button[data-sec="' + startSec + '"]');
+    if(startBtn) startBtn.click();
   }
   // Fylke-velger
   var fp = document.getElementById('fylkePicker');

@@ -1,0 +1,30 @@
+{
+  "nr": "1812",
+  "navn": "Sømna",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://www.somna.kommune.no/_f/p1/ib741942e-17d0-493d-8ae6-f7827cd69987/regnskap-2025.pdf",
+  "kilde_side": "note 9 Pensjoner (kap. 3.9), s. 40–41",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen inkl. sykepleiere", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 418529021,
+  "pensjonsmidler": 415747958,
+  "netto_forpliktelse": 2781063,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 16607199,
+  "innbetalt_premie": 15354169,
+  "aarets_premieavvik": -1253030,
+  "akkumulert_premieavvik": 26278519,
+  "akkumulert_premieavvik_inkl_aga": 27618723,
+  "amortisering_aar": 7,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 18237458,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.97
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Noten oppgir tall per ordning (KLP og SPK); summert av meg. KLP: brutto 391 216 605, midler 390 350 043, netto 866 562, kostnad inkl. adm. 13 819 197, premie 12 890 072, premieavvik −929 125, akkumulert 25 185 009 (inkl. AGA 26 469 444). SPK: brutto 27 312 416, midler 25 397 915, netto 1 914 501, kostnad 2 788 002, premie 2 464 097, premieavvik −323 905, akkumulert 1 093 510 (inkl. AGA 1 149 279). SPK er regnskapsført med forpliktelse. Negativt premieavvik i 2025 (kostnad > premie) i begge ordninger. Amortisering av tidligere års premieavvik 7 510 429 (KLP 7 265 403, SPK 245 026); noteteksten sier 1/7 per år for avvik fra 2014 og senere. AGA av netto pensjonsforpliktelse er ikke utfylt i noten. Regnskapsførte pensjonsutgifter var 8 763 459 kr høyere enn betalte premier. Premiefond: 13 300 045 inngående, tilført 18 346 460, brukt 18 237 458, 13 409 047 utgående. Avkastning KLP 4,50 %, SPK 4,00 %; G- og pensjonsregulering oppgitt som én linje (2,97 %). Sykepleiere er ikke skilt ut."
+}

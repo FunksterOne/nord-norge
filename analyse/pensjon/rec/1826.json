@@ -1,0 +1,32 @@
+{
+  "nr": "1826",
+  "navn": "Aarborte - Hattfjelldal",
+  "regnskapsaar": 2025,
+  "kilde_url": "https://prod02.elementscloud.no/publikum/Documents/ShowDocument/8b9ab651-15d0-4faf-a235-1674d70c145c/13212/23794",
+  "kilde_side": "note 11 Pensjon, s. 31–34 (tabeller s. 32–34)",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {"ordning": "Fellesordningen", "leverandor": "KLP", "gruppe": "fellesordning"},
+    {"ordning": "Sykepleierordningen", "leverandor": "KLP", "gruppe": "sykepleiere"},
+    {"ordning": "Folkevalgte", "leverandor": "KLP", "gruppe": "folkevalgte"},
+    {"ordning": "Lærere", "leverandor": "SPK", "gruppe": "laerere"}
+  ],
+  "brutto_pensjonsforpliktelse": 371403137,
+  "pensjonsmidler": 374407901,
+  "netto_forpliktelse": -3004764,
+  "netto_inkl_aga": -2929867,
+  "aarets_pensjonskostnad": 13829219,
+  "innbetalt_premie": 21246122,
+  "aarets_premieavvik": 7416903,
+  "akkumulert_premieavvik": 7416903,
+  "akkumulert_premieavvik_inkl_aga": 7412258,
+  "amortisering_aar": 1,
+  "reguleringspremie": null,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 6839152,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0, "avkastning": 4.5, "lonnsvekst": 2.97, "g_regulering": 2.97, "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": true,
+  "merknader": "Kilde: vedlegg «Årsregnskap Hattfjelldal kommune 2025» til kommunestyresak «Regnskap og årsmelding 2025» (17.06.2026) i Elements Publikum (prod02); lenken krever HTTP-header «Tenant: 944716904_PROD-944716904». Samlede tall brukt; per ordning brutto/midler: KLP felles 323 052 636 / 322 476 446; KLP sykepleiere 32 898 654 / 35 188 651; KLP folkevalgte 1 692 426 / 3 875 761; SPK 13 759 421 / 12 867 043. Netto pensjonsmidler (overfinansiert) totalt. Kommunen amortiserer premieavvik over 1 år («tilbakeføres igjen neste år»): hele premieavviket for 2024 (7 700 701) er amortisert i 2025, og akkumulert premieavvik er lik årets premieavvik. AGA av akkumulert premieavvik er oppgitt som −4 645 (negativ, uvanlig). Premieavvik 2025 positivt (+7 416 903). Premiefond: 10 070 183 inngående, tilført 16 483 524, brukt 6 839 152, 19 714 555 utgående. Regnskapsførte pensjonsutgifter 288 443 kr høyere enn betalt premie. Avkastning KLP 4,50 %, SPK 4,00 %; pensjonsregulering 2,20 % (bare KLP)."
+}

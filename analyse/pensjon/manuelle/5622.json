@@ -1,0 +1,42 @@
+{
+  "nr": "5622",
+  "navn": "Porsanger",
+  "regnskapsaar": 2025,
+  "kilde_url": "Fil fra Halvard: Downloads/_rsregnskap_2025_Porsanger_kommune_66016_1_A_2714240.pdf (årsregnskap 2025)",
+  "kilde_side": "balanse s. 9, note 2 s. 12, note 10 s. 18–19",
+  "konsern_eller_kasse": "kommunekasse",
+  "leverandorer": [
+    {
+      "ordning": "Fellesordningen og sykepleiere",
+      "leverandor": "KLP",
+      "gruppe": "fellesordning"
+    },
+    {
+      "ordning": "Lærere",
+      "leverandor": "SPK",
+      "gruppe": "laerere"
+    }
+  ],
+  "brutto_pensjonsforpliktelse": 798682000,
+  "pensjonsmidler": 769540000,
+  "netto_forpliktelse": 29143000,
+  "netto_inkl_aga": null,
+  "aarets_pensjonskostnad": 26958000,
+  "innbetalt_premie": 28430000,
+  "aarets_premieavvik": 422000,
+  "akkumulert_premieavvik": 36266000,
+  "akkumulert_premieavvik_inkl_aga": null,
+  "amortisering_aar": 7,
+  "reguleringspremie": 26909000,
+  "egenkapitaltilskudd_klp": null,
+  "premiefond_bruk": 31855000,
+  "forutsetninger": {
+    "diskonteringsrente": 4.0,
+    "avkastning": 4.5,
+    "lonnsvekst": 2.97,
+    "g_regulering": 2.97,
+    "pensjonsregulering": 2.2
+  },
+  "sykepleiere_separat": false,
+  "merknader": "Tekstbasert PDF, beløp oppgitt i hele tusen og omregnet til kroner. Samlet premie 60 285 tusen (KLP 55 634 inkl. reguleringspremie 26 909, SPK 4 651); bruk av premiefond 31 855 → premie til innbetaling 28 430 (2024: 28 419). Samlet pensjonskostnad 39 362 inkl. amortisert premieavvik 11 354 og adm./rentegaranti 1 051; netto pensjonskostnad 26 958. Årets premieavvik 422 (2024: 5 003). Akkumulert premieavvik i balansen 36 266 (2024: 47 198), premieavvik som gjeld 0. Netto forpliktelse 29 143 (underdekning: KLP 26 963, SPK 2 180); 2024: 13 454. Estimatavvik IB 2025: forpliktelse +67 299, midler +51 188. Forutsetninger: diskonteringsrente 4,00 %, lønnsvekst 2,97 %, G-regulering 2,97 %, pensjonsregulering 2,20 % (KLP), forventet avkastning 4,50 % (KLP) og 4,00 % (SPK), amortisering 7 år. Premiefond 31.12.2025: 2 755. KLP-medlemmer 2025: 417 aktive, 860 oppsatte, 533 pensjoner; snittlig pensjonsgrunnlag aktive 427 401 kr, snittalder 43,59 år, snittlig tjenestetid 8,68 år. Balansen viser ingen disposisjonsfond (0; 612 i 2024) og merforbruk 4 706 i 2025. KOSTRA-konsern 2025: premieavvik 36 508, forpliktelse 809 599, midler 780 177 (avvik = kommunale foretak). Feltet aarets_pensjonskostnad er rettet fra samlet kostnad (39 362 tusen) til netto pensjonskostnad (26 958 tusen) etter skjemaet."
+}
