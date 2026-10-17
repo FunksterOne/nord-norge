@@ -15,6 +15,25 @@ AN = ROT / "analyse" / "pensjon"
 HTML = ROT / "assets" / "data.js"
 FYLKER = ("Nordland", "Troms", "Finnmark")
 EGNE_KASSER = {"1804": "Bodø Pensjonskasse", "5501": "Tromsø kommunale pensjonskasse", "5503": "Harstad kommunale pensjonskasse"}
+# Innbetalinger 2025 for byene med egen kasse. Premie og kostnad fra kommunens pensjonsnote (alle ordninger, kommunekassen);
+# premiesats, reguleringspremie og kapitalinnskudd fra kassenes årsrapporter for 2025 (gjelder alle medlemsforetak). Mill. kr.
+KASSE_DETALJ = {
+    "1804": {"premie_for_pf": None, "pf_bruk": None, "ek_2025": [["Bodø Pensjonskasse", 8.16]], "ek_2024_kasse": 7.65,
+             "ek_innskutt_mill": 91.8, "sats_2025": 21.69, "sats_2024": 17.33, "sats_tekst": "arbeidsgivers andel av premien",
+             "reg_2025": 185.5, "reg_2024": 155.4, "kasse_premie": 419.8, "kasse_premie_tekst": "premieinntekter",
+             "kilde": "https://bodopk.no/uploads/local/bodo/Arsrapporter/Arsmelding-2025-Bodo-Pensjonskasse.pdf",
+             "note": "Noten oppgir ikke bruk av premiefond."},
+    "5501": {"premie_for_pf": 699.9, "pf_bruk": 262.8, "ek_2025": [["Tromsø kommunale pensjonskasse", 12.85], ["KLP", 2.19]],
+             "ek_innskutt_mill": 372.9, "sats_2025": 21.54, "sats_2024": 20.73, "sats_tekst": "samlet premiesats",
+             "reg_2025": 219.0, "reg_2024": 174.0, "kasse_premie": 604.0, "kasse_premie_tekst": "samlede premie",
+             "kilde": "https://tromsopensjonskasse.no/uploads/local/tromso/260407_Tromso_Kommunale_Pensjonskasse_Arsrapport_2026.pdf",
+             "note": "Kommunen har betalt et årlig egenkapitalinnskudd til kassen siden 2017."},
+    "5503": {"premie_for_pf": 310.0, "premie_for_pf_beregnet": True, "pf_bruk": 119.0, "ek_2025": [],
+             "ek_innskutt_mill": 310.0, "sats_2025": None, "sats_2024": None, "sats_tekst": None,
+             "reg_2025": None, "reg_2024": None, "kasse_premie": 242.4, "kasse_premie_tekst": "forfalte premie",
+             "kilde": "https://gabler.no/wp-content/uploads/2022/01/Arsrapport-2025-Harstad-kommunale-pensjonskasse-komplett.pdf",
+             "note": "Kassen har ikke årlige innskudd; innskuddet ble gjort i 2020, delvis i form av to sykehjem. Premie før premiefond er beregnet som innbetalt premie pluss bruk av premiefond."},
+}
 SCEN = ("lav", "basis", "hoy")
 # Noter som ikke går opp internt: vises, men merkes
 SVAK_NOTE = {"1875": "Pensjonsnoten går ikke opp: midlene i noten avviker fra balansen.",
@@ -71,6 +90,11 @@ def main():
             "svak": SVAK_NOTE.get(nr),
             "url": url if (note and url.startswith("http")) else "",
         }
+        if nr in KASSE_DETALJ:
+            kommuner[nr]["innbet"] = dict(KASSE_DETALJ[nr],
+                                          premie=round(r["innbetalt_premie"] / 1e6, 1),
+                                          kostnad=round(r["aarets_pensjonskostnad"] / 1e6, 1),
+                                          avvik=round(r["aarets_premieavvik"] / 1e6, 1))
 
     def agg(nrs):
         bdi = sum(G[n]["bdi"] for n in nrs)

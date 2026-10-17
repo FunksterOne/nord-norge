@@ -2014,6 +2014,30 @@ function pensjonKommuneCard(k){
     (d.amort !== 1 && Math.abs(dR) >= 0.5 ? ' — ' + (dR > 0 ? 'en økning' : 'en nedgang') + ' på ' + pensjonTall(Math.abs(dR)) + ' prosentpoeng' : '') + '. ' +
     (d.amort === 1 ? 'Med ettårig amortisering føres hele fjorårets avvik i ett år, så kostnaden svinger mer fra år til år enn kurven viser. ' : '');
   const grunnlag = d.grunnlag === 'note' ? 'Pensjonsnoten i årsregnskapet 2025' : 'Bare KOSTRA — kostnaden er anslått';
+  // Innbetalinger 2025 for byene med egen pensjonskasse (Bodø, Tromsø, Harstad)
+  let innbetHTML = '';
+  const b = d.innbet;
+  if(b){
+    const m = v => v == null ? 'ikke oppgitt' : pensjonTall(v);
+    const rad = (t, v, sterk) => '<tr' + (sterk ? ' style="font-weight:600"' : '') + '><td style="padding:5px 8px;text-align:left">' + t + '</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + v + '</td></tr>';
+    const ek = b.ek_2025.length ? b.ek_2025.map(e => pensjonTall(e[1]) + ' til ' + e[0]).join(' og ') : 'ingen årlige innskudd';
+    innbetHTML =
+      '<h4 class="serif" style="font-size:14.5px;margin:18px 0 4px">Innbetalinger 2025</h4>' +
+      '<p class="hint" style="font-size:12px;margin:0 0 6px">Fra pensjonsnoten i årsregnskapet, millioner kroner. Gjelder alle ordningene samlet: ' + d.lev + ', KLP for sykepleierne og Statens pensjonskasse for lærerne.</p>' +
+      '<div style="overflow-x:auto"><table style="width:100%;max-width:560px;border-collapse:collapse;font-size:12.5px"><tbody>' +
+        rad('Premie før bruk av premiefond' + (b.premie_for_pf_beregnet ? ' (beregnet)' : ''), m(b.premie_for_pf)) +
+        rad('Bruk av premiefond', b.pf_bruk == null ? 'ikke oppgitt' : '−' + pensjonTall(b.pf_bruk)) +
+        '<tr style="border-top:2px solid var(--ink);font-weight:600"><td style="padding:5px 8px">Innbetalt premie</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + pensjonTall(b.premie) + '</td></tr>' +
+        rad('Beregnet pensjonskostnad', pensjonTall(b.kostnad)) +
+        rad('Årets premieavvik', pensjonTall(b.avvik)) +
+        rad('Egenkapitalinnskudd', ek) +
+      '</tbody></table></div>' +
+      '<p class="hint" style="font-size:11.5px;margin-top:6px">Fra kassens årsrapport for 2025 (alle medlemsforetak): ' +
+        (b.sats_2025 != null ? b.sats_tekst.charAt(0).toUpperCase() + b.sats_tekst.slice(1) + ' ' + pensjonTall(b.sats_2025, 2) + ' % av pensjonsgrunnlaget (' + pensjonTall(b.sats_2024, 2) + ' % i 2024). ' : 'Premiesats i prosent av lønn er ikke oppgitt. ') +
+        (b.reg_2025 != null ? 'Reguleringspremie ' + pensjonTall(b.reg_2025) + ' mill. kr (' + pensjonTall(b.reg_2024) + ' i 2024). ' : '') +
+        'Kassens ' + b.kasse_premie_tekst + ' ' + pensjonTall(b.kasse_premie) + ' mill. kr. Innskutt egenkapital fra kommunen i alt ' + pensjonTall(b.ek_innskutt_mill) + ' mill. kr. ' + b.note +
+        ' <a href="' + b.kilde + '" target="_blank" rel="noopener">Kassens årsrapport</a></p>';
+  }
   const tagCol = d.grunnlag === 'note' && !d.svak ? 'var(--ink2)' : 'var(--warn)';
   return '<div class="ch" style="margin-top:18px">' +
       '<div class="h-row" style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3 class="serif" style="font-size:16px">Pensjon — etterslepet og kostnaden fram mot 2050</h3>' +
@@ -2026,6 +2050,7 @@ function pensjonKommuneCard(k){
       '</div>' +
       '<p class="hint" style="font-size:12.5px;margin-bottom:8px">' + tekst + '</p>' +
       pensjonFigur(d, 240) +
+      innbetHTML +
       '<p class="hint" style="font-size:11.5px;margin-top:6px">' +
         (egen ? 'Fellesordningen ligger i ' + d.lev + ', en egen kommunal pensjonskasse; kommunen bærer selv risikoen for avkastning, uførhet og levealder. ' : 'Fellesordningen ligger i KLP, der risikoen deles med om lag 330 kommuner. ') +
         'Lærerne er i Statens pensjonskasse. Amortiseringstid: ' + d.amort + ' år. Stiplede linjer: 2027 (forholdstall 0,75) og 2033 (dagens etterslep utgiftsført). Årene 2026–2027 er usikre. ' +
