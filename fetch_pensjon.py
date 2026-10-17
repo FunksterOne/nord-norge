@@ -32,7 +32,7 @@ KASSE_DETALJ = {
              "ek_innskutt_mill": 310.0, "sats_2025": None, "sats_2024": None, "sats_tekst": None,
              "reg_2025": None, "reg_2024": None, "kasse_premie": 242.4, "kasse_premie_tekst": "forfalte premie",
              "kilde": "https://gabler.no/wp-content/uploads/2022/01/Arsrapport-2025-Harstad-kommunale-pensjonskasse-komplett.pdf",
-             "note": "Kassen har ikke årlige innskudd; innskuddet ble gjort i 2020, delvis i form av to sykehjem. Premie før premiefond er beregnet som innbetalt premie pluss bruk av premiefond."},
+             "note": "Kassen har ikke årlige innskudd. Kommunen skjøt inn kulturhuset da kassen ble opprettet i 2013, og sykehjemmene Stangnes og Slottet (bokført til 189,7 mill. kr) i 2020 for å styrke solvensen; kassen leier byggene ut til kommunen. Premie før premiefond er beregnet som innbetalt premie pluss bruk av premiefond."},
 }
 SCEN = ("lav", "basis", "hoy")
 # Noter som ikke går opp internt: vises, men merkes
