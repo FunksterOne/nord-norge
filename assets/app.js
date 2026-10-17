@@ -2020,7 +2020,6 @@ function pensjonKommuneCard(k){
   if(b){
     const m = v => v == null ? 'ikke oppgitt' : pensjonTall(v);
     const rad = (t, v, sterk) => '<tr' + (sterk ? ' style="font-weight:600"' : '') + '><td style="padding:5px 8px;text-align:left">' + t + '</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + v + '</td></tr>';
-    const ek = b.ek_2025.length ? b.ek_2025.map(e => pensjonTall(e[1]) + ' til ' + e[0]).join(' og ') : 'ingen årlige innskudd';
     innbetHTML =
       '<h4 class="serif" style="font-size:14.5px;margin:18px 0 4px">Innbetalinger 2025</h4>' +
       '<p class="hint" style="font-size:12px;margin:0 0 6px">Fra pensjonsnoten i årsregnskapet, millioner kroner. Gjelder alle ordningene samlet: ' + d.lev + ', KLP for sykepleierne og Statens pensjonskasse for lærerne.</p>' +
@@ -2030,7 +2029,7 @@ function pensjonKommuneCard(k){
         '<tr style="border-top:2px solid var(--ink);font-weight:600"><td style="padding:5px 8px">Innbetalt premie</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + pensjonTall(b.premie) + '</td></tr>' +
         rad('Beregnet pensjonskostnad', pensjonTall(b.kostnad)) +
         rad('Årets premieavvik', pensjonTall(b.avvik)) +
-        rad('Egenkapitalinnskudd', ek) +
+        (b.ek_2025.length ? b.ek_2025.map(e => rad('Egenkapitalinnskudd til ' + e[0], pensjonTall(e[1]))).join('') : rad('Egenkapitalinnskudd', 'ingen årlige')) +
       '</tbody></table></div>' +
       '<p class="hint" style="font-size:11.5px;margin-top:6px">Fra kassens årsrapport for 2025 (alle medlemsforetak): ' +
         (b.sats_2025 != null ? b.sats_tekst.charAt(0).toUpperCase() + b.sats_tekst.slice(1) + ' ' + pensjonTall(b.sats_2025, 2) + ' % av pensjonsgrunnlaget (' + pensjonTall(b.sats_2024, 2) + ' % i 2024). ' : 'Premiesats i prosent av lønn er ikke oppgitt. ') +
