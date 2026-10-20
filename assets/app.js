@@ -796,9 +796,9 @@ function levekarKommuneCard(k){
         '<h3 class="serif" style="font-size:15px;font-weight:600;margin-bottom:6px">Hvor kommer personinntekten fra?</h3>'+
         '<p class="hint" style="font-size:12px">Lønn, pensjon og uføretrygd som andel av samlet personinntekt for bosatte 17+ år. Totalt '+(sumK>1000?(sumK/1000).toFixed(1).replace('.',',')+' milliarder kroner':sumK.toFixed(0).replace('.',',')+' millioner kroner')+'.</p>'+
         '<div class="split" style="margin:8px 0">'+
-          '<div style="width:'+pctL.toFixed(1).replace('.',',')+'%;background:var(--aurora);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctL>=8?pctL.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-          '<div style="width:'+pctP.toFixed(1).replace('.',',')+'%;background:var(--nl);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctP>=8?pctP.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-          '<div style="width:'+pctU.toFixed(1).replace('.',',')+'%;background:var(--amber);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctU>=8?pctU.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+          '<div style="width:'+pctL.toFixed(1)+'%;background:var(--aurora);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctL>=8?pctL.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+          '<div style="width:'+pctP.toFixed(1)+'%;background:var(--nl);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctP>=8?pctP.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+          '<div style="width:'+pctU.toFixed(1)+'%;background:var(--amber);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center">'+(pctU>=8?pctU.toFixed(0).replace('.',',')+' %':'')+'</div>'+
         '</div>'+
         '<div class="legend">'+
           '<span><i style="background:var(--aurora)"></i>Lønn '+pctL.toFixed(0).replace('.',',')+' %</span>'+
@@ -1461,9 +1461,9 @@ function renderLevekar(){
     const pct = (v) => (v/sumKomponenter*100);
     kompHost.innerHTML =
       '<div class="split" style="margin:10px 0">'+
-        '<div style="width:'+pct(totLonn).toFixed(1).replace('.',',')+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totLonn)>=8?andelLonn.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-        '<div style="width:'+pct(totPensjon).toFixed(1).replace('.',',')+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totPensjon)>=8?andelPensjon.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-        '<div style="width:'+pct(totUfore).toFixed(1).replace('.',',')+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totUfore)>=8?andelUfore.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pct(totLonn).toFixed(1)+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totLonn)>=8?andelLonn.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pct(totPensjon).toFixed(1)+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totPensjon)>=8?andelPensjon.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pct(totUfore).toFixed(1)+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pct(totUfore)>=8?andelUfore.toFixed(0).replace('.',',')+' %':'')+'</div>'+
       '</div>'+
       '<div class="legend"><span><i style="background:var(--aurora)"></i>Lønn '+fmtMrd(totLonn)+'</span>'+
         '<span><i style="background:var(--nl)"></i>Pensjon '+fmtMrd(totPensjon)+'</span>'+
@@ -1491,9 +1491,9 @@ function renderLevekar(){
         '</div>'+
       '</div>'+
       '<div class="split" style="margin-top:14px">'+
-        '<div style="width:'+pctSelv.toFixed(1).replace('.',',')+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctSelv>=10?pctSelv.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-        '<div style="width:'+pctAndels.toFixed(1).replace('.',',')+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctAndels>=8?pctAndels.toFixed(0).replace('.',',')+' %':'')+'</div>'+
-        '<div style="width:'+pctLeier.toFixed(1).replace('.',',')+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctLeier>=8?pctLeier.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pctSelv.toFixed(1)+'%;background:var(--aurora);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctSelv>=10?pctSelv.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pctAndels.toFixed(1)+'%;background:var(--nl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctAndels>=8?pctAndels.toFixed(0).replace('.',',')+' %':'')+'</div>'+
+        '<div style="width:'+pctLeier.toFixed(1)+'%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">'+(pctLeier>=8?pctLeier.toFixed(0).replace('.',',')+' %':'')+'</div>'+
       '</div>'+
       '<div class="legend"><span><i style="background:var(--aurora)"></i>Selveier '+fmt(hushSelv)+'</span>'+
         '<span><i style="background:var(--nl)"></i>Andels-/aksjeeier '+fmt(hushAndels)+'</span>'+
@@ -1777,7 +1777,8 @@ function renderGjeld(){
   // Tall: konverter 1000 kr → mrd kr for store tall
   const mrd = v => v != null ? (v/1e6).toFixed(1).replace('.',',') : '–';
   const mill = v => v != null ? (v/1e3).toFixed(0).replace('.',',') : '–';
-  const pct = v => v != null ? v.toFixed(1).replace('.',',') + ' %' : '–';
+  // Samme avrunding som stolpediagrammet, så tekst og figur viser samme tall
+  const pct = v => v != null ? (Math.round(v * 10) / 10).toFixed(1).replace('.',',') + ' %' : '–';
 
   // Per-innbygger: trenger befolkning fra K
   const scopePop = (function(){
@@ -1813,22 +1814,13 @@ function renderGjeld(){
     {navn:'Kultur',             pct: bench.kultur_pct,  col:'var(--gold)',   type:'sektor'},
   ].filter(r => r.pct != null);
   sektorRader.sort((a,b) => b.pct - a.pct);
-  const maxPct = Math.max.apply(null, sektorRader.map(r => r.pct));
   const compareHTML =
     '<div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Hva binder kommunekassen?</h3></div>' +
     '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Gjeldsbetjening (renter + avdrag) i ' + scopeNavn + ' er <b>' + pct(data.gjb_pct) + '</b> av driftsinntektene — sammenlignet med de største sektorenes andel av driftsutgiftene. Gjeldsbetjening kommer på linje med en mellomstor utgiftspost, men er <b>låst</b> — kan ikke kuttes som tjenester.</p>' +
-    '<div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">' +
-    sektorRader.map(r => {
-      const w = (r.pct / maxPct * 100).toFixed(1).replace('.',',');
-      return '<div style="display:grid;grid-template-columns:160px 1fr 70px;gap:10px;align-items:center">' +
-        '<div style="font-size:12.5px;color:var(--ink);font-weight:' + (r.type==='gjeld'?'700':'500') + ';text-align:right">' + r.navn + (r.type==='gjeld'?' †':'') + '</div>' +
-        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + r.pct.toFixed(1).replace('.',',') + ' %</div>' +
-        '</div>' +
-        '<div style="font-size:10.5px;color:var(--ink3)">' + (r.type==='gjeld'?'av inntekter':'av utgifter') + '</div>' +
-      '</div>';
-    }).join('') +
-    '</div>' +
+    NN.placeholder('hstolper', {format:'pst', grupper:[{rader: sektorRader.map(r => ({
+      l: r.navn + (r.type === 'gjeld' ? ' †' : ''), v: Math.round(r.pct * 10) / 10, farge: r.col, uthev: r.type === 'gjeld',
+      note: r.type === 'gjeld' ? 'av inntekter' : 'av utgifter'
+    }))}]}, sektorRader.length * 34 + 30) +
     '<p class="hint" style="font-size:11.5px;margin-top:8px;opacity:.75;font-style:italic">† = gjeldsbetjening. Tallet er regnet av brutto driftsinntekter; sektorene er regnet av netto driftsutgifter. Sammenligningen viser <i>relativ størrelse</i>, ikke matematisk identisk denominator.</p>';
 
   // ─── Lånekilder — nasjonalt bakteppe (SSB K2, tabell 06718) ───
@@ -2135,22 +2127,11 @@ function renderHusholdninger(hostId, scope){
     .map(t => ({...t, n: (latest[t.key] || {}).n, median: (latest[t.key] || {}).median}))
     .filter(r => r.median != null);
   innRader.sort((a, b) => b.median - a.median);
-  const maxMed = Math.max.apply(null, innRader.map(r => r.median));
   const inntektsGrafHTML =
     '<div style="font-family:var(--font-display);font-size:14px;font-weight:600;margin:8px 0 6px;color:var(--ink)">Median inntekt etter skatt — per husholdningstype</div>' +
-    '<div style="display:flex;flex-direction:column;gap:6px">' +
-    innRader.map(r => {
-      const w = (r.median / maxMed * 100).toFixed(1).replace('.',',');
-      const diffVsMed = ((r.median/alle_med - 1) * 100);
-      return '<div style="display:grid;grid-template-columns:160px 1fr 130px;gap:10px;align-items:center">' +
-        '<div style="font-size:12.5px;color:var(--ink);font-weight:500;text-align:right">' + r.label + '</div>' +
-        '<div style="position:relative;height:22px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0">' +
-          '<div style="position:absolute;top:0;left:0;height:100%;width:' + w + '%;background:' + r.col + ';border-radius:0;display:flex;align-items:center;padding-left:8px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700">' + fmtKr(r.median) + ' kr</div>' +
-        '</div>' +
-        '<div style="font-size:11px;color:var(--ink3);text-align:right">' + sgn(diffVsMed) + ' % vs median</div>' +
-      '</div>';
-    }).join('') +
-    '</div>';
+    NN.placeholder('hstolper', {format:'kr', grupper:[{rader: innRader.map(r => ({
+      l: r.label, v: Math.round(r.median), farge: r.col, note: sgn((r.median / alle_med - 1) * 100) + ' % vs median'
+    }))}]}, innRader.length * 34 + 30);
 
   // Sammensetning — stablet 100 %-stolpe
   const sammensetningRader = TYPES
@@ -2160,7 +2141,7 @@ function renderHusholdninger(hostId, scope){
   const segHTML = sammensetningRader.map(r => {
     const pct = (r.n / sumN * 100);
     if(pct < 0.5) return '';
-    return '<div style="width:' + pct.toFixed(1).replace('.',',') + '%;background:' + r.col + ';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px" title="' + r.label + ' ' + r.n.toLocaleString('nb-NO') + '">' + (pct >= 7 ? pct.toFixed(0).replace('.',',') + ' %' : '') + '</div>';
+    return '<div style="width:' + pct.toFixed(1) + '%;background:' + r.col + ';display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px" title="' + r.label + ' ' + r.n.toLocaleString('nb-NO') + '">' + (pct >= 7 ? pct.toFixed(0).replace('.',',') + ' %' : '') + '</div>';
   }).join('');
   const legendHTML = sammensetningRader.map(r =>
     '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink2)"><i style="display:inline-block;width:10px;height:10px;background:' + r.col + ';border-radius:0"></i>' + r.label + ' (' + fmtN(r.n) + ')</span>'
