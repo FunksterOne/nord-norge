@@ -2008,7 +2008,7 @@ function renderPensjon(){
 
   host.innerHTML = kpiHTML + leadHTML + figHTML + listeHTML + orgHTML;
 }
-// Pensjonsblokk på kommunesiden (Økonomi-fanen)
+// Pensjonsblokk på kommunesiden (fanen Pensjon)
 function pensjonKommuneCard(k){
   if(typeof PENSJON_DATA === 'undefined') return '';
   const P = PENSJON_DATA, M = P.meta, d = P.kommuner[String(k.nr)];

@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var rt = '<thead><tr><th>Kommune</th><th>Premieavvik</th><th>Disposisjonsfond</th><th>Amortisering</th><th>Pensjonskostnad 2030</th></tr></thead><tbody>';
   LD.risiko.forEach(function(nr){
     var k = PD.kommuner[nr];
-    rt += '<tr><td><a href="kommune.html?k=' + nr + '&sec=okonomi">' + navn(nr) + '</a>' + (k.lev !== 'KLP' ? ' <span style="color:var(--ink3);font-size:11px">egen kasse</span>' : '') + '</td><td>' + p1(k.pa) + '</td><td>' + p1(k.df) + '</td><td>' + k.amort + ' år</td><td>' + p1(k.R.basis[iAar(2030)]) + '</td></tr>';
+    rt += '<tr><td><a href="kommune.html?k=' + nr + '&sec=pensjon">' + navn(nr) + '</a>' + (k.lev !== 'KLP' ? ' <span style="color:var(--ink3);font-size:11px">egen kasse</span>' : '') + '</td><td>' + p1(k.pa) + '</td><td>' + p1(k.df) + '</td><td>' + k.amort + ' år</td><td>' + p1(k.R.basis[iAar(2030)]) + '</td></tr>';
   });
   rt += '</tbody>';
   document.getElementById('risikoTabell').innerHTML = rt;

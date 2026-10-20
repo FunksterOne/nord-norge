@@ -122,7 +122,8 @@
   <button data-sec="levekar" aria-current="false">4 · Levekår</button>
   <button data-sec="bolig" aria-current="false">5 · Bolig</button>
   <button data-sec="okonomi" aria-current="false">6 · Økonomi</button>
-  <button data-sec="barekraft" aria-current="false">7 · Bærekraft</button>
+  <button data-sec="pensjon" aria-current="false">7 · Pensjon</button>
+  <button data-sec="barekraft" aria-current="false">8 · Bærekraft</button>
 </nav>
 
 <!-- 7 seksjoner -->
@@ -160,6 +161,12 @@
   <h2 class="section-title">Økonomi</h2>
   <p class="section-sub">Hvor sterk står kommunekassen?</p>
   <div id="kOkonomi"></div>
+</section>
+
+<section class="tab" data-tab="pensjon">
+  <h2 class="section-title">Pensjon</h2>
+  <p class="section-sub">Hvor stort er etterslepet, og hva koster pensjonene fram mot 2050?</p>
+  <div id="kPensjon"></div>
 </section>
 
 <section class="tab" data-tab="barekraft">
@@ -296,8 +303,12 @@ document.addEventListener('DOMContentLoaded', function(){
       renderBoligPanel(k, host);
     } else if(sec === 'okonomi'){
       renderOkonomiPanel(k, host);
+    } else if(sec === 'pensjon'){
+      // 7. Pensjon: premieavvik, innbetalinger og fremskrevet pensjonskostnad (pensjonsKommuneCard i assets/app.js)
+      var pk = typeof pensjonKommuneCard === 'function' ? pensjonKommuneCard(k) : '';
+      host.innerHTML = '<div class="bf-panel">' + (pk || '<p class="hint">Pensjonstall mangler for denne kommunen.</p>') + '</div>';
     } else if(sec === 'barekraft'){
-      // 6. Bærekraft: indikatorer mot eksterne normer
+      // 8. Bærekraft: indikatorer mot eksterne normer
       host.innerHTML = sustKommuneCard(k);
     }
     // Bind eventuelle interaktive elementer (slidere/modus-bytter inni rendered HTML)
@@ -328,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function renderAllSections(){
-    ['befolkning','sammensetning','arbeid','levekar','bolig','okonomi','barekraft'].forEach(renderSection);
+    ['befolkning','sammensetning','arbeid','levekar','bolig','okonomi','pensjon','barekraft'].forEach(renderSection);
   }
 
   // ─── Dedikert Befolkning-panel (pedagogisk redesign) ───
@@ -822,8 +833,8 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div>' + kostraCard(k) + '</div>'+
         // ROBEK-status-kort
         '<div>' + robekCard(k) + '</div>'+
-        // Pensjon: premieavvik og fremskrevet pensjonskostnad (PENSJON_DATA)
-        (typeof pensjonKommuneCard === 'function' ? pensjonKommuneCard(k) : '')+
+        // Pensjon har egen fane; her bare en henvisning
+        (typeof PENSJON_DATA !== 'undefined' && PENSJON_DATA.kommuner[String(k.nr)] ? '<p class="hint" style="margin-top:16px;font-size:12.5px">Pensjonsforpliktelser, premieavvik og pensjonskostnad fram mot 2050 står i fanen <a href="kommune.html?k='+k.nr+'&sec=pensjon">Pensjon</a>.</p>' : '')+
       '</div>';
   }
 

@@ -1,7 +1,7 @@
 # Kommunale pensjonsforpliktelser i Nord-Norge
 
 Analyse av de 80 kommunene i Nordland, Troms og Finnmark. Fase 1–4 utført 16.–17. oktober 2026.
-I dashbordet: temasiden `tema-pensjon.html`, Økonomi-fanen på kommune-, fylkes- og landsdelssidene og
+I dashbordet: temasiden `tema-pensjon.html`, fanen Pensjon på kommunesiden, Økonomi-fanen på fylkes- og landsdelssidene og
 metodesiden. Datablokken `PENSJON_DATA` bygges med `python fetch_pensjon.py` fra rotmappen.
 
 ## Konklusjon
