@@ -55,7 +55,7 @@
       <tr><td class="kode">14746</td><td>Befolkningsframskriving, MMMM-banen + lav/høy (2026-årgangen)</td><td>2026–2050</td></tr>
       <tr><td class="kode">09817</td><td>Innvandrere og norskfødte med innvandrerforeldre, etter opprinnelsesland</td><td>2026</td></tr>
       <tr><td class="kode">11607</td><td>Sysselsetting etter landgruppe, alder 20–66</td><td>4. kv. 2025</td></tr>
-      <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting)</td><td>2017–2025</td></tr>
+      <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting); fødte og døde i landsdelen brukes fra 1995</td><td>1995–2025</td></tr>
       <tr><td class="kode">09588</td><td>Innenlands flyttinger</td><td>2002–2025</td></tr>
       <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
       <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2025</td></tr>
@@ -86,6 +86,7 @@
     <thead><tr><th>Kilde</th><th>Innhold</th><th>Periode</th></tr></thead>
     <tbody>
       <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — estimert mangel på arbeidskraft per næring × fylke + sysselsettingsbarometer (forventet vekst)</td><td>vår 2026</td></tr>
+      <tr><td class="kode">Kunnskapsbanken</td><td>Barometer 2026X – Ung i nord (SpareBank 1 Nord-Norge, utført av Sentio Research) — spørreundersøkelse blant 18–34-åringer, se <a href="#barometer">eget kort</a></td><td>august 2026</td></tr>
     </tbody>
   </table>
 </div>
@@ -164,6 +165,14 @@
     <li><span class="norm-tag">Høy</span><b>Kostnaden tar igjen premien</b> (+21 %, departementets mål), strukturell vekst 1,0 % per år, premiefondet dekker 25 % av 2025-nivået.</li>
   </ul>
   <p><b>Forbehold.</b> Forholdstallet (realrenten i beregningen) er 1,0 for 2025, 0,88 for 2026 og 0,75 for 2027 (KDDs rundskriv H-3/25, H-4/25 og H-2/26). Det tekniske beregningsutvalget venter at kostnaden for sektoren faller i 2026 og stiger i 2027 (Prop. 1 S (2026–2027)); modellen fanger ikke opp virkningen av den høye avkastningen i 2025, så årene 2026–2027 er usikre. Premiefondets dekning er en forutsetning, ikke en prognose. Organiseringen (KLP, de egne kassene i Bodø, Tromsø og Harstad, Statens pensjonskasse for lærerne) bygger på kassenes årsrapporter for 2025, Finanstilsynet og KLPs kvartalsrapport for 2. kvartal 2026.</p>
+</div>
+
+<div class="metode-card" id="barometer">
+  <h2>Barometer 2026X – Ung i nord</h2>
+  <p class="hint">Brukes på temasiden <a href="tema-ung.html">Ung i nord</a>. Tallene er lagt inn manuelt fra rapporten med sidehenvisning (<code>analyse/ung/barometer_ung.json</code>); registertallene hentes med <code>fetch_ung.py</code>.</p>
+  <p><b>Undersøkelsen.</b> Kunnskapsbanken (SpareBank 1 Nord-Norge) ved Sentio Research spurte 762 personer i alderen 18–34 år i Nord-Norge og 504 i fylkene sør for Nordland i august 2026 (rapport publisert oktober 2026). I Nord-Norge er 504 rekruttert gjennom Norstats webpanel og et tilfeldig trukket SMS-utvalg, og 258 svarte via en åpen lenke i sosiale medier. Svarene er vektet etter kjønn og alder innen SSBs sentralitetsnivåer 3–6; utvalget i sør er kvotert etter sentralitet.</p>
+  <p><b>Forbehold.</b> De som svarte via den åpne lenken, svarer annerledes enn de rekrutterte på flere spørsmål — de er mer engasjerte i lokalsamfunnet og mer kritiske til kommunen og karrieremulighetene. Tallene gjelder landsdelen; forskjeller mellom fylker og etter sentralitet omtales bare i teksten, og undersøkelsen sier ingenting om enkeltkommuner. Spørsmålsformuleringer og innsamlingsmetode er endret siden 2022. Tall som bare står i rapportens figurer, er lest av figurene. Undersøkelsestall vises derfor bare på temasiden, aldri på kommunesidene.</p>
+  <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes av ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere over 67 enn mellom 18 og 34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
 </div>
 
 <div class="metode-card">

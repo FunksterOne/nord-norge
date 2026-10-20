@@ -50,6 +50,13 @@ export const INDIKATORER = {
     enhet: 'Folketall 1.1.2026 — sirkelflaten er proporsjonal med folketallet',
     verdi: k => k.pop, fmt: v => heltall(v), type: 'size',
   },
+  kryss: {
+    navn: 'Flere eldre enn unge', kort: 'År da 67+ passerer 18–34',
+    enhet: 'Første år med flere innbyggere 67 år og over enn 18–34 år. SSB 07459 (faktisk fra 2020) og 14746 hovedalternativet (MMMM)',
+    verdi: k => { const o = L.UNG?.kommuner?.[String(k.nr)]; if (!o) return null; return o.kryss === 'før 2020' ? 2019 : o.kryss == null ? 2051 : o.kryss; },
+    fmt: v => (v <= 2019 ? 'før 2020' : v >= 2051 ? 'ikke innen 2050' : String(v)), type: 'sequential',
+    skjult: true, rangTitler: ['Senest', 'Tidligst'], utenStolpe: true,
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',
@@ -149,7 +156,7 @@ function render(el, width) {
     const bar = document.createElement('div');
     bar.className = 'nn-seg';
     bar.setAttribute('role', 'tablist');
-    bar.innerHTML = Object.entries(INDIKATORER).map(([key, d]) =>
+    bar.innerHTML = Object.entries(INDIKATORER).filter(([key, d]) => !d.skjult || key === ind).map(([key, d]) =>
       `<button type="button" role="tab" data-ind="${key}" aria-selected="${key === ind}">${d.navn}</button>`).join('');
     bar.addEventListener('click', e => {
       const b = e.target.closest('button[data-ind]'); if (!b) return;
@@ -191,10 +198,12 @@ function rankPanel(def, ind, features, s) {
   const li = d => {
     const w = Math.max(2, Math.abs(d.v) / max * 100);
     const col = def.type === 'diverging' ? (d.v < 0 ? 'var(--neg)' : 'var(--pos)') : 'var(--accent)';
-    return `<li><a href="kommune.html?k=${d.nr}">${kortNavn(d.k.navn)}</a><span class="nn-rank-bar"><i style="width:${w}%;background:${col}"></i></span><span class="num">${def.fmt(d.v)}</span></li>`;
+    const bar = def.utenStolpe ? '<span class="nn-rank-bar"></span>' : `<span class="nn-rank-bar"><i style="width:${w}%;background:${col}"></i></span>`;
+    return `<li><a href="kommune.html?k=${d.nr}">${kortNavn(d.k.navn)}</a>${bar}<span class="num">${def.fmt(d.v)}</span></li>`;
   };
-  box.innerHTML = `<div class="nn-rank-h">Høyest</div><ol class="nn-rank-list">${rows.slice(0, 6).map(li).join('')}</ol>
-    <div class="nn-rank-h">Lavest</div><ol class="nn-rank-list">${rows.slice(-6).reverse().map(li).join('')}</ol>
+  const [hoy, lav] = def.rangTitler || ['Høyest', 'Lavest'];
+  box.innerHTML = `<div class="nn-rank-h">${hoy}</div><ol class="nn-rank-list">${rows.slice(0, 6).map(li).join('')}</ol>
+    <div class="nn-rank-h">${lav}</div><ol class="nn-rank-list">${rows.slice(-6).reverse().map(li).join('')}</ol>
     <div class="nn-rank-sub">${rows.length} kommuner. Navn er klikkbare.</div>`;
   return box;
 }

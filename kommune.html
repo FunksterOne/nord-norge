@@ -403,7 +403,13 @@ document.addEventListener('DOMContentLoaded', function(){
         (oad0!=null && oad1!=null
           ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+' → '+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde</div><div class="h">65+ per 100 i 20–64</div></div>'
           : '<div class="k"><div class="v">—</div><div class="l">Forsørgerbyrde</div><div class="h">data utilgjengelig</div></div>'
-        );
+        )+
+        // Krysningsår: første år med flere 67+ enn 18–34 (UNG_DATA, fetch_ung.py)
+        (typeof UNG_DATA !== 'undefined' && UNG_DATA.kommuner[k.nr] ? (function(){
+          var u = UNG_DATA.kommuner[k.nr], i = UNG_DATA.faktiskTil - UNG_DATA.aar[0], kr = u.kryss;
+          var v = kr === 'før 2020' ? 'Før 2020' : kr == null ? 'Ikke innen 2050' : String(kr);
+          return '<div class="k"><div class="v"'+(kr == null ? ' style="font-size:22px"' : '')+'>'+v+'</div><div class="l">Flere eldre enn unge voksne</div><div class="h">67+ mot 18–34: '+fmt(u.e[i])+' mot '+fmt(u.u[i])+' i '+UNG_DATA.faktiskTil+' · <a href="tema-ung.html">Ung i nord</a></div></div>';
+        })() : '');
     }
 
     // 3-vindu-tabell + sanity-warning (vises inne i TF-MVP-details)

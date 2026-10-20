@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "tittel": "Barometer 2026X – Ung i nord",
+    "utgiver": "Kunnskapsbanken, SpareBank 1 Nord-Norge",
+    "utfort_av": "Sentio Research",
+    "publisert": "2026-10-15",
+    "innsamling": "august 2026",
+    "alder": "18–34 år",
+    "n_nn": 762, "n_nn_rekruttert": 504, "n_nn_lenke": 258, "n_sor": 504,
+    "metode": "Rekruttert utvalg (Norstats webpanel og tilfeldig trukket SMS-utvalg) supplert med en åpen svarlenke i sosiale medier. Vektet etter kjønn og alder innen SSBs sentralitetsnivåer 3–6. Sør-Norge = fylkene sør for Nordland, kvotert etter sentralitet.",
+    "forbehold": "Deltakerne via den åpne svarlenken svarer annerledes enn det rekrutterte utvalget på flere spørsmål. Tallene gjelder landsdelen; fylker og sentralitet omtales bare i teksten. Spørsmål og innsamlingsmetode er endret siden 2022.",
+    "merknad": "Tall i figurene er lest av figurene i rapporten (sidetall oppgitt); tall i teksten er hentet direkte."
+  },
+  "tilknytning": {"side": 6, "landsdel": 80, "kommune": 66, "fylke": 60, "norge": 90},
+  "tillit": {
+    "side": "8–9",
+    "beste": {"nn": 33, "sor": 49, "merk": "helt eller delvis enig (figur 2: 24 + 9 og 37 + 12)"},
+    "involvering": {"nn": 20, "sor": 30, "merk": "«to av ti» og «tre av ti»"},
+    "innspill": {"nn": 25, "sor": 37}
+  },
+  "bosted5": {
+    "side": 34,
+    "rader": [
+      {"l": "Samme kommune som i dag", "nn": 52, "sor": 59},
+      {"l": "En annen kommune i Nord-Norge", "nn": 16, "sor": 16, "merk": "Sør-Norge: annen kommune i egen landsdel"},
+      {"l": "Andre deler av Norge", "nn": 22, "sor": 17},
+      {"l": "Utlandet", "nn": 4, "sor": 4},
+      {"l": "Ønsker ikke å svare", "nn": 6, "sor": 5}
+    ],
+    "i_nn": 68, "ut": 27,
+    "storre_kommune": "over halvparten av dem som tror de flytter til en annen kommune, ser for seg en større kommune"
+  },
+  "arbeid": {
+    "side": "12, 28–31",
+    "godt_sted": 80,
+    "karriere": {"nn": 54, "sor": 66, "uenig_nn": 22, "uenig_sor": 10},
+    "kriterier": {
+      "side": 29,
+      "rader": [
+        {"l": "Godt sosialt miljø", "nn": 51, "sor": 45},
+        {"l": "Stabil og sikker arbeidsplass", "nn": 42, "sor": 39},
+        {"l": "Jobbe med interessene mine", "nn": 37, "sor": 43},
+        {"l": "Høyest mulig lønn", "nn": 32, "sor": 40},
+        {"l": "Gode ledere", "nn": 24, "sor": 18},
+        {"l": "Arbeidsstedet nær der jeg bor", "nn": 24, "sor": 25},
+        {"l": "Gode karrieremuligheter", "nn": 20, "sor": 24},
+        {"l": "Variere arbeidssted og arbeidstid", "nn": 19, "sor": 16},
+        {"l": "Etterutdanning og faglig utvikling", "nn": 14, "sor": 10},
+        {"l": "Pensjon og forsikring", "nn": 12, "sor": 9}
+      ]
+    },
+    "kompetanse": 60, "kompetanse_betinget_stotte": 67
+  },
+  "bolig": {
+    "side": "25, 42",
+    "situasjon": [
+      {"l": "Eier bolig", "nn": 42, "sor": 46},
+      {"l": "Leier privat", "nn": 32, "sor": 23},
+      {"l": "Studentbolig", "nn": 4, "sor": 3},
+      {"l": "Bor hjemme hos foreldre", "nn": 15, "sor": 22},
+      {"l": "Annet", "nn": 5, "sor": 2}
+    ],
+    "eier_enebolig": {"nn": 61, "sor": 32}, "eier_leilighet": {"nn": 28, "sor": 53},
+    "utleiebolig": {"nn": 14, "sor": 6}
+  },
+  "okonomi": {"side": "21–22", "bekymret": 68, "bekymret_deler": {"litt": 41, "god_del": 17, "svaert": 10}, "uforutsett_nei": 22},
+  "tjenester": {
+    "side": 39,
+    "rader": [
+      {"l": "Reisekostnader (Norge og utlandet)", "viktig": 84, "tilfreds": 16, "viktig_sor": 72, "tilfreds_sor": 51},
+      {"l": "Reisetid (Norge og utlandet)", "viktig": 78, "tilfreds": 34, "viktig_sor": 69, "tilfreds_sor": 67},
+      {"l": "Offentlig transport", "viktig": 75, "tilfreds": 34, "viktig_sor": 81, "tilfreds_sor": 57},
+      {"l": "Tiltak for vekst i innbyggertallet", "viktig": 66, "tilfreds": 25, "viktig_sor": 38, "tilfreds_sor": 37},
+      {"l": "Sosiale møteplasser", "viktig": 83, "tilfreds": 45, "viktig_sor": 78, "tilfreds_sor": 61},
+      {"l": "Helsetjenester", "viktig": 95, "tilfreds": 58, "viktig_sor": 93, "tilfreds_sor": 71},
+      {"l": "Bærekraftig industri og arbeidsplasser", "viktig": 62, "tilfreds": 31, "viktig_sor": 56, "tilfreds_sor": 43},
+      {"l": "Fritidsaktiviteter", "viktig": 84, "tilfreds": 54, "viktig_sor": 75, "tilfreds_sor": 63},
+      {"l": "Utdanningsmuligheter", "viktig": 77, "tilfreds": 52, "viktig_sor": 72, "tilfreds_sor": 70},
+      {"l": "Privatbiltrafikk", "viktig": 72, "tilfreds": 58, "viktig_sor": 61, "tilfreds_sor": 56},
+      {"l": "Frivillige organisasjoner", "viktig": 67, "tilfreds": 55, "viktig_sor": 55, "tilfreds_sor": 52},
+      {"l": "Sportsaktiviteter", "viktig": 71, "tilfreds": 61, "viktig_sor": 57, "tilfreds_sor": 59},
+      {"l": "Kunst og kultur", "viktig": 56, "tilfreds": 47, "viktig_sor": 50, "tilfreds_sor": 56},
+      {"l": "Sykkel", "viktig": 49, "tilfreds": 50, "viktig_sor": 52, "tilfreds_sor": 61}
+    ]
+  },
+  "barn": {
+    "side": "45–49",
+    "rader": [
+      {"l": "Store utgifter", "nn": 83, "sor": 81},
+      {"l": "Prioriterer jobb og karriere", "nn": 71, "sor": 69},
+      {"l": "For lite økonomisk støtte", "nn": 67, "sor": 61},
+      {"l": "Bekymring for fremtiden", "nn": 64, "sor": 64},
+      {"l": "For lite fritid", "nn": 55, "sor": 60},
+      {"l": "Vanskelig å finne stor nok bolig", "nn": 52, "sor": 46},
+      {"l": "Familie ansett som mindre viktig", "nn": 38, "sor": 39},
+      {"l": "Dårlige tjenester (barnehage, skole, SFO)", "nn": 33, "sor": 25},
+      {"l": "For kort foreldrepermisjon", "nn": 33, "sor": 32},
+      {"l": "Vil ikke belaste miljø og klima", "nn": 9, "sor": 14}
+    ],
+    "bolig_bodo_tromso": 70
+  },
+  "rapportens_registertall": {
+    "side": "33, 45",
+    "u_endring_2035_pct": -8, "u_endring_2050_pct": -18, "e_endring_2050_pct": 32,
+    "kryss_nn": 2031, "sma_kommuner": 34, "sma_kryss": 33, "kryss_bodo": 2038, "kryss_tromso": null,
+    "fodte_1995_pct_nn": -36, "fodte_1995_pct_land": -8, "fodte_2015_pct_nn": -9, "fodte_2015_pct_land": -6
+  }
+}

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ung i nord · Nord-Norge dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{var q=new URLSearchParams(location.search).get("tema");if(q==="light"||q==="dark")localStorage.setItem("nn-tema",q);if((q||localStorage.getItem("nn-tema"))==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
+<link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
+<style>
+.ug-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
+.ug-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.ug-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
+.ug-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
+.ug-kilde > div.reg{border-left-color:var(--accent)}
+.ug-kilde .nr{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.ug-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
+.ug-merke{display:inline-block;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--line2);color:var(--ink3);margin-right:6px;vertical-align:middle}
+.ug-merke.reg{border-color:var(--accent);color:var(--accent-text)}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Ung i nord</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-pensjon.html">← Pensjon</a>
+    <a class="btn" href="metode.html#barometer">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 10 · Unge voksne 18–34 år, 2026–2050</div>
+  <h1>Sju av ti vil bli. <em>Kullet</em> krymper likevel.</h1>
+  <p class="lede" id="heroLede"></p>
+  <div class="ug-kilde">
+    <div><div class="nr">Det de sier</div><p id="kildeSier"></p></div>
+    <div class="reg"><div class="nr">Det tallene viser</div><p>Folketall etter ettårig alder fra SSB, faktisk fra 2020 og framskrevet i hovedalternativet (MMMM) til 2050, og fødte og døde fra 1995. Registertallene finnes for hver kommune.</p></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 01 — BLIR DE? ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Blir de?</div>
+  <h2>De fleste vil bli — men det blir <em>færre</em> av dem.</h2>
+  <p class="akt-intro" id="bliIntro"></p>
+  <div class="kpi-rad" id="bliKPI"></div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke reg">SSB</span>Unge voksne og eldre i Nord-Norge, 2020–2050</div>
+    <div id="krysGraf"></div>
+  </div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">Barometer</span>Hvor tror du at du bor om fem år?</div>
+    <div id="bostedGraf"></div>
+  </div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke reg">SSB</span>Året det blir flere over 67 enn mellom 18 og 34, per kommune</div>
+    <p class="hint" style="font-size:12px;margin-bottom:8px" id="kartTekst"></p>
+    <div id="krysKart"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 02 — ARBEID ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Arbeid og karriere</div>
+  <h2>Et godt sted å bo — <em>svakere</em> som karrierearena.</h2>
+  <p class="akt-intro" id="arbeidIntro"></p>
+  <div class="kpi-rad" id="arbeidKPI"></div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">Barometer</span>De tre viktigste kriteriene ved valg av jobb</div>
+    <div id="kriterieGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 03 — BOLIG OG ØKONOMI ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Bolig og økonomi</div>
+  <h2>Fire av ti eier boligen — og <em>byggingen</em> faller.</h2>
+  <p class="akt-intro" id="boligIntro"></p>
+  <div class="kpi-rad" id="boligKPI"></div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">Barometer</span>Hvordan bor du i dag?</div>
+    <div id="boligGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — HVA BOSTEDET MÅ LEVERE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Hva bostedet må levere</div>
+  <h2>Størst avstand mellom ønske og virkelighet: <em>å komme seg ut</em>.</h2>
+  <p class="akt-intro" id="tjenesteIntro"></p>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">Barometer</span>Andel som mener tilbudet er viktig, minus andel som er fornøyd med det</div>
+    <div id="gapGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 05 — FÆRRE BARN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Færre barn</div>
+  <h2>Flere dør enn fødes — og unge peker på <em>økonomien</em>.</h2>
+  <p class="akt-intro" id="barnIntro"></p>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke reg">SSB</span>Levendefødte og døde i Nord-Norge, 1995–2025</div>
+    <div id="fodteGraf"></div>
+  </div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">Barometer</span>Hva er årsakene til at folk får færre barn? Andel som svarer «stor betydning»</div>
+    <div id="barnGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 06 — TILHØRIGHET OG TILLIT ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 06 · Tilhørighet og tillit</div>
+  <h2>Sterk tilknytning til landsdelen, <em>svak</em> tillit til kommunen.</h2>
+  <p class="akt-intro" id="tillitIntro"></p>
+  <div class="kpi-rad" id="tillitKPI"></div>
+</section>
+
+<!-- ────────────────── AKT 07 — OM UNDERSØKELSEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 07 · Om tallene</div>
+  <h2>Hva undersøkelsen kan — og <em>ikke</em> kan — si.</h2>
+  <p class="akt-intro" id="metodeIntro"></p>
+  <div class="ug-boks" id="kontrollBoks"></div>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Videre lesning</div>
+    <div class="ntb-grid">
+      <a class="ntb-card ntb-flyk" href="tema-flyktning.html">
+        <div class="ntb-num">01</div>
+        <h4>Hvem blir værende?</h4>
+        <p>Flyttestrømmene 2002–2025</p>
+      </a>
+      <a class="ntb-card ntb-kvinne" href="tema-kvinneflukt.html">
+        <div class="ntb-num">03</div>
+        <h4>Kvinneflukten</h4>
+        <p>De forlater i ung alder</p>
+      </a>
+      <a class="ntb-card" href="tema-bolig.html">
+        <div class="ntb-num">07</div>
+        <h4>Bygges det nok?</h4>
+        <p>Boligmarkedet 2000–2050</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Nord-Norge dashboard</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva forutsetningene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Kilder og metode</h4>
+      <p>Barometer 2026X fra Kunnskapsbanken (SpareBank 1 Nord-Norge) og SSB. Utvalg, vekting og forbehold er beskrevet på <a href="metode.html#barometer"><b>metodesiden</b></a>.</p>
+      <p style="margin-top:8px"><a href="metode.html#barometer">→ Se metode og kilder</a></p>
+    </div>
+    <div class="nnf-col">
+      <h4>Navigasjon</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.ssb.no/statbank" target="_blank" rel="noopener">SSB statistikkbank</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge" target="_blank" rel="noopener">Kildekode (GitHub)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Bygget med Vite, Observable Plot og D3 · Kart: Kartverket (CC BY 4.0)</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof UNG_DATA === 'undefined') return;
+  var U = UNG_DATA, B = U.barometer, M = B.meta, L = U.landsdel, KO = U.kontroll;
+  var f1 = function(v){ if(v == null) return '–'; var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var f0 = function(v){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('nb-NO'); };
+  var p0 = function(v){ return f0(v) + ' %'; };
+  var i = function(t){ return t - U.aar[0]; }, i0 = i(U.faktiskTil);
+  var UNNTAK = {'Aarborte - Hattfjelldal':'Hattfjelldal','Guovdageaidnu - Kautokeino':'Kautokeino','Deatnu - Tana':'Tana','Dielddanuorri - Tjeldsund':'Tjeldsund'};
+  var kort = function(n){ if(UNNTAK[n]) return UNNTAK[n]; var d = n.split(' - '); return d.length === 1 ? n : (d.find(function(x){ return !/[áčđŋšŧžÁČĐŊŠŦŽäÄ]/.test(x); }) || d[0]); };
+  var navn = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? kort(k.navn) : nr; };
+  var baro = 'Barometer 2026X, Kunnskapsbanken (SpareBank 1 Nord-Norge) / Sentio Research';
+  var uEnd = (L.u[i(2050)] / L.u[i0] - 1) * 100, eEnd = (L.e[i(2050)] / L.e[i0] - 1) * 100;
+
+  // ─── Hero ───
+  document.getElementById('heroLede').innerHTML =
+    'Av de unge voksne i Nord-Norge tror ' + p0(B.bosted5.i_nn) + ' at de fortsatt bor i landsdelen om fem år. Samtidig viser SSBs framskriving at antallet 18–34-åringer faller med ' + p0(-uEnd) + ' fram mot 2050, og i ' + L.kryss + ' blir det for første gang flere innbyggere over 67 år enn mellom 18 og 34. ' +
+    'Denne siden stiller det de unge sier om bosted, arbeid, bolig og barn opp mot det registertallene viser.';
+  document.getElementById('kildeSier').innerHTML = M.tittel + ': spørreundersøkelse blant ' + f0(M.n_nn) + ' personer i alderen ' + M.alder + ' i Nord-Norge og ' + f0(M.n_sor) + ' i resten av landet («Sør-Norge»), ' + M.innsamling + '. Utført av ' + M.utfort_av + ' for ' + M.utgiver + '. Gjelder landsdelen, ikke enkeltkommuner.';
+
+  // ─── Akt 01 ───
+  var nKrysForr = Object.values(U.kommuner).filter(function(o){ return o.kryss === 'før 2020'; }).length;
+  var nKrys2030 = KO.n_kryss_innen_2030, aldri = Object.keys(U.kommuner).filter(function(nr){ return U.kommuner[nr].kryss == null; });
+  document.getElementById('bliIntro').innerHTML =
+    'Halvparten (' + p0(B.bosted5.rader[0].nn) + ') venter å bo i samme kommune om fem år, og ' + p0(B.bosted5.rader[1].nn) + ' i en annen kommune i landsdelen. ' + p0(B.bosted5.ut) + ' tror de flytter ut, flest til resten av Norge. Andelen som vil bli, har vært stabil siden 2022, og avviker ikke tydelig fra unge i Sør-Norge. ' +
+    'Det som endrer seg, er størrelsen på gruppen: fra ' + f0(L.u[i0]) + ' 18–34-åringer i ' + U.faktiskTil + ' til ' + f0(L.u[i(2050)]) + ' i 2050, mens innbyggerne over 67 år øker fra ' + f0(L.e[i0]) + ' til ' + f0(L.e[i(2050)]) + '.';
+  document.getElementById('bliKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + p0(B.bosted5.i_nn) + '</div><div class="l">Tror de bor i Nord-Norge om fem år</div><div class="nh">Barometer 2026X · 18–34 år</div></div>' +
+    '<div class="kpi"><div class="v down">' + f1(uEnd) + ' %</div><div class="l">18–34-åringer ' + U.faktiskTil + '–2050</div><div class="nh">SSB MMMM · ' + f0(L.u[i(2050)] - L.u[i0]) + ' personer</div></div>' +
+    '<div class="kpi"><div class="v">+' + f1(eEnd) + ' %</div><div class="l">67 år og over ' + U.faktiskTil + '–2050</div><div class="nh">SSB MMMM</div></div>' +
+    '<div class="kpi"><div class="v">' + L.kryss + '</div><div class="l">Flere eldre enn unge voksne</div><div class="nh">første år 67+ passerer 18–34 i landsdelen</div></div>';
+  document.getElementById('krysGraf').innerHTML = NN.placeholder('linjer', {
+    x: U.aar,
+    serier: [
+      {navn:'67 år og over', kort:'67+', data:L.e, farge:'muted'},
+      {navn:'18–34 år', kort:'18–34', data:L.u, farge:'accent', uthev:true}
+    ],
+    iDag: U.faktiskTil, markor:[{x:L.kryss}], format:'tall', xTicks:[2020,2030,2040,2050], hoyde:300,
+    kilde:'Faktisk folketall 1. januar ' + U.aar[0] + '–' + U.faktiskTil + ' (SSB 07459), deretter SSB 14746 hovedalternativet (MMMM). Stiplet linje: ' + L.kryss + ', første år med flere over 67 enn mellom 18 og 34.'
+  }, 320);
+  document.getElementById('bostedGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', grupper:[{rader: B.bosted5.rader.map(function(r, j){
+    return {l:r.l, v:r.nn, farge: j === 0 ? 'accent' : 'muted', uthev: j === 0, note:'Sør-Norge ' + r.sor + ' %'};
+  })}], maks:100, kilde: baro + ', s. ' + B.bosted5.side + '. Sør-Norge: andelene gjelder egen landsdel.'}, B.bosted5.rader.length * 34 + 40);
+  document.getElementById('kartTekst').innerHTML =
+    'I ' + nKrysForr + ' av 80 kommuner var det allerede flere over 67 enn mellom 18 og 34 i 2020, og i ' + nKrys2030 + ' vil det gjelde innen 2030. ' +
+    KO.n_sma_kryss + ' av ' + KO.n_sma + ' kommuner med under 2 000 innbyggere har allerede passert. I Bodø skjer det i ' + KO.bodo_kryss + '. ' +
+    aldri.map(navn).join(', ').replace(/, ([^,]*)$/, ' og $1') + ' passerer ikke innen 2050. Klikk på en kommune for kommunesiden.';
+  document.getElementById('krysKart').innerHTML = NN.placeholder('kart', {ind:'kryss'}, 560);
+
+  // ─── Akt 02 ───
+  var A = B.arbeid;
+  document.getElementById('arbeidIntro').innerHTML =
+    'Åtte av ti mener Nord-Norge er et godt sted å bo, men bare ' + p0(A.karriere.nn) + ' mener landsdelen gir gode karrieremuligheter, mot ' + p0(A.karriere.sor) + ' av unge i Sør-Norge om sin landsdel. Forskjellen henger sammen med at Nord-Norge ikke har kommuner på de to mest sentrale nivåene; sammenlignet med like sentrale kommuner i sør er vurderingene omtrent like. ' +
+    'Karriere er likevel ikke det de unge vektlegger mest når de velger jobb: godt sosialt miljø og en stabil arbeidsplass kommer først, og høyest mulig lønn betyr mindre enn i sør. Samtidig har landsdelen stor mangel på arbeidskraft (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a>).';
+  document.getElementById('arbeidKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + p0(A.godt_sted) + '</div><div class="l">Nord-Norge er et godt sted å bo</div><div class="nh">Barometer 2026X</div></div>' +
+    '<div class="kpi"><div class="v">' + p0(A.karriere.nn) + '</div><div class="l">Gode karrieremuligheter</div><div class="nh">Sør-Norge ' + p0(A.karriere.sor) + ' · uenige ' + p0(A.karriere.uenig_nn) + ' mot ' + p0(A.karriere.uenig_sor) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + p0(A.kompetanse) + '</div><div class="l">Venter å ta mer utdanning innen ti år</div><div class="nh">' + p0(A.kompetanse_betinget_stotte) + ' av dem bare med støtteordninger</div></div>';
+  document.getElementById('kriterieGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', grupper:[{rader: A.kriterier.rader.map(function(r, j){
+    return {l:r.l, v:r.nn, farge: j < 2 ? 'accent' : 'muted', note:'Sør-Norge ' + r.sor + ' %'};
+  })}], maks:100, kilde: baro + ', s. ' + A.kriterier.side + '. Hver deltaker kunne velge inntil tre kriterier.'}, A.kriterier.rader.length * 34 + 40);
+
+  // ─── Akt 03 ───
+  var BO = B.bolig, OK = B.okonomi, BD = (typeof BOLIG_DATA !== 'undefined') ? BOLIG_DATA : null;
+  var ig = null, igF = null, fu = null, fuF = null, q = null;
+  if(BD){
+    var n = BD.quarters.length; q = BD.quarters[n-1];
+    ig = 0; igF = 0; fu = 0; fuF = 0;
+    Object.values(BD.kommuner).forEach(function(o){ ig += o.ig[n-1] || 0; igF += o.ig[n-5] || 0; fu += o.fu[n-1] || 0; fuF += o.fu[n-5] || 0; });
+  }
+  var qNavn = q ? q.slice(5) + '. kvartal ' + q.slice(0,4) : '';
+  document.getElementById('boligIntro').innerHTML =
+    p0(BO.situasjon[0].nn) + ' av de unge eier boligen de bor i, og ' + p0(BO.situasjon[1].nn) + ' leier privat — flere enn i sør (' + p0(BO.situasjon[1].sor) + '). Blant eierne bor ' + p0(BO.eier_enebolig.nn) + ' i enebolig, mot ' + p0(BO.eier_enebolig.sor) + ' i sør. ' +
+    p0(BO.utleiebolig.nn) + ' har investert i bolig for utleie, mot ' + p0(BO.utleiebolig.sor) + ' i sør. ' +
+    (ig != null ? 'Samtidig falt boligbyggingen: i ' + qNavn + ' ble det gitt igangsettingstillatelse til ' + f0(ig) + ' boliger i landsdelen, mot ' + f0(igF) + ' året før, og ' + f0(fu) + ' boliger ble fullført, mot ' + f0(fuF) + ' (SSB 05889). ' : '') +
+    'Økonomien preger hverdagen: ' + p0(OK.bekymret) + ' er i ulik grad bekymret for privatøkonomien, og ' + p0(OK.uforutsett_nei) + ' kan ikke dekke en uforutsett utgift uten å låne. Mer om boligmarkedet: <a href="tema-bolig.html">Bygges det nok?</a>';
+  document.getElementById('boligKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + p0(BO.situasjon[0].nn) + '</div><div class="l">Eier boligen</div><div class="nh">Sør-Norge ' + p0(BO.situasjon[0].sor) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + p0(OK.bekymret) + '</div><div class="l">Bekymret for privatøkonomien</div><div class="nh">' + p0(OK.bekymret_deler.svaert) + ' svært bekymret</div></div>' +
+    (ig != null ? '<div class="kpi"><div class="v down">' + f1((ig / igF - 1) * 100) + ' %</div><div class="l">Igangsatte boliger, ' + qNavn + '</div><div class="nh">' + f0(ig) + ' mot ' + f0(igF) + ' året før · SSB</div></div>' : '');
+  document.getElementById('boligGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', grupper:[{rader: BO.situasjon.map(function(r, j){
+    return {l:r.l, v:r.nn, farge: j === 1 ? 'accent' : 'muted', note:'Sør-Norge ' + r.sor + ' %'};
+  })}], maks:100, kilde: baro + ', s. 42.'}, BO.situasjon.length * 34 + 40);
+
+  // ─── Akt 04 ───
+  var T = B.tjenester.rader.map(function(r){ return {l:r.l, gap:r.viktig - r.tilfreds, r:r}; }).sort(function(a,b){ return b.gap - a.gap; });
+  var reise = B.tjenester.rader[0], tid = B.tjenester.rader[1], helse = B.tjenester.rader.find(function(r){ return r.l === 'Helsetjenester'; });
+  document.getElementById('tjenesteIntro').innerHTML =
+    'Helsetjenester er det flest mener er viktig der de bor (' + p0(helse.viktig) + '). Den største avstanden mellom hva som er viktig og hvor fornøyde de unge er, gjelder likevel reisene ut av landsdelen: ' + p0(reise.viktig) + ' mener reisekostnadene er viktige, men bare ' + p0(reise.tilfreds) + ' er fornøyd. I Sør-Norge er tallene ' + p0(reise.viktig_sor) + ' og ' + p0(reise.tilfreds_sor) + '. ' +
+    'For reisetid er avstanden ' + f0(tid.viktig - tid.tilfreds) + ' prosentpoeng i nord og ' + f0(tid.viktig_sor - tid.tilfreds_sor) + ' i sør. Finnmark skiller seg ut med særlig lav tilfredshet med reisekostnadene.';
+  document.getElementById('gapGraf').innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: T.map(function(t, j){
+    return {l:t.l, v:t.gap, farge: j < 2 ? 'accent' : (t.gap <= 0 ? 'pos' : 'muted'), note:'viktig ' + t.r.viktig + ' · fornøyd ' + t.r.tilfreds + ' %'};
+  })}], kilde: baro + ', s. ' + B.tjenester.side + '. Prosentpoeng: andel som mener tilbudet er viktig, minus andel som er fornøyd med tilstanden.'}, T.length * 34 + 40);
+
+  // ─── Akt 05 ───
+  var FD = U.fodte, fa = FD.aar, j95 = fa.indexOf(1995), j15 = fa.indexOf(2015), jN = fa.length - 1;
+  var nnEnd95 = (FD.nn_fodte[jN] / FD.nn_fodte[j95] - 1) * 100, landEnd95 = (FD.land_fodte[jN] / FD.land_fodte[j95] - 1) * 100;
+  var under = FD.nn_dode[jN] - FD.nn_fodte[jN];
+  var BA = B.barn;
+  document.getElementById('barnIntro').innerHTML =
+    'I ' + fa[jN] + ' ble det født ' + f0(FD.nn_fodte[jN]) + ' barn i Nord-Norge, ' + f0(-nnEnd95) + ' % færre enn i 1995. For hele landet er nedgangen ' + f0(-landEnd95) + ' %. ' +
+    (under > 0 ? 'Samme år døde ' + f0(FD.nn_dode[jN]) + ' — ' + f0(under) + ' flere enn det ble født, mens landet hadde et fødselsoverskudd på ' + f0(FD.land_fodte[jN] - FD.land_dode[jN]) + '. ' : '') +
+    'Når de unge selv skal forklare hvorfor folk får færre barn, peker de først på økonomien: ' + p0(BA.rader[0].nn) + ' mener store utgifter har stor betydning, og ' + p0(BA.rader[2].nn) + ' for lite økonomisk støtte. ' +
+    p0(BA.rader[5].nn) + ' trekker fram at det er vanskelig å finne en stor nok bolig — i Bodø og Tromsø sju av ti. Bare ' + p0(BA.rader[9].nn) + ' oppgir hensynet til miljø og klima.';
+  document.getElementById('fodteGraf').innerHTML = NN.placeholder('linjer', {
+    x: fa,
+    serier: [
+      {navn:'Døde', kort:'Døde', data:FD.nn_dode, farge:'muted'},
+      {navn:'Levendefødte', kort:'Fødte', data:FD.nn_fodte, farge:'accent', uthev:true}
+    ],
+    format:'tall', xTicks:[1995,2005,2015,2025], hoyde:280,
+    kilde:'SSB 06913. Fylkene Nordland, Troms og Finnmark med inndelingen som gjaldt hvert år.'
+  }, 300);
+  document.getElementById('barnGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', grupper:[{rader: BA.rader.map(function(r, j){
+    return {l:r.l, v:r.nn, farge: j < 3 ? 'accent' : 'muted', note:'Sør-Norge ' + r.sor + ' %'};
+  })}], maks:100, kilde: baro + ', s. 48. Spørsmålet gjelder Norge som helhet.'}, BA.rader.length * 34 + 40);
+
+  // ─── Akt 06 ───
+  var TL = B.tillit, TK = B.tilknytning;
+  var robek = (typeof DATA !== 'undefined' && DATA.proj && DATA.proj.robek && DATA.proj.robek.kommuner) ? Object.keys(DATA.proj.robek.kommuner).length : null;
+  document.getElementById('tillitIntro').innerHTML =
+    'Åtte av ti unge føler sterk tilknytning til Nord-Norge — sterkere enn til fylket (' + p0(TK.fylke) + ') og kommunen (' + p0(TK.kommune) + '), og sterkere enn unge i sør føler for sin landsdel. ' +
+    'Bare én av tre mener at fylket eller kommunen jobber for innbyggernes beste, mot halvparten i sør, og andelen er lavere enn i flere tidligere år. ' +
+    (robek ? robek + ' av de 80 kommunene er i ROBEK, og kommuner under statlig kontroll kan måtte redusere tilbudet. Undersøkelsen kan ikke vise om det henger sammen med de unges vurdering. ' : '') +
+    'Samtidig engasjerer de unge i nord seg mer enn i sør: flere har stemt, vært frivillige og påtatt seg politiske verv.';
+  document.getElementById('tillitKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + p0(TK.landsdel) + '</div><div class="l">Sterk tilknytning til Nord-Norge</div><div class="nh">kommunen ' + p0(TK.kommune) + ' · fylket ' + p0(TK.fylke) + '</div></div>' +
+    '<div class="kpi"><div class="v down">' + p0(TL.beste.nn) + '</div><div class="l">Kommunen jobber for innbyggernes beste</div><div class="nh">Sør-Norge ' + p0(TL.beste.sor) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + p0(TL.innspill.nn) + '</div><div class="l">Innspill fra innbyggerne tas hensyn til</div><div class="nh">Sør-Norge ' + p0(TL.innspill.sor) + '</div></div>';
+
+  // ─── Akt 07 ───
+  var R = B.rapportens_registertall;
+  document.getElementById('metodeIntro').innerHTML =
+    M.tittel + ' ble gjennomført i ' + M.innsamling + '. Av de ' + f0(M.n_nn) + ' deltakerne i Nord-Norge er ' + f0(M.n_nn_rekruttert) + ' rekruttert gjennom et webpanel og et tilfeldig trukket SMS-utvalg, og ' + f0(M.n_nn_lenke) + ' svarte via en åpen lenke i sosiale medier. Svarene er vektet etter kjønn og alder innen SSBs sentralitetsnivåer. ' +
+    'De som svarte via den åpne lenken, er mer engasjerte i lokalsamfunnet og mer kritiske til kommunen enn de rekrutterte, så resultatene kan ha skjevheter. Tallene gjelder landsdelen; undersøkelsen sier ikke noe om enkeltkommuner. Spørsmål og innsamlingsmetode er endret siden 2022, så utviklingen over tid må leses med forsiktighet. Tall som bare står i rapportens figurer, er lest av figurene.';
+  var rad = function(t, rap, vaar){ return '<tr><td style="padding:5px 8px">' + t + '</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono)">' + rap + '</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono)">' + vaar + '</td></tr>'; };
+  document.getElementById('kontrollBoks').innerHTML =
+    '<div class="tittel">Kontroll: rapportens registertall mot dashbordets SSB-tall</div>' +
+    '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><thead><tr style="color:var(--ink3);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em"><th style="text-align:left;padding:5px 8px">Påstand</th><th style="text-align:right;padding:5px 8px">Rapporten</th><th style="text-align:right;padding:5px 8px">Dashbordet</th></tr></thead><tbody>' +
+      rad('18–34 år, endring til 2035', f0(R.u_endring_2035_pct) + ' %', f1(KO.u_endring_2035_pct) + ' %') +
+      rad('18–34 år, endring til 2050', f0(R.u_endring_2050_pct) + ' %', f1(KO.u_endring_2050_pct) + ' %') +
+      rad('67 år og over, endring til 2050', '+' + f0(R.e_endring_2050_pct) + ' %', '+' + f1(KO.e_endring_2050_pct) + ' % (fra ' + KO.basisaar + ')') +
+      rad('Første år med flere 67+ enn 18–34', R.kryss_nn, KO.nn_kryss) +
+      rad('Små kommuner (under 2 000) som har passert', R.sma_kryss + ' av ' + R.sma_kommuner, KO.n_sma_kryss + ' av ' + KO.n_sma) +
+      rad('Bodø passerer', R.kryss_bodo, KO.bodo_kryss) +
+      rad('Fødte i Nord-Norge, endring siden 1995', f0(R.fodte_1995_pct_nn) + ' %', f1(nnEnd95) + ' %') +
+    '</tbody></table></div>' +
+    '<p class="hint" style="font-size:11.5px;margin-top:8px">Rapporten regner endringen for 67+ fra 2025; dashbordet regner fra ' + KO.basisaar + ', første år i framskrivingen. Ellers stemmer tallene. Rapportens tall for boligbyggingen stemmer også eksakt med dashbordets (SSB 05889).</p>';
+});
+</script>
+</body>
+</html>

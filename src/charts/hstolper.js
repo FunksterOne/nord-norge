@@ -1,6 +1,6 @@
 // Liggende stolper, eventuelt i grupper med egen tittel.
 // Spesifikasjon: { grupper:[{tittel, rader:[{l, v, farge, uthev, note}] , ref:{v, tekst}}],
-//                  format:'tall'|'pst'|'pst2', maks, farge, etikettBredde }
+//                  format:'tall'|'pst'|'pst0'|'pst2', maks, farge, etikettBredde }
 // Stolpetykkelsen er fast (rundt 14 px) uansett antall rader, slik at figurene ser like ut på tvers av sidene.
 // Negative verdier tegnes mot venstre fra en nullinje; verdien står da på venstre side av stolpen.
 import { Plot, register, spec } from './core.js';
@@ -10,7 +10,7 @@ const FARGE = f => (!f ? 'var(--muted-mark)' : f.startsWith('var(') || f.startsW
 const MINUS = '−';
 const FMT = {
   tall1: v => tall(v, 1), tall: v => heltall(v), kr: v => `${heltall(v)} kr`,
-  pst: v => `${tall(v, 1)} %`, pst2: v => `${tall(v, 2)} %`,
+  pst: v => `${tall(v, 1)} %`, pst0: v => `${tall(v, 0)} %`, pst2: v => `${tall(v, 2)} %`,
 };
 const tekstBredde = (s, px) => String(s).length * px * 0.56;
 
