@@ -5,7 +5,7 @@ Skal gjennomføres senere, etter klarsignal. Rekkefølgen er anbefalt prioritet.
 
 | Nr | Oppgave | Hvorfor | Omfang | Status |
 |---|---|---|---|---|
-| 01 | Avslutt oppgaven om gjeldsnormen | Endringene i `assets/app.js` og `kommune.html` (normene 1,75/5/85 fra `EXT_NORMS`, brudd over 85 % i stedet for 75 %) ligger ucommittet i arbeidsmappen | Lite | Venter |
+| 01 | Avslutt oppgaven om gjeldsnormen | Endringene i `assets/app.js` og `kommune.html` (normene 1,75/5/85 fra `EXT_NORMS`, brudd over 85 % i stedet for 75 %) ligger ucommittet i arbeidsmappen | Lite | Ferdig 20.10.2026 (f4bc3fd) |
 | 02 | Kalibrer 2026–2027 mot kommunebudsjettene | Modellen gir svak økning i 2026, mens TBU venter fall i 2026 og økning i 2027 | Middels | Venter |
 | 03 | Stikkprøv notene som er lest av bilder | Om lag 20 pensjonsnoter er skannet og lest manuelt | Lite | Venter |
 | 04 | Vis innbetalingene for alle 74 kommuner med note | Tabellen finnes bare for Bodø, Tromsø og Harstad | Lite | Venter |
