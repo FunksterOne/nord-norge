@@ -6,12 +6,12 @@ Skal gjennomføres senere, etter klarsignal. Rekkefølgen er anbefalt prioritet.
 | Nr | Oppgave | Hvorfor | Omfang | Status |
 |---|---|---|---|---|
 | 01 | Avslutt oppgaven om gjeldsnormen | Endringene i `assets/app.js` og `kommune.html` (normene 1,75/5/85 fra `EXT_NORMS`, brudd over 85 % i stedet for 75 %) ligger ucommittet i arbeidsmappen | Lite | Ferdig 20.10.2026 (f4bc3fd) |
-| 02 | Kalibrer 2026–2027 mot kommunebudsjettene | Modellen gir svak økning i 2026, mens TBU venter fall i 2026 og økning i 2027 | Middels | Venter |
-| 03 | Stikkprøv notene som er lest av bilder | Om lag 20 pensjonsnoter er skannet og lest manuelt | Lite | Venter |
-| 04 | Vis innbetalingene for alle 74 kommuner med note | Tabellen finnes bare for Bodø, Tromsø og Harstad | Lite | Venter |
-| 05 | Tett hullene i grunnlaget | Seks kommuner har bare KOSTRA-tall | Lite til middels | Venter |
-| 06 | Legg pensjon inn på sammenligningssiden | Kommuner kan ikke sammenlignes direkte på premieavvik og fremtidig kostnad | Lite | Venter |
-| 07 | Planlegg den årlige oppdateringen | KOSTRA 2026 (foreløpig mars 2027) og KDDs rundskriv for 2028 | Lite | Venter |
+| 02 | Kalibrer 2026–2027 mot kommunebudsjettene | Modellen gir svak økning i 2026, mens TBU venter fall i 2026 og økning i 2027 | Middels | Ferdig 20.10.2026 — kalibrert mot Bodø og Tromsø (`budsjett2026.json`) |
+| 03 | Stikkprøv notene som er lest av bilder | Om lag 20 pensjonsnoter er skannet og lest manuelt | Lite | Ferdig 20.10.2026 — 8 av 8 stemmer; kostnadsdefinisjonen harmonisert |
+| 04 | Vis innbetalingene for alle 74 kommuner med note | Tabellen finnes bare for Bodø, Tromsø og Harstad | Lite | Ferdig 20.10.2026 — 72 kommuner |
+| 05 | Tett hullene i grunnlaget | Seks kommuner har bare KOSTRA-tall | Lite til middels | Utkast og lenker klare i `HULL.md` — venter på Halvard |
+| 06 | Legg pensjon inn på sammenligningssiden | Kommuner kan ikke sammenlignes direkte på premieavvik og fremtidig kostnad | Lite | Ferdig 20.10.2026 |
+| 07 | Planlegg den årlige oppdateringen | KOSTRA 2026 (foreløpig mars 2027) og KDDs rundskriv for 2028 | Lite | Rutine i `RAPPORT.md` |
 
 ## 01 Avslutt oppgaven om gjeldsnormen
 

@@ -103,13 +103,13 @@
 <!-- ────────────────── AKT 04 — FRAMOVER ────────────────── -->
 <section class="akt" id="framover">
   <div class="akt-num">Akt 04 · Framover</div>
-  <h2>Kostnaden holder seg til 2033 — så avgjør <em>premiefondet</em> resten.</h2>
+  <h2>Kostnaden faller i 2026 og er tilbake i 2028 — så avgjør <em>premiefondet</em> resten.</h2>
   <p class="akt-intro" id="framIntro"></p>
   <div class="pj-boks">
     <div class="tittel">Regnskapsført pensjonskostnad i prosent av brutto driftsinntekter, 2025–2050</div>
     <div class="pj-velg"><label for="pjVelg">Vis for</label><select id="pjVelg"></select><span id="pjGrunnlag" style="font-size:12px;color:var(--ink3)"></span></div>
     <div id="framGraf"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:6px">Linjen er basisscenariet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er usikre: Det tekniske beregningsutvalget venter at kostnaden for kommunesektoren faller i 2026 og stiger i 2027, mens modellen ikke fanger opp virkningen av den høye avkastningen i 2025.</p>
+    <p class="hint" style="font-size:11.5px;margin-top:6px">Linjen er basisscenariet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er kalibrert mot budsjettene til Bodø og Tromsø og følger Det tekniske beregningsutvalgets anslag om at kostnaden faller i 2026 og stiger i 2027; de bygger likevel på få budsjetter.</p>
   </div>
   <div class="kpi-rad" id="framKPI"></div>
   <div class="pj-boks">
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // ─── Akt 04: framskriving ───
   var Rb = LD.R.basis, Rl = LD.R.lav, Rh = LD.R.hoy, i30 = iAar(2030), i40 = iAar(2040), i50 = iAar(2050), S = M.scenarier;
   document.getElementById('framIntro').innerHTML =
-    'Regnskapsført pensjonskostnad var ' + p1(Rb[0]) + ' av driftsinntektene i 2025. I basisscenariet er den ' + p1(Rb[i30]) + ' i 2030 og ' + p1(Rb[i50]) + ' i 2050. ' +
+    'Regnskapsført pensjonskostnad var ' + p1(Rb[0]) + ' av driftsinntektene i 2025. I 2026 faller den til ' + p1(Rb[1]) + ', fordi den høye avkastningen i 2025 senker den beregnede kostnaden; kommunenes budsjetter viser det samme. I basisscenariet er den ' + p1(Rb[i30]) + ' i 2030 og ' + p1(Rb[i50]) + ' i 2050. ' +
     'Fram mot 2033 trekker to krefter hver sin vei: departementet senker forholdstallet, så den beregnede kostnaden øker, mens dagens etterslep utgiftsføres ferdig og avlaster driften. Etter 2033 avgjøres nivået av hvor mye av premien KLPs overskudd fortsatt dekker, og av hvor raskt pensjonsutbetalingene vokser. Spennet i 2050 er ' + f1(Rl[i50]) + '–' + p1(Rh[i50]) + '.';
   var sel = document.getElementById('pjVelg');
   var opts = '<option value="landsdel">Nord-Norge</option>' + ['Nordland','Troms','Finnmark'].map(function(f){ return '<option value="f:' + f + '">' + f + '</option>'; }).join('');

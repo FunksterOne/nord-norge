@@ -33,6 +33,7 @@ SCEN = {  # U2026, U2027+, strukturell vekst per år fra 2028, premiefondets dek
     'hoy':   {'u26': None,  'u27': None, 'm': 0.010, 'pf': 0.25},   # kostnaden tar igjen premien (KDDs mål), settes fra gamma
 }
 W7 = [7, 6, 5, 4, 3, 2, 1]
+KAL_2026 = 0.89                 # netto pensjonskostnad 2026 / 2025, fra budsjettene til Bodø (0,91) og Tromsø (0,87)
 
 
 def fylke(nr):
@@ -55,10 +56,13 @@ for g in grupper:
             S24 = ((p24['premieavvik_eiendel'] or 0) - (p24.get('premieavvik_gjeld') or 0)) * 1000
         K, P, N = r.get('aarets_pensjonskostnad'), r.get('innbetalt_premie'), r.get('aarets_premieavvik')
         kilde = 'note'
-        if K and P and N is not None and abs((P - N) - K) > 0.05 * K:
-            K = P - N; kilde = 'note (K = premie − premieavvik)'
-        if not K and P and N is not None:
-            K = P - N; kilde = 'note (K = premie − premieavvik)'
+        # Netto pensjonskostnad inkl. administrasjon = premie − premieavvik (forskriften § 3-5). Notene er
+        # ulikt utfylt (26 av 72 oppgir kostnaden uten administrasjon), så K harmoniseres fra premie og avvik.
+        # Unntak: Hamarøy, der premieavviket i noten ikke går opp mot premie og kostnad.
+        if P and N is not None and nr not in ('1875',):
+            if not K or abs((P - N) - K) > 0.005 * K:
+                kilde = 'note (K = premie − premieavvik)'
+            K = P - N
         art090 = (d25.get('pensjon') or 0) * 1000
         A_impl = None
         if N is not None and S24 is not None:
@@ -111,6 +115,12 @@ def fremskriv(x, sc):
         U = 1.0 if t == 2025 else (p['u26'] if t == 2026 else p['u27'])
         M = (1 + p['m']) ** max(0, t - 2027)
         K = x['K'] * v * U * M
+        # Kalibrering mot budsjett 2026 (Bodø og Tromsø, se budsjett2026.json) og TBUs anslag: netto kostnad i 2026 ≈ 0,89
+        # ganger 2025-nivået (høy avkastning i 2025 gir høyere forventet avkastning på midlene). 2027 ligger midt mellom
+        # kalibrert nivå og scenarioet; fra 2028 gjelder scenarioet.
+        if t in (2026, 2027):
+            c26 = KAL_2026 / ((1 + G) * p['u26'])
+            K *= c26 if t == 2026 else (1 + c26) / 2
         dekn = 1.0 if t <= 2026 else p['pf']
         P = (x['K'] * (1 + GAMMA) + x['PF'] * (1 - dekn)) * v * M
         bdi = x['bdi'] * v
@@ -137,7 +147,7 @@ res = {}
 for x in grunn:
     res[x['nr']] = {sc: fremskriv(x, sc) for sc in SCEN}
 
-json.dump({'parametre': {'G': G, 'GAMMA': GAMMA, 'scenarier': SCEN, 'median_K_art090': ratio, 'median_PF_K': pfr},
+json.dump({'parametre': {'G': G, 'GAMMA': GAMMA, 'KAL_2026': KAL_2026, 'scenarier': SCEN, 'median_K_art090': ratio, 'median_PF_K': pfr},
            'grunnlag': grunn,
            'resultat': {nr: {sc: {str(t): v for t, v in s.items()} for sc, s in r.items()} for nr, r in res.items()}},
           open(os.path.join(HER, 'fase4_resultat.json'), 'w', encoding='utf-8'), ensure_ascii=False)

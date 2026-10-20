@@ -10,8 +10,9 @@ De 80 kommunene har 6,1 mrd. kr i premieavvik som ennå ikke er utgiftsført. De
 brutto driftsinntekter (BDI), mot 8,7 % for landet. Troms ligger høyest med 11,4 %. Pensjonsordningene er
 fullt finansiert samlet sett: forpliktelsen er 87,0 mrd. kr og midlene 88,0 mrd. kr.
 
-Den regnskapsførte pensjonskostnaden er 7,3 % av BDI i 2025. I basisscenariet holder den seg mellom 7,2 og 7,4 %
-fram mot 2033 og stiger til 7,9 % i 2050. Spennet i 2050 er 6,1–11,5 % av BDI. Den største risikoen er
+Den regnskapsførte pensjonskostnaden er 7,4 % av BDI i 2025. Den faller til 6,4 % i 2026, fordi den høye
+avkastningen i 2025 senker den beregnede kostnaden (kalibrert mot budsjettene til Bodø og Tromsø og i tråd med TBU),
+og er tilbake på om lag 7,6 % fra 2028. I basisscenariet stiger den til 8,0 % i 2050. Spennet i 2050 er 6,1–11,5 % av BDI. Den største risikoen er
 premiefondet, ikke etterslepet: hvis KLPs overskudd ikke lenger dekker like mye av premien, øker
 premieinnbetalingen med opptil 2,6 % av BDI fra 2027. Det gir likviditetsproblemer samme år og nytt
 premieavvik som skal utgiftsføres de sju neste årene.
@@ -117,6 +118,8 @@ Per kommune og år:
 - premie P = K × (1 + γ) + premiefondsbortfall
 - nytt premieavvik N = (P − K) × (1 + AGA)
 - akkumulert premieavvik S(t) = S(t−1) + N − A
+- netto kostnad i 2025 = premie − premieavvik fra noten (inkl. administrasjon). 26 av 72 noter oppgir kostnaden uten
+  administrasjon, så kostnaden harmoniseres slik (unntak: Hamarøy, der noten ikke går opp).
 
 Forutsetninger:
 
@@ -124,26 +127,31 @@ Forutsetninger:
   års beløp er kalibrert mot kommunens observerte amortisering i 2025, avgrenset til mellom 1/7 og 1/4 av
   beholdningen. Nye lag amortiseres med 1/7 per år fra året etter. Kommuner med 1-årsregel amortiserer hele
   avviket året etter.
-- **γ (premie over kostnad).** γ = 21,0 % (Nord-Norge 2025, n=72). Den normaliserer premien slik at
+- **γ (premie over kostnad).** γ = 19,5 % (Nord-Norge 2025, n=72). Den normaliserer premien slik at
   enkeltkommuners premiefondsbruk i 2025 ikke følger med inn i framtiden.
 - **Vekst.** Lønn og BDI vokser nominelt med 3,5 % per år.
-- **Kalibrering.** Modellen gir 7,3 % av BDI i 2025. Den faktiske pensjonsposten i KOSTRA (art 090 med
+- **Kalibrering 2025.** Modellen gir 7,4 % av BDI i 2025. Den faktiske pensjonsposten i KOSTRA (art 090 med
   AGA) er 7,1 %.
+- **Kalibrering 2026–2027.** Netto kostnad i 2026 settes til 0,89 ganger 2025-nivået i alle scenarier, ut fra
+  budsjettene for 2026 (Bodø 0,91 og Tromsø 0,87; `budsjett2026.json`) og TBUs anslag om fall i 2026. 2027 ligger
+  midt mellom dette nivået og scenarioet. Modellen gir da 329 mill. kr for Bodø (budsjett 343) og 613 mill. kr for
+  Tromsø (budsjett 605, tertialprognose 570–590). Harstad budsjetterer et enda større premieavvik i 2026–2027 enn
+  modellen.
 
 | Forutsetning | Lav | Basis | Høy |
 |---|---|---|---|
-| Kostnadsøkning ved forholdstall 0,75 (2027) | +5 % | +10 % | +21 % (kostnad = premie) |
+| Kostnadsøkning ved forholdstall 0,75 (2027) | +5 % | +10 % | +19,5 % (kostnad = premie) |
 | Strukturell vekst fra 2028 | 0 % | 0,5 %/år | 1,0 %/år |
 | Premiefondets dekning fra 2027 (2025 = 100 %) | 100 % | 75 % | 25 % |
 
 ### Resultater: regnskapsført pensjonskostnad i % av BDI (basis, lav–høy)
 
-| | 2025 | 2030 | 2033 | 2040 | 2050 |
-|---|---|---|---|---|---|
-| Nord-Norge | 7,3 | 7,4 (6,7–8,8) | 7,2 (6,1–9,4) | 7,6 (6,1–10,4) | 7,9 (6,1–11,5) |
-| Nordland | 7,1 | 7,4 (6,6–9,0) | 7,4 (6,1–9,9) | 7,8 (6,1–11,0) | 8,2 (6,1–12,1) |
-| Troms | 7,6 | 7,4 (6,8–8,6) | 7,0 (6,0–8,9) | 7,3 (5,9–9,8) | 7,7 (5,9–10,8) |
-| Finnmark | 7,2 | 7,3 (6,6–8,5) | 7,1 (6,1–9,0) | 7,4 (6,1–9,9) | 7,8 (6,1–11,0) |
+| | 2025 | 2026 | 2030 | 2033 | 2040 | 2050 |
+|---|---|---|---|---|---|---|
+| Nord-Norge | 7,4 | 6,4 | 7,6 (6,9–9,0) | 7,4 (6,2–9,6) | 7,6 (6,1–10,4) | 8,0 (6,1–11,5) |
+| Nordland | 7,2 | 6,2 | 7,6 (6,8–9,2) | 7,6 (6,3–10,1) | 7,8 (6,1–11,0) | 8,2 (6,1–12,1) |
+| Troms | 7,7 | 6,9 | 7,6 (6,9–8,8) | 7,1 (6,1–9,0) | 7,3 (5,9–9,7) | 7,6 (5,9–10,8) |
+| Finnmark | 7,3 | 6,2 | 7,6 (6,9–8,8) | 7,4 (6,3–9,3) | 7,5 (6,2–10,0) | 7,9 (6,2–11,1) |
 
 Pensjonspremien utgjorde 6,2 % av BDI i 2025. I 2030 er den 6,2 % (lav), 7,4 % (basis) eller 10,0 % (høy).
 
@@ -153,19 +161,36 @@ Funn:
   BDI. Etterslepet er nedbetalt rundt 2032 og avlaster driften fra da.
 - **Funn 07 — premiefondet er den største risikoen.** Premiefondsbruken i 2025 var like stor som netto
   kostnad (median 1,04 ganger). Med 25 % dekning øker premien med om lag 2,6 % av BDI fra 2027.
-- **Funn 08 — varig økning for mange.** 31 kommuner får mer enn ett prosentpoeng høyere andel fra 2025 til
-  2050 i basis. Høyest i 2050 ligger Bø (11,3 %), Kvæfjord (10,4 %) og Kåfjord (10,0 %).
+- **Funn 08 — varig økning for mange.** 29 kommuner får mer enn ett prosentpoeng høyere andel fra 2025 til
+  2050 i basis. Høyest i 2050 ligger Bø (11,5 %), Kåfjord og Kvæfjord (10,3 %).
 - **Funn 09 — risikogruppen.** 13 kommuner har premieavvik over 10 % av BDI og mindre disposisjonsfond
   enn premieavvik: Sørreisa, Saltdal, Hamarøy, Hammerfest, Målselv, Salangen, Vevelstad, Harstad, Tromsø,
   Sortland, Kautokeino, Senja og Steigen.
 
 ### Usikkerhet
 
-1. **2026–2027 avviker fra TBU.** TBUs pensjonsbidrag (−0,9 / +0,5 prosentpoeng) tilsier at kostnaden
-   faller i 2026 og stiger i 2027. Modellen gir en svak økning i 2026. Avviket skyldes trolig avkastningen
-   i 2025. Kalibrer mot kommunenes budsjetter for 2026, som bygger på KLPs prognoser.
+1. **2026–2027 bygger på få budsjetter.** Kalibreringen hviler på Bodø og Tromsø, begge med egen pensjonskasse.
+   De andre seks budsjettene oppgir ikke premie og kostnad samlet (`budsjett2026.json`).
 2. **Premiefondets dekning** er en forutsetning, ikke en prognose.
 3. **Svakt grunnlag.** Hamarøy og Lurøy har noter som ikke går opp. Seks kommuner bygger bare på KOSTRA.
+
+### Kvalitetskontroll (arbeidsplanens punkt 03)
+
+Åtte noter som var lest av sidebilder, er kontrollert mot originalene (Bindal, Brønnøy, Hemnes, Beiarn, Bø,
+Sortland, Kvæfjord og Vadsø). Alle beløp stemmer. Kontrollen avdekket at kostnaden var registrert ulikt (med og
+uten administrasjon), og det er nå harmonisert i modellen.
+
+## Oppdateringsrutine (arbeidsplanens punkt 07)
+
+1. **Mars 2027 (foreløpig KOSTRA 2026):** `python hent_kostra_pensjon.py`, `python hent_kostra_bdi.py` og
+   `python hent_kostra_drift.py` i denne mappen.
+2. **April–juni 2027 (årsregnskap 2026):** les pensjonsnotene inn etter `SKJEMA.md` (gruppefiler eller
+   `manuelle/`), og oppdater regnskapsåret i `fase4_modell.py` og `fetch_pensjon.py`.
+3. **Juni 2027:** KDDs rundskriv for 2028 (forholdstall), endelig KOSTRA 2026 og KLPs reguleringspremie for 2027.
+   Juster scenarioene og `KAL_2026` (eller erstatt med faktiske 2026-tall).
+4. **Oktober 2027:** pensjonsbidraget i Prop. 1 S. Oppdater forbeholdene.
+5. Kjør `python fetch_pensjon.py` fra rotmappen, `python lag_tabell.py` her, kontroller tallene i tekst med
+   `tools/fasit.cjs`, bygg (`npm run build`), og kontroller den stagede versjonen før commit.
 
 ## Filer
 
@@ -182,6 +207,9 @@ Funn:
 | `fase3_samlet.json` | Sammenstilling for fase 3 |
 | `fase4_modell.py` → `fase4_resultat.json` | Modellen og alle år, scenarier og kommuner |
 | `fase4_kommuner.csv` | Nøkkeltall per kommune (semikolonseparert) |
+| `budsjett2026.json` | Budsjetterte pensjonstall 2026–2027 for åtte kommuner (kalibrering) |
+| `HULL.md` | Hull i grunnlaget, lenker og utkast til innsynsbegjæring og avklaring |
+| `ARBEIDSPLAN.md` | Arbeidsplanen for videre arbeid |
 | `regelverk/`, `organisering/` | Kildenotater; kildedokumentene ligger lokalt, utenfor git |
 | `pdf/`, `bilder/` | Nedlastede regnskap og sidebilder; lokalt, utenfor git |
 

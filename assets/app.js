@@ -1133,6 +1133,26 @@ function bindDetail(){
   const cs=document.getElementById('cs'); if(cs)cs.oninput=()=>{state.csearch=cs.value;detail();
     const e=document.getElementById('cs');e.focus();e.setSelectionRange(e.value.length,e.value.length);};
 }
+// Pensjonstall i sammenligningskolonnen (PENSJON_DATA, fetch_pensjon.py)
+function pensjonCmp(k){
+  if(typeof PENSJON_DATA==='undefined') return '';
+  const P=PENSJON_DATA, d=P.kommuner[String(k.nr)]; if(!d) return '';
+  const i30=P.aar.indexOf(2030), i50=P.aar.indexOf(2050);
+  const p=v=>pensjonTall(v)+' %';
+  const tall=(v,l,farge)=>`<div><div style="font-size:18px;font-weight:600${farge?';color:'+farge:''}" class="mono">${v}</div><div style="font-size:11px;color:var(--ink3)">${l}</div></div>`;
+  return `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:8px">Pensjon · % av driftsinntektene</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px">
+      ${tall(p(d.pa),'premieavvik 2025',d.pa>P.meta.landet_pa?'var(--neg)':null)}
+      ${tall(p(d.df),'disposisjonsfond',d.pa>d.df?'var(--warn)':null)}
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      ${tall(p(d.R.basis[i30]),'kostnad 2030')}
+      ${tall(p(d.R.basis[i50]),'kostnad 2050')}
+    </div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:6px">2050: spenn ${pensjonTall(d.R.lav[i50])}–${p(d.R.hoy[i50])} · ${d.lev==='KLP'?'KLP':d.lev} · amortisering ${d.amort} år${d.grunnlag==='note'?'':' · bare KOSTRA'}</div>
+  </div>`;
+}
 function renderCompare(){
   if(state.compare.length<2) return false;
   const ks=state.compare.map(nr=>K.find(k=>k.nr===nr));
@@ -1153,6 +1173,7 @@ function renderCompare(){
       <div style="font-size:11px;color:var(--ink3);margin-top:4px">aldersfordeling (livsfaser)</div>
       <div style="margin-top:12px;font-size:12.5px;color:var(--ink2)"><b>Største opprinnelse:</b><br>
         ${k.land.filter(l=>l[1]>0).slice(0,3).map(l=>l[0]+' ('+fmt(l[1])+')').join('<br>')||'–'}</div>
+      ${pensjonCmp(k)}
       </div>`;}).join('')}</div>`;
   return true;
 }
@@ -1967,7 +1988,7 @@ function renderPensjon(){
   const figHTML =
     '<div class="ch" style="margin-top:16px"><h3 class="serif" style="font-size:16px">Pensjonskostnaden i ' + scopeNavn + ' fram mot 2050</h3></div>' +
     pensjonFigur(o, 280) +
-    '<p class="hint" style="font-size:11.5px;margin-top:6px">Basis er uthevet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er usikre. I høyt scenario dekker premiefondet bare en firedel av 2025-nivået, og premien kommunene betaler stiger fra ' + p1(o.P25) + ' til ' + p1(o.P30.hoy) + ' av driftsinntektene i 2030.</p>';
+    '<p class="hint" style="font-size:11.5px;margin-top:6px">Basis er uthevet; feltet viser spennet mellom lavt og høyt scenario. Stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er kalibrert mot kommunebudsjetter og er usikre. I høyt scenario dekker premiefondet bare en firedel av 2025-nivået, og premien kommunene betaler stiger fra ' + p1(o.P25) + ' til ' + p1(o.P30.hoy) + ' av driftsinntektene i 2030.</p>';
 
   const rader = ks.map(k => { const d = P.kommuner[k.nr]; return {l:kn(k), v:Math.round(d.pa * 10) / 10, farge: d.pa > d.df ? 'warn' : 'muted', note:'fond ' + pensjonTall(d.df) + ' %'}; })
     .sort((a, b) => b.v - a.v);
@@ -2006,7 +2027,7 @@ function pensjonKommuneCard(k){
     (d.amort !== 1 && Math.abs(dR) >= 0.5 ? ' — ' + (dR > 0 ? 'en økning' : 'en nedgang') + ' på ' + pensjonTall(Math.abs(dR)) + ' prosentpoeng' : '') + '. ' +
     (d.amort === 1 ? 'Med ettårig amortisering føres hele fjorårets avvik i ett år, så kostnaden svinger mer fra år til år enn kurven viser. ' : '');
   const grunnlag = d.grunnlag === 'note' ? 'Pensjonsnoten i årsregnskapet 2025' : 'Bare KOSTRA — kostnaden er anslått';
-  // Innbetalinger 2025 for byene med egen pensjonskasse (Bodø, Tromsø, Harstad)
+  // Innbetalinger 2025 fra pensjonsnoten; for byene med egen pensjonskasse (Bodø, Tromsø, Harstad) også tall fra kassens årsrapport
   let innbetHTML = '';
   const b = d.innbet;
   if(b){
@@ -2014,20 +2035,20 @@ function pensjonKommuneCard(k){
     const rad = (t, v, sterk) => '<tr' + (sterk ? ' style="font-weight:600"' : '') + '><td style="padding:5px 8px;text-align:left">' + t + '</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + v + '</td></tr>';
     innbetHTML =
       '<h4 class="serif" style="font-size:14.5px;margin:18px 0 4px">Innbetalinger 2025</h4>' +
-      '<p class="hint" style="font-size:12px;margin:0 0 6px">Fra pensjonsnoten i årsregnskapet, millioner kroner. Gjelder alle ordningene samlet: ' + d.lev + ', KLP for sykepleierne og Statens pensjonskasse for lærerne.</p>' +
+      '<p class="hint" style="font-size:12px;margin:0 0 6px">Fra pensjonsnoten i årsregnskapet, millioner kroner. Gjelder alle ordningene samlet: ' + (egen ? d.lev + ', KLP for sykepleierne' : 'KLP') + ' og Statens pensjonskasse for lærerne. Kostnaden er premie minus premieavvik, inkludert administrasjon.</p>' +
       '<div style="overflow-x:auto"><table style="width:100%;max-width:560px;border-collapse:collapse;font-size:12.5px"><tbody>' +
-        rad('Premie før bruk av premiefond' + (b.premie_for_pf_beregnet ? ' (beregnet)' : ''), m(b.premie_for_pf)) +
-        rad('Bruk av premiefond', b.pf_bruk == null ? 'ikke oppgitt' : '−' + pensjonTall(b.pf_bruk)) +
+        (b.pf_bruk != null || egen ? rad('Premie før bruk av premiefond' + (b.premie_for_pf_beregnet ? ' (beregnet)' : ''), m(b.premie_for_pf)) +
+          rad('Bruk av premiefond', b.pf_bruk == null ? 'ikke oppgitt' : '−' + pensjonTall(b.pf_bruk)) : '') +
         '<tr style="border-top:2px solid var(--ink);font-weight:600"><td style="padding:5px 8px">Innbetalt premie</td><td style="padding:5px 8px;text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums">' + pensjonTall(b.premie) + '</td></tr>' +
         rad('Beregnet pensjonskostnad', pensjonTall(b.kostnad)) +
         rad('Årets premieavvik', pensjonTall(b.avvik)) +
-        (b.ek_2025.length ? b.ek_2025.map(e => rad('Egenkapitalinnskudd til ' + e[0], pensjonTall(e[1]))).join('') : rad('Egenkapitalinnskudd', 'ingen årlige')) +
+        (b.ek_2025.length ? b.ek_2025.map(e => rad('Egenkapitalinnskudd til ' + e[0], pensjonTall(e[1], e[1] < 1 ? 2 : 1))).join('') : (egen ? rad('Egenkapitalinnskudd', 'ingen årlige') : '')) +
       '</tbody></table></div>' +
-      '<p class="hint" style="font-size:11.5px;margin-top:6px">Fra kassens årsrapport for 2025 (alle medlemsforetak): ' +
+      (b.kasse_premie == null ? (b.pf_bruk == null ? '<p class="hint" style="font-size:11.5px;margin-top:6px">Noten oppgir ikke bruk av premiefond.</p>' : '') : '<p class="hint" style="font-size:11.5px;margin-top:6px">Fra kassens årsrapport for 2025 (alle medlemsforetak): ' +
         (b.sats_2025 != null ? b.sats_tekst.charAt(0).toUpperCase() + b.sats_tekst.slice(1) + ' ' + pensjonTall(b.sats_2025, 2) + ' % av pensjonsgrunnlaget (' + pensjonTall(b.sats_2024, 2) + ' % i 2024). ' : 'Premiesats i prosent av lønn er ikke oppgitt. ') +
         (b.reg_2025 != null ? 'Reguleringspremie ' + pensjonTall(b.reg_2025) + ' mill. kr (' + pensjonTall(b.reg_2024) + ' i 2024). ' : '') +
         'Kassens ' + b.kasse_premie_tekst + ' ' + pensjonTall(b.kasse_premie) + ' mill. kr. Innskutt egenkapital fra kommunen i alt ' + pensjonTall(b.ek_innskutt_mill) + ' mill. kr. ' + b.note +
-        ' <a href="' + b.kilde + '" target="_blank" rel="noopener">Kassens årsrapport</a></p>';
+        ' <a href="' + b.kilde + '" target="_blank" rel="noopener">Kassens årsrapport</a></p>');
   }
   const tagCol = d.grunnlag === 'note' && !d.svak ? 'var(--ink2)' : 'var(--warn)';
   return '<div class="ch" style="margin-top:18px">' +
@@ -2044,7 +2065,7 @@ function pensjonKommuneCard(k){
       innbetHTML +
       '<p class="hint" style="font-size:11.5px;margin-top:6px">' +
         (egen ? 'Fellesordningen ligger i ' + d.lev + ', en egen kommunal pensjonskasse; kommunen bærer selv risikoen for avkastning, uførhet og levealder. ' : 'Fellesordningen ligger i KLP, der risikoen deles med om lag 330 kommuner. ') +
-        'Lærerne er i Statens pensjonskasse. Amortiseringstid: ' + d.amort + ' år. Stiplede linjer: 2027 (forholdstall 0,75) og 2033 (dagens etterslep utgiftsført). Årene 2026–2027 er usikre. ' +
+        'Lærerne er i Statens pensjonskasse. Amortiseringstid: ' + d.amort + ' år. Stiplede linjer: 2027 (forholdstall 0,75) og 2033 (dagens etterslep utgiftsført). Årene 2026–2027 er kalibrert mot kommunebudsjetter og er usikre. ' +
         (d.svak ? '<b>Forbehold:</b> ' + d.svak + ' ' : '') +
         (d.url ? '<a href="' + d.url + '" target="_blank" rel="noopener">Årsregnskapet 2025</a> · ' : '') +
         '<a href="tema-pensjon.html?k=' + k.nr + '#framover">Pensjonsetterslepet</a> · <a href="metode.html#pensjon">metode</a></p>' +

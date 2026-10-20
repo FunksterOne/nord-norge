@@ -23,11 +23,11 @@ KASSE_DETALJ = {
              "reg_2025": 185.5, "reg_2024": 155.4, "kasse_premie": 419.8, "kasse_premie_tekst": "premieinntekter",
              "kilde": "https://bodopk.no/uploads/local/bodo/Arsrapporter/Arsmelding-2025-Bodo-Pensjonskasse.pdf",
              "note": "Noten oppgir ikke bruk av premiefond."},
-    "5501": {"premie_for_pf": 699.9, "pf_bruk": 262.8, "ek_2025": [["Tromsø kommunale pensjonskasse", 12.85], ["KLP", 2.19]],
+    "5501": {"premie_for_pf": 751.7, "pf_bruk": 262.8, "ek_2025": [["Tromsø kommunale pensjonskasse", 12.85], ["KLP", 2.19]],
              "ek_innskutt_mill": 372.9, "sats_2025": 21.54, "sats_2024": 20.73, "sats_tekst": "samlet premiesats",
              "reg_2025": 219.0, "reg_2024": 174.0, "kasse_premie": 604.0, "kasse_premie_tekst": "samlede premie",
              "kilde": "https://tromsopensjonskasse.no/uploads/local/tromso/260407_Tromso_Kommunale_Pensjonskasse_Arsrapport_2026.pdf",
-             "note": "Kommunen har betalt et årlig egenkapitalinnskudd til kassen siden 2017."},
+             "note": "Kommunen har betalt et årlig egenkapitalinnskudd til kassen siden 2017. Premie før premiefond er 699,9 mill. kr uten administrasjon og 751,7 mill. kr med."},
     "5503": {"premie_for_pf": 310.0, "premie_for_pf_beregnet": True, "pf_bruk": 119.0, "ek_2025": [],
              "ek_innskutt_mill": 310.0, "sats_2025": None, "sats_2024": None, "sats_tekst": None,
              "reg_2025": None, "reg_2024": None, "kasse_premie": 242.4, "kasse_premie_tekst": "forfalte premie",
@@ -90,11 +90,19 @@ def main():
             "svak": SVAK_NOTE.get(nr),
             "url": url if (note and url.startswith("http")) else "",
         }
-        if nr in KASSE_DETALJ:
-            kommuner[nr]["innbet"] = dict(KASSE_DETALJ[nr],
-                                          premie=round(r["innbetalt_premie"] / 1e6, 1),
-                                          kostnad=round(r["aarets_pensjonskostnad"] / 1e6, 1),
-                                          avvik=round(r["aarets_premieavvik"] / 1e6, 1))
+        # Innbetalinger 2025 fra pensjonsnoten (alle kommuner med premie og premieavvik i noten).
+        # Kostnaden vises som premie − premieavvik (inkl. administrasjon), som i modellen.
+        P_, N_ = r.get("innbetalt_premie"), r.get("aarets_premieavvik")
+        if note and P_ and N_ is not None:
+            pf = r.get("premiefond_bruk")
+            ek = r.get("egenkapitaltilskudd_klp")
+            innbet = {"premie": round(P_ / 1e6, 1), "kostnad": round((P_ - N_) / 1e6, 1), "avvik": round(N_ / 1e6, 1),
+                      "pf_bruk": round(pf / 1e6, 1) if pf else None,
+                      "premie_for_pf": round((P_ + pf) / 1e6, 1) if pf else None, "premie_for_pf_beregnet": bool(pf),
+                      "ek_2025": [["KLP", round(ek / 1e6, 2)]] if ek else []}
+            if nr in KASSE_DETALJ:
+                innbet.update({k: v for k, v in KASSE_DETALJ[nr].items() if v is not None or k not in ("premie_for_pf", "pf_bruk")})
+            kommuner[nr]["innbet"] = innbet
 
     def agg(nrs):
         bdi = sum(G[n]["bdi"] for n in nrs)
