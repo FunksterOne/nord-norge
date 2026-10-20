@@ -565,7 +565,7 @@ function diagnoseCard(k){
   }
   s+='. ';
   if(oad0!=null&&oad1!=null) s+=(oad1>=oad0?'Aldringen er kjernen: forsørgerbyrden stiger':'Forsørgerbyrden er høy i dag, men faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
-  if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det økonomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'–':(ndr>=0?'':'−')+Math.abs(ndr).toFixed(1).replace('.',','))+' %</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'–':fond.toFixed(1).replace('.',','))+' %</b>, netto lånegjeld <b>'+(gj==null?'–':gj.toFixed(0).replace('.',','))+' %</b>. ';
+  if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det økonomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'–':(ndr>=0?'':'−')+Math.abs(ndr).toFixed(1).replace('.',','))+' %</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'–':fond.toFixed(1).replace('.',','))+' %</b>, netto lånegjeld <b>'+(gj==null?'–':gj.toFixed(1).replace('.',','))+' %</b>. ';
   s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg — vist i grafene under.'+spread;
   return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0">'+
     '<div class="ch" style="margin-bottom:6px"><h3 class="serif">Kortversjon — demografi møter økonomi</h3>'+
@@ -683,7 +683,7 @@ function robekCard(k){
     ['Netto driftsresultat'+(yr?' ('+yr+')':''), tag(ndr,ndr!=null&&ndr<0,ndr!=null&&ndr<1.75,(ndr==null?'':(ndr<0?'\u2212':'')+Math.abs(ndr).toFixed(1).replace('.',',')+'\u2009%')), 'TBU-norm +1,75 %'],
     ['\u00c5r med negativt resultat', '<b>'+neg+'</b> av '+ndrs.length+' siste \u00e5r', '\u22655 \u00e5r = kronisk (tungt vektet)'],
     ['Disposisjonsfond', tag(fond,fond!=null&&fond<3,fond!=null&&fond<5,(fond==null?'':fond.toFixed(1).replace('.',',')+'\u2009%')), 'buffer mot merforbruk \u2014 &lt;3 % kritisk (bokstav d)'],
-    ['Netto l\u00e5negjeld', tag(gj,gj!=null&&gj>=160,gj!=null&&gj>=110,(gj==null?'':gj.toFixed(0).replace('.',',')+'\u2009%')), 'kun svak forsterker (ikke ROBEK-vilkår)'],
+    ['Netto l\u00e5negjeld', tag(gj,gj!=null&&gj>=160,gj!=null&&gj>=110,(gj==null?'':gj.toFixed(1).replace('.',',')+'\u2009%')), 'kun svak forsterker (ikke ROBEK-vilkår)'],
     ['Brutto driftsresultat', tag(bdr,bdr!=null&&bdr<0,false,(bdr==null?'':(bdr<0?'\u2212':'')+Math.abs(bdr).toFixed(1).replace('.',',')+'\u2009%')), 'drift uten finansposter']
   ];
   const tbl='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 0">'+rows.map(r=>
@@ -1648,7 +1648,7 @@ function renderEconomy(){
   if(tldrHost){
     let text='Median<b> netto driftsresultat</b> er '+(ndr==null?'–':(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1).replace('.',',')+' %')+' av brutto driftsinntekter ('+yr+'). ';
     text+='<b>Disposisjonsfondet</b> ligger på '+(fond==null?'–':fond.toFixed(1).replace('.',',')+' %')+'. ';
-    text+='<b>Netto lånegjeld</b> '+(gj==null?'–':gj.toFixed(0).replace('.',',')+' %')+'. ';
+    text+='<b>Netto lånegjeld</b> '+(gj==null?'–':gj.toFixed(1).replace('.',',')+' %')+'. ';
     text+='Av '+scopeTot+' kommuner i '+scopeOmrade+' er <b>'+inR+'</b> registrert i ROBEK i dag, og <b>'+pend+'</b> over grensen under behandling. ';
     text+='<i>Disse tre tallene — resultat, buffer, gjeld — bestemmer hvor mye handlingsrom kommunene har når aldringskostnaden kommer.</i>';
     tldrHost.className='tldr t-burden';
