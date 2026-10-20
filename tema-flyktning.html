@@ -18,14 +18,27 @@
 .trakt-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .trakt-wrap svg{display:block;width:100%;height:auto}
 
-.bofasthet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0}
-.bofast-card{padding:18px 20px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
-.bofast-card h3{font-family:var(--font-display);font-size:16px;font-weight:600;margin:0 0 6px;color:var(--ink)}
-.bofast-card .v{font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--ink);margin:4px 0}
-.bofast-card .l{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.bofast-card p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin:6px 0 0}
-.bofast-bar{height:6px;background:var(--line2);border-radius:0;overflow:hidden;margin:4px 0 6px}
-.bofast-bar > div{height:100%;background:var(--aurora)}
+.bf-fig{margin:14px 0 6px}
+.bf-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
+.bf-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
+.bf-note{font-size:12px;font-style:italic;margin-top:14px}
+.bf-kilder{font-size:11px;line-height:1.5;color:var(--ink3);margin:6px 0 0}
+.bf-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-text);font-weight:700;margin-bottom:6px}
+.bf-boks,.bf-status{padding:18px 22px;background:var(--paper2);border:1px solid var(--line2);margin:22px 0}
+.bf-status{border-left:4px solid var(--warn)}
+.bf-status .bf-kicker{color:var(--warn)}
+.bf-boks p,.bf-status p{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink2)}
+.bf-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);min-width:560px}
+.bf-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
+.bf-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
+.bf-tabell td:first-child{color:var(--ink);white-space:nowrap}
+.pj-scroll{overflow-x:auto}
+.pj-steg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0 6px}
+.pj-steg > div{padding:16px 18px;background:var(--paper2);border:1px solid var(--line2);border-top:3px solid var(--line)}
+.pj-steg > div.uth{border-top-color:var(--accent)}
+.pj-steg .nr{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--ink3);margin-bottom:6px}
+.pj-steg h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.pj-steg p{font-size:13px;line-height:1.55;color:var(--ink2);margin:0}
 
 .ukraine-card{margin:20px 0 0;padding:22px 24px;background:color-mix(in srgb, var(--cat-4) 10%, transparent);border:1px solid color-mix(in srgb, var(--cat-4) 30%, transparent);border-left:4px solid var(--cat-4);border-radius:0}
 .ukraine-card .ukc-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--cat-4);font-weight:700;margin-bottom:4px}
@@ -90,18 +103,129 @@
   </div>
 </section>
 
-<!-- ────────────────── AKT 03 — BRUTT OPP: BOFASTHETEN ────────────────── -->
-<section class="akt">
+<!-- ────────────────── AKT 03 — BRUTT OPP: FEM ÅR ────────────────── -->
+<section class="akt" id="fem">
   <div class="akt-num">Akt 03 · Brutt opp</div>
-  <h2>Hvem blir værende — og hvor lenge?</h2>
-  <p class="akt-intro">SSB måler hvor stor andel av flyktningene som fortsatt bor i første bosettingskommune etter fem års botid. Andelen varierer sterkt mellom kohortene: 2015-kohorten var langt mer bevegelig enn 2019-kohorten. I 2019-kohorten holdt Finnmark best på flyktningene.</p>
-  <div class="bofasthet-grid" id="bofastGrid"></div>
-  <p class="hint" style="font-size:12px;font-style:italic">Bofasthet = andel som fortsatt bor i førstebostedskommune etter X år. Utvandring tilbake til opprinnelseslandet er ekskludert. Kilder: SSB Bofasthetstudie 2021, SSB Monitor for sekundærflyttinger 2024.</p>
+  <h2>Fem år etter bosetting bor nå <em>fire av fem</em> flyktninger fortsatt i kommunen</h2>
+  <p class="akt-intro" id="femIntro"></p>
+  <div class="kpi-rad" id="femKPI"></div>
+  <div class="bf-fig" id="femGraf"></div>
+  <p class="bf-kilder" id="femNote"></p>
 </section>
 
-<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<!-- ────────────────── AKT 04 — ETTER FEM ÅR ────────────────── -->
+<section class="akt" id="lengre">
+  <div class="akt-num">Akt 04 · Etter fem år</div>
+  <h2>Etter ti år har <em>sju av ti</em> flyttet fra bosettingskommunen i Nord-Norge</h2>
+  <p class="akt-intro" id="langIntro"></p>
+  <div class="kpi-rad" id="langKPI"></div>
+
+  <h3 class="bf-h3">Landet: flyttingen fortsetter jevnt etter femte år</h3>
+  <p class="bf-p" id="kurveTekst"></p>
+  <div class="bf-fig" id="kurveGraf"></div>
+
+  <h3 class="bf-h3">Nord-Norge beholder netto under en femdel etter 20 år</h3>
+  <p class="bf-p" id="nettoTekst"></p>
+  <div class="bf-fig" id="nettoGraf"></div>
+  <div class="bf-fig" id="gruppeGraf"></div>
+
+  <h3 class="bf-h3">Flyktningene blir i Norge, men ikke i kommunen</h3>
+  <p class="bf-p" id="grunnTekst"></p>
+  <div class="bf-fig" id="grunnGraf"></div>
+
+  <div class="bf-boks">
+    <div class="bf-kicker">Kommunestørrelsen forklarer mye</div>
+    <p id="storrelseTekst"></p>
+  </div>
+
+  <h3 class="bf-h3">Botid per kommune</h3>
+  <p class="bf-p" id="botidTekst"></p>
+  <div id="botidKart"></div>
+  <p class="hint bf-note">Forbehold: Det finnes ikke åpne tall for bofasthet per fylke ut over fem år. Netto bevaring er beregnet fra SSB 10598 (innvandrere etter fylke, landbakgrunn og botid) og teller med tilflyttere fra resten av landet. Flyktninger som registreres i et mottak i Nord-Norge før de bosettes et annet sted, kan trekke tallene ned; beregningen starter derfor ved ett års botid. Fylkesinndelingen er endret i 2020 og 2024. Mer på <a href="metode.html#bofasthet">metodesiden</a>.</p>
+</section>
+
+<!-- ────────────────── AKT 05 — FLYTTEFORBUDET ────────────────── -->
+<section class="akt" id="flytteforbud">
+  <div class="akt-num">Akt 05 · Flytteforbudet</div>
+  <h2>Flytteforbudet er <em>varslet</em>, men ikke foreslått</h2>
+  <p class="akt-intro" id="ffIntro"></p>
+
+  <div class="bf-status">
+    <div class="bf-kicker" id="ffStatusDato">Status</div>
+    <p>Ingen høringsnotat eller lovforslag er publisert. Regjeringen har ikke valgt modell, og varighet, sanksjoner, hvem som omfattes og lovhjemmel er ikke fastsatt. Statsbudsjettet for 2027 (7. oktober 2026) omtaler ikke flytteforbudet. Siden oppdateres når høringsnotatet kommer.</p>
+  </div>
+
+  <div class="pj-scroll"><table class="bf-tabell">
+    <thead><tr><th>Status</th><th>Hva</th><th>Kilde</th></tr></thead>
+    <tbody>
+      <tr><td><b>Gjelder i dag</b></td><td>Kommunen en flyktning flytter til, kan avslå økonomisk sosialhjelp de første fem årene etter bosetting og vise til bosettingskommunen, med mindre det er åpenbart urimelig.</td><td>Sosialtjenesteforskriften § 3; IMDi, rundskriv om integreringstilskudd 2025</td></tr>
+      <tr><td><b>Vedtatt</b> 6.6.2025</td><td>Stortinget ber regjeringen komme tilbake med tiltak mot at bosatte flyktninger flytter fra bosettingskommunen etter endt introduksjonsprogram (anmodningsvedtak).</td><td>Innst. 330 S (2024–2025)</td></tr>
+      <tr><td><b>Utredet</b> 8.4.2026</td><td>Juridisk utredning for Arbeids- og inkluderingsdepartementet: staten har «vidtrekkende handlingsrom», men et direkte forbud er vanskeligere å forsvare enn indirekte tiltak, og jo lenger bindingen varer, desto svakere står den.</td><td>Emberland (BI), utredning 8. april 2026</td></tr>
+      <tr><td><b>Varslet</b> 18.6.2026</td><td>To modeller skal på høring «i høst»: forbud mot å flytte til bestemte områder, og et tidsbegrenset forbud mot å flytte fra bosettingskommunen.</td><td>Arbeids- og inkluderingsdepartementet, pressemelding 18. juni 2026</td></tr>
+      <tr><td><b>Uavklart</b></td><td>Om personer med kollektiv beskyttelse (ukrainere) omfattes, varighet, sanksjon, lovhjemmel, hvilke områder, og om integreringstilskuddet forlenges dersom bindingen varer lenger enn fem år.</td><td>Ingen offentlig kilde per <span class="ffDato">20. oktober 2026</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="pj-steg">
+    <div class="uth">
+      <div class="nr">MODELL 1</div>
+      <h3>Forbud mot å flytte til bestemte områder</h3>
+      <p>I en angitt periode, «for eksempel 10 år» (statsråd Kjersti Stenseng til NRK 18. juni 2026). Pressemeldingen peker på områder på Østlandet med stor tilflytting. <b>Hypotese:</b> Modellen vil i hovedsak lede flyttingen til andre byer enn dem som står på listen, heller enn å holde folk i Nord-Norge. Dersom forbudsområdene sammenfaller med de viktigste målene, kan effekten bli større, siden <span id="ffOst">64 %</span> av dem som flytter fra landsdelen, drar til Østlandet.</p>
+    </div>
+    <div>
+      <div class="nr">MODELL 2</div>
+      <h3>Forbud mot å flytte fra bosettingskommunen</h3>
+      <p>Tidsbegrenset, men varigheten er ikke avklart. Den er gjengitt både som «et femårsløp» og som et spørsmål høringen skal avklare. Varslede unntak: selvforsørgede, flytting for arbeid eller utdanning, og hensynet til barnets beste. Personer med norsk statsborgerskap er unntatt.</p>
+    </div>
+  </div>
+
+  <h3 class="bf-h3">Premisset om flytting etter fem år</h3>
+  <p class="bf-p">Regjeringen begrunner forslaget med at mange flyktninger med store hjelpebehov flytter til de samme kommunene, særlig etter at integreringstilskuddet faller bort etter fem år. Initiativet kom fra Fredrikstad og Sarpsborg. <b>Observasjon:</b> Fafo finner ingen markant endring i flyttemønsteret etter fem år, og SSB viser at flyttingen øker gradvis fra bosettingsåret (se akt 04). Det er ikke publisert noen konsekvensutredning med tall for omfang, kostnader eller forventet effekt.</p>
+
+  <h3 class="bf-h3">Juridisk uenighet</h3>
+  <div class="pj-steg">
+    <div>
+      <div class="nr">EMBERLAND · BI · APRIL 2026</div>
+      <p>Grunnloven § 106 og EMK protokoll 4 artikkel 2 åpner for begrensninger ved lov når de er nødvendige og forholdsmessige. EMD godtok bosettingsvilkår i <i>Garib mot Nederland</i> (2017). Etter flyktningkonvensjonen art. 26 står integrering sterkere som begrunnelse enn fordeling av utgifter.</p>
+    </div>
+    <div>
+      <div class="nr">EINARSEN · UIB · AUGUST 2026</div>
+      <p>Et flytteforbud som bare gjelder flyktninger, strider mot flyktningkonvensjonen art. 26, som krever at flyktninger behandles som andre utlendinger i samme situasjon. Forslaget bør derfor legges bort (Rett24, 19. august 2026).</p>
+    </div>
+  </div>
+
+  <h3 class="bf-h3">Erfaringer fra andre land</h3>
+  <div class="pj-scroll"><table class="bf-tabell">
+    <thead><tr><th>Land</th><th>Ordning</th><th>Hva forskningen finner</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tyskland</b></td><td>Bostedsplikt i delstaten i inntil tre år fra 2016 (§ 12a AufenthG), med unntak for arbeid og utdanning.</td><td>Om lag seks prosentpoeng lavere sannsynlighet for å være i arbeid (IAB 2020). BAMFs evaluering (2023) finner trolig ingen integreringsgevinst.</td></tr>
+      <tr><td><b>Danmark</b></td><td>Flytting i programperioden krever at ny kommune overtar ansvaret, ellers kan ytelsen falle bort. Ligner den norske femårsregelen.</td><td>Ett prosentpoeng høyere sysselsetting i tildelt kommune gir 0,5–0,6 prosentpoeng høyere sysselsetting for flyktningene (Azlor, Damm og Schultz-Nielsen 2020).</td></tr>
+      <tr><td><b>Sverige</b></td><td>Begrensningene gjelder asylsøkere i mottak, ikke bosatte flyktninger.</td><td>Ikke direkte sammenlignbart.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="bf-h3">Hva det kan bety for Nord-Norge</h3>
+  <div class="kpi-rad" id="ffKPI"></div>
+  <div id="ffNN"></div>
+
+  <h3 class="bf-h3">Partiene</h3>
+  <div class="pj-scroll"><table class="bf-tabell">
+    <thead><tr><th>Parti</th><th>Standpunkt</th></tr></thead>
+    <tbody>
+      <tr><td>Ap (regjeringen)</td><td>Utreder forbudet og vil kombinere det med bedre norskopplæring.</td></tr>
+      <tr><td>Frp</td><td>Vil gå lenger: krav om å være selvforsørget før flytting, uten tidsgrense.</td></tr>
+      <tr><td>H</td><td>Skrev i februar 2026 sammen med Sp at partiet ikke vil forby flytting, men heller forlenge perioden der tilflyttingskommunen kan vise til bosettingskommunen. Høyre-ordførere i Østfold driver saken.</td></tr>
+      <tr><td>Sp</td><td>Vil ikke forby flytting, men vil ha tiltak som får flyktninger til å bli boende lenger.</td></tr>
+      <tr><td>SV, R og MDG</td><td>Imot. Mener fem år er en rimelig grense.</td></tr>
+      <tr><td>KrF og V</td><td>Ingen standpunkt funnet.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint bf-note">Grunnlag: pressemeldinger fra Arbeids- og inkluderingsdepartementet (14. januar, 10. april og 18. juni 2026), Innst. 330 S (2024–2025) og Innst. 150 S (2025–2026), Emberland (2026), Fafo-rapport 2025:14, IMDi og medieoppslag i NRK, Nettavisen, Utrop, Dagsavisen og Rett24, lest <span class="ffDato">20. oktober 2026</span>.</p>
+</section>
+
+<!-- ────────────────── AKT 06 — KONSEKVENS ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <div class="akt-num">Akt 06 · Konsekvens</div>
   <h2>Hva ville Nord-Norge vært <em>uten</em> denne strømmen?</h2>
   <p class="akt-intro">Sett opp regnestykket. På 24 år har landsdelen netto mottatt <b id="aktNetto">—</b> personer fra utlandet, men samtidig mistet <b id="aktInnenlands">—</b> netto til andre deler av Norge. Uten flytting i noen retning ville folketallet vært om lag <b id="aktUtenFlytting">—</b> lavere — innvandringen fra utlandet har mer enn veid opp for tapet innenlands.</p>
   <table class="kvote-tabell">
@@ -133,9 +257,9 @@
   </div>
 </section>
 
-<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<!-- ────────────────── AKT 07 — STEMMENE ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 05 · Stemmene</div>
+  <div class="akt-num">Akt 07 · Stemmene</div>
   <h2>Hva sier kildene?</h2>
 
   <div class="sitat">
@@ -144,8 +268,8 @@
   </div>
 
   <div class="sitat">
-    <p class="sitat-tekst">I 2019-kohorten bodde 90 % av flyktningene i Finnmark fortsatt i første bosettingskommune etter fem år. Nordland og Troms lå på 80 %, under landssnittet på 86 %. I 2015-kohorten var andelen lavere i hele landsdelen.</p>
-    <div class="kilde">Grunnlag: <b>SSBs bofasthetsstudie</b> 2021 og SSBs monitor for sekundærflytting 2024</div>
+    <p class="sitat-tekst">Nært 70 % av flyktningene som ble bosatt i nordnorske kommuner, har flyttet fra bosettingskommunen ti år etter bosetting. I Trøndelag, landsdelen med nest høyest fraflytting, er andelen rett under 50 %.</p>
+    <div class="kilde">Grunnlag: <b>Fafo-rapport 2025:14</b> <i>Flytting etter bosetting</i>, s. 34</div>
   </div>
 
   <div class="sitat">
@@ -218,6 +342,7 @@
 </div>
 
 <script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof SSB_FLOWS === 'undefined') return;
@@ -304,19 +429,135 @@ document.addEventListener('DOMContentLoaded', function(){
   var aktInnenlands = document.getElementById('aktInnenlands');
   if(aktInnenlands) aktInnenlands.textContent = fmt(Math.abs(sumNettoInnland));
 
-  // ─── Bofasthet-grid ───
-  if(typeof KOHORT_RET === 'undefined') return;
-  var bofastHTML = '';
-  KOHORT_RET.kohorter.forEach(function(k){
-    var navn = 'Kohort ' + k.kohort_year + ' · ' + k.botid_aar + ' år';
-    var inner = '';
-    Object.keys(k.andel_bofast).forEach(function(omr){
-      var pct = k.andel_bofast[omr];
-      inner += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:2px"><span style="color:var(--ink2)">' + omr + '</span><span style="font-family:var(--font-mono);color:var(--ink);font-weight:600">' + pct + ' %</span></div><div class="bofast-bar"><div style="width:' + pct + '%"></div></div></div>';
-    });
-    bofastHTML += '<div class="bofast-card"><h3>' + navn + '</h3><div class="l">' + (k.source_id || '') + '</div>' + inner + (k.note ? '<p>' + k.note + '</p>' : '') + '</div>';
-  });
-  document.getElementById('bofastGrid').innerHTML = bofastHTML;
+  // ─── Akt 03–05: bofasthet og flytteforbud (BOFAST_DATA, fetch_bofasthet.py) ───
+  if(typeof BOFAST_DATA === 'undefined' || !window.NN) return;
+  var B = BOFAST_DATA, A = B.kull5, kk = A.kull, iS = kk.length - 1, N = B.netto, F = B.fafo, G = B.grunn, BT = B.botid10;
+  var pst = function(v, d){ return v.toLocaleString('nb-NO', {minimumFractionDigits: d || 0, maximumFractionDigits: d || 0}) + ' %'; };
+  var tal = function(v, d){ return v.toLocaleString('nb-NO', {minimumFractionDigits: d || 0, maximumFractionDigits: d || 0}); };
+  var MND = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+  var dato = function(iso){ var p = iso.split('-'); return (+p[2]) + '. ' + MND[+p[1] - 1] + ' ' + p[0]; };
+  var liste = function(a){ return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1]; };
+  var FYLK = ['Nordland', 'Troms', 'Finnmark'];
+  var KM = A.kommune, FYL = A.fylke, LAND = KM.Landet;
+
+  // Akt 03 — fem år per kull
+  var unntak = [];
+  FYLK.forEach(function(f){ KM[f].forEach(function(v, i){ if(v != null && v >= LAND[i]) unntak.push(f + ' i kull ' + kk[i]); }); });
+  var diff = [];
+  FYLK.concat(['Troms og Finnmark']).forEach(function(f){ KM[f].forEach(function(v, i){ if(v != null && FYL[f][i] != null) diff.push(FYL[f][i] - v); }); });
+  var dLo = Math.min.apply(null, diff), dHi = Math.max.apply(null, diff);
+  document.getElementById('femIntro').innerHTML =
+    '<b>Observasjon:</b> Andelen av bosettingskullet som bodde i første bosettingskommune fem år etter bosetting, steg i Nordland fra ' + pst(KM.Nordland[0]) + ' (kull ' + kk[0] + ') til ' + pst(KM.Nordland[iS]) + ' (kull ' + kk[iS] + '), i Troms fra ' + pst(KM.Troms[0]) + ' til ' + pst(KM.Troms[iS]) + ' og i Finnmark fra ' + pst(KM.Finnmark[0]) + ' til ' + pst(KM.Finnmark[iS]) + '. ' +
+    'Landet steg fra ' + pst(LAND[0]) + ' til ' + pst(LAND[iS]) + '. Fylkene i Nord-Norge har ligget under landet i alle publiserte kull' + (unntak.length ? ', unntatt ' + liste(unntak) : '') + '. ' +
+    'Regnes også dem som flyttet til en annen kommune i samme fylke, blir andelen ' + dLo + '–' + dHi + ' prosentpoeng høyere. Kullene er små, så enkeltår svinger mye: Finnmark bosatte 176 flyktninger i 2004.';
+  document.getElementById('femKPI').innerHTML = FYLK.concat(['Landet']).map(function(f){
+    var fy = FYL[f] ? FYL[f][iS] : null;
+    return '<div class="kpi"><div class="v">' + pst(KM[f][iS]) + '</div><div class="l">' + f + ', kull ' + kk[iS] + '</div><div class="nh">' +
+      (f === 'Landet' ? 'i bosettingskommunen etter fem år' : 'i fylket: ' + (fy != null ? pst(fy) : 'over 90 %')) + '</div></div>';
+  }).join('');
+  document.getElementById('femGraf').innerHTML = NN.placeholder('linjer', {
+    x: kk,
+    serier: [
+      {navn:'Landet', data:LAND, farge:'ink', stil:'stiplet'},
+      {navn:'Nordland', data:KM.Nordland, farge:'nl'},
+      {navn:'Troms', data:KM.Troms, farge:'tr'},
+      {navn:'Finnmark', data:KM.Finnmark, farge:'fi'}
+    ],
+    format:'pst0', xTicks:[1998, 2002, 2006, 2010, 2015, 2019], hoyde:340,
+    yTittel:'Andel av bosettingskullet som bor i første bosettingskommune fem år etter bosetting.',
+    kilde:'SSBs monitor for sekundærflytting (elleve utgaver 2005–2020) og SSB-artikler 2021 og 28.11.2024. Prosent av hele kullet; utvandrede og døde inngår i nevneren. Kull 2015 er bare publisert for Troms og Finnmark samlet (' + pst(KM['Troms og Finnmark'][kk.indexOf(2015)]) + '). Kull 1999, 2013, 2014 og 2016–2018 er ikke publisert per fylke; linjene trekkes rett over hullene.'
+  }, 380);
+  document.getElementById('femNote').innerHTML = 'Tabell for hvert kull: ' + kk.map(function(k, i){ return k + ' ' + A.kilde[i]; }).join(' · ') + '.';
+
+  // Akt 04 — lengre perioder
+  var LG = B.lang, L10 = LG.kull['2010'], L05 = LG.kull['2005'], L16 = LG.kull['2016'], bi = function(b){ return LG.botid.indexOf(b); };
+  var fly = N.grupper[0], alle = N.grupper[1], nb = function(b){ return N.botid.indexOf(b); };
+  var LD = F.landsdel_netto;
+  document.getElementById('langIntro').innerHTML =
+    'Femårstallet fanger bare starten. Fafo fulgte flyktninger bosatt i 2010–2023 og fant at nær ' + pst(F.flyttet10_nn) + ' av dem som ble bosatt i Nord-Norge, hadde flyttet fra bosettingskommunen etter ti år. I Trøndelag, landsdelen med nest høyest fraflytting, var andelen rett under ' + pst(F.flyttet10_trondelag) + ', og av hele landets 2010-kull hadde ' + pst(F.flyttet10_landet_2010) + ' flyttet. ' +
+    'Av ' + tal(LD.nevner) + ' flyktninger som ble bosatt i Nord-Norge i 2010–2016, tilsvarte antallet fra de samme kullene som bodde i landsdelen 1. januar 2023, ' + pst(LD.nn, 1) + '. Fafo finner ingen markant endring i flyttemønsteret når integreringstilskuddet faller bort etter fem år.';
+  document.getElementById('langKPI').innerHTML =
+    '<div class="kpi"><div class="v down">' + pst(F.flyttet10_nn) + '</div><div class="l">Flyttet fra bosettingskommunen etter ti år</div><div class="nh">Nord-Norge · Fafo 2025:14</div></div>' +
+    '<div class="kpi"><div class="v">' + pst(LD.nn, 1) + '</div><div class="l">Netto igjen i landsdelen</div><div class="nh">kull 2010–2016, målt 1.1.2023 · Østlandet ' + pst(LD.ostlandet, 1) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + pst(F.til_ostlandet) + '</div><div class="l">av utflytterne dro til Østlandet</div><div class="nh">flyttinger fra Nord-Norge 2010–2023</div></div>' +
+    '<div class="kpi"><div class="v down">' + pst(fly.nn[nb(20)]) + '</div><div class="l">Netto bevaring etter 20 år</div><div class="nh">ti flyktningland · landet ' + pst(fly.landet[nb(20)]) + '</div></div>';
+
+  document.getElementById('kurveTekst').innerHTML =
+    'For landet finnes direkte tall opptil 14 år etter bosetting. Av 2010-kullet bodde ' + pst(L10[bi(5)]) + ' i bosettingskommunen etter fem år, ' + pst(L10[bi(10)]) + ' etter ti og ' + pst(L10[bi(14)]) + ' etter 14 år. ' +
+    'Høyere bofasthet etter fem år har ikke gitt høyere bofasthet etter åtte: 2016-kullet lå på ' + pst(L16[bi(5)]) + ' etter fem år og ' + pst(L16[bi(8)]) + ' etter åtte, mot ' + pst(L05[bi(5)]) + ' og ' + pst(L05[bi(8)]) + ' for 2005-kullet.';
+  var kurveKull = [['2012', 'ink'], ['2010', 'accent']];
+  document.getElementById('kurveGraf').innerHTML = NN.placeholder('linjer', {
+    x: LG.botid, xEtikett: LG.botid.map(function(b){ return b + ' år etter bosetting'; }),
+    serier: kurveKull.map(function(p){ return {navn:'Kull ' + p[0], data:LG.kull[p[0]], farge:p[1], uthev:p[0] === '2010'}; }),
+    format:'pst0', xTicks:LG.botid, hoyde:300,
+    yTittel:'Landet: andel av kullet som bor i bosettingskommunen, etter antall år siden bosetting. Utvandrede regnes som flyttet.',
+    kilde:'SSB 28.11.2024, figur 2. Tallene for 2005-kullet i teksten: SSB 2021, figur 2.'
+  }, 340);
+
+  document.getElementById('nettoTekst').innerHTML =
+    'Per fylke finnes ingen åpne tall for bofasthet ut over fem år. Det nærmeste er netto bevaring: antallet innvandrere med en gitt botid som bor i området, delt på antallet med ett års botid da kullet kom (SSB 10598). Målet skiller på landbakgrunn, ikke innvandringsgrunn, og tilflyttere med samme botid teller med. ' +
+    'For innvandrere fra ti typiske flyktningland var netto bevaring i Nord-Norge ' + pst(fly.nn[nb(5)]) + ' etter fem år, ' + pst(fly.nn[nb(10)]) + ' etter ti og ' + pst(fly.nn[nb(20)]) + ' etter 20 år. I landet, der bare utvandring og død trekker ned, var tallene ' + tal(fly.landet[nb(5)]) + ', ' + tal(fly.landet[nb(10)]) + ' og ' + pst(fly.landet[nb(20)]) + '. ' +
+    'Nordland og Troms og Finnmark ligger nær hverandre (' + pst(fly.nordland[nb(20)]) + ' og ' + pst(fly.tf[nb(20)]) + ' etter 20 år). Tallene stemmer med Fafo: om lag ' + pst(100 - F.flyttet10_nn) + ' i bosettingskommunen etter ti år, og ' + pst(fly.nn[nb(10)]) + ' netto i landsdelen. ' +
+    'Arbeids- og familieinnvandrere blir oftere: etter ti år er netto bevaring ' + pst(N.grupper[2].nn[nb(10)]) + ' for innvandrere fra Polen og Litauen og ' + pst(N.grupper[5].nn[nb(10)]) + ' fra Filippinene og Thailand.';
+  document.getElementById('nettoGraf').innerHTML = NN.placeholder('linjer', {
+    x: N.botid, xEtikett: N.botid.map(function(b){ return b + ' års botid'; }),
+    serier: [
+      {navn:'Ti flyktningland, landet', kort:'Flyktningland, landet', data:fly.landet, farge:'accent', stil:'stiplet'},
+      {navn:'Alle innvandrere, landet', kort:'Alle, landet', data:alle.landet, farge:'ink', stil:'stiplet'},
+      {navn:'Alle innvandrere, Nord-Norge', kort:'Alle, Nord-Norge', data:alle.nn, farge:'ink'},
+      {navn:'Ti flyktningland, Nord-Norge', kort:'Flyktningland, Nord-Norge', data:fly.nn, farge:'accent', uthev:true}
+    ],
+    format:'pst0', null:true, xTicks:N.botid, hoyde:320,
+    yTittel:'Netto bevaring: innvandrere i området med k års botid, i prosent av antallet med ett års botid da kullet kom. Stiplet: landet.',
+    kilde:N.kilde + '. Innvandringskull: 5 år ' + N.kullspenn[0] + ', 10 år ' + N.kullspenn[1] + ', 15 år ' + N.kullspenn[2] + ', 20 år ' + N.kullspenn[3] + '. Ti flyktningland: ' + N.flyktningland + '.'
+  }, 360);
+  document.getElementById('gruppeGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', maks:100, grupper:[{
+    tittel:'Netto bevaring i Nord-Norge etter ti års botid, etter landbakgrunn',
+    rader: N.grupper.map(function(g, j){ return {l:g.navn, v:g.nn[nb(10)], farge: j === 0 ? 'accent' : 'muted', uthev: j === 0, note:'landet ' + pst(g.landet[nb(10)])}; })
+  }], kilde:N.kilde + ', innvandringskull ' + N.kullspenn[1] + '.'}, N.grupper.length * 34 + 70);
+
+  var gF = G.rader.find(function(r){ return r.l === 'Flukt'; }), gA = G.rader.find(function(r){ return r.l === 'Arbeid'; });
+  document.getElementById('grunnTekst').innerHTML =
+    'Flyktninger forlater sjelden Norge. Av de ikke-nordiske førstegangsinnvandrerne som kom i 1990–2025, bodde ' + pst(gF.v, 1) + ' av flyktningene fortsatt i landet ved utgangen av 2025, mot ' + pst(gA.v, 1) + ' av arbeidsinnvandrerne (SSB 06318). ' +
+    'Når flyktningene forsvinner fra Nord-Norge, er det altså i hovedsak innenlands flytting. Arbeidsinnvandrerne reiser oftere ut av landet, men blir oftere værende der de bosatte seg.';
+  document.getElementById('grunnGraf').innerHTML = NN.placeholder('hstolper', {format:'pst', maks:100, grupper:[{
+    rader: G.rader.map(function(r){ return {l:r.l, v:r.v, farge: r.l === 'Flukt' ? 'accent' : 'muted', uthev: r.l === 'Flukt'}; }),
+    ref:{v:G.i_alt, tekst:'I alt ' + pst(G.i_alt, 1)}
+  }], kilde:G.kilde + '. Etter innvandringsgrunn.'}, G.rader.length * 34 + 50);
+
+  var S = LG.storrelse;
+  document.getElementById('storrelseTekst').innerHTML =
+    'Fafo finner at forskjellen mellom Nord-Norge og resten av landet ikke lenger er signifikant når det kontrolleres for sentralitet og folketall. Det er de små og usentrale kommunene som mister flyktninger, og Nord-Norge har mange av dem. ' +
+    'Etter fem år bodde ' + S[0].lo + '–' + pst(S[0].hi) + ' fortsatt i kommuner med 100 000 innbyggere eller flere, mot ' + S[2].lo + '–' + pst(S[2].hi) + ' i kommuner med under 2 000 innbyggere (kull 2007–2012, SSB-monitoren 2020, tab. 4.10). Etter ti år har nesten ' + pst(F.sentralitet6) + ' flyttet fra de minst sentrale kommunene (sentralitetsklasse 6).';
+
+  var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? k.navn.split(' - ').pop() : nr; };
+  var kom = Object.keys(BT.kommuner).filter(function(nr){ return BT.kommuner[nr][5] >= 100; }).sort(function(a, b){ return BT.kommuner[a][3] - BT.kommuner[b][3]; });
+  var lav = kom[0], hoy = kom[kom.length - 1];
+  document.getElementById('botidTekst').innerHTML =
+    '1. januar 2026 hadde ' + pst(BT.nn[3], 1) + ' av innvandrerne i Nord-Norge bodd i Norge i ti år eller mer, mot ' + pst(BT.landet[3], 1) + ' i landet. I 2021 var tallene ' + tal(BT.nn[0], 1) + ' og ' + pst(BT.landet[0], 1) + '. ' +
+    'Andelen er et bestandsmål, ikke bofasthet: den blir lav både når mange flytter ut og når mange nye kommer, og bosettingen av ukrainere siden 2022 trekker den ned. Botiden gjelder Norge, ikke kommunen. ' +
+    'Blant kommunene med minst 100 innvandrere er andelen høyest i ' + navnK(hoy) + ' (' + pst(BT.kommuner[hoy][3], 1) + ') og lavest i ' + navnK(lav) + ' (' + pst(BT.kommuner[lav][3], 1) + '). Klikk på en kommune for kommunesiden.';
+  document.getElementById('botidKart').innerHTML = NN.placeholder('kart', {ind:'botid10'}, 560);
+
+  // Akt 05 — flytteforbudet
+  var BS = B.bosetting, andelBos = BS.nn / BS.landet * 100, andelKol = BS.kollektiv_nn / BS.nn * 100;
+  document.querySelectorAll('.ffDato').forEach(function(el){ el.textContent = dato(B.status.dato); });
+  document.getElementById('ffStatusDato').textContent = 'Status ' + B.status.dato;
+  document.getElementById('ffOst').textContent = pst(F.til_ostlandet);
+  document.getElementById('ffIntro').innerHTML =
+    'Per ' + dato(B.status.dato) + ' finnes det ikke noe høringsnotat eller lovforslag om flytteforbud for flyktninger. Regjeringen varslet 18. juni 2026 at to modeller skal sendes på høring «i høst». ' +
+    'Nord-Norge berøres mer enn andre landsdeler: landsdelen tok imot ' + pst(andelBos, 1) + ' av flyktningene som ble bosatt i ' + BS.aar + ', mot om lag 9 % av befolkningen, og har høyest fraflytting fra bosettingskommunene.';
+  document.getElementById('ffKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + pst(andelBos, 1) + '</div><div class="l">av bosatte flyktninger ' + BS.aar + '</div><div class="nh">' + tal(BS.nn) + ' av ' + tal(BS.landet) + ' · IMDi</div></div>' +
+    '<div class="kpi"><div class="v">' + pst(andelKol) + '</div><div class="l">hadde kollektiv beskyttelse</div><div class="nh">' + tal(BS.kollektiv_nn) + ' av ' + tal(BS.nn) + ' bosatt i Nord-Norge</div></div>' +
+    '<div class="kpi"><div class="v">5 år</div><div class="l">med integreringstilskudd</div><div class="nh">deretter bærer bosettingskommunen utgiftene alene</div></div>' +
+    '<div class="kpi"><div class="v">2027</div><div class="l">første ukrainske kull når fem år</div><div class="nh">kollektiv beskyttelse avvikles ikke i 2027</div></div>';
+  var perKull = Math.round(BS.nn * F.flyttet10_nn / 100 / 100) * 100;
+  document.getElementById('ffNN').innerHTML =
+    '<p class="bf-p"><b>Observasjon:</b> ' + pst(andelKol) + ' av dem som ble bosatt i Nord-Norge i ' + BS.aar + ', hadde kollektiv beskyttelse. Om ukrainerne omfattes, avgjør derfor i praksis hva forbudet betyr for landsdelen, og det er ikke avklart.</p>' +
+    '<p class="bf-p"><b>Hypotese — befolkning:</b> Dersom modell 2 innføres og omfatter alle grupper, forventer vi at flere blir boende de første årene. Med om lag ' + tal(Math.round(BS.nn / 100) * 100) + ' bosatte per år og ' + pst(F.flyttet10_nn) + ' fraflytting over ti år gjelder det i størrelsesorden ' + tal(perKull) + ' personer per kull. Anslaget bygger på kullene før 2022 og er usikkert.</p>' +
+    '<p class="bf-p"><b>Hypotese — arbeidskraft:</b> Unntakene for arbeid og utdanning betyr at de som har jobb, kan flytte som i dag. De som holdes igjen, står oftere utenfor arbeid, så forbudet vil trolig øke folketallet mer enn arbeidsstyrken.</p>' +
+    '<p class="bf-p"><b>Hypotese — kommuneøkonomi:</b> Varer bindingen lenger enn de fem årene med integreringstilskudd, får bosettingskommunen ansvaret for sosialhjelp uten tilskudd. Det rammer særlig små kommuner og kan gjøre flere av dem mindre villige til å bosette.</p>';
 });
 </script>
 </body>

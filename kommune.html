@@ -558,6 +558,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ─── Dedikert Sammensetning-panel ───
   // Stor alderskart med modus-bryter → KPI-rad → folketekst → landbakgrunn-kort
+  // Andel av innvandrerne med ti års botid i Norge eller mer (IMDi, kilde SSB). Bestandsmål, ikke bofasthet i kommunen.
+  function botid10KPI(k){
+    if(typeof BOFAST_DATA === 'undefined') return '';
+    var B = BOFAST_DATA.botid10;
+    var o = k.nr > 0 ? B.kommuner[String(k.nr)] : k.nr === -1 ? B.nn : ({'-18':B.fylker.Nordland,'-55':B.fylker.Troms,'-56':B.fylker.Finnmark})[String(k.nr)];
+    if(!o || o[3] == null) return '';
+    var pst = function(v){ return v.toFixed(1).replace('.',',') + ' %'; };
+    return '<div class="k"><div class="v">'+pst(o[3])+'</div><div class="l">Innvandrere med botid 10 år+</div>'+
+      '<div class="h">'+fmt(o[4])+' av '+fmt(o[5])+' · landet '+pst(B.landet[3])+(o[0] != null ? ' · 2021: '+pst(o[0]) : '')+'</div></div>';
+  }
+
   function renderSammensetningPanel(k, host){
     state.ageMode = state.ageMode || '5';
     state.topN = state.topN || 12;
@@ -621,6 +632,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<div class="k"><div class="v">'+(barn/pop*100).toFixed(0).replace('.',',')+' %</div><div class="l">Barn 0–17 år</div><div class="h">'+fmt(barn)+' personer</div></div>'+
           '<div class="k"><div class="v">'+(eldre67/pop*100).toFixed(0).replace('.',',')+' %</div><div class="l">Eldre 67+</div><div class="h">'+fmt(eldre67)+' personer · '+fmt(eldre80)+' over 80</div></div>'+
           '<div class="k"><div class="v">'+k.andel.toFixed(1).replace('.',',')+' %</div><div class="l">Innvandrerbakgrunn</div><div class="h">'+vesP+' % vestlig · '+iveP+' % ikke-vestlig</div></div>'+
+          botid10KPI(k)+
         '</div>'+
         // Folketekst (pedagogisk oppsummering)
         '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+

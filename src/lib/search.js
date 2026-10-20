@@ -5,7 +5,7 @@ import { heltall, kortNavn } from './format.js';
 const SIDER = [
   ['Hele landsdelen', 'nord-norge.html', 'Oversikt'],
   ['Sammenlign kommuner', 'sammenlign.html', 'Verktøy'],
-  ['Hvem blir værende? Flyktningstrømmen', 'tema-flyktning.html', 'Tema 01'],
+  ['Hvem blir værende? Flyktningstrømmen, bofasthet og flytteforbud', 'tema-flyktning.html', 'Tema 01'],
   ['Store mot små: 6 mot 74 kommuner', 'tema-o6.html', 'Tema 02'],
   ['Kvinneflukten', 'tema-kvinneflukt.html', 'Tema 03'],
   ['Hvem skal bære? Arbeidskraft og aldring', 'tema-arbeidskraft.html', 'Tema 04'],

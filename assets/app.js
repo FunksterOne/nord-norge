@@ -2664,22 +2664,25 @@ function renderFlowChart(){
 }
 
 function bofastChartHTML(){
-  const KOH=KOHORT_RET.kohorter;
-  let html='';
-  KOH.forEach(koh=>{
-    html+='<div style="margin-bottom:18px">'+
-      '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">'+
-      '<h4 class="serif" style="font-size:15px;font-weight:600">'+koh.kohort_year+'-kohort · etter '+koh.botid_aar+' år</h4>'+
-      '<span style="font-size:11px;color:var(--ink3)">Kilde: '+SOURCES[koh.source_id].publisher+'</span>'+
-      '</div>';
-    const rader=Object.entries(koh.andel_bofast).filter(([fy,pct])=>pct!=null).map(([fy,pct])=>{
-      const isFinn = fy==='Finnmark', isRef = fy==='Møre og Romsdal' || fy==='Landssnitt';
-      return {l:fy, v:pct, uthev:isFinn, farge:isFinn?'accent':isRef?'cat-4':'muted'};
-    });
-    html+=NN.placeholder('hstolper',{format:'pst',maks:100,grupper:[{rader}]},rader.length*27+20);
-    if(koh.note) html+='<p class="hint" style="margin-top:8px;font-size:11.5px;font-style:italic">'+koh.note+'</p>';
-    html+='</div>';
-  });
+  // Bofasthet for flyktninger: fem år per kull (direkte, SSB-monitoren) og netto bevaring 5–20 år (SSB 10598).
+  if(typeof BOFAST_DATA==='undefined') return '';
+  const B=BOFAST_DATA, A=B.kull5, N=B.netto, KM=A.kommune;
+  const fy=(state.fylke&&state.fylke!=='Alle')?state.fylke:null;
+  const p0=v=>v.toLocaleString('nb-NO',{maximumFractionDigits:0})+' %';
+  const serier=[{navn:'Landet',data:KM.Landet,farge:'ink',stil:'stiplet'}].concat(['Nordland','Troms','Finnmark'].map(f=>({
+    navn:f, data:KM[f], farge:({Nordland:'nl',Troms:'tr',Finnmark:'fi'})[f], uthev:fy===f, svak:!!fy&&fy!==f
+  })));
+  let html='<h4 class="serif" style="font-size:15px;font-weight:600;margin:4px 0 6px">Fem år etter bosetting, per bosettingskull</h4>'+
+    NN.placeholder('linjer',{x:A.kull, serier, format:'pst0', xTicks:[1998,2002,2006,2010,2015,2019], hoyde:300,
+      yTittel:'Andel av kullet som bor i første bosettingskommune fem år etter bosetting.',
+      kilde:'SSBs monitor for sekundærflytting 2005–2020 og SSB-artikler 2021 og 2024. Kull 2015 bare for Troms og Finnmark samlet ('+p0(KM['Troms og Finnmark'][A.kull.indexOf(2015)])+'). Kull 1999, 2013, 2014 og 2016–2018 er ikke publisert per fylke.'},340);
+  const omr=fy==='Nordland'?'nordland':fy?'tf':'nn';
+  const omrNavn=fy==='Nordland'?'Nordland':fy?'Troms og Finnmark':'Nord-Norge';
+  const grupper=N.grupper.slice(0,2).map(g=>({tittel:g.navn+' · '+omrNavn+' (landet i merknaden)',
+    rader:N.botid.map((b,i)=>({l:'Etter '+b+' år', v:g[omr][i], farge:g===N.grupper[0]?'accent':'muted', uthev:g===N.grupper[0]&&b===20, note:'landet '+p0(g.landet[i])}))}));
+  html+='<h4 class="serif" style="font-size:15px;font-weight:600;margin:22px 0 6px">Lengre perioder: netto bevaring i '+omrNavn+'</h4>'+
+    NN.placeholder('hstolper',{format:'pst0', maks:100, grupper,
+      kilde:N.kilde+'. Innvandrere med k års botid i området, i prosent av antallet med ett års botid da kullet kom. Tilflyttere teller med. Ti flyktningland: '+N.flyktningland+'.'},2*(N.botid.length*34+40));
   return html;
 }
 

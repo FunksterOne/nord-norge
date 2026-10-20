@@ -57,6 +57,14 @@ export const INDIKATORER = {
     fmt: v => (v <= 2019 ? 'før 2020' : v >= 2051 ? 'ikke innen 2050' : String(v)), type: 'sequential',
     skjult: true, rangTitler: ['Senest', 'Tidligst'], utenStolpe: true,
   },
+  botid10: {
+    navn: 'Botid 10 år eller mer', kort: 'Innvandrere med botid 10+',
+    enhet: 'Andel av innvandrerne med ti års botid i Norge eller mer, 1.1.2026. IMDi (kilde SSB)',
+    verdi: k => { const o = L.BOFAST?.botid10?.kommuner?.[String(k.nr)]; return o ? o[3] : null; },
+    fmt: v => prosent(v, 1), type: 'sequential',
+    kilde: 'Kilde: IMDi «Innvandrernes botid» (kilde SSB), alle innvandrere.',
+    skjult: true,
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',
@@ -175,7 +183,7 @@ function render(el, width) {
     out.push(grid);
   } else out.push(fig);
   const src = document.createElement('div'); src.className = 'nn-source';
-  src.textContent = 'Kilde: SSB (folketall, framskriving 14746, innvandring 09817), KDD (ROBEK). Kart: Kartverket, CC BY 4.0. Tykk linje = fylkesgrense, tynn = regiongrense (SØA 2026).';
+  src.textContent = (def.kilde || 'Kilde: SSB (folketall, framskriving 14746, innvandring 09817), KDD (ROBEK).') + ' Kart: Kartverket, CC BY 4.0. Tykk linje = fylkesgrense, tynn = regiongrense (SØA 2026).';
   out.push(src);
   return out;
 }

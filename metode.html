@@ -58,6 +58,8 @@
       <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting); fødte og døde i landsdelen brukes fra 1995</td><td>1995–2025</td></tr>
       <tr><td class="kode">09588</td><td>Innenlands flyttinger</td><td>2002–2025</td></tr>
       <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
+      <tr><td class="kode">10598</td><td>Innvandrere etter fylke, landbakgrunn og botid; netto bevaring (pseudokohorter)</td><td>2005–2026</td></tr>
+      <tr><td class="kode">06318</td><td>Førstegangsinnvandringer etter innvandringsgrunn og om personen fortsatt bor i Norge</td><td>1990–2025</td></tr>
       <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2025</td></tr>
       <tr><td class="kode">13563</td><td>Arbeidsstyrkestatus 20–66 år</td><td>2025</td></tr>
       <tr><td class="kode">12143</td><td>KOSTRA: netto driftsresultat, disposisjonsfond, netto lånegjeld (KG31)</td><td>2015–2025</td></tr>
@@ -175,6 +177,19 @@
   <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes av ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere over 67 enn mellom 18 og 34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
 </div>
 
+<div class="metode-card" id="bofasthet">
+  <h2>Bofasthet for flyktninger og innvandrere</h2>
+  <p class="hint">Brukes på temasiden <a href="tema-flyktning.html">Hvem blir værende?</a> (akt 03–05), i bofasthetskortet på fylkes- og landsdelssidene og i Sammensetning-fanen på kommunesidene. Tallene bygges med <code>fetch_bofasthet.py</code>; kildekartlegging, avlesninger med sidetall og skript ligger i <code>analyse/bofasthet/</code>.</p>
+  <p><b>Tre mål som ikke skal blandes.</b></p>
+  <ul>
+    <li><span class="norm-tag">Direkte</span><b>Fem år etter bosetting.</b> Andelen av bosettingskullet som bor i første bosettingskommune (og i samme fylke) fem år etter bosetting. SSBs monitor for sekundærflytting (elleve utgaver 2005–2020) og SSB-artikler 2021 og 28. november 2024, kull 1998–2019 per fylke. Prosent av hele kullet: utvandrede og døde regnes som flyttet. For landet finnes tilsvarende tall opptil 14 år etter bosetting.</li>
+    <li><span class="norm-tag">Indirekte</span><b>Netto bevaring etter 5–20 års botid.</b> Antallet innvandrere i området med k års botid, delt på antallet med ett års botid k − 1 år tidligere (SSB 10598), veid over innvandringskullene. Gruppene er landbakgrunn, ikke innvandringsgrunn; «ti flyktningland» er Syria, Eritrea, Somalia, Afghanistan, Irak, Iran, Sudan, Etiopia, Myanmar og Kongo.</li>
+    <li><span class="norm-tag">Bestand</span><b>Botid ti år eller mer.</b> Andelen av innvandrerne i kommunen som har bodd i Norge i minst ti år, 1. januar 2021 og 2026 (IMDi, kilde SSB). Det er det eneste målet som vises per kommune.</li>
+  </ul>
+  <p><b>Forbehold.</b> Det finnes ingen åpne fylkestall for bofasthet ut over fem år; SSB har opplyst at tallgrunnlaget for kullene 2010–2023 kan fås på forespørsel. Kull 1999, 2013, 2014 og 2016–2018 er ikke publisert per fylke, og kull 2015 bare for Troms og Finnmark samlet. Monitoren bruker de gamle fylkene til kull 2012 og 2024-inndelingen for kull 2019. Netto bevaring teller med tilflyttere fra resten av landet og påvirkes av utvandring og død; for landet måler den bare utvandring og død. Flyktninger som registreres i et mottak i Nord-Norge før de bosettes et annet sted, kan trekke netto bevaring ned, og beregningen starter derfor ved ett års botid. Botid-andelen blir lav både når mange flytter ut og når mange nye kommer, og botiden gjelder Norge, ikke kommunen. Kommunetallene vises med antall, fordi mange kommuner har få innvandrere. Fafos tall for Nord-Norge (nær 70 % flyttet etter ti år, 44,8 % netto igjen i landsdelen) bygger på kull før de ukrainske ankomstene.</p>
+  <p><b>Flytteforbudet.</b> Akt 05 på temasiden gjengir status per 20. oktober 2026 fra pressemeldinger, stortingsdokumenter, Emberland-utredningen (8. april 2026) og medieoppslag. Ingen høringsnotat var publisert. Hypotesene om virkninger for Nord-Norge er merket som hypoteser.</p>
+</div>
+
 <div class="metode-card">
   <h2>Backtest 2020–2024</h2>
   <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Strukturmodellen (TF-ATTR) traff bedre enn SSB MMMM i de små, minst sentrale kommunene, der prognoser pleier å bomme mest. Det er bakgrunnen for å vise den som tilleggsbane ved siden av hovedbanen SSB MMMM.</p>
@@ -190,6 +205,9 @@
       <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — mangel på arbeidskraft per næring × fylke + sysselsettingsbarometer</td><td>mai 2026</td></tr>
       <tr><td class="kode">KS FoU</td><td>«Anbefalinger om nivå på sentrale økonomiske nøkkeltall for kommunal sektor» (Oslo Economics og Telemarksforskning for KS, rapport 2025-40)</td><td>mai 2025</td></tr>
       <tr><td class="kode">TBU</td><td><a href="https://www.regjeringen.no/no/dokumenter/nou-2025-10/id3140593/" target="_blank" rel="noopener">NOU 2025:10</a> — Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi</td><td>høst 2025</td></tr>
+      <tr><td class="kode">SSB-monitoren</td><td><a href="https://www.ssb.no/befolkning/innvandrere/artikler/hoy-bofasthet-blant-flyktninger-de-forste-arene" target="_blank" rel="noopener">Monitor for sekundærflytting</a> — bosted fem år etter bosetting per fylke og kull</td><td>2005–2025</td></tr>
+      <tr><td class="kode">Fafo 2025:14</td><td><a href="https://fafo.no/images/pub/2025/20927.pdf" target="_blank" rel="noopener">Flytting etter bosetting</a> (Kjeøy mfl., for IMDi)</td><td>2025</td></tr>
+      <tr><td class="kode">IMDi</td><td><a href="https://www.imdi.no/tall-og-fakta/" target="_blank" rel="noopener">Innvandrernes botid</a> per kommune, og nøkkeltall for bosetting 2025–2026</td><td>2014–2026</td></tr>
       <tr><td class="kode">NOU 2020:15</td><td><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/" target="_blank" rel="noopener">Norman-utvalget</a> — «Det handler om Norge»</td><td>desember 2020</td></tr>
       <tr><td class="kode">Perspektiv-meldingen</td><td><a href="https://www.regjeringen.no/en/whats-new/long-term-perspectives-on-the-norwegian-economy-2024/id3049220/" target="_blank" rel="noopener">Perspektivmeldingen 2024</a> — Finansdepartementet</td><td>2024</td></tr>
       <tr><td class="kode">Komm.loven §28-1</td><td>ROBEK-vilkårene a-f. Statsforvalteren fører kontrollen.</td><td>løpende</td></tr>

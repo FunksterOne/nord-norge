@@ -14,12 +14,12 @@ const FARGE = f => {
 };
 const TEKSTFARGE = f => (f === 'accent' ? 'var(--accent-text)' : FARGE(f));
 const FMT = {
-  pst1: v => prosent(v, 1), kr1000: v => `${heltall(v)} kr`,
+  pst1: v => prosent(v, 1), pst0: v => prosent(v, 0), kr1000: v => `${heltall(v)} kr`,
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => prosent(v, 1),
   endring: v => endring(Math.round(v), 0), kr: v => `${heltall(v)} kr`,
 };
 const AKSE = {
-  pst1: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
+  pst1: v => `${tall(v, 0)} %`, pst0: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => `${tall(v, 0)} %`,
   endring: v => endring(v, 0), kr: v => heltall(v),
 };
