@@ -58,6 +58,9 @@
       <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting); fødte og døde i landsdelen brukes fra 1995</td><td>1995–2025</td></tr>
       <tr><td class="kode">09588</td><td>Innenlands flyttinger</td><td>2002–2025</td></tr>
       <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
+      <tr><td class="kode">14751</td><td>Framskrevne forsørgerbrøker (65+ per 20–64), hovedalternativet</td><td>2026–2050</td></tr>
+      <tr><td class="kode">14534</td><td>Årsverk i omsorgstjenestene etter stillingstype og utdanning</td><td>2015–2025</td></tr>
+      <tr><td class="kode">12003</td><td>Brukere av omsorgstjenester etter alder og tjenestegruppe</td><td>2025</td></tr>
       <tr><td class="kode">10598</td><td>Innvandrere etter fylke, landbakgrunn og botid; netto bevaring (pseudokohorter)</td><td>2005–2026</td></tr>
       <tr><td class="kode">06318</td><td>Førstegangsinnvandringer etter innvandringsgrunn og om personen fortsatt bor i Norge</td><td>1990–2025</td></tr>
       <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2025</td></tr>
@@ -140,7 +143,7 @@
   <p class="hint">Hver indikator i kommunekortet vurderes mot sin autoritative eksterne norm. Ingen interne terskler eller sammensatte klassifiseringer.</p>
   <ul class="norm-list">
     <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2026–2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som «shrinking».</li>
-    <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbyrde (65+/20–64) i 2050.</b> OECD-snitt ≈ 52 eldre per 100 i yrkesaktiv alder (OECD, Pensions at a Glance 2025, pressemelding 27. november 2025; FNs World Population Prospects 2024). Norge: 49 på samme grunnlag, 46 i SSBs hovedalternativ.</li>
+    <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbyrde (65+/20–64) i 2050.</b> OECD-snitt ≈ 52 eldre per 100 i yrkesaktiv alder (OECD, Pensions at a Glance 2025, pressemelding 27. november 2025; FNs World Population Prospects 2024). Norge: 49 på samme grunnlag, 47 i SSBs hovedalternativ (SSB 14751, 0,47).</li>
     <li><span class="norm-tag">SSB</span><b>Sysselsettingsrate 20–66.</b> Nasjonalt snitt 76,7 % i 2025 (SSB 13563).</li>
     <li><span class="norm-tag">SSB</span><b>Uføreandel 18–67.</b> Nasjonalt snitt 10,7 % i 2025 (SSB 11715).</li>
     <li><span class="norm-tag">TBU</span><b>Netto driftsresultat.</b> TBU-norm: minst +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi — autoritativ referanse for kommunalt driftsresultat).</li>
@@ -177,6 +180,19 @@
   <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes av ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere over 67 enn mellom 18 og 34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
 </div>
 
+<div class="metode-card" id="eldreomsorg">
+  <h2>Eldreomsorgen mot 2050</h2>
+  <p class="hint">Brukes i akt 04 på temasiden <a href="tema-aldring.html#omsorg">Aldring i internasjonalt perspektiv</a> og i Arbeid-fanen på kommunesidene. Tallene bygges med <code>fetch_eldre.py</code> direkte fra SSB. Bakgrunnen er Riksrevisjonens Dokument 3:16 (2025–2026) om kommunale helse- og omsorgstjenester til eldre, datert 9. juni 2026. Rapporten tallfester ikke behovet per kommune; tallene er dashbordets egne.</p>
+  <ul>
+    <li><span class="norm-tag">Befolkning</span><b>80+, 90+ og 20–64 år</b> fra SSB 14746, hovedalternativet MMMM (2026-årgangen). Forsørgerbrøken (65+ per 20–64) fra SSB 14751: landet 0,33 i 2026 og 0,47 i 2050. Riksrevisjonen bruker 2024-årgangen (0,32 i 2024 og 0,48 i 2050).</li>
+    <li><span class="norm-tag">Anslag</span><b>Personer med demens.</b> Aldersspesifikke forekomstrater fra Demenskartet (Aldring og helse; HUNT4 70+ og Gjøra mfl. 2021): 0,08 % (30–64 år), 0,57 % (65–69), 6,39 % (70–74), 10,03 % (75–79), 17,80 % (80–84), 30,45 % (85–89) og 41,47 % (90+), brukt på befolkningsbanen. Ratene er like for begge kjønn og hele landet. For landet gir det 2–4 % lavere tall enn FHIs anslag.</li>
+    <li><span class="norm-tag">Behov</span><b>Omsorgsårsverk 2050 «alt annet likt».</b> Andelen av innbyggerne som mottar hjemme- eller institusjonstjenester i landet i 2025 (SSB 12003 delt på 07459): 2,28 % (0–66 år), 7,93 % (67–79) og 36,11 % (80+). Ratene gir antall brukere i 2026 og 2050 for hver kommune; forholdet er behovsindeksen. Den ganges med kommunens pasient- og brukerrettede årsverk i 2025 (SSB 14534). Bemanning per bruker holdes konstant.</li>
+    <li><span class="norm-tag">Inndeling</span><b>Sentralitet</b> fra SSBs sentralitetsindeks 2024 (KLASS 128): 54 kommuner i klasse 6, 16 i klasse 5, 8 i klasse 4 og Bodø og Tromsø i klasse 3.</li>
+  </ul>
+  <p><b>Forbehold.</b> Beregningen vekter alle brukere likt, men en institusjonsbruker krever langt flere årsverk enn en hjemmetjenestebruker; siden de eldste dominerer i institusjonene, undervurderer modellen trolig veksten noe. Nasjonale bruksrater brukes for alle kommuner, selv om distriktskommuner i dag har høyere dekning. Årsverkene omfatter også brukere under 67 år. Velferdsteknologi og strengere tildeling (16 % færre institusjonsbrukere over 80 år fra 2015 til 2025) trekker behovet ned. Små kommuner gir store tilfeldige utslag. Tallet for Kvæfjord kan omfatte tjenester som dekker andre kommuner. Behovet er ikke det samme som Navs anslag for dagens mangel på arbeidskraft.</p>
+  <p><b>Kontroll.</b> Tallene er kontrollert 20. oktober 2026 mot en uavhengig beregning (<code>nn_kommuner_eldre_2026_2050.csv</code>): 80+, 90+, 20–64 år, årsverk, sykepleierårsverk, forsørgerbrøk og sentralitet er identiske for alle 80 kommuner, demensanslagene avviker med under én person, og behovsindeksen avviker med inntil 0,01 fordi den ene beregningen avrundet i et mellomtrinn (Nord-Norge 22 721 mot 22 706 årsverk i 2050). Riksrevisjonens tall er kontrollert mot rapporten med sidetall.</p>
+</div>
+
 <div class="metode-card" id="bofasthet">
   <h2>Bofasthet for flyktninger og innvandrere</h2>
   <p class="hint">Brukes på temasiden <a href="tema-flyktning.html">Hvem blir værende?</a> (akt 03–05), i bofasthetskortet på fylkes- og landsdelssidene og i Sammensetning-fanen på kommunesidene. Tallene bygges med <code>fetch_bofasthet.py</code>; kildekartlegging, avlesninger med sidetall og skript ligger i <code>analyse/bofasthet/</code>.</p>
@@ -205,6 +221,8 @@
       <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — mangel på arbeidskraft per næring × fylke + sysselsettingsbarometer</td><td>mai 2026</td></tr>
       <tr><td class="kode">KS FoU</td><td>«Anbefalinger om nivå på sentrale økonomiske nøkkeltall for kommunal sektor» (Oslo Economics og Telemarksforskning for KS, rapport 2025-40)</td><td>mai 2025</td></tr>
       <tr><td class="kode">TBU</td><td><a href="https://www.regjeringen.no/no/dokumenter/nou-2025-10/id3140593/" target="_blank" rel="noopener">NOU 2025:10</a> — Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi</td><td>høst 2025</td></tr>
+      <tr><td class="kode">Riksrevisjonen</td><td><a href="https://www.stortinget.no/globalassets/pdf/dokumentserien/2025-2026/dok3-202526-016.pdf" target="_blank" rel="noopener">Dokument 3:16 (2025–2026)</a> — kommunale helse- og omsorgstjenester til eldre</td><td>juni 2026</td></tr>
+      <tr><td class="kode">Demenskartet</td><td><a href="https://demenskartet.no/" target="_blank" rel="noopener">Aldring og helse</a> — forekomst av demens etter alder; FHI, Folkehelserapporten (27.5.2026)</td><td>2026</td></tr>
       <tr><td class="kode">SSB-monitoren</td><td><a href="https://www.ssb.no/befolkning/innvandrere/artikler/hoy-bofasthet-blant-flyktninger-de-forste-arene" target="_blank" rel="noopener">Monitor for sekundærflytting</a> — bosted fem år etter bosetting per fylke og kull</td><td>2005–2025</td></tr>
       <tr><td class="kode">Fafo 2025:14</td><td><a href="https://fafo.no/images/pub/2025/20927.pdf" target="_blank" rel="noopener">Flytting etter bosetting</a> (Kjeøy mfl., for IMDi)</td><td>2025</td></tr>
       <tr><td class="kode">IMDi</td><td><a href="https://www.imdi.no/tall-og-fakta/" target="_blank" rel="noopener">Innvandrernes botid</a> per kommune, og nøkkeltall for bosetting 2025–2026</td><td>2014–2026</td></tr>

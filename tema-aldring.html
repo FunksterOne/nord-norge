@@ -40,6 +40,15 @@
 .reform-kort .stikkord{font-size:11px;color:var(--ink3);font-style:italic;margin-top:10px}
 .reform-kort.norge{border-left-color:var(--nl)}
 .reform-kort.norge .land{color:var(--nl)}
+.el-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
+.el-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
+.el-fig{margin:14px 0 6px}
+.el-note{font-size:12px;font-style:italic;margin-top:14px}
+.el-scroll{overflow-x:auto}
+.el-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2)}
+.el-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
+.el-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
+.el-tabell td:last-child{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink3);white-space:nowrap;text-align:right}
 </style>
 </head>
 <body class="tema-page">
@@ -61,7 +70,7 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 05 · Aldring i et internasjonalt perspektiv 2026–2050</div>
   <h1>Hvor står Norge — og <em>Nord-Norge</em> — globalt?</h1>
-  <p class="lede">Hver gang noen sier «Norge eldes raskt» er det sant. Men det er ikke unikt — og det er ikke jevnt fordelt. OECD-snittet for forsørgerbyrde stiger fra 33 (i dag) til 52 i 2050. Norge ligger på 49 med samme FN-grunnlag — under snittet. SSBs egen framskriving gir 46. Innenfor Norge sliter Innlandet og Telemark mer enn alle Nord-Norge-fylkene. Bildet er nyansert: vi er ikke ekstreme, men distriktene er heller ikke ensartet. Og det finnes politiske grep — Sverige, Finland og Norge har alle gjort dem, men ikke nok.</p>
+  <p class="lede">Hver gang noen sier «Norge eldes raskt» er det sant. Men det er ikke unikt — og det er ikke jevnt fordelt. OECD-snittet for forsørgerbyrde stiger fra 33 (i dag) til 52 i 2050. Norge ligger på 49 med samme FN-grunnlag — under snittet. SSBs egen framskriving gir 47. Innenfor Norge sliter Innlandet og Telemark mer enn alle Nord-Norge-fylkene. Bildet er nyansert: vi er ikke ekstreme, men distriktene er heller ikke ensartet. Og det finnes politiske grep — Sverige, Finland og Norge har alle gjort dem, men ikke nok.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — SJOKKET ────────────────── -->
@@ -80,7 +89,7 @@
   <p class="akt-intro">OECDs prognose for 2050 viser stor variasjon mellom medlemslandene. Asia rammes hardest: Sør-Korea og Japan ligger på om lag 80, dvs. 8 eldre per 10 i yrkesaktiv alder. I Europa er Italia, Spania og Hellas verst, mens USA, Israel og Australia slipper lett unna. Norge ligger i den nedre halvdelen — bedre enn de fleste rike land, men ikke immun.</p>
   <div class="land-graf">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — 14 land og OECD-snittet</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år i 2050, FNs befolkningsframskriving (World Population Prospects 2024, middelalternativ) — samme grunnlag som OECD bruker. <b>Norge</b> er markert i blå. SSBs egen framskriving gir Norge 46, og Eurostat (EUROPOP2023) gir EU-snittet 55; de er ikke tatt med fordi de bygger på andre framskrivinger.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år i 2050, FNs befolkningsframskriving (World Population Prospects 2024, middelalternativ) — samme grunnlag som OECD bruker. <b>Norge</b> er markert i blå. SSBs egen framskriving gir Norge 47, og Eurostat (EUROPOP2023) gir EU-snittet 55; de er ikke tatt med fordi de bygger på andre framskrivinger.</p>
     <div id="landListe"></div>
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">Sør-Korea har lavest fruktbarhet i OECD (0,80 barn per kvinne i 2025); Japan ligger på 1,14, og flere land — blant dem Chile, Spania og Polen — ligger like lavt eller lavere. Italia og Spania har høy levealder og lav fruktbarhet. USA og Israel har høyere fruktbarhet og innvandring av yngre arbeidstakere. Norge har innvandring og en fruktbarhet på 1,48 (2025).</p>
   </div>
@@ -90,19 +99,48 @@
 <section class="akt">
   <div class="akt-num">Akt 03 · Brutt opp</div>
   <h2>Innenfor Norge er aldringen <em>ikke jevn</em>.</h2>
-  <p class="akt-intro">Det nasjonale gjennomsnittet på 46 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
+  <p class="akt-intro">Det nasjonale gjennomsnittet på 47 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
   <div class="fylke-graf">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde 2050 — alle norske fylker</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSBs hovedalternativ (tab. 14746). Nord-Norge-fylker er fremhevet. Landsgjennomsnittet (46) er markert som referanselinje.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSBs hovedalternativ (tab. 14746). Nord-Norge-fylker er fremhevet. Landsgjennomsnittet (47) er markert som referanselinje.</p>
     <div id="fylkeListe"></div>
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til én desimal. Nye fylker etter 2024-reformen.</p>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (46) og Nordland er blant de fire mest belastede fylkene. Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet).</p>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet).</p>
 </section>
 
-<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<!-- ────────────────── AKT 04 — OMSORGEN ────────────────── -->
+<section class="akt" id="omsorg">
+  <div class="akt-num">Akt 04 · Omsorgen</div>
+  <h2>Eldreomsorgen i nord trenger <em id="omsTittel">—</em> årsverk per 100 i arbeidsfør alder i 2050</h2>
+  <p class="akt-intro" id="omsIntro"></p>
+  <div class="kpi-rad" id="omsKPI"></div>
+
+  <h3 class="el-h3">Flere svært gamle, færre i arbeidsfør alder</h3>
+  <p class="el-p" id="omsBefTekst"></p>
+  <div class="el-fig" id="omsBefGraf"></div>
+
+  <h3 class="el-h3">Behovet målt mot arbeidsstyrken er størst i de minst sentrale kommunene</h3>
+  <p class="el-p" id="omsAvTekst"></p>
+  <div class="el-fig" id="omsAvGraf"></div>
+  <div id="omsKart"></div>
+  <p class="el-p" id="omsKartTekst" style="margin-top:10px"></p>
+
+  <h3 class="el-h3">Demens: om lag en dobling i landet, mindre i nord</h3>
+  <p class="el-p" id="omsDemTekst"></p>
+  <div class="el-fig" id="omsDemGraf"></div>
+
+  <h3 class="el-h3">Hva Riksrevisjonen fant</h3>
+  <div class="el-scroll"><table class="el-tabell">
+    <thead><tr><th>Funn</th><th>Side</th></tr></thead>
+    <tbody id="omsFunn"></tbody>
+  </table></div>
+  <p class="hint el-note" id="omsNote"></p>
+</section>
+
+<!-- ────────────────── AKT 05 — KONSEKVENS ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <div class="akt-num">Akt 05 · Konsekvens</div>
   <h2>Hva har OECD-landene gjort — og hva har <em>Norge</em> gjort?</h2>
   <p class="akt-intro">Det finnes ingen snarvei i demografi. Men det er tre kjente grep: heve faktisk pensjonsalder, øke yrkesdeltakelsen blant kvinner og eldre, og åpne for innvandring. Sverige, Finland og Norge har alle gjort versjoner av første grep — pensjonsreform — med ulik konsekvens. Sverige tidligst, Danmark strengest og Norge sist.</p>
 
@@ -147,7 +185,7 @@
 
 <!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 05 · Stemmene</div>
+  <div class="akt-num">Akt 06 · Stemmene</div>
   <h2>Hva sier kildene?</h2>
 
   <div class="sitat">
@@ -233,8 +271,8 @@ document.addEventListener('DOMContentLoaded', function(){
   if(gKPI){
     gKPI.innerHTML =
       '<div class="kpi"><div class="v">22 → 52</div><div class="l">OECD-snittet 2000–2050</div><div class="nh">OECD, 27. november 2025 (FN-data) · +136 %</div></div>' +
-      '<div class="kpi"><div class="v">49</div><div class="l">Norge i 2050</div><div class="nh">FN-grunnlag som OECD · 3 poeng under snittet (SSB: 46)</div></div>' +
-      '<div class="kpi"><div class="v">~51</div><div class="l">Nord-Norge i 2050</div><div class="nh">SSB hovedalternativ · over landssnittet (46)</div></div>' +
+      '<div class="kpi"><div class="v">49</div><div class="l">Norge i 2050</div><div class="nh">FN-grunnlag som OECD · 3 poeng under snittet (SSB: 47)</div></div>' +
+      '<div class="kpi"><div class="v">~51</div><div class="l">Nord-Norge i 2050</div><div class="nh">SSB hovedalternativ · over landssnittet (47)</div></div>' +
       '<div class="kpi"><div class="v" style="color:var(--neg)">~80</div><div class="l">Sør-Korea i 2050</div><div class="nh">OECDs raskest aldrende</div></div>';
   }
 
@@ -250,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function(){
     {navn: 'Frankrike', verdi: 53.2, kommentar:'EU stort medlem'},
     {navn: 'Finland', verdi: 52.1, kommentar:'Levealderkobling'},
     {navn: 'OECD-snitt', verdi: 52, kommentar:'OECD, november 2025', erSnitt: true},
-    {navn: 'Norge', verdi: 49.1, kommentar:'FN-grunnlag (SSB: 46)', erNorge: true},
+    {navn: 'Norge', verdi: 49.1, kommentar:'FN-grunnlag (SSB: 47)', erNorge: true},
     {navn: 'Sverige', verdi: 46.5, kommentar:'Innvandring + NDC'},
     {navn: 'Australia', verdi: 43.2, kommentar:'Innvandring'},
     {navn: 'USA', verdi: 41.6, kommentar:'Innvandring'},
@@ -310,10 +348,82 @@ document.addEventListener('DOMContentLoaded', function(){
     if(fListe){
       var maxF = Math.max.apply(null, fylkeData.map(function(d){return d.verdi;}));
       fListe.innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{
-        refs:[{v:46, tekst:'Norge 46'}],
+        refs:[{v:47, tekst:'Norge 47'}],
         rader: fylkeData.map(function(d){ return {l:d.navn, v:Math.round(d.verdi*10)/10, uthev:!!d.erNN, farge: d.erNN ? 'accent' : 'muted', note: d.erNN ? 'Nord-Norge' : ''}; })
       }], kilde:'Forsørgerbyrde 2050 (65+ per 100 i alderen 20–64), SSB 14746 hovedalternativ MMMM. Nord-Norge-fylkene er uthevet.'}, fylkeData.length*27+60);
     }
+  }
+
+  // ─── AKT 04: Omsorgen (ELDRE_DATA, fetch_eldre.py) ───
+  if(typeof ELDRE_DATA !== 'undefined' && window.NN){
+    var E = ELDRE_DATA, N = E.nn, LA = E.landet, F = E.fylker, SK = E.sentralitet, RR = E.rr;
+    var t1 = function(v){ return v.toLocaleString('nb-NO', {minimumFractionDigits:1, maximumFractionDigits:1}); };
+    var t0 = function(v){ return Math.round(v).toLocaleString('nb-NO'); };
+    var pe = function(a, b){ return (b / a - 1) * 100; };
+    var pa = function(v, d){ return Math.abs(v).toLocaleString('nb-NO', {minimumFractionDigits:d||0, maximumFractionDigits:d||0}) + ' %'; };
+    var liste = function(a){ return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1]; };
+    var ps = function(v, d){ return (v >= 0 ? '+' : '−') + Math.abs(v).toLocaleString('nb-NO', {minimumFractionDigits:d||0, maximumFractionDigits:d||0}) + ' %'; };
+    var per = function(o){ return [o.aarsverk / o.a2064[0] * 100, o.behov2050 / o.a2064[3] * 100]; };
+    var nP = per(N), lP = per(LA), k6 = per(SK['6']);
+    var kom = Object.keys(E.kommuner), K6 = kom.filter(function(k){ return E.kommuner[k][0] === 6; });
+    var overL = kom.filter(function(k){ return E.kommuner[k][14] > LA.fb[1]; }).length;
+    var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? k.navn.split(' - ').pop() : nr; };
+    var dato = function(iso){ var m = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'], q = iso.split('-'); return (+q[2]) + '. ' + m[+q[1]-1] + ' ' + q[0]; };
+
+    document.getElementById('omsTittel').textContent = t1(nP[1]);
+    document.getElementById('omsIntro').innerHTML =
+      'Riksrevisjonen konkluderte ' + dato(RR.dato) + ' med at det er kritikkverdig at Helse- og omsorgsdepartementet ikke har fulgt opp om kommunene er forberedt på at det blir flere eldre. Tjenestene er i liten grad dimensjonert for økningen, og kommunene planlegger ikke systematisk. ' +
+      'Rapporten bruker sentralitet, ikke landsdeler, og tallfester ikke behovet per kommune. Tallene på denne siden er dashbordets egne beregninger for de 80 kommunene i Nord-Norge: om lag ' + t1(nP[0]) + ' omsorgsårsverk per 100 innbyggere i alderen 20–64 år i dag, ' + t1(nP[1]) + ' i 2050 dersom bemanning og bruk per aldersgruppe holdes som i 2025. I landet er tallene ' + t1(lP[0]) + ' og ' + t1(lP[1]) + '.';
+    document.getElementById('omsKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + ps(pe(N.a80[0], N.a80[3])) + '</div><div class="l">80 år og over 2026–2050</div><div class="nh">' + t0(N.a80[0]) + ' → ' + t0(N.a80[3]) + ' · landet ' + ps(pe(LA.a80[0], LA.a80[3])) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + ps(pe(N.a90[0], N.a90[3])) + '</div><div class="l">90 år og over 2026–2050</div><div class="nh">' + t0(N.a90[0]) + ' → ' + t0(N.a90[3]) + '</div></div>' +
+      '<div class="kpi"><div class="v down">' + ps(pe(N.a2064[0], N.a2064[3]), 1) + '</div><div class="l">20–64 år 2026–2050</div><div class="nh">landet ' + ps(pe(LA.a2064[0], LA.a2064[3]), 1) + '</div></div>' +
+      '<div class="kpi"><div class="v down">' + t1(nP[0]) + ' → ' + t1(nP[1]) + '</div><div class="l">Omsorgsårsverk per 100 i alderen 20–64</div><div class="nh">landet ' + t1(lP[0]) + ' → ' + t1(lP[1]) + ' · klasse 6: ' + t1(k6[1]) + '</div></div>';
+
+    var fyl = ['Nordland', 'Troms', 'Finnmark'];
+    document.getElementById('omsBefTekst').innerHTML =
+      '<b>Observasjon:</b> Antallet over 80 år i Nord-Norge øker med ' + pa(pe(N.a80[0], N.a80[3])) + ' fra 2026 til 2050, litt mindre enn i landet (' + pa(pe(LA.a80[0], LA.a80[3])) + '). Antallet over 90 år, den mest pleietrengende gruppen, øker med ' + pa(pe(N.a90[0], N.a90[3])) + '. ' +
+      'Samtidig faller antallet i alderen 20–64 år med ' + pa(pe(N.a2064[0], N.a2064[3]), 1) + ', mens det øker med ' + pa(pe(LA.a2064[0], LA.a2064[3]), 1) + ' i landet. Problemet i nord er altså ikke at eldregruppen vokser raskest, men at den allerede er stor og at arbeidsstyrken krymper. ' +
+      overL + ' av 80 kommuner får en høyere forsørgerbrøk enn landet (' + LA.fb[1].toFixed(2).replace('.', ',') + ') i 2050. Fylkestallene skjuler forskjellene: Troms som helhet ligger på ' + F.Troms.fb[1].toFixed(2).replace('.', ',') + ', men de fleste kommunene i Troms ligger høyere.';
+    document.getElementById('omsBefGraf').innerHTML = NN.placeholder('hstolper', {format:'pst', grupper:[
+      {tittel:'80 år og over, endring 2026–2050', rader: fyl.map(function(f){ return {l:f, v:pe(F[f].a80[0], F[f].a80[3]), farge:'muted'}; })
+        .concat([{l:'Nord-Norge', v:pe(N.a80[0], N.a80[3]), farge:'accent', uthev:true}, {l:'Hele landet', v:pe(LA.a80[0], LA.a80[3]), farge:'ink'}])},
+      {tittel:'20–64 år, endring 2026–2050', rader: fyl.map(function(f){ return {l:f, v:pe(F[f].a2064[0], F[f].a2064[3]), farge:'muted'}; })
+        .concat([{l:'Nord-Norge', v:pe(N.a2064[0], N.a2064[3]), farge:'accent', uthev:true}, {l:'Hele landet', v:pe(LA.a2064[0], LA.a2064[3]), farge:'ink'}])}
+    ], kilde:'SSB 14746, hovedalternativet MMMM (2026-årgangen).'}, 2 * (5 * 34 + 40));
+
+    document.getElementById('omsAvTekst').innerHTML =
+      'Beregningen holder bemanningen per bruker og bruken av hjemme- og institusjonstjenester per aldersgruppe fast på landsnivået i 2025 (' + liste(E.bruksrater.map(function(v){ return v.toLocaleString('nb-NO', {minimumFractionDigits:2}) + ' %'; })) + ' av innbyggerne i alderen 0–66, 67–79 og 80 år og over). ' +
+      'Da øker behovet i Nord-Norge fra ' + t0(N.aarsverk) + ' til ' + t0(N.behov2050) + ' årsverk, en økning på ' + pa(pe(N.aarsverk, N.behov2050)) + ', mot ' + pa(pe(LA.aarsverk, LA.behov2050)) + ' i landet. Den prosentvise økningen er lavere enn i landet, men målt mot arbeidsstyrken er nivået høyere og stiger mer. ' +
+      'I de ' + K6.length + ' minst sentrale kommunene (klasse 6) trengs ' + t1(k6[1]) + ' årsverk per 100 innbyggere i alderen 20–64 år i 2050.';
+    var grp = fyl.map(function(f){ return {l:f, o:F[f]}; }).concat([{l:'Nord-Norge', o:N, u:true}, {l:'Hele landet', o:LA, i:true}]);
+    var grs = ['3', '4', '5', '6'].map(function(c){ return {l:'Klasse ' + c + ' (' + SK[c].n + ' kommuner)', o:SK[c]}; });
+    var rad = function(g){ var q = per(g.o); return {l:g.l, v:q[1], farge: g.u ? 'accent' : g.i ? 'ink' : 'muted', uthev:!!g.u, note:'i dag ' + t1(q[0])}; };
+    document.getElementById('omsAvGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[
+      {tittel:'Omsorgsårsverk per 100 i alderen 20–64 år i 2050, etter fylke', rader: grp.map(rad)},
+      {tittel:'Etter sentralitet, kommunene i Nord-Norge', rader: grs.map(rad)}
+    ], kilde:'Egen beregning: årsverk 2025 (SSB 14534, pasient- og brukerrettede) × behovsindeks fra brukere per aldersgruppe (SSB 12003 og 07459, landet 2025) på befolkningen i SSB 14746. «I dag» er årsverk 2025 per 100 i alderen 20–64 år 1.1.2026.'}, (grp.length + grs.length) * 34 + 110);
+    document.getElementById('omsKart').innerHTML = NN.placeholder('kart', {ind:'omsorg2050'}, 560);
+    var top = kom.filter(function(k){ return E.kommuner[k][12] != null; }).sort(function(a, b){ var A = E.kommuner[a], B = E.kommuner[b]; return B[12] / B[8] - A[12] / A[8]; }).slice(0, 5);
+    document.getElementById('omsKartTekst').innerHTML = 'Høyest i 2050 ligger ' + liste(top.map(function(k){ var o = E.kommuner[k]; return navnK(k) + ' (' + t1(o[12] / o[8] * 100) + ')'; })) + '. Små kommuner gir store tilfeldige utslag. Kvæfjord har et høyt antall årsverk allerede i 2025, og tallet kan omfatte tjenester som dekker andre kommuner (ikke kontrollert). Klikk på en kommune for kommunesiden.';
+
+    var dP = pe(N.demens[0], N.demens[3]), dL = pe(LA.demens[0], LA.demens[3]);
+    document.getElementById('omsDemTekst').innerHTML =
+      'Riksrevisjonen skriver både at antallet med demens blir «meir enn dobla fram mot 2040» og «nær dobla innan 2050». FHIs anslag (' + t0(E.fhi_demens['2025']) + ' i 2025, ' + t0(E.fhi_demens['2050']) + ' i 2050) gir om lag en dobling fram mot 2050. ' +
+      '<b>Anslag for Nord-Norge:</b> Med Demenskartets aldersspesifikke forekomst på befolkningsbanen øker antallet fra ' + t0(N.demens[0]) + ' i 2026 til ' + t0(N.demens[3]) + ' i 2050, en økning på ' + pa(dP) + ', mot ' + pa(dL) + ' i landet. Økningen er størst i Bodø og Tromsø (' + pa(pe(SK['3'].demens[0], SK['3'].demens[3])) + ') og minst i de minst sentrale kommunene, klasse 6 (' + pa(pe(SK['6'].demens[0], SK['6'].demens[3])) + '). ' +
+      'Beregningen ligger 2–4 % under FHI for landet, fordi ratene er like for begge kjønn, og den antar uendret forekomst per aldersgruppe.';
+    document.getElementById('omsDemGraf').innerHTML = NN.placeholder('linjer', {
+      x: E.aar,
+      serier: fyl.map(function(f){ return {navn:f, data:F[f].demens.map(function(v, i){ return v / F[f].demens[0] * 100; }), farge:({Nordland:'nl', Troms:'tr', Finnmark:'fi'})[f]}; })
+        .concat([{navn:'Hele landet', data:LA.demens.map(function(v){ return v / LA.demens[0] * 100; }), farge:'ink', stil:'stiplet'},
+                 {navn:'Nord-Norge', data:N.demens.map(function(v){ return v / N.demens[0] * 100; }), farge:'accent', uthev:true}]),
+      format:'indeks', xTicks:E.aar, hoyde:280,
+      yTittel:'Anslått antall personer med demens, indeks 2026 = 100.',
+      kilde:'Egen beregning: aldersspesifikke rater fra Demenskartet (Aldring og helse; HUNT4 70+ og Gjøra mfl. 2021) på SSB 14746 MMMM.'
+    }, 320);
+
+    document.getElementById('omsFunn').innerHTML = RR.funn.map(function(f){ return '<tr><td>' + f.t + '</td><td>s. ' + f.side + '</td></tr>'; }).join('');
+    document.getElementById('omsNote').innerHTML = 'Grunnlag: Riksrevisjonen, <a href="' + RR.url + '" target="_blank" rel="noopener">' + RR.dok + '</a>, datert ' + dato(RR.dato) + '. Sidetallene er kontrollert mot rapporten. Rapporten bygger på 2024-årgangen av SSBs framskriving (forsørgerbrøk ' + RR.forsorg['2024'].toFixed(2).replace('.', ',') + ' i 2024 og ' + RR.forsorg['2050'].toFixed(2).replace('.', ',') + ' i 2050, s. ' + RR.forsorg.side + '); dashbordet bruker 2026-årgangen (' + LA.fb[0].toFixed(2).replace('.', ',') + ' og ' + LA.fb[1].toFixed(2).replace('.', ',') + '). Beregningene er et behov som følger av demografien, ikke en prognose: velferdsteknologi og strengere tildeling trekker ned, og at en institusjonsbruker krever flere årsverk enn en hjemmetjenestebruker, trekker opp. Mer på <a href="metode.html#eldreomsorg">metodesiden</a>.';
   }
 });
 </script>

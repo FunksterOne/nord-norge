@@ -65,6 +65,14 @@ export const INDIKATORER = {
     kilde: 'Kilde: IMDi «Innvandrernes botid» (kilde SSB), alle innvandrere.',
     skjult: true,
   },
+  omsorg2050: {
+    navn: 'Omsorgsårsverk 2050', kort: 'Omsorgsårsverk per 100 i 20–64 år, 2050',
+    enhet: 'Omsorgsårsverk som trengs i 2050 «alt annet likt», per 100 innbyggere i alderen 20–64 år',
+    verdi: k => { const o = L.ELDRE?.kommuner?.[String(k.nr)]; return o && o[12] != null ? o[12] / o[8] * 100 : null; },
+    fmt: v => tall(v, 1), type: 'sequential',
+    kilde: 'Kilde: egen beregning fra SSB 14746, 14534, 12003 og 07459 (fetch_eldre.py).',
+    skjult: true,
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',

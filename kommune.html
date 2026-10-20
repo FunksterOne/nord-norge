@@ -652,6 +652,39 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ─── Dedikert Arbeid og forsørgerbyrde-panel ───
   // Forsørgerbyrde-graf øverst → KPI-rad → sysselsettings-kort → Norman-tolkning
+  // Eldreomsorgen mot 2050 (ELDRE_DATA, fetch_eldre.py): 80+, 90+, demens og årsverk «alt annet likt»
+  function eldreCard(k){
+    if(typeof ELDRE_DATA === 'undefined') return '';
+    var E = ELDRE_DATA, r = null;
+    if(k.nr > 0) r = E.kommuner[String(k.nr)];
+    else {
+      var a = k.nr === -1 ? E.nn : ({'-18':E.fylker.Nordland,'-55':E.fylker.Troms,'-56':E.fylker.Finnmark})[String(k.nr)];
+      if(a) r = [null, a.a80[0], a.a80[3], a.a90[0], a.a90[3], a.demens[0], a.demens[3], a.a2064[0], a.a2064[3], a.aarsverk, a.sykepleier, a.behov2050 / a.aarsverk, a.behov2050, a.fb ? a.fb[0] : null, a.fb ? a.fb[1] : null];
+    }
+    if(!r) return '';
+    var d1 = function(v){ return v.toFixed(1).replace('.',','); };
+    var pe = function(a, b){ var p = (b / a - 1) * 100; return (p >= 0 ? '+' : '−') + Math.abs(p).toFixed(0) + ' %'; };
+    var L = E.landet, pL0 = L.aarsverk / L.a2064[0] * 100, pL1 = L.behov2050 / L.a2064[3] * 100;
+    var p0 = r[9] != null ? r[9] / r[7] * 100 : null, p1 = r[12] != null ? r[12] / r[8] * 100 : null;
+    var sma = r[1] < 150;
+    var tekst = 'Antallet over 80 år går fra <b>' + fmt(r[1]) + '</b> til <b>' + fmt(r[2]) + '</b> (' + pe(r[1], r[2]) + '), mens antallet i alderen 20–64 år ' + (r[8] >= r[7] ? 'øker' : 'faller') + ' med ' + Math.abs((r[8] / r[7] - 1) * 100).toFixed(1).replace('.',',') + ' %. ';
+    if(r[12] != null) tekst += 'Holdes bemanningen per bruker og bruken av hjemme- og institusjonstjenester per aldersgruppe som i landet i 2025, trengs om lag <b>' + fmt(r[12]) + ' årsverk</b> i 2050, mot ' + fmt(r[9]) + ' i 2025. Det tilsvarer ' + d1(p1) + ' årsverk per 100 innbyggere i alderen 20–64 år, mot ' + d1(pL1) + ' i landet. ';
+    if(sma) tekst += 'Kommunen er liten, så tallene er usikre og kan endres mye av noen få personer. ';
+    if(String(k.nr) === '5510') tekst += 'Kvæfjord har et høyt antall årsverk allerede i 2025; tallet kan omfatte tjenester som også dekker andre kommuner (ikke kontrollert). ';
+    return '<div class="card" style="margin-top:18px" id="eldreKort"><div class="ch"><h3 class="serif">Eldreomsorgen mot 2050</h3></div>' +
+      '<p class="hint">Dashbordets egne beregninger etter Riksrevisjonens undersøkelse av helse- og omsorgstjenester til eldre (Dokument 3:16 (2025–2026)). Et behov som følger av demografien, ikke en prognose. Mer på <a href="tema-aldring.html#omsorg">temasiden</a> og <a href="metode.html#eldreomsorg">metodesiden</a>.</p>' +
+      '<div class="bf-kpis">' +
+        '<div class="k"><div class="v">' + pe(r[1], r[2]) + '</div><div class="l">80 år og over 2026–2050</div><div class="h">' + fmt(r[1]) + ' → ' + fmt(r[2]) + ' · landet ' + pe(L.a80[0], L.a80[3]) + '</div></div>' +
+        '<div class="k"><div class="v">' + fmt(r[4]) + '</div><div class="l">90 år og over i 2050</div><div class="h">' + fmt(r[3]) + ' i 2026</div></div>' +
+        '<div class="k"><div class="v">' + fmt(r[6]) + '</div><div class="l">Personer med demens 2050 (anslag)</div><div class="h">' + fmt(r[5]) + ' i 2026 · Demenskartets rater</div></div>' +
+        (p0 != null ? '<div class="k"><div class="v' + (p1 > pL1 + 2 ? ' down' : '') + '">' + d1(p0) + ' → ' + d1(p1) + '</div><div class="l">Omsorgsårsverk per 100 i alderen 20–64</div><div class="h">2025/2026 → 2050 · landet ' + d1(pL0) + ' → ' + d1(pL1) + '</div></div>' : '') +
+        (r[9] != null ? '<div class="k"><div class="v">' + fmt(r[9]) + '</div><div class="l">Omsorgsårsverk 2025</div><div class="h">' + (r[10] != null ? fmt(Math.round(r[10])) + ' sykepleiere · ' : '') + 'SSB 14534</div></div>' : '') +
+      '</div>' +
+      '<p style="margin:12px 0 0;font-size:13.5px;line-height:1.6;color:var(--ink2)">' + tekst + '</p>' +
+      '<p class="hint" style="margin-top:8px;font-size:11.5px">Kilder: SSB 14746 (MMMM), 14534, 12003 og 07459. Demens: aldersspesifikke rater fra Demenskartet, like for begge kjønn. Årsverk er pasient- og brukerrettede årsverk i omsorgstjenestene og omfatter også brukere under 67 år.</p>' +
+    '</div>';
+  }
+
   function renderArbeidPanel(k, host){
     // Bruk lokalt projMode='fb' for grafen — påvirker ikke Befolkning
     var savedProjMode = state.projMode;
@@ -708,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>';
+      '</div>' + eldreCard(k);
   }
 
   // ─── Dedikert Økonomi-panel ───

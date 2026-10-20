@@ -9,7 +9,7 @@ const SIDER = [
   ['Store mot små: 6 mot 74 kommuner', 'tema-o6.html', 'Tema 02'],
   ['Kvinneflukten', 'tema-kvinneflukt.html', 'Tema 03'],
   ['Hvem skal bære? Arbeidskraft og aldring', 'tema-arbeidskraft.html', 'Tema 04'],
-  ['Aldring i internasjonalt perspektiv', 'tema-aldring.html', 'Tema 05'],
+  ['Aldring i internasjonalt perspektiv og eldreomsorgen mot 2050', 'tema-aldring.html', 'Tema 05'],
   ['Fire fremtider mot 2040', 'tema-scenarier.html', 'Tema 06'],
   ['Bygges det nok? Boligmarkedet', 'tema-bolig.html', 'Tema 07'],
   ['Hva skal vi leve av? Næringslivet, sjømat, reiseliv, forsvar', 'tema-naering.html', 'Tema 08'],
