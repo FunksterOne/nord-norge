@@ -382,7 +382,7 @@ function kostraCard(k){
   const ndr=num(ks.ndr),fond=num(ks.fond),gjeld=num(ks.gjeld);
   const vNdr=ndr==null?AMB:(ndr>=1.75?GRN:ndr>=0?AMB:RED);
   const vFond=fond==null?AMB:(fond>=10?GRN:fond>=4?AMB:RED);
-  const vGjeld=gjeld==null?AMB:(gjeld<75?GRN:gjeld<=100?AMB:RED);
+  const vGjeld=gjeld==null?AMB:(gjeld<=EXT_NORMS.ksGjeld?GRN:gjeld<=100?AMB:RED);
   const refMed=v=>[v,'median','var(--ink2)','2 2'];
   let body='';
   body+=row('Netto driftsresultat',ndr,'%',vNdr,
@@ -394,8 +394,8 @@ function kostraCard(k){
     [refMed(FYB.fond)],0,Math.max(25,fond||0,FYB.fond||0),
     'Oppsparte, fritt disponible reserver i % av inntektene \u2014 st\u00f8tputen mot uforutsette utgifter og inntektssvikt. Veiledende: under ~4 % regnes som tynt. Landsdelsmedian: '+sgn(B.fond)+' %.');
   body+=row('Netto l\u00e5negjeld',gjeld,'%',vGjeld,
-    gjeld==null?'\u2013':(gjeld<75?'moderat':gjeld<=100?'h\u00f8y':'sv\u00e6rt h\u00f8y'),
-    [refMed(FYB.gjeld)],0,Math.max(160,gjeld||0),
+    gjeld==null?'\u2013':(gjeld<=EXT_NORMS.ksGjeld?'moderat':gjeld<=100?'h\u00f8y':'sv\u00e6rt h\u00f8y'),
+    [[EXT_NORMS.ksGjeld,'KS '+EXT_NORMS.ksGjeld,'var(--aurora)',''],refMed(FYB.gjeld)],0,Math.max(160,gjeld||0),
     'Rentb\u00e6rende gjeld fratrukket utl\u00e5n og ubundne midler, i % av inntektene. H\u00f8yere = mer s\u00e5rbar for renteoppgang. Landsdelsmedian: '+sgn(B.gjeld)+' %.');
   // ---- sektormiks (rikere) ----
   // McHalvard kategoripalett i fast rekkefølge (blå, blekk, cyan, skifer, gull, oransje)
@@ -1788,7 +1788,7 @@ function renderGjeld(){
 
   // ─── KPI-rad ───
   // Total gjeld (langsiktig), årlige renter, årlige avdrag, samlet gjeldsbetjening
-  const ksNorm = (typeof EXT_NORMS !== 'undefined' && EXT_NORMS.ksGjeld) || 75; // samme grense som indikatortellingen
+  const ksNorm = EXT_NORMS.ksGjeld; // samme grense som indikatortellingen
   const nlanColor = data.nlan_pct > ksNorm ? 'var(--neg)' : (data.nlan_pct > ksNorm*0.9 ? 'var(--amber)' : 'var(--pos)');
   const kpiHTML =
     '<div class="kpi-rad" style="margin:8px 0 14px">' +
