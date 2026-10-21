@@ -353,8 +353,8 @@ document.addEventListener('DOMContentLoaded', function(){
       {key:'ald', lab:'Aldring', sub:'80+-andelen vokser raskest'}
     ];
     var mwOpts = [
-      {key:'kons',    title:'Smalt 2017–21', sub:'Snitt før innvandringstoppen — standard'},
-      {key:'sentral', title:'Median 2017–25', sub:'Demper toppen i 2022–23'},
+      {key:'kons',    title:'Smalt 2017–21', sub:'Snitt før innvandringstoppen'},
+      {key:'sentral', title:'Median 2017–25', sub:'Demper toppen i 2022–23 — standard'},
       {key:'opt',     title:'Snitt 2017–25', sub:'Gir 2022–23 full vekt'}
     ];
     // Data-semantikk: state.ukr = % av ukrainere som FORLATER landsdelen (ikke som blir).
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var ssb2050a = o.main[n-1];
       var tfattr2050 = o.tfattr ? o.tfattr[n-1] : null;
       var allMw = o.mw || {};
-      var winLabels = {kons:'Smalt 2017–2021', sentral:'Bredt vindu', opt:'Vektet 2022–2023'};
+      var winLabels = {kons:'Smalt 2017–2021', sentral:'Median 2017–2025', opt:'Snitt 2017–2025'};
       var rows = '';
       // SSB-rad (referanse)
       rows += '<tr class="ref"><td>SSB MMMM <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(offisiell)</span></td><td class="r num">'+fmt(Math.round(ssb2050a))+'</td><td class="r num">'+sg((ssb2050a/pop0a-1)*100,1)+' %</td><td class="r" style="color:var(--ink3);font-size:10.5px">referanse</td></tr>';
@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(inROBEK || pending) fails++;
     var verdict = fails === 0 ? 'solid' : fails === 1 ? 'innenfor med ett varsel' : fails === 2 ? 'svak på to normer' : fails >= 3 ? 'svak på tre eller flere normer' : 'ukjent';
     var verdictColor = fails === 0 ? 'var(--pos)' : fails <= 1 ? 'var(--amber)' : 'var(--neg)';
-    var verdictTekst = '<b>' + k.navn + '</b>s kommuneøkonomi er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
+    var verdictTekst = 'Kommuneøkonomien i <b>' + k.navn + '</b> er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
     if(ndr != null) verdictTekst += 'Netto driftsresultat er ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-normen på 1,75 %). ';
     if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
     if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 1) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på ' + N.ksGjeld + ' %). ';

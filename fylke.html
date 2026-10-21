@@ -77,7 +77,7 @@
 
   <!-- Drilldown: modeller, kildedata, backtest -->
   <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og etterprøving</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du se nærmere på metoden? — modeller, datakilder og etterprøving</summary>
     <div style="margin-top:18px">
       <h3 class="serif" style="font-size:18px;margin-bottom:10px">Tre baner mot 2050 — én forskjell mellom dem</h3>
       <p class="sub">Alle tre rulles fram til 2050 med <b>samme regnemaskin</b>: fødsler, dødsfall og aldring regnes likt. Det eneste som skiller dem, er <b>hvordan flytteleddet anslås</b> — altså hvor mye folk flytter inn og ut av hver kommune.</p>
@@ -120,7 +120,7 @@
       </div>
     </div>
     <div class="note" style="margin-top:18px;background:color-mix(in srgb, var(--accent) 6%, transparent);border-color:color-mix(in srgb, var(--accent) 22%, transparent)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
-    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020–2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
+    <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>hovedbanen</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020–2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
 
       <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — etterprøving mot 2020–2024</h3>
       <p class="sub">En etterprøving spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
@@ -163,7 +163,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 1.2</div>
     <div class="ns-t">Utforsk kommunene</div>
-    <div class="ns-h" id="nsStorLinje">Den store linja for fylket skjuler store forskjeller mellom kommunene. Neste kapittel lar deg dykke ned i hver enkelt.</div>
+    <div class="ns-h" id="nsStorLinje">Den store linja for fylket skjuler store forskjeller mellom kommunene. Neste kapittel lar deg gå inn i hver enkelt.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -295,7 +295,6 @@
       <summary>Slik bruker du denne siden</summary>
       <div class="hbody">
         <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 06944), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (14891), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
-        <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (detaljvisningen kommer i en senere runde).</p>
       </div>
     </details>
   </div>
@@ -501,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   // Oppdater brodsmuler + headere
   document.getElementById('bcFylke').textContent = fylke;
-  document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>de neste 25 årene</em>';
+  document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>fram mot 2050</em>';
   document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026');
   document.title = fylke + ' — Nord-Norge-dashbordet';
 
@@ -511,10 +510,11 @@ document.addEventListener('DOMContentLoaded', function(){
     var ks = K.filter(function(x){ return x.fylke === fylke; });
     var ak = document.getElementById('fyAntallK'); if(ak) ak.textContent = ks.length;
     var ns = document.getElementById('nsStorLinje'); if(!ns || !DATA.proj) return;
-    var e = ks.map(function(x){ var o = DATA.proj.kommuner[x.nr]; return o ? {navn: x.navn.split(' - ')[0], v: (o.main[o.main.length-1]/o.main[0]-1)*100} : null; }).filter(Boolean).sort(function(a,b){ return b.v - a.v; });
+    var e = ks.map(function(x){ var o = DATA.proj.kommuner[x.nr]; return o ? {navn: x.navn, v: (o.main[o.main.length-1]/o.main[0]-1)*100} : null; }).filter(Boolean).sort(function(a,b){ return b.v - a.v; });
     if(!e.length) return;
     var topp = e[0], bunn = e[e.length-1];
-    ns.textContent = 'Den store linja for ' + fylke + ' skjuler store forskjeller. ' + topp.navn + ' vokser mest (' + (topp.v>=0?'+':'−') + Math.abs(topp.v).toFixed(0) + ' %), mens ' + bunn.navn + ' mister ' + Math.abs(bunn.v).toFixed(0) + ' % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.';
+    var kn = function(n){ return (window.NN && NN.kortNavn) ? NN.kortNavn(n) : n; };
+    ns.textContent = 'Den store linja for ' + fylke + ' skjuler store forskjeller. ' + kn(topp.navn) + (topp.v>=0 ? ' vokser mest (+' : ' har minst nedgang (−') + Math.abs(topp.v).toFixed(0) + ' %), mens ' + kn(bunn.navn) + ' mister ' + Math.abs(bunn.v).toFixed(0) + ' % av folketallet mot 2050. Neste kapittel lar deg gå inn i hver enkelt.';
   })();
   var fv = document.getElementById('fylkeVisuelt');
   if(fv && window.NN){

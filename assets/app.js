@@ -321,7 +321,7 @@ function projCard(k){
         var warn='';
         if(Math.abs(ppDiff) >= 15){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
-          warn = '<div style="margin:10px 0 0;padding:10px 12px;background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 32%, transparent);border-left:4px solid var(--amber);border-radius:0;font-size:12.5px;color:var(--ink)"><b>Stort avvik mot SSB:</b> TF-MVP med vinduet \u00ab'+winLabel+'\u00bb er <b>'+ppDiff.toFixed(0).replace('.',',')+' %</b> '+dir+' enn SSB MMMM ved 2050. Det skyldes at flyttetallene i det valgte vinduet var '+(ppDiff<0?'spesielt svake':'spesielt sterke')+' for denne kommunen; modellen forutsetter at det gjentar seg i 24 \u00e5r. Pr\u00f8v et annet vindu eller bytt til <b>TF-ATTR</b> for en strukturbasert kontroll.</div>';
+          warn = '<div style="margin:10px 0 0;padding:10px 12px;background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 32%, transparent);border-left:4px solid var(--amber);border-radius:0;font-size:12.5px;color:var(--ink)"><b>Stort avvik mot SSB:</b> TF-MVP med vinduet \u00ab'+winLabel+'\u00bb er <b>'+Math.abs(ppDiff).toFixed(0).replace('.',',')+' %</b> '+dir+' enn SSB MMMM ved 2050. Det skyldes at flyttetallene i det valgte vinduet var '+(ppDiff<0?'spesielt svake':'spesielt sterke')+' for denne kommunen; modellen forutsetter at det gjentar seg i 24 \u00e5r. Pr\u00f8v et annet vindu eller bytt til <b>TF-ATTR</b> for en strukturbasert kontroll.</div>';
         }
         return warn;
       })()+
@@ -2162,8 +2162,8 @@ function renderHusholdninger(hostId, scope){
   const tolkningHTML =
     '<p class="sub" style="margin-top:16px;padding:14px 16px;background:color-mix(in srgb, var(--neg) 6%, transparent);border-left:4px solid var(--neg);border-radius:0;line-height:1.6;font-size:13.5px">' +
     '<b>Medianen forteller ikke alt.</b> ' + (/s$/.test(scopeNavn) ? scopeNavn + "'" : scopeNavn + 's') + ' kommunemedian er <b>' + fmtKr(alle_med) + ' kr</b>, men det skjuler stor variasjon: ' +
-    '<b>' + fmtPct(aleneN, alle_n) + '</b> er aleneboende med median <b>' + fmtKr(aleneMed) + ' kr</b> ' + (aleneVsMed != null ? '(' + sgn(aleneVsMed) + ' % under)' : '') + ', ' +
-    'mens par med barn (kun ' + fmtPct(parMedBarnN, alle_n) + ' av husholdningene) har <b>' + fmtKr(parMedBarnMed) + ' kr</b> ' + (parVsMed != null ? '(' + sgn(parVsMed) + ' % over)' : '') + '. ' +
+    '<b>' + fmtPct(aleneN, alle_n) + '</b> er aleneboende med median <b>' + fmtKr(aleneMed) + ' kr</b> ' + (aleneVsMed != null ? '(' + Math.abs(aleneVsMed).toFixed(0).replace('.',',') + ' % under)' : '') + ', ' +
+    'mens par med barn (kun ' + fmtPct(parMedBarnN, alle_n) + ' av husholdningene) har <b>' + fmtKr(parMedBarnMed) + ' kr</b> ' + (parVsMed != null ? '(' + Math.abs(parVsMed).toFixed(0).replace('.',',') + ' % over)' : '') + '. ' +
     (spennX ? 'Forskjellen mellom rikeste og fattigste husholdningstype er <b>' + spennX.toFixed(1).replace('.',',') + ' ganger</b>. ' : '') +
     (enkligMed == null || !enslig ? 'Tall for enslige forsørgere er skjermet av SSB.' : 'Enslige forsørgere er <b>' + fmtPct(enslig, alle_n) + '</b> av husholdningene med median <b>' + fmtKr(enkligMed) + ' kr</b> — en gruppe med høyt forsørgeransvar' + (alle_med && enkligMed < alle_med * 0.9 ? ' og lav inntekt' : '') + '.') + '</p>';
 
@@ -2220,13 +2220,13 @@ function renderHusholdninger(hostId, scope){
       '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85">Andelen av alle husholdninger som er aleneboende. Stigende kurve = flere bor alene, noe som vanligvis trekker inntekten per husholdning ned.</p>' +
       lineChart(seriesAlene, 'var(--neg)', aLo, aHi, aStep, '%') +
       '<div style="font-family:var(--font-display);font-size:13px;font-weight:600;margin:18px 0 2px;color:var(--ink)">Median inntekt etter skatt — tre husholdningstyper</div>' +
-      '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85"><b>NB:</b> Tallene er <b>nominelle kroner</b> (ikke inflasjonsjustert). Bruk avstanden mellom linjene og kurveformen, ikke absolutte beløp.</p>' +
+      '<p class="hint" style="font-size:11.5px;margin:0 0 6px;opacity:.85"><b>NB:</b> Tallene er <b>nominelle kroner</b> (ikke inflasjonsjustert). Bruk forholdet mellom linjene og kurveformen, ikke absolutte beløp.</p>' +
       multiLineChart([
         {values: seriesMedAlene, color:'accent', label:'aleneboende'},
         {values: seriesMedAlle, color:'ink', label:'alle'},
         {values: seriesMedPar, color:'cat-4', label:'par med barn'},
       ]) +
-      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i siste år (kroner). Endring i avstanden mellom linjene over tid viser strukturell ulikhet — uavhengig av inflasjon.</p>' +
+      '<p class="hint" style="font-size:11px;margin-top:8px;opacity:.75;font-style:italic">Tall ved endepunktene viser median i siste år (kroner). Endring i forholdet mellom linjene over tid viser strukturell ulikhet. Forholdet påvirkes ikke av prisveksten, men avstanden i kroner gjør det.</p>' +
       '</div></details>';
   }
 
@@ -2556,7 +2556,7 @@ if(copyBtn)copyBtn.onclick=async()=>{
 
 /* tour-modus */
 const TOUR=[
-  {sel:'.essence',title:'Kjernebudskapet',body:'Dashbordets hovedfunn i én setning: bare rundt 4 % av kommunene er bærekraftige på egne demografiske og økonomiske fundamenter mot 2050. Resten lener seg på statlige overføringer.'},
+  {sel:'.essence',title:'Kjernebudskapet',body:'Dashbordets hovedfunn i én setning: flere eldre og færre i arbeidsfør alder fram mot 2050, med store forskjeller mellom kommunene.'},
   {sel:'#journey',title:'Reisen i tre akter',body:'Tre tematiske akter à to kapitler, pluss et sammendrag. Akt 1 spør «Hva skjer», Akt 2 «Hvem blir igjen», Akt 3 «Kan vi bære det?». Klikk fritt mellom kapitlene.'},
   {sel:'[data-tab="intro"] #bigPicChart',title:'Akt 1.1 · Det store bildet',body:'Landsdelens samlede befolkning 2000\u20132050 i én graf. Den mørke linjen er faktisk historikk; framover er SSBs MMMM-bane og Telemarksforsknings TF-MVP/TF-ATTR.'},
   {sel:'[data-tab="explore"] .stepcard',title:'Akt 1.2 · Utforsk kommunene',body:'Bak linjen for landsdelen ligger 80 kommuner med ulik utvikling. Filtrér på fylke eller status (ROBEK, vekst, aldring) og gå inn i detaljvisningen for hver kommune.',action:'explore'},

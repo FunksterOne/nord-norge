@@ -135,7 +135,7 @@ function renderDec(el, width, k, o) {
     { lab: 'Nettoflytting', v: mig },
     { lab: 'Sum 2026–2050', v: tot, sum: true },
   ];
-  const winLab = ({ kons: 'smalt vindu 2017–2021', sentral: 'bredt vindu', opt: 'vektet 2022–2023' })[st.mw] || st.mw;
+  const winLab = ({ kons: 'smalt vindu 2017–2021', sentral: 'median 2017–2025', opt: 'snitt 2017–2025' })[st.mw] || st.mw;
   const head = document.createElement('div');
   head.className = 'nn-chart-note';
   head.innerHTML = `Bane: <b>TF-MVP, ${winLab}</b> (tilleggsbane — SSB publiserer ikke komponentene per kommune). Folketall ${heltall(p0)} → <b>${heltall(p0 + tot)}</b>.`;

@@ -79,7 +79,7 @@
 <section class="akt">
   <div class="akt-num">Akt 01 · Sjokket</div>
   <h2>Netto har <em id="sjokkNetto">—</em> flyttet sørover fra Nord-Norge på 24 år.</h2>
-  <p class="akt-intro">Det er nesten like mange som hele Tromsø — landsdelens største kommune — som er borte i regnskapet. Tallet er akkumulert innenlandsk nettoflytting 2002–2025, kilde SSB tabell 09588. Den utenlandske innvandringen kompenserer noe, men ikke nok til å snu retningen.</p>
+  <p class="akt-intro">Det er nesten like mange som hele Tromsø — landsdelens største kommune — som er borte i regnskapet. Tallet er akkumulert innenlandsk nettoflytting 2002–2025, kilde SSB tabell 09588. Innvandringen fra utlandet har mer enn veid opp for tapet innenlands, men den snur ikke strømmen sørover.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
 </section>
 
@@ -252,7 +252,7 @@
     <div>
       <div class="bs-tag">Svart svane</div>
       <div class="bs-title">Hva hvis klimaflyktningstrømmen kommer til nord?</div>
-      <p>Dagens flyktningstrøm til Nord-Norge er liten og preget av Ukraina-mottak. Men hvis Sør-Europa og Midtøsten rammes av store klimaendringer mot 2040, kan landsdelen oppleve en helt annen tilstrømning. <b>Spørsmålet er ikke om Nord-Norge kan ta imot dem, men om vi har boliger, arbeidsplasser og institusjoner som passer til kompetansen deres.</b> Mer i <a href="tema-scenarier.html">Fire fremtider mot 2040</a>.</p>
+      <p>Dagens flyktningstrøm til Nord-Norge er preget av Ukraina-mottak. Men hvis Sør-Europa og Midtøsten rammes av store klimaendringer mot 2040, kan landsdelen oppleve en helt annen tilstrømning. <b>Spørsmålet er ikke om Nord-Norge kan ta imot dem, men om vi har boliger, arbeidsplasser og institusjoner som passer til kompetansen deres.</b> Mer i <a href="tema-scenarier.html">Fire fremtider mot 2040</a>.</p>
     </div>
   </div>
 </section>
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('ffOst').textContent = pst(F.til_ostlandet);
   document.getElementById('ffIntro').innerHTML =
     'Per ' + dato(B.status.dato) + ' finnes det ikke noe høringsnotat eller lovforslag om flytteforbud for flyktninger. Regjeringen varslet 18. juni 2026 at to modeller skal sendes på høring «i høst». ' +
-    'Nord-Norge berøres mer enn andre landsdeler: landsdelen tok imot ' + pst(andelBos, 1) + ' av flyktningene som ble bosatt i ' + BS.aar + ', mot om lag 9 % av befolkningen, og har høyest fraflytting fra bosettingskommunene.';
+    'Nord-Norge berøres mer enn andre landsdeler: landsdelen tok imot ' + pst(andelBos, 1) + ' av flyktningene som ble bosatt i ' + BS.aar + ', mot 8,7 % av befolkningen, og har høyest fraflytting fra bosettingskommunene.';
   document.getElementById('ffKPI').innerHTML =
     '<div class="kpi"><div class="v">' + pst(andelBos, 1) + '</div><div class="l">av bosatte flyktninger ' + BS.aar + '</div><div class="nh">' + tal(BS.nn) + ' av ' + tal(BS.landet) + ' · IMDi</div></div>' +
     '<div class="kpi"><div class="v">' + pst(andelKol) + '</div><div class="l">hadde kollektiv beskyttelse</div><div class="nh">' + tal(BS.kollektiv_nn) + ' av ' + tal(BS.nn) + ' bosatt i Nord-Norge</div></div>' +

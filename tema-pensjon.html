@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('orgIntro').innerHTML =
     'Fellesordningen og sykepleierordningen ligger i KLP for ' + O.klp_kommuner + ' av kommunene. Der deles svingninger i uførhet, levealder og avkastning med om lag 330 kommuner. ' +
     'Bodø, Tromsø og Harstad har egne kommunale pensjonskasser. Lærerne er i Statens pensjonskasse i alle 80 kommuner; der bærer staten avkastnings- og reguleringsrisikoen. ' +
-    'Bufferen i de tre egne kassene er langt tynnere enn i KLP, og alle tre har fått kapital fra kommunen. Solvenskapitaldekningen var ' + kasser.join(', ') + ' ved utgangen av 2025, mot ' + O.kommunale_kasser_snitt_pct + ' % i snitt for kommunale kasser og ' + O.klp_solvens_pct + ' % i KLP.';
+    'Bufferen i de tre egne kassene er langt tynnere enn i KLP, og alle tre har fått kapital fra kommunen. Solvenskapitaldekningen var ' + kasser.join(', ') + ' ved utgangen av 2025, mot ' + O.kommunale_kasser_snitt_pct + ' % i snitt for kommunale kasser og ' + O.klp_solvens_pct + ' % i KLP per 30. juni 2026.';
   document.getElementById('orgKPI').innerHTML =
     '<div class="kpi"><div class="v">' + O.klp_kommuner + '</div><div class="l">Kommuner i KLP</div><div class="nh">solvenskapitaldekning ' + O.klp_solvens_pct + ' % per 30. juni 2026</div></div>' +
     O.kasser.map(function(x){ return '<div class="kpi"><div class="v' + (x.solvens_pct < O.kommunale_kasser_snitt_pct ? ' down' : '') + '">' + x.solvens_pct + ' %</div><div class="l">' + x.navn + '</div><div class="nh">kommunen har skutt inn ' + f1(x.ek_innskutt_mill) + ' mill. kr</div></div>'; }).join('');

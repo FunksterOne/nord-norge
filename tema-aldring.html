@@ -99,7 +99,7 @@
 <section class="akt">
   <div class="akt-num">Akt 03 · Brutt opp</div>
   <h2>Innenfor Norge er aldringen <em>ikke jevn</em>.</h2>
-  <p class="akt-intro">Det nasjonale gjennomsnittet på 47 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo og Akershus drar landssnittet ned.</p>
+  <p class="akt-intro">Det nasjonale gjennomsnittet på 47 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo drar landssnittet ned.</p>
   <div class="fylke-graf">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbrøk 2050 — alle norske fylker</div>
     <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSBs hovedalternativ (tab. 14746). Nord-Norge-fylker er fremhevet. Landsgjennomsnittet (47) er markert som referanselinje.</p>
@@ -199,8 +199,8 @@
   </div>
 
   <div class="sitat">
-    <p class="sitat-tekst">Distriktsutfordringen gjelder funksjonelle bo- og arbeidsregioner — ikke kommuner som enkeltenheter. Aldringen er ikke jevn over landet. Innlandet og Telemark ligger høyest i 2050; Nord-Norge samlet ligger litt over landssnittet.</p>
-    <div class="kilde">Oppsummert etter <b>NOU 2020:15</b> (Norman-utvalget) <i>Det handler om Norge</i></div>
+    <p class="sitat-tekst">Distriktsutfordringen gjelder funksjonelle bo- og arbeidsregioner — ikke kommuner som enkeltenheter. Aldringen er ikke jevn over landet. Innlandet og Telemark ligger høyest i 2050; Nord-Norge samlet ligger over landssnittet.</p>
+    <div class="kilde">Oppsummert etter <b>NOU 2020:15</b> (Norman-utvalget) <i>Det handler om Norge</i>; fylkestallene fra SSB 14746 (2026-årgangen)</div>
   </div>
 
   <div class="sitat">
@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(lListe){
     lListe.innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: landData.map(function(d){
       return {l:d.navn, v:d.verdi, note:d.kommentar, uthev:!!d.erNorge, farge: d.erNorge ? 'accent' : d.erSnitt ? 'cat-4' : 'muted'};
-    })}], kilde:'Personer 65+ per 100 i alderen 20–64 i 2050. Kilder: OECD Pensions at a Glance 2025, Eurostat EUROPOP, SSB 14746 (Norge).'}, landData.length*27+40);
+    })}], kilde:'Personer 65+ per 100 i alderen 20–64 i 2050. Kilde: OECD Pensions at a Glance 2025, basert på FNs World Population Prospects 2024.'}, landData.length*27+40);
   }
 
   // ─── AKT 03: Fylke-rangering ───
