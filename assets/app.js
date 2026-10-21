@@ -153,6 +153,7 @@ function filtered(){
             'vekst':k=>kommuneStatus(k).growth==='up',
             'krymper':k=>kommuneStatus(k).growth==='down',
             'krymp':k=>kommuneStatus(k).growth==='down',
+            'nedgang':k=>kommuneStatus(k).growth==='down',
             'stabil':k=>kommuneStatus(k).growth==='flat',
             'aldring':k=>kommuneStatus(k).aging==='old',
             'aldrende':k=>kommuneStatus(k).aging==='old',
@@ -172,7 +173,7 @@ function renderList(){if(!elList) return;
   var _cnt=document.getElementById('cnt'); if(_cnt) _cnt.textContent=r.length+' kommuner';
   elList.innerHTML=r.map(k=>{
     const s=kommuneStatus(k);
-    const grTitle=s.growth==='up'?'Vekst mot 2050':s.growth==='down'?'Krymper mot 2050':'Stabil mot 2050';
+    const grTitle=s.growth==='up'?'Vekst mot 2050':s.growth==='down'?'Nedgang mot 2050':'Stabil mot 2050';
     const grDot='<span class="kstat-dot s-'+s.growth+'" title="'+grTitle+'"></span>';
     const rbDot=s.robek==='in'?'<span class="kstat-dot s-robek" title="I ROBEK"></span>':s.robek==='pending'?'<span class="kstat-dot s-robek-pend" title="ROBEK under behandling"></span>':'';
     const sel = k.nr===state.sel;
@@ -282,7 +283,7 @@ function projCard(k){
     '<button data-p="age" aria-selected="'+sel('age')+'">Aldring</button></div></div>'+
     '<p class="hint">SSBs regionale framskriving (tabell 14746, 2026-basert). '+
     (state.projMode==='tot'
-      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2026 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (vår tilleggsbane). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller krympet de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
+      ? 'Den m\u00f8rke linja viser <b>faktisk folketall 1.1.2000\u20132025</b> (SSB tabell 07459, kommuner 2024-sammensl\u00e5tte tidsserier). Den vertikale streken markerer <b>i dag</b>. F.o.m. 2026 starter framskrivingen: SSB MMMM som heltrukken aurora-linje med <i>lav\u2013h\u00f8y</i>-b\u00e5nd, samt strukturmodellen (vår tilleggsbane). Yttergrense-modellene vises som drill-down. Den lange trenden gir kontekst \u2014 har kommunen vokst eller blitt mindre de siste 25 \u00e5rene, og hvordan ser banen mot 2050 ut sammenlignet med det?'
       : state.projMode==='dec'
       ? 'Drivkrefter: endringen 2026\u20132050 splittet i naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og netto flytting. <b>Dekomponeringen finnes bare for TF-MVP</b> \u2014 yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen; bytt flyttevindu nederst for \u00e5 se hvor f\u00f8lsom splitten er.'
       : state.projMode==='fb'
@@ -299,7 +300,7 @@ function projCard(k){
       '<p class="hint" style="margin:14px 0 0">Fors\u00f8rgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i alderen 20\u201364 \u2014 fra <b>~'+sup0.toFixed(1).replace('.',',')+'</b> til <b>~'+sup1.toFixed(1).replace('.',',')+'</b> i yrkesaktiv alder bak hver person 65+. Drivkraften er forskyvningen mellom gruppene: <b>65+ '+(g65p>=0?'+':'\u2212')+Math.abs(g65p).toFixed(0).replace('.',',')+' %</b> mens <b>20\u201364 '+(g20p>=0?'+':'\u2212')+Math.abs(g20p).toFixed(0).replace('.',',')+' %</b> (SSB MMMM). '+
       ((g20p<0&&g65p>0)?'Begge effektene virker samtidig \u2014 flere eldre og f\u00e6rre i arbeidsf\u00f8r alder.'
        :(g65p>0&&g20p>=0)?'Det er f\u00f8rst og fremst flere eldre, ikke f\u00e6rre i arbeidsf\u00f8r alder, som driver byrden.'
-       :'Yrkesaktiv-gruppen krymper sterkere enn de eldre vokser.')+' Tallene f\u00f8lger SSB MMMM og endres ikke av flyttevinduet.</p>'
+       :'Gruppen i arbeidsf\u00f8r alder faller mer enn de eldre \u00f8ker.')+' Tallene f\u00f8lger SSB MMMM og endres ikke av flyttevinduet.</p>'
     ):(
       '<p class="hint" style="margin:14px 0 0">Hovedalternativet: <b>'+fmt(m0)+'</b> (2026) \u2192 <b>'+fmt(m1)+'</b> (2050), '+
       (chg>=0?'+':'')+chg.toFixed(1).replace('.',',')+' %. Andel 65+ \u00f8ker fra '+sh0.toFixed(1).replace('.',',')+' % til <b>'+sh1.toFixed(1).replace('.',',')+' %</b> ('+fmt(g65_0)+' \u2192 '+fmt(g65_1)+' personer).</p>'
@@ -564,7 +565,7 @@ function diagnoseCard(k){
     s+='. Strukturmodellen fra Telemarksforskning — vår tilleggsbane, som slo SSB i de minst sentrale kommunene i 2020\u20132024-backtesten — sier <b>'+f(pop1_attr)+'</b> (<b>'+sgn1(pp_attr)+' %</b>)';
   }
   s+='. ';
-  if(oad0!=null&&oad1!=null) s+=(oad1>=oad0?'Aldringen er kjernen: forsørgerbyrden stiger':'Forsørgerbyrden er høy i dag, men faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'vokser':'krymper')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
+  if(oad0!=null&&oad1!=null) s+=(oad1>=oad0?'Aldringen er kjernen: forsørgerbyrden stiger':'Forsørgerbyrden er høy i dag, men faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i yrkesaktiv alder (20–64)'+(g80!=null?', og innbyggere 80+ '+(g80>=0?'øker':'går ned')+' <b>'+sgn1(g80)+' %</b>':'')+'. ';
   if(ks&&(ndr!=null||fond!=null||gj!=null)) s+='Det økonomiske utgangspunktet er <b style="color:'+vc+'">'+verdict+'</b>'+(yr?' ('+yr+')':'')+': netto driftsresultat <b>'+(ndr==null?'–':(ndr>=0?'':'−')+Math.abs(ndr).toFixed(1).replace('.',','))+' %</b> (TBU-norm +1,75), disposisjonsfond <b>'+(fond==null?'–':fond.toFixed(1).replace('.',','))+' %</b>, netto lånegjeld <b>'+(gj==null?'–':gj.toFixed(1).replace('.',','))+' %</b>. ';
   s+='Holdes alt annet likt, vrir demografien driftsbudsjettet mot pleie og omsorg — vist i grafene under.'+spread;
   return '<div class="card" style="border-left:4px solid var(--amber);border-radius:0">'+
@@ -730,7 +731,7 @@ function kommuneStatus(k){
 function statusBadges(k,s){
   if(k.isAgg) return '';
   const gtxt = s.growth==='up' ? '↑ vekst '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+' %' :
-               s.growth==='down' ? '↓ krymper '+Math.abs(s.growthPct).toFixed(0).replace('.',',')+' %' :
+               s.growth==='down' ? '↓ nedgang '+Math.abs(s.growthPct).toFixed(0).replace('.',',')+' %' :
                '→ stabilt '+(s.growthPct>0?'+':'')+s.growthPct.toFixed(0).replace('.',',')+' %';
   const rtxt = s.robek==='in' ? '● i ROBEK' :
                s.robek==='pending' ? '● ROBEK under behandling' :
@@ -860,7 +861,7 @@ function tldrBanner(k, view){
     const futurePct=(k.pop&&projMain)?((projMain/k.pop-1)*100):null;
     let text='';
     if(firstY&&lastY&&pastPct!=null){
-      text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'krympet')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på 25 år. ';
+      text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'gikk ned')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på 25 år. ';
     } else {
       text+='<b>'+k.navn+'</b> har <b>'+fmt0(k.pop)+'</b> innbyggere i dag. ';
     }
@@ -1303,7 +1304,7 @@ function renderBigPicture(){
     if(futurePct!=null) nums.push({nv:pctF(futurePct),cls:futurePct>=0?'up':'down',nl:'mot '+projYear,nh:'SSB MMMM'});
     tldrHost.className='tldr';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 1 · Hva skjer · '+(state.fylke&&state.fylke!=='Alle'?state.fylke+' samlet':'Landsdelen samlet')+'</div>'+
-      '<h3>Sett under ett: krymper Nord-Norge?</h3>'+
+      '<h3>Sett under ett: går folketallet i Nord-Norge ned?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+nums.map(n=>'<div class="tldr-num"><div class="nv '+n.cls+'">'+n.nv+'</div><div class="nl">'+n.nl+'</div><div class="nh">'+n.nh+'</div></div>').join('')+'</div>';
   }
@@ -1614,7 +1615,7 @@ function renderBurden(){
     }
     if(a80_0&&a80_1){
       const pct80=(a80_1/a80_0-1)*100;
-      text+='Antallet 80+ <b>'+(pct80>=0?'vokser med '+pct80.toFixed(0).replace('.',',')+' %':'krymper med '+Math.abs(pct80).toFixed(0).replace('.',',')+' %')+'</b> (fra '+fmt(a80_0)+' til '+fmt(a80_1)+'). ';
+      text+='Antallet 80+ <b>'+(pct80>=0?'vokser med '+pct80.toFixed(0).replace('.',',')+' %':'går ned med '+Math.abs(pct80).toFixed(0).replace('.',',')+' %')+'</b> (fra '+fmt(a80_0)+' til '+fmt(a80_1)+'). ';
     }
     text+='<i>Det er denne forskyvningen — flere eldre og færre i arbeid — som setter kommuneøkonomien på prøve i Akt 3.</i>';
     tldrHost.className='tldr t-burden';

@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var fyl = ['Nordland', 'Troms', 'Finnmark'];
     document.getElementById('omsBefTekst').innerHTML =
       '<b>Observasjon:</b> Antallet over 80 år i Nord-Norge øker med ' + pa(pe(N.a80[0], N.a80[3])) + ' fra 2026 til 2050, litt mindre enn i landet (' + pa(pe(LA.a80[0], LA.a80[3])) + '). Antallet over 90 år, den mest pleietrengende gruppen, øker med ' + pa(pe(N.a90[0], N.a90[3])) + '. ' +
-      'Samtidig faller antallet i alderen 20–64 år med ' + pa(pe(N.a2064[0], N.a2064[3]), 1) + ', mens det øker med ' + pa(pe(LA.a2064[0], LA.a2064[3]), 1) + ' i landet. Problemet i nord er altså ikke at eldregruppen vokser raskest, men at den allerede er stor og at arbeidsstyrken krymper. ' +
+      'Samtidig faller antallet i alderen 20–64 år med ' + pa(pe(N.a2064[0], N.a2064[3]), 1) + ', mens det øker med ' + pa(pe(LA.a2064[0], LA.a2064[3]), 1) + ' i landet. Problemet i nord er altså ikke at eldregruppen vokser raskest, men at den allerede er stor og at arbeidsstyrken blir mindre. ' +
       overL + ' av 80 kommuner får en høyere forsørgerbrøk enn landet (' + LA.fb[1].toFixed(2).replace('.', ',') + ') i 2050. Fylkestallene skjuler forskjellene: Troms som helhet ligger på ' + F.Troms.fb[1].toFixed(2).replace('.', ',') + ', men de fleste kommunene i Troms ligger høyere.';
     document.getElementById('omsBefGraf').innerHTML = NN.placeholder('hstolper', {format:'pst', grupper:[
       {tittel:'80 år og over, endring 2026–2050', rader: fyl.map(function(f){ return {l:f, v:pe(F[f].a80[0], F[f].a80[3]), farge:'muted'}; })

@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v">' + f1(F.kostnad_mrd) + ' mrd</div><div class="l">Beregnet netto kostnad 2025</div><div class="nh">før amortisering</div></div>' +
     '<div class="kpi"><div class="v">' + f1(F.amort_mrd) + ' mrd</div><div class="l">Eldre avvik utgiftsført 2025</div><div class="nh">amortisering · ' + F.n_amort + ' kommuner</div></div>' +
     '<div class="kpi"><div class="v down">' + f1(mrdPa) + ' mrd</div><div class="l">Akkumulert premieavvik</div><div class="nh">' + p1(LD.pa) + ' av driftsinntektene ved utgangen av 2025</div></div>';
-  document.getElementById('flytNote').innerHTML = 'Beholdningen krympet i 2025: nytt premieavvik var ' + f1(F.nytt_pa_mrd) + ' milliarder kroner, mens ' + f1(F.amort_mrd) + ' milliarder eldre avvik ble utgiftsført. Andelen av driftsinntektene falt fra ' + p1(LD.pa24) + ' til ' + p1(LD.pa) + '. Grunnlag: pensjonsnotene i årsregnskapet for 2025 (premie og kostnad uten arbeidsgiveravgift) og KOSTRA (SSB 13202, kommunekonsern).';
+  document.getElementById('flytNote').innerHTML = 'Beholdningen ble mindre i 2025: nytt premieavvik var ' + f1(F.nytt_pa_mrd) + ' milliarder kroner, mens ' + f1(F.amort_mrd) + ' milliarder eldre avvik ble utgiftsført. Andelen av driftsinntektene falt fra ' + p1(LD.pa24) + ' til ' + p1(LD.pa) + '. Grunnlag: pensjonsnotene i årsregnskapet for 2025 (premie og kostnad uten arbeidsgiveravgift) og KOSTRA (SSB 13202, kommunekonsern).';
 
   // ─── Akt 02: fylker og risikogruppe ───
   var FY = PD.fylker;
