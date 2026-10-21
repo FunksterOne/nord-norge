@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nord-Norge - landsdelsoversikt</title>
+<title>Nord-Norge — landsdelsoversikt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -37,8 +37,8 @@
 
 <div style="margin-bottom:20px">
   <div class="kicker">Landsdelsoversikt &middot; SSB &middot; Folketall per <span data-befk-dato>1. juli 2026</span> &middot; 80 kommuner</div>
-  <h1 class="serif" style="margin:6px 0 12px">Hva skjer i Nord-Norge - og <em>hvem blir igjen?</em></h1>
-  <p class="essence">SSBs offisielle bane holder Nord-Norges folketall nesten flatt mot 2050. Det er den optimistiske enden. <b>En strukturmodell basert på Telemarksforskning</b> som treffer bedre enn SSB MMMM når den testes mot perioden 2020–2024 for de minste kommunene — peker mot at <b>to av tre kommuner mister mer enn 15 %</b> av folketallet, og tre av fire mister minst like mye av den arbeidsføre gruppen i alderen 20–64 år. <em>Spørsmålet er ikke hvor mange vi blir, men hvor stor margin vi har mot scenariene som ligger under hovedbanen.</em></p>
+  <h1 class="serif" style="margin:6px 0 12px">Hva skjer i Nord-Norge — og <em>hvem blir igjen?</em></h1>
+  <p class="essence">SSBs offisielle bane holder Nord-Norges folketall nesten flatt mot 2050. Det er den optimistiske enden. <b>En strukturmodell basert på Telemarksforskning</b> — som treffer bedre enn SSB MMMM når den testes mot perioden 2020–2024 for de minste kommunene — peker mot at <b>to av tre kommuner mister mer enn 15 %</b> av folketallet, og tre av fire mister minst like mye av den arbeidsføre gruppen i alderen 20–64 år. <em>Spørsmålet er ikke hvor mange vi blir, men hvor stor margin vi har mot scenariene som ligger under hovedbanen.</em></p>
 </div>
 
 <nav class="nn-secnav" id="secnav">
@@ -69,13 +69,13 @@
 
   <section class="exhibit" style="margin-top:40px">
     <div class="kicker">Kartet · alle 80 kommuner</div>
-    <h2 class="exhibit-h">Landsdelen samlet holder seg nesten flatt — men bak tallet får flertallet av kommunene færre innbyggere</h2>
-    <p class="exhibit-lede">Bytt indikator for aldring, forsørgerbyrde, innvandring, folketall og ROBEK-status. Pek for tall, klikk for kommunesiden.</p>
+    <h2 class="exhibit-h">Folketallet i landsdelen samlet holder seg nesten flatt — men bak tallet får flertallet av kommunene færre innbyggere</h2>
+    <p class="exhibit-lede">Bytt indikator for aldring, forsørgerbrøk, innvandring, folketall og ROBEK-status. Pek for tall, klikk for kommunesiden.</p>
     <div data-nnchart="kart" data-spec='{"ind":"endring","controls":true}' style="min-height:560px"></div>
   </section>
 
   <section class="exhibit">
-    <div class="kicker">80 skjebner · små multipler</div>
+    <div class="kicker">80 skjebner · én kurve per kommune</div>
     <h2 class="exhibit-h">Hver kommune har sin egen kurve — samme skala, sortert fra sterkest vekst til størst nedgang</h2>
     <p class="exhibit-lede">Hver rute er én kommune, 2000–2050. Den grå delen er det som har skjedd; den fargede er SSBs hovedalternativ. Pek for detaljer, klikk for å åpne kommunen.</p>
     <div data-nnchart="skjebner" data-spec='{"fylke":"Alle"}' style="min-height:700px"></div>
@@ -90,7 +90,7 @@
 
   <!-- Drilldown: modeller, kildedata, backtest -->
   <details class="explain" style="margin-top:18px">
-    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og backtest</summary>
+    <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Vil du dykke ned i metoden? — modeller, datakilder og etterprøving</summary>
     <div style="margin-top:18px">
       <h3 class="serif" style="font-size:18px;margin-bottom:10px">Tre baner mot 2050 — én forskjell mellom dem</h3>
       <p class="sub">Alle tre rulles fram til 2050 med <b>samme regnemaskin</b>: fødsler, dødsfall og aldring regnes likt. Det eneste som skiller dem, er <b>hvordan flytteleddet anslås</b> — altså hvor mye folk flytter inn og ut av hver kommune.</p>
@@ -116,27 +116,27 @@
           <li><b>Jobbvekst</b> — lokal endring i sysselsetting</li>
           <li><b>Sentralitet</b> — SSBs 1–6-skala (1 = mest sentral, 6 = minst)</li>
         </ul>
-        <p style="font-size:12.5px">Spørsmålet er ikke «hva gjorde folk i fjor?» men «hvor mye flytting tilsier næringsgrunnlaget og geografien?». Robust mot uvanlige år; <b>traff bedre enn SSB i 2020–2024-backtesten for de minst sentrale kommunene</b>.</p>
+        <p style="font-size:12.5px">Spørsmålet er ikke «hva gjorde folk i fjor?», men «hvor mye flytting tilsier næringsgrunnlaget og geografien?». Robust mot uvanlige år; <b>traff bedre enn SSB i etterprøvingen mot 2020–2024 for de minst sentrale kommunene</b>.</p>
         <div class="dims"><span class="chip">strukturbasert</span><span class="chip">tilleggsbane</span><span class="chip">treffer utkant</span></div>
       </div>
       <div class="src">
         <div class="tag">Yttergrense-modeller <span style="opacity:.7;font-weight:400">(TF-MVP)</span></div>
-        <h3 class="serif">Outlier-spekter — flyttesnitt fra historiske vinduer</h3>
+        <h3 class="serif">Ytterpunkter — flyttesnitt fra historiske vinduer</h3>
         <p style="font-size:12.5px"><b>Yttergrense-modellene viser hvor pessimistisk det kan bli</b> hvis flyttesnittet i et bestemt historisk vindu vedvarer i 24 år. Tre vinduer kan velges:</p>
         <ul style="margin:8px 0 8px 18px;padding:0;font-size:12px;color:var(--ink2);line-height:1.55">
-          <li><b>Smalt 2017–2021</b> — snitt før korona-boom</li>
+          <li><b>Smalt 2017–2021</b> — snitt før toppårene 2022–2023</li>
           <li><b>Bredt vindu</b> — inkluderer 2022–2023-toppen</li>
-          <li><b>Vektet 2022–2023</b> — boom-årene tyngst</li>
+          <li><b>Vektet 2022–2023</b> — toppårene vektet tyngst</li>
         </ul>
-        <p style="font-size:12.5px">Navnene beskriver <i>tidsperioden</i>, ikke normative anslag. Brukes som outlier-spekter for å vise hvor stor avstanden er mellom hovedbanen og scenariene som ligger under — ikke som primær framskriving.</p>
+        <p style="font-size:12.5px">Navnene beskriver <i>tidsperioden</i>, ikke normative anslag. Brukes som ytterpunkter for å vise hvor stor avstanden er mellom hovedbanen og scenariene som ligger under — ikke som primær framskriving.</p>
         <div class="dims"><span class="chip">outlier</span><span class="chip">justerbar</span><span class="chip">tre vinduer</span></div>
       </div>
     </div>
     <div class="note" style="margin-top:18px;background:color-mix(in srgb, var(--accent) 6%, transparent);border-color:color-mix(in srgb, var(--accent) 22%, transparent)"><span style="color:var(--aurora)">ℹ</span><div><b>SSB publiserer flere alternativer enn MMMM.</b> I framskrivingskortet vises et skyggelagt <i>lav–høy</i>-bånd rundt MMMM-linja. Det spenner fra <b>LLML</b> (lav fruktbarhet, lav levealder, middels innenlands flytting, lav innvandring) til <b>HHMH</b> (høy/høy/middels/høy) — altså SSBs egen usikkerhet om de fire nasjonale forutsetningene.</div></div>
     <p class="sub" style="margin-top:18px">Strukturmodellen står ved siden av hovedbanen SSB MMMM som tilleggsbane — SSB er <b>fasiten</b>, strukturmodellen er <b>gjennomsiktig</b> og treffer bedre enn SSB i de minst sentrale kommunene (testet mot 2020–2024). Yttergrense-modellene vises kun når du åpner detalj-panelet — de tjener til å vise hvor stor avstanden er ned til pessimistiske scenarier, ikke som hovedfortelling.</p>
 
-      <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — backtest 2020–2024</h3>
-      <p class="sub">En backtest spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
+      <h3 class="serif" style="font-size:18px;margin:24px 0 10px">Stoler vi på modellen? — etterprøving mot 2020–2024</h3>
+      <p class="sub">En etterprøving spør: kan modellen «gjette» det vi allerede vet? Slik testet vi: <b>(1)</b> alle tre banene fikk basis 1.1.2020, <b>(2)</b> ble rullet fram til 2024, og <b>(3)</b> sammenlignet med faktisk registrert folketall 1.1.2024. Feilen er gjennomsnittlig avvik i prosent — lavere er bedre.</p>
       <p class="sub" style="margin-top:8px">Radene grupperer kommunene etter SSBs sentralitetsskala (1 = mest sentral, 6 = minst). Det er i de minst sentrale kommunene prognoser pleier å bomme mest — og det er der TF-modellene kan tilføre mest verdi. ● markerer modellen med lavest feil per rad.</p>
       <div id="bteval_intro" data-helpfor="<b>Slik leser du backtesten.</b> Vi gir SSB og Telemarksforskning basis i 2020, ruller fram til 2024, og sammenligner med faktisk registrert folketall. Lavere prosent = mindre feil. Sentralitet 1 er Oslo-typen, 6 er minst sentralt — der det er vanskeligst å treffe."></div>
       <p class="hint" id="btcav_intro" style="margin-top:10px;opacity:.75;font-size:11.5px;max-width:62em"></p>
@@ -168,7 +168,7 @@
       <div class="dims"><span class="chip">kommune</span><span class="chip">aldersbånd</span><span class="chip">landgruppe</span></div>
     </div>
   </div>
-  <div class="note"><span class="note-tag">Merk</span><div>Befolkningstall (07459) og innvandrertall (09817) teller <b>ulike populasjoner</b> og skal ikke summeres mot hverandre. «Andel med innvandrerbakgrunn» under er 09817 dividert på 07459 — en korrekt brøk, men de to dimensjonene kan ikke krysses videre på kommunenivå.</div></div>
+  <div class="note"><span class="note-tag">Merk</span><div>Befolkningstall (07459) og innvandrertall (09817) teller <b>ulike populasjoner</b> og skal ikke summeres mot hverandre. «Andel med innvandrerbakgrunn» under er 09817 dividert med 07459 — en korrekt brøk, men de to dimensjonene kan ikke krysses videre på kommunenivå.</div></div>
   </div>
 </details>
 
@@ -176,7 +176,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 1.2</div>
     <div class="ns-t">Utforsk kommunene</div>
-    <div class="ns-h">Den store linja for hele landsdelen skjuler enorme forskjeller. Bodø vokser; de svakeste utkantkommunene mister opptil 17 % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
+    <div class="ns-h">Den store linja for hele landsdelen skjuler store forskjeller. Bodø vokser; de svakeste utkantkommunene mister opptil 17 % av folketallet mot 2050. Neste kapittel lar deg dykke ned i hver enkelt.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -215,7 +215,7 @@
   <!-- Bofasthet for flyktninger -->
   <div class="card" id="compBofastCard">
     <div class="ch"><h3 class="serif">Hvor lenge blir flyktningene?</h3></div>
-    <p class="hint">To mål. <b>Fem år etter bosetting</b> (SSBs monitor): andelen av hvert bosettingskull som bor i første bosettingskommune, per fylke for kull 1998–2019. <b>Lengre perioder</b> (SSB 10598): netto bevaring av innvandrere etter 5–20 års botid, fordi det ikke finnes åpne fylkestall for bofasthet ut over fem år. Mer på temasiden <a href="tema-flyktning.html#lengre">Hvem blir værende?</a></p>
+    <p class="hint">To mål. <b>Fem år etter bosetting</b> (SSBs monitor): andelen av hvert bosettingskull som bor i første bosettingskommune, per fylke for kull 1998–2019. <b>Lengre perioder</b> (SSB 10598): netto bevaring av innvandrere etter 5–20 års botid, fordi det ikke finnes åpne fylkestall for bofasthet utover fem år. Mer på temasiden <a href="tema-flyktning.html#lengre">Hvem blir værende?</a></p>
     <div id="compBofastGraph"></div>
     <div style="margin-top:12px" data-methodbadge="SSB_MONITOR"></div>
     <details style="margin-top:12px;font-size:13px">
@@ -231,7 +231,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Akt 2 · Kapittel 2.2</div>
     <div class="ns-t">Arbeid og forsørgerbyrde</div>
-    <div class="ns-h">Når andelen 67+ vokser raskere enn arbeidsstyrken, øker forsørgerbyrden. Hvor tungt blir det å bære i 2050?</div>
+    <div class="ns-h">Når gruppen 67+ vokser raskere enn gruppen i arbeidsfør alder, øker forsørgerbyrden. Hvor tungt blir det å bære i 2050?</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -241,7 +241,7 @@
   <div class="stepcard" data-color="fi">
     <div class="sn">3 · Arbeid og forsørgerbyrde</div>
     <h2>Arbeid og forsørgerbyrde</h2>
-    <p class="sq">Når aldringen vokser raskere enn arbeidsstyrken — hvor tungt blir det å bære i 2050?</p>
+    <p class="sq">Når eldregruppen vokser raskere enn gruppen i arbeidsfør alder — hvor tungt blir det å bære i 2050?</p>
   </div>
 
   <!-- Klartekst -->
@@ -249,8 +249,8 @@
 
   <!-- Hero: forsørgerbyrde for landsdelen -->
   <div class="card hero-chart" id="burdenChart">
-    <div class="ch"><h3 class="serif">Forsørgerbyrde 2026–2050 · Nord-Norge totalt</h3></div>
-    <p class="hint">Forsørgerbrøk: antall personer 65+ per 100 i alderen 20–64. Målet teller alder, ikke hvem som er i arbeid; se «Hvem bærer hvem?» under. Indekspanelet under viser hvorfor — eldregruppen vokser mens arbeidsføre står stille eller faller. Bane: SSB MMMM (tabell 14746).</p>
+    <div class="ch"><h3 class="serif">Forsørgerbrøk 2026–2050 · Nord-Norge totalt</h3></div>
+    <p class="hint">Forsørgerbrøk: antall personer 65+ per 100 i alderen 20–64. Målet teller alder, ikke hvem som er i arbeid; se «Hvem bærer hvem?» under. Indekspanelet under viser hvorfor — eldregruppen vokser mens gruppen i arbeidsfør alder står stille eller går ned. Bane: SSB MMMM (tabell 14746).</p>
     <div id="burdenGraph"></div>
   </div>
 
@@ -282,7 +282,7 @@
 
   <!-- NAV bedriftsundersøkelse 2026 — øyeblikksbilde, ikke prognose -->
   <div class="ch" style="margin-top:32px;padding-top:18px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:18px">Hvem mangler vi — nå?</h3></div>
-  <p class="sub">Mens framskrivingene peker mot 2050, har NAV nettopp publisert et øyeblikksbilde av 2026: norske bedrifter mangler <b id="navNatTot">—</b> personer i dag. Nord-Norge står for <b id="navNNTot">—</b> av denne mangelen — <b id="navNNAndel">—</b> mens vi har <b>8,7 %</b> av befolkningen. Det er ikke en prognose. Det er bedriftenes faktiske rekrutteringshull i mai 2026, og bekrefter at nedgangen i arbeidsfør alder som demografien viser, allerede er målbar.</p>
+  <p class="sub">Mens framskrivingene peker mot 2050, har NAV nettopp publisert et øyeblikksbilde av 2026: norske bedrifter mangler <b id="navNatTot">—</b> personer i dag. Nord-Norge står for <b id="navNNTot">—</b> av denne mangelen — <b id="navNNAndel">—</b>, mens vi har <b>8,7 %</b> av befolkningen. Det er ikke en prognose. Det er bedriftenes faktiske rekrutteringshull i mai 2026, og bekrefter at nedgangen i arbeidsfør alder som demografien viser, allerede er målbar.</p>
   <div class="kpi-rad" id="navKPI"></div>
   <div class="ch" style="margin-top:18px"><h3 class="serif" style="font-size:16px">Hvor mangler vi flest?</h3></div>
   <p class="hint" style="font-size:12.5px;margin-bottom:6px">Topp 6 mangel-næringer i Nord-Norge — sortert etter antall. Tallet til høyre viser landsdelens andel av nasjonal mangel i samme næring.</p>
@@ -293,7 +293,7 @@
   <div class="ns-l">
     <div class="ns-n">→ Akt 2 · Kapittel 2.3</div>
     <div class="ns-t">Levekår</div>
-    <div class="ns-h">Hva tjener folk i Nord-Norge, hvordan bor de, og hvor stor andel av inntekten kommer fra lønn versus pensjon og uføretrygd?</div>
+    <div class="ns-h">Hva tjener folk i Nord-Norge, hvordan bor de, og hvor stor andel av inntekten kommer fra lønn, pensjon og uføretrygd?</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -303,12 +303,12 @@
   <div class="stepcard" data-color="tr">
     <div class="sn">4 · Levekår</div>
     <h2>Levekår</h2>
-    <p class="sq">Hva tjener husholdningene, hvordan bor de, og hvor stor andel av inntektene kommer fra lønn versus pensjon og uføretrygd?</p>
+    <p class="sq">Hva tjener husholdningene, hvordan bor de, og hvor stor andel av inntektene kommer fra lønn, pensjon og uføretrygd?</p>
     <details>
       <summary>Slik bruker du denne siden</summary>
       <div class="hbody">
         <p>Fire vinduer mot levekårene i Nord-Norge: husholdningsinntekt etter skatt (SSB tabell 06944), personinntekt fordelt på lønn/pensjon/uføretrygd (14780), eierform for boligene (14891), og bygningstype-fordelingen (06265). Alle tall er for landsdelen samlet.</p>
-        <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (drill-down kommer i en senere runde).</p>
+        <p>I kommunekortet under Steg 02 vil disse tallene også kunne ses per kommune (detaljvisningen kommer i en senere runde).</p>
       </div>
     </details>
   </div>
@@ -327,7 +327,7 @@
   <!-- Kort B: Personinntekt-komponenter -->
   <div class="card" id="levekarKomponentCard">
     <div class="ch"><h3 class="serif">Hvor kommer inntektene fra?</h3></div>
-    <p class="hint">Hovedinntektsstrømmene for bosatte 17 år og eldre i Nord-Norge: lønn, pensjon og uføretrygd. Median og samlet beløp per komponent. SSB tabell 14780, 2025. Tallene viser hvor stor del av landsdelens samlede personinntekt som kommer fra hver kilde — direkte koblet til aldring og uføre-narrativet i Akt 2.2.</p>
+    <p class="hint">Hovedinntektsstrømmene for bosatte 17 år og eldre i Nord-Norge: lønn, pensjon og uføretrygd. Median og samlet beløp per komponent. SSB tabell 14780, 2025. Tallene viser hvor stor del av landsdelens samlede personinntekt som kommer fra hver kilde — direkte koblet til fortellingen om aldring og uførhet i Akt 2.2.</p>
     <div id="levekarKomponentGraph"></div>
   </div>
 
@@ -348,7 +348,7 @@
   <!-- Kort E: Inntektsspennvidde mellom kommuner -->
   <div class="card hero-chart" id="levekarSpennCard">
     <div class="ch"><h3 class="serif">Inntektsspennvidde mellom kommunene</h3></div>
-    <p class="hint">Hver søyle er én kommune, sortert etter median husholdningsinntekt etter skatt (2024). Fylkesfarger: <span style="color:var(--nl);font-weight:700">Nordland</span>, <span style="color:var(--tr);font-weight:700">Troms</span>, <span style="color:var(--fi);font-weight:700">Finnmark</span>. Landsdelens vektede median og nasjonalt snitt vises som horisontale referanselinjer. Forskjellen mellom rikeste og fattigste kommune er det landsdels-snittet skjuler.</p>
+    <p class="hint">Hver søyle er én kommune, sortert etter median husholdningsinntekt etter skatt (2024). Fylkesfarger: <span style="color:var(--nl);font-weight:700">Nordland</span>, <span style="color:var(--tr);font-weight:700">Troms</span>, <span style="color:var(--fi);font-weight:700">Finnmark</span>. Landsdelens vektede median og nasjonalt snitt vises som horisontale referanselinjer. Forskjellen mellom rikeste og fattigste kommune er det landsdelssnittet skjuler.</p>
     <div id="levekarSpennGraph"></div>
     <div style="margin-top:12px" data-methodbadge="SSB_STATBANK"></div>
   </div>
@@ -363,7 +363,7 @@
   <div class="ns-l">
     <div class="ns-n">→ 5</div>
     <div class="ns-t">Økonomi</div>
-    <div class="ns-h">Demografien presser kommunenes utgifter framover. Neste kapittel ser på det økonomiske grunnlaget: KOSTRA-fundamentene, ROBEK-status og rentekostnadene.</div>
+    <div class="ns-h">Demografien presser kommunenes utgifter framover. Neste kapittel ser på det økonomiske grunnlaget: KOSTRA-nøkkeltallene, ROBEK-status og rentekostnadene.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -392,7 +392,7 @@
   <details class="explain" style="margin-top:18px">
     <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Rentefølsomhet — hva betyr en endring i kommunalbank-renten?</summary>
     <div style="margin-top:14px" id="renteCard">
-      <p class="sub">Norske kommuner låner hovedsakelig fra Kommunalbanken til flytende rente (3 mnd NIBOR + margin). Når Norges Bank endrer styringsrenten, gjør det utslag i kommunenes rentekostnader. Skyvekontrollene under viser sensitiviteten: <b>per prosentpoeng</b>-effekten er den robuste — målrenten avhenger av antagelsene dine.</p>
+      <p class="sub">Norske kommuner låner hovedsakelig fra Kommunalbanken til flytende rente (3 mnd NIBOR + margin). Når Norges Bank endrer styringsrenten, gjør det utslag i kommunenes rentekostnader. Glidebryterne under viser følsomheten: <b>per prosentpoeng</b>-effekten er den robuste — målrenten avhenger av antagelsene dine.</p>
       <div id="renteContent" style="margin-top:14px"></div>
     </div>
   </details>
@@ -430,13 +430,13 @@
         <p>Åtte indikatorer, hver med sin egen autoritative norm:</p>
         <ul style="margin:6px 0 6px 22px;list-style:disc;color:var(--ink2)">
           <li><b>Befolkningsendring 2026–2050</b> — OECD SCIRN definerer befolkningsnedgang ≥ 0,15 %/år som «shrinking».</li>
-          <li><b>Forsørgerbyrde 2050 (65+/20–64)</b> — OECD-standardratio. OECD-snitt 2050 ≈ 52 eldre per 100 i yrkesaktiv alder (Pensions at a Glance 2025).</li>
+          <li><b>Forsørgerbrøk 2050 (65+/20–64)</b> — OECDs standardmål. OECD-snitt 2050 ≈ 52 eldre per 100 i arbeidsfør alder (Pensions at a Glance 2025).</li>
           <li><b>Sysselsettingsrate 20–66</b> — SSB tabell 13563. Nasjonalt snitt 76,7 % (2025).</li>
           <li><b>Uføreandel 18–67</b> — SSB tabell 11715. Nasjonalt snitt 10,7 % (2025).</li>
           <li><b>Netto driftsresultat</b> — TBU-norm +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget).</li>
           <li><b>Disposisjonsfond</b> — KS-rapport (Oslo Economics og Telemarksforskning, mai 2025): om lag 5 % av driftsinntektene i gjennomsnitt, tilpasset hver kommune.</li>
           <li><b>Netto lånegjeld</b> — KS (2025): korrigert netto lånegjeld bør ikke overstige 85 % av driftsinntektene. Dashbordet bruker netto lånegjeld uten korreksjon for ubundne investeringsfond, som ligger noe høyere.</li>
-          <li><b>ROBEK-status</b> — kommuneloven §28-1. Statsforvalteren fører kontrollen.</li>
+          <li><b>ROBEK-status</b> — kommuneloven § 28-1. Statsforvalteren fører kontrollen.</li>
         </ul>
         <p>Hver indikator står på egne ben. Det er ingen sammensatt dom — bare en oversikt over hvor kommunene ligger mot hver enkelt norm. Demografiske tall er framskrevet med SSB MMMM, dashbordets hovedbane (tabell 14746).</p>
       </div>
@@ -470,12 +470,12 @@
 <footer class="nn-footer">
   <div class="nnf-grid">
     <div class="nnf-col">
-      <h4>Nord-Norge dashboard</h4>
+      <h4>Nord-Norge-dashbordet</h4>
       <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
-      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metodesiden</b></a> — ordnet etter kildetype (SSB, NAV, KS, OECD, BIN m.fl.).</p>
       <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
     </div>
     <div class="nnf-col">
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var fb = (function(){ var F = nb.fylker, b = function(f){ return F[f].sysselsetting_barometer['2026']; }; return {t: b('Troms'), n: b('Nordland'), f: b('Finnmark')}; })();
       kpiEl.innerHTML =
         '<div class="kpi"><div class="v down">' + fmtNb(nb.landsdel.mangel_total) + '</div><div class="l">Mangel i Nord-Norge</div><div class="nh">2026 · estimert</div></div>' +
-        '<div class="kpi"><div class="v">' + fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">vs ' + fmt(nb.landsdel.befolkning_andel_pct) + ' % av befolkningen</div></div>' +
+        '<div class="kpi"><div class="v">' + fmt(nb.landsdel.mangel_andel_av_nasjonalt_pct) + ' %</div><div class="l">Andel av nasjonal mangel</div><div class="nh">mot ' + fmt(nb.landsdel.befolkning_andel_pct) + ' % av befolkningen</div></div>' +
         '<div class="kpi"><div class="v up">+' + fmt(fb.t) + ' %</div><div class="l">Netto andel virksomheter som venter flere ansatte</div><div class="nh">Troms høyest i landet, Nordland +' + fmt(fb.n) + ' %, Finnmark +' + fmt(fb.f) + ' % (landet +' + fmt(natSb) + ' %)</div></div>' +
         '<div class="kpi"><div class="v">' + fmtNb(nb.landsdel.naeringer[0].mangel_nn) + '</div><div class="l">Helse og sosial</div><div class="nh">' + fmt(nb.landsdel.naeringer[0].andel_pct) + ' % av nasjonal mangel</div></div>';
     }

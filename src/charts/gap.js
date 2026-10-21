@@ -21,11 +21,11 @@ register('gap', (el, width) => {
       Plot.text([last], { x: 'year', y: 'behov', text: d => `Behov ${heltall(d.behov)}`, dx: 8, textAnchor: 'start', fill: 'var(--accent-text)', fontWeight: 600 }),
       Plot.text([last], { x: 'year', y: 'tilbud', text: d => `Tilbud ${heltall(d.tilbud)}`, dx: 8, textAnchor: 'start', fill: 'var(--ink-2)', fontWeight: 600 }),
       Plot.ruleX(rows, Plot.pointerX({ x: 'year', stroke: 'var(--ink-3)', strokeOpacity: 0.6 })),
-      Plot.tip(rows, Plot.pointerX({ x: 'year', y: 'behov', title: d => `${d.year}\nBehov: ${heltall(d.behov)}\nTilbud: ${heltall(d.tilbud)}\nGap: ${endring(Math.round(d.gap), 0)} årsverk`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(rows, Plot.pointerX({ x: 'year', y: 'behov', title: d => `${d.year}\nBehov: ${heltall(d.behov)}\nTilbud: ${heltall(d.tilbud)}\nForskjell: ${endring(Math.round(d.gap), 0)} årsverk`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   }));
   const leg = document.createElement('div');
   leg.className = 'nn-legend';
-  leg.innerHTML = '<span><i style="background:var(--accent)"></i>Behov (stillinger som må fylles)</span><span><i style="background:var(--ink-2)"></i>Tilbud (arbeidsføre med dagens sysselsettingsrate)</span><span><i style="background:color-mix(in srgb, var(--neg) 35%, transparent)"></i>Gap</span>';
+  leg.innerHTML = '<span><i style="background:var(--accent)"></i>Behov (stillinger som må fylles)</span><span><i style="background:var(--ink-2)"></i>Tilbud (arbeidsføre med dagens sysselsettingsrate)</span><span><i style="background:color-mix(in srgb, var(--neg) 35%, transparent)"></i>Forskjell</span>';
   return [fig, leg];
 });

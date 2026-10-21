@@ -106,11 +106,11 @@ register('tilbudgap', (el, width) => {
       Plot.text(rader, { x: 'tilbud', y: 'key', text: r => heltall(r.tilbud), dx: -6, textAnchor: 'end', fill: 'var(--bg)', fontWeight: 600, fontSize: 11.5 }),
       Plot.text(medGap, { x: 'etterspurt', y: 'key', text: r => `−${heltall(r.gap)}`, dx: 10, dy: -7, textAnchor: 'start', fill: 'var(--neg)', fontWeight: 600, fontSize: 12.5 }),
       Plot.text(medGap, { x: 'etterspurt', y: 'key', text: r => `etterspurt ${heltall(r.etterspurt)}`, dx: 10, dy: 8, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 11 }),
-      Plot.tip(rader, Plot.pointerY({ x: 'tilbud', y: 'key', title: r => `${r.l}\n${r.gap != null ? 'Tilgjengelig' : 'Sysselsatte'}: ${heltall(r.tilbud)}${r.gap != null ? `\nEtterspurt: ${heltall(r.etterspurt)}\nGap: ${heltall(r.gap)}` : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(rader, Plot.pointerY({ x: 'tilbud', y: 'key', title: r => `${r.l}\n${r.gap != null ? 'Tilgjengelig' : 'Sysselsatte'}: ${heltall(r.tilbud)}${r.gap != null ? `\nEtterspurt: ${heltall(r.etterspurt)}\nMangel: ${heltall(r.gap)}` : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   });
   const leg = document.createElement('div'); leg.className = 'nn-legend';
-  leg.innerHTML = '<span><i style="background:var(--muted-mark)"></i>Sysselsatte (2025) / tilgjengelig arbeidskraft (2040)</span><span><i style="background:var(--accent);width:3px"></i>Etterspurt arbeidskraft</span><span><i style="background:color-mix(in srgb, var(--accent) 22%, transparent);outline:1px dashed var(--accent)"></i>Gap</span>';
+  leg.innerHTML = '<span><i style="background:var(--muted-mark)"></i>Sysselsatte (2025) / tilgjengelig arbeidskraft (2040)</span><span><i style="background:var(--accent);width:3px"></i>Etterspurt arbeidskraft</span><span><i style="background:color-mix(in srgb, var(--accent) 22%, transparent);outline:1px dashed var(--accent)"></i>Mangel</span>';
   const out = [fig, leg];
   if (s.kilde) { const k = document.createElement('div'); k.className = 'nn-source'; k.textContent = s.kilde; out.push(k); }
   return out;

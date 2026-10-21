@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bygges det nok? · Nord-Norge dashboard</title>
+<title>Bygges det nok? · Nord-Norge-dashbordet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -81,8 +81,8 @@
 <!-- ────────────────── AKT 02 — BEHOVET ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 02 · Behovet</div>
-  <h2>Behovet forsvinner ikke selv om <em>folketallet</em> gjør det.</h2>
-  <p class="akt-intro">Boligbehov styres av husholdninger, ikke hoder. Når husholdningene blir mindre — flere aleneboende eldre, færre barnefamilier — trengs det flere boliger per tusen innbyggere. BB-KVOTE-modellen beregner årlig behov per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen, på alle framskrivingsbanene i dashbordet.</p>
+  <h2>Behovet forsvinner ikke selv om <em>folketallet</em> går ned.</h2>
+  <p class="akt-intro">Boligbehov styres av husholdninger, ikke hoder. Når husholdningene blir mindre — flere aleneboende eldre, færre barnefamilier — trengs det flere boliger per tusen innbyggere. BB-KVOTE-modellen beregner årlig behov per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av boligmassen, på alle framskrivingsbanene i dashbordet.</p>
   <div class="graf-kort">
     <h3>Årlig boligbehov mot faktisk tilførsel — <span id="gapTittelOmr">Nord-Norge</span></h3>
     <p class="hint" style="font-size:12px;margin:2px 0 10px">Hvit linje (svart i lys visning) = fullførte boliger per år (SSB). Blå linje = beregnet årlig behov, hovedbane (SSB MMMM × trendkvote). Skravert bånd = spennet over 8 kombinasjoner: fire befolkningsbaner (SSB MMMM som hovedbane, SSBs egne lav- og høybaner, samt vår tilleggsbane TF-ATTR) × to husholdningskvoter. Området velges over.</p>
@@ -106,7 +106,7 @@
 <section class="akt">
   <div class="akt-num">Akt 03 · Bruktmarkedet</div>
   <h2>Bruktmarkedet er <em>fem–seks ganger</em> større enn nybyggingen.</h2>
-  <p class="akt-intro">De fleste boligkjøp i Nord-Norge skjer i bruktmarkedet. Prisnivået der avgjør om nybygging lønner seg: når avstanden mellom bruktpris og byggekostnad blir for stor, stopper prosjektene. Det er den strukturelle forklaringen på byggefallet — og den er større i nord, der bruktprisene utenfor Tromsø ligger langt under landssnittet.</p>
+  <p class="akt-intro">De fleste boligkjøp i Nord-Norge skjer i bruktmarkedet. Prisnivået der avgjør om nybygging lønner seg: når avstanden mellom bruktpris og byggekostnad blir for stor, stopper prosjektene. Det er den strukturelle forklaringen på byggefallet — og avstanden er større i nord, der bruktprisene utenfor Tromsø ligger langt under landssnittet.</p>
   <div class="kpi-rad" id="markKPI"></div>
   <div class="graf-kort">
     <h3>Kvadratmeterpris per kommune, 2025 — alle boligtyper</h3>
@@ -120,7 +120,7 @@
     <div class="legend"><span><i style="background:var(--ink2)"></i>Bruktomsetninger</span><span><i style="background:var(--nl)"></i>Fullførte nybygg</span></div>
   </div>
   <div class="kal-kort" style="background:color-mix(in srgb, var(--cat-5) 7%, transparent);border-color:color-mix(in srgb, var(--cat-5) 30%, transparent)">
-    <h3>Pris-avstanden som stopper byggingen</h3>
+    <h3>Prisavstanden som stopper byggingen</h3>
     <p style="font-size:13px;line-height:1.6;margin:0 0 8px" id="gapTekst"></p>
     <p class="hint" style="font-size:11.5px;margin:0">Nybyggtallet gjelder eneboliger inkludert tomt (SSB 13500) og bygger på få omsetninger i landsdelen (25 i 2025) — nivået er usikkert, retningen er ikke. Bruktprisen er omsetningsvektet snitt av fylkene (SSB 14545, eneboliger).</p>
   </div>
@@ -130,7 +130,7 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Sårbarheten</div>
   <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
-  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestall. I første halvår 2026 stod to kommuner for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
+  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestallet. I første halvår 2026 stod to kommuner for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
   <div class="kpi-rad" id="sarbKPI"></div>
   <div class="graf-kort">
     <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettingstillatelser, siste 12 måneder</h3>
@@ -190,19 +190,19 @@
   <div>
     <div class="bs-tag">Hva sier de unge? · Barometer 2026X</div>
     <div class="bs-title">Fire av ti unge eier boligen</div>
-    <p>42 % av 18–34-åringene i Nord-Norge eier boligen de bor i, og 32 % leier privat, mot 23 % i resten av landet. Halvparten mener det er vanskelig å finne en stor nok bolig når de forklarer hvorfor folk får færre barn — sju av ti i Bodø og Tromsø. Kilde: Kunnskapsbanken (SpareBank 1 Nord-Norge), spørreundersøkelse august 2026. Mer på temasiden <a href="tema-ung.html">Ung i nord</a>.</p>
+    <p>42 % av 18–34-åringene i Nord-Norge eier boligen de bor i, og 32 % leier privat, mot 23 % i resten av landet. Når de forklarer hvorfor folk får færre barn, peker halvparten på at det er vanskelig å finne en stor nok bolig — sju av ti i Bodø og Tromsø. Kilde: Kunnskapsbanken (SpareBank 1 Nord-Norge), spørreundersøkelse august 2026. Mer på temasiden <a href="tema-ung.html">Ung i nord</a>.</p>
   </div>
 </div>
 
 <footer class="nn-footer">
   <div class="nnf-grid">
     <div class="nnf-col">
-      <h4>Nord-Norge dashboard</h4>
+      <h4>Nord-Norge-dashbordet</h4>
       <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
-      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metodesiden</b></a> — ordnet etter kildetype (SSB, NAV, KS, OECD, BIN m.fl.).</p>
       <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
     </div>
     <div class="nnf-col">
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function(){
       if(fall && be.w.m_tr[0] > 0) antall++;
     });
     document.getElementById('pedPoeng').innerHTML =
-      'Av de <b>' + fallende + '</b> kommunene med fallende folketall på hovedbanen mot 2050 har <b>' + antall + '</b> fortsatt et <i>positivt</i> beregnet boligbehov i 2026–2030, fordi husholdningene blir mindre og gamle boliger går ut av massen.';
+      'Av de <b>' + fallende + '</b> kommunene med fallende folketall på hovedbanen mot 2050 har <b>' + antall + '</b> fortsatt et <i>positivt</i> beregnet boligbehov i 2026–2030, fordi husholdningene blir mindre og gamle boliger går ut av boligmassen.';
   }
 
   // ---------- akt 03 ----------
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var under = pL && pR ? Math.round((1 - pL / pR) * 100) : null;
     document.getElementById('markKPI').innerHTML =
       '<div class="kpi"><div class="v">' + fmt(oms25) + '</div><div class="l">Bruktomsetninger ' + M.oms_years[nA-1] + '</div><div class="s">' + (oms25 / fu12).toFixed(1).replace('.', ',') + ' ganger antall fullførte nybygg</div></div>' +
-      '<div class="kpi"><div class="v">' + fmt(pL) + ' kr</div><div class="l">Kvm-pris landsdelen ' + M.kvm_aar + '</div><div class="s">' + (under != null ? under + ' % under landssnittet (' + fmt(pR) + ' kr)' : 'omsetningsvektet snitt av fylkene') + '</div></div>' +
+      '<div class="kpi"><div class="v">' + fmt(pL) + ' kr</div><div class="l">Kvadratmeterpris i landsdelen ' + M.kvm_aar + '</div><div class="s">' + (under != null ? under + ' % under landssnittet (' + fmt(pR) + ' kr)' : 'omsetningsvektet snitt av fylkene') + '</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(Math.round(kjs25 / oms25 * 1000 / 100000) / 10).replace('.', ',') + ' mill.</div><div class="l">Snittpris per bolig ' + M.oms_years[nA-1] + '</div><div class="s">samlet kjøpesum delt på omsetninger</div></div>' +
       '<div class="kpi"><div class="v">' + harP.length + ' av 80</div><div class="l">Kommuner med pristall</div><div class="s">resten er under publiseringsgrensen</div></div>';
     document.getElementById('kvmDekning').textContent = harP.length + ' av 80 kommuner i 2025';

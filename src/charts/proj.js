@@ -163,7 +163,7 @@ function renderFb(el, width, k, o, sp = {}) {
   const ticks = [2026, 2030, 2035, 2040, 2045, 2050];
 
   const t1 = document.createElement('div'); t1.className = 'nn-subhead';
-  t1.textContent = 'Eldre (65+) per 100 i yrkesaktiv alder (20–64)';
+  t1.textContent = 'Eldre (65+) per 100 i alderen 20–64';
   const figA = Plot.plot(base({
     width, height: 230, marginRight: 56,
     x: { ticks, tickFormat: String },

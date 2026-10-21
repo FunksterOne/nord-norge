@@ -27,7 +27,7 @@ register('trykkmatrise', (el, width) => {
   wrap.className = 'nn-trykk';
   const bar = document.createElement('div');
   bar.className = 'nn-seg';
-  bar.innerHTML = '<button type="button" data-v="matrise" aria-selected="true">Trykkmatrise</button><button type="button" data-v="rang" aria-selected="false">Rangering: arbeidsføre 2050</button><button type="button" data-v="byrde" aria-selected="false">Rangering: forsørgerbyrde 2050</button>';
+  bar.innerHTML = '<button type="button" data-v="matrise" aria-selected="true">Trykkmatrise</button><button type="button" data-v="rang" aria-selected="false">Rangering: arbeidsføre 2050</button><button type="button" data-v="byrde" aria-selected="false">Rangering: forsørgerbrøk 2050</button>';
   const legend = document.createElement('div');
   legend.className = 'nn-legend';
   legend.innerHTML = Object.entries(FY).map(([f, c]) => `<span><i style="background:${c};border-radius:50%;width:10px"></i>${f}</span>`).join('') + '<span class="nn-legend-note">Sirkelflate = folketall</span>';
@@ -64,7 +64,7 @@ register('trykkmatrise', (el, width) => {
     tip.style.opacity = 1;
     tip.style.left = Math.min(e.clientX - b.left + 14, b.width - 210) + 'px';
     tip.style.top = (e.clientY - b.top + 12) + 'px';
-    tip.innerHTML = `<b>${d.navn}</b> · ${d.fylke} · ${d.n} kommuner<br>Folketall: ${heltall(d.pop)}<br>65+ i dag: ${tall(d.a65, 1)} %<br>Arbeidsføre 2026–2050: ${endringPst(d.wf, 1)}<br>Forsørgerbyrde 2050: ${tall(d.b50, 0)}`;
+    tip.innerHTML = `<b>${d.navn}</b> · ${d.fylke} · ${d.n} kommuner<br>Folketall: ${heltall(d.pop)}<br>65+ i dag: ${tall(d.a65, 1)} %<br>Arbeidsføre 2026–2050: ${endringPst(d.wf, 1)}<br>Forsørgerbrøk 2050: ${tall(d.b50, 0)}`;
   }).on('pointerleave', () => { tip.style.opacity = 0; })
     .on('click', () => { const t = document.getElementById('regTbl'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
@@ -74,7 +74,7 @@ register('trykkmatrise', (el, width) => {
 
   function matrise() {
     tr(quad).attr('x', x(medX)).attr('y', y(medY)).attr('width', x.range()[1] - x(medX)).attr('height', y.range()[0] - y(medY)).attr('opacity', 0.09);
-    tr(qtxt).attr('x', width - m.r - 6).attr('y', H - m.b - 8).attr('opacity', 1).text('Eldre enn snittet og større tap av arbeidsføre');
+    tr(qtxt).attr('x', width - m.r - 6).attr('y', H - m.b - 8).attr('opacity', 1).text('Eldre enn medianen og større tap av arbeidsføre');
     tr(mx).attr('x1', x(medX)).attr('x2', x(medX)).attr('y1', m.t).attr('y2', H - m.b).attr('opacity', 1);
     tr(my).attr('x1', m.l).attr('x2', width - m.r).attr('y1', y(medY)).attr('y2', y(medY)).attr('opacity', 1);
     ax(tr(gx), d3.axisBottom(x).ticks(6).tickFormat(v => `${tall(v, 0)} %`));
@@ -94,8 +94,8 @@ register('trykkmatrise', (el, width) => {
     tr(mx).attr('opacity', 0); tr(my).attr('opacity', 0);
     ax(tr(gx), d3.axisBottom(xr).ticks(6).tickFormat(v => key === 'wf' ? `${tall(v, 0)} %` : tall(v, 0)));
     tr(gy).call(a => a.selectAll('*').remove());
-    xl.text(key === 'wf' ? 'Endring i arbeidsføre 2026–2050 →' : 'Eldre per 100 i yrkesaktiv alder i 2050 →');
-    yl.text(key === 'wf' ? 'Størst tap øverst' : 'Høyest forsørgerbyrde øverst');
+    xl.text(key === 'wf' ? 'Endring i arbeidsføre 2026–2050 →' : 'Eldre per 100 i alderen 20–64 i 2050 →');
+    yl.text(key === 'wf' ? 'Størst tap øverst' : 'Høyest forsørgerbrøk øverst');
     const v = d => key === 'wf' ? d.wf : d.b50;
     tr(g).attr('transform', d => `translate(${xr(v(d))},${yb(d.id) + yb.bandwidth() / 2})`);
     tr(lab).attr('x', d => m.l - xr(v(d)) + 4).attr('text-anchor', 'start');

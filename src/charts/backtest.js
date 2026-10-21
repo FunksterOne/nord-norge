@@ -27,10 +27,10 @@ register('backtest', (el, width) => {
     marks: [
       Plot.barX(vis, { fy: 'g', y: 'serie', x: 'v', fill: r => r.farge, fillOpacity: r => (r.vinner ? 1 : 0.38) }),
       Plot.text(vis, { fy: 'g', y: 'serie', x: 'v', text: r => tall(r.v, 2) + (r.vinner ? ' ●' : ''), dx: 5, textAnchor: 'start', fill: r => (r.vinner ? 'var(--ink)' : 'var(--ink-3)'), fontWeight: r => (r.vinner ? 600 : 400), fontSize: 11 }),
-      Plot.tip(vis, Plot.pointer({ fy: 'g', y: 'serie', x: 'v', title: r => `${r.lab} (${r.sub})\n${r.serie}: ${tall(r.v, 2)} % feil${r.vinner ? '\nLavest i raden' : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(vis, Plot.pointer({ fy: 'g', y: 'serie', x: 'v', title: r => `${r.lab} (${r.sub})\n${r.serie}: ${tall(r.v, 2)} % feil${r.vinner ? '\nMinst feil i raden' : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   });
   const leg = document.createElement('div'); leg.className = 'nn-legend';
-  leg.innerHTML = s.serier.map(z => `<span><i style="background:${z[1]}"></i>${z[0]}</span>`).join('') + '<span class="nn-legend-note">● = lavest feil i raden (toleranse 0,05 prosentenheter). Bleke stolper = ikke best.</span>';
+  leg.innerHTML = s.serier.map(z => `<span><i style="background:${z[1]}"></i>${z[0]}</span>`).join('') + '<span class="nn-legend-note">● = minst feil i raden (toleranse 0,05 prosentpoeng). Bleke stolper = ikke best.</span>';
   return [fig, leg];
 });

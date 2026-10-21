@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kommune — Nord-Norge dashboard</title>
+<title>Kommune — Nord-Norge-dashbordet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -159,7 +159,7 @@
 
 <section class="tab" data-tab="okonomi">
   <h2 class="section-title">Økonomi</h2>
-  <p class="section-sub">Hvor sterk står kommunekassen?</p>
+  <p class="section-sub">Hvor sterkt står kommunekassen?</p>
   <div id="kOkonomi"></div>
 </section>
 
@@ -179,12 +179,12 @@
 <footer class="nn-footer">
   <div class="nnf-grid">
     <div class="nnf-col">
-      <h4>Nord-Norge dashboard</h4>
+      <h4>Nord-Norge-dashbordet</h4>
       <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
-      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metodesiden</b></a> — ordnet etter kildetype (SSB, NAV, KS, OECD, BIN m.fl.).</p>
       <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
     </div>
     <div class="nnf-col">
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var fLink = document.getElementById('bcFylke');
   fLink.textContent = k.fylke;
   fLink.href = 'fylke.html?f=' + encodeURIComponent(k.fylke);
-  document.title = k.navn + ' — Nord-Norge dashboard';
+  document.title = k.navn + ' — Nord-Norge-dashbordet';
 
   // Plassering blant de 80 kommunene + lite kart
   var plass = document.getElementById('kPlassering');
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="kpi"><div class="v">' + (forGrunnskole/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">Under skolealder</div><div class="s">' + fmt(forGrunnskole) + ' barn 0–5 år</div></div>' +
         '<div class="kpi"><div class="v">' + (a80/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">80 år og over</div><div class="s">' + fmt(a80) + ' personer</div></div>' +
         '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0).replace('.',',') + '/' + (eldre/k.pop*100).toFixed(0).replace('.',',') + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
-        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatt · innv.</div><div class="s">' + (sjGap!=null ? (sjGap.charAt(0)==='-' ? sjGap.slice(1) + ' prosentpoeng over hele bef.' : sjGap + ' prosentpoeng under hele bef.') : '20–66 år, 2025') + '</div></div>' +
+        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatte innvandrere</div><div class="s">' + (sjGap!=null ? (sjGap.charAt(0)==='-' ? sjGap.slice(1) + ' prosentpoeng over hele befolkningen' : sjGap + ' prosentpoeng under hele befolkningen') : '20–66 år, 2025') + '</div></div>' +
       '</div>';
   }
 
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var modes = [
       {key:'tot', lab:'Folketall', sub:'Total befolkning 2000–2050'},
       {key:'dec', lab:'Drivkrefter', sub:'Fødsler, dødsfall, flytting'},
-      {key:'fb',  lab:'Forsørgerbyrde', sub:'Eldre per 100 i yrkesaktiv alder'},
+      {key:'fb',  lab:'Forsørgerbrøk', sub:'Eldre per 100 i alderen 20–64'},
       {key:'ald', lab:'Aldring', sub:'80+-andelen vokser raskest'}
     ];
     var mwOpts = [
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var currentUkr = ukrOpts.find(function(o){return o.key===state.ukr;}) || ukrOpts[0];
     var ukrExplainer = state.ukr === 0
       ? '<b>Grunnscenario:</b> ukrainere antas å bli værende — framskrivingen følger sin valgte flyttebane uten Ukraina-justering.'
-      : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2027. Folketallet faller tilsvarende fra grunnscenarioet.';
+      : '<b>Følsomhetsberegning:</b> ' + state.ukr + ' % av Ukraina-kohorten (' + (state.ukr === 100 ? 'alle' : 'halvparten') + ') antas å forlate landsdelen i løpet av 2027. Folketallet blir tilsvarende lavere enn i grunnscenarioet.';
 
     // KPI-er — bruker SSB MMMM som hovedbane (TF-ATTR vises i tabellen under hvis tilgjengelig)
     var P = DATA.proj, o = P && P.kommuner[k.nr];
@@ -412,8 +412,8 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="k"><div class="v">'+fmt(Math.round(ssb2050))+'</div><div class="l">Folketall 2050</div><div class="h">SSB MMMM (offisiell bane)</div></div>'+
         '<div class="k"><div class="v '+(pp>=0?'up':'down')+'">'+sg(pp,1)+' %</div><div class="l">Endring 2026–2050</div><div class="h">SSB MMMM, 24 år</div></div>'+
         (oad0!=null && oad1!=null
-          ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+' → '+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde</div><div class="h">65+ per 100 i 20–64</div></div>'
-          : '<div class="k"><div class="v">—</div><div class="l">Forsørgerbyrde</div><div class="h">data utilgjengelig</div></div>'
+          ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+' → '+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbrøk</div><div class="h">65+ per 100 i alderen 20–64</div></div>'
+          : '<div class="k"><div class="v">—</div><div class="l">Forsørgerbrøk</div><div class="h">data utilgjengelig</div></div>'
         )+
         // Krysningsår: første år med flere 67+ enn 18–34 (UNG_DATA, fetch_ung.py)
         (typeof UNG_DATA !== 'undefined' && UNG_DATA.kommuner[k.nr] ? (function(){
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function(){
       // TF-ATTR-rad hvis tilgjengelig
       if(tfattr2050){
         var attrDiff = ((tfattr2050 - ssb2050a)/ssb2050a*100);
-        rows += '<tr class="ref"><td>Strukturmodell <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(TF-ATTR — vår tilleggsbane)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % vs SSB</td></tr>';
+        rows += '<tr class="ref"><td>Strukturmodell <span style="font-size:10.5px;color:var(--ink3);font-weight:400">(TF-ATTR — vår tilleggsbane)</span></td><td class="r num">'+fmt(Math.round(tfattr2050))+'</td><td class="r num">'+sg((tfattr2050/pop0a-1)*100,1)+' %</td><td class="r" style="font-size:10.5px;color:var(--ink3)">'+sg(attrDiff,1)+' % mot SSB</td></tr>';
       }
       // TF-MVP per vindu
       ['kons','sentral','opt'].forEach(function(w){
@@ -447,12 +447,12 @@ document.addEventListener('DOMContentLoaded', function(){
         var diff = ((pop2050 - ssb2050a)/ssb2050a*100);
         var pctChg = ((pop2050/pop0a - 1)*100);
         var rowCls = (w === state.mw) ? ' class="active"' : '';
-        rows += '<tr'+rowCls+'><td>Yttergrense · '+winLabels[w]+' <span style="font-size:10px;color:var(--ink3);font-weight:400">(TF-MVP)</span></td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % vs SSB</td></tr>';
+        rows += '<tr'+rowCls+'><td>Yttergrense · '+winLabels[w]+' <span style="font-size:10px;color:var(--ink3);font-weight:400">(TF-MVP)</span></td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % mot SSB</td></tr>';
       });
       mvpTblHTML =
         '<div><div style="font-weight:600;color:var(--ink);font-size:13px;margin-bottom:6px">Hva sier de fire banene ved 2050?</div>'+
         '<table class="mvp-win-tbl">'+
-          '<thead><tr><th>Bane</th><th class="r">2050</th><th class="r">Endring fra 2026</th><th class="r">Avvik vs SSB</th></tr></thead>'+
+          '<thead><tr><th>Bane</th><th class="r">2050</th><th class="r">Endring fra 2026</th><th class="r">Avvik mot SSB</th></tr></thead>'+
           '<tbody>'+rows+'</tbody>'+
         '</table></div>';
       // Sanity-warning hvis aktivt vindu avviker ≥15 % fra SSB
@@ -463,8 +463,8 @@ document.addEventListener('DOMContentLoaded', function(){
           var dir = ppDiff < 0 ? 'mer pessimistisk' : 'mer optimistisk';
           sanityHTML = '<div class="mvp-sanity">'+
             '<b>Yttergrense-modellen forlenger flyttenivåer fra «'+currentMw.title+'»-perioden i 24 år.</b> '+
-            'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+Math.abs(ppDiff).toFixed(0).replace('.',',')+' % '+dir+' enn SSB MMMM ved 2050. '+
-            (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mindre dramatisk anslag — strukturmodellen er vår tilleggsbane og slår yttergrense-modellene i backtesten 2020–2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mindre dramatisk anslag.')+
+            'For <b>'+k.navn+'</b> var den perioden særlig '+(ppDiff<0?'svak':'sterk')+'; banen ender '+Math.abs(ppDiff).toFixed(0).replace('.',',')+' % '+dir+' enn SSB MMMM i 2050. '+
+            (o.tfattr ? 'Bredere vindu eller <b>strukturmodellen</b> gir et mer moderat anslag — strukturmodellen er vår tilleggsbane og slår yttergrense-modellene i etterprøvingen 2020–2024 i de minst sentrale kommunene.' : 'Bredere vindu gir et mer moderat anslag.')+
           '</div>';
         }
       }
@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">'+currentMode.lab+' · '+currentMode.sub+'</p>'+
           chartSvg+
-          (state.projMode === 'dec' ? '<p class="hint" style="margin:8px 0 0;font-size:11.5px"><b>Dekomponeringen finnes bare for TF-MVP</b> — yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen. Bytt flyttevindu i visningen under for å se hvor følsom splitten er.</p>' : '')+
+          (state.projMode === 'dec' ? '<p class="hint" style="margin:8px 0 0;font-size:11.5px"><b>Dekomponeringen finnes bare for TF-MVP</b> — yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen. Bytt flyttevindu i visningen under for å se hvor følsom fordelingen er.</p>' : '')+
         '</div>'+
         '<div class="bf-kpis">'+kpiHTML+'</div>'+
         // TF-MVP-alternativer i utvidbar visning. SSB MMMM + TF-ATTR er hovedfortellingen;
@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<summary>'+
             '<span class="bf-mvp-arrow">▸</span> '+
             '<span>Vis yttergrense-modeller — TF-MVP og scenarier</span>'+
-            '<span class="bf-mvp-hint">Historiske flyttesnitt projisert 24 år frem · justerbart</span>'+
+            '<span class="bf-mvp-hint">Historiske flyttesnitt framskrevet 24 år · justerbart</span>'+
           '</summary>'+
           '<div class="bf-mvp-body">'+
             mvpTblHTML+
@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var o = k.nr > 0 ? B.kommuner[String(k.nr)] : k.nr === -1 ? B.nn : ({'-18':B.fylker.Nordland,'-55':B.fylker.Troms,'-56':B.fylker.Finnmark})[String(k.nr)];
     if(!o || o[3] == null) return '';
     var pst = function(v){ return v.toFixed(1).replace('.',',') + ' %'; };
-    return '<div class="k"><div class="v">'+pst(o[3])+'</div><div class="l">Innvandrere med botid 10 år+</div>'+
+    return '<div class="k"><div class="v">'+pst(o[3])+'</div><div class="l">Innvandrere med botid 10 år eller mer</div>'+
       '<div class="h">'+fmt(o[4])+' av '+fmt(o[5])+' · landet '+pst(B.landet[3])+(o[0] != null ? ' · 2021: '+pst(o[0]) : '')+'</div></div>';
   }
 
@@ -595,13 +595,13 @@ document.addEventListener('DOMContentLoaded', function(){
     var chartHtml = barChart(ageGroups(k.alder, state.ageMode), 'var(--aurora)');
 
     // Pedagogisk tolkning
-    var aldringStatus = med < 38 ? 'ung profil' : med < 43 ? 'moderat alder' : 'aldrende profil';
+    var aldringStatus = med < 38 ? 'ung profil' : med < 43 ? 'middels aldersprofil' : 'aldrende profil';
     var aldringFarge = med < 38 ? 'var(--pos)' : med < 43 ? 'var(--ink2)' : 'var(--neg)';
     var folketext = '<b>' + k.navn + '</b> har en <b style="color:' + aldringFarge + '">' + aldringStatus +
       '</b> med medianalder <b>' + med + ' år</b>. ';
-    if(barn/pop > 0.22) folketext += 'Andelen barn under 18 er høyere enn typisk for landsdelen — kommunen har en bredere barnefase. ';
+    if(barn/pop > 0.22) folketext += 'Andelen barn under 18 er høyere enn typisk for landsdelen. ';
     else if(barn/pop < 0.16) folketext += 'Andelen barn under 18 ligger lavere enn typisk for landsdelen. ';
-    if(eldre67/pop > 0.22) folketext += '<b>Mer enn 1 av 5</b> er over 67 år — aldringskostnaden er allerede høy. ';
+    if(eldre67/pop > 0.22) folketext += '<b>Mer enn én av fem</b> er 67 år eller eldre — aldringskostnaden er allerede høy. ';
     else if(eldre67/pop > 0.18) folketext += 'Andelen over 67 år er moderat — innenfor det vi ser i mange distriktskommuner. ';
     if(eldre80/pop > 0.07) folketext += 'Gruppen 80+ er stor (' + (eldre80/pop*100).toFixed(1).replace('.',',') + ' %) — den raskest voksende kostnadskategorien for kommuner. ';
     var medInnv = (function(){ var a = K.map(function(x){ return x.andel; }).sort(function(p,q){ return p-q; }); var m = a.length/2; return a.length % 2 ? a[Math.floor(m)] : (a[m-1]+a[m])/2; })();
@@ -615,7 +615,7 @@ document.addEventListener('DOMContentLoaded', function(){
       (k.nr <= -101 && k.nr >= -113 && typeof REGIONS !== 'undefined' ? 'r-' + REGIONS[-k.nr - 101].id : null);
     var pyrHTML = pyrId && window.NN ?
       '<div class="card" style="margin-bottom:18px"><div class="ch"><h3 data-pyr-tittel>Befolkningspyramide 2000–2050</h3></div>' +
-      '<p class="hint" style="margin:0 0 10px;font-size:12px">Trykk «Spill av» eller dra i glidebryteren. Det svarte omrisset er dagens befolkning, så endringen mot hvert år blir synlig.</p>' +
+      '<p class="hint" style="margin:0 0 10px;font-size:12px">Trykk «Spill av» eller dra i glidebryteren. Omrisset viser dagens befolkning, slik at endringen mot hvert år blir synlig.</p>' +
       NN.placeholder('pyramide', {id: pyrId}, 520) + '</div>' : '';
     host.innerHTML = pyrHTML +
       '<div class="bf-panel">'+
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">Aldersstruktur 1.1.2026 · '+currentMode.lab+' — '+currentMode.sub+'</p>'+
           chartHtml+
-          '<p class="hint" style="margin:8px 0 0;font-size:11.5px">SSB tabell 07459. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per '+(typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026')+'.</p>'+
+          '<p class="hint" style="margin:8px 0 0;font-size:11.5px">SSB tabell 07459. Aldersfordelingen publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per '+(typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026')+'.</p>'+
         '</div>'+
         // KPI-rad
         '<div class="bf-kpis">'+
@@ -713,8 +713,8 @@ document.addEventListener('DOMContentLoaded', function(){
       aldring > 25 ? 'svært stort' :
       aldring > 15 ? 'stort' :
       aldring > 8 ? 'moderat' : 'beskjedent';
-    var tolkning = (aldring != null && aldring < 0) ? '<b>' + k.navn + '</b> har høy forsørgerbyrde i dag, men den ventes å falle mot 2050. ' : '<b>' + k.navn + '</b> har et <b>' + presset + '</b> aldringspress fram mot 2050. ';
-    if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbrøken går fra <b>' + oad0.toFixed(0).replace('.',',') + '</b> til <b>' + oad1.toFixed(0).replace('.',',') + '</b> innbyggere over 65 år per 100 i alderen 20–64. ';
+    var tolkning = (aldring != null && aldring < 0) ? '<b>' + k.navn + '</b> har høy forsørgerbrøk i dag, men den ventes å falle mot 2050. ' : '<b>' + k.navn + '</b> har et <b>' + presset + '</b> aldringspress fram mot 2050. ';
+    if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbrøken går fra <b>' + oad0.toFixed(0).replace('.',',') + '</b> til <b>' + oad1.toFixed(0).replace('.',',') + '</b> innbyggere 65 år og over per 100 i alderen 20–64. ';
     if(sysRate != null) tolkning += 'Sysselsettingsraten er <b>' + (sysRate*100).toFixed(0).replace('.',',') + ' %</b> i ' + ((typeof ARBEID_DATA !== 'undefined' && ARBEID_DATA.year) || 2025) + '. ';
     if(uforePct != null) tolkning += 'Uføreandelen på <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b> er ' + (uforePct > 12 ? 'klart over' : uforePct > 11.5 ? 'over' : uforePct < 9.5 ? 'under' : 'rundt') + ' nasjonalt snitt (10,7 %)' + (uforePct > 12 ? ' — det forsterker presset' : '') + '. ';
 
@@ -739,7 +739,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<div class="h-row"><h3>Hva betyr dette?</h3>'+
           '<span class="tag" style="color:var(--neg);background:color-mix(in srgb, var(--neg) 15%, transparent)">'+presset+' press</span></div>'+
           '<p>'+tolkning+'</p>'+
-          '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
+          '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
       '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn) : '') + eldreCard(k);
   }
@@ -809,7 +809,7 @@ document.addEventListener('DOMContentLoaded', function(){
       x: xs.map(function(qi){ return qxk(Q[qi]); }),
       xEtikett: xs.map(function(qi){ return Q[qi].slice(5) + '. kv. ' + Q[qi].slice(0,4); }),
       serier: [
-        {navn:'Igangsettingstillatelser, 12 mnd', kort:'Igangsatt', data: igS, farge:'accent', uthev:true},
+        {navn:'Igangsettingstillatelser, 12 mnd', kort:'Tillatelser', data: igS, farge:'accent', uthev:true},
         {navn:'Fullførte boliger, 12 mnd', kort:'Fullført', data: fuS, farge:'cat-4'}
       ],
       ref: behov > 0 ? [{y: behov, tekst: 'Beregnet årlig behov ' + fmt(behov)}] : [],
@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }, 260);
     html += '<div class="ch"><h3 class="serif" style="font-size:15px">Byggetakt 2000–2026 mot beregnet behov</h3>' + svg +
       
-      '<p class="hint" style="margin:10px 0 0;font-size:11.5px">SSB 05889 (skjøtet til 2024-grenser) og BB-KVOTE-modellen (SSB 14746 + 09747 + 10784). Husholdningsstørrelse ' + Number(be.hh25).toFixed(2).replace('.', ',') + ' (2025), registrert avgang ~' + fmt(be.ersta) + ' bolig(er)/år. Tillatelser er ikke spadestikk — se <a href="metode.html">metode</a>. Hele bildet: <a href="tema-bolig.html">Bygges det nok?</a></p></div>';
+      '<p class="hint" style="margin:10px 0 0;font-size:11.5px">SSB 05889 (skjøtet til 2024-grenser) og BB-KVOTE-modellen (SSB 14746 + 09747 + 10784). Husholdningsstørrelse ' + Number(be.hh25).toFixed(2).replace('.', ',') + ' (2025), registrert avgang om lag ' + fmt(be.ersta) + ' bolig(er)/år. Tillatelser er ikke spadestikk — se <a href="metode.html">metode</a>. Hele bildet: <a href="tema-bolig.html">Bygges det nok?</a></p></div>';
     host.innerHTML = html;
   }
 
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var RB = (P && P.robek) || {kommuner:{},pending:{}};
     var inROBEK = !!(RB.kommuner && RB.kommuner[k.nr]);
     var pending = !!(RB.pending && RB.pending[k.nr]);
-    var robekStatus = inROBEK ? 'I ROBEK' : pending ? 'Over grensen' : 'Trygg';
+    var robekStatus = inROBEK ? 'I ROBEK' : pending ? 'Over grensen' : 'Ikke i ROBEK';
     var robekColor = inROBEK ? 'var(--neg)' : pending ? 'var(--amber)' : 'var(--pos)';
 
     // Sjekk mot eksterne normer (EXT_NORMS i assets/app.js)
@@ -850,23 +850,23 @@ document.addEventListener('DOMContentLoaded', function(){
     if(fond != null && !fondOK) fails++;
     if(gj != null && !gjeldOK) fails++;
     if(inROBEK || pending) fails++;
-    var verdict = fails === 0 ? 'solid' : fails === 1 ? 'innenfor med ett varsel' : fails === 2 ? 'svak på to normer' : fails >= 3 ? 'svake fundamenter' : 'ukjent';
+    var verdict = fails === 0 ? 'solid' : fails === 1 ? 'innenfor med ett varsel' : fails === 2 ? 'svak på to normer' : fails >= 3 ? 'svak på tre eller flere normer' : 'ukjent';
     var verdictColor = fails === 0 ? 'var(--pos)' : fails <= 1 ? 'var(--amber)' : 'var(--neg)';
     var verdictTekst = '<b>' + k.navn + '</b>s kommuneøkonomi er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
-    if(ndr != null) verdictTekst += 'Netto driftsresultat ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-norm +1¾ %). ';
+    if(ndr != null) verdictTekst += 'Netto driftsresultat er ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-normen på 1,75 %). ';
     if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
     if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 1) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på ' + N.ksGjeld + ' %). ';
-    if(inROBEK) verdictTekst += 'Kommunen er <b>registrert i ROBEK</b> (kommuneloven §28-1) — Statsforvalteren fører tilsyn. ';
+    if(inROBEK) verdictTekst += 'Kommunen er <b>registrert i ROBEK</b> (kommuneloven § 28-1) — Statsforvalteren fører tilsyn. ';
     else if(pending) verdictTekst += 'Kommunen er <b>over ROBEK-grensen</b> og er under behandling.';
 
     host.innerHTML =
       '<div class="bf-panel">'+
         // KPI-rad: 4 KOSTRA-indikatorer mot eksterne normer
         '<div class="bf-kpis">'+
-          '<div class="k"><div class="v" style="color:'+statColor(ndrOK)+'">'+fmtP(ndr)+'</div><div class="l">Netto driftsresultat</div><div class="h">TBU-norm: +1¾ % '+(ndr!=null?'· '+(ndrOK?'innenfor':'under'):'')+'</div></div>'+
+          '<div class="k"><div class="v" style="color:'+statColor(ndrOK)+'">'+fmtP(ndr)+'</div><div class="l">Netto driftsresultat</div><div class="h">TBU-norm: 1,75 % '+(ndr!=null?'· '+(ndrOK?'innenfor':'under'):'')+'</div></div>'+
           '<div class="k"><div class="v" style="color:'+statColor(fondOK)+'">'+fmtP(fond)+'</div><div class="l">Disposisjonsfond</div><div class="h">KS: om lag 5 % '+(fond!=null?'· '+(fondOK?'innenfor':'under'):'')+'</div></div>'+
           '<div class="k"><div class="v" style="color:'+statColor(gjeldOK)+'">'+fmtP(gj, 1)+'</div><div class="l">Netto lånegjeld</div><div class="h">KS-grense: ≤' + N.ksGjeld + ' % '+(gj!=null?'· '+(gjeldOK?'innenfor':'over'):'')+'</div></div>'+
-          '<div class="k"><div class="v" style="color:'+robekColor+'">'+robekStatus+'</div><div class="l">ROBEK-status</div><div class="h">§28-1 (Statsforvalteren)</div></div>'+
+          '<div class="k"><div class="v" style="color:'+robekColor+'">'+robekStatus+'</div><div class="l">ROBEK-status</div><div class="h">§ 28-1 (Statsforvalteren)</div></div>'+
         '</div>'+
         // Tolkning
         '<div class="bf-diagnose" style="border-left-color:'+verdictColor+'">'+
@@ -907,7 +907,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Tolkning
     var tolkning = '';
     if(med != null){
-      tolkning += '<b>' + k.navn + '</b> har median husholdningsinntekt på <b>' + (med/1000).toFixed(0).replace('.',',') + ' 000 kr</b> etter skatt';
+      tolkning += '<b>' + k.navn + '</b> har en median husholdningsinntekt på <b>' + (med/1000).toFixed(0).replace('.',',') + ' 000 kr</b> etter skatt';
       if(diffNorge != null) tolkning += ' — ' + (diffNorge >= 0 ? '<b style="color:var(--pos)">+' : '<b style="color:var(--neg)">−') + Math.abs(diffNorge).toFixed(0).replace('.',',') + ' %</b> mot nasjonal median på 676 100 kr (2024)';
       tolkning += '. ';
     }
@@ -922,7 +922,7 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="bf-panel">'+
         // KPI-rad
         '<div class="bf-kpis">'+
-          '<div class="k"><div class="v">'+(med != null ? fmt(Math.round(med/1000))+' 000' : '–')+'</div><div class="l">Median husholdningsinntekt</div><div class="h">'+(diffNorge != null ? (diffNorge >= 0 ? '+' : '−')+Math.abs(diffNorge).toFixed(0).replace('.',',')+' % vs Norge' : 'etter skatt')+'</div></div>'+
+          '<div class="k"><div class="v">'+(med != null ? fmt(Math.round(med/1000))+' 000' : '–')+'</div><div class="l">Median husholdningsinntekt</div><div class="h">'+(diffNorge != null ? (diffNorge >= 0 ? '+' : '−')+Math.abs(diffNorge).toFixed(0).replace('.',',')+' % mot landet' : 'etter skatt')+'</div></div>'+
           '<div class="k"><div class="v">'+(lonn != null ? fmt(Math.round(lonn/1000))+' 000' : '–')+'</div><div class="l">Median lønn</div><div class="h">bosatte 17+ med lønn</div></div>'+
           '<div class="k"><div class="v">'+(andelLonn != null ? andelLonn.toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Lønnsandel av inntekt</div><div class="h">'+(andelTrygd != null ? andelTrygd.toFixed(0).replace('.',',')+' % trygd' : '')+'</div></div>'+
           '<div class="k"><div class="v">'+(pctSelv != null ? pctSelv.toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Selveiere</div><div class="h">av husholdningene</div></div>'+

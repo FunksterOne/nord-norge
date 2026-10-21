@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hva skal vi leve av? · Næringslivet mot 2040 · Nord-Norge dashboard</title>
+<title>Hva skal vi leve av? · Næringslivet mot 2040 · Nord-Norge-dashbordet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -101,7 +101,7 @@
 
 <!-- AKT 05 -->
 <section class="akt">
-  <div class="akt-num">Akt 05 · Driverne</div>
+  <div class="akt-num">Akt 05 · Drivkreftene</div>
   <h2>Markedene peker oppover — <em>flaskehalsene</em> avgjør hvor mye som blir realisert</h2>
   <p class="akt-intro">SØA går gjennom næring for næring: markedsutvikling, naturressurser, kraft, teknologi, regulering og kapital. Under er hovedpunktene, med tallene rapporten bygger på.</p>
   <div class="card">
@@ -122,7 +122,7 @@
       <dt>Omfang</dt><dd>Rundt <b>1 850</b> av Forsvarets 4 600 nye faste stillinger kommer til Nord-Norge, flest i Midt-Troms.</dd>
       <dt>Flaskehals</dt><dd>40 % av militært ansatte ukependler i dag. Forsvaret melder om akutt boligmangel i Porsanger og Kirkenes.</dd>
       <dt>Mulighet</dt><dd>Halvparten av leveransene til Forsvarsbygg i nord kommer fra leverandører i landsdelen.</dd></dl></div>
-    <div class="drv"><div class="drv-k">Kraft og industri</div><h3>Kraftoverskuddet er fortrinnet — og den største knappheten</h3><dl>
+    <div class="drv"><div class="drv-k">Kraft og industri</div><h3>Kraften er fortrinnet — og den største knappheten</h3><dl>
       <dt>Status</dt><dd>Statnett stanset nye reservasjoner for større industriforbruk nord for Svartisen i <b>april 2026</b>. Forbruket kan øke rundt 60 % på ti år.</dd>
       <dt>Flaskehals</dt><dd>Overskuddet kan forsvinne allerede innen 2030 hvis nye etableringer realiseres uten ny produksjon. Helgeland og Salten har bedt om nettkapasitet tilsvarende en firedobling av dagens forbruk.</dd>
       <dt>Mulighet</dt><dd>Aluminium, silisium og nye grønne materialer; hydrogen og ammoniakk i Salten, Helgeland, Ofoten og Finnmark.</dd></dl></div>
@@ -133,7 +133,7 @@
     <div class="drv"><div class="drv-k">Mineraler og rom</div><h3>Nye miljøer rundt gamle fortrinn</h3><dl>
       <dt>Mineraler</dt><dd>Nussir i Hammerfest skal starte kobberutvinning i <b>slutten av 2027</b>. Sydvaranger (jern) og Sulitjelma (kobber og sink) ligger lenger bak.</dd>
       <dt>Rom</dt><dd>Oppskytingsbasen på Andøya, satellittmiljøet i Tromsø og et planlagt arktisk ESA-senter i Tromsø.</dd>
-      <dt>Forbehold</dt><dd>Kapitalkrevende, lange utviklingsløp og følsomt for råvarepriser og vern.</dd></dl></div>
+      <dt>Forbehold</dt><dd>Kapitalkrevende, med lange utviklingsløp og følsomme for råvarepriser og vern.</dd></dl></div>
   </div>
   <p class="hint" style="font-size:12.5px">Datoene og vedtakene er samlet i tidslinjen på <a href="tema-scenarier.html">Fire fremtider mot 2040</a>.</p>
 </section>
@@ -158,12 +158,12 @@
 <footer class="nn-footer">
   <div class="nnf-grid">
     <div class="nnf-col">
-      <h4>Nord-Norge dashboard</h4>
+      <h4>Nord-Norge-dashbordet</h4>
       <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
-      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metodesiden</b></a> — ordnet etter kildetype (SSB, NAV, KS, OECD, BIN m.fl.).</p>
       <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
     </div>
     <div class="nnf-col">
@@ -199,13 +199,13 @@ document.addEventListener('DOMContentLoaded', function(){
   var vNN = (N.nn.alle / N.nn_2015.alle - 1) * 100, vNo = (N.landet.alle / N.landet_2015.alle - 1) * 100;
   document.getElementById('naerKPI').innerHTML =
     '<div class="kpi"><div class="v">' + f(N.nn.alle) + '</div><div class="l">Sysselsatte med arbeidssted i Nord-Norge</div><div class="nh">4. kvartal ' + N.aar + ' (SSB ' + N.tabell + ')</div></div>' +
-    '<div class="kpi"><div class="v down">−42 000</div><div class="l">Gap mellom tilbud og etterspørsel 2040</div><div class="nh">SØA, mellomalternativet</div></div>' +
+    '<div class="kpi"><div class="v down">−42 000</div><div class="l">Avstand mellom tilbud og etterspørsel i 2040</div><div class="nh">SØA, mellomalternativet</div></div>' +
     '<div class="kpi"><div class="v">79 %</div><div class="l">Sysselsettingsandel som trengs</div><div class="nh">mot 67 % i 2025 (15–74 år)</div></div>' +
     '<div class="kpi"><div class="v">' + p1(nnSjo / noSjo * 100) + '</div><div class="l">Av Norges sjømatjobber</div><div class="nh">fiske, havbruk og fiskeindustri, ' + N.aar + '</div></div>';
   var si = document.getElementById('sjoIntro');
   if(si) si.insertAdjacentHTML('afterbegin', 'Fiske, havbruk og fiskeindustri sysselsetter ' + f(nnSjo) + ' personer i Nord-Norge — ' + p1(andelNN) + ' av alle sysselsatte, mot ' + p1(andelNo) + ' i landet. ');
   var vi = document.getElementById('vekstIntro');
-  if(vi) vi.insertAdjacentHTML('beforeend', ' Fra 2015 til ' + N.aar + ' økte antall sysselsatte med arbeidssted i Nord-Norge med ' + p1(vNN) + ', mot ' + p1(vNo) + ' i landet. Havbruk gikk fra ' + f(N.nn_2015.havbruk) + ' til ' + f(N.nn.havbruk) + ' sysselsatte, mens fiske og fangst gikk fra ' + f(N.nn_2015.fiske) + ' til ' + f(N.nn.fiske) + '.');
+  if(vi) vi.insertAdjacentHTML('beforeend', ' Fra 2015 til ' + N.aar + ' økte antallet sysselsatte med arbeidssted i Nord-Norge med ' + p1(vNN) + ', mot ' + p1(vNo) + ' i landet. Havbruk gikk fra ' + f(N.nn_2015.havbruk) + ' til ' + f(N.nn.havbruk) + ' sysselsatte, mens fiske og fangst gikk fra ' + f(N.nn_2015.fiske) + ' til ' + f(N.nn.fiske) + '.');
   var nm = document.getElementById('navMangel');
   if(nm && typeof NAV_BEDRIFT !== 'undefined' && window.NN){
     var rows = NAV_BEDRIFT.landsdel.naeringer.slice(0, 10).map(function(n){

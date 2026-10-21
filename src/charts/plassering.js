@@ -12,7 +12,7 @@ function defs() {
   return [
     { ...INDIKATORER.endring, key: 'endring', navn: 'Folketall 2026–2050', tekst: v => endringPst(v, 1) },
     { ...INDIKATORER.eldre, key: 'eldre', navn: 'Andel 65 år og over', tekst: v => prosent(v, 1) },
-    { ...INDIKATORER.forsorg, key: 'forsorg', navn: 'Forsørgerbyrde 2050', tekst: v => tall(v, 0) },
+    { ...INDIKATORER.forsorg, key: 'forsorg', navn: 'Forsørgerbrøk 2050', tekst: v => tall(v, 0) },
     { ...INDIKATORER.innv, key: 'innv', navn: 'Innvandrerbakgrunn', tekst: v => prosent(v, 1) },
     { key: 'ndr', navn: `Netto driftsresultat ${yr}`, verdi: k => kostra(k.nr, 'ndr'), tekst: v => prosent(v, 1), ref: 1.75, refTxt: 'TBU-norm 1,75 %' },
     { key: 'fond', navn: `Disposisjonsfond ${yr}`, verdi: k => kostra(k.nr, 'fond'), tekst: v => prosent(v, 1), ref: 10, refTxt: 'Solid buffer: minst 10 %' },

@@ -35,7 +35,7 @@ export const INDIKATORER = {
     fmt: v => prosent(v, 1), type: 'sequential',
   },
   forsorg: {
-    navn: 'Forsørgerbyrde 2050', kort: 'Forsørgerbyrde 2050',
+    navn: 'Forsørgerbrøk 2050', kort: 'Forsørgerbrøk 2050',
     enhet: 'Personer 65+ per 100 i alderen 20–64 i 2050, SSB MMMM',
     verdi: k => { const o = L.DATA.proj.kommuner[k.nr]; const n = o?.a65?.length; return n ? o.a65[n - 1] / o.a2064[n - 1] * 100 : null; },
     fmt: v => tall(v, 0), type: 'sequential',
@@ -58,7 +58,7 @@ export const INDIKATORER = {
     skjult: true, rangTitler: ['Senest', 'Tidligst'], utenStolpe: true,
   },
   botid10: {
-    navn: 'Botid 10 år eller mer', kort: 'Innvandrere med botid 10+',
+    navn: 'Botid 10 år eller mer', kort: 'Innvandrere med botid minst 10 år',
     enhet: 'Andel av innvandrerne med ti års botid i Norge eller mer, 1.1.2026. IMDi (kilde SSB)',
     verdi: k => { const o = L.BOFAST?.botid10?.kommuner?.[String(k.nr)]; return o ? o[3] : null; },
     fmt: v => prosent(v, 1), type: 'sequential',
@@ -90,7 +90,7 @@ export const INDIKATORER = {
     skjult: true,
   },
   omsorg2050: {
-    navn: 'Omsorgsårsverk 2050', kort: 'Omsorgsårsverk per 100 i 20–64 år, 2050',
+    navn: 'Omsorgsårsverk 2050', kort: 'Omsorgsårsverk per 100 i alderen 20–64, 2050',
     enhet: 'Omsorgsårsverk som trengs i 2050 «alt annet likt», per 100 innbyggere i alderen 20–64 år',
     verdi: k => { const o = L.ELDRE?.kommuner?.[String(k.nr)]; return o && o[12] != null ? o[12] / o[8] * 100 : null; },
     fmt: v => tall(v, 1), type: 'sequential',

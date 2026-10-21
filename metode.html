@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Metode og kilder — Nord-Norge dashboard</title>
+<title>Metode og kilder — Nord-Norge-dashbordet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
@@ -47,12 +47,12 @@
 
 <div class="metode-card">
   <h2>SSB-tabeller</h2>
-  <p class="hint">Alle tall hentes direkte fra SSBs statistikkbank (PxWebApi v0) via Python build-scripts. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring.</p>
+  <p class="hint">Alle tall hentes direkte fra SSBs statistikkbank (PxWebApi v0) via Python-skript. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring.</p>
   <table class="kildetabell">
     <thead><tr><th>Kode</th><th>Innhold</th><th>Periode</th></tr></thead>
     <tbody>
       <tr><td class="kode">07459</td><td>Folketall etter alder og kjønn per kommune</td><td>1.1.2000–2026</td></tr>
-      <tr><td class="kode">14746</td><td>Befolkningsframskriving, MMMM-banen + lav/høy (2026-årgangen)</td><td>2026–2050</td></tr>
+      <tr><td class="kode">14746</td><td>Befolkningsframskriving, MMMM-banen og lav- og høybanen (2026-årgangen)</td><td>2026–2050</td></tr>
       <tr><td class="kode">09817</td><td>Innvandrere og norskfødte med innvandrerforeldre, etter opprinnelsesland</td><td>2026</td></tr>
       <tr><td class="kode">11607</td><td>Sysselsetting etter landgruppe, alder 20–66</td><td>4. kv. 2025</td></tr>
       <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting); fødte og døde i landsdelen brukes fra 1995</td><td>1995–2025</td></tr>
@@ -86,12 +86,12 @@
       <tr><td class="kode">12367</td><td>KOSTRA: detaljerte driftstall — pensjon (art 090), arbeidsgiveravgift og lønn</td><td>2020–2025</td></tr>
     </tbody>
   </table>
-  <p class="hint" style="margin-top:10px"><b>To folketallsdatoer.</b> Kvartalstallene (01222) vises som ferskeste måling der folketall presenteres — per <span data-befk-dato>1. juli 2026</span>. Alle modeller (framskrivingen, TF-banene, BB-KVOTE) er forankret i 1.1.2026, som er basisåret i SSB 14746 og eneste dato med aldersfordeling på kommunenivå. Eierstatus-tabellen 14891 brukes både for eie/leie-fordelingen (2025) og leiemarkedsutviklingen 2015–2025 (kommuneserier skjøtet). Aldersfordelt leieandel og utleieboliger etter eiertype finnes bare i forskningsdata (Microdata) og gjengis som redaksjonelt innhold med kilde kbnn/KPB (juli 2026).</p>
+  <p class="hint" style="margin-top:10px"><b>To folketallsdatoer.</b> Kvartalstallene (01222) vises som ferskeste måling der folketall presenteres — per <span data-befk-dato>1. juli 2026</span>. Alle modeller (framskrivingen, TF-banene, BB-KVOTE) er forankret i 1.1.2026, som er basisåret i SSB 14746 og eneste dato med aldersfordeling på kommunenivå. Eierstatustabellen 14891 brukes både for eie/leie-fordelingen (2025) og leiemarkedsutviklingen 2015–2025 (kommuneserier skjøtet). Aldersfordelt leieandel og utleieboliger etter eiertype finnes bare i forskningsdata (Microdata) og gjengis som redaksjonelt innhold med kilde kbnn/KPB (juli 2026).</p>
   <h3 style="margin-top:24px">Andre kilder</h3>
   <table class="kildetabell">
     <thead><tr><th>Kilde</th><th>Innhold</th><th>Periode</th></tr></thead>
     <tbody>
-      <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — estimert mangel på arbeidskraft per næring × fylke + sysselsettingsbarometer (forventet vekst)</td><td>vår 2026</td></tr>
+      <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — estimert mangel på arbeidskraft per næring × fylke og sysselsettingsbarometer (forventet vekst)</td><td>vår 2026</td></tr>
       <tr><td class="kode">Kunnskapsbanken</td><td>Barometer 2026X – Ung i nord (SpareBank 1 Nord-Norge, utført av Sentio Research) — spørreundersøkelse blant 18–34-åringer, se <a href="#barometer">eget kort</a></td><td>august 2026</td></tr>
     </tbody>
   </table>
@@ -100,22 +100,22 @@
 <div class="metode-card">
   <h2>Framskrivingsmodeller</h2>
   <h3>SSB MMMM (offisiell bane)</h3>
-  <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på Middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
+  <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
   <h3>Strukturmodellen (TF-ATTR) — vår tilleggsbane</h3>
   <p>Strukturbasert flyttemodell fra Telemarksforskning. Flyttingen anslås fra <b>jobbvekst og sentralitet</b> (SSBs 1–6-skala), ikke historiske år. Robust mot uvanlige år, og <b>treffer bedre enn SSB MMMM i de minst sentrale kommunene</b> når den testes mot perioden 2020–2024. <b>SSB MMMM er hovedbanen i hele dashbordet</b> — alle nøkkeltall, indikatorer og vurderinger mot eksterne normer regnes på den. Strukturmodellen vises ved siden av som en gjennomsiktig tilleggsbane, aldri som grunnlaget for vurderingen.</p>
-  <h3>Yttergrense-modellene (TF-MVP) — outlier-spekter</h3>
-  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (snitt før innvandringstoppen, standard), <b>Median 2017–2025</b> (demper toppen i 2022–23) og <b>Snitt 2017–2025</b> (gir 2022–23 full vekt). Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som outlier-spekter på etterspørsel (utvidbar visning) for å fremstille hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
-  <h3>Basisår og rebasering (14746-migreringen, august 2026)</h3>
+  <h3>Yttergrensemodellene (TF-MVP) — ytterpunkter</h3>
+  <p>Telemarksforskning. Samme kohort-komponent-modell som SSB MMMM, men flyttingen settes til <b>snittet av et valgt historisk vindu</b>. Tre vinduer: <b>Smalt 2017–2021</b> (snitt før innvandringstoppen, standard), <b>Median 2017–2025</b> (demper toppen i 2022–2023) og <b>Snitt 2017–2025</b> (gir 2022–2023 full vekt). Vindusnavnene er <i>beskrivende</i>, ikke normative — et smalt vindu kan godt være pessimistisk hvis den perioden tilfeldigvis var kommunens svakeste. Vises som ytterpunkter på forespørsel (utvidbar visning) for å vise hvor stor avstanden er mellom hovedbanen og pessimistiske scenarier, ikke som primær framskriving.</p>
+  <h3>Basisår og rebasering (overgangen til 14746, august 2026)</h3>
   <p>Dashbordet gikk i august 2026 fra SSBs 2024-baserte framskriving (tabell 14288) til 2026-årgangen (tabell 14746, publisert 12. juni 2026). SSB-banene er hentet på nytt. TF-ATTR- og TF-MVP-banene er <b>rebasert mekanisk</b>: nivåjustert til faktisk folketall 1.1.2026, med uendret vekstprofil — de er ikke rekjørt med nye rater. Ukraina- og sensitivitetsscenariene er lagt på de rebaserte banene med effektprofil per år etter basisåret, slik at sjokkene fortsatt inntreffer i første framskrivingsår.</p>
 </div>
 
 <div class="metode-card">
   <h2>Boligbehovsmodellen (BB-KVOTE)</h2>
-  <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av massen:</p>
+  <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av boligmassen:</p>
   <p style="font-family:var(--font-mono);font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
   <ul class="norm-list">
     <li><b>Folketall:</b> hovedtallet regnes alltid på <b>SSB MMMM</b>. Spennet vises i tillegg over SSBs egne lav- og høybaner samt vår tilleggsbane TF-ATTR, slik at behovet får et ærlig intervall og ikke bare ett tall.</li>
-    <li><b>Husholdningsstørrelse:</b> SSB 09747 (personer per privathusholdning, 2005–2025), skjøtet til 2024-grensene. To kvotebaner: <b>konstant</b> (2025-nivået holdes) og <b>trend</b> (lineær trend 2011–2025, dempet 50 %, gulv 1,70). Aldring gir mindre husholdninger — derfor faller ikke boligbehovet i takt med folketallet.</li>
+    <li><b>Husholdningsstørrelse:</b> SSB 09747 (personer per privathusholdning, 2005–2025), skjøtet til 2024-grensene. To kvotebaner: <b>konstant</b> (2025-nivået holdes) og <b>trend</b> (lineær trend 2011–2025, dempet 50 %, nedre grense 1,70). Aldring gir mindre husholdninger — derfor faller ikke boligbehovet i takt med folketallet.</li>
     <li><b>Andel i privathusholdning:</b> kalibrert per kommune mot 1.1.2025 (institusjonsbeboere holdes utenfor).</li>
     <li><b>Erstatningsbehov:</b> gjennomsnittlig registrert avgang av boliger 2016–2025 (SSB 10784). Riving og bruksendring som aldri registreres, kommer i tillegg — modellen er derfor forsiktig.</li>
   </ul>
@@ -134,7 +134,7 @@
   </table>
   <p class="hint">Avvikene er størst i pressområdene, der Prognosesenteret også regner inn fortrengt etterspørsel og flytting som følge av boligtilbudet. BB-KVOTE er en ren demografisk nettomodell.</p>
   <h3>Bruktmarkedet: dekning og forbehold</h3>
-  <p>SSBs kvadratmeterpris-statistikk (14545/14310) publiserer av personvernhensyn bare pris for kommuner med tilstrekkelig antall omsetninger — <b>46 av 80 kommuner i 2025</b> (Nordland 25 av 41, Troms 12 av 21, Finnmark 9 av 18). Kommuner uten pristall vises med fylkessnittet som referanse, tydelig merket. Landsdels- og rikssnitt beregnes omsetningsvektet. Gjennomsnittlig kjøpesum per kommune (06726) er prikket hos SSB, men beregnes her som samlet kjøpesum delt på antall omsetninger. <b>Snittpriser er blandingsfølsomme:</b> de påvirkes av hvilke boliger som faktisk ble omsatt det året, og er ikke en kvalitetsjustert prisindeks. Nybyggprisen (13500) finnes bare for eneboliger på landsdelsnivå og bygger på få omsetninger i nord (25 i 2025) — nivået er usikkert.</p>
+  <p>SSBs kvadratmeterprisstatistikk (14545/14310) publiserer av personvernhensyn bare pris for kommuner med tilstrekkelig antall omsetninger — <b>46 av 80 kommuner i 2025</b> (Nordland 25 av 41, Troms 12 av 21, Finnmark 9 av 18). Kommuner uten pristall vises med fylkessnittet som referanse, tydelig merket. Landsdels- og rikssnitt beregnes omsetningsvektet. Gjennomsnittlig kjøpesum per kommune (06726) er prikket hos SSB, men beregnes her som samlet kjøpesum delt på antall omsetninger. <b>Snittpriser er blandingsfølsomme:</b> de påvirkes av hvilke boliger som faktisk ble omsatt det året, og er ikke en kvalitetsjustert prisindeks. Nybyggprisen (13500) finnes bare for eneboliger på landsdelsnivå og bygger på få omsetninger i nord (25 i 2025) — nivået er usikkert.</p>
   <h3>Forbehold for byggestatistikken</h3>
   <p><b>Igangsettingstillatelser er ikke spadestikk.</b> I svake markeder utsettes eller skrinlegges prosjekter etter at tillatelse er gitt; nasjonalt telte Prognosesenteret 15 542 faktiske igangsettinger i 2025 (uten student- og omsorgsboliger) mot 20 184 igangsettingstillatelser hos SSB. For Nord-Norge samsvarer SSBs registrerte tall per 2. kvartal 2026 med Prognosesenterets korrigerte telling. <b>Kommuneserier er skjøtet:</b> byggearealtabellene fører historikk under kommunenummeret som gjaldt da (Tromsø: 1902 → 5401 → 5501). Skjøtingen bygges automatisk fra SSB KLASS (klassifikasjon 131). Tysfjord (1850), som ble delt mellom Narvik og Hamarøy i 2020, kan ikke fordeles uten skjønn og inngår kun i fylkes- og landsdelssummene. Dielddanuorri-Tjeldsund regnes som Troms i hele serien.</p>
 </div>
@@ -143,27 +143,27 @@
   <h2>Eksterne normer for indikatorer</h2>
   <p class="hint">Hver indikator i kommunekortet vurderes mot sin autoritative eksterne norm. Ingen interne terskler eller sammensatte klassifiseringer.</p>
   <ul class="norm-list">
-    <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2026–2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som «shrinking».</li>
-    <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbyrde (65+/20–64) i 2050.</b> OECD-snitt ≈ 52 eldre per 100 i yrkesaktiv alder (OECD, Pensions at a Glance 2025, pressemelding 27. november 2025; FNs World Population Prospects 2024). Norge: 49 på samme grunnlag, 47 i SSBs hovedalternativ (SSB 14751, 0,47).</li>
+    <li><span class="norm-tag">OECD SCIRN</span><b>Befolkningsendring 2026–2050.</b> Befolkningsnedgang ≥ 0,15 %/år regnes som befolkningsnedgang («shrinking» i OECDs terminologi).</li>
+    <li><span class="norm-tag">OECD-standard</span><b>Forsørgerbrøk (65+ per 100 i alderen 20–64) i 2050.</b> OECD-snitt ≈ 52 eldre per 100 i arbeidsfør alder (OECD, Pensions at a Glance 2025, pressemelding 27. november 2025; FNs World Population Prospects 2024). Norge: 49 på samme grunnlag, 47 i SSBs hovedalternativ (SSB 14751, 0,47).</li>
     <li><span class="norm-tag">SSB</span><b>Sysselsettingsrate 20–66.</b> Nasjonalt snitt 76,7 % i 2025 (SSB 13563).</li>
     <li><span class="norm-tag">SSB</span><b>Uføreandel 18–67.</b> Nasjonalt snitt 10,7 % i 2025 (SSB 11715).</li>
     <li><span class="norm-tag">TBU</span><b>Netto driftsresultat.</b> TBU-norm: minst +1¾ % av brutto driftsinntekter (Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi — autoritativ referanse for kommunalt driftsresultat).</li>
     <li><span class="norm-tag">KS</span><b>Disposisjonsfond.</b> KS-rapport (Oslo Economics og Telemarksforskning, mai 2025): om lag 5 % av driftsinntektene i gjennomsnitt, tilpasset hver kommune.</li>
-    <li><span class="norm-tag">KS</span><b>Netto lånegjeld.</b> KS (2025): korrigert netto lånegjeld bør ikke overstige 85 % av driftsinntektene. Dashbordet bruker netto lånegjeld uten korreksjon for ubundne investeringsfond, som ligger noe høyere. Riksrevisjonen brukte 75 % som analysegrense i 2015 (Dokument 3:5 (2014–2015)).</li>
-    <li><span class="norm-tag">Kommuneloven §28-1</span><b>ROBEK.</b> Statsforvalteren registrerer kommuner som bryter vilkår a-f. Påvirker låneopptak, budsjetter og lengre leieavtaler.</li>
+    <li><span class="norm-tag">KS</span><b>Netto lånegjeld.</b> KS (2025): korrigert netto lånegjeld bør ikke overstige 85 % av driftsinntektene. Dashbordet bruker netto lånegjeld uten korreksjon for ubundne investeringsfond; dette målet ligger noe høyere. Riksrevisjonen brukte 75 % som analysegrense i 2015 (Dokument 3:5 (2014–2015)).</li>
+    <li><span class="norm-tag">Kommuneloven § 28-1</span><b>ROBEK.</b> Statsforvalteren registrerer kommuner som bryter vilkår a–f. Påvirker låneopptak, budsjetter og lengre leieavtaler.</li>
   </ul>
 </div>
 
 <div class="metode-card" id="pensjon">
   <h2>Kommunale pensjoner og premieavvik</h2>
-  <p class="hint">Brukes på temasiden <a href="tema-pensjon.html">Pensjonsetterslepet</a> i fanen Pensjon på kommunesiden og i Økonomi-fanen på fylkes- og landsdelssidene. Analysegrunnlaget ligger i <code>analyse/pensjon/</code>; datablokken bygges med <code>fetch_pensjon.py</code>.</p>
+  <p class="hint">Brukes på temasiden <a href="tema-pensjon.html">Pensjonsetterslepet</a>, i fanen Pensjon på kommunesiden og i Økonomi-fanen på fylkes- og landsdelssidene. Analysegrunnlaget ligger i <code>analyse/pensjon/</code>; datablokken bygges med <code>fetch_pensjon.py</code>.</p>
   <h3>Brutto driftsinntekter (BDI) som nevner</h3>
-  <p>Brutto driftsinntekter er summen av kommunekonsernets driftsinntekter i ett år (SSB 12364): skatt på inntekt og formue, rammetilskudd, eiendomsskatt, øremerkede tilskudd, refusjoner, brukerbetalinger og salgs- og leieinntekter. Finansinntekter, bruk av fond og lån er ikke med. I Nord-Norge er rammetilskuddet den største posten (33,5 % i 2025, mot 29,9 % i landet), og skatteinntektene en mindre del (27,6 % mot 36,0 %). BDI er standardnevneren i KOSTRA og i normene for driftsresultat, fond og gjeld, så pensjonstallene kan sammenlignes med dem og på tvers av kommunestørrelse. <b>Forbehold:</b> om lag en femdel av BDI er øremerkede tilskudd og refusjoner som er bundet til bestemte formål. Målt mot frie inntekter (61 % av BDI) blir pensjonsandelen om lag 1,6 ganger høyere.</p>
+  <p>Brutto driftsinntekter er summen av kommunekonsernets driftsinntekter i ett år (SSB 12364): skatt på inntekt og formue, rammetilskudd, eiendomsskatt, øremerkede tilskudd, refusjoner, brukerbetalinger og salgs- og leieinntekter. Finansinntekter, bruk av fond og lån er ikke med. I Nord-Norge er rammetilskuddet den største posten (33,5 % i 2025, mot 29,9 % i landet), og skatteinntektene en mindre del (27,6 % mot 36,0 %). BDI er standardnevneren i KOSTRA og i normene for driftsresultat, fond og gjeld, så pensjonstallene kan sammenlignes med dem og på tvers av kommunestørrelse. <b>Forbehold:</b> om lag en femtedel av BDI er øremerkede tilskudd og refusjoner som er bundet til bestemte formål. Målt mot frie inntekter (61 % av BDI) blir pensjonsandelen om lag 1,6 ganger høyere.</p>
   <h3>Premieavvik</h3>
   <p>Kommunen betaler en pensjonspremie, men regnskapet belastes med en beregnet pensjonskostnad (budsjett- og regnskapsforskriften §§ 3-5 og 3-6). Forskjellen, premieavviket, føres i balansen og utgiftsføres over sju år, eller året etter hvis kommunestyret har vedtatt det. Dashbordet viser akkumulert premieavvik netto (eiendel minus gjeld) inkludert arbeidsgiveravgift, fra KOSTRA-balansen (SSB 13202, kommunekonsern), slik at alle 80 kommuner er sammenlignbare. Sammenligningen med disposisjonsfondet er ikke en norm; den viser om kommunen har oppspart buffer som kan bære amortiseringen.</p>
   <h3>Pensjonsnotene i årsregnskapene</h3>
   <p>Premie, kostnad, premiefond, amortiseringstid og leverandør er hentet fra pensjonsnoten i årsregnskapet for 2025 for 74 kommuner. For Målselv, Lyngen, Kåfjord, Balsfjord og Andøy lå regnskapet bak en botsjekk i kommunens innsynsløsning, og Berlevåg har ikke publisert regnskapet; for disse seks er kostnaden anslått fra pensjonsposten i KOSTRA (art 090). Om lag hver tredje note har interne avvik; der noten og balansen er uenige, er balansen brukt. Notene for Hamarøy og Lurøy går ikke opp og er merket.</p>
-  <h3>Fremskrivingen 2026–2050</h3>
+  <h3>Framskrivingen 2026–2050</h3>
   <p>Regnskapsført pensjonskostnad = beregnet netto kostnad med arbeidsgiveravgift + amortisering av premieavvik. Fram til 2033 regnes premieavviket ut lag for lag: beholdningen for 2025 utgiftsføres med fallende beløp over sju år, der første års beløp er kalibrert mot kommunens faktiske amortisering i 2025, og nye avvik legges til som egne lag. Etter 2033 er beholdningen utgiftsført, og kostnaden følges som andel av BDI. Lønn og BDI antas å vokse likt (3,5 % nominelt per år). Netto kostnad i 2025 er premie minus premieavvik fra noten, inkludert administrasjon, fordi notene er ulikt utfylt. Modellen gir 7,4 % av BDI i 2025; den faktiske pensjonsposten i KOSTRA (art 090 med arbeidsgiveravgift) er 7,1 %. <b>Kalibrering 2026–2027:</b> netto kostnad i 2026 er satt til 0,89 ganger 2025-nivået, ut fra budsjettene til Bodø og Tromsø for 2026 og TBUs anslag om fall i 2026; 2027 ligger midt mellom dette og scenarioet.</p>
   <ul class="norm-list">
     <li><span class="norm-tag">Lav</span><b>Beregnet kostnad +5 %</b> når forholdstallet senkes til 0,75 i 2027, ingen strukturell vekst, premiefondet dekker like mye som i 2025.</li>
@@ -178,20 +178,20 @@
   <p class="hint">Brukes på temasiden <a href="tema-ung.html">Ung i nord</a>. Tallene er lagt inn manuelt fra rapporten med sidehenvisning (<code>analyse/ung/barometer_ung.json</code>); registertallene hentes med <code>fetch_ung.py</code>.</p>
   <p><b>Undersøkelsen.</b> Kunnskapsbanken (SpareBank 1 Nord-Norge) ved Sentio Research spurte 762 personer i alderen 18–34 år i Nord-Norge og 504 i fylkene sør for Nordland i august 2026 (rapport publisert oktober 2026). I Nord-Norge er 504 rekruttert gjennom Norstats webpanel og et tilfeldig trukket SMS-utvalg, og 258 svarte via en åpen lenke i sosiale medier. Svarene er vektet etter kjønn og alder innen SSBs sentralitetsnivåer 3–6; utvalget i sør er kvotert etter sentralitet.</p>
   <p><b>Forbehold.</b> De som svarte via den åpne lenken, svarer annerledes enn de rekrutterte på flere spørsmål — de er mer engasjerte i lokalsamfunnet og mer kritiske til kommunen og karrieremulighetene. Tallene gjelder landsdelen; forskjeller mellom fylker og etter sentralitet omtales bare i teksten, og undersøkelsen sier ingenting om enkeltkommuner. Spørsmålsformuleringer og innsamlingsmetode er endret siden 2022. Tall som bare står i rapportens figurer, er lest av figurene. Undersøkelsestall vises derfor bare på temasiden, aldri på kommunesidene.</p>
-  <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes av ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere over 67 enn mellom 18 og 34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
+  <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes ut fra ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere på 67 år og over enn i alderen 18–34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
 </div>
 
 <div class="metode-card" id="forsorgerbyrde">
   <h2>Forsørgerbyrde: tre måter å telle på</h2>
   <p class="hint">Brukes i kortet «Hvem bærer hvem?» på kommune-, fylkes- og landsdelssidene, i akt 04 på temasiden <a href="tema-arbeidskraft.html#telle">Hvem skal bære?</a>, i bærekraftstabellen og på sammenligningssiden. Tallene bygges med <code>fetch_forsorg.py</code>.</p>
   <ul>
-    <li><span class="norm-tag">Alder</span><b>Forsørgerbrøk:</b> innbyggere 65 år og over per 100 i alderen 20–64 (SSB 14746; samme mål som SSB 14751 og OECD). Hovedtallet for sammenligning mellom kommuner, fylker og land. Det teller alder, ikke arbeid: uføre, studenter og ledige i alderen 20–64 regnes som bærere, og alle over 65 som forsørget, også de som jobber. Nord-Norge 37,6 og landet 32,8 per 1.1.2026.</li>
+    <li><span class="norm-tag">Alder</span><b>Forsørgerbrøk:</b> innbyggere 65 år og over per 100 i alderen 20–64 (SSB 14746; samme mål som SSB 14751 og OECD). Hovedtallet for sammenligning mellom kommuner, fylker og land. Det teller alder, ikke arbeid: uføre, studenter og ledige i alderen 20–64 regnes som bærere, og alle fra 65 år som forsørget, også de som jobber. Nord-Norge 37,6 og landet 32,8 per 1.1.2026.</li>
     <li><span class="norm-tag">Alder</span><b>Norsk pensjonsalder:</b> 67+ per 100 i alderen 20–66. Vises bare som forklaring: Nord-Norge 32,2 og landet 28,0.</li>
     <li><span class="norm-tag">Arbeid</span><b>Ikke-sysselsatte per 100 sysselsatte:</b> alle innbyggere som ikke er sysselsatt, per 100 sysselsatte, etter bosted. Sysselsatte og status for innbyggere 15 år og over fra SSB 13563 (4. kvartal), barn 0–14 år fra SSB 07459 (1. januar året etter). Fordeles på barn, utdanning, arbeidsavklaringspenger og uføretrygd (SSB teller dem samlet), AFP og alderspensjon, ledige og tiltak, og andre. Nord-Norge 92,2 og landet 93,8 i 2025.</li>
   </ul>
   <p><b>Framskriving 2026–2050.</b> Sysselsettingsraten i seks aldersgrupper 15–74 år (SSB 07984, bosted, gjennomsnitt av 4. kvartal 2024 og 2025 delt på befolkningen 1. januar året etter) og for 75 år og over (SSB 13563, 2025) holdes fast og brukes på befolkningen i SSB 14746 (hovedalternativet). Framskrivingen starter derfor litt annerledes enn dagens tall fra 13563 (Nord-Norge 92,5 mot 92,2). To faste scenarioer: <b>A</b> andelen på arbeidsavklaringspenger og uføretrygd i alderen 20–66 senkes til landsnivået (10,3 %) der den er høyere, og de som ikke lenger mottar ytelsen, er i arbeid; <b>B</b> sysselsettingsraten i alderen 55–74 er 5 prosentpoeng høyere. Scenario A er en øvre grense for effekten.</p>
-  <p><b>Forbehold.</b> Det økonomiske målet teller et barn, en pensjonist og en uføretrygdet likt, selv om de koster svært ulikt og finansieres ulikt (familien, kommunen, folketrygden). En sysselsatt har arbeidet minst én time i referanseuka, så deltid teller som en hel. Små kommuner gir store tilfeldige utslag. Tidsserien for status i alderen 20–66 (2015–2025) bruker SSBs kodeliste for sammenslåtte kommuner; Narvik og Hamarøy har tall fra 2020, og fylkes- og landsdelstall før 2020 vises derfor ikke for Nordland og Nord-Norge. Kontroll: Forsørgerbrøken er lik SSB 14751 for alle 80 kommuner, og statuskategoriene summerer til totalen.</p>
-  <p><b>Erstattet mål.</b> Til og med 20. oktober 2026 viste landsdels- og fylkessiden et «justert» mål, 65+ delt på (20–64 × sysselsettingsrate 20–66). Det er fjernet fordi det blandet aldersspenn og fjernet uføre og ledige fra nevneren uten å legge dem til i telleren.</p>
+  <p><b>Forbehold.</b> Det økonomiske målet teller et barn, en pensjonist og en uføretrygdet likt, selv om de koster svært ulikt og finansieres ulikt (familien, kommunen, folketrygden). En sysselsatt har arbeidet minst én time i referanseuka, så en deltidsansatt teller som én sysselsatt. Små kommuner gir store tilfeldige utslag. Tidsserien for status i alderen 20–66 (2015–2025) bruker SSBs kodeliste for sammenslåtte kommuner; Narvik og Hamarøy har tall fra 2020, og fylkes- og landsdelstall før 2020 vises derfor ikke for Nordland og Nord-Norge. Kontroll: Forsørgerbrøken er lik SSB 14751 for alle 80 kommuner, og statuskategoriene summerer til totalen.</p>
+  <p><b>Erstattet mål.</b> Til og med 20. oktober 2026 viste landsdels- og fylkessidene et «justert» mål, 65+ delt på (20–64 × sysselsettingsrate 20–66). Det er fjernet fordi det blandet aldersspenn og fjernet uføre og ledige fra nevneren uten å legge dem til i telleren.</p>
 </div>
 
 <div class="metode-card" id="eldreomsorg">
@@ -216,12 +216,12 @@
     <li><span class="norm-tag">Indirekte</span><b>Netto bevaring etter 5–20 års botid.</b> Antallet innvandrere i området med k års botid, delt på antallet med ett års botid k − 1 år tidligere (SSB 10598), veid over innvandringskullene. Gruppene er landbakgrunn, ikke innvandringsgrunn; «ti flyktningland» er Syria, Eritrea, Somalia, Afghanistan, Irak, Iran, Sudan, Etiopia, Myanmar og Kongo.</li>
     <li><span class="norm-tag">Bestand</span><b>Botid ti år eller mer.</b> Andelen av innvandrerne i kommunen som har bodd i Norge i minst ti år, 1. januar 2021 og 2026 (IMDi, kilde SSB). Det er det eneste målet som vises per kommune.</li>
   </ul>
-  <p><b>Forbehold.</b> Det finnes ingen åpne fylkestall for bofasthet ut over fem år; SSB har opplyst at tallgrunnlaget for kullene 2010–2023 kan fås på forespørsel. Kull 1999, 2013, 2014 og 2016–2018 er ikke publisert per fylke, og kull 2015 bare for Troms og Finnmark samlet. Monitoren bruker de gamle fylkene til kull 2012 og 2024-inndelingen for kull 2019. Netto bevaring teller med tilflyttere fra resten av landet og påvirkes av utvandring og død; for landet måler den bare utvandring og død. Flyktninger som registreres i et mottak i Nord-Norge før de bosettes et annet sted, kan trekke netto bevaring ned, og beregningen starter derfor ved ett års botid. Botid-andelen blir lav både når mange flytter ut og når mange nye kommer, og botiden gjelder Norge, ikke kommunen. Kommunetallene vises med antall, fordi mange kommuner har få innvandrere. Fafos tall for Nord-Norge (nær 70 % flyttet etter ti år, 44,8 % netto igjen i landsdelen) bygger på kull før de ukrainske ankomstene.</p>
+  <p><b>Forbehold.</b> Det finnes ingen åpne fylkestall for bofasthet utover fem år; SSB har opplyst at tallgrunnlaget for kullene 2010–2023 kan fås på forespørsel. Kull 1999, 2013, 2014 og 2016–2018 er ikke publisert per fylke, og kull 2015 bare for Troms og Finnmark samlet. Monitoren bruker de gamle fylkene til kull 2012 og 2024-inndelingen for kull 2019. Netto bevaring teller med tilflyttere fra resten av landet og påvirkes av utvandring og død; for landet måler den bare utvandring og død. Flyktninger som registreres i et mottak i Nord-Norge før de bosettes et annet sted, kan trekke netto bevaring ned, og beregningen starter derfor ved ett års botid. Botidsandelen blir lav både når mange flytter ut og når mange nye kommer, og botiden gjelder Norge, ikke kommunen. Kommunetallene vises med antall, fordi mange kommuner har få innvandrere. Fafos tall for Nord-Norge (nær 70 % flyttet etter ti år, 44,8 % netto igjen i landsdelen) bygger på kull før de ukrainske ankomstene.</p>
   <p><b>Flytteforbudet.</b> Akt 05 på temasiden gjengir status per 20. oktober 2026 fra pressemeldinger, stortingsdokumenter, Emberland-utredningen (8. april 2026) og medieoppslag. Ingen høringsnotat var publisert. Hypotesene om virkninger for Nord-Norge er merket som hypoteser.</p>
 </div>
 
 <div class="metode-card">
-  <h2>Backtest 2020–2024</h2>
+  <h2>Etterprøving 2020–2024</h2>
   <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Strukturmodellen (TF-ATTR) traff bedre enn SSB MMMM i de små, minst sentrale kommunene, der prognoser pleier å bomme mest. Det er bakgrunnen for å vise den som tilleggsbane ved siden av hovedbanen SSB MMMM.</p>
   <div id="bteval_metode" style="margin-top:14px"></div>
 </div>
@@ -232,22 +232,22 @@
   <table class="kildetabell">
     <thead><tr><th>Kilde</th><th>Innhold</th><th>Publisert</th></tr></thead>
     <tbody>
-      <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — mangel på arbeidskraft per næring × fylke + sysselsettingsbarometer</td><td>mai 2026</td></tr>
+      <tr><td class="kode">NAV</td><td><a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Bedriftsundersøkelsen 2026</a> — mangel på arbeidskraft per næring × fylke og sysselsettingsbarometer</td><td>mai 2026</td></tr>
       <tr><td class="kode">KS FoU</td><td>«Anbefalinger om nivå på sentrale økonomiske nøkkeltall for kommunal sektor» (Oslo Economics og Telemarksforskning for KS, rapport 2025-40)</td><td>mai 2025</td></tr>
       <tr><td class="kode">TBU</td><td><a href="https://www.regjeringen.no/no/dokumenter/nou-2025-10/id3140593/" target="_blank" rel="noopener">NOU 2025:10</a> — Det tekniske beregningsutvalget for kommunal og fylkeskommunal økonomi</td><td>høst 2025</td></tr>
       <tr><td class="kode">Riksrevisjonen</td><td><a href="https://www.stortinget.no/globalassets/pdf/dokumentserien/2025-2026/dok3-202526-016.pdf" target="_blank" rel="noopener">Dokument 3:16 (2025–2026)</a> — kommunale helse- og omsorgstjenester til eldre</td><td>juni 2026</td></tr>
-      <tr><td class="kode">Demenskartet</td><td><a href="https://demenskartet.no/" target="_blank" rel="noopener">Aldring og helse</a> — forekomst av demens etter alder; FHI, Folkehelserapporten (27.5.2026)</td><td>2026</td></tr>
+      <tr><td class="kode">Demenskartet</td><td><a href="https://demenskartet.no/" target="_blank" rel="noopener">Aldring og helse</a> — forekomst av demens etter alder; FHI, Folkehelserapporten (27. mai 2026)</td><td>2026</td></tr>
       <tr><td class="kode">SSB-monitoren</td><td><a href="https://www.ssb.no/befolkning/innvandrere/artikler/hoy-bofasthet-blant-flyktninger-de-forste-arene" target="_blank" rel="noopener">Monitor for sekundærflytting</a> — bosted fem år etter bosetting per fylke og kull</td><td>2005–2025</td></tr>
       <tr><td class="kode">Fafo 2025:14</td><td><a href="https://fafo.no/images/pub/2025/20927.pdf" target="_blank" rel="noopener">Flytting etter bosetting</a> (Kjeøy mfl., for IMDi)</td><td>2025</td></tr>
       <tr><td class="kode">IMDi</td><td><a href="https://www.imdi.no/tall-og-fakta/" target="_blank" rel="noopener">Innvandrernes botid</a> per kommune, og nøkkeltall for bosetting 2025–2026</td><td>2014–2026</td></tr>
       <tr><td class="kode">NOU 2020:15</td><td><a href="https://www.regjeringen.no/no/dokumenter/nou-2020-15/id2788079/" target="_blank" rel="noopener">Norman-utvalget</a> — «Det handler om Norge»</td><td>desember 2020</td></tr>
-      <tr><td class="kode">Perspektiv-meldingen</td><td><a href="https://www.regjeringen.no/en/whats-new/long-term-perspectives-on-the-norwegian-economy-2024/id3049220/" target="_blank" rel="noopener">Perspektivmeldingen 2024</a> — Finansdepartementet</td><td>2024</td></tr>
-      <tr><td class="kode">Komm.loven §28-1</td><td>ROBEK-vilkårene a-f. Statsforvalteren fører kontrollen.</td><td>løpende</td></tr>
+      <tr><td class="kode">Perspektivmeldingen</td><td><a href="https://www.regjeringen.no/en/whats-new/long-term-perspectives-on-the-norwegian-economy-2024/id3049220/" target="_blank" rel="noopener">Perspektivmeldingen 2024</a> — Finansdepartementet</td><td>2024</td></tr>
+      <tr><td class="kode">Komm.loven § 28-1</td><td>ROBEK-vilkårene a–f. Statsforvalteren fører kontrollen.</td><td>løpende</td></tr>
       <tr><td class="kode">SSB 06718</td><td>Kredittindikator K2 — kommuneforvaltningens innenlandske bruttogjeld etter långiver (lånekilder i gjeldsseksjonen). Hentes av fetch_gjeld.py.</td><td>månedlig</td></tr>
       <tr><td class="kode">SSB 10648</td><td>Utlån fra banker og kredittforetak etter rentebinding, kommuneforvaltningen (rentebinding i gjeldsseksjonen). Dekker bare om lag 45 % av gjelden; obligasjoner, sertifikater, Husbanken og KLP har ingen samlet statistikk. Hentes av fetch_gjeld.py.</td><td>kvartalsvis</td></tr>
       <tr><td class="kode">KBN</td><td><a href="https://www.kbn.com/" target="_blank" rel="noopener">Kommunalbanken — kvartalsrapport 2. kvartal 2026</a>. Markedsandel av utlån 48,9 % uten Husbanken i nevneren (48,2 % ved utgangen av 2025), omregnet til om lag 41 % av all gjeld. Fastrente på 36,4 % av utlånene: lån til virkelig verdi og i virkelig verdi-sikring delt på alle utlån (note 3). Rapporten for 3. kvartal kommer i november.</td><td>6. august 2026</td></tr>
-      <tr><td class="kode">KLP</td><td>KLP Kommunekreditt — kvartalsrapport 2. kvartal 2026: utlån 21,7 milliarder kroner per 30.06.2026. Andelen med flytende rente (88 %) oppgis bare i årsrapporten og gjelder 31.12.2025.</td><td>august 2026</td></tr>
-      <tr><td class="kode">BIN 2023</td><td><a href="https://www.businessindexnorth.com" target="_blank" rel="noopener">Business Index North</a> — «Nord-Norge 2040 · Scenarier for næringslivet». Nordområdesenteret + KPB + Dietz Foresight.</td><td>desember 2023</td></tr>
+      <tr><td class="kode">KLP</td><td>KLP Kommunekreditt — kvartalsrapport 2. kvartal 2026: utlån 21,7 milliarder kroner per 30. juni 2026. Andelen med flytende rente (88 %) oppgis bare i årsrapporten og gjelder 31.12.2025.</td><td>august 2026</td></tr>
+      <tr><td class="kode">BIN 2023</td><td><a href="https://www.businessindexnorth.com" target="_blank" rel="noopener">Business Index North</a> — «Nord-Norge 2040 · Scenarier for næringslivet». Nordområdesenteret, KPB og Dietz Foresight.</td><td>desember 2023</td></tr>
     </tbody>
   </table>
 </div>
@@ -258,9 +258,9 @@
   <table class="kildetabell">
     <thead><tr><th>Kilde</th><th>Innhold</th><th>Publisert</th></tr></thead>
     <tbody>
-      <tr><td class="kode">OECD</td><td><a href="https://www.oecd.org/en/data/indicators/old-age-dependency-ratio.html" target="_blank" rel="noopener">Pensions at a Glance 2025</a> — Old-age dependency ratio (OADR), vektet OECD-snitt 2050: ~52</td><td>november 2025</td></tr>
-      <tr><td class="kode">OECD SCIRN</td><td>Shrinking Cities Inclusive Recovery — «shrinking»-definisjon ved 0,15 %/år befolkningsnedgang</td><td>løpende</td></tr>
-      <tr><td class="kode">Eurostat</td><td><a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251001-2" target="_blank" rel="noopener">EUROPOP befolkningsfremskrivinger</a> — EU27 i 2050: 55 (65+/20–64, EUROPOP2023). Ikke direkte sammenlignbart med OECD-tallet, som bygger på FN-data.</td><td>oktober 2025</td></tr>
+      <tr><td class="kode">OECD</td><td><a href="https://www.oecd.org/en/data/indicators/old-age-dependency-ratio.html" target="_blank" rel="noopener">Pensions at a Glance 2025</a> — Old-age dependency ratio (OADR), vektet OECD-snitt 2050: om lag 52</td><td>november 2025</td></tr>
+      <tr><td class="kode">OECD SCIRN</td><td>Shrinking Cities Inclusive Recovery — definisjon av befolkningsnedgang («shrinking»): minst 0,15 % per år</td><td>løpende</td></tr>
+      <tr><td class="kode">Eurostat</td><td><a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20251001-2" target="_blank" rel="noopener">EUROPOP befolkningsframskrivinger</a> — EU27 i 2050: 55 (65+/20–64, EUROPOP2023). Ikke direkte sammenlignbart med OECD-tallet, som bygger på FN-data.</td><td>oktober 2025</td></tr>
     </tbody>
   </table>
 </div>
@@ -276,14 +276,14 @@
       <tr><td class="kode">KBN</td><td>Kommunalbanken</td></tr>
       <tr><td class="kode">TBU</td><td>Teknisk beregningsutvalg for kommunal og fylkeskommunal økonomi</td></tr>
       <tr><td class="kode">KOSTRA</td><td>KOmmune-STat-RApportering (SSBs rammeverk for kommuneøkonomi)</td></tr>
-      <tr><td class="kode">ROBEK</td><td>Register om betinget godkjenning og kontroll (kommuneloven §28-1)</td></tr>
+      <tr><td class="kode">ROBEK</td><td>Register om betinget godkjenning og kontroll (kommuneloven § 28-1)</td></tr>
       <tr><td class="kode">NDR</td><td>Netto driftsresultat</td></tr>
       <tr><td class="kode">BDI</td><td>Brutto driftsinntekter</td></tr>
-      <tr><td class="kode">MMMM</td><td>SSBs hovedalternativ i framskrivinger (4 × Middels)</td></tr>
-      <tr><td class="kode">Strukturmodellen</td><td>Telemarksforsknings strukturmodell, vår tilleggsbane (TF-ATTR teknisk)</td></tr>
-      <tr><td class="kode">Yttergrense-modeller</td><td>Telemarksforsknings outlier-spekter (TF-MVP teknisk)</td></tr>
-      <tr><td class="kode">NDC</td><td>Notional Defined Contribution (Sverige-pensjons­modellen)</td></tr>
-      <tr><td class="kode">OADR</td><td>Old-Age Dependency Ratio — forsørgerbyrde 65+ / 20–64</td></tr>
+      <tr><td class="kode">MMMM</td><td>SSBs hovedalternativ i framskrivinger (fire forutsetninger på middels nivå)</td></tr>
+      <tr><td class="kode">Strukturmodellen</td><td>Telemarksforsknings strukturmodell, vår tilleggsbane (teknisk navn TF-ATTR)</td></tr>
+      <tr><td class="kode">Yttergrensemodeller</td><td>Telemarksforsknings ytterpunktsmodeller (teknisk navn TF-MVP)</td></tr>
+      <tr><td class="kode">NDC</td><td>Notional Defined Contribution (den svenske pensjons­modellen)</td></tr>
+      <tr><td class="kode">OADR</td><td>Old-Age Dependency Ratio — forsørgerbrøk, 65+ per 100 i alderen 20–64</td></tr>
       <tr><td class="kode">BIN</td><td>Business Index North</td></tr>
       <tr><td class="kode">Svart svane</td><td>Uventet hendelse som endrer alt (Taleb: «black swan»)</td></tr>
     </tbody>
@@ -303,8 +303,8 @@
   <ul style="margin:0;padding-left:20px;color:var(--ink2);font-size:13.5px;line-height:1.65">
     <li>Framskrivinger er <b>ikke prognoser</b>. De viser hva demografien alene gir «alt annet likt», og forutsetningene kan etterprøves.</li>
     <li>Den fulle krysstabuleringen <i>kommune × alder × opprinnelsesland</i> finnes ikke hos SSB — dimensjonene er delt på tre kilder (07459, 09817, 11607).</li>
-    <li>SSB 12558 (desiler husholdningsinntekt) gir nasjonale grenser også for kommune-spørringer — derfor brukes 06944 for per-kommune median.</li>
-    <li>Nasjonalt bakteppe (KBN/KLP/TBU/KS) oppdateres <b>manuelt en gang i året</b> når årsrapportene publiseres. Dato i hver datasett-blokk vises som «sist oppdatert».</li>
+    <li>SSB 12558 (desiler husholdningsinntekt) gir nasjonale desilgrenser også når det spørres per kommune — derfor brukes 06944 for medianen per kommune.</li>
+    <li>Nasjonalt bakteppe (KBN/KLP/TBU/KS) oppdateres <b>manuelt en gang i året</b> når årsrapportene publiseres. Datoen i hver datablokk vises som «sist oppdatert».</li>
   </ul>
 </div>
 
@@ -312,12 +312,12 @@
 <footer class="nn-footer">
   <div class="nnf-grid">
     <div class="nnf-col">
-      <h4>Nord-Norge dashboard</h4>
+      <h4>Nord-Norge-dashbordet</h4>
       <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
-      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metode-siden</b></a> — strukturert per type kilde (SSB, NAV, KS, OECD, BIN m.fl.).</p>
+      <p>Alle datakilder, forkortelser og forbehold er samlet på <a href="metode.html"><b>metodesiden</b></a> — ordnet etter kildetype (SSB, NAV, KS, OECD, BIN m.fl.).</p>
       <p style="margin-top:8px"><a href="metode.html">→ Se metode og full kildeliste</a></p>
     </div>
     <div class="nnf-col">
