@@ -85,8 +85,8 @@
 </header>
 
 <section class="landing-hero">
-  <h1>Hva skjer i Nord-Norge — og <em>hvem blir igjen?</em></h1>
-  <p class="essence">Nord-Norges skjebne mot 2050 er en flyttehistorie. Fødsler og dødsfall regnes likt i alle modeller — det er hvor folk flytter som driver utfallet. Vi følger <b>Hammerfest</b> gjennom hele løypa: en finnmarkskommune som har vokst siden 2000, men som har krympet litt siden 2015 og står midt i de samme spørsmålene som nabokommunene.</p>
+  <h1>Flere eldre, <em>færre hender</em></h1>
+  <p class="essence">Innen 2050 blir det <span id="ingress80">nesten dobbelt så mange</span> innbyggere over 80 år i Nord-Norge, og <span id="ingress2064">7 prosent</span> færre i arbeidsfør alder. Det er ikke en prognose, men det dagens mønstre gir hvis de fortsetter. Her ser du hva det betyr i <a href="nord-norge.html">landsdelen</a>, i fylkene <a href="fylke.html?f=Nordland">Nordland</a>, <a href="fylke.html?f=Troms">Troms</a> og <a href="fylke.html?f=Finnmark">Finnmark</a> og i hver av de 80 kommunene — for arbeidskraft, eldreomsorg, bolig, næringsliv og kommuneøkonomi.</p>
 </section>
 
 
@@ -277,6 +277,13 @@
 <script src="assets/app.js" defer></script>
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
+  // Ingressen: 80+ og 20–64 år i landsdelen 2026–2050 (SSB 14746, hovedalternativet)
+  var LD = (typeof DATA !== 'undefined' && DATA.proj) ? DATA.proj.landsdel : null;
+  if(LD && LD.a80 && LD.a2064){
+    var n = LD.a80.length - 1, r80 = LD.a80[n] / LD.a80[0], d2064 = (1 - LD.a2064[n] / LD.a2064[0]) * 100;
+    document.getElementById('ingress80').textContent = r80 >= 1.85 && r80 < 2 ? 'nesten dobbelt så mange' : r80 >= 2 && r80 < 2.1 ? 'dobbelt så mange' : Math.round((r80 - 1) * 100) + ' prosent flere';
+    document.getElementById('ingress2064').textContent = Math.round(d2064) + ' prosent';
+  }
   if(typeof K === 'undefined') return;
   // Antall kommuner med nedgang mot 2050 (SSB MMMM) i karttittelen
   var ka = document.getElementById('kartAntall');
