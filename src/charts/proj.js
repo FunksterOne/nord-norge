@@ -119,7 +119,7 @@ function renderTot(el, width, k, o) {
   const leg = [['var(--ink)', histYears.length ? `Faktisk ${histYears[0]}–${histYears[histYears.length - 1]}` : 'Faktisk'],
     ['var(--accent)', 'SSB MMMM (hovedbane)'], ['color-mix(in srgb, var(--accent) 30%, transparent)', 'SSB lav–høy']];
   if (o.tfattr) leg.push(['var(--cat-4)', 'TF-ATTR (tilleggsbane)', true]);
-  if (mw && st.showMVP) leg.push(['var(--cat-5)', 'TF-MVP (tilleggsbane)', true]);
+  if (mw && st.showMVP) leg.push(['var(--cat-5)', 'TF-MVP (yttergrensemodell)', true]);
   if (us) leg.push(['var(--cat-6)', 'Ukraina-scenario']);
   return [fig, legend(leg)];
 }

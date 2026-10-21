@@ -180,7 +180,7 @@
   <div class="nnf-grid">
     <div class="nnf-col">
       <h4>Nord-Norge-dashbordet</h4>
-      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva som skjer hvis dagens mønstre fortsetter.</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function(){
       {key:'tot', lab:'Folketall', sub:'Total befolkning 2000–2050'},
       {key:'dec', lab:'Drivkrefter', sub:'Fødsler, dødsfall, flytting'},
       {key:'fb',  lab:'Forsørgerbrøk', sub:'Eldre per 100 i alderen 20–64'},
-      {key:'ald', lab:'Aldring', sub:'80+-andelen vokser raskest'}
+      {key:'ald', lab:'Aldring', sub:'Andelen over 80 år over tid'}
     ];
     var mwOpts = [
       {key:'kons',    title:'Smalt 2017–21', sub:'Snitt før innvandringstoppen'},
@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function(){
         rows += '<tr'+rowCls+'><td>Yttergrense · '+winLabels[w]+' <span style="font-size:10px;color:var(--ink3);font-weight:400">(TF-MVP)</span></td><td class="r num">'+fmt(Math.round(pop2050))+'</td><td class="r num">'+sg(pctChg,1)+' %</td><td class="r num" style="color:'+(Math.abs(diff)>=15?'var(--amber)':'var(--ink3)')+';font-weight:'+(Math.abs(diff)>=15?'700':'500')+'">'+sg(diff,1)+' % mot SSB</td></tr>';
       });
       mvpTblHTML =
-        '<div><div style="font-weight:600;color:var(--ink);font-size:13px;margin-bottom:6px">Hva sier de fire banene ved 2050?</div>'+
+        '<div><div style="font-weight:600;color:var(--ink);font-size:13px;margin-bottom:6px">Hva sier banene ved 2050?</div>'+
         '<table class="mvp-win-tbl">'+
           '<thead><tr><th>Bane</th><th class="r">2050</th><th class="r">Endring fra 2026</th><th class="r">Avvik mot SSB</th></tr></thead>'+
           '<tbody>'+rows+'</tbody>'+
@@ -854,7 +854,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var verdictColor = fails === 0 ? 'var(--pos)' : fails <= 1 ? 'var(--amber)' : 'var(--neg)';
     var verdictTekst = 'Kommuneøkonomien i <b>' + k.navn + '</b> er <b style="color:' + verdictColor + '">' + verdict + '</b> målt mot etablerte normer (' + yr + '). ';
     if(ndr != null) verdictTekst += 'Netto driftsresultat er ' + fmtP(ndr) + ' ' + (ndrOK ? '(over' : '(under') + ' TBU-normen på 1,75 %). ';
-    if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS\' anbefalte 5 %). ';
+    if(fond != null) verdictTekst += 'Disposisjonsfondet er ' + fmtP(fond) + ' ' + (fondOK ? '(over' : '(under') + ' KS-snittet på om lag 5 %). ';
     if(gj != null) verdictTekst += 'Lånegjelden er ' + fmtP(gj, 1) + ' ' + (gjeldOK ? '(under' : '(over') + ' KS\' grense på ' + N.ksGjeld + ' %). ';
     if(inROBEK) verdictTekst += 'Kommunen er <b>registrert i ROBEK</b> (kommuneloven § 28-1) — Statsforvalteren fører tilsyn. ';
     else if(pending) verdictTekst += 'Kommunen er <b>over ROBEK-grensen</b> og er under behandling.';

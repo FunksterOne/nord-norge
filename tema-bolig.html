@@ -57,7 +57,7 @@
 <section class="tema-hero">
   <div class="tag">Temaserie 07 · Boligmarkedet 2000–2050</div>
   <h1>Bygges det <em>nok</em> der folk skal bo?</h1>
-  <p class="lede">Igangsettingstillatelsene i Nord-Norge er på det laveste nivået siden SSBs serie startet i 2000, og fallet i igangsettingstillatelser siste tolv måneder er langt sterkere enn i landet som helhet (−25 % mot −3 %). Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
+  <p class="lede">Igangsettingstillatelsene i Nord-Norge <span id="ledeIg">har falt kraftig siste tolv måneder</span>. Samtidig gir aldringen mindre husholdninger — så boligbehovet faller ikke i takt med folketallet. Denne siden holder byggetakten opp mot et beregnet behov for hver kommune, fram mot 2050, på tvers av alle framskrivingsbanene i dashbordet.</p>
 </section>
 
 <!-- ────────────────── AKT 01 — BYGGETAKTEN ────────────────── -->
@@ -130,7 +130,7 @@
 <section class="akt">
   <div class="akt-num">Akt 04 · Sårbarheten</div>
   <h2>Byggingen står og faller på <em>noen få</em> kommuner.</h2>
-  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestallet. I første halvår 2026 stod to kommuner for over 80 prosent av igangsettingstillatelsene i både Troms og Finnmark, og halvparten av kommunene i landsdelen har ikke registrert en eneste igangsettingstillatelse hittil i år.</p>
+  <p class="akt-intro">Når nivået er lavt, blir statistikken skjør: ett borettslagsprosjekt eller én forsvarsutbygging flytter hele fylkestallet. <span id="sarbTekst"></span></p>
   <div class="kpi-rad" id="sarbKPI"></div>
   <div class="graf-kort">
     <h3>Konsentrasjon: de to største kommunenes andel av fylkets igangsettingstillatelser, siste 12 måneder</h3>
@@ -198,7 +198,7 @@
   <div class="nnf-grid">
     <div class="nnf-col">
       <h4>Nord-Norge-dashbordet</h4>
-      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva som skjer hvis dagens mønstre fortsetter.</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
@@ -258,6 +258,15 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   // ---------- akt 01: KPI ----------
+  function renderLede(){
+    var el = document.getElementById('ledeIg'); if(!el) return;
+    var o = B.landsdel, i1 = nQ - 1, i0 = nQ - 5, s = [], j;
+    for(j = 3; j < nQ; j++) s.push(r12(o.ig, j));
+    var lavest = r12(o.ig, i1) <= Math.min.apply(null, s);
+    var dN = (r12(o.ig, i1) / r12(o.ig, i0) - 1) * 100, dL = (r12(B.riket.ig, i1) / r12(B.riket.ig, i0) - 1) * 100;
+    var p = function(v){ return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(0) + ' %'; };
+    el.textContent = (lavest ? 'er på det laveste nivået siden SSBs serie startet i 2000, og endringen' : 'har endret seg med') + ' siste tolv måneder er ' + p(dN) + ' mot ' + p(dL) + ' i landet som helhet';
+  }
   function renderKPI(){
     var o = bolig(valg);
     var i1 = nQ - 1, i0 = nQ - 5;
@@ -402,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var htmlK = '';
     var iaar = [];
     Q.forEach(function(t, i){ if(t.slice(0,4) === sisteAar()) iaar.push(i); });
-    var utenAlle = [];
+    var utenAlle = [], topp2Andel = {};
     ['Nordland', 'Troms', 'Finnmark'].forEach(function(f){
       var koder = Object.keys(B.kommuner).filter(function(nr){ return DATA.kommuner[nr].fylke === f; });
       var med = koder.map(function(nr){
@@ -411,6 +420,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var sum = med.reduce(function(s, x){ return s + x.v; }, 0);
       var topp2 = med[0].v + med[1].v;
       var andel = sum ? topp2 / sum * 100 : 0;
+      topp2Andel[f] = andel;
       htmlK += '<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><b>' + f + '</b><span style="font-family:var(--font-mono)">' + Math.round(andel) + ' % — ' + med[0].navn + ' + ' + med[1].navn + '</span></div>' +
         '<div style="height:20px;background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;position:relative"><div style="position:absolute;left:0;top:0;height:100%;width:' + andel + '%;background:var(--amber);border-radius:0"></div></div></div>';
       koder.forEach(function(nr){
@@ -419,6 +429,8 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     });
     document.getElementById('konsGraf').innerHTML = htmlK;
+    var stEl = document.getElementById('sarbTekst');
+    if(stEl) stEl.textContent = 'Siste tolv måneder stod de to største kommunene for ' + Math.round(topp2Andel.Nordland) + ' % av igangsettingstillatelsene i Nordland, ' + Math.round(topp2Andel.Troms) + ' % i Troms og ' + Math.round(topp2Andel.Finnmark) + ' % i Finnmark, og ' + utenAlle.length + ' av 80 kommuner har ikke registrert en eneste igangsettingstillatelse hittil i ' + sisteAar() + '.';
     document.getElementById('utenAar').textContent = sisteAar();
     document.getElementById('utenListe').innerHTML =
       '<p class="hint" style="font-size:12px;margin:2px 0 4px">' + utenAlle.length + ' av 80 kommuner — ' + ['Nordland', 'Troms', 'Finnmark'].map(function(f){
@@ -436,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('sarbKPI').innerHTML =
       '<div class="kpi"><div class="v">' + fmt(r12(boL.fu, nQ-1) - av12) + '</div><div class="l">Netto tilførsel siste 12 mnd</div><div class="s">fullført minus registrert avgang (' + fmt(av12) + ')</div></div>' +
       '<div class="kpi"><div class="v">' + fmt(beL.ersta) + '</div><div class="l">Årlig registrert avgang</div><div class="s">snitt 2016–2025, hele landsdelen</div></div>' +
-      '<div class="kpi"><div class="v">2 av 21 og 2 av 18</div><div class="l">Kommuner bak 80 % av byggingen</div><div class="s">i Troms og Finnmark (1. halvår 2026)</div></div>';
+      '<div class="kpi"><div class="v">' + Math.round(topp2Andel.Troms) + ' % og ' + Math.round(topp2Andel.Finnmark) + ' %</div><div class="l">De to største kommunenes andel av byggingen</div><div class="s">Troms og Finnmark, siste 12 mnd</div></div>';
   }
 
   // ---------- akt 03: bruktmarkedet ----------
@@ -575,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function(){
       renderKPI(); renderRull(); renderKvart(); renderGap();
     };
   });
-  renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb(); renderMarked(); renderLeie();
+  renderLede(); renderKPI(); renderRull(); renderKvart(); renderGap(); renderTabell(); renderPed(); renderSarb(); renderMarked(); renderLeie();
 });
 </script>
 </body>

@@ -9,8 +9,8 @@ function methodBadge(sourceId){
   const s=SOURCES[sourceId];
   if(!s) return '';
   const metric = ({
-    kohort_retensjon:'Kohort-retensjon',
-    stock_snapshot:'Stock-snapshot',
+    kohort_retensjon:'Kohortbevaring',
+    stock_snapshot:'Bestandstall',
     akkumulert_nettoflytting:'Akkumulert nettoflytting',
     raadata:'Rådata'
   })[s.metric_type]||s.metric_type;
@@ -325,8 +325,8 @@ function projCard(k){
         }
         return warn;
       })()+
-      '<p class="hint" style="margin:8px 0 0">Yttergrense-modell, vindu '+({kons:'Smalt 2017\u20132021',sentral:'Median 2017\u20132025',opt:'Snitt 2017\u20132025'})[state.mw]+': <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), diff. mot SSB <b>'+((mw.pop[n-1]-o.main[n-1])>=0?'+':'\u2212')+fmt(Math.abs(mw.pop[n-1]-o.main[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
-      (o.tfattr?'Strukturmodell (tilleggsbane): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), diff. mot SSB <b>'+((o.tfattr[n-1]-o.main[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.tfattr[n-1]-o.main[n-1]))+'</b>.':'')+'</p>'+
+      '<p class="hint" style="margin:8px 0 0">Yttergrense-modell, vindu '+({kons:'Smalt 2017\u20132021',sentral:'Median 2017\u20132025',opt:'Snitt 2017\u20132025'})[state.mw]+': <b>'+fmt(mw.pop[0])+'</b> \u2192 <b>'+fmt(mw.pop[n-1])+'</b> (2050), avvik fra SSB <b>'+((mw.pop[n-1]-o.main[n-1])>=0?'+':'\u2212')+fmt(Math.abs(mw.pop[n-1]-o.main[n-1]))+'</b>'+(o.tfmvp_flag?' \u00b7 <b>tynt grunnlag</b>':'')+'. '+
+      (o.tfattr?'Strukturmodell (tilleggsbane): <b>'+fmt(o.tfattr[0])+'</b> \u2192 <b>'+fmt(o.tfattr[n-1])+'</b> (2050), avvik fra SSB <b>'+((o.tfattr[n-1]-o.main[n-1])>=0?'+':'\u2212')+fmt(Math.abs(o.tfattr[n-1]-o.main[n-1]))+'</b>.':'')+'</p>'+
       '<p class="hint" style="margin:6px 0 0;opacity:.7;font-size:11px">Telemarksforskning-modellene er reprodusert, ikke validert. Hovedbanen i dashbordet er alltid SSB MMMM; strukturmodellen er en tilleggsbane til SSB MMMM (slo SSB i de minst sentrale kommunene i etterpr\u00f8vingen for 2020\u20132024, kort horisont). Yttergrense-modellene viser et spenn av ytterpunkter.</p>'+
       '<div class="ch" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:15px">Scenario: ukrainske flyktninger forlater landsdelen</h3>'+
       '<div class="minseg" id="ukr"><button data-u="0" aria-selected="'+usel(0)+'">Av</button><button data-u="50" aria-selected="'+usel(50)+'">50 %</button><button data-u="75" aria-selected="'+usel(75)+'">75 %</button><button data-u="100" aria-selected="'+usel(100)+'">100 %</button></div></div>'+
@@ -391,7 +391,7 @@ function kostraCard(k){
     [[1.75,'TBU 1,75','var(--aurora)',''],refMed(FYB.ndr)],-6,6,
     'Hva er igjen etter driften, i % av inntektene. Teknisk beregningsutvalg (TBU) anbefaler \u2248 +1,75 % over tid for \u00e5 t\u00e5le svingninger og kunne sette av. '+(isA?'Vist som median for '+(k.fylke==='Alle'?'landsdelen':k.fylke)+'.':'Landsdelsmedian: '+sgn(B.ndr)+' %.'));
   body+=row('Disposisjonsfond',fond,'%',vFond,
-    fond==null?'\u2013':(fond>=10?'solid buffer':fond>=4?'moderat':'tynn'),
+    fond==null?'\u2013':(fond>=10?'solid buffer':fond>=5?'moderat':fond>=3?'tynn':'kritisk lav'),
     [refMed(FYB.fond)],0,Math.max(25,fond||0,FYB.fond||0),
     'Oppsparte, fritt disponible reserver i % av inntektene \u2014 st\u00f8tputen mot uforutsette utgifter og inntektssvikt. Veiledende: under ~4 % regnes som tynt. Landsdelsmedian: '+sgn(B.fond)+' %.');
   body+=row('Netto l\u00e5negjeld',gjeld,'%',vGjeld,
@@ -462,11 +462,11 @@ function kostraCard(k){
     for(let i=0;i<n;i++){ let tot=0; const w=SX.map((s,si)=>{const dv=s.d?drv[s.d]:drv.pop;const f=(dv&&dv[0])?dv[i]/dv[0]:1;const ww=base[si]*f;tot+=ww;return ww;});
       PY.push((P.years||[])[i]); PS.push(w.map(x=>tot?x/tot*100:0)); }
     const joinY=HY.length?HY[HY.length-1]:(P.years||[])[0];
-    const wlab=({kons:'konservativ',sentral:'middels',opt:'optimistisk'})[state.mw]||state.mw;
+    const wlab=({kons:'smalt vindu 2017–2021',sentral:'median 2017–2025',opt:'snitt 2017–2025'})[state.mw]||state.mw;
     const SHOW=[0,1,2,3,4]; // omsorg, skole, barnehage, kommunehelse, kultur
     sec='<div style="margin:14px 0 2px;padding-top:12px;border-top:1px solid var(--line2)">'+
       '<div style="font-weight:600;color:var(--ink)">Sektorandel \u2014 faktisk \u2192 demografidrevet, til 2050 <span style="font-size:10px;font-weight:700;color:var(--amber);background:color-mix(in srgb, var(--amber) 12%, transparent);padding:2px 7px;border-radius:0">illustrasjon</span></div>'+
-      '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Heltrukket venstre for «i dag» = faktiske KOSTRA-andeler. Stiplet f\u00f8r «i dag» = landsdel. Stiplet etter «i dag» = demografidrevet ('+wlab+'-flyttebane, alt annet likt). Andel av netto driftsutgifter.</p>'+
+      '<p class="hint" style="margin:2px 0 0;font-size:11.5px">Heltrukket venstre for «i dag» = faktiske KOSTRA-andeler. Stiplet f\u00f8r «i dag» = landsdel. Stiplet etter «i dag» = demografidrevet (flyttebane: '+wlab+', alt annet likt). Andel av netto driftsutgifter.</p>'+
       '<div style="'+GRID+'">'+
       SHOW.map(si=>lineChart({title:SX[si].nm,sub:'% av netto driftsutgifter',col:SX[si].c,unit:'pct',signed:false,
         hx:HY,hv:HS.map(v=>v[si]),bench:HB.map(v=>v[si]),
@@ -547,8 +547,8 @@ function diagnoseCard(k){
   const ndr=ks?num(ks.ndr):null, fond=ks?num(ks.fond):null, gj=ks?num(ks.gjeld):null, yr=ks&&ks.yr;
   let neg=0,pos=0;
   if(ndr!=null){ if(ndr>=1.75)pos++; else if(ndr<0)neg++; }
-  if(fond!=null){ if(fond>=10)pos++; else if(fond<4)neg++; }
-  if(gj!=null){ if(gj<90)pos++; else if(gj>110)neg++; }
+  if(fond!=null){ if(fond>=10)pos++; else if(fond<5)neg++; }
+  if(gj!=null){ if(gj<=85)pos++; else if(gj>110)neg++; }
   const verdict=(neg>=2)?'svakt':((pos>=2&&neg===0)?'solid':'blandet');
   const vc=(verdict==='svakt')?'var(--neg)':(verdict==='solid'?'var(--pos)':'var(--amber)');
   const sgn1=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(0).replace('.',',');
@@ -861,7 +861,7 @@ function tldrBanner(k, view){
     const futurePct=(k.pop&&projMain)?((projMain/k.pop-1)*100):null;
     let text='';
     if(firstY&&lastY&&pastPct!=null){
-      text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'gikk ned')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på 25 år. ';
+      text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'gikk ned')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på '+((+lastY)-(+firstY))+' år. ';
     } else {
       text+='<b>'+k.navn+'</b> har <b>'+fmt0(k.pop)+'</b> innbyggere i dag. ';
     }
@@ -869,7 +869,7 @@ function tldrBanner(k, view){
       text+='SSB MMMM peker mot <b>'+fmt0(projMain)+'</b> i '+projYear+' ('+pctF(futurePct)+' fra i dag). ';
       if(projLo&&projHi&&projHi-projLo>50) text+='Banene spriker fra <b>'+fmt0(projLo)+'</b> til <b>'+fmt0(projHi)+'</b> avhengig av flytteforutsetning. ';
     }
-    text+='<i>Det er flyttingen som driver utfallet — fødsler og dødsfall regnes likt.</i>';
+    text+='<i>Det er flyttingen som skiller tilleggsbanene fra SSBs hovedalternativ; fødsler og dødsfall regnes likt i dem.</i>';
     const nums=[];
     if(firstV&&lastV) nums.push({nv:pctF(pastPct),cls:pastPct>=0?'up':'down',nl:'siden '+firstY,nh:firstY+' → '+lastY});
     nums.push({nv:fmt0(k.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
@@ -1451,9 +1451,9 @@ function renderLevekar(){
     let text='Median husholdningsinntekt etter skatt i '+_scope2+' er <b>'+fmtKr(landsdelMedian)+'</b> per husholdning (2024). ';
     if(diffNorge!=null) text+='Det er '+(diffNorge>=0?'<b>'+diffNorge.toFixed(0).replace('.',',')+' %</b> over':'<b>'+Math.abs(diffNorge).toFixed(0).replace('.',',')+' %</b> under')+' nasjonal median på '+NORGE_MED_INNT.toLocaleString('nb-NO').replace(/ /g,' ')+' kr. ';
     if(lavKommune && hoyKommune) text+='Mellom de '+kommuneMedianer.length+' kommunene varierer median husholdningsinntekt fra <b>'+fmtKr(lavKommune)+'</b> til <b>'+fmtKr(hoyKommune)+'</b> — en forskjell på <b>'+(hoyKommune/lavKommune).toFixed(2).replace('.',',')+'×</b>. ';
-    text+='Av landsdelens totale personinntekt på <b>'+fmtMrdTekst(sumKomponenter)+'</b> kommer <b>'+andelLonn.toFixed(0).replace('.',',')+' %</b> fra lønn, <b>'+andelPensjon.toFixed(0).replace('.',',')+' %</b> fra pensjon og <b>'+andelUfore.toFixed(0).replace('.',',')+' %</b> fra uføretrygd. ';
+    text+='Av den samlede personinntekten i '+_scope2+' på <b>'+fmtMrdTekst(sumKomponenter)+'</b> kommer <b>'+andelLonn.toFixed(0).replace('.',',')+' %</b> fra lønn, <b>'+andelPensjon.toFixed(0).replace('.',',')+' %</b> fra pensjon og <b>'+andelUfore.toFixed(0).replace('.',',')+' %</b> fra uføretrygd. ';
     text+='<b>'+pctSelv.toFixed(0).replace('.',',')+' %</b> av husholdningene eier boligen selv. ';
-    text+='<i>Den høye trygdeandelen — pensjon og uføretrygd til sammen — gjør at landsdelens inntektsbase er mer sårbar for endringer i statlige stønader enn nasjonale snitt tilsier.</i>';
+    text+='<i>Pensjon og uføretrygd utgjør til sammen en stor del av inntektene, så inntektsbasen er følsom for endringer i statlige stønader.</i>';
     tldrHost.className='tldr t-people';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Levekår</div>'+
       '<h3>Hva tjener folk i '+_scope2+' — og hvor kommer pengene fra?</h3>'+
@@ -1521,7 +1521,7 @@ function renderLevekar(){
       '<div class="legend"><span><i style="background:var(--aurora)"></i>Selveier '+fmt(hushSelv)+'</span>'+
         '<span><i style="background:var(--nl)"></i>Andels-/aksjeeier '+fmt(hushAndels)+'</span>'+
         '<span><i style="background:var(--amber)"></i>Leier '+fmt(hushLeier)+'</span></div>'+
-      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Til sammen eier om lag 72 % av husholdningene i Nord-Norge boligen selv, enten som selveiere eller andelseiere, men andelen varierer kraftig mellom kommuner. Sentrale kommuner (Bodø, Tromsø, Hammerfest) har mer leie og borettslag enn distriktskommuner.</p>';
+      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Til sammen eier om lag '+Math.round(pctSelv+pctAndels)+' % av husholdningene i '+((state.fylke&&state.fylke!=='Alle')?state.fylke:'Nord-Norge')+' boligen selv, enten som selveiere eller andelseiere, men andelen varierer kraftig mellom kommuner. Sentrale kommuner (Bodø, Tromsø, Hammerfest) har mer leie og borettslag enn distriktskommuner.</p>';
   }
   // ---- Graf D: Boliger ----
   const boligHost=document.getElementById('levekarBoligGraph');
@@ -1546,7 +1546,7 @@ function renderLevekar(){
           '<div style="font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Blokkleiligheter</div></div>'+
       '</div>'+
       rowsH +
-      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Nord-Norge har høyere eneboligandel enn nasjonalt — typisk for distriktskommuner. Boligblokk-andelen er størst i Bodø og Tromsø.</p>';
+      '<p class="hint" style="margin-top:10px;font-size:11.5px;font-style:italic">Eneboliger dominerer, særlig i distriktskommunene. Andelen boligblokker er størst i Bodø og Tromsø.</p>';
   }
   // ---- Graf E: Inntektsspennvidde mellom kommuner ----
   const spennHost=document.getElementById('levekarSpennGraph');
@@ -1969,7 +1969,7 @@ function renderPensjon(){
 
   const leadHTML =
     '<p class="hint" style="font-size:12.5px;margin-bottom:8px">Kommunene i ' + scopeNavn + ' har betalt ' + pensjonTall(o.pa_kr / 1e6) + ' milliarder kroner mer i pensjonspremie enn de har ført som kostnad — <b>' + p1(o.pa) + '</b> av driftsinntektene (' + p1(o.pa24) + ' året før). ' +
-    'Beløpet utgiftsføres de neste sju årene. Pensjonsordningene er fullt finansiert; risikoen ligger i at etterslepet skal utgiftsføres, og i at premien i dag holdes nede av KLPs overskudd på premiefondet.</p>';
+    'Beløpet utgiftsføres som hovedregel over de neste sju årene. Pensjonsordningene er fullt finansiert; risikoen ligger i at etterslepet skal utgiftsføres, og i at premien i dag holdes nede av KLPs overskudd på premiefondet.</p>';
 
   const figHTML =
     '<div class="ch" style="margin-top:16px"><h3 class="serif" style="font-size:16px">Pensjonskostnaden i ' + scopeNavn + ' fram mot 2050</h3></div>' +
@@ -2008,7 +2008,7 @@ function pensjonKommuneCard(k){
   const belop = d.pa_kr >= 1e6 ? pensjonTall(d.pa_kr / 1e6) + ' milliarder' : Math.round(d.pa_kr / 1000).toLocaleString('nb-NO') + ' millioner';
   let tekst = '<b>' + navn + '</b> har ' + belop + ' kroner i premieavvik som ennå ikke er utgiftsført — <b>' + p1(d.pa) + '</b> av driftsinntektene, mot ' + p1(M.landet_pa) + ' for landet. ';
   tekst += overDf ? 'Det er mer enn disposisjonsfondet (' + p1(d.df) + '), så kommunen har ikke oppspart buffer som dekker etterslepet. ' : 'Disposisjonsfondet (' + p1(d.df) + ') er større enn etterslepet. ';
-  tekst += d.amort === 1 ? 'Kommunen utgiftsfører premieavviket året etter, så etterslepet bygges ikke opp. ' : 'Beløpet utgiftsføres de neste sju årene. ';
+  tekst += d.amort === 1 ? 'Kommunen utgiftsfører premieavviket året etter, så etterslepet bygges ikke opp. ' : 'Beløpet utgiftsføres som hovedregel over de neste sju årene. ';
   tekst += 'Regnskapsført pensjonskostnad er ' + p1(d.R.basis[0]) + ' av driftsinntektene i 2025 og ' + p1(d.R.basis[i50]) + ' i 2050 i basisscenariet' +
     (d.amort !== 1 && Math.abs(dR) >= 0.5 ? ' — ' + (dR > 0 ? 'en økning' : 'en nedgang') + ' på ' + pensjonTall(Math.abs(dR)) + ' prosentpoeng' : '') + '. ' +
     (d.amort === 1 ? 'Med ettårig amortisering føres hele fjorårets avvik i ett år, så kostnaden svinger mer fra år til år enn kurven viser. ' : '');
@@ -2125,8 +2125,8 @@ function renderHusholdninger(hostId, scope){
     '<div class="kpi-rad" style="margin:8px 0 14px">' +
       '<div class="kpi"><div class="v">' + fmtPct(aleneN, alle_n) + '</div><div class="l">Aleneboende</div><div class="nh">' + fmtN(aleneN) + ' husholdninger</div></div>' +
       '<div class="kpi"><div class="v">' + fmtPct(parMedBarnN, alle_n) + '</div><div class="l">Par med barn</div><div class="nh">' + fmtN(parMedBarnN) + ' husholdninger</div></div>' +
-      '<div class="kpi"><div class="v down">' + fmtKr(aleneMed) + '</div><div class="l">Aleneboende median</div><div class="nh">' + (aleneVsMed != null ? sgn(aleneVsMed) + ' % vs kommunemedian' : 'inntekt etter skatt') + '</div></div>' +
-      '<div class="kpi"><div class="v up">' + fmtKr(parMedBarnMed) + '</div><div class="l">Par med barn median</div><div class="nh">' + (parVsMed != null ? sgn(parVsMed) + ' % vs kommunemedian' : 'inntekt etter skatt') + '</div></div>' +
+      '<div class="kpi"><div class="v down">' + fmtKr(aleneMed) + '</div><div class="l">Aleneboende median</div><div class="nh">' + (aleneVsMed != null ? sgn(aleneVsMed) + ' % mot kommunemedianen' : 'inntekt etter skatt') + '</div></div>' +
+      '<div class="kpi"><div class="v up">' + fmtKr(parMedBarnMed) + '</div><div class="l">Par med barn median</div><div class="nh">' + (parVsMed != null ? sgn(parVsMed) + ' % mot kommunemedianen' : 'inntekt etter skatt') + '</div></div>' +
     '</div>';
 
   // Inntekt per type — sortert
@@ -2398,11 +2398,11 @@ function renderSustainability(){
   // Klartekst — observasjoner, ingen samlet dom
   const tldrHost=document.getElementById('sustTldr');
   if(tldrHost){
-    let text='Hver indikator vurderes mot sin <b>eksterne autoritative norm</b> — ikke mot en samlet bærekraftsdom. Av '+total+' kommuner i Nord-Norge: ';
+    let text='Hver indikator vurderes mot sin <b>eksterne autoritative norm</b> — ikke mot en samlet bærekraftsdom. Av '+total+' kommuner i '+((state.fylke&&state.fylke!=='Alle')?state.fylke:'Nord-Norge')+': ';
     text+='<b>'+counts.popDecl+'</b> har befolkningsnedgang ≥ 0,15 %/år (OECD SCIRN-definisjonen av befolkningsnedgang); ';
     text+='<b>'+counts.oadOver+'</b> har forsørgerbrøk 2050 over OECD-snittet (52 eldre per 100, Pensions at a Glance 2025); ';
     text+='<b>'+counts.ndrUnder+'</b> ligger under TBU-normen for netto driftsresultat (+1¾ %); ';
-    text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS-anbefalingen på 5 %;';
+    text+='<b>'+counts.fondUnder+'</b> har disposisjonsfond under KS-snittet på om lag 5 %;';
     text+='<b>'+(counts.robekIn+counts.robekPnd)+'</b> er i ROBEK eller har innmelding under behandling. ';
     text+='Hvert tall er en <i>observasjon</i> mot en konkret etablert standard.';
     tldrHost.className='tldr';
@@ -2832,8 +2832,8 @@ function sourceTableHTML(filter){
   }).map(id=>{
     const s=SOURCES[id];
     const metricChip = ({
-      kohort_retensjon:'<span class="src-chip">Kohort-retensjon</span>',
-      stock_snapshot:'<span class="src-chip t-stock">Stock-snapshot</span>',
+      kohort_retensjon:'<span class="src-chip">Kohortbevaring</span>',
+      stock_snapshot:'<span class="src-chip t-stock">Bestandstall</span>',
       akkumulert_nettoflytting:'<span class="src-chip t-acc">Akkumulert flytting</span>',
       raadata:'<span class="src-chip t-raw">Rådata</span>'
     })[s.metric_type]||'';

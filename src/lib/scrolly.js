@@ -37,7 +37,7 @@ function steg() {
   return [
     { ind: 'endring', kicker: '01 · Folketall',
       h: `${ned} av 80 kommuner får færre innbyggere mot 2050`,
-      p: `SSBs hovedalternativ gir landsdelen nesten uendret folketall samlet, men fordelingen er skjev. Størst nedgang ventes i ${n1.navn} (${endringPst(n1.endr, 0)}) og ${n2.navn} (${endringPst(n2.endr, 0)}). De høyeste vekstratene ventes i små kommuner som ${v1.navn} og ${v2.navn}, der små tall gir store prosentutslag.` },
+      p: `SSBs hovedalternativ gir landsdelen nesten uendret folketall samlet, men fordelingen er skjev. Størst nedgang ventes i ${n1.navn} (${endringPst(n1.endr, 0)}) og ${n2.navn} (${endringPst(n2.endr, 0)}). De høyeste vekstratene ventes i ${v1.navn} og ${v2.navn}${v1.k.pop < 5000 && v2.k.pop < 5000 ? ', der små tall gir store prosentutslag' : ''}.` },
     { ind: 'eldre', kicker: '02 · Aldring i dag',
       h: `I den typiske kommunen er hver fjerde innbygger 65 år eller eldre`,
       p: `Medianen er ${prosent(median(f.ks.map(x => x.a65)), 1)}. Høyest er ${e1.navn} med ${prosent(e1.a65, 1)}; lavest er ${u1.navn} og ${u2.navn}, ${prosent(u1.a65, 1) === prosent(u2.a65, 1) ? `begge med ${prosent(u1.a65, 1)}` : `med ${prosent(u1.a65, 1)} og ${prosent(u2.a65, 1)}`}. Byene trekker til seg de unge — distriktene eldes først.` },

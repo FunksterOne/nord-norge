@@ -120,17 +120,17 @@
   <div class="demografi-grid" id="demografiKPI"></div>
   <div class="arbeid-graf-wrap">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbrøk i Nord-Norge 2026–2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i alderen 20–64. Den vertikale streken markerer i dag. Nord-Norge stiger fra om lag 38 (2026) til om lag 51 (2050) — en økning i forsørgerbrøken på <b>36 %</b> på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
+    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i alderen 20–64. Den vertikale streken markerer i dag. Nord-Norge stiger fra om lag 38 (2026) til om lag 51 (2050) — en økning i forsørgerbrøken på <b>36 %</b> på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men økningen fram mot 2050 er bratt.</p>
     <div id="forsorgerGraf"></div>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Flere eldre, færre i arbeidsfør alder.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbrøken så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Flere eldre, færre i arbeidsfør alder.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbrøken så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Ikke alle i arbeidsfør alder er i arbeid, men nedgangen betyr at færre kan fylle stillingene. Det må dekkes av innvandring, automatisering eller høyere produktivitet.</p>
 </section>
 
 <!-- ────────────────── AKT 03½ — GAPET ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 03½ · Underskuddet</div>
   <h2>Hvor stort blir underskuddet — <em>hvert femte år</em>?</h2>
-  <p class="akt-intro">Dagens NAV-mangel er 5 850 personer i hele Nord-Norge. Det er bedriftenes faktiske rekrutteringshull i 2026 — et øyeblikksbilde. Hva skjer når vi løfter blikket fram til 2050 og spør: hvor mange flere stillinger trenger vi å fylle <i>bare for å holde tritt med befolkningsbehovet</i>? Underskuddet nedenfor er beregnet, ikke målt. Beregningen bygger på to godt dokumenterte forhold: brukergruppene vokser (særlig 65+), og gruppen i arbeidsfør alder blir mindre.</p>
+  <p class="akt-intro">Dagens NAV-mangel er <span id="navMangelNN">5 850</span> personer i hele Nord-Norge. Det er bedriftenes faktiske rekrutteringshull i 2026 — et øyeblikksbilde. Hva skjer når vi løfter blikket fram til 2050 og spør: hvor mange flere stillinger trenger vi å fylle <i>bare for å holde tritt med befolkningsbehovet</i>? Underskuddet nedenfor er beregnet, ikke målt. Beregningen bygger på to godt dokumenterte forhold: brukergruppene vokser (særlig 65+), og gruppen i arbeidsfør alder blir mindre.</p>
 
   <div class="kpi-rad" id="gapKPI"></div>
 
@@ -257,7 +257,7 @@
 
   <div class="sitat">
     <p class="sitat-tekst">Helse- og sosialtjenestene mangler allerede 7 200 personer nasjonalt, om lag 1 750 av dem i Nord-Norge. Sektoren er den største utgiftsposten i kommunene, og samtidig den hvor mangelen vil vokse raskest i takt med aldringen. Lønnsfleksibilitet alene løser ikke dette — bemanningsnormene må endres.</p>
-    <div class="kilde">Oppsummert etter <b>NAV 2026</b> (nasjonale tall) og <b>KS regnskapsundersøkelse 2025</b></div>
+    <div class="kilde">Dashbordets vurdering, basert på <b>NAV 2026</b> (nasjonale tall) og <b>KS regnskapsundersøkelse 2025</b></div>
   </div>
 
   <div class="sitat">
@@ -271,7 +271,7 @@
   <div class="nnf-grid">
     <div class="nnf-col">
       <h4>Nord-Norge-dashbordet</h4>
-      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva demografien alene gir «alt annet likt».</p>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva som skjer hvis dagens mønstre fortsetter.</p>
     </div>
     <div class="nnf-col">
       <h4>Kilder og metode</h4>
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var gc = document.getElementById('gapClose');
     if(gc){
       var diff20 = komGap[komGap.length-1].gap - komGap[0].gap;
-      gc.innerHTML = 'Det kommunale underskuddet vokser fra <b>+' + fmt(Math.round(komGap[0].gap)) + '</b> stillinger i 2030 til <b>+' + fmt(Math.round(gap2050)) + '</b> i 2050 — en vekst på <b>' + (gap2050/komGap[0].gap).toFixed(1).replace('.',',') + ' ganger</b> på 20 år. Dagens NAV-mangel (5 850) er et øyeblikksbilde. Det grafen viser, er <b>strukturen</b>: aldring tvinger fram høyere bemanningsbehov i sektorene kommunene selv driver, mens den arbeidsføre gruppen blir mindre. For hele arbeidsmarkedet i Nord-Norge blir underskuddet i 2050 om lag <b>+' + fmt(Math.round(totGap2050)) + '</b> personer — som må dekkes gjennom innvandring, automatisering eller lavere tjenestestandard.';
+      gc.innerHTML = 'Det kommunale underskuddet vokser fra <b>+' + fmt(Math.round(komGap[0].gap)) + '</b> stillinger i 2030 til <b>+' + fmt(Math.round(gap2050)) + '</b> i 2050 — en vekst på <b>' + (gap2050/komGap[0].gap).toFixed(1).replace('.',',') + ' ganger</b> på 20 år. Dagens NAV-mangel (' + ((typeof NAV_BEDRIFT !== 'undefined') ? NAV_BEDRIFT.landsdel.mangel_total.toLocaleString('nb-NO') : '5 850') + ') er et øyeblikksbilde. Det grafen viser, er <b>strukturen</b>: aldring tvinger fram høyere bemanningsbehov i sektorene kommunene selv driver, mens den arbeidsføre gruppen blir mindre. For hele arbeidsmarkedet i Nord-Norge blir underskuddet i 2050 om lag <b>+' + fmt(Math.round(totGap2050)) + '</b> personer — som må dekkes gjennom innvandring, automatisering eller lavere tjenestestandard.';
     }
 
     // ─── AKT 04: Mismatch + kilder ───
@@ -609,6 +609,8 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('telleKartTekst').innerHTML = 'Tyngst er ' + liste(tung.slice(0, 3).map(function(x){ return navnK(x.k) + ' (' + t1(x.okon) + ')'; })) + '; lettest ' + liste(lett.slice(0, 3).map(function(x){ return navnK(x.k) + ' (' + t1(x.okon) + ')'; })) + '. Små kommuner gir store tilfeldige utslag. Klikk på en kommune for kommunesiden.';
     document.getElementById('telleKart').innerHTML = NN.placeholder('kart', {ind:'okon'}, 560);
   }
+  var nmEl = document.getElementById('navMangelNN');
+  if(nmEl && typeof NAV_BEDRIFT !== 'undefined') nmEl.textContent = NAV_BEDRIFT.landsdel.mangel_total.toLocaleString('nb-NO');
 });
 </script>
 </body>

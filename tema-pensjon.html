@@ -87,7 +87,7 @@
 <!-- ────────────────── AKT 03 — HVEM BÆRER RISIKOEN ────────────────── -->
 <section class="akt">
   <div class="akt-num">Akt 03 · Hvem bærer risikoen?</div>
-  <h2>77 kommuner deler risikoen i KLP. <em>Tre</em> bærer den selv.</h2>
+  <h2><span id="klpAntall">77</span> kommuner deler risikoen i KLP. <em id="egneAntall">Tre</em> bærer den selv.</h2>
   <p class="akt-intro" id="orgIntro"></p>
   <div class="kpi-rad" id="orgKPI"></div>
   <div class="black-swan">
@@ -248,6 +248,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // ─── Akt 03: organisering og premiefond ───
   var kasser = O.kasser.map(function(x){ return x.navn.replace(' kommunale pensjonskasse', '').replace(' Pensjonskasse', '') + ' (' + x.solvens_pct + ' %)'; });
+  var ORD = ['Ingen', 'Én', 'To', 'Tre', 'Fire', 'Fem', 'Seks'], nEgne = 80 - O.klp_kommuner;
+  document.getElementById('klpAntall').textContent = O.klp_kommuner;
+  document.getElementById('egneAntall').textContent = ORD[nEgne] || nEgne;
   document.getElementById('orgIntro').innerHTML =
     'Fellesordningen og sykepleierordningen ligger i KLP for ' + O.klp_kommuner + ' av kommunene. Der deles svingninger i uførhet, levealder og avkastning med om lag 330 kommuner. ' +
     'Bodø, Tromsø og Harstad har egne kommunale pensjonskasser. Lærerne er i Statens pensjonskasse i alle 80 kommuner; der bærer staten avkastnings- og reguleringsrisikoen. ' +
