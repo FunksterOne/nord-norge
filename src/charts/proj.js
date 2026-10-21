@@ -177,11 +177,11 @@ function renderFb(el, width, k, o, sp = {}) {
       Plot.dot([r[0], r[r.length - 1]], { x: 'year', y: 'v', r: 4.5, fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2 }),
       Plot.text([r[0]], { x: 'year', y: 'v', text: d => tall(d.v, 0), dy: -12, fill: 'var(--ink)', fontWeight: 600, fontSize: 13 }),
       Plot.text([r[r.length - 1]], { x: 'year', y: 'v', text: d => tall(d.v, 0), dx: 10, textAnchor: 'start', fill: 'var(--accent-text)', fontWeight: 600, fontSize: 13 }),
-      Plot.tip(r, Plot.pointerX({ x: 'year', y: 'v', title: d => `${d.year}\n${tall(d.v, 1)} eldre per 100 yrkesaktive\n${tall(100 / d.v, 1)} yrkesaktive per eldre`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(r, Plot.pointerX({ x: 'year', y: 'v', title: d => `${d.year}\n${tall(d.v, 1)} eldre per 100 i alderen 20–64\n${tall(100 / d.v, 1)} i alderen 20–64 per eldre`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   }));
   const t2 = document.createElement('div'); t2.className = 'nn-subhead';
-  t2.textContent = 'Hvorfor: eldre og yrkesaktive, indeksert (2026 = 100)';
+  t2.textContent = 'Hvorfor: 65+ og 20–64 år, indeksert (2026 = 100)';
   const both = i65.concat(i20);
   const ends = [i65[i65.length - 1], i20[i20.length - 1]];
   const figB = Plot.plot(base({
@@ -196,7 +196,7 @@ function renderFb(el, width, k, o, sp = {}) {
     ],
   }));
   const note = document.createElement('div'); note.className = 'nn-chart-note';
-  note.innerHTML = `Fra <b>${tall(r0, 0)}</b> til <b>${tall(rN, 0)}</b> eldre per 100 yrkesaktive. Grunnlag: SSB tabell 14746, hovedalternativet (MMMM).`;
+  note.innerHTML = `Fra <b>${tall(r0, 0)}</b> til <b>${tall(rN, 0)}</b> eldre per 100 i alderen 20–64. Grunnlag: SSB tabell 14746, hovedalternativet (MMMM).`;
   return [t1, figA, t2, figB, note];
 }
 

@@ -8,7 +8,7 @@ const SIDER = [
   ['Hvem blir værende? Flyktningstrømmen, bofasthet og flytteforbud', 'tema-flyktning.html', 'Tema 01'],
   ['Store mot små: 6 mot 74 kommuner', 'tema-o6.html', 'Tema 02'],
   ['Kvinneflukten', 'tema-kvinneflukt.html', 'Tema 03'],
-  ['Hvem skal bære? Arbeidskraft og aldring', 'tema-arbeidskraft.html', 'Tema 04'],
+  ['Hvem skal bære? Arbeidskraft, aldring og forsørgerbyrde', 'tema-arbeidskraft.html', 'Tema 04'],
   ['Aldring i internasjonalt perspektiv og eldreomsorgen mot 2050', 'tema-aldring.html', 'Tema 05'],
   ['Fire fremtider mot 2040', 'tema-scenarier.html', 'Tema 06'],
   ['Bygges det nok? Boligmarkedet', 'tema-bolig.html', 'Tema 07'],

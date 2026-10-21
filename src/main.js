@@ -5,6 +5,7 @@ import { initTheme } from './lib/theme.js';
 import { initSearch } from './lib/search.js';
 import { initScrolly } from './lib/scrolly.js';
 import { startCharts, placeholder } from './charts/core.js';
+import { kortNavn } from './lib/format.js';
 import './charts/proj.js';
 import './charts/map.js';
 import './charts/plassering.js';
@@ -25,7 +26,7 @@ import './charts/pyramide.js';
 initTheme();
 initSearch();
 // Gammel kode (assets/app.js) bruker NN.placeholder() for å be om nye diagrammer.
-window.NN = { placeholder };
+window.NN = { placeholder, kortNavn };
 startCharts();
 initScrolly();
 

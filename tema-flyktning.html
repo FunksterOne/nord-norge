@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function(){
     'Fafo finner at forskjellen mellom Nord-Norge og resten av landet ikke lenger er signifikant når det kontrolleres for sentralitet og folketall. Det er de små og usentrale kommunene som mister flyktninger, og Nord-Norge har mange av dem. ' +
     'Etter fem år bodde ' + S[0].lo + '–' + pst(S[0].hi) + ' fortsatt i kommuner med 100 000 innbyggere eller flere, mot ' + S[2].lo + '–' + pst(S[2].hi) + ' i kommuner med under 2 000 innbyggere (kull 2007–2012, SSB-monitoren 2020, tab. 4.10). Etter ti år har nesten ' + pst(F.sentralitet6) + ' flyttet fra de minst sentrale kommunene (sentralitetsklasse 6).';
 
-  var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? k.navn.split(' - ').pop() : nr; };
+  var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? NN.kortNavn(k.navn) : nr; };
   var kom = Object.keys(BT.kommuner).filter(function(nr){ return BT.kommuner[nr][5] >= 100; }).sort(function(a, b){ return BT.kommuner[a][3] - BT.kommuner[b][3]; });
   var lav = kom[0], hoy = kom[kom.length - 1];
   document.getElementById('botidTekst').innerHTML =

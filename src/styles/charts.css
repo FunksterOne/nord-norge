@@ -96,3 +96,34 @@
   .nn-pyr-stats { grid-template-columns: repeat(2, 1fr); }
   .nn-pyr-stats > div { border-bottom: 1px solid var(--line-soft); }
 }
+
+/* Hvem bærer hvem? (forsorgCard i assets/app.js) */
+.fb-kort .fb-p{font-size:13.5px;line-height:1.6;color:var(--ink-2);margin:12px 0 0;max-width:80ch}
+.fb-kort .fb-h4{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--ink);margin:22px 0 8px}
+.fb-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
+.fb-kpis .k{padding:12px 14px;background:var(--paper2);border:1px solid var(--line2)}
+.fb-kpis .v{font-family:var(--font-display);font-size:24px;font-weight:600;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.fb-kpis .v.down{color:var(--neg)}
+.fb-kpis .l{font-size:11.5px;color:var(--ink-2);font-weight:500;margin-top:4px}
+.fb-kpis .h{font-size:10.5px;color:var(--ink-3);margin-top:2px}
+.fb-prikk-rad{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.fb-prikk-tittel{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+.fb-prikker{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;max-width:340px}
+.fb-prikker i{display:block;aspect-ratio:1;border-radius:50%}
+.fb-prikk-sml{font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.5;max-width:340px}
+.fb-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:12px;color:var(--ink-2);max-width:340px}
+.fb-legend span{display:inline-flex;align-items:center}
+.fb-legend i,.fb-tabell td i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.fb-stolpe-rad{display:grid;grid-template-columns:minmax(90px,140px) 1fr;gap:10px;align-items:center;margin:6px 0}
+.fb-stolpe-navn{font-size:12.5px;color:var(--ink-2)}
+.fb-stolpe-spor{display:flex;align-items:center;gap:8px}
+.fb-stolpe-spor b{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.fb-stolpe{display:flex;height:16px}
+.fb-stolpe i{display:block;height:100%}
+.fb-scroll{overflow-x:auto}
+.fb-tabell{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+.fb-tabell th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--line2)}
+.fb-tabell th:first-child,.fb-tabell td:first-child{text-align:left}
+.fb-tabell td{padding:6px 8px;border-top:1px solid var(--line2);text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.fb-tabell td:first-child{font-family:var(--font-sans);color:var(--ink-2)}
+.fb-tabell tr.sum td{border-top:2px solid var(--ink);font-weight:600}

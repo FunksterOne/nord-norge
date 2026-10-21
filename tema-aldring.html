@@ -106,7 +106,7 @@
     <div id="fylkeListe"></div>
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til én desimal. Nye fylker etter 2024-reformen.</p>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet).</p>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet). Forsørgerbrøken teller alder, ikke arbeid: teller man alle som ikke er i arbeid per sysselsatt, ligger Nord-Norge på landsnivå (se <a href="tema-arbeidskraft.html#telle">Tre måter å telle på</a>).</p>
 </section>
 
 <!-- ────────────────── AKT 04 — OMSORGEN ────────────────── -->
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var nP = per(N), lP = per(LA), k6 = per(SK['6']);
     var kom = Object.keys(E.kommuner), K6 = kom.filter(function(k){ return E.kommuner[k][0] === 6; });
     var overL = kom.filter(function(k){ return E.kommuner[k][14] > LA.fb[1]; }).length;
-    var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? k.navn.split(' - ').pop() : nr; };
+    var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? NN.kortNavn(k.navn) : nr; };
     var dato = function(iso){ var m = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'], q = iso.split('-'); return (+q[2]) + '. ' + m[+q[1]-1] + ' ' + q[0]; };
 
     document.getElementById('omsTittel').textContent = t1(nP[1]);

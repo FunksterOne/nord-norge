@@ -296,9 +296,9 @@ function projCard(k){
     (state.projMode==='dec'?(
       '<p class="hint" style="margin:14px 0 0">Av en samlet endring p\u00e5 <b>'+(dtot>=0?'+':'\u2212')+fmt(Math.abs(dtot))+'</b> til 2050 kommer <b>'+(dnat>=0?'+':'\u2212')+fmt(Math.abs(dnat))+'</b> fra naturlig endring (f\u00f8dsler \u2212 d\u00f8dsfall) og <b>'+(dmig>=0?'+':'\u2212')+fmt(Math.abs(dmig))+'</b> fra netto flytting. '+drv+'</p>'
     ):state.projMode==='fb'?(
-      '<p class="hint" style="margin:14px 0 0">Fors\u00f8rgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 yrkesaktive \u2014 fra <b>~'+sup0.toFixed(1).replace('.',',')+'</b> til <b>~'+sup1.toFixed(1).replace('.',',')+'</b> i yrkesaktiv alder bak hver person 65+. Drivkraften er forskyvningen mellom gruppene: <b>65+ '+(g65p>=0?'+':'\u2212')+Math.abs(g65p).toFixed(0).replace('.',',')+' %</b> mens <b>20\u201364 '+(g20p>=0?'+':'\u2212')+Math.abs(g20p).toFixed(0).replace('.',',')+' %</b> (SSB MMMM). '+
-      ((g20p<0&&g65p>0)?'Begge effektene virker samtidig \u2014 flere eldre og f\u00e6rre yrkesaktive.'
-       :(g65p>0&&g20p>=0)?'Det er f\u00f8rst og fremst flere eldre, ikke f\u00e6rre yrkesaktive, som driver byrden.'
+      '<p class="hint" style="margin:14px 0 0">Fors\u00f8rgerbyrden '+(oad1>=oad0?'stiger':'faller')+' fra <b>'+oad0.toFixed(0).replace('.',',')+'</b> til <b>'+oad1.toFixed(0).replace('.',',')+'</b> eldre per 100 i alderen 20\u201364 \u2014 fra <b>~'+sup0.toFixed(1).replace('.',',')+'</b> til <b>~'+sup1.toFixed(1).replace('.',',')+'</b> i yrkesaktiv alder bak hver person 65+. Drivkraften er forskyvningen mellom gruppene: <b>65+ '+(g65p>=0?'+':'\u2212')+Math.abs(g65p).toFixed(0).replace('.',',')+' %</b> mens <b>20\u201364 '+(g20p>=0?'+':'\u2212')+Math.abs(g20p).toFixed(0).replace('.',',')+' %</b> (SSB MMMM). '+
+      ((g20p<0&&g65p>0)?'Begge effektene virker samtidig \u2014 flere eldre og f\u00e6rre i arbeidsf\u00f8r alder.'
+       :(g65p>0&&g20p>=0)?'Det er f\u00f8rst og fremst flere eldre, ikke f\u00e6rre i arbeidsf\u00f8r alder, som driver byrden.'
        :'Yrkesaktiv-gruppen krymper sterkere enn de eldre vokser.')+' Tallene f\u00f8lger SSB MMMM og endres ikke av flyttevinduet.</p>'
     ):(
       '<p class="hint" style="margin:14px 0 0">Hovedalternativet: <b>'+fmt(m0)+'</b> (2026) \u2192 <b>'+fmt(m1)+'</b> (2050), '+
@@ -917,7 +917,7 @@ function tldrBanner(k, view){
     const robekTxt=inRobek?'I ROBEK (bokstav '+inRobek+')':pending?'over grensen — under behandling':'ikke i ROBEK';
     let text='';
     if(oad0!=null&&oad1!=null){
-      text+='I dag bærer 100 yrkesaktive (20–64) <b>'+oad0.toFixed(0).replace('.',',')+'</b> eldre (65+). I 2050 er tallet <b>'+oad1.toFixed(0).replace('.',',')+'</b> ('+(oad1>=oad0?'opp':'ned')+' fra '+oad0.toFixed(0).replace('.',',')+') — '+(oad1>oad0?'en tyngre bør':'fortsatt bærbart')+'. ';
+      text+='I dag er det <b>'+oad0.toFixed(0).replace('.',',')+'</b> innbyggere over 65 år per 100 i alderen 20–64. I 2050 er tallet <b>'+oad1.toFixed(0).replace('.',',')+'</b> ('+(oad1>=oad0?'opp':'ned')+' fra '+oad0.toFixed(0).replace('.',',')+') — '+(oad1>oad0?'en tyngre bør':'fortsatt bærbart')+'. ';
     }
     if(fond!=null){
       const fondGrade=fond<3?'<b style="color:var(--neg)">kritisk lav</b>':fond<5?'<b style="color:var(--amber)">tynn</b>':fond<10?'akseptabel':'<b style="color:var(--aurora)">solid</b>';
@@ -933,7 +933,7 @@ function tldrBanner(k, view){
       '<h3>Hva betyr demografien for kommuneøkonomien?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
-        (oad1!=null?'<div class="tldr-num"><div class="nv '+(oad1>40?'warn':'')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="nl">Forsørgerbyrde 2050</div><div class="nh">eldre per 100 i jobb</div></div>':'')+
+        (oad1!=null?'<div class="tldr-num"><div class="nv '+(oad1>40?'warn':'')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="nl">Forsørgerbrøk 2050</div><div class="nh">65+ per 100 i alderen 20–64</div></div>':'')+
         (fond!=null?'<div class="tldr-num"><div class="nv '+(fond<3?'down':fond<5?'warn':'up')+'">'+fond.toFixed(1).replace('.',',')+' %</div><div class="nl">Disposisjonsfond</div><div class="nh">av driftsinntekter</div></div>':'')+
         (ndr!=null?'<div class="tldr-num"><div class="nv '+(ndr<0?'down':ndr<1.75?'warn':'up')+'">'+(ndr>=0?'+':'−')+Math.abs(ndr).toFixed(1).replace('.',',')+' %</div><div class="nl">Netto driftsresultat</div><div class="nh">TBU-norm +1,75</div></div>':'')+
         '<div class="tldr-num"><div class="nv '+(inRobek?'down':pending?'warn':'up')+'">'+(inRobek?'I':pending?'●':'●')+'</div><div class="nl">ROBEK-status</div><div class="nh">'+robekTxt+'</div></div>'+
@@ -1174,6 +1174,7 @@ function renderCompare(){
       <div style="margin-top:12px;font-size:12.5px;color:var(--ink2)"><b>Største opprinnelse:</b><br>
         ${k.land.filter(l=>l[1]>0).slice(0,3).map(l=>l[0]+' ('+fmt(l[1])+')').join('<br>')||'–'}</div>
       ${pensjonCmp(k)}
+      ${forsorgCmp(k)}
       </div>`;}).join('')}</div>`;
   return true;
 }
@@ -1592,57 +1593,41 @@ function renderBurden(){
   const oad1=o.a2064[n-1]?100*o.a65[n-1]/o.a2064[n-1]:null;
   // Scope (fylke eller landsdel)
   const _scopeKey = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Alle';
-  const _scopeKommuner = (state.fylke && state.fylke !== 'Alle')
-    ? new Set(K.filter(x => x.fylke === state.fylke).map(x => String(x.nr)))
-    : null;  // null = alle
   const _scopeTxt = _scopeKey === 'Alle' ? 'landsdelen samlet' : state.fylke;
-  // Sysselsetting-justert: bruker scopens sysselsettingsrate (vektet snitt over kommunene i scopet)
-  let _sumSyss = 0, _sumTot = 0;
-  if(typeof ARBEID_DATA !== 'undefined'){
-    Object.entries(ARBEID_DATA.kommuner).forEach(([nr, r])=>{
-      if(_scopeKommuner && !_scopeKommuner.has(nr)) return;
-      if(r.sysselsatte20_66 != null) _sumSyss += r.sysselsatte20_66;
-      if(r.tot20_66 != null) _sumTot += r.tot20_66;
-    });
-  }
-  const syssR = _sumTot ? _sumSyss / _sumTot : landsdelSysselsRate();
-  const oadJ0=(o.a2064[0]&&syssR>0)?100*o.a65[0]/(o.a2064[0]*syssR):null;
-  const oadJ1=(o.a2064[n-1]&&syssR>0)?100*o.a65[n-1]/(o.a2064[n-1]*syssR):null;
-  const a2064_0=o.a2064[0], a2064_1=o.a2064[n-1];
   const a80_0=o.a80?o.a80[0]:null, a80_1=o.a80?o.a80[n-1]:null;
-  // Uføreandel for scope. Telleren (SSB 11715) gjelder 18-67 år, så nevneren
-  // må være befolkningen 18-67 — ikke 20-66, som ga ~1 prosentpoeng for høy andel.
-  let sumUfo=0, sumPop=0;
-  if(typeof ARBEID_DATA!=='undefined'){
-    Object.entries(ARBEID_DATA.kommuner).forEach(([nr, r])=>{
-      if(_scopeKommuner && !_scopeKommuner.has(nr)) return;
-      if(r.uforePers!=null) sumUfo+=r.uforePers;
-      const km=K.find(x=>String(x.nr)===String(nr));
-      if(km&&km.alder) sumPop+=km.alder.slice(18,68).reduce((a,b)=>a+b,0);
-    });
-  }
-  const uforePctLandsdel = sumPop ? 100*sumUfo/sumPop : null;
   const projYear=(P.years||[])[n-1]||2050;
+  // Faktisk arbeid: ikke-sysselsatte per 100 sysselsatte (FORSORG_DATA, fetch_forsorg.py)
+  const fKey=_scopeKey==='Alle'?'nn':_scopeKey, fNavn=_scopeKey==='Alle'?'Nord-Norge':_scopeKey;
+  const FR=(typeof FORSORG_DATA!=='undefined')?FORSORG_DATA.regioner[fKey]:null, FL=FR?FORSORG_DATA.regioner.landet:null;
+  const t1=v=>v==null?'–':v.toFixed(1).replace('.',',');
   if(tldrHost){
-    let text='I dag bærer 100 sysselsatte (20–66) <b>'+(oadJ0!=null?oadJ0.toFixed(0).replace('.',','):'–')+'</b> eldre (65+) i '+_scopeTxt+'. ';
-    text+='I '+projYear+' øker det til <b>'+(oadJ1!=null?oadJ1.toFixed(0).replace('.',','):'–')+'</b> — fordi sysselsettingsraten er bare ~<b>'+(syssR*100).toFixed(0).replace('.',',')+' %</b>, er den reelle bæreevnen lavere enn den «rene» demografiske (65+/20–64 går fra '+oad0.toFixed(0).replace('.',',')+' til '+oad1.toFixed(0).replace('.',',')+'). ';
-    if(uforePctLandsdel!=null) text+='Rundt <b>'+uforePctLandsdel.toFixed(0).replace('.',',')+' %</b> av 18–67-årige er uføretrygdede — det er en stor del av hvorfor sysselsettingsraten er lavere enn aldersgruppen alene tilsier. ';
+    let text='Forsørgerbrøken i '+_scopeTxt+' går fra <b>'+t1(oad0)+'</b> til <b>'+t1(oad1)+'</b> innbyggere over 65 år per 100 i alderen 20–64 fram mot '+projYear+'. ';
+    let fNums='';
+    if(FR){
+      const ok0=fbOkonIDag(FR), okL=fbOkonIDag(FL), m=FR.okon.length-1, dS=(FR.syss[m]/FR.syss[0]-1)*100, dSL=(FL.syss[m]/FL.syss[0]-1)*100;
+      text+='Aldersmålet teller ikke hvem som er i arbeid. Teller man alle som ikke er sysselsatt — barn, studenter, pensjonister, uføre og ledige — er det <b>'+t1(ok0)+'</b> per 100 sysselsatte i dag, mot '+t1(okL)+' i landet. ';
+      text+=(Math.abs(ok0-okL)<2?'Målt mot faktisk arbeid er byrden altså omtrent som i landet. ':ok0>okL?'Målt mot faktisk arbeid er byrden høyere enn i landet. ':'Målt mot faktisk arbeid er byrden lavere enn i landet. ');
+      text+='Holdes sysselsettingen i hver aldersgruppe som i dag, '+(dS>=0?'øker':'faller')+' antallet sysselsatte med <b>'+t1(Math.abs(dS))+' %</b> mot '+projYear+' (landet '+(dSL>=0?'+':'−')+t1(Math.abs(dSL))+' %). ';
+      fNums='<div class="tldr-num"><div class="nv">'+t1(ok0)+'</div><div class="nl">Per 100 sysselsatte i dag</div><div class="nh">ikke-sysselsatte, alle aldre · landet '+t1(okL)+'</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(FR.okon[m]>FL.okon[m]+2?'warn':'')+'">'+t1(FR.okon[m])+'</div><div class="nl">Per 100 sysselsatte '+projYear+'</div><div class="nh">alt annet likt · landet '+t1(FL.okon[m])+'</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(dS<-5?'down':'')+'">'+(dS>=0?'+':'−')+t1(Math.abs(dS))+' %</div><div class="nl">Sysselsatte 2026–'+projYear+'</div><div class="nh">alt annet likt</div></div>';
+    }
     if(a80_0&&a80_1){
       const pct80=(a80_1/a80_0-1)*100;
       text+='Antallet 80+ <b>'+(pct80>=0?'vokser med '+pct80.toFixed(0).replace('.',',')+' %':'krymper med '+Math.abs(pct80).toFixed(0).replace('.',',')+' %')+'</b> (fra '+fmt(a80_0)+' til '+fmt(a80_1)+'). ';
     }
-    text+='<i>Det er denne forskyvningen — eldre opp, sysselsatte flat eller ned — som setter kommuneøkonomien på prøve i Akt 3.</i>';
+    text+='<i>Det er denne forskyvningen — flere eldre og færre i arbeid — som setter kommuneøkonomien på prøve i Akt 3.</i>';
     tldrHost.className='tldr t-burden';
     tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Bæreevne</div>'+
       '<h3>Hvor tungt blir aldringen å bære?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
-        (oadJ0!=null?'<div class="tldr-num"><div class="nv">'+oadJ0.toFixed(0).replace('.',',')+'</div><div class="nl">I dag (justert)</div><div class="nh">eldre per 100 sysselsatte</div></div>':'')+
-        (oadJ1!=null?'<div class="tldr-num"><div class="nv '+(oadJ1>75?'warn':'')+'">'+oadJ1.toFixed(0).replace('.',',')+'</div><div class="nl">I '+projYear+' (justert)</div><div class="nh">eldre per 100 sysselsatte</div></div>':'')+
-        (oad1!=null?'<div class="tldr-num"><div class="nv">'+oad1.toFixed(0).replace('.',',')+'</div><div class="nl">Demogr. standard '+projYear+'</div><div class="nh">65+/20–64</div></div>':'')+
-        (uforePctLandsdel!=null?'<div class="tldr-num"><div class="nv '+(uforePctLandsdel>=10?'warn':'')+'">'+uforePctLandsdel.toFixed(0).replace('.',',')+' %</div><div class="nl">Uføreandel 18–67</div><div class="nh">SSB 11715, '+((typeof ARBEID_DATA!=='undefined'&&ARBEID_DATA.year)||2025)+'</div></div>':'')+
+        (oad0!=null?'<div class="tldr-num"><div class="nv">'+t1(oad0)+' → '+t1(oad1)+'</div><div class="nl">Forsørgerbrøk 2026–'+projYear+'</div><div class="nh">65+ per 100 i alderen 20–64</div></div>':'')+
+        fNums+
       '</div>';
   }
+  const fbHost=document.getElementById('forsorgKort');
+  if(fbHost && typeof forsorgCard==='function') fbHost.innerHTML=forsorgCard(fKey, fNavn);
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
     const savedMode=state.projMode;
@@ -2313,6 +2298,8 @@ function evaluateKommune(k){
   const annualPct = (pop[0]&&pop[n-1]>0)?(Math.pow(pop[n-1]/pop[0], 1/(n-1)) - 1)*100:null;
   const syssR = getSysselsRate(k.nr);
   const uforePct = getUforePct(k.nr);
+  const FR = (typeof FORSORG_DATA!=='undefined') ? FORSORG_DATA.regioner[String(k.nr)] : null;
+  const okon = FR ? fbOkonIDag(FR) : null;
   const RB = P.robek||{kommuner:{}};
   const inROBEK = !!(RB.kommuner && RB.kommuner[k.nr]);
   const pendingROBEK = !!(RB.pending && RB.pending[k.nr]);
@@ -2327,7 +2314,7 @@ function evaluateKommune(k){
     nr:k.nr, navn:k.navn, fylke:k.fylke,
     popFall, workFall, oad2050, annualPct,
     syssRate: syssR!=null?syssR*100:null,
-    uforePct,
+    uforePct, okon,
     ndr, fond, gj, bdr, negYrs, yr,
     inROBEK, pendingROBEK,
   };
@@ -2359,6 +2346,8 @@ function sustKommuneCard(k){
   const oadOK = e.oad2050!=null ? e.oad2050 <= N.oecd2050 : null;
   const sysOK = e.syssRate!=null ? e.syssRate >= N.nasjSyss : null;
   const ufoOK = e.uforePct!=null ? e.uforePct <= N.nasjUfor : null;
+  const okonL = (typeof FORSORG_DATA!=='undefined') ? fbOkonIDag(FORSORG_DATA.regioner.landet) : null;
+  const okonOK = (e.okon!=null && okonL!=null) ? e.okon <= okonL : null;
   const ndrOK = e.ndr!=null ? e.ndr >= N.tbuNDR : null;
   const fondOK = e.fond!=null ? e.fond >= N.ksFond : null;
   const gjeldOK = e.gj!=null ? e.gj <= N.ksGjeld : null;
@@ -2367,10 +2356,11 @@ function sustKommuneCard(k){
     sectionHeader('Demografi mot 2050 (framskrevet)')+
     row('Befolkningsendring 2026\u20132050', e.popFall!=null?sgn(-e.popFall)+' %':'–', stat(e.popFall, popOK), 'OECD SCIRN · ≥0,15 %/år nedgang = «shrinking»')+
     row('Årlig endring (geometrisk)', e.annualPct!=null?(e.annualPct>=0?'+':'−')+Math.abs(e.annualPct).toFixed(2).replace('.',',')+' %':'–', stat(e.annualPct, popOK), 'OECD SCIRN-terskel: −0,15 %/år')+
-    row('Forsørgerbyrde 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
+    row('Forsørgerbrøk 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
     sectionHeader('Arbeidsmarked og helse ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')')+
     row('Sysselsettingsrate 20–66', e.syssRate!=null?fmt0(e.syssRate)+' %':'–', stat(e.syssRate, sysOK), 'SSB 13563 · nasjonalt snitt 76,7 %')+
     row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt 10,7 %')+
+    row('Ikke-sysselsatte per 100 sysselsatte', e.okon!=null?fmt1(e.okon):'–', stat(e.okon, okonOK), 'SSB 13563 · landet '+(okonL!=null?fmt1(okonL):'–')+' · alle aldre')+
     sectionHeader('Kommuneøkonomi'+(e.yr?' ('+e.yr+')':''))+
     row('Netto driftsresultat', e.ndr!=null?fmt1(e.ndr)+' %':'–', stat(e.ndr, ndrOK), 'TBU-norm · +1¾ % av brutto driftsinntekter')+
     row('Disposisjonsfond', e.fond!=null?fmt1(e.fond)+' %':'–', stat(e.fond, fondOK), 'KS-rapport mai 2025 · om lag 5 % i snitt')+
@@ -2570,7 +2560,7 @@ const TOUR=[
   {sel:'[data-tab="intro"] #bigPicChart',title:'Akt 1.1 · Det store bildet',body:'Landsdelens samlede befolkning 2000\u20132050 i én graf. Den mørke linjen er faktisk historikk; framover er SSBs MMMM-bane og Telemarksforsknings TF-MVP/TF-ATTR.'},
   {sel:'[data-tab="explore"] .stepcard',title:'Akt 1.2 · Utforsk kommunene',body:'Bak landsdels-linjen ligger 80 ulike skjebner. Filtrér på fylke eller status (ROBEK, vekst, aldring) og dykk ned i kommune-detaljen.',action:'explore'},
   {sel:'[data-tab="model"] .stepcard',title:'Akt 2.1 · Befolkningssammensetningen',body:'Alder, opprinnelse og bofasthet samlet. Hvem bor her — og hvor lenge blir flyktningene? To ulike måler, samme historie.',action:'model'},
-  {sel:'[data-tab="nat"] #burdenChart',title:'Akt 2.2 · Forsørgerbyrden',body:'Eldre per 100 yrkesaktive vokser fra ~30 til ~50 mot 2050. Det er dette økte presset økonomien må håndtere.',action:'nat'},
+  {sel:'[data-tab="nat"] #burdenChart',title:'Akt 2.2 · Forsørgerbyrden',body:'Forsørgerbrøken, innbyggere over 65 år per 100 i alderen 20–64, stiger fra 38 til 51 i Nord-Norge mot 2050. Teller man bare dem som faktisk er i arbeid, blir bildet et annet; se «Hvem bærer hvem?».',action:'nat'},
   {sel:'[data-tab="refugees"] #econRobekCard',title:'Akt 3.1 · Økonomien i dag',body:'KOSTRA-status og ROBEK-register samlet. Hvor solid står kommunene før aldringskostnaden kommer?',action:'refugees'},
   {sel:'[data-tab="robek"] #sustFylkeCard',title:'Akt 3.2 · Bærekraftsindikatorer 2050',body:'Åtte indikatorer vurdert mot eksterne normer (OECD SCIRN, OECD-standard, TBU, KS, kommuneloven). Per fylke: hvor mange kommuner ligger utenfor hver enkelt norm?',action:'robek'},
   {sel:'[data-tab="summary"] .summary-hero',title:'Sammendrag · Det du nå vet',body:'Fem innsikter med lenker tilbake til kapitlene. Print som PDF til møtet.',action:'summary'},
@@ -2684,6 +2674,145 @@ function bofastChartHTML(){
     NN.placeholder('hstolper',{format:'pst0', maks:100, grupper,
       kilde:N.kilde+'. Innvandrere med k års botid i området, i prosent av antallet med ett års botid da kullet kom. Tilflyttere teller med. Ti flyktningland: '+N.flyktningland+'.'},2*(N.botid.length*34+40));
   return html;
+}
+
+/* === Hvem bærer hvem? Forsørgerbrøk og ikke-sysselsatte per 100 sysselsatte (FORSORG_DATA, fetch_forsorg.py) ===
+   rKey: kommunenummer, 'Nordland' | 'Troms' | 'Finnmark', 'nn' eller 'landet'. */
+function forsorgRegionKey(k){
+  if(k == null) return null;
+  if(typeof k === 'string') return k;
+  if(k.nr > 0) return String(k.nr);
+  return ({'-1':'nn','-18':'Nordland','-55':'Troms','-56':'Finnmark'})[String(k.nr)] || null;
+}
+// Funksjoner (ikke const): render() kjøres lenger opp i filen enn disse definisjonene.
+function fbFarger(){ return {syss:'var(--accent)', aapufo:'var(--cat-6)', pensjon:'var(--cat-4)', utd:'var(--cat-3)', ledig:'var(--cat-5)', tiltak:'var(--cat-5)', andre:'var(--muted-mark)', barn:'var(--cat-2)'}; }
+function fbT(v, d){ return v == null ? '–' : v.toLocaleString('nb-NO', {minimumFractionDigits:d||0, maximumFractionDigits:d||0}); }
+function fbPst(v, d){ return fbT(v, d == null ? 1 : d) + ' %'; }
+// 100 personer i alderen 20–66 som prikker (største rest-avrunding)
+function fbPrikker(s2066){
+  const FB_FARGE = fbFarger();
+  const D = FORSORG_DATA, n = s2066[0], kat = D.status.map((s, i) => ({s, v: s2066[i + 1] / n * 100}));
+  const slatt = [{s:'syss', v:kat[0].v}, {s:'aapufo', v:kat[4].v}, {s:'utd', v:kat[3].v}, {s:'ledig', v:kat[1].v + kat[2].v}, {s:'pensjon', v:kat[5].v}, {s:'andre', v:kat[6].v}];
+  slatt.forEach(x => { x.n = Math.floor(x.v); x.rest = x.v - x.n; });
+  let mangler = 100 - slatt.reduce((a, x) => a + x.n, 0);
+  slatt.slice().sort((a, b) => b.rest - a.rest).forEach(x => { if(mangler > 0){ x.n++; mangler--; } });
+  let prikker = '';
+  slatt.forEach(x => { for(let i = 0; i < x.n; i++) prikker += '<i style="background:' + FB_FARGE[x.s] + '"></i>'; });
+  return {html: '<div class="fb-prikker" role="img" aria-label="100 personer i alderen 20–66 etter status">' + prikker + '</div>', slatt};
+}
+function fbNavn(){ return {syss:'i arbeid', aapufo:'AAP eller uføretrygd', utd:'under utdanning', ledig:'ledige eller på tiltak', pensjon:'AFP eller alderspensjon', andre:'andre utenfor arbeid'}; }
+// Per 100 sysselsatte: hvem forsørges? (alle aldre)
+function fbPer100(r){
+  const s = r.s15, sy = s[1], u15 = r.bef.u15;
+  return [
+    {k:'barn', l:'Barn 0–14 år', v: u15 / sy * 100},
+    {k:'utd', l:'Under utdanning', v: s[4] / sy * 100},
+    {k:'aapufo', l:'AAP og uføretrygd', v: s[5] / sy * 100},
+    {k:'pensjon', l:'AFP og alderspensjon', v: s[6] / sy * 100},
+    {k:'ledig', l:'Ledige og på tiltak', v: (s[2] + s[3]) / sy * 100},
+    {k:'andre', l:'Andre utenfor arbeid', v: s[7] / sy * 100},
+  ];
+}
+function fbOkonIDag(r){ return (r.bef.tot - r.s15[1]) / r.s15[1] * 100; }
+// Kompakt blokk til sammenligningssiden
+function forsorgCmp(k){
+  if(typeof FORSORG_DATA === 'undefined') return '';
+  const r = FORSORG_DATA.regioner[String(k.nr)], L = FORSORG_DATA.regioner.landet;
+  if(!r) return '';
+  const blokk = (v, l, h) => '<div style="margin-top:8px"><div class="mono" style="font-size:18px;font-weight:600">' + v + '</div><div style="font-size:11px;color:var(--ink3)">' + l + ' · ' + h + '</div></div>';
+  return '<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line2)"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:600">Hvem bærer hvem?</div>' +
+    blokk(fbT(r.demo[0], 1), 'forsørgerbrøk 65+/20–64', 'landet ' + fbT(L.demo[0], 1)) +
+    blokk(fbT(fbOkonIDag(r), 1), 'ikke-sysselsatte per 100 sysselsatte', 'landet ' + fbT(fbOkonIDag(L), 1)) +
+    blokk(fbPst(r.s2066[5] / r.s2066[0] * 100), 'AAP eller uføretrygd, 20–66', 'landet ' + fbPst(FORSORG_DATA.landet_aapufo_pct)) +
+    '</div>';
+}
+function forsorgCard(rKey, navn, opts){
+  const FB_FARGE = fbFarger(), FB_NAVN = fbNavn();
+  if(typeof FORSORG_DATA === 'undefined' || !rKey) return '';
+  opts = opts || {};
+  const D = FORSORG_DATA, R = D.regioner, r = R[rKey], L = R.landet, NNr = R.nn;
+  if(!r) return '';
+  const id = 'fb' + String(rKey).replace(/\W/g, '');
+  const sammen = [[navn, r]].concat(rKey !== 'nn' && rKey !== 'landet' ? [['Nord-Norge', NNr]] : []).concat(rKey !== 'landet' ? [['Hele landet', L]] : []);
+  const okon0 = fbOkonIDag(r), okonL = fbOkonIDag(L), demo0 = r.demo[0], demoL = L.demo[0];
+  const aap = r.s2066[5] / r.s2066[0] * 100, aapL = D.landet_aapufo_pct;
+  const sy = r.syss, dSy = (sy[sy.length - 1] / sy[0] - 1) * 100, n = D.aar.length - 1;
+  const liten = r.bef.tot < 3000;
+
+  // Tekst: observasjon og hypotese
+  const tyngreDemo = demo0 > demoL + 0.5, tyngreOkon = okon0 > okonL + 0.5;
+  let obs = '<b>Observasjon:</b> I ' + navn + ' er det <b>' + fbT(demo0, 1) + '</b> innbyggere over 65 år per 100 i alderen 20–64 (landet ' + fbT(demoL, 1) + '). ' +
+    'Teller man alle som ikke er i arbeid — barn, studenter, pensjonister, uføre og ledige — er det <b>' + fbT(okon0, 1) + '</b> per 100 sysselsatte (landet ' + fbT(okonL, 1) + '). ';
+  if(rKey !== 'landet'){
+    if(tyngreDemo && !tyngreOkon) obs += 'Aldersmålet får ' + navn + ' til å se tyngre ut enn landet, men målt mot dem som faktisk er i arbeid, er byrden ' + (okon0 < okonL - 0.5 ? 'lavere enn' : 'omtrent som') + ' i landet. ';
+    else if(!tyngreDemo && tyngreOkon) obs += 'Aldersmålet ligger ' + (demo0 < demoL - 0.5 ? 'under' : 'nær') + ' landet, men færre er i arbeid, så byrden målt mot faktisk arbeid er høyere enn i landet. ';
+    else if(tyngreDemo && tyngreOkon) obs += 'Byrden er høyere enn i landet på begge mål. ';
+    else obs += 'Byrden er lavere enn eller lik landet på begge mål. ';
+  }
+  obs += fbPst(aap) + ' av innbyggerne i alderen 20–66 mottar arbeidsavklaringspenger eller uføretrygd (landet ' + fbPst(aapL) + ')';
+  const ekstra = (aap - aapL) / 100 * r.s2066[0];
+  obs += aap > aapL + 0.2 && ekstra >= 5 ? '. Med landets andel ville om lag <b>' + fbT(Math.round(ekstra / (ekstra >= 100 ? 10 : 1)) * (ekstra >= 100 ? 10 : 1)) + '</b> færre stått utenfor arbeid av denne grunnen.' : '.';
+  const hyp = '<b>Hypotese:</b> Dersom sysselsettingen i hver aldersgruppe holdes som i dag, og befolkningen følger SSBs hovedalternativ, stiger forsørgerbrøken til <b>' + fbT(r.demo[n], 1) + '</b> og antallet ikke-sysselsatte per 100 sysselsatte til <b>' + fbT(r.okon[n], 1) + '</b> i ' + D.aar[n] + ' (landet ' + fbT(L.demo[n], 1) + ' og ' + fbT(L.okon[n], 1) + '). ' +
+    'Antallet sysselsatte ' + (dSy >= 0 ? 'øker' : 'faller') + ' med ' + fbPst(Math.abs(dSy)) + ', fra ' + fbT(sy[0]) + ' til ' + fbT(sy[n]) + ' (landet ' + (L.syss[n] >= L.syss[0] ? '+' : '−') + fbPst(Math.abs((L.syss[n] / L.syss[0] - 1) * 100)) + ').';
+
+  // Prikker: kommunen/regionen og landet
+  const p1 = fbPrikker(r.s2066), p2 = fbPrikker(L.s2066);
+  const forklaring = p => '<div class="fb-legend">' + p.slatt.map(x => '<span><i style="background:' + FB_FARGE[x.s] + '"></i>' + x.n + ' ' + FB_NAVN[x.s] + '</span>').join('') + '</div>';
+  const prikkHTML = '<div class="fb-prikk-rad">' +
+      '<div><div class="fb-prikk-tittel">' + navn + '</div>' + p1.html + forklaring(p1) + '</div>' +
+      (rKey !== 'landet' ? '<div><div class="fb-prikk-tittel">Hele landet</div>' + p2.html + forklaring(p2) + '</div>' : '') +
+    '</div>';
+
+  // Stablede stolper per 100 sysselsatte
+  const rader = sammen.map(([nv, rr]) => ({nv, deler: fbPer100(rr), tot: fbOkonIDag(rr)}));
+  const maks = Math.max(...rader.map(x => x.tot));
+  const stolper = rader.map(x => '<div class="fb-stolpe-rad"><div class="fb-stolpe-navn">' + x.nv + '</div><div class="fb-stolpe-spor"><div class="fb-stolpe" style="width:' + (x.tot / maks * 100).toFixed(1) + '%">' +
+      x.deler.map(d => '<i style="width:' + (d.v / x.tot * 100).toFixed(2) + '%;background:' + FB_FARGE[d.k] + '" title="' + d.l + ': ' + fbT(d.v, 1) + '"></i>').join('') +
+    '</div><b>' + fbT(x.tot, 1) + '</b></div></div>').join('');
+  const tabell = '<div class="fb-scroll"><table class="fb-tabell"><thead><tr><th>Per 100 sysselsatte</th>' + rader.map(x => '<th>' + x.nv + '</th>').join('') + '</tr></thead><tbody>' +
+    rader[0].deler.map((d, i) => '<tr><td><i style="background:' + FB_FARGE[d.k] + '"></i>' + d.l + '</td>' + rader.map(x => '<td>' + fbT(x.deler[i].v, 1) + '</td>').join('') + '</tr>').join('') +
+    '<tr class="sum"><td>I alt</td>' + rader.map(x => '<td>' + fbT(x.tot, 1) + '</td>').join('') + '</tr></tbody></table></div>';
+
+  // Utvikling og scenarioer
+  const ix = a => a.map(v => v / a[0] * 100);
+  const graf = (window.NN ? NN.placeholder('linjer', {
+    x: D.aar,
+    serier: [
+      {navn:'Forsørgerbrøk, ' + navn, kort:'Alder', data: ix(r.demo), farge:'cat-4'},
+      {navn:'Ikke-sysselsatte per 100 sysselsatte, ' + navn, kort:'Arbeid', data: ix(r.okon), farge:'accent', uthev:true}
+    ].concat(rKey !== 'landet' ? [
+      {navn:'Forsørgerbrøk, landet', kort:'Landet', data: ix(L.demo), farge:'cat-4', stil:'stiplet', svak:true, etikett:false},
+      {navn:'Ikke-sysselsatte per 100 sysselsatte, landet', kort:'Landet', data: ix(L.okon), farge:'accent', stil:'stiplet', svak:true, etikett:false}
+    ] : []),
+    format:'indeks', xTicks:[2026, 2040, 2050], hoyde:260,
+    yTittel:'Indeks, 2026 = 100. Alder: forsørgerbrøken. Arbeid: ikke-sysselsatte per 100 sysselsatte. Heltrukket: ' + navn + '; stiplet: landet.',
+    kilde:'SSB 14746 (hovedalternativet), 07984 og 13563. Sysselsettingsraten i hver aldersgruppe holdes som i 2024–2025.'
+  }, 300) : '');
+  const scen = '<div class="fb-scroll"><table class="fb-tabell"><thead><tr><th>' + D.aar[n] + '</th><th>Ikke-sysselsatte per 100 sysselsatte</th><th>Sysselsatte</th></tr></thead><tbody>' +
+    '<tr><td>Grunnbane: sysselsetting per aldersgruppe som i dag</td><td>' + fbT(r.okon[n], 1) + '</td><td>' + fbT(sy[n]) + '</td></tr>' +
+    '<tr><td>A. AAP og uføretrygd på landsnivå' + (r.okonA[n] === r.okon[n] ? ' (allerede på eller under)' : '') + '</td><td>' + fbT(r.okonA[n], 1) + '</td><td>' + fbT(r.syssA2050) + '</td></tr>' +
+    '<tr><td>B. 5 prosentpoeng flere i arbeid i alderen 55–74</td><td>' + fbT(r.okonB[n], 1) + '</td><td>' + fbT(r.syssB2050) + '</td></tr>' +
+    '</tbody></table></div>';
+
+  const kpi = '<div class="fb-kpis">' +
+    '<div class="k"><div class="v">' + fbT(demo0, 1) + ' → ' + fbT(r.demo[n], 1) + '</div><div class="l">Forsørgerbrøk 2026–' + D.aar[n] + '</div><div class="h">65+ per 100 i alderen 20–64 · landet ' + fbT(demoL, 1) + ' → ' + fbT(L.demo[n], 1) + '</div></div>' +
+    '<div class="k"><div class="v">' + fbT(okon0, 1) + ' → ' + fbT(r.okon[n], 1) + '</div><div class="l">Ikke-sysselsatte per 100 sysselsatte</div><div class="h">alle aldre · landet ' + fbT(okonL, 1) + ' → ' + fbT(L.okon[n], 1) + '</div></div>' +
+    '<div class="k"><div class="v' + (aap > aapL + 1 ? ' down' : '') + '">' + fbPst(aap) + '</div><div class="l">AAP eller uføretrygd, 20–66 år</div><div class="h">landet ' + fbPst(aapL) + ' · SSB 13563, ' + D.status_aar + '</div></div>' +
+    '<div class="k"><div class="v' + (dSy < -5 ? ' down' : '') + '">' + (dSy >= 0 ? '+' : '−') + fbPst(Math.abs(dSy)) + '</div><div class="l">Sysselsatte 2026–' + D.aar[n] + '</div><div class="h">' + fbT(sy[0]) + ' → ' + fbT(sy[n]) + ' · alt annet likt</div></div>' +
+    '</div>';
+
+  return '<div class="card fb-kort" id="' + id + '"' + (opts.utenRamme ? ' style="border:0;padding:0;background:none"' : '') + '>' +
+    (opts.utenTittel ? '' : '<div class="ch"><h3 class="serif">Hvem bærer hvem?</h3></div>') +
+    '<p class="hint">To måter å telle på. <b>Forsørgerbrøken</b> teller alder: innbyggere 65+ per 100 i alderen 20–64, som hos SSB og OECD. <b>Ikke-sysselsatte per 100 sysselsatte</b> teller faktisk arbeid: alle som ikke er i arbeid — også uføre, studenter og barn — per person i arbeid. Mer på <a href="metode.html#forsorgerbyrde">metodesiden</a>.</p>' +
+    kpi +
+    '<p class="fb-p">' + obs + '</p>' +
+    '<h4 class="fb-h4">100 personer i alderen 20–66 år, etter hva de gjør (4. kvartal ' + D.status_aar + ')</h4>' + prikkHTML +
+    '<h4 class="fb-h4">Hvem forsørges per 100 sysselsatte?</h4>' + stolper + tabell +
+    '<h4 class="fb-h4">Mot ' + D.aar[n] + ': de to målene beveger seg ulikt</h4>' + graf +
+    '<p class="fb-p">' + hyp + '</p>' + scen +
+    '<p class="hint" style="margin-top:8px;font-size:11.5px">Kilder: SSB 13563 (arbeidsstyrkestatus, bosted), 07459, 07984 og 14746. AAP og uføretrygd telles samlet av SSB. En sysselsatt har arbeidet minst én time i referanseuka, så deltid teller som en hel. Målet teller et barn, en pensjonist og en uføretrygdet likt, selv om de koster ulikt og finansieres ulikt.' +
+    (liten ? ' <b>' + navn + ' er liten, så noen få personer kan endre tallene mye.</b>' : '') + '</p>' +
+  '</div>';
 }
 
 function renderBofastChart(){

@@ -43,7 +43,7 @@ function steg() {
       p: `Medianen er ${prosent(median(f.ks.map(x => x.a65)), 1)}. Høyest er ${e1.navn} med ${prosent(e1.a65, 1)}; lavest er ${u1.navn} og ${u2.navn} med ${prosent(u1.a65, 1)}. Byene trekker til seg de unge — distriktene eldes først.` },
     { ind: 'forsorg', kicker: '03 · Forsørgerbyrde 2050',
       h: `Fra ${tall(median(f.ks.map(x => x.fb0)), 0)} til ${tall(median(f.ks.map(x => x.fb)), 0)} eldre per 100 i yrkesaktiv alder`,
-      p: `Slik endres medianen fra 2026 til 2050 i SSBs hovedalternativ. I ${over70} kommuner passerer forholdet 70 eldre per 100 yrkesaktive; høyest i ${b1.navn} med ${tall(b1.fb, 0)}. Det er her bemanningen i pleie og omsorg blir hardest å løse.` },
+      p: `Slik endres medianen fra 2026 til 2050 i SSBs hovedalternativ. I ${over70} kommuner passerer forholdet 70 eldre per 100 i alderen 20–64; høyest i ${b1.navn} med ${tall(b1.fb, 0)}. Det er her bemanningen i pleie og omsorg blir hardest å løse.` },
     { ind: 'innv', kicker: '04 · Innvandring',
       h: `Innvandring holder folketallet oppe i mange småsamfunn`,
       p: `Medianandelen med innvandrerbakgrunn er ${prosent(median(f.ks.map(x => x.innv)), 1)}. Høyest er ${i1.navn} (${prosent(i1.innv, 1)}), ${i2.navn} og ${i3.navn}. Uten innvandringen siden 2002 ville nedgangen vært langt større — se temasiden om flytting.` },

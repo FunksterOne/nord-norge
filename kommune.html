@@ -714,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function(){
       aldring > 15 ? 'stort' :
       aldring > 8 ? 'moderat' : 'beskjedent';
     var tolkning = (aldring != null && aldring < 0) ? '<b>' + k.navn + '</b> har høy forsørgerbyrde i dag, men den ventes å falle mot 2050. ' : '<b>' + k.navn + '</b> har et <b>' + presset + '</b> aldringspress fram mot 2050. ';
-    if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbyrden går fra <b>' + oad0.toFixed(0).replace('.',',') + '</b> til <b>' + oad1.toFixed(0).replace('.',',') + '</b> eldre per 100 i yrkesaktiv alder (20–64). ';
+    if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbrøken går fra <b>' + oad0.toFixed(0).replace('.',',') + '</b> til <b>' + oad1.toFixed(0).replace('.',',') + '</b> innbyggere over 65 år per 100 i alderen 20–64. ';
     if(sysRate != null) tolkning += 'Sysselsettingsraten er <b>' + (sysRate*100).toFixed(0).replace('.',',') + ' %</b> i ' + ((typeof ARBEID_DATA !== 'undefined' && ARBEID_DATA.year) || 2025) + '. ';
     if(uforePct != null) tolkning += 'Uføreandelen på <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b> er ' + (uforePct > 12 ? 'klart over' : uforePct > 11.5 ? 'over' : uforePct < 9.5 ? 'under' : 'rundt') + ' nasjonalt snitt (10,7 %)' + (uforePct > 12 ? ' — det forsterker presset' : '') + '. ';
 
@@ -722,15 +722,15 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="bf-panel">'+
         // Forsørgerbyrde-graf
         '<div class="bf-graph">'+
-          '<p class="chart-title">Forsørgerbyrde 2026–2050 — eldre per 100 i yrkesaktiv alder (20–64)</p>'+
+          '<p class="chart-title">Forsørgerbrøk 2026–2050 — innbyggere 65+ per 100 i alderen 20–64</p>'+
           chartSvg+
         '</div>'+
         // KPI-rad
         '<div class="bf-kpis">'+
           '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
           '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
-          (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde i dag</div><div class="h">65+ per 100 yrkesaktive · SSB MMMM</div></div>' : '')+
-          (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbyrde 2050</div><div class="h">'+(aldring != null ? (aldring >= 0 ? '+' : '−') + Math.abs(aldring).toFixed(0).replace('.',',') + ' fra i dag' : '')+'</div></div>' : '')+
+          (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbrøk i dag</div><div class="h">65+ per 100 i alderen 20–64 · SSB MMMM</div></div>' : '')+
+          (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbrøk 2050</div><div class="h">'+(aldring != null ? (aldring >= 0 ? '+' : '−') + Math.abs(aldring).toFixed(0).replace('.',',') + ' fra i dag' : '')+'</div></div>' : '')+
         '</div>'+
         // Sysselsetting fordeling (innvandrere/hele)
         (sj ? '<div style="margin-top:4px">' + sysCard(sj) + '</div>' : '')+
@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når aldringen overgår sysselsettingsbasen, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + eldreCard(k);
+      '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn) : '') + eldreCard(k);
   }
 
   // ─── Dedikert Økonomi-panel ───

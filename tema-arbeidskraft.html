@@ -65,6 +65,8 @@
 .kvote-tabell th:last-child{text-align:right}
 .kvote-tabell td{padding:10px 14px;color:var(--ink2);border-top:1px solid var(--line2)}
 .kvote-tabell td:last-child{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink);white-space:nowrap}
+.tt-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
+.tt-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
 </style>
 </head>
 <body class="tema-page">
@@ -114,14 +116,14 @@
 <section class="akt">
   <div class="akt-num">Akt 03 · Brutt opp</div>
   <h2>Hva sier demografien om de neste 25 årene?</h2>
-  <p class="akt-intro">Hvis mangelen er stor i 2026, hva betyr aldringen for 2050? SSBs offisielle bane viser at gruppen 65+ vokser, mens 20–64 krymper. Forsørgerbyrden — antall eldre per 100 i yrkesaktiv alder — endrer seg dramatisk. Hver yrkesaktiv må «bære» flere pensjonister enn før.</p>
+  <p class="akt-intro">Hvis mangelen er stor i 2026, hva betyr aldringen for 2050? SSBs offisielle bane viser at gruppen 65+ vokser, mens 20–64 krymper. Forsørgerbrøken — antall innbyggere over 65 år per 100 i alderen 20–64 — stiger kraftig. Det er et aldersmål: det teller ikke hvem som faktisk er i arbeid (se akt 04).</p>
   <div class="demografi-grid" id="demografiKPI"></div>
   <div class="arbeid-graf-wrap">
     <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbyrde i Nord-Norge 2026–2050</div>
     <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i yrkesaktiv alder (20–64). Den vertikale streken markerer i dag. Nord-Norge stiger fra ~38 (2026) til ~51 (2050) — en økning på <b>36 %</b> i forsørgerbyrde på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men har én av Europas brattere vekstkurver.</p>
     <div id="forsorgerGraf"></div>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pensjonister vokser, yrkesaktive krymper.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbyrden så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
+  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Flere eldre, færre i arbeidsfør alder.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbyrden så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Hver av disse er en stilling som ikke fylles av kohortpåfyll, men må fylles av innvandring, automatisering eller produktivitet.</p>
 </section>
 
 <!-- ────────────────── AKT 03½ — GAPET ────────────────── -->
@@ -170,12 +172,32 @@
     </table>
     <p class="hint" style="font-size:11.5px;margin-top:12px;line-height:1.55">Grunnlag: SSB folketall per kommune (1.1.2026), SSB framskriving MMMM (tab. 14746), aggregert til regioner via kommune-mapping (Lødingen regnes til Vesterålen regionråd). Regioninndelingen er en analysetilnærming fra <b>SØA 2026</b> — ikke en forvaltningsnivå. Dashbordets tall for den enkelte kommune endres ikke; dette er bare et nytt aggregeringsnivå.</p>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--ink) 4%, transparent);border-left:4px solid var(--ink2);border-radius:0;line-height:1.6"><b>Slik leser du tabellen.</b> Tyngst trykk ligger der aldringen allerede er høy <i>og</i> den arbeidsføre gruppen krymper mest. Sorter på <b>«Arb.føre 2050»</b> for å se hvilke regioner som mister mest arbeidskraft, eller på <b>«Forsørg.b. 2050»</b> for å se hvor eldrebyrden pr. yrkesaktive blir størst. Tromsø og Bodø står lenger ned på begge listene — det er distriktsregionene som bærer tyngden.</p>
+  <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--ink) 4%, transparent);border-left:4px solid var(--ink2);border-radius:0;line-height:1.6"><b>Slik leser du tabellen.</b> Tyngst trykk ligger der aldringen allerede er høy <i>og</i> den arbeidsføre gruppen krymper mest. Sorter på <b>«Arb.føre 2050»</b> for å se hvilke regioner som mister mest arbeidskraft, eller på <b>«Forsørg.b. 2050»</b> for å se hvor forsørgerbrøken blir høyest. Tromsø og Bodø står lenger ned på begge listene — det er distriktsregionene som bærer tyngden.</p>
 </section>
 
-<!-- ────────────────── AKT 04 — KONSEKVENS ────────────────── -->
+<!-- ────────────────── AKT 04 — TRE MÅTER Å TELLE PÅ ────────────────── -->
+<section class="akt" id="telle">
+  <div class="akt-num">Akt 04 · Tre måter å telle på</div>
+  <h2>Teller man arbeid i stedet for alder, ligger Nord-Norge <em>på landsnivå</em></h2>
+  <p class="akt-intro" id="telleIntro"></p>
+  <div id="telleGraf"></div>
+
+  <h3 class="tt-h3">Hvem bærer hvem i Nord-Norge?</h3>
+  <div id="telleKort"></div>
+
+  <h3 class="tt-h3">Kommunene som bytter plass</h3>
+  <p class="tt-p" id="telleBytteTekst"></p>
+  <div class="fb-scroll"><table class="fb-tabell" id="telleBytte"></table></div>
+
+  <h3 class="tt-h3">Ikke-sysselsatte per 100 sysselsatte, per kommune</h3>
+  <p class="tt-p" id="telleKartTekst"></p>
+  <div id="telleKart"></div>
+  <p class="hint" style="font-size:12px;font-style:italic;margin-top:12px">Forsørgerbrøken (65+ per 100 i alderen 20–64) er SSBs og OECDs mål og det eneste som kan sammenlignes mellom land og fylker; derfor brukes den på resten av siden. Ikke-sysselsatte per 100 sysselsatte teller faktisk arbeid, men et barn, en pensjonist og en uføretrygdet teller likt. Mer på <a href="metode.html#forsorgerbyrde">metodesiden</a>.</p>
+</section>
+
+<!-- ────────────────── AKT 05 — KONSEKVENS ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 04 · Konsekvens</div>
+  <div class="akt-num">Akt 05 · Konsekvens</div>
   <h2>Bedriftene venter vekst. Hvor skal folkene <em>komme fra</em>?</h2>
   <p class="akt-intro">Det merkeligste i NAV-tallene er kombinasjonen: Troms og Nordland er topp-2 i landet på forventet sysselsettingsvekst — bedriftene planlegger å ansette flere. Samtidig krymper kohorten av arbeidsføre. Mismatchen mellom hva økonomien ber om og hva demografien gir, er essensen av strukturkrisen.</p>
 
@@ -218,9 +240,9 @@
   </div>
 </section>
 
-<!-- ────────────────── AKT 05 — STEMMENE ────────────────── -->
+<!-- ────────────────── AKT 06 — STEMMENE ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 05 · Stemmene</div>
+  <div class="akt-num">Akt 06 · Stemmene</div>
   <h2>Hva sier kildene?</h2>
 
   <div class="sitat">
@@ -239,7 +261,7 @@
   </div>
 
   <div class="sitat">
-    <p class="sitat-tekst">Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra ~38 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 36 % på 24 år. Det er fortsatt under OECDs ventede snitt på ~52 (Pensions at a Glance 2025), men vekstkurven er bratt. Det betyr at hver yrkesaktiv vil bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.</p>
+    <p class="sitat-tekst">Per 1.1.2050 vil forsørgerbyrden i Nord-Norge ha steget fra ~38 til ~51 eldre per 100 i yrkesaktiv alder — en økning på 36 % på 24 år. Det er fortsatt under OECDs ventede snitt på ~52 (Pensions at a Glance 2025), men vekstkurven er bratt. Det betyr at hver person i arbeidsfør alder må bære vesentlig flere eldre enn dagens kommunale tjenestemodell forutsetter.</p>
     <div class="kilde">Oppsummert etter <b>SSB framskriving MMMM</b> (tab. 14746) sammenlignet med <b>OECDs prognose for vektet OECD-snitt i 2050</b></div>
   </div>
 </section>
@@ -545,6 +567,47 @@ document.addEventListener('DOMContentLoaded', function(){
       setK('kildeInnv', fmt(sumInnv5));
       setK('kildeTilflytt', '−' + fmt(Math.abs(sumInnland5)));
     }
+  }
+
+  // ─── Akt 04: Tre måter å telle på (FORSORG_DATA, forsorgCard i assets/app.js) ───
+  if(typeof FORSORG_DATA !== 'undefined' && typeof forsorgCard === 'function' && window.NN){
+    var FD = FORSORG_DATA, RN = FD.regioner.nn, RL = FD.regioner.landet, m = FD.aar.length - 1;
+    var t1 = function(v){ return v.toLocaleString('nb-NO', {minimumFractionDigits:1, maximumFractionDigits:1}); };
+    var mal = function(r){ return [r.demo[0], r.bef.a67 / r.bef.a2066 * 100, fbOkonIDag(r)]; };
+    var mN = mal(RN), mL = mal(RL);
+    var dSN = (RN.syss[m] / RN.syss[0] - 1) * 100, dSL = (RL.syss[m] / RL.syss[0] - 1) * 100;
+    document.getElementById('telleIntro').innerHTML =
+      'Samme befolkning, tre mål, tre svar. Etter SSBs og OECDs forsørgerbrøk har Nord-Norge <b>' + t1(mN[0]) + '</b> innbyggere over 65 år per 100 i alderen 20–64, mot ' + t1(mL[0]) + ' i landet. Med norsk pensjonsalder (67+ per 100 i alderen 20–66) er tallene ' + t1(mN[1]) + ' og ' + t1(mL[1]) + '. ' +
+      'Teller man alle som ikke er i arbeid — barn, studenter, pensjonister, uføre og ledige — per person i arbeid, er Nord-Norge på <b>' + t1(mN[2]) + '</b>, mot ' + t1(mL[2]) + ' i landet. Flere i arbeidsfør alder er i arbeid, og færre er barn og studenter. ' +
+      '<b>Hypotese:</b> Dersom sysselsettingen i hver aldersgruppe holdes som i dag, stiger målet til ' + t1(RN.okon[m]) + ' i Nord-Norge og ' + t1(RL.okon[m]) + ' i landet i ' + FD.aar[m] + '. Forskjellen ligger i antallet hender: sysselsatte faller med ' + t1(Math.abs(dSN)) + ' % i Nord-Norge og ' + (dSL >= 0 ? 'øker' : 'faller') + ' med ' + t1(Math.abs(dSL)) + ' % i landet.';
+    var navnMal = ['Forsørgerbrøk: 65+ per 100 i alderen 20–64', 'Norsk pensjonsalder: 67+ per 100 i alderen 20–66', 'Ikke-sysselsatte per 100 sysselsatte'];
+    document.getElementById('telleGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper: navnMal.map(function(t, i){
+      return {tittel: t, rader: [{l:'Nord-Norge', v: mN[i], farge:'accent', uthev:true}, {l:'Hele landet', v: mL[i], farge:'muted'}]};
+    }), kilde:'SSB 07459 (1.1.2026) og 13563 (4. kvartal 2025, bosted).'}, 3 * (2 * 34 + 40));
+    document.getElementById('telleKort').innerHTML = forsorgCard('nn', 'Nord-Norge', {utenTittel:true});
+
+    var kom = Object.keys(FD.regioner).filter(function(k){ return /^\d{4}$/.test(k); });
+    var verdi = function(k){ var r = FD.regioner[k]; return {k:k, demo:r.demo[0], okon:fbOkonIDag(r), aap:r.s2066[5] / r.s2066[0] * 100, syss:r.s2066[1] / r.s2066[0] * 100}; };
+    var rad = kom.map(verdi);
+    rad.slice().sort(function(a, b){ return b.demo - a.demo; }).forEach(function(x, i){ x.pD = i + 1; });
+    rad.slice().sort(function(a, b){ return b.okon - a.okon; }).forEach(function(x, i){ x.pO = i + 1; });
+    var navnK = function(nr){ var k = (typeof K !== 'undefined') ? K.find(function(x){ return String(x.nr) === String(nr); }) : null; return k ? NN.kortNavn(k.navn) : nr; };
+    var opp = rad.slice().sort(function(a, b){ return (b.pD - b.pO) - (a.pD - a.pO); }).slice(0, 5);
+    var ned = rad.slice().sort(function(a, b){ return (a.pD - a.pO) - (b.pD - b.pO); }).slice(0, 5);
+    var xs = rad.map(function(x){ return x.demo; }), ys = rad.map(function(x){ return x.okon; });
+    var mx = xs.reduce(function(a, b){ return a + b; }, 0) / xs.length, my = ys.reduce(function(a, b){ return a + b; }, 0) / ys.length;
+    var kov = 0, vx = 0, vy = 0; xs.forEach(function(x, i){ kov += (x - mx) * (ys[i] - my); vx += (x - mx) * (x - mx); vy += (ys[i] - my) * (ys[i] - my); });
+    var korr = kov / Math.sqrt(vx * vy);
+    document.getElementById('telleBytteTekst').innerHTML =
+      'Målene henger sammen (korrelasjon ' + korr.toFixed(2).replace('.', ',') + ' over de 80 kommunene), men rangeringen endrer seg. Kommuner med lav sysselsetting og mange på arbeidsavklaringspenger eller uføretrygd rykker opp når faktisk arbeid telles. Kommuner med mange eldre som fortsatt er i arbeid, rykker ned. Plass 1 er tyngst.';
+    var tr = function(x){ return '<tr><td>' + navnK(x.k) + '</td><td>' + t1(x.demo) + ' (' + x.pD + ')</td><td>' + t1(x.okon) + ' (' + x.pO + ')</td><td>' + t1(x.syss) + ' %</td><td>' + t1(x.aap) + ' %</td></tr>'; };
+    document.getElementById('telleBytte').innerHTML = '<thead><tr><th>Kommune</th><th>Forsørgerbrøk (plass)</th><th>Per 100 sysselsatte (plass)</th><th>I arbeid, 20–66</th><th>AAP og uføretrygd, 20–66</th></tr></thead><tbody>' +
+      '<tr><td colspan="5" style="font-family:var(--font-sans);color:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Rykker opp når arbeid telles</td></tr>' + opp.map(tr).join('') +
+      '<tr><td colspan="5" style="font-family:var(--font-sans);color:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Rykker ned når arbeid telles</td></tr>' + ned.map(tr).join('') + '</tbody>';
+    var tung = rad.slice().sort(function(a, b){ return b.okon - a.okon; }), lett = tung.slice().reverse();
+    var liste = function(a){ return a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1]; };
+    document.getElementById('telleKartTekst').innerHTML = 'Tyngst er ' + liste(tung.slice(0, 3).map(function(x){ return navnK(x.k) + ' (' + t1(x.okon) + ')'; })) + '; lettest ' + liste(lett.slice(0, 3).map(function(x){ return navnK(x.k) + ' (' + t1(x.okon) + ')'; })) + '. Små kommuner gir store tilfeldige utslag. Klikk på en kommune for kommunesiden.';
+    document.getElementById('telleKart').innerHTML = NN.placeholder('kart', {ind:'okon'}, 560);
   }
 });
 </script>

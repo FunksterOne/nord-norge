@@ -58,13 +58,14 @@
       <tr><td class="kode">06913</td><td>Befolkningskomponenter (fødte, døde, nettoflytting); fødte og døde i landsdelen brukes fra 1995</td><td>1995–2025</td></tr>
       <tr><td class="kode">09588</td><td>Innenlands flyttinger</td><td>2002–2025</td></tr>
       <tr><td class="kode">11366</td><td>Ukrainske statsborgere</td><td>2022–2025</td></tr>
+      <tr><td class="kode">07984</td><td>Sysselsatte etter alder (seks grupper), kjønn og næring, bosted og arbeidssted</td><td>2024–2025</td></tr>
       <tr><td class="kode">14751</td><td>Framskrevne forsørgerbrøker (65+ per 20–64), hovedalternativet</td><td>2026–2050</td></tr>
       <tr><td class="kode">14534</td><td>Årsverk i omsorgstjenestene etter stillingstype og utdanning</td><td>2015–2025</td></tr>
       <tr><td class="kode">12003</td><td>Brukere av omsorgstjenester etter alder og tjenestegruppe</td><td>2025</td></tr>
       <tr><td class="kode">10598</td><td>Innvandrere etter fylke, landbakgrunn og botid; netto bevaring (pseudokohorter)</td><td>2005–2026</td></tr>
       <tr><td class="kode">06318</td><td>Førstegangsinnvandringer etter innvandringsgrunn og om personen fortsatt bor i Norge</td><td>1990–2025</td></tr>
       <tr><td class="kode">11715</td><td>Uføretrygdede 18–67 år</td><td>2025</td></tr>
-      <tr><td class="kode">13563</td><td>Arbeidsstyrkestatus 20–66 år</td><td>2025</td></tr>
+      <tr><td class="kode">13563</td><td>Prioritert arbeidsstyrkestatus (sysselsatt, ledig, utdanning, AAP og uføretrygd, pensjon, andre), 15+ og 20–66 år</td><td>2015–2025</td></tr>
       <tr><td class="kode">12143</td><td>KOSTRA: netto driftsresultat, disposisjonsfond, netto lånegjeld (KG31)</td><td>2015–2025</td></tr>
       <tr><td class="kode">06944</td><td>Husholdningsinntekt etter skatt, median</td><td>2024</td></tr>
       <tr><td class="kode">14780</td><td>Personinntekt (lønn, pensjon, uføretrygd)</td><td>2025</td></tr>
@@ -178,6 +179,19 @@
   <p><b>Undersøkelsen.</b> Kunnskapsbanken (SpareBank 1 Nord-Norge) ved Sentio Research spurte 762 personer i alderen 18–34 år i Nord-Norge og 504 i fylkene sør for Nordland i august 2026 (rapport publisert oktober 2026). I Nord-Norge er 504 rekruttert gjennom Norstats webpanel og et tilfeldig trukket SMS-utvalg, og 258 svarte via en åpen lenke i sosiale medier. Svarene er vektet etter kjønn og alder innen SSBs sentralitetsnivåer 3–6; utvalget i sør er kvotert etter sentralitet.</p>
   <p><b>Forbehold.</b> De som svarte via den åpne lenken, svarer annerledes enn de rekrutterte på flere spørsmål — de er mer engasjerte i lokalsamfunnet og mer kritiske til kommunen og karrieremulighetene. Tallene gjelder landsdelen; forskjeller mellom fylker og etter sentralitet omtales bare i teksten, og undersøkelsen sier ingenting om enkeltkommuner. Spørsmålsformuleringer og innsamlingsmetode er endret siden 2022. Tall som bare står i rapportens figurer, er lest av figurene. Undersøkelsestall vises derfor bare på temasiden, aldri på kommunesidene.</p>
   <p><b>Registertallene ved siden av.</b> 18–34 år og 67 år og over regnes av ettårig alder: faktisk folketall 1. januar 2020–2026 (SSB 07459, 2024-inndelingen) og SSB 14746 hovedalternativet (MMMM) til 2050. Historikken starter i 2020 fordi SSBs kodeliste for 2024-inndelingen mangler Narvik og Hamarøy før sammenslåingen det året. Krysningsåret er første år med flere innbyggere over 67 enn mellom 18 og 34; det vises på kommunesidene og som kart på temasiden. Fødte og døde i landsdelen er summen av fylkene med inndelingen som gjaldt hvert år (SSB 06913). Rapportens registertall er kontrollert mot dashbordets og stemmer, bortsett fra at rapporten regner veksten for 67+ fra 2025.</p>
+</div>
+
+<div class="metode-card" id="forsorgerbyrde">
+  <h2>Forsørgerbyrde: tre måter å telle på</h2>
+  <p class="hint">Brukes i kortet «Hvem bærer hvem?» på kommune-, fylkes- og landsdelssidene, i akt 04 på temasiden <a href="tema-arbeidskraft.html#telle">Hvem skal bære?</a>, i bærekraftstabellen og på sammenligningssiden. Tallene bygges med <code>fetch_forsorg.py</code>.</p>
+  <ul>
+    <li><span class="norm-tag">Alder</span><b>Forsørgerbrøk:</b> innbyggere 65 år og over per 100 i alderen 20–64 (SSB 14746; samme mål som SSB 14751 og OECD). Hovedtallet for sammenligning mellom kommuner, fylker og land. Det teller alder, ikke arbeid: uføre, studenter og ledige i alderen 20–64 regnes som bærere, og alle over 65 som forsørget, også de som jobber. Nord-Norge 37,6 og landet 32,8 per 1.1.2026.</li>
+    <li><span class="norm-tag">Alder</span><b>Norsk pensjonsalder:</b> 67+ per 100 i alderen 20–66. Vises bare som forklaring: Nord-Norge 32,2 og landet 28,0.</li>
+    <li><span class="norm-tag">Arbeid</span><b>Ikke-sysselsatte per 100 sysselsatte:</b> alle innbyggere som ikke er sysselsatt, per 100 sysselsatte, etter bosted. Sysselsatte og status for innbyggere 15 år og over fra SSB 13563 (4. kvartal), barn 0–14 år fra SSB 07459 (1. januar året etter). Fordeles på barn, utdanning, arbeidsavklaringspenger og uføretrygd (SSB teller dem samlet), AFP og alderspensjon, ledige og tiltak, og andre. Nord-Norge 92,2 og landet 93,8 i 2025.</li>
+  </ul>
+  <p><b>Framskriving 2026–2050.</b> Sysselsettingsraten i seks aldersgrupper 15–74 år (SSB 07984, bosted, gjennomsnitt av 4. kvartal 2024 og 2025 delt på befolkningen 1. januar året etter) og for 75 år og over (SSB 13563, 2025) holdes fast og brukes på befolkningen i SSB 14746 (hovedalternativet). Framskrivingen starter derfor litt annerledes enn dagens tall fra 13563 (Nord-Norge 92,5 mot 92,2). To faste scenarioer: <b>A</b> andelen på arbeidsavklaringspenger og uføretrygd i alderen 20–66 senkes til landsnivået (10,3 %) der den er høyere, og de som ikke lenger mottar ytelsen, er i arbeid; <b>B</b> sysselsettingsraten i alderen 55–74 er 5 prosentpoeng høyere. Scenario A er en øvre grense for effekten.</p>
+  <p><b>Forbehold.</b> Det økonomiske målet teller et barn, en pensjonist og en uføretrygdet likt, selv om de koster svært ulikt og finansieres ulikt (familien, kommunen, folketrygden). En sysselsatt har arbeidet minst én time i referanseuka, så deltid teller som en hel. Små kommuner gir store tilfeldige utslag. Tidsserien for status i alderen 20–66 (2015–2025) bruker SSBs kodeliste for sammenslåtte kommuner; Narvik og Hamarøy har tall fra 2020, og fylkes- og landsdelstall før 2020 vises derfor ikke for Nordland og Nord-Norge. Kontroll: Forsørgerbrøken er lik SSB 14751 for alle 80 kommuner, og statuskategoriene summerer til totalen.</p>
+  <p><b>Erstattet mål.</b> Til og med 20. oktober 2026 viste landsdels- og fylkessiden et «justert» mål, 65+ delt på (20–64 × sysselsettingsrate 20–66). Det er fjernet fordi det blandet aldersspenn og fjernet uføre og ledige fra nevneren uten å legge dem til i telleren.</p>
 </div>
 
 <div class="metode-card" id="eldreomsorg">
