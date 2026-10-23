@@ -13,7 +13,7 @@ const copyLegacy = () => ({
   closeBundle() {
     mkdirSync(resolve(root, 'dist/assets'), { recursive: true });
     for (const f of ['data.js', 'app.js']) cpSync(resolve(root, 'assets', f), resolve(root, 'dist/assets', f));
-    for (const dir of ['geo', 'data']) if (existsSync(resolve(root, dir))) cpSync(resolve(root, dir), resolve(root, 'dist', dir), { recursive: true });
+    for (const dir of ['geo', 'data', 'og']) if (existsSync(resolve(root, dir))) cpSync(resolve(root, dir), resolve(root, 'dist', dir), { recursive: true });
   }
 });
 
