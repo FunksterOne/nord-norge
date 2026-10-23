@@ -64,6 +64,10 @@
 .nn-sk-tekst { padding-top: 6px; position: sticky; top: calc(var(--nn-hode-h, 48px) + 16px); }
 .nn-sk-tekst h3 { font: 600 24px/1.25 var(--font-display); color: var(--ink); margin: 8px 0 12px; }
 .nn-sk-tekst > p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
+.nn-sk-oversikt h3 { font-size: 30px; }
+.nn-sk-oversikt .essence { font: 400 18px/1.5 var(--font-display); color: var(--ink); margin: 0 0 14px; border-left: 3px solid var(--accent); padding-left: 14px; }
+.nn-sk-oversikt .nn-sk-kartnote, .nn-sk-oversikt .nn-sk-veier { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
+.nn-sk-oversikt .nn-sk-kartnote { color: var(--ink-3); }
 .nn-sk-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
 .nn-sk-nav button, .nn-sk-nav a { font: 500 13px/1 var(--font-sans); color: var(--ink-2); background: none; border: 1px solid var(--line); padding: 10px 14px; cursor: pointer; text-decoration: none; }
 .nn-sk-nav .neste { color: var(--ink); border-color: var(--accent); }
@@ -74,6 +78,8 @@
   .nn-sk-faner { flex-wrap: wrap; overflow: visible; }
   .nn-sk-nav { margin-top: 16px; }
   .nn-sk-tekst h3 { font-size: 20px; }
+  .nn-sk-oversikt h3 { font-size: 24px; }
+  .nn-sk-oversikt .essence { font-size: 16.5px; }
   .nn-sk-faner button { padding: 12px 10px 11px; }
 }
 .nn-hst-tittel { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); margin: 14px 0 4px; padding-top: 8px; border-top: 1px solid var(--line-soft); }

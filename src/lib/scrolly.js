@@ -56,13 +56,18 @@ function steg() {
 // Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
 // samtidig, så leseren aldri må rulle for å se hva kartet viser. Piltastene flytter mellom fanene.
 function build(sec) {
-  const steps = steg();
+  // Ingressen ligger i HTML-en som .nn-sk-oversikt og blir første fane («Oversikt»). Selve noden flyttes
+  // inn i tekstfeltet, slik at tallene som siden fyller inn (#ingress80, #ingress2064), følger med.
+  const ov = sec.querySelector('.nn-sk-oversikt');
+  if (ov) ov.remove();
+  const steps = (ov ? [{ ind: ov.dataset.ind || 'endring', kicker: 'Oversikt', node: ov }] : []).concat(steg());
   const smal = window.innerWidth < 860;
   const h = smal ? Math.round(Math.min(380, window.innerWidth * 1.05)) : Math.round(Math.min(540, Math.max(440, window.innerHeight - 220)));
   const kort = s => s.kicker.replace(/^\d+\s*·\s*/, '');
+  const nr = s => (s.kicker.match(/^(\d+)/) || [])[1];
   sec.innerHTML = `
     <div class="nn-sk-faner" role="tablist" aria-label="Velg kart">${steps.map((s, i) => `
-      <button type="button" role="tab" id="skFane${i}" aria-controls="skTekst" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="nr">${String(i + 1).padStart(2, '0')}</span> ${kort(s)}</button>`).join('')}
+      <button type="button" role="tab" id="skFane${i}" aria-controls="skTekst" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${nr(s) ? `<span class="nr">${nr(s)}</span> ` : ''}${kort(s)}</button>`).join('')}
     </div>
     <div class="nn-sk-grid">
       <div class="nn-sk-kart"><div data-nnchart="kart" data-spec='${JSON.stringify({ ind: steps[0].ind, side: false, height: h })}' style="min-height:${h + 40}px"></div></div>
@@ -79,14 +84,15 @@ function build(sec) {
     faner.forEach((f, j) => { f.setAttribute('aria-selected', String(j === i)); f.tabIndex = j === i ? 0 : -1; });
     if (fokus) faner[i].focus();
     tekst.setAttribute('aria-labelledby', faner[i].id);
-    tekst.innerHTML = `
+    const nav = `<div class="nn-sk-nav">
+        ${forrige ? `<button type="button" data-gaa="${i - 1}">← ${kort(forrige)}</button>` : '<span></span>'}
+        ${neste ? `<button type="button" class="neste" data-gaa="${i + 1}">${s.node ? 'Start' : 'Neste'}: ${nr(neste) ? nr(neste) + ' ' : ''}${kort(neste)} →</button>` : `<a class="neste" href="nord-norge.html">Hele landsdelen →</a>`}
+      </div>`;
+    if (s.node) { tekst.replaceChildren(s.node); s.node.insertAdjacentHTML('beforeend', nav); s.node.querySelectorAll('.nn-sk-nav').forEach((n, j, a) => { if (j < a.length - 1) n.remove(); }); }
+    else tekst.innerHTML = `
       <div class="kicker">${s.kicker}</div>
       <h3>${s.h}</h3>
-      <p>${s.p}</p>
-      <div class="nn-sk-nav">
-        ${forrige ? `<button type="button" data-gaa="${i - 1}">← ${kort(forrige)}</button>` : '<span></span>'}
-        ${neste ? `<button type="button" class="neste" data-gaa="${i + 1}">Neste: ${kort(neste)} →</button>` : `<a class="neste" href="nord-norge.html">Hele landsdelen →</a>`}
-      </div>`;
+      <p>${s.p}</p>${nav}`;
     const sp = JSON.parse(chart.dataset.spec);
     if (sp.ind !== s.ind) {
       sp.ind = s.ind; chart.dataset.spec = JSON.stringify(sp);
