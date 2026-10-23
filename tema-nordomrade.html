@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20 år med nordområdepolitikk · Nord-Norge-dashbordet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{var q=new URLSearchParams(location.search).get("tema");if(q==="light"||q==="dark")localStorage.setItem("nn-tema",q);if((q||localStorage.getItem("nn-tema"))==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
+<link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
+<style>
+.np-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
+.np-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.np-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
+.np-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
+.np-kilde > div.reg{border-left-color:var(--accent)}
+.np-kilde .nr,.np-dok .meta,.np-merke{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.np-kilde .nr{margin-bottom:4px}
+.np-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
+.np-merke{display:inline-block;font-size:10px;letter-spacing:.1em;padding:2px 6px;border:1px solid var(--line2);margin-right:6px;vertical-align:middle}
+.np-merke.reg{border-color:var(--accent);color:var(--accent-text)}
+.np-dokliste{display:grid;gap:14px;margin:18px 0}
+.np-dok{padding:20px 24px;background:var(--paper2);border:1px solid var(--line2);border-left:3px solid var(--line)}
+.np-dok.rodgronn{border-left-color:var(--cat-1, var(--accent))}
+.np-dok .meta{margin-bottom:6px}
+.np-dok h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0 0 4px;color:var(--ink)}
+.np-dok .kjerne{font-size:14px;color:var(--ink);margin:0 0 10px;line-height:1.5}
+.np-dok p{font-size:13.5px;line-height:1.62;color:var(--ink2);margin:0 0 10px}
+.np-dok .sitat{border-left:2px solid var(--accent);padding:2px 0 2px 12px;font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--ink);margin:12px 0 8px}
+.np-dok .storting{font-size:12.5px;color:var(--ink3);margin:0}
+.np-dok .lenke{font-size:12.5px}
+.np-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);min-width:640px}
+.np-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
+.np-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
+.np-tabell td:first-child{color:var(--ink);white-space:nowrap}
+.np-tabell td.num,.np-tabell th.num{text-align:right;font-variant-numeric:tabular-nums}
+.np-tabell .hb{font-size:16px;color:var(--accent-text);margin-right:6px}
+.np-rull{overflow-x:auto;-webkit-overflow-scrolling:touch}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Nordområdepolitikken</span>
+  </nav>
+  <div class="nn-actions">
+    <a class="btn" href="tema-ung.html">← Ung i nord</a>
+    <a class="btn" href="metode.html#nordomradepolitikk">Metode</a>
+  </div>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 11 · Nordområdepolitikken 2006–2026</div>
+  <h1>20 år med nordområdepolitikk — hva som ble sagt, og <em>hva som skjedde</em>.</h1>
+  <p class="lede" id="heroLede"></p>
+  <div class="np-kilde">
+    <div><div class="nr">Det som ble sagt</div><p id="kildeSagt"></p></div>
+    <div class="reg"><div class="nr">Det som skjedde</div><p>Folketall, befolkningsregnskap og sysselsetting for Nordland, Troms og Finnmark fra SSB, 2006–2026. Fylkene er slått sammen med samme inndeling for hele perioden.</p></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 01 — REKKEN ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Rekken</div>
+  <h2>Tre regjeringer, sju dokumenter — <em>samme</em> hovedmål.</h2>
+  <p class="akt-intro" id="rekkeIntro"></p>
+  <div class="np-boks">
+    <div class="tittel"><span class="np-merke reg">SSB</span>Folketall i Nord-Norge 1. januar, med nordområdedokumentene markert</div>
+    <div id="rekkeGraf"></div>
+  </div>
+  <div class="np-rull"><table class="np-tabell" id="rekkeTabell"></table></div>
+</section>
+
+<!-- ────────────────── AKT 02 — DOKUMENTENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Dokumentene, ett for ett</div>
+  <h2>Hva hvert dokument sa — og hva det <em>ikke</em> sa.</h2>
+  <p class="akt-intro" id="dokIntro"></p>
+  <div class="np-dokliste" id="dokListe"></div>
+  <div class="np-boks" id="etterBoks"></div>
+</section>
+
+<!-- ────────────────── AKT 03 — HVA DE SNAKKER OM ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Hva de snakker om</div>
+  <h2>Fra <em>samarbeid</em> med Russland til <em>sikkerhet</em>.</h2>
+  <p class="akt-intro" id="ordIntro"></p>
+  <div class="np-boks">
+    <div class="tittel"><span class="np-merke">Dokumentene</span>Temaord per 10 000 ord i hvert dokument</div>
+    <p class="hint" style="font-size:12px;margin-bottom:8px">Fargen viser nivået i hver rad sammenlignet med radens høyeste verdi, så skiftet over tid blir synlig for hvert tema. Tallene kan sammenlignes på tvers av radene.</p>
+    <div id="ordGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — PROBLEMET OG MÅLET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Problemet og målet</div>
+  <h2>Problemet ble beskrevet stadig bedre — men fikk <em>aldri</em> et mål.</h2>
+  <p class="akt-intro" id="malIntro"></p>
+  <div class="np-rull"><table class="np-tabell" id="malTabell"></table></div>
+  <p class="hint" style="font-size:11.5px" id="malNote"></p>
+</section>
+
+<!-- ────────────────── AKT 05 — HVA SOM SKJEDDE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Hva som skjedde</div>
+  <h2>All vekst kom fra <em>innvandring</em>.</h2>
+  <p class="akt-intro" id="skjeddIntro"></p>
+  <div class="kpi-rad" id="skjeddKPI"></div>
+  <div class="np-boks">
+    <div class="tittel"><span class="np-merke reg">SSB</span>Befolkningsregnskap for Nord-Norge per år</div>
+    <div id="regnskapGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 06 — ARBEIDSPLASSENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 06 · Arbeidsplassene</div>
+  <h2>Satsingsnæringene vokste lite — <em>helse</em> vokste mest.</h2>
+  <p class="akt-intro" id="jobbIntro"></p>
+  <div class="kpi-rad" id="jobbKPI"></div>
+  <div class="np-boks">
+    <div class="tittel"><span class="np-merke reg">SSB</span>Endring i sysselsatte etter næring, Nord-Norge</div>
+    <div id="jobbGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 07 — ANSLAG MOT FASIT ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 07 · Anslag mot fasit</div>
+  <h2>Anslaget i 2017 var for <em>optimistisk</em>.</h2>
+  <p class="akt-intro" id="anslagIntro"></p>
+  <div class="np-boks">
+    <div class="tittel"><span class="np-merke reg">SSB</span>Folketall i Nord-Norge: faktisk utvikling mot anslaget i nordområdestrategien 2017</div>
+    <div id="anslagGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 08 — PENGENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 08 · Pengene</div>
+  <h2>Nye penger er få — og <em>ingen</em> lovet å måle effekten.</h2>
+  <p class="akt-intro" id="pengerIntro"></p>
+  <div class="np-rull"><table class="np-tabell" id="pengerTabell"></table></div>
+  <p class="hint" style="font-size:11.5px">Beløpene er slik dokumentene og budsjettene oppgir dem. Definisjonen av «nordområdetiltak» har skiftet fra regjering til regjering, så rekken kan ikke sammenlignes direkte. Bevilgningene er ikke etterprøvd i statsregnskapet.</p>
+</section>
+
+<!-- ────────────────── AKT 09 — OM GRUNNLAGET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 09 · Om grunnlaget</div>
+  <h2>Hva en slik gjennomgang kan — og <em>ikke</em> kan — si.</h2>
+  <p class="akt-intro" id="metodeIntro"></p>
+  <div class="np-boks" id="innovasjonBoks"></div>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Videre lesning</div>
+    <div class="ntb-grid">
+      <a class="ntb-card ntb-flyk" href="tema-flyktning.html">
+        <div class="ntb-num">01</div>
+        <h4>Hvem blir værende?</h4>
+        <p>Flyttestrømmene 2002–2025</p>
+      </a>
+      <a class="ntb-card ntb-arbeid" href="tema-arbeidskraft.html">
+        <div class="ntb-num">04</div>
+        <h4>Hvem skal bære?</h4>
+        <p>Arbeidskraften mot 2050</p>
+      </a>
+      <a class="ntb-card" href="tema-scenarier.html">
+        <div class="ntb-num">06</div>
+        <h4>Scenarier</h4>
+        <p>Framskrivingene og etterprøvingen av dem</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Nord-Norge-dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva forutsetningene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Kilder og metode</h4>
+      <p>Regjeringens nordområdedokumenter 2006–2025 (regjeringen.no), innstillingene fra Stortinget og SSB 07459, 01222 og 07984. Ordlister, koding og forbehold er beskrevet på <a href="metode.html#nordomradepolitikk"><b>metodesiden</b></a>.</p>
+      <p style="margin-top:8px"><a href="metode.html#nordomradepolitikk">→ Se metode og kilder</a></p>
+    </div>
+    <div class="nnf-col">
+      <h4>Navigasjon</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.regjeringen.no/no/tema/nordomradene/id1154/" target="_blank" rel="noopener">Regjeringen: Nordområdene</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge" target="_blank" rel="noopener">Kildekode (GitHub)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Bygget med Vite, Observable Plot og D3 · Kart: Kartverket (CC BY 4.0)</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof NORD_DATA === 'undefined') return;
+  var N = NORD_DATA, D = N.dokumenter, B = N.befolkning, R = N.regnskap, S = N.sysselsetting;
+  var f0 = function(v){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('nb-NO'); };
+  var f1 = function(v){ if(v == null) return '–'; var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var f2 = function(v){ return (v < 0 ? '−' : '') + (Math.round(Math.abs(v) * 100) / 100).toFixed(2).replace('.', ','); };
+  var fp = function(v){ return (v > 0 ? '+' : '') + f0(v); };
+  var sum = function(a){ return a.reduce(function(s, v){ return s + (v || 0); }, 0); };
+  var nn = B.nn, la = B.landet, n = B.aar.length - 1, a0 = B.aar[0], a1 = B.aar[n];
+  var andel0 = nn.tot[0] / la.tot[0] * 100, andel1 = nn.tot[n] / la.tot[n] * 100;
+  var vekst = (nn.tot[n] / nn.tot[0] - 1) * 100, vekstL = (la.tot[n] / la.tot[0] - 1) * 100;
+  var rA0 = R.aar[0], rA1 = R.aar[R.aar.length - 1];
+  var sInn = sum(R.innvandring), sInnl = sum(R.innenlands), sFod = sum(R.fodsel);
+  var nNeg = R.innenlands.filter(function(v){ return v < 0; }).length;
+  var sm = S.aar.length - 1, sB = (S.nn_bosted[sm] / S.nn_bosted[0] - 1) * 100, sL = (S.landet_bosted[sm] / S.landet_bosted[0] - 1) * 100, sA = (S.nn_arb[sm] / S.nn_arb[0] - 1) * 100;
+  var dok = function(id){ return D.find(function(d){ return d.id === id; }); };
+  var dato = function(s){ var m = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember']; var p = s.split('-'); return (+p[2]) + '. ' + m[+p[1] - 1] + ' ' + p[0]; };
+  var rodgronn = function(r){ return /Stoltenberg|Støre/.test(r); };
+
+  // ─── Hero ───
+  document.getElementById('heroLede').innerHTML =
+    'Siden 2006 har tre regjeringer lagt fram sju dokumenter om nordområdene, og alle omtaler dem som det viktigste området. I de samme 20 årene økte folketallet i Nord-Norge med ' + f1(vekst) + ' %, mot ' + f1(vekstL) + ' % i landet. Andelen av landets befolkning falt fra ' + f2(andel0) + ' til ' + f2(andel1) + ' %. ' +
+    'Landsdelen hadde innenlandsk nettoutflytting hvert år fra ' + rA0 + ' til ' + rA1 + ', til sammen ' + f0(-sInnl) + ' personer, og hele veksten kom fra innvandring (' + fp(sInn) + '). Denne siden stiller det dokumentene sa, opp mot det som skjedde.';
+  document.getElementById('kildeSagt').innerHTML = 'Regjeringens nordområdestrategier, stortingsmeldinger og statusrapporter fra ' + D[0].id + ' til ' + D[D.length - 1].id + ', til sammen ' + f0(sum(D.map(function(d){ return d.ord; }))) + ' ord. Hvert dokument er lest i sin helhet, og sitater og tall er kontrollert mot kildeteksten med sidetall.';
+
+  // ─── Akt 01 ───
+  document.getElementById('rekkeIntro').innerHTML =
+    'Rekken begynner med Stoltenberg II-regjeringens nordområdestrategi i desember 2006 og går fram til Støre-regjeringens «Norge i Nord» i august 2025. ' + (N.tekster.forhistorie || '') + ' ' +
+    'Alle dokumentene kaller nordområdene det viktigste området, med litt ulike ord: «strategiske satsingsområde» (2006, 2009, 2011 og 2025), «utenrikspolitiske interesseområde» (2014 og 2017) og «strategiske ansvarsområde» (2020). Ordlyden i hovedmålet varierer også, men innholdet er det samme hele veien: nærvær, aktivitet og verdiskaping i nord. To av dokumentene er stortingsmeldinger, som Stortinget har behandlet. De andre er strategier og statusrapporter fra regjeringen.';
+  document.getElementById('rekkeGraf').innerHTML = NN.placeholder('linjer', {
+    x: B.aar,
+    serier: [{navn:'Folketall i Nord-Norge', kort:'Folketall', data:nn.tot, farge:'accent', uthev:true}],
+    markor: D.map(function(d){ return {x: +d.dato.slice(0,4) + (+d.dato.slice(5,7) - 1) / 12, tekst: "’" + d.id.slice(2)}; }),
+    format:'tall', xTicks:[2006,2010,2014,2018,2022,2026], hoyde:300,
+    kilde:'SSB 07459, folketall 1. januar ' + a0 + '–' + a1 + ', Nordland, Troms og Finnmark i 2024-inndeling. Loddrette streker: tidspunktet for hvert nordområdedokument.'
+  }, 320);
+  var hode = '<thead><tr><th>År</th><th>Dokument</th><th>Regjering</th><th>Type</th><th class="num">Sider</th></tr></thead>';
+  document.getElementById('rekkeTabell').innerHTML = hode + '<tbody>' + D.map(function(d){
+    return '<tr><td>' + d.id + '</td><td><a href="' + d.url + '" target="_blank" rel="noopener">' + d.tittel + '</a></td><td>' + d.regjering + '</td><td>' + d.type + '</td><td class="num">' + d.sider + '</td></tr>';
+  }).join('') + '</tbody>';
+
+  // ─── Akt 02 ───
+  document.getElementById('dokIntro').innerHTML =
+    'Omtalene følger samme mal for alle dokumentene. Det første avsnittet viser hva dokumentet sier og hva som var nytt. Det andre viser hva det sier om befolkning, arbeidskraft, kommuner og velferd i Nord-Norge, hvor konkret det er og hvordan det ble fulgt opp. Sidetallene viser til dokumentet.';
+  document.getElementById('dokListe').innerHTML = D.map(function(d){
+    return '<article class="np-dok' + (rodgronn(d.regjering) ? ' rodgronn' : '') + '" id="dok' + d.id + '">' +
+      '<div class="meta">' + d.id + ' · ' + d.type + ' · ' + d.regjering + ' · ' + dato(d.dato) + '</div>' +
+      '<h3>' + d.kort + '</h3>' +
+      '<p class="kjerne">' + d.kjerne + '</p>' +
+      d.avsnitt.map(function(p){ return '<p>' + p + '</p>'; }).join('') +
+      (d.sitat ? '<div class="sitat">«' + d.sitat + '» <span style="font-style:normal;font-family:var(--font-mono);font-size:11px;color:var(--ink3)">s. ' + d.sitat_side + '</span></div>' : '') +
+      (d.storting ? '<p class="storting">Stortinget: ' + d.storting + '</p>' : '') +
+      '<p class="lenke"><a href="' + d.url + '" target="_blank" rel="noopener">' + d.tittel + ' (regjeringen.no) →</a></p>' +
+    '</article>';
+  }).join('');
+  document.getElementById('etterBoks').innerHTML = '<div class="tittel">Etter august 2025</div><p style="font-size:13px;line-height:1.6;color:var(--ink2);margin:0 0 8px">' + (N.tekster.etter2025 || '') + '</p>' +
+    (N.tekster.statusrapport2010 ? '<p style="font-size:13px;line-height:1.6;color:var(--ink2);margin:0">' + N.tekster.statusrapport2010 + '</p>' : '');
+
+  // ─── Akt 03 ───
+  var T = N.temaord, kol = T.kolonner, rad = function(k){ return T.rader.find(function(r){ return r.key === k; }).v; };
+  var c = function(id){ return kol.indexOf(id); };
+  var sik = rad('sikkerhet'), rus = rad('russland'), bef = rad('befolkning'), ark = rad('arbeidskraft'), kli = rad('klima_miljo'), hel = rad('helse_eldre');
+  document.getElementById('ordIntro').innerHTML =
+    'Ordtellingen viser hva dokumentene vektlegger. Ord om sikkerhet og forsvar forekom ' + f1(sik[c('2006')]) + ' ganger per 10 000 ord i 2006 og ' + f1(sik[c('2020')]) + ' i 2020, men ' + f1(sik[c('2025')]) + ' i 2025. Russland gikk motsatt vei: fra ' + f1(rus[c('2006')]) + ' i 2006 og ' + f1(rus[c('2011')]) + ' i 2011 til ' + f1(rus[c('2025')]) + ' i 2025. Klima og miljø falt fra ' + f1(kli[c('2006')]) + ' til ' + f1(kli[c('2025')]) + '. ' +
+    'Befolkning og bosetting har fått mer plass, fra ' + f1(bef[c('2006')]) + ' til ' + f1(bef[c('2025')]) + ', og helse og eldre fra ' + f1(hel[c('2006')]) + ' til ' + f1(hel[c('2025')]) + '. Selv i 2025 nevnes sikkerhet likevel ' + f1(sik[c('2025')] / bef[c('2025')]) + ' ganger så ofte som befolkning. Arbeidskraft var mest framme i 2020 (' + f1(ark[c('2020')]) + ').';
+  document.getElementById('ordGraf').innerHTML = NN.placeholder('varmekart', {
+    kolonner: kol, rader: T.rader.map(function(r){ return {l:r.l, v:r.v}; }), des:1,
+    kilde:'Egen telling i de sju dokumentene. Ordstammer per tema er listet på metodesiden. Dokumentene er fra ' + f0(Math.min.apply(null, D.map(function(d){ return d.ord; }))) + ' til ' + f0(Math.max.apply(null, D.map(function(d){ return d.ord; }))) + ' ord lange, og derfor er alt regnet per 10 000 ord. Ordtelling måler vekt, ikke innhold.'
+  }, T.rader.length * 28 + 60);
+
+  // ─── Akt 04 ───
+  var HB = ['○','◔','◑','◕','●'];
+  var harL = D[0].lofter != null;
+  var kAndel = harL ? D.map(function(d){ return d.lofter.konkret / d.lofter.n * 100; }) : [];
+  document.getElementById('malIntro').innerHTML =
+    'Fra 2017 bruker dokumentene SSBs tall om Nord-Norge. Meld. St. 9 (2020–2021) skriver at de 77 kommunene utenom Tromsø, Bodø og Alta har mistet nesten 44 000 innbyggere siden 1980 (s. 67), og at antallet sysselsatte per pensjonist går fra 3,1 til 1,9 i 2040 (s. 54). ' +
+    'Ingen av dokumentene har likevel et tallfestet mål for folketall, bosetting, flytting eller arbeidskraft. Tiltakene på dette feltet er av typen «vurdere», «stimulere» og «utvikle gode praksiser». Det første tallfestede arbeidsplassmålet i rekken kom i 2025 og gjelder Forsvaret: over 1 700 nye arbeidsplasser de neste ti årene (s. 22). Ingen av dokumentene har indikatorer eller lover å evaluere politikken som helhet.' +
+    (harL ? ' Dokumentene mangler ikke konkrete tiltak: etter samme regel er mellom ' + f0(Math.min.apply(null, kAndel)) + ' og ' + f0(Math.max.apply(null, kAndel)) + ' % av de registrerte tiltakene konkrete. Forskjellen ligger i hva tiltakene gjelder, ikke i hvor konkrete de er.' : '');
+  document.getElementById('malTabell').innerHTML =
+    '<thead><tr><th>Dokument</th><th>Problemet beskrevet med tall</th><th>Tallfestet mål for befolkning eller arbeidskraft</th>' + (harL ? '<th class="num">Konkrete tiltak</th>' : '') + '<th>Nye penger</th><th>Indikatorer eller evaluering</th></tr></thead><tbody>' +
+    D.map(function(d){
+      var v = d.vurdering, L = d.lofter;
+      return '<tr><td>' + d.id + '</td><td><span class="hb" aria-label="' + v.problem + ' av 4">' + HB[v.problem] + '</span>' + v.problem_t + '</td><td>' + v.mal + '</td>' +
+        (harL ? '<td class="num">' + (L ? f0(L.konkret) + ' av ' + f0(L.n) + ' (' + f0(L.konkret / L.n * 100) + ' %)' : '–') + '</td>' : '') +
+        '<td>' + v.penger + '</td><td>' + v.evaluering + '</td></tr>';
+    }).join('') + '</tbody>';
+  document.getElementById('malNote').innerHTML = 'Kriteriene er de samme for alle dokumentene og regjeringene. Harvey-ballen viser hvor godt befolkning, aldring og arbeidskraft beskrives med tall (○ ikke, ● grundig).' +
+    (harL ? ' «Konkrete tiltak» er tiltak med tall og frist, eller med en leveranse som kan kontrolleres i ettertid. Alle tiltakene er kodet på nytt etter samme regel (se metodesiden). Rapporterte resultater og dubletter er tatt ut. Hvor mange tiltak som er registrert, varierer med hvordan dokumentene er bygd opp, så antallet bør ikke sammenlignes direkte.' : '');
+
+  // ─── Akt 05 ───
+  var iFod = R.fodsel.findIndex(function(v, j){ return R.aar[j] >= 2015 && v <= 0; });
+  document.getElementById('skjeddIntro').innerHTML =
+    'Befolkningsregnskapet viser hvor veksten kom fra. Fra ' + rA0 + ' til ' + rA1 + ' ga innvandringen Nord-Norge ' + fp(sInn) + ' innbyggere netto, og fødselsoverskuddet ' + fp(sFod) + '. Flyttingen til resten av landet trakk i motsatt retning med ' + f0(-sInnl) + ', og flyttebalansen var negativ ' + (nNeg === R.aar.length ? 'i alle de ' + R.aar.length + ' årene' : 'i ' + nNeg + ' av ' + R.aar.length + ' år') + '. ' +
+    (iFod >= 0 ? 'Fra ' + R.aar[iFod] + ' har det i de fleste år dødd flere enn det er født. ' : '') +
+    'Fødselsoverskuddet og flyttingen innenlands ga til sammen ' + f0(sFod + sInnl) + ' i perioden. Samtidig ble befolkningen eldre: andelen over 65 år økte fra ' + f1(nn.a65[0] / nn.tot[0] * 100) + ' til ' + f1(nn.a65[n] / nn.tot[n] * 100) + ' %, og forsørgerbrøken (65+ per 100 i alderen 20–64) fra ' + f1(nn.a65[0] / nn.a2064[0] * 100) + ' til ' + f1(nn.a65[n] / nn.a2064[n] * 100) + ', mot ' + f1(la.a65[n] / la.a2064[n] * 100) + ' i landet.';
+  document.getElementById('skjeddKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + f2(andel1) + ' %</div><div class="l">Andel av landets befolkning ' + a1 + '</div><div class="nh">' + f2(andel0) + ' % i ' + a0 + '</div></div>' +
+    '<div class="kpi"><div class="v down">' + f0(sInnl) + '</div><div class="l">Netto innenlands flytting ' + rA0 + '–' + rA1 + '</div><div class="nh">negativ i ' + nNeg + ' av ' + R.aar.length + ' år</div></div>' +
+    '<div class="kpi"><div class="v">' + fp(sInn) + '</div><div class="l">Netto innvandring ' + rA0 + '–' + rA1 + '</div><div class="nh">fødselsoverskudd ' + fp(sFod) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + f1(nn.a65[n] / nn.a2064[n] * 100) + '</div><div class="l">Forsørgerbrøk ' + a1 + '</div><div class="nh">' + f1(nn.a65[0] / nn.a2064[0] * 100) + ' i ' + a0 + ' · landet ' + f1(la.a65[n] / la.a2064[n] * 100) + '</div></div>';
+  document.getElementById('regnskapGraf').innerHTML = NN.placeholder('regnskap', {
+    x: R.aar,
+    serier: [
+      {navn:'Netto innvandring', data:R.innvandring, farge:'accent'},
+      {navn:'Fødselsoverskudd', data:R.fodsel, farge:'muted'},
+      {navn:'Netto innenlands flytting', data:R.innenlands, farge:'neg'}
+    ],
+    netto: {navn:'Folkevekst', data:R.vekst}, hoyde:300,
+    kilde:'SSB 01222, summert per år og over Nordland, Troms og Finnmark (2024-inndeling). Flytting mellom de tre fylkene oppheves i summen. Folkevekst omfatter også justeringer i registeret.'
+  }, 340);
+
+  // ─── Akt 06 ───
+  var NR = S.naering.filter(function(r){ return r.nn0 > 0 && !/Uoppgitt/.test(r.navn); }).map(function(r){ return {navn:r.navn, d:r.nn1 - r.nn0, p:(r.nn1 / r.nn0 - 1) * 100, pl:(r.la1 / r.la0 - 1) * 100}; });
+  NR.sort(function(a, b){ return b.d - a.d; });
+  var dTot = S.nn_arb[sm] - S.nn_arb[0], helse = NR.find(function(r){ return /Helse/.test(r.navn); });
+  var finn = function(re){ return NR.find(function(r){ return re.test(r.navn); }); };
+  var prim = finn(/Jordbruk/), ind = finn(/^Industri/), rei = finn(/Overnatting/), berg = finn(/Bergverk/);
+  document.getElementById('jobbIntro').innerHTML =
+    'Sysselsettingen i Nord-Norge økte med ' + f1(sB) + ' % fra ' + S.aar[0] + ' til ' + S.aar[sm] + ' målt etter bosted, mot ' + f1(sL) + ' % i landet. Målt etter arbeidssted er økningen ' + f1(sA) + ' %, eller ' + f0(dTot) + ' arbeidsplasser. ' +
+    'Helse- og sosialtjenester sto for ' + f0(helse.d) + ' av dem (' + f0(helse.d / dTot * 100) + ' %). Næringene dokumentene satset mest på, utgjør en mindre del av veksten. Primærnæringene endret seg med ' + f1(prim.p) + ' % og industrien med ' + f1(ind.p) + ' %, mens overnatting og servering økte med ' + f1(rei.p) + ' % og bergverk og utvinning med ' + f0(berg.d) + ' sysselsatte (' + (berg.p > 0 ? '+' : '') + f0(berg.p) + ' %). ' +
+    'Dette er en sammenstilling og ingen vurdering av hva politikken har ført til.';
+  document.getElementById('jobbKPI').innerHTML =
+    '<div class="kpi"><div class="v">+' + f1(sB) + ' %</div><div class="l">Sysselsatte (bosted) ' + S.aar[0] + '–' + S.aar[sm] + '</div><div class="nh">landet +' + f1(sL) + ' %</div></div>' +
+    '<div class="kpi"><div class="v">' + fp(dTot) + '</div><div class="l">Arbeidsplasser i Nord-Norge</div><div class="nh">etter arbeidssted, +' + f1(sA) + ' %</div></div>' +
+    '<div class="kpi"><div class="v">' + f0(helse.d / dTot * 100) + ' %</div><div class="l">Av veksten kom i helse og omsorg</div><div class="nh">' + fp(helse.d) + ' sysselsatte</div></div>';
+  document.getElementById('jobbGraf').innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: NR.map(function(r){
+    return {l:r.navn, v:r.d, farge: r === helse ? 'accent' : (r.d < 0 ? 'neg' : 'muted'), uthev: r === helse, note:(r.p > 0 ? '+' : '') + f1(r.p) + ' % · landet ' + (r.pl > 0 ? '+' : '') + f1(r.pl) + ' %'};
+  })}], kilde:'SSB 07984, sysselsatte 15–74 år etter arbeidssted, ' + S.aar[0] + '–' + S.aar[sm] + '. Fylkene med den inndelingen som gjaldt hvert år. Næringsgruppering etter SN2007.'}, NR.length * 34 + 40);
+
+  // ─── Akt 07 ───
+  var A = N.anslag[0], iA = B.aar.indexOf(A.fra), base0 = nn.tot[iA];
+  var mal = base0 * (1 + A.pst / 100), faktisk = (nn.tot[n] / base0 - 1) * 100;
+  var xs = [], fakt = [], bane = [];
+  for(var t = A.fra; t <= A.til; t++){ xs.push(t); var j = B.aar.indexOf(t); fakt.push(j >= 0 ? nn.tot[j] : null); bane.push(Math.round(base0 * Math.pow(1 + A.pst / 100, (t - A.fra) / (A.til - A.fra)))); }
+  var trengs = mal - nn.tot[n], hittil = nn.tot[n] - base0;
+  document.getElementById('anslagIntro').innerHTML =
+    'Nordområdestrategien fra 2017 viste til SSBs anslag om at folketallet i Nord-Norge ville øke med ' + f1(A.pst) + ' % fra ' + A.fra + ' til ' + A.til + ' (s. ' + A.side + '). Fra 1. januar ' + A.fra + ' til 1. januar ' + a1 + ' har økningen vært ' + f1(faktisk) + ' %, eller ' + f0(hittil) + ' personer. ' +
+    'For å nå anslaget må folketallet øke med ' + f0(trengs) + ' de neste ' + (['null','ett','to','tre','fire','fem','seks','sju','åtte','ni','ti'][A.til - a1] || (A.til - a1)) + ' årene. ' +
+    'Meld. St. 9 (2020–2021) anslo at antallet sysselsatte per pensjonist faller fra 3,1 til 1,9 i 2040 (s. 54). Det kan ikke etterprøves ennå. Dashbordets mål på forsørgerbyrden står på <a href="nord-norge.html">landsdelssiden</a>, og etterprøvingen av SSBs framskrivinger på <a href="tema-scenarier.html">tema 06</a>.';
+  document.getElementById('anslagGraf').innerHTML = NN.placeholder('linjer', {
+    x: xs,
+    serier: [
+      {navn:'Anslag i strategien (+' + f1(A.pst) + ' %)', kort:'Anslag', data:bane, farge:'muted', stil:'stiplet'},
+      {navn:'Faktisk folketall', kort:'Faktisk', data:fakt, farge:'accent', uthev:true}
+    ],
+    iDag: a1, format:'tall', xTicks:[2017,2020,2023,2026,2030], hoyde:280,
+    kilde:'SSB 07459 (faktisk, 1. januar). Anslaget: ' + A.kilde + ', her fordelt jevnt over perioden med fast årlig vekstrate.'
+  }, 300);
+
+  // ─── Akt 08 ───
+  document.getElementById('pengerIntro').innerHTML =
+    'De fleste beløpene i dokumentene er hentet fra Nasjonal transportplan, langtidsplanen for Forsvaret eller ordinære budsjetter. Strategien fra 2006 hadde nye tiltak for 2007 på til sammen 199,5 millioner kroner. Strategien fra 2017 viste til om lag 40 milliarder kroner til samferdsel, nesten alt fra Nasjonal transportplan. ' +
+    'Meld. St. 9 (2020–2021) skulle gjennomføres «innenfor gjeldende budsjettrammer» (s. 168), og strategien fra 2025 har ingen egen ramme. Fram til 2016 oppga regjeringene en samlet sum for nordområdetiltakene. Etter det er det ikke funnet noen slik sum, og fra 2026 er UDs egen budsjettpost for nordområdene lagt ned.';
+  document.getElementById('pengerTabell').innerHTML = '<thead><tr><th>År</th><th>Oppgitt beløp</th><th>Hva det gjelder</th><th>Kilde</th></tr></thead><tbody>' +
+    N.penger.map(function(p){ return '<tr><td>' + p.aar + '</td><td style="white-space:nowrap">' + p.belop + '</td><td>' + p.hva + '</td><td>' + p.kilde + '</td></tr>'; }).join('') + '</tbody>';
+
+  // ─── Akt 09 ───
+  document.getElementById('metodeIntro').innerHTML =
+    'Siden viser hva dokumentene sa og hva som skjedde, ikke at det ene førte til det andre. Folketallet og arbeidsmarkedet i Nord-Norge påvirkes blant annet av olje- og fiskepriser, innvandringspolitikk, pandemien, krigen i Ukraina og nasjonale reformer. Hvor mye som skyldes nordområdepolitikken, kan ikke avgjøres av tilgjengelige data. ' +
+    'Alle dokumentene er vurdert etter de samme kriteriene: tallfestede mål, nye penger, frister og om det lovet evaluering. Ordtellingen måler hvor mye et tema nevnes, ikke hva som sies om det. Strategien fra 2025 er ' + (new Date().getFullYear() * 12 + new Date().getMonth() - (2025 * 12 + 7)) + ' måneder gammel og kan beskrives, men ikke etterprøves ennå.';
+  document.getElementById('innovasjonBoks').innerHTML = '<div class="tittel">Det som ikke kom med: Innovasjonsløft Nord (2006)</div><p style="font-size:13px;line-height:1.6;color:var(--ink2);margin:0">' + (N.tekster.innovasjonsloft || '') + '</p>';
+});
+</script>
+</body>
+</html>

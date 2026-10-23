@@ -1,0 +1,973 @@
+{
+ "id": "2009",
+ "tittel": "Nye byggesteiner i nord. Neste trinn i Regjeringens nordområdestrategi",
+ "regjering": "Stoltenberg II",
+ "dato": "2009-03-12",
+ "type": "Regjeringspublikasjon (strategidokument i to deler, ikke stortingsmelding)",
+ "sider": 94,
+ "innsatsomrader": [
+  "Utvikle kunnskap om klima og miljø i nordområdene",
+  "Styrke overvåking, beredskap og sjøsikkerhet i de nordlige havområder",
+  "Stimulere til bærekraftig utnyttelse av petroleumsressursene og fornybare ressurser til havs",
+  "Fremme landbasert næringsutvikling i nord",
+  "Videreutvikle infrastrukturen i nord",
+  "Opprettholde en fast suverenitetshevdelse og styrke samarbeidet over grensene i nord",
+  "Sikre urfolks kultur og livsgrunnlag"
+ ],
+ "lofter": [
+  {
+   "tiltak": "Etablere nasjonalt kompetansesenter for is og klima ved Norsk Polarinstitutt",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Senteret etablert i 2009",
+   "side": 10
+  },
+  {
+   "tiltak": "Gjøre kompetansesenteret for is og klima til verdensledende fagmiljø innen fem år",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": "2014",
+   "malbart": false,
+   "indikator": null,
+   "side": 85
+  },
+  {
+   "tiltak": "Videreutvikle kunnskapsmiljøene i Tromsø til internasjonalt ledende senter for klima og miljø",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 9
+  },
+  {
+   "tiltak": "Eget forskningsprogram om klimaendringer og havforsuring under Forskningsrådet (foreslås)",
+   "tema": "klima_miljo",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Program opprettet i Forskningsrådet",
+   "side": 11
+  },
+  {
+   "tiltak": "Prioritere SIOS (Svalbard Integrated Arctic Earth Observing System)",
+   "tema": "svalbard",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 12
+  },
+  {
+   "tiltak": "Anskaffe isgående forskningsfartøy med hjemmehavn i Tromsø, forutsatt kvalitetssikring",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Fartøy anskaffet",
+   "side": 13
+  },
+  {
+   "tiltak": "MAREANO skal dekke sørlige Barentshavet inkludert Lofoten og Vesterålen",
+   "tema": "klima_miljo",
+   "belop_mill_kr": 18.8,
+   "frist": "2010",
+   "malbart": true,
+   "indikator": "Kartlagt areal innen utgangen av 2010",
+   "side": 14
+  },
+  {
+   "tiltak": "Ferdig kartlegging av planlagte områder i forvaltningsplanen Lofoten–Barentshavet med dagens rammer",
+   "tema": "klima_miljo",
+   "belop_mill_kr": null,
+   "frist": "2014",
+   "malbart": true,
+   "indikator": "Kartlegging fullført",
+   "side": 14
+  },
+  {
+   "tiltak": "Utvikle helhetlig overvåkings- og varslingssystem for havområdene i nord (BarentsWatch)",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 15
+  },
+  {
+   "tiltak": "Vurdere å innføre AIS på Svalbard",
+   "tema": "svalbard",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 16
+  },
+  {
+   "tiltak": "Arbeide for at polarkoden i IMO blir bindende",
+   "tema": "internasjonalt",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Bindende polarkode vedtatt",
+   "side": 17
+  },
+  {
+   "tiltak": "Tre helårs slepefartøy i Nord-Norge over FKDs budsjett",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": "2010",
+   "malbart": true,
+   "indikator": "Antall helårs slepefartøy (3)",
+   "side": 17
+  },
+  {
+   "tiltak": "Oppdatert oversikt over egnede nødhavner",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Oversikt foreligger",
+   "side": 17
+  },
+  {
+   "tiltak": "Ta stilling til dimensjoneringen av oljevernberedskapen i nord",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 18
+  },
+  {
+   "tiltak": "FKD tar initiativ til bredt sammensatt beredskapsforum",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Forum opprettet",
+   "side": 18
+  },
+  {
+   "tiltak": "Nasjonal satsing på oppdrett av torsk",
+   "tema": "fiskeri_havbruk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 20
+  },
+  {
+   "tiltak": "Nasjonal strategi for marin bioteknologi med hovedvekt på marin bioprospektering",
+   "tema": "naering",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Strategi lagt fram høsten 2009",
+   "side": 21
+  },
+  {
+   "tiltak": "Utrede potensialet for bioenergi basert på marine alger",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Utredning gjennomført",
+   "side": 22
+  },
+  {
+   "tiltak": "Prioritere ressurskontroll mot ulovlig, urapportert og uregulert (UUU) fiske",
+   "tema": "fiskeri_havbruk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 22
+  },
+  {
+   "tiltak": "Kystverket koordinerer samarbeid mellom havner i Nord-Norge",
+   "tema": "samferdsel",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 23
+  },
+  {
+   "tiltak": "Styrke kompetansen om sikker og miljøvennlig skipsfart i samspill med miljøene i Tromsø og Bodø",
+   "tema": "utdanning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 23
+  },
+  {
+   "tiltak": "Utvikle satellittbasert automatisk skipsidentifikasjon (AIS)",
+   "tema": "beredskap",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Satellitt i drift",
+   "side": 24
+  },
+  {
+   "tiltak": "Ny vurdering av rammene for petroleumsvirksomheten ved oppdatering av forvaltningsplanen Barentshavet–Lofoten",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": null,
+   "frist": "2010",
+   "malbart": true,
+   "indikator": "Oppdatert forvaltningsplan lagt fram",
+   "side": 24
+  },
+  {
+   "tiltak": "OED-utredning om ringvirkninger av petroleumsvirksomhet i nord",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Utredning gjennomført",
+   "side": 25
+  },
+  {
+   "tiltak": "Utrede tre til fire mulige petroleumsbaser i Øst-Finnmark",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Antall utredede baselokaliteter (3–4)",
+   "side": 26
+  },
+  {
+   "tiltak": "Fullføre geologisk kartlegging av mulig petroleumsvirksomhet i nordområdene",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": 410,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Kartlegging ferdigstilt i 2009",
+   "side": 69
+  },
+  {
+   "tiltak": "Utvikle verdensarvstedene som fyrtårn; samle og styrke utdanning og forskning i arktisk reiseliv",
+   "tema": "reiseliv",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 27
+  },
+  {
+   "tiltak": "NGU-kartlegging fra fly og helikopter i fem prioriterte mineralområder i Finnmark, Troms og Nordland",
+   "tema": "mineraler",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Kartlagte områder",
+   "side": 28
+  },
+  {
+   "tiltak": "KD-prosjekter for arktisk teknologi, miljøteknologi, bærekraftig energi og arktisk næringsliv; vurdere fagområde i kjemisk oseanografi",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 29
+  },
+  {
+   "tiltak": "Legge fram handlingsplan for entreprenørskap med vekt på høyere utdanning",
+   "tema": "utdanning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Handlingsplan lagt fram",
+   "side": 30
+  },
+  {
+   "tiltak": "KRD-satsing på kapasitet og kompetanse for lokalt utviklingsarbeid i kommunene",
+   "tema": "kommuner",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Innhold og innretning utviklet i 2009",
+   "side": 31
+  },
+  {
+   "tiltak": "Opprette regionale forskningsfond (2010 ifølge s. 32, 2009 ifølge s. 83)",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": "2010",
+   "malbart": true,
+   "indikator": "Fond opprettet",
+   "side": 32
+  },
+  {
+   "tiltak": "Prosess for sterkere samarbeid og samordning mellom høyere utdanningsinstitusjoner i landsdelen",
+   "tema": "utdanning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 33
+  },
+  {
+   "tiltak": "Ekstraordinær strategisk satsing på transport 2010–2019 (innhold i NTP)",
+   "tema": "samferdsel",
+   "belop_mill_kr": null,
+   "frist": "2019",
+   "malbart": false,
+   "indikator": null,
+   "side": 33
+  },
+  {
+   "tiltak": "Videreutvikle Kirkenes lufthavn Høybuktmoen",
+   "tema": "samferdsel",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 35
+  },
+  {
+   "tiltak": "Utvide kapasiteten på Nordlandsbanen og Ofotbanen",
+   "tema": "samferdsel",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 66
+  },
+  {
+   "tiltak": "Planlegge opprusting av E105 og veier i Kirkenes-området (midler i budsjettet for 2009, beløp ikke oppgitt)",
+   "tema": "samferdsel",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Planarbeid gjennomført",
+   "side": 66
+  },
+  {
+   "tiltak": "Endre energiloven med tilknytningsplikt for nettselskaper",
+   "tema": "petroleum_energi",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Lovendring vedtatt",
+   "side": 35
+  },
+  {
+   "tiltak": "Norsk deltakelse i GMES via ESA og nye stipendiatstillinger på romfeltet",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Deltakelse og antall stipendiater",
+   "side": 37
+  },
+  {
+   "tiltak": "Styrke Kystvaktens evne til nærvær i havområdene i nord",
+   "tema": "sikkerhet",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": false,
+   "indikator": null,
+   "side": 38
+  },
+  {
+   "tiltak": "Erstatte seks grensestasjoner i Sør-Varanger med to nye større stasjoner",
+   "tema": "sikkerhet",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Antall grensestasjoner (6 til 2)",
+   "side": 39
+  },
+  {
+   "tiltak": "Bygge ny grensestasjon på Storskog",
+   "tema": "russland",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Ny stasjon bygget",
+   "side": 40
+  },
+  {
+   "tiltak": "Grenseboerbevis: utkast til avtale oversendes Russland",
+   "tema": "russland",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Avtale inngått",
+   "side": 40
+  },
+  {
+   "tiltak": "Prosjektsamarbeid med Russland over UDs budsjett",
+   "tema": "russland",
+   "belop_mill_kr": 130,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Bevilget beløp",
+   "side": 41
+  },
+  {
+   "tiltak": "Felles norsk-russisk miljøstatusrapport for hele Barentshavet",
+   "tema": "klima_miljo",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Rapport ferdigstilt i 2009",
+   "side": 41
+  },
+  {
+   "tiltak": "Sikre Barentsinstituttet permanent drift",
+   "tema": "russland",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Permanent finansiering",
+   "side": 42
+  },
+  {
+   "tiltak": "Første norsk-russiske treårsplan for kultursamarbeid, med kulturforum og årlige kulturdager",
+   "tema": "kultur",
+   "belop_mill_kr": null,
+   "frist": "2010",
+   "malbart": true,
+   "indikator": "Treårsplan 2010–2012 iverksatt",
+   "side": 42
+  },
+  {
+   "tiltak": "Økt kultursamarbeid i nord: 25 millioner kroner fra KUD og 15 millioner kroner fra UD",
+   "tema": "kultur",
+   "belop_mill_kr": 40,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Bevilget beløp",
+   "side": 57
+  },
+  {
+   "tiltak": "Helhetlig plan for den kulturelle dimensjonen i nordområdesatsingen",
+   "tema": "kultur",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Plan lagt fram",
+   "side": 42
+  },
+  {
+   "tiltak": "Støtte etableringen av Riddu Riđđu Senter for nordlige folk",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Senter etablert",
+   "side": 42
+  },
+  {
+   "tiltak": "Grenseoverskridende program for dokumentasjon av samisk tradisjonskunnskap",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Program igangsatt",
+   "side": 43
+  },
+  {
+   "tiltak": "Urfolksprogram for kulturbasert næringsutvikling forankret i Barentssamarbeidet",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Program etablert",
+   "side": 43
+  },
+  {
+   "tiltak": "Etiske retningslinjer for økonomisk virksomhet i urfolksområder i nord",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Retningslinjer utarbeidet",
+   "side": 44
+  },
+  {
+   "tiltak": "Program for digital infrastruktur for urfolksspråk i nordområdene",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Program iverksatt",
+   "side": 44
+  },
+  {
+   "tiltak": "Støtte samisk utrednings- og kompetansesenter på Kola",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Senter realisert",
+   "side": 44
+  },
+  {
+   "tiltak": "Utredning om samisk kunnskapsutvikling",
+   "tema": "samisk",
+   "belop_mill_kr": null,
+   "frist": null,
+   "malbart": true,
+   "indikator": "Utredning gjennomført",
+   "side": 44
+  },
+  {
+   "tiltak": "Ny stortingsmelding om Svalbard med regulering av turisme på Øst-Svalbard og forbud mot tungolje i nasjonalparkene",
+   "tema": "svalbard",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Melding lagt fram våren 2009",
+   "side": 76
+  },
+  {
+   "tiltak": "Økt bevilgning til helhetlig havmiljøforvaltning",
+   "tema": "klima_miljo",
+   "belop_mill_kr": 3,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Bevilget beløp",
+   "side": 75
+  },
+  {
+   "tiltak": "13 nye stipendiatstillinger i Nord-Norge, pluss 5 fra Forskningsrådet",
+   "tema": "utdanning",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Antall stipendiatstillinger (13 + 5)",
+   "side": 84
+  },
+  {
+   "tiltak": "Programmet Forskningsløft i nord starter",
+   "tema": "forskning",
+   "belop_mill_kr": null,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Program startet",
+   "side": 91
+  },
+  {
+   "tiltak": "Avslutte opphugging av utrangerte atomubåter og samle inn strontiumbatterier i Nordvest-Russland (atomsikkerhet ca. 100 millioner kroner)",
+   "tema": "russland",
+   "belop_mill_kr": 100,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Opphugging avsluttet",
+   "side": 91
+  },
+  {
+   "tiltak": "Barents 2020-midler til kunnskapsprosjekter i nord",
+   "tema": "forskning",
+   "belop_mill_kr": 35,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Bevilget beløp",
+   "side": 57
+  },
+  {
+   "tiltak": "Drift av frøhvelvet på Svalbard",
+   "tema": "svalbard",
+   "belop_mill_kr": 4.3,
+   "frist": "2009",
+   "malbart": true,
+   "indikator": "Bevilget beløp",
+   "side": 87
+  }
+ ],
+ "tallfestede_mal": [
+  {
+   "mal": "Etablere nasjonalt kompetansesenter for is og klima i 2009",
+   "side": 10
+  },
+  {
+   "mal": "Kompetansesenteret for is og klima skal bli verdensledende innen fem år",
+   "side": 85
+  },
+  {
+   "mal": "MAREANO skal dekke sørlige Barentshavet med Lofoten og Vesterålen innen utgangen av 2010",
+   "side": 14
+  },
+  {
+   "mal": "Tre helårs slepefartøy i Nord-Norge fra 2010",
+   "side": 17
+  },
+  {
+   "mal": "Utrede tre til fire mulige petroleumsbaser i Øst-Finnmark",
+   "side": 26
+  },
+  {
+   "mal": "Erstatte seks grensestasjoner med to",
+   "side": 39
+  },
+  {
+   "mal": "Ekstraordinær strategisk transportsatsing 2010–2019",
+   "side": 33
+  },
+  {
+   "mal": "Første norsk-russiske treårsplan for kultursamarbeid 2010–2012",
+   "side": 57
+  },
+  {
+   "mal": "13 nye stipendiatstillinger i Nord-Norge og 5 fra Forskningsrådet i 2009",
+   "side": 84
+  },
+  {
+   "mal": "Grenseboerbevis for fastboende inntil 30 km fra grensen",
+   "side": 56
+  },
+  {
+   "mal": "Satsingene er innrettet i et 10–15 års perspektiv",
+   "side": 8
+  }
+ ],
+ "statistikk": [
+  {
+   "hva": "Personer som passerte grensen Norge–Russland",
+   "verdi": "et par tusen",
+   "aar": "1990",
+   "side": 55
+  },
+  {
+   "hva": "Personer som passerte grensen Norge–Russland",
+   "verdi": "nesten 109 000",
+   "aar": "2007",
+   "side": 56
+  },
+  {
+   "hva": "Passeringer ved Storskog grensestasjon",
+   "verdi": "over 100 000 årlig",
+   "aar": "2009",
+   "side": 56
+  },
+  {
+   "hva": "Saksbehandlingstid for visum ved generalkonsulatet i Murmansk",
+   "verdi": "5 dager",
+   "aar": "2009",
+   "side": 56
+  },
+  {
+   "hva": "UDs bevilgning til prosjektsamarbeid med Russland",
+   "verdi": "130 millioner kroner (5 % mer enn året før)",
+   "aar": "2009",
+   "side": 56
+  },
+  {
+   "hva": "Barentssekretariatets andel av UDs Russland-midler",
+   "verdi": "nærmere 30 %",
+   "aar": "2009",
+   "side": 56
+  },
+  {
+   "hva": "Presidentprogrammet, russiske ledere utplassert",
+   "verdi": "30 i året",
+   "aar": "2009",
+   "side": 57
+  },
+  {
+   "hva": "Atomsikkerhetssamarbeid med Russland",
+   "verdi": "ca. 100 millioner kroner",
+   "aar": "2009",
+   "side": 57
+  },
+  {
+   "hva": "Barents 2020",
+   "verdi": "35 millioner kroner",
+   "aar": "2009",
+   "side": 57
+  },
+  {
+   "hva": "UD-midler til kultursamarbeid i Nord-Norge",
+   "verdi": "25 millioner kroner",
+   "aar": "2006–2008",
+   "side": 57
+  },
+  {
+   "hva": "Økning i kultursamarbeidet",
+   "verdi": "25 millioner kroner (KUD) og 15 millioner kroner (UD)",
+   "aar": "2009",
+   "side": 57
+  },
+  {
+   "hva": "Besøkende på Barents Spektakel",
+   "verdi": "5000 i året",
+   "aar": "2004–2009",
+   "side": 58
+  },
+  {
+   "hva": "Avinors lufthavner i de tre nordligste fylkene",
+   "verdi": "28 av 46 (medregnet Svalbard)",
+   "aar": "2009",
+   "side": 34
+  },
+  {
+   "hva": "Lufthavner i Finnmark",
+   "verdi": "11 (tre mellomstore, åtte regionale)",
+   "aar": "2009",
+   "side": 66
+  },
+  {
+   "hva": "Investert i nordnorske lufthavner",
+   "verdi": "mer enn 1 milliard kroner",
+   "aar": "2006–2008",
+   "side": 66
+  },
+  {
+   "hva": "Prisreduksjon for flyreiser på kortbanenettet i Nord-Troms og Finnmark",
+   "verdi": "20 %",
+   "aar": "2007",
+   "side": 66
+  },
+  {
+   "hva": "Lengde på E6 fra Kirkenes til fylkesgrensen Nord-Trøndelag/Nordland",
+   "verdi": "over 1600 km",
+   "aar": "2009",
+   "side": 65
+  },
+  {
+   "hva": "Andel gods som fraktes sjøveien Tromsø–Finnmark",
+   "verdi": "opp mot 50 %",
+   "aar": "2009",
+   "side": 34
+  },
+  {
+   "hva": "Statnetts anslag for investeringsbehov i sentralnettet i Nord-Norge",
+   "verdi": "4,3 milliarder kroner",
+   "aar": "kommende tiår",
+   "side": 36
+  },
+  {
+   "hva": "Investeringsbehov i overføringsnettet forutsatt ny petroleum og vindkraft",
+   "verdi": "9 milliarder kroner",
+   "aar": "fram til 2025",
+   "side": 36
+  },
+  {
+   "hva": "Ny 420 kV-ledning Ofoten–Balsfjord–Hammerfest",
+   "verdi": "i underkant av 3 milliarder kroner",
+   "aar": "2009",
+   "side": 36
+  },
+  {
+   "hva": "420 kV Skaidi–Varangerbotn og Varangerbotn–Finland",
+   "verdi": "1,4 milliarder kroner",
+   "aar": "2009",
+   "side": 36
+  },
+  {
+   "hva": "Forsterkning av nettet Ofoten–Rana og sørover",
+   "verdi": "3,6 milliarder kroner",
+   "aar": "2009",
+   "side": 36
+  },
+  {
+   "hva": "Bevilget til geologisk kartlegging",
+   "verdi": "410 millioner kroner",
+   "aar": "2006–2009",
+   "side": 69
+  },
+  {
+   "hva": "Snøhvit: sysselsatte i anleggsfasen, på det meste",
+   "verdi": "2500",
+   "aar": "2002–2007",
+   "side": 70
+  },
+  {
+   "hva": "Snøhvit: varige arbeidsplasser",
+   "verdi": "400, tre fjerdedeler rekruttert fra Nord-Norge",
+   "aar": "2009",
+   "side": 70
+  },
+  {
+   "hva": "Snøhvits forventede levetid",
+   "verdi": "30 år",
+   "aar": "2007",
+   "side": 69
+  },
+  {
+   "hva": "Letebrønner i Barentshavet",
+   "verdi": "8",
+   "aar": "2008",
+   "side": 90
+  },
+  {
+   "hva": "Nye utvinningstillatelser i Barentshavet i TFO 2008",
+   "verdi": "2",
+   "aar": "2008",
+   "side": 90
+  },
+  {
+   "hva": "Blokker i Barentshavet utlyst i 20. konsesjonsrunde",
+   "verdi": "28",
+   "aar": "2008",
+   "side": 90
+  },
+  {
+   "hva": "Ulovlig fiske i Barentshavet",
+   "verdi": "opptil 100 000 tonn i året, en fjerdedel av lovlig kvote",
+   "aar": "fram til 2005",
+   "side": 77
+  },
+  {
+   "hva": "Ulovlig fiske i Barentshavet etter tiltak",
+   "verdi": "rundt 40 000 tonn",
+   "aar": "etter 2005",
+   "side": 78
+  },
+  {
+   "hva": "Reduksjon i overfiske av torsk",
+   "verdi": "60 %",
+   "aar": "2005–2007",
+   "side": 91
+  },
+  {
+   "hva": "Økning i torskekvoten",
+   "verdi": "95 000 tonn over fjorårets kvote",
+   "aar": "2009",
+   "side": 78
+  },
+  {
+   "hva": "Fiskedødelighet for torsk",
+   "verdi": "laveste siden 1991",
+   "aar": "2009",
+   "side": 78
+  },
+  {
+   "hva": "Forskningsrådets bevilgning til nordområderelevant forskning",
+   "verdi": "440 millioner kroner",
+   "aar": "2006",
+   "side": 83
+  },
+  {
+   "hva": "Økning i Forskningsrådets nordområdeforskning",
+   "verdi": "176 millioner kroner (40 %), hvorav 72 millioner kroner omprioritert",
+   "aar": "2007",
+   "side": 84
+  },
+  {
+   "hva": "Forskningsrådets nordområderelevante forskning i alt",
+   "verdi": "616 millioner kroner",
+   "aar": "2007",
+   "side": 90
+  },
+  {
+   "hva": "Økning i statsbudsjettet til nordområdeforskning",
+   "verdi": "ca. 20 millioner kroner",
+   "aar": "2008",
+   "side": 90
+  },
+  {
+   "hva": "Økning i statsbudsjettet til nordområdeforskning",
+   "verdi": "ca. 70 millioner kroner",
+   "aar": "2009",
+   "side": 90
+  },
+  {
+   "hva": "Andel av Forskningsrådets nordområdesatsing til petroleumsvirksomhet",
+   "verdi": "mer enn halvparten",
+   "aar": "2009",
+   "side": 69
+  },
+  {
+   "hva": "Det internasjonale polaråret: deltakere",
+   "verdi": "50 000 forskere fra 63 land",
+   "aar": "2007–2009",
+   "side": 84
+  },
+  {
+   "hva": "Norges bevilgning til Det internasjonale polaråret",
+   "verdi": "330 millioner kroner over fire år",
+   "aar": "2006–2009",
+   "side": 84
+  },
+  {
+   "hva": "Polarårsprosjekter knyttet til Svalbard",
+   "verdi": "36 internasjonale og 16 norskfinansierte",
+   "aar": "2007–2009",
+   "side": 84
+  },
+  {
+   "hva": "Nye stipendiatstillinger i Nord-Norge",
+   "verdi": "13 pluss 5 fra Forskningsrådet",
+   "aar": "2009",
+   "side": 84
+  },
+  {
+   "hva": "Studenter ved UNIS",
+   "verdi": "350 fra 26 land, hvorav 25–30 på master- og doktorgradsnivå",
+   "aar": "2009",
+   "side": 87
+  },
+  {
+   "hva": "Faste forskningsstasjoner på Svalbard",
+   "verdi": "11, forskere fra ca. 20 land i året",
+   "aar": "2009",
+   "side": 86
+  },
+  {
+   "hva": "Driftsbudsjett for frøhvelvet",
+   "verdi": "4,3 millioner kroner",
+   "aar": "2009",
+   "side": 87
+  },
+  {
+   "hva": "Økning i bevilgning til helhetlig havmiljøforvaltning",
+   "verdi": "3 millioner kroner",
+   "aar": "2009",
+   "side": 75
+  },
+  {
+   "hva": "MAREANO-bevilgning",
+   "verdi": "18,8 millioner kroner",
+   "aar": "2009",
+   "side": 91
+  },
+  {
+   "hva": "Studenter i nordområdestipendprogrammet",
+   "verdi": "rundt 50 per semester",
+   "aar": "2007–2009",
+   "side": 91
+  },
+  {
+   "hva": "Oppvarming i Arktis sammenlignet med verdensgjennomsnittet",
+   "verdi": "dobbelt så rask",
+   "aar": "2009",
+   "side": 86
+  },
+  {
+   "hva": "Oppvarming i deler av Øst-Grønlandsstrømmen i Framstredet",
+   "verdi": "2–3 grader de siste ti årene",
+   "aar": "2009",
+   "side": 88
+  },
+  {
+   "hva": "Nordnorske universiteter og høyskoler",
+   "verdi": "8",
+   "aar": "2009",
+   "side": 85
+  },
+  {
+   "hva": "Barentsregionen",
+   "verdi": "fire stater og ni folkegrupper",
+   "aar": "2009",
+   "side": 76
+  },
+  {
+   "hva": "Seilingsled Vardø–Røst",
+   "verdi": "ca. 30 nautiske mil fra kysten, tank- og lasteskip over 5000 bruttotonn",
+   "aar": "2007",
+   "side": 35
+  }
+ ],
+ "befolkning_nevnt": true,
+ "sitat_mal": "Den overordnede målsettingen er å skape økt kunnskap, aktivitet, og nærvær i nord",
+ "sitat_side": 4
+}

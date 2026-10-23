@@ -22,6 +22,7 @@ import './charts/backtest.js';
 import './charts/rang.js';
 import './charts/naering.js';
 import './charts/pyramide.js';
+import './charts/politikk.js';
 
 initTheme();
 initSearch();

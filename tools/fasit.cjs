@@ -14,7 +14,7 @@ const topp = app.slice(0, slutt);
 
 const navn = ['DATA', 'K', 'AGG', 'state', 'REGIONS', 'KREGION', 'FY', 'SOURCES', 'ARBEID_DATA', 'BEFK_DATA', 'BEHOV_DATA', 'BOLIG_DATA',
   'GJELD_DATA', 'PENSJON_DATA', 'UNG_DATA', 'BOFAST_DATA', 'ELDRE_DATA', 'FORSORG_DATA', 'HUSH_DATA', 'KJONN_DATA', 'KOHORT_RET', 'LEIE_DATA', 'LEVEKAR_DATA', 'MARKED_DATA', 'NAERING_DATA', 'NAV_BEDRIFT',
-  'RENTE_DATA', 'SSB_FLOWS', 'FYNR', 'SM', 'SGROUPS', 'AGES'];
+  'RENTE_DATA', 'NORD_DATA', 'SSB_FLOWS', 'FYNR', 'SM', 'SGROUPS', 'AGES'];
 const ctx = {
   window: { location: { search: '', pathname: '/' } },
   document: { getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} },

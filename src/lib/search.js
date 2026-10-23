@@ -15,6 +15,7 @@ const SIDER = [
   ['Hva skal vi leve av? Næringslivet, sjømat, reiseliv, forsvar', 'tema-naering.html', 'Tema 08'],
   ['Pensjonsetterslepet: kommunale pensjoner og premieavvik', 'tema-pensjon.html', 'Tema 09'],
   ['Ung i nord: unge voksne, bosted, arbeid, bolig og barn', 'tema-ung.html', 'Tema 10'],
+  ['20 år med nordområdepolitikk: strategier, stortingsmeldinger og utviklingen 2006–2026', 'tema-nordomrade.html', 'Tema 11'],
   ['Metode og kilder', 'metode.html', 'Referanse'],
 ];
 
