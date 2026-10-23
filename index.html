@@ -80,18 +80,12 @@
 
 
 <section class="exhibit" aria-labelledby="fireKart">
-  <div class="kicker">Fem kart · rull for å fortsette</div>
+  <div class="kicker">Fem kart · alle 80 kommuner</div>
   <h2 class="exhibit-h" id="fireKart">Fem kart som forklarer Nord-Norge mot 2050</h2>
-  <p class="exhibit-lede">Kartet står fast mens du ruller. Hvert steg bytter til en ny indikator og forklarer hva den viser.</p>
+  <p class="exhibit-lede">Velg et kart. Teksten forklarer hva det viser. Pek på en kommune for tall, og klikk for å åpne kommunesiden.</p>
   <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 </section>
 
-<section class="exhibit exhibit-kart" aria-labelledby="kartTittel">
-  <div class="kicker">Utforsk selv · alle 80 kommuner</div>
-  <h2 class="exhibit-h" id="kartTittel"><span id="kartAntall">48</span> av 80 kommuner får færre innbyggere mot 2050 etter SSBs hovedalternativ</h2>
-  <p class="exhibit-lede">Bytt indikator for å se aldring, forsørgerbrøk, innvandring, folketall og ROBEK-status. Pek på en kommune for tall, klikk for å åpne kommunesiden.</p>
-  <div data-nnchart="kart" data-spec='{"ind":"endring","controls":true,"height":580}' style="min-height:600px"></div>
-</section>
 
 <div class="landing-cards">
   <a class="landing-card" data-nivå="nn" href="nord-norge.html">
@@ -280,11 +274,6 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('ingress2064').textContent = Math.round(d2064) + ' prosent';
   }
   if(typeof K === 'undefined') return;
-  // Antall kommuner med nedgang mot 2050 (SSB MMMM) i karttittelen
-  var ka = document.getElementById('kartAntall');
-  if(ka && DATA.proj){
-    ka.textContent = K.filter(function(x){ var o = DATA.proj.kommuner[x.nr]; return o && o.main[o.main.length-1] < o.main[0]; }).length;
-  }
   // Fylke-velger på landing — bygg opp dynamisk fra K så antall alltid stemmer med data
   var landFylke = document.getElementById('landFylke');
   if(landFylke){

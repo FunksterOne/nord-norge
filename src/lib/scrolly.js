@@ -1,4 +1,4 @@
-// Rullestyrt fortelling: kartet står fast, tekststegene ruller forbi og bytter indikator.
+// Fem kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
@@ -53,92 +53,58 @@ function steg() {
   ];
 }
 
+// Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
+// samtidig, så leseren aldri må rulle for å se hva kartet viser. Piltastene flytter mellom fanene.
 function build(sec) {
   const steps = steg();
-  const h = window.innerWidth < 860 ? Math.round(Math.min(340, window.innerHeight * 0.42)) : Math.round(Math.min(560, Math.max(460, window.innerHeight - 120)));
+  const smal = window.innerWidth < 860;
+  const h = smal ? Math.round(Math.min(380, window.innerWidth * 1.05)) : Math.round(Math.min(540, Math.max(440, window.innerHeight - 220)));
+  const kort = s => s.kicker.replace(/^\d+\s*·\s*/, '');
   sec.innerHTML = `
-    <div class="nn-scrolly-graf"><div data-nnchart="kart" data-spec='${JSON.stringify({ ind: steps[0].ind, side: false, height: h })}' style="min-height:${h}px"></div></div>
-    <div class="nn-scrolly-steg">${steps.map((s, i) => `
-      <article class="nn-steg${i === 0 ? ' aktiv' : ''}" data-ind="${s.ind}">
-        <div class="kicker">${s.kicker}</div>
-        <h3>${s.h}</h3>
-        <p>${s.p}</p>
-      </article>`).join('')}
+    <div class="nn-sk-faner" role="tablist" aria-label="Velg kart">${steps.map((s, i) => `
+      <button type="button" role="tab" id="skFane${i}" aria-controls="skTekst" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="nr">${String(i + 1).padStart(2, '0')}</span> ${kort(s)}</button>`).join('')}
+    </div>
+    <div class="nn-sk-grid">
+      <div class="nn-sk-kart"><div data-nnchart="kart" data-spec='${JSON.stringify({ ind: steps[0].ind, side: false, height: h })}' style="min-height:${h + 40}px"></div></div>
+      <div class="nn-sk-tekst" id="skTekst" role="tabpanel" aria-live="polite"></div>
     </div>`;
   const chart = sec.querySelector('[data-nnchart]');
-  const graf = sec.querySelector('.nn-scrolly-graf');
-  const artikler = [...sec.querySelectorAll('.nn-steg')];
-  let current = steps[0].ind;
-  let aktiv = 0;
-
-  // Kartflaten skal ikke hoppe når forklaringen bytter høyde (ROBEK har lavere forklaring enn fargeskalaene).
-  // På smal skjerm kan forklaringsteksten brytes over to linjer for enkelte indikatorer; den plassen settes av fra start.
-  // Flaten måles etter at kartet er tegnet. Tillegget for smal skjerm legges bare på én gang, så sløyfen
-  // ResizeObserver → minstehøyde → ResizeObserver stopper av seg selv (ny høyde = lagret høyde).
-  let størst = 0;
-  const lås = () => {
-    if (!chart.querySelector('svg')) return; // plassholderen før tegning skal ikke telle
-    const h0 = graf.getBoundingClientRect().height + (størst === 0 && window.innerWidth < 860 ? 26 : 0);
-    if (h0 > størst + 1) { størst = h0; graf.style.minHeight = `${Math.ceil(h0)}px`; }
-  };
-  new MutationObserver(lås).observe(chart, { childList: true });
-  new ResizeObserver(lås).observe(graf);
-
-  const bytt = i => {
+  const faner = [...sec.querySelectorAll('[role=tab]')];
+  const tekst = sec.querySelector('.nn-sk-tekst');
+  let aktiv = -1;
+  const vis = (i, fokus) => {
     if (i === aktiv) return;
     aktiv = i;
-    artikler.forEach((a, j) => a.classList.toggle('aktiv', j === i));
-    const ind = artikler[i].dataset.ind;
-    if (ind === current) return;
-    current = ind;
-    const sp = JSON.parse(chart.dataset.spec); sp.ind = ind;
-    chart.dataset.spec = JSON.stringify(sp);
-    chart.classList.add('bytter');
-    setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 140);
-  };
-
-  // Synkronisering: kapittelet hvis midtpunkt ligger nærmest kartets midtlinje er aktivt.
-  // Bred skjerm: kartet sentreres loddrett i vinduet, første kapittel starter ved kartets midte, og
-  // luften under siste kapittel lar det nå midten før kartet slipper. Smal skjerm: kartet står øverst,
-  // og midtlinjen er midt i tekstfeltet under kartet.
-  const stegKol = sec.querySelector('.nn-scrolly-steg');
-  const bred = () => window.innerWidth >= 860;
-  let midtlinje = window.innerHeight / 2;
-  const oppsett = () => {
-    const H = window.innerHeight;
-    const G = graf.getBoundingClientRect().height;
-    const første = artikler[0].getBoundingClientRect().height;
-    const siste = artikler[artikler.length - 1].getBoundingClientRect().height;
-    if (bred()) {
-      const T = Math.max(16, Math.round((H - G) / 2));
-      graf.style.top = `${T}px`;
-      midtlinje = T + G / 2;
-      stegKol.style.paddingTop = `${Math.max(0, Math.round(G / 2 - første / 2))}px`;
-      stegKol.style.paddingBottom = `${Math.max(0, Math.round(G / 2 - siste / 2 + 40))}px`;
-    } else {
-      graf.style.top = '';
-      midtlinje = G + (H - G) / 2;
-      stegKol.style.paddingTop = '';
-      stegKol.style.paddingBottom = '24px'; // kartet slipper rett etter siste kapittel, så teksten ikke ruller inn bak det
+    const s = steps[i], neste = steps[i + 1], forrige = steps[i - 1];
+    faner.forEach((f, j) => { f.setAttribute('aria-selected', String(j === i)); f.tabIndex = j === i ? 0 : -1; });
+    if (fokus) faner[i].focus();
+    tekst.setAttribute('aria-labelledby', faner[i].id);
+    tekst.innerHTML = `
+      <div class="kicker">${s.kicker}</div>
+      <h3>${s.h}</h3>
+      <p>${s.p}</p>
+      <div class="nn-sk-nav">
+        ${forrige ? `<button type="button" data-gaa="${i - 1}">← ${kort(forrige)}</button>` : '<span></span>'}
+        ${neste ? `<button type="button" class="neste" data-gaa="${i + 1}">Neste: ${kort(neste)} →</button>` : `<a class="neste" href="nord-norge.html">Hele landsdelen →</a>`}
+      </div>`;
+    const sp = JSON.parse(chart.dataset.spec);
+    if (sp.ind !== s.ind) {
+      sp.ind = s.ind; chart.dataset.spec = JSON.stringify(sp);
+      chart.classList.add('bytter');
+      setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 120);
     }
   };
-  let venter = false;
-  const sjekk = () => {
-    venter = false;
-    let i = 0, best = Infinity;
-    artikler.forEach((a, j) => {
-      const r = a.getBoundingClientRect();
-      const d = Math.abs((r.top + r.bottom) / 2 - midtlinje);
-      if (d < best) { best = d; i = j; }
-    });
-    bytt(i);
-  };
-  const påRull = () => { if (!venter) { venter = true; requestAnimationFrame(sjekk); } };
-  window.addEventListener('scroll', påRull, { passive: true });
-  window.addEventListener('resize', () => { oppsett(); påRull(); }, { passive: true });
-  new ResizeObserver(() => { oppsett(); påRull(); }).observe(graf);
-  oppsett();
-  sjekk();
+  sec.addEventListener('click', e => {
+    const f = e.target.closest('[role=tab]'); if (f) return vis(faner.indexOf(f));
+    const g = e.target.closest('[data-gaa]'); if (g) vis(+g.dataset.gaa);
+  });
+  sec.querySelector('.nn-sk-faner').addEventListener('keydown', e => {
+    const d = { ArrowRight: 1, ArrowLeft: -1, Home: -99, End: 99 }[e.key];
+    if (d == null) return;
+    e.preventDefault();
+    vis(Math.max(0, Math.min(steps.length - 1, d === -99 ? 0 : d === 99 ? steps.length - 1 : aktiv + d)), true);
+  });
+  vis(0);
 }
 
 export function initScrolly() {

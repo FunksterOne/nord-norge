@@ -49,24 +49,32 @@
 .nn-d3tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s; background: var(--raised); border: 1px solid var(--line); border-top: 2px solid var(--accent); padding: 8px 10px; font-size: 12px; line-height: 1.5; color: var(--ink); min-width: 190px; z-index: 5; }
 .nn-d3tip b { font-weight: 600; }
 .nn-trykk svg text { font-family: var(--font-sans); }
-/* Rullestyrt fortelling */
-.nn-scrolly { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; margin-top: 8px; }
-.nn-scrolly-graf { position: sticky; top: calc(var(--nn-hode-h, 0px) + 12px); }
-.nn-scrolly-graf .nnchart { transition: opacity .14s ease; }
-.nn-scrolly-graf .nnchart.bytter { opacity: .25; }
-/* Kapitlene har egen høyde og fast avstand. Luft over første og under siste kapittel settes i
-   scrolly.js ut fra kartets høyde, slik at hvert kapittel passerer kartets midtlinje. */
-.nn-steg { padding: 0; opacity: .3; transition: opacity .25s ease; }
-.nn-steg + .nn-steg { margin-top: 18vh; }
-.nn-steg.aktiv { opacity: 1; }
-.nn-steg h3 { font: 600 24px/1.25 var(--font-display); color: var(--ink); margin: 8px 0 10px; }
-.nn-steg p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
+/* Fem kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
+.nn-scrolly { margin-top: 8px; }
+.nn-sk-faner { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
+.nn-sk-faner::-webkit-scrollbar { display: none; }
+.nn-sk-faner button { flex: none; font: 500 13.5px/1 var(--font-sans); color: var(--ink-3); background: none; border: 0; border-bottom: 2px solid transparent; padding: 11px 12px 10px; cursor: pointer; white-space: nowrap; }
+.nn-sk-faner button:hover { color: var(--ink); }
+.nn-sk-faner button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.nn-sk-faner button:focus-visible, .nn-sk-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nn-sk-faner .nr { font: 500 11px/1 var(--font-mono); color: var(--ink-3); margin-right: 3px; }
+.nn-sk-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+.nn-sk-kart .nnchart { transition: opacity .12s ease; }
+.nn-sk-kart .nnchart.bytter { opacity: .25; }
+.nn-sk-tekst { padding-top: 6px; position: sticky; top: calc(var(--nn-hode-h, 48px) + 16px); }
+.nn-sk-tekst h3 { font: 600 24px/1.25 var(--font-display); color: var(--ink); margin: 8px 0 12px; }
+.nn-sk-tekst > p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
+.nn-sk-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.nn-sk-nav button, .nn-sk-nav a { font: 500 13px/1 var(--font-sans); color: var(--ink-2); background: none; border: 1px solid var(--line); padding: 10px 14px; cursor: pointer; text-decoration: none; }
+.nn-sk-nav .neste { color: var(--ink); border-color: var(--accent); }
+.nn-sk-nav button:hover, .nn-sk-nav a:hover { background: var(--panel); color: var(--ink); }
 @media (max-width: 860px) {
-  .nn-scrolly { grid-template-columns: 1fr; gap: 0; }
-  .nn-scrolly-graf { top: var(--nn-hode-h, 0px); z-index: 2; background: var(--bg); padding: 6px 0; border-bottom: 1px solid var(--line); }
-  .nn-scrolly-graf .nnchart { min-height: 0 !important; }
-  .nn-steg + .nn-steg { margin-top: 24vh; }
-  .nn-steg h3 { font-size: 20px; }
+  .nn-sk-grid { grid-template-columns: 1fr; gap: 6px; }
+  .nn-sk-tekst { position: static; order: -1; padding-bottom: 8px; }
+  .nn-sk-faner { flex-wrap: wrap; overflow: visible; }
+  .nn-sk-nav { margin-top: 16px; }
+  .nn-sk-tekst h3 { font-size: 20px; }
+  .nn-sk-faner button { padding: 12px 10px 11px; }
 }
 .nn-hst-tittel { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); margin: 14px 0 4px; padding-top: 8px; border-top: 1px solid var(--line-soft); }
 .nn-hst-tittel:first-child { margin-top: 0; border-top: 0; padding-top: 0; }
