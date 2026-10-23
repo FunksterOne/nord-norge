@@ -27,7 +27,7 @@ export function initTheme() {
   btn.addEventListener('click', () => { setTheme(currentTheme() === 'dark' ? 'light' : 'dark'); label(btn); });
   label(btn);
   const mount = () => {
-    const host = document.querySelector('.nn-top .nn-actions');
+    const host = document.querySelector('.nn-stripe .nn-verktoy');
     if (host) host.appendChild(btn);
     else { btn.classList.add('tema-bryter-fast'); document.body.appendChild(btn); }
   };

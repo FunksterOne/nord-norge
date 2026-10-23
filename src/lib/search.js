@@ -89,9 +89,12 @@ export function initSearch() {
   btn.innerHTML = 'Søk <kbd>Ctrl K</kbd>';
   btn.addEventListener('click', open);
   const mount = () => {
-    const host = document.querySelector('.nn-top .nn-actions');
+    const host = document.querySelector('.nn-stripe .nn-verktoy');
     if (host) host.prepend(btn);
     else { btn.classList.add('nn-sokknapp-fast'); document.body.appendChild(btn); }
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
+  // Knapper med data-sok (for eksempel «Bytt kommune») åpner søket.
+  document.addEventListener('click', e => { if (e.target.closest('[data-sok]')) { e.preventDefault(); open(); } });
+  return open;
 }

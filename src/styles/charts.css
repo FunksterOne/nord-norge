@@ -51,7 +51,7 @@
 .nn-trykk svg text { font-family: var(--font-sans); }
 /* Rullestyrt fortelling */
 .nn-scrolly { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; margin-top: 8px; }
-.nn-scrolly-graf { position: sticky; top: 24px; }
+.nn-scrolly-graf { position: sticky; top: calc(var(--nn-hode-h, 0px) + 12px); }
 .nn-scrolly-graf .nnchart { transition: opacity .14s ease; }
 .nn-scrolly-graf .nnchart.bytter { opacity: .25; }
 /* Kapitlene har egen høyde og fast avstand. Luft over første og under siste kapittel settes i
@@ -63,7 +63,7 @@
 .nn-steg p { font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0; border-left: 3px solid var(--accent); padding-left: 14px; }
 @media (max-width: 860px) {
   .nn-scrolly { grid-template-columns: 1fr; gap: 0; }
-  .nn-scrolly-graf { top: 0; z-index: 2; background: var(--bg); padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .nn-scrolly-graf { top: var(--nn-hode-h, 0px); z-index: 2; background: var(--bg); padding: 6px 0; border-bottom: 1px solid var(--line); }
   .nn-scrolly-graf .nnchart { min-height: 0 !important; }
   .nn-steg + .nn-steg { margin-top: 24vh; }
   .nn-steg h3 { font-size: 20px; }

@@ -1,0 +1,105 @@
+/* Felles navigasjon (src/lib/nav.js): klebrig toppstripe, temameny, aktrad og forrige/neste. */
+:root { --nn-stripe-h: 48px; --nn-hode-h: 48px; }
+
+.nn-hode { position: sticky; top: 0; z-index: 70; background: var(--bg); transition: transform .2s ease; }
+.nn-hode.skjult { transform: translateY(calc(-1 * var(--nn-stripe-h))); }
+.nn-hopp { position: absolute; left: 12px; top: -60px; z-index: 80; padding: 8px 12px; background: var(--raised); color: var(--ink); border: 1px solid var(--accent); font-size: 13px; }
+.nn-hopp:focus { top: 8px; }
+
+.nn-stripe { border-bottom: 1px solid var(--line); background: var(--bg); }
+.nn-stripe-i { max-width: var(--page-max); margin: 0 auto; padding: 0 26px; height: var(--nn-stripe-h); display: flex; align-items: center; gap: 22px; }
+.nn-merke { font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nn-merke:hover { color: var(--accent-text); }
+.nn-lenker { display: flex; align-items: center; gap: 4px; }
+.nn-sl { font: 500 13px/1 var(--font-sans); color: var(--ink-2); text-decoration: none; padding: 9px 10px; border: 0; background: none; cursor: pointer; position: relative; }
+.nn-sl:hover { color: var(--ink); }
+.nn-sl[aria-current="page"], .nn-temaknapp[data-aktiv="true"] { color: var(--ink); }
+.nn-sl[aria-current="page"]::after, .nn-temaknapp[data-aktiv="true"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -8px; height: 2px; background: var(--accent); }
+.nn-verktoy { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.nn-menyknapp { display: none; font: 500 13px/1 var(--font-sans); color: var(--ink); background: none; border: 1px solid var(--line); padding: 8px 12px; cursor: pointer; }
+.nn-stripe a:focus-visible, .nn-stripe button:focus-visible, .nn-aktrad a:focus-visible, .nn-aktrad button:focus-visible, .nn-mobilmeny a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Temamenyen */
+.nn-temaer { position: relative; }
+.nn-temapanel { position: absolute; left: 0; top: calc(100% + 9px); width: min(640px, 92vw); background: var(--raised); border: 1px solid var(--line); padding: 10px; z-index: 75; }
+.nn-temagrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; }
+.nn-temagrid a { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 6px; padding: 8px 10px; text-decoration: none; color: var(--ink); border-left: 2px solid transparent; }
+.nn-temagrid a:hover { background: var(--panel); }
+.nn-temagrid a[aria-current="page"] { border-left-color: var(--accent); background: var(--panel); }
+.nn-temagrid .nr { grid-row: span 2; font: 500 11px/1.6 var(--font-mono); color: var(--ink-3); letter-spacing: .06em; }
+.nn-temagrid .tt { font-family: var(--font-display); font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+.nn-temagrid .st { font-size: 12px; color: var(--ink-3); line-height: 1.35; }
+
+/* Mobilmenyen */
+.nn-mobilmeny { border-bottom: 1px solid var(--line); background: var(--raised); padding: 10px 16px 16px; max-height: calc(100vh - var(--nn-stripe-h)); overflow-y: auto; }
+.nn-mm-lenker { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 10px; }
+.nn-mm-lenker .nn-sl { padding: 12px 8px; }
+.nn-mm-tittel { font: 500 10.5px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 8px 0 6px; }
+.nn-mobilmeny .nn-temagrid { grid-template-columns: 1fr; }
+.nn-mobilmeny .nn-temagrid a { padding: 10px 8px; min-height: 44px; }
+
+/* Aktraden */
+.nn-aktrad { border-bottom: 1px solid var(--line); background: var(--bg); }
+.nn-ar-i { max-width: var(--page-max); margin: 0 auto; padding: 0 26px; position: relative; }
+.nn-ar-knapp { display: none; }
+.nn-ar-liste { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.nn-ar-liste::-webkit-scrollbar { display: none; }
+.nn-ar-liste a { display: block; white-space: nowrap; padding: 10px 10px 9px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; border-bottom: 2px solid transparent; }
+.nn-ar-liste a:hover { color: var(--ink); }
+.nn-ar-liste a[aria-current] { color: var(--ink); border-bottom-color: var(--accent); }
+.nn-ar-liste .nr { font: 500 10.5px/1 var(--font-mono); color: var(--ink-3); margin-right: 3px; }
+.nn-ar-fram { height: 2px; background: var(--line-soft); }
+.nn-ar-fram span { display: block; height: 2px; width: 0; background: var(--accent); }
+
+/* Forrige/neste nederst på temasidene */
+.nn-forneste { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: stretch; margin: 40px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+.nn-forneste a { text-decoration: none; color: var(--ink); padding: 12px 14px; border: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 4px; }
+.nn-forneste a:hover { border-color: var(--accent); background: var(--panel); }
+.nn-forneste a.n { text-align: right; }
+.nn-forneste a.alle { justify-content: center; font-size: 13px; color: var(--ink-2); }
+.nn-forneste .r { font: 500 10.5px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.nn-forneste .t { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.nn-forneste .nr { font: 500 12px/1 var(--font-mono); color: var(--ink-3); }
+
+/* Velgere på kommune-, fylkes- og landsdelssiden */
+.nn-fylkevalg { display: inline-flex; border: 1px solid var(--line2); }
+.nn-fylkevalg a { padding: 6px 12px; font-size: 13px; color: var(--ink-2); text-decoration: none; }
+.nn-fylkevalg a + a { border-left: 1px solid var(--line2); }
+.nn-fylkevalg a:hover { color: var(--ink); background: var(--paper2); }
+.nn-fylkevalg a[aria-current="page"] { color: var(--ink); background: var(--panel); box-shadow: inset 0 -2px 0 var(--accent); }
+.nn-actions button.btn { font: inherit; font-size: 13px; padding: 6px 12px; color: var(--ink); background: none; border: 1px solid var(--line2); cursor: pointer; }
+.nn-actions button.btn:hover { background: var(--paper2); }
+
+/* Seksjonsfanene på kommune-, fylkes- og landsdelssiden følger med under stripen */
+.nn-secnav { position: sticky; top: var(--nn-hode-h); z-index: 20; background: var(--bg); padding-top: 10px; transition: top .2s ease; }
+
+/* Ankerhopp lander under stripen */
+section.akt, .metode-card, [id] { scroll-margin-top: calc(var(--nn-hode-h) + 16px); }
+
+/* Sidehodet under stripen er nå bare brødsmule og sidevelgere */
+.nn-top { padding: 4px 0 16px; }
+
+@media (max-width: 720px) {
+  .nn-stripe-i, .nn-ar-i { padding: 0 16px; }
+  .nn-stripe-i { gap: 10px; }
+  .nn-lenker { display: none; }
+  .nn-menyknapp { display: inline-block; }
+  .nn-merke { font-size: 15px; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .nn-verktoy { gap: 6px; }
+  .nn-verktoy .tema-bryter .tb-txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .nn-verktoy .tema-bryter, .nn-verktoy .nn-sokknapp { min-height: 36px; padding: 8px 10px; }
+  .nn-ar-knapp { display: flex; width: 100%; justify-content: space-between; gap: 8px; align-items: center; background: none; border: 0; color: var(--ink); font: 500 13px/1.3 var(--font-sans); padding: 11px 0; cursor: pointer; text-align: left; }
+  .nn-ar-status { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nn-ar-liste { display: none; }
+  .nn-aktrad.apen .nn-ar-liste { display: block; padding-bottom: 8px; max-height: 60vh; overflow-y: auto; }
+  .nn-aktrad.apen .nn-ar-liste a { padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; white-space: normal; }
+  .nn-aktrad.apen .nn-ar-liste a[aria-current] { border-bottom-color: var(--accent); }
+  .nn-forneste { grid-template-columns: 1fr; }
+  .nn-forneste a.n { text-align: left; }
+  .nn-forneste a.alle { order: 3; }
+  .nn-fylkevalg { width: 100%; }
+  .nn-fylkevalg a { flex: 1; text-align: center; padding: 10px 6px; }
+  .nn-actions button.btn { flex: 1 1 100%; padding: 10px 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .nn-hode, .nn-secnav { transition: none; } }
+@media print { .nn-hode, .nn-forneste { display: none !important; } }

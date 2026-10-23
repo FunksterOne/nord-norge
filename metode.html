@@ -34,9 +34,6 @@
     <span class="sep">›</span>
     <span class="now">Metode og kilder</span>
   </nav>
-  <div class="nn-actions">
-    <a class="btn" href="nord-norge.html">Landsdelen</a>
-  </div>
 </header>
 
 <div style="margin-bottom:24px">
@@ -45,7 +42,7 @@
   <p class="essence">Hva dashbordet bygger på, og hvilke eksterne normer som brukes for å vurdere indikatorene.</p>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="ssb">
   <h2>SSB-tabeller</h2>
   <p class="hint">Alle tall hentes direkte fra SSBs statistikkbank (PxWebApi v0) via Python-skript. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring.</p>
   <table class="kildetabell">
@@ -97,7 +94,7 @@
   </table>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="framskriving">
   <h2>Framskrivingsmodeller</h2>
   <h3>SSB MMMM (offisiell bane)</h3>
   <p>Statistisk sentralbyrås regionale befolkningsframskriving — hovedalternativet. <b>MMMM</b> = fire nasjonale forutsetninger satt på middels nivå: fruktbarhet, levealder, innenlands flytting, nettoinnvandring. SSB bryter de nasjonale forutsetningene ned regionalt. Autoritativ, men ikke justerbar her.</p>
@@ -109,7 +106,7 @@
   <p>Dashbordet gikk i august 2026 fra SSBs 2024-baserte framskriving (tabell 14288) til 2026-årgangen (tabell 14746, publisert 12. juni 2026). SSB-banene er hentet på nytt. TF-ATTR- og TF-MVP-banene er <b>rebasert mekanisk</b>: nivåjustert til faktisk folketall 1.1.2026, med uendret vekstprofil — de er ikke rekjørt med nye rater. Ukraina- og sensitivitetsscenariene er lagt på de rebaserte banene med effektprofil per år etter basisåret, slik at sjokkene fortsatt inntreffer i første framskrivingsår.</p>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="boligbehov">
   <h2>Boligbehovsmodellen (BB-KVOTE)</h2>
   <p><b>Kjernen:</b> boligbehov styres av husholdninger, ikke hoder. Årlig behov beregnes per kommune som endringen i antall husholdninger pluss erstatning for boliger som går ut av boligmassen:</p>
   <p style="font-family:var(--font-mono);font-size:13px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;padding:12px 16px">behov(t) = husholdninger(t+1) − husholdninger(t) + registrert avgang<br>husholdninger(t) = folketall(t) × andel i privathusholdning ÷ husholdningsstørrelse(t)</p>
@@ -139,7 +136,7 @@
   <p><b>Igangsettingstillatelser er ikke spadestikk.</b> I svake markeder utsettes eller skrinlegges prosjekter etter at tillatelse er gitt; nasjonalt telte Prognosesenteret 15 542 faktiske igangsettinger i 2025 (uten student- og omsorgsboliger) mot 20 184 igangsettingstillatelser hos SSB. For Nord-Norge samsvarer SSBs registrerte tall per 2. kvartal 2026 med Prognosesenterets korrigerte telling. <b>Kommuneserier er skjøtet:</b> byggearealtabellene fører historikk under kommunenummeret som gjaldt da (Tromsø: 1902 → 5401 → 5501). Skjøtingen bygges automatisk fra SSB KLASS (klassifikasjon 131). Tysfjord (1850), som ble delt mellom Narvik og Hamarøy i 2020, kan ikke fordeles uten skjønn og inngår kun i fylkes- og landsdelssummene. Dielddanuorri-Tjeldsund regnes som Troms i hele serien.</p>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="normer">
   <h2>Eksterne normer for indikatorer</h2>
   <p class="hint">Hver indikator i kommunekortet vurderes mot sin autoritative eksterne norm. Ingen interne terskler eller sammensatte klassifiseringer.</p>
   <ul class="norm-list">
@@ -238,7 +235,7 @@
   <div id="bteval_metode" style="margin-top:14px"></div>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="kilder">
   <h2>Andre offentlige kilder</h2>
   <p class="hint">Norske offentlige etater, utvalg og forskningsrapporter som ligger til grunn for indikatorer og pedagogiske rammer.</p>
   <table class="kildetabell">
@@ -264,7 +261,7 @@
   </table>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="internasjonale">
   <h2>Internasjonale kilder</h2>
   <p class="hint">Brukes som globale sammenligningspunkter for forsørgerbyrde og demografisk press.</p>
   <table class="kildetabell">
@@ -277,7 +274,7 @@
   </table>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="begreper">
   <h2>Forkortelser og begreper</h2>
   <table class="kildetabell">
     <thead><tr><th>Forkortelse</th><th>Forklaring</th></tr></thead>
@@ -302,7 +299,7 @@
   </table>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="regioner">
   <h2>Regioner, kart og visualisering</h2>
   <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Regioninndeling.</b> De 13 regionene (Helgeland, Salten uten Bodø, Bodø, Ofoten, Lofoten, Vesterålen, Sør-Troms, Midt-Troms, Tromsø, Nord-Troms, Alta, Vest-Finnmark, Øst-Finnmark) følger Samfunnsøkonomisk Analyses rapport <i>Nord-Norge 2040 — Store muligheter, for få folk</i> (rapport 33-2026, 29. september 2026). Rapporten oppgir ikke kommunelister; tilordningen følger regionrådene per 2026. Lødingen regnes til Vesterålen (medlem av Vesterålen regionråd). Regionene er et analysenivå, ikke et forvaltningsnivå.</p>
   <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Kartgrunnlag.</b> Kommunegrenser for 2024-inndelingen fra Kartverket (CC BY 4.0), klippet etter kystlinje og forenklet til TopoJSON (82 kB) for raske kart. Kartene viser indikatorene per kommune; tynn linje er regiongrense, tykk linje fylkesgrense.</p>
@@ -310,7 +307,7 @@
   <p style="color:var(--ink2);font-size:13.5px;line-height:1.65"><b>Sist oppdatert.</b> Alle datablokker ble hentet på nytt fra SSB og regjeringen.no 16. oktober 2026: folketall per <span data-befk-dato>1. juli 2026</span> (01222), KOSTRA 2025 (endelige tall), ROBEK-registeret per 9. oktober 2026, sysselsetting og uføretrygd 2025, eierstatus 2025 (ny tabell 14891).</p>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="forbehold">
   <h2>Forbehold</h2>
   <ul style="margin:0;padding-left:20px;color:var(--ink2);font-size:13.5px;line-height:1.65">
     <li>Framskrivinger er <b>ikke prognoser</b>. De viser hva demografien alene gir «alt annet likt», og forutsetningene kan etterprøves.</li>

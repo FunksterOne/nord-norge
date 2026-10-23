@@ -1,7 +1,9 @@
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/charts.css';
+import './styles/nav.css';
 import { initTheme } from './lib/theme.js';
+import { initNav } from './lib/nav.js';
 import { initSearch } from './lib/search.js';
 import { initScrolly } from './lib/scrolly.js';
 import { startCharts, placeholder } from './charts/core.js';
@@ -24,10 +26,11 @@ import './charts/naering.js';
 import './charts/pyramide.js';
 import './charts/politikk.js';
 
+initNav();
 initTheme();
-initSearch();
+const sok = initSearch();
 // Gammel kode (assets/app.js) bruker NN.placeholder() for å be om nye diagrammer.
-window.NN = { placeholder, kortNavn };
+window.NN = { placeholder, kortNavn, sok };
 startCharts();
 initScrolly();
 
