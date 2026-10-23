@@ -178,6 +178,7 @@
       <tr><td><b>Vedtatt</b> 6.6.2025</td><td>Stortinget ber regjeringen komme tilbake med tiltak mot at bosatte flyktninger flytter fra bosettingskommunen etter endt introduksjonsprogram (anmodningsvedtak).</td><td>Innst. 330 S (2024–2025)</td></tr>
       <tr><td><b>Utredet</b> 8.4.2026</td><td>Juridisk utredning for Arbeids- og inkluderingsdepartementet: staten har «vidtrekkende handlingsrom», men et direkte forbud er vanskeligere å forsvare enn indirekte tiltak, og jo lenger bindingen varer, desto svakere står den.</td><td>Emberland (BI), utredning 8. april 2026</td></tr>
       <tr><td><b>Varslet</b> 18.6.2026</td><td>To modeller skal på høring «i høst»: forbud mot å flytte til bestemte områder, og et tidsbegrenset forbud mot å flytte fra bosettingskommunen.</td><td>Arbeids- og inkluderingsdepartementet, pressemelding 18. juni 2026</td></tr>
+      <tr><td><b>Rapport</b> 23.10.2026</td><td>Fafo: unntak fra dagens flyttebegrensninger gis ytterst sjelden, og om de gis, avhenger mer av kommunen og saksbehandleren enn av flyktningens situasjon. Et forbud må ha rom for unntak for å være i tråd med Grunnloven og menneskerettighetene.</td><td>Fafo-rapport 2026:32 «Vilkårlig og restriktivt», s. 4–5</td></tr>
       <tr><td><b>Uavklart</b></td><td>Om personer med kollektiv beskyttelse (ukrainere) omfattes, varighet, sanksjon, lovhjemmel, hvilke områder, og om integreringstilskuddet forlenges dersom bindingen varer lenger enn fem år.</td><td>Ingen offentlig kilde per <span class="ffDato">20. oktober 2026</span></td></tr>
     </tbody>
   </table></div>
@@ -197,6 +198,9 @@
 
   <h3 class="bf-h3">Premisset om flytting etter fem år</h3>
   <p class="bf-p">Regjeringen begrunner forslaget med at mange flyktninger med store hjelpebehov flytter til de samme kommunene, særlig etter at integreringstilskuddet faller bort etter fem år. Initiativet kom fra Fredrikstad og Sarpsborg. <b>Observasjon:</b> Fafo finner ingen markant endring i flyttemønsteret etter fem år, og SSB viser at flyttingen øker gradvis fra bosettingsåret (se akt 04). Det er ikke publisert noen konsekvensutredning med tall for omfang, kostnader eller forventet effekt.</p>
+
+  <h3 class="bf-h3">Unntakene i dag er sjeldne og vilkårlige</h3>
+  <p class="bf-p"><b>Observasjon:</b> Fafo har undersøkt de tre unntakene som finnes fra dagens femårsregel: avtalt sekundærflytting mellom kommuner, introduksjonsprogram i ny kommune og sosialhjelp når et avslag er «åpenbart urimelig». Unntak gis ytterst sjelden, også ved vold, trusler eller mobbing i bosettingskommunen. Ansatte i kommunene og i Nav ser det som sin oppgave å begrense flytting, og regelverket sier lite om når unntak skal gis. Hvem som får unntak, avhenger derfor mer av hvilken kommune og hvilken saksbehandler flyktningen møter enn av situasjonen (Fafo-rapport 2026:32, s. 4–5). Rapporten konkluderer med at et generelt flytteforbud må ha tydelige unntaksregler. <b>Forbehold:</b> Spørreundersøkelsen fikk lavest svarprosent i Finnmark (33 %) og Troms (38 %), og i de minst sentrale kommunene (39 %), så den sier minst om kommunene som bosetter flest per innbygger (s. 13).</p>
 
   <h3 class="bf-h3">Juridisk uenighet</h3>
   <div class="pj-steg">
@@ -224,6 +228,12 @@
   <div class="kpi-rad" id="ffKPI"></div>
   <div id="ffNN"></div>
 
+  <h3 class="bf-h3" id="bosetting2027">Bosettingen i 2027</h3>
+  <p class="bf-p" id="bosIntro"></p>
+  <div class="pj-scroll"><table class="bf-tabell" id="bosTabell"></table></div>
+  <p class="hint" style="font-size:12px;margin:12px 0 8px" id="bosKartTekst"></p>
+  <div id="bosKart"></div>
+
   <h3 class="bf-h3">Partiene</h3>
   <div class="pj-scroll"><table class="bf-tabell">
     <thead><tr><th>Parti</th><th>Standpunkt</th></tr></thead>
@@ -236,7 +246,7 @@
       <tr><td>KrF og V</td><td>Ingen standpunkt funnet.</td></tr>
     </tbody>
   </table></div>
-  <p class="hint bf-note">Grunnlag: pressemeldinger fra Arbeids- og inkluderingsdepartementet (14. januar, 10. april og 18. juni 2026), Innst. 330 S (2024–2025) og Innst. 150 S (2025–2026), Emberland (2026), Fafo-rapport 2025:14, IMDi og medieoppslag i NRK, Nettavisen, Utrop, Dagsavisen og Rett24, lest <span class="ffDato">20. oktober 2026</span>.</p>
+  <p class="hint bf-note">Grunnlag: pressemeldinger fra Arbeids- og inkluderingsdepartementet (14. januar, 10. april og 18. juni 2026), Innst. 330 S (2024–2025) og Innst. 150 S (2025–2026), Emberland (2026), Fafo-rapport 2025:14 og 2026:32, IMDi (anmodning om bosetting 2027, 23. oktober 2026) og medieoppslag i NRK, Nettavisen, Utrop, Dagsavisen og Rett24, lest <span class="ffDato">20. oktober 2026</span>.</p>
 </section>
 
 <!-- ────────────────── AKT 06 — KONSEKVENS ────────────────── -->
@@ -562,6 +572,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Akt 05 — flytteforbudet
   var BS = B.bosetting, andelBos = BS.nn / BS.landet * 100, andelKol = BS.kollektiv_nn / BS.nn * 100;
+  var AN = B.anmodning, andelAnm = AN.nn[0] / AN.landet[0] * 100;
   document.querySelectorAll('.ffDato').forEach(function(el){ el.textContent = dato(B.status.dato); });
   document.getElementById('ffStatusDato').textContent = 'Status ' + B.status.dato;
   document.getElementById('ffOst').textContent = pst(F.til_ostlandet);
@@ -570,6 +581,7 @@ document.addEventListener('DOMContentLoaded', function(){
     'Nord-Norge berøres mer enn andre landsdeler: landsdelen tok imot ' + pst(andelBos, 1) + ' av flyktningene som ble bosatt i ' + BS.aar + ', mot 8,7 % av befolkningen, og har høyest fraflytting fra bosettingskommunene.';
   document.getElementById('ffKPI').innerHTML =
     '<div class="kpi"><div class="v">' + pst(andelBos, 1) + '</div><div class="l">av bosatte flyktninger ' + BS.aar + '</div><div class="nh">' + tal(BS.nn) + ' av ' + tal(BS.landet) + ' · IMDi</div></div>' +
+    '<div class="kpi"><div class="v">' + pst(andelAnm, 1) + '</div><div class="l">av anmodningen for 2027</div><div class="nh">' + tal(AN.nn[0]) + ' av ' + tal(AN.landet[0]) + ' · IMDi</div></div>' +
     '<div class="kpi"><div class="v">' + pst(andelKol) + '</div><div class="l">hadde kollektiv beskyttelse</div><div class="nh">' + tal(BS.kollektiv_nn) + ' av ' + tal(BS.nn) + ' bosatt i Nord-Norge</div></div>' +
     '<div class="kpi"><div class="v">5 år</div><div class="l">med integreringstilskudd</div><div class="nh">deretter bærer bosettingskommunen utgiftene alene</div></div>' +
     '<div class="kpi"><div class="v">2027</div><div class="l">første ukrainske kull når fem år</div><div class="nh">kollektiv beskyttelse avvikles ikke i 2027</div></div>';
@@ -579,6 +591,27 @@ document.addEventListener('DOMContentLoaded', function(){
     '<p class="bf-p"><b>Hypotese — befolkning:</b> Dersom modell 2 innføres og omfatter alle grupper, forventer vi at flere blir boende de første årene. Med om lag ' + tal(Math.round(BS.nn / 100) * 100) + ' bosatte per år og ' + pst(F.flyttet10_nn) + ' fraflytting over ti år gjelder det i størrelsesorden ' + tal(perKull) + ' personer per kull. Anslaget bygger på kullene før 2022 og er usikkert.</p>' +
     '<p class="bf-p"><b>Hypotese — arbeidskraft:</b> Unntakene for arbeid og utdanning betyr at de som har jobb, kan flytte som i dag. De som holdes igjen, står oftere utenfor arbeid, så forbudet vil trolig øke folketallet mer enn arbeidsstyrken.</p>' +
     '<p class="bf-p"><b>Hypotese — kommuneøkonomi:</b> Varer bindingen lenger enn de fem årene med integreringstilskudd, får bosettingskommunen ansvaret for sosialhjelp uten tilskudd. Det rammer særlig små kommuner og kan gjøre flere av dem mindre villige til å bosette.</p>';
+
+  // Bosettingen i 2027 (IMDis anmodning per kommune)
+  var AK = AN.kommuner, nrs = Object.keys(AK);
+  var per = nrs.map(function(nr){ var k = K.find(function(x){ return String(x.nr) === nr; }); return {nr: nr, v: k ? AK[nr][0] / k.pop * 1000 : 0, a: AK[nr]}; });
+  var null27 = per.filter(function(o){ return o.a[0] === 0; }), null26 = nrs.filter(function(nr){ return AK[nr][1] === 0; }).length;
+  var nyNull = null27.filter(function(o){ return o.a[2] > 0; });
+  var topp = per.slice().sort(function(a, b){ return b.v - a.v; }).slice(0, 3);
+  var endr = function(a, b){ var e = (a / b - 1) * 100; return (e > 0 ? '+' : '−') + tal(Math.abs(e)) + ' %'; };
+  var liste = function(a){ var n = a.map(function(o){ return navnK(o.nr); }); return n.length > 1 ? n.slice(0, -1).join(', ') + ' og ' + n[n.length - 1] : n.join(''); };
+  document.getElementById('bosIntro').innerHTML =
+    '<b>Observasjon:</b> IMDi ber kommunene bosette ' + tal(AN.landet[0]) + ' flyktninger i 2027, mot en anmodning på ' + tal(AN.landet[1]) + ' og vedtak om ' + tal(AN.landet[2]) + ' for 2026. Nord-Norge er anmodet om ' + tal(AN.nn[0]) + ' (' + pst(andelAnm, 1) + ' av landet), mot ' + tal(AN.nn[1]) + ' for 2026, og andelen er dermed om lag den samme som før. ' +
+    null27.length + ' av de 80 kommunene er ikke anmodet i 2027, mot ' + null26 + ' i 2026. ' + nyNull.length + ' av dem bosatte etter vedtak i 2026: ' + liste(nyNull) + '. ' +
+    'Regnet per innbygger er anmodningen størst i små kommuner: ' + (function(a){ return a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1]; })(topp.map(function(o){ return navnK(o.nr) + ' (' + tal(o.v, 1) + ' per 1 000)'; })) + '. ' +
+    tal(AN.nn[3]) + ' av de ' + tal(AN.landet[3]) + ' enslige mindreårige i anmodningen skal bosettes i landsdelen. ' +
+    '<b>Forbehold:</b> Tallene er IMDis anmodning, ikke kommunestyrenes vedtak, og IMDi kan justere dem gjennom året.';
+  var rad = function(n, a, fet){ return '<tr' + (fet ? ' style="font-weight:600"' : '') + '><td>' + n + '</td><td style="text-align:right">' + tal(a[1]) + '</td><td style="text-align:right">' + tal(a[2]) + '</td><td style="text-align:right">' + tal(a[0]) + '</td><td style="text-align:right">' + endr(a[0], a[1]) + '</td></tr>'; };
+  document.getElementById('bosTabell').innerHTML =
+    '<thead><tr><th></th><th style="text-align:right">Anmodning 2026</th><th style="text-align:right">Vedtak 2026</th><th style="text-align:right">Anmodning 2027</th><th style="text-align:right">Endring i anmodningen</th></tr></thead><tbody>' +
+    ['Nordland', 'Troms', 'Finnmark'].map(function(f){ return rad(f, AN.fylker[f]); }).join('') + rad('Nord-Norge', AN.nn, true) + rad('Landet', AN.landet) + '</tbody>';
+  document.getElementById('bosKartTekst').innerHTML = 'Anmodningen for 2027 per 1 000 innbyggere. Kommuner uten anmodning har den lyseste fargen. Pek på en kommune for tall, og klikk for kommunesiden. Kilde: ' + AN.kilde + '.';
+  document.getElementById('bosKart').innerHTML = NN.placeholder('kart', {ind:'bos2027'}, 560);
 });
 </script>
 </body>

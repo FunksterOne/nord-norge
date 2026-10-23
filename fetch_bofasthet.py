@@ -155,15 +155,58 @@ def botid10():
     }
 
 
+ANM_XLSX = HER / "analyse" / "bosetting-2027" / "kilder" / "anmodning-2027.xlsx"   # IMDi, 23.10.2026 (ikke versjonert)
+ANM_JSON = HER / "analyse" / "bosetting-2027" / "anmodning_2027_nn.json"            # avledet uttrekk (versjonert)
+
+
+def anmodning():
+    """IMDis anmodning om bosetting 2027 (med anmodning og vedtak 2026) for de 80 kommunene.
+    Leser regnearket når det finnes lokalt og lagrer et lite uttrekk; ellers brukes uttrekket."""
+    if ANM_XLSX.exists():
+        import openpyxl
+        wb = openpyxl.load_workbook(ANM_XLSX, read_only=True, data_only=True)
+        rader = list(wb["Kommuner"].iter_rows(values_only=True))[1:]
+        fylkesark = {r[0]: r for r in wb["Fylker"].iter_rows(values_only=True) if r[0]}
+        landet = next(r for r in wb["Fylker"].iter_rows(values_only=True) if r[0] is None and r[1])
+        navn = {}
+        for m in re.finditer(r'"(\d{4})":\{"navn":"([^"]+)"', DATA_JS.read_text(encoding="utf-8")):
+            for d in m.group(2).split(" - "):
+                navn.setdefault(re.sub(r"\s*\(.*\)$", "", d).strip().lower(), m.group(1))
+        k = {}
+        for r in rader:
+            if r[0] not in ("Nordland", "Troms", "Finnmark"):
+                continue
+            nr = navn.get(re.sub(r"\s*\(.*\)$", "", r[1]).strip().lower())
+            if not nr:
+                print(f"ERROR: fant ikke kommunen {r[1]}", file=sys.stderr); sys.exit(1)
+            k[nr] = [r[2] or 0, r[3] or 0, r[4] or 0, (r[5] or 0) + (r[6] or 0), r[0]]
+        ut = {"aar": 2027, "dato": "2026-10-23", "felt": ["anm2027", "anm2026", "ved2026", "em2027"],
+              "kommuner": {nr: v[:4] for nr, v in sorted(k.items())},
+              "fylker": {f: [sum(v[i] for v in k.values() if v[4] == f) for i in range(4)] for f in ("Nordland", "Troms", "Finnmark")},
+              "landet": [landet[1], landet[3], landet[4], landet[2]],
+              "kilde": "IMDi, anmodning om bosetting av flyktninger per kommune 2027 (23.10.2026)"}
+        for f, s in ut["fylker"].items():  # kontroll mot fylkesarket
+            if s[0] != fylkesark[f][1] or s[1] != fylkesark[f][3] or s[2] != fylkesark[f][4]:
+                print(f"ERROR: {f} summerer ikke til fylkesarket: {s} mot {fylkesark[f]}", file=sys.stderr); sys.exit(1)
+        ANM_JSON.write_text(json.dumps(ut, ensure_ascii=False, indent=1), encoding="utf-8")
+    else:
+        ut = json.loads(ANM_JSON.read_text(encoding="utf-8"))
+    ut["nn"] = [sum(v[i] for v in ut["kommuner"].values()) for i in range(4)]
+    if len(ut["kommuner"]) != 80 or ut["nn"][1] != BOSETTING["anmodet_2026_nn"]:
+        print(f"ERROR: anmodningen gir {len(ut['kommuner'])} kommuner og {ut['nn'][1]} for 2026", file=sys.stderr); sys.exit(1)
+    return ut
+
+
 def main():
+    anm = anmodning()
     b10 = botid10()
     if len(b10["kommuner"]) != 80:
         print(f"ERROR: forventet 80 kommuner, fikk {len(b10['kommuner'])}", file=sys.stderr); sys.exit(1)
     payload = {
-        "hentet": "2026-10-20",
+        "hentet": "2026-10-23",
         "kull5": KULL5, "lang": LANG, "netto": NETTO, "fafo": FAFO, "grunn": GRUNN,
-        "bosetting": BOSETTING, "imdi5": IMDI5, "botid10": b10,
-        "status": {"dato": "2026-10-20", "tekst": "Ingen høringsnotat eller lovforslag om flytteforbud er publisert."},
+        "bosetting": BOSETTING, "imdi5": IMDI5, "botid10": b10, "anmodning": anm,
+        "status": {"dato": "2026-10-23", "tekst": "Ingen høringsnotat eller lovforslag om flytteforbud er publisert."},
     }
     html = DATA_JS.read_text(encoding="utf-8")
     js_lit = "const BOFAST_DATA = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";"
@@ -176,7 +219,7 @@ def main():
     else:
         print("ERROR: fant ikke ankeret UNG_DATA END", file=sys.stderr); sys.exit(1)
     DATA_JS.write_text(new, encoding="utf-8")
-    print(f"Injected BOFAST_DATA ({len(js_lit)} tegn); NN botid 10+ 2026: {b10['nn'][3]} %, landet {b10['landet'][3]} %")
+    print(f"Injected BOFAST_DATA ({len(js_lit)} tegn); NN botid 10+ 2026: {b10['nn'][3]} %, landet {b10['landet'][3]} %; anmodning 2027 NN {anm['nn'][0]} av {anm['landet'][0]}")
 
 
 if __name__ == "__main__":

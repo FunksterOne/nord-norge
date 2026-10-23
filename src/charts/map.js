@@ -65,6 +65,14 @@ export const INDIKATORER = {
     kilde: 'Kilde: IMDi «Innvandrernes botid» (kilde SSB), alle innvandrere.',
     skjult: true,
   },
+  bos2027: {
+    navn: 'Bosetting 2027', kort: 'Anmodet bosatt i 2027, per 1 000 innbyggere',
+    enhet: 'IMDis anmodning om bosetting av flyktninger i 2027, per 1 000 innbyggere (1.1.2026). Lyseste farge: ikke anmodet',
+    verdi: k => { const o = L.BOFAST?.anmodning?.kommuner?.[String(k.nr)]; return o ? o[0] / k.pop * 1000 : null; },
+    fmt: v => (v === 0 ? '0' : tall(v, 1)), akse: v => tall(v, 0), type: 'sequential',
+    kilde: 'Kilde: IMDi, anmodning om bosetting per kommune 2027 (23.10.2026). Anmodning, ikke vedtak.',
+    skjult: true,
+  },
   okon: {
     navn: 'Ikke-sysselsatte per 100 sysselsatte', kort: 'Ikke-sysselsatte per 100 sysselsatte',
     enhet: 'Innbyggere som ikke er i arbeid (alle aldre) per 100 sysselsatte, 4. kvartal 2025',
@@ -113,7 +121,7 @@ function colorScale(def, values) {
   }
   if (def.type === 'sequential') {
     const lo = Math.min(...nums), hi = Math.max(...nums);
-    return { type: 'linear', domain: [lo, hi], range: [css('--line'), css('--accent')], interpolate: 'lab', legend: true, tickFormat: v => def.fmt(v).replace(/,0 %$/, ' %'), label: null };
+    return { type: 'linear', domain: [lo, hi], range: [css('--line'), css('--accent')], interpolate: 'lab', legend: true, tickFormat: def.akse || (v => def.fmt(v).replace(/,0 %$/, ' %')), label: null };
   }
   if (def.type === 'cat') {
     return { domain: ['i', 'pend', 'ikke'], range: [css('--neg'), css('--warn'), css('--line')], legend: true, tickFormat: v => def.fmt(v), label: null };

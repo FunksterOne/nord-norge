@@ -55,7 +55,7 @@
    over gjelder linjediagrammene og ville presset stolpene sammen til streker. */
 .bf-graph svg.chart.barchart{max-height:none}
 .bf-graph .chart-title{font-family:var(--font-display);font-size:14px;color:var(--ink2);margin:0 0 6px;font-style:italic}
-.bf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.bf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .bf-kpis .k{padding:14px 16px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
 .bf-kpis .k .v{font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1;color:var(--ink);margin-bottom:4px}
 .bf-kpis .k .v.up{color:var(--pos)}
@@ -588,6 +588,18 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="h">'+fmt(o[4])+' av '+fmt(o[5])+' · landet '+pst(B.landet[3])+(o[0] != null ? ' · 2021: '+pst(o[0]) : '')+'</div></div>';
   }
 
+  // IMDis anmodning om bosetting av flyktninger i 2027, med anmodning og vedtak 2026. Anmodning, ikke vedtak.
+  function bosetting2027KPI(k){
+    if(typeof BOFAST_DATA === 'undefined' || !BOFAST_DATA.anmodning) return '';
+    var A = BOFAST_DATA.anmodning;
+    var o = k.nr > 0 ? A.kommuner[String(k.nr)] : k.nr === -1 ? A.nn : ({'-18':A.fylker.Nordland,'-55':A.fylker.Troms,'-56':A.fylker.Finnmark})[String(k.nr)];
+    if(!o) return '';
+    var per = (o[0] / k.pop * 1000).toFixed(1).replace('.',',');
+    var fjor = '2026: anmodet '+fmt(o[1])+', vedtatt '+fmt(o[2]);
+    if(o[0] === 0) return '<div class="k"><div class="v">0</div><div class="l">Ikke anmodet om å bosette flyktninger i 2027</div><div class="h">'+fjor+' · IMDi</div></div>';
+    return '<div class="k"><div class="v">'+fmt(o[0])+'</div><div class="l">Flyktninger IMDi ber om å få bosatt i 2027</div><div class="h">'+per+' per 1 000 innbyggere · '+fjor+' · IMDi</div></div>';
+  }
+
   function renderSammensetningPanel(k, host){
     state.ageMode = state.ageMode || '5';
     state.topN = state.topN || 12;
@@ -652,6 +664,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<div class="k"><div class="v">'+(eldre67/pop*100).toFixed(0).replace('.',',')+' %</div><div class="l">Eldre 67+</div><div class="h">'+fmt(eldre67)+' personer · '+fmt(eldre80)+' over 80</div></div>'+
           '<div class="k"><div class="v">'+k.andel.toFixed(1).replace('.',',')+' %</div><div class="l">Innvandrerbakgrunn</div><div class="h">'+vesP+' % vestlig · '+iveP+' % ikke-vestlig</div></div>'+
           botid10KPI(k)+
+          bosetting2027KPI(k)+
         '</div>'+
         // Folketekst (pedagogisk oppsummering)
         '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+

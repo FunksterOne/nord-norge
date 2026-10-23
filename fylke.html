@@ -222,6 +222,7 @@
     <div class="ch"><h3 class="serif">Hvor lenge blir flyktningene?</h3></div>
     <p class="hint">To mål. <b>Fem år etter bosetting</b> (SSBs monitor): andelen av hvert bosettingskull som bor i første bosettingskommune, per fylke for kull 1998–2019. <b>Lengre perioder</b> (SSB 10598): netto bevaring av innvandrere etter 5–20 års botid, fordi det ikke finnes åpne fylkestall for bofasthet utover fem år. Mer på temasiden <a href="tema-flyktning.html#lengre">Hvem blir værende?</a></p>
     <div id="compBofastGraph"></div>
+    <p class="hint" id="bosAnm" style="margin-top:12px"></p>
     <div style="margin-top:12px" data-methodbadge="SSB_MONITOR"></div>
     <details style="margin-top:12px;font-size:13px">
       <summary style="cursor:pointer;font-weight:600;color:var(--ink2)">▾ Hvordan henger dette sammen med landsdelens samlede flyt?</summary>
@@ -736,6 +737,17 @@ document.addEventListener('DOMContentLoaded', function(){
       '</div>';
     }
   }
+});
+</script>
+<script>
+// IMDis anmodning om bosetting 2027 for fylket eller landsdelen (BOFAST_DATA.anmodning).
+document.addEventListener('DOMContentLoaded', function(){
+  var el = document.getElementById('bosAnm');
+  if(!el || typeof BOFAST_DATA === 'undefined' || !BOFAST_DATA.anmodning) return;
+  var A = BOFAST_DATA.anmodning, f = new URLSearchParams(location.search).get('f');
+  var o = f && A.fylker[f] ? A.fylker[f] : A.nn, navn = f && A.fylker[f] ? f : 'Nord-Norge';
+  var tal = function(v){ return v.toLocaleString('nb-NO'); };
+  el.innerHTML = '<b>Bosetting i 2027:</b> IMDi ber kommunene i ' + navn + ' bosette ' + tal(o[0]) + ' flyktninger, mot en anmodning på ' + tal(o[1]) + ' og vedtak om ' + tal(o[2]) + ' for 2026. Det er ' + (o[0] / A.landet[0] * 100).toFixed(1).replace('.', ',') + ' % av landets anmodning. Tallene er anmodninger, ikke vedtak. Kart per kommune på <a href="tema-flyktning.html#bosetting2027">temasiden</a>.';
 });
 </script>
 </body>
