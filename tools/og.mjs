@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { createHash } from 'node:crypto';
 import { geoTransverseMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
@@ -128,6 +129,9 @@ const esc = t => t.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, 
 for (const s of S) {
   const p = join(ROT, s.fil); let h = readFileSync(p, 'utf8');
   const adr = s.fil === 'index.html' ? `${URL}/` : `${URL}/${s.fil}`;
+  // Versjonsmerke fra bildets innhold: Facebook og Messenger henter et nytt bilde når kortet endres.
+  const v = createHash('md5').update(readFileSync(join(ROT, 'og', s.bilde + '.png'))).digest('hex').slice(0, 8);
+  const bildeUrl = `${URL}/og/${s.bilde}.png?v=${v}`;
   const alt = `${s.kicker}: ${s.h.replace(/-<br>/g, '').replace(/<br>/g, ' ')}. ${s.sub}`;
   const blokk = `<!-- OG BEGIN (tools/og.mjs) -->
 <meta name="description" content="${esc(s.tekst)}">
@@ -137,14 +141,16 @@ for (const s of S) {
 <meta property="og:url" content="${adr}">
 <meta property="og:title" content="${esc(s.tittel)}">
 <meta property="og:description" content="${esc(s.tekst)}">
-<meta property="og:image" content="${URL}/og/${s.bilde}.png">
+<meta property="og:image" content="${bildeUrl}">
+<meta property="og:image:secure_url" content="${bildeUrl}">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(alt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(s.tittel)}">
 <meta name="twitter:description" content="${esc(s.tekst)}">
-<meta name="twitter:image" content="${URL}/og/${s.bilde}.png">
+<meta name="twitter:image" content="${bildeUrl}">
 <link rel="icon" href="og/ikon.svg" type="image/svg+xml">
 <!-- OG END -->`;
   if (h.includes('<!-- OG BEGIN')) h = h.replace(/<!-- OG BEGIN[\s\S]*?<!-- OG END -->/, blokk);
