@@ -55,14 +55,15 @@
   </div>
 </div>
 
-<main class="detail" id="detail">
+<main class="detail" id="detail"></main>
+<template id="cmpTom">
   <div class="cmp-empty">
     <h2>Velg minst to kommuner</h2>
     <p>Bruk velgerne over for å sette opp en sammenligning, eller prøv den foreslåtte trioen:</p>
     <p style="margin-top:14px"><a href="?k=5603,1804,5614" style="display:inline-block;padding:8px 16px;background:var(--accent);color:#fff;border-radius:0;text-decoration:none;font-weight:600;font-size:13.5px">→ Hammerfest, Bodø og Loppa</a></p>
     <p style="margin-top:14px;font-size:12px;color:var(--ink3)">Adressen kan også brukes direkte: <code>?k=1804,5501,5601</code></p>
   </div>
-</main>
+</template>
 
 <!-- Standard footer (gjelder hele dashbordet) -->
 <footer class="nn-footer">
@@ -103,22 +104,35 @@ document.addEventListener('DOMContentLoaded', function(){
   var sortedK = K.slice().sort(function(a,b){ return a.navn.localeCompare(b.navn,'nb'); });
   var optionsHTML = '<option value="">— ingen —</option>' +
     sortedK.map(function(x){ return '<option value="' + x.nr + '">' + x.navn + ' (' + x.fylke + ')</option>'; }).join('');
+  // app.js tegner en enkeltkommune i #detail når færre enn to er valgt; her vises i stedet veiledningen.
+  var detail = document.getElementById('detail'), tom = document.getElementById('cmpTom').innerHTML;
+  // Sammenligningen tegnes på stedet når minst to kommuner er valgt; adressen oppdateres uten ny innlasting,
+  // slik at velgerne og rulleposisjonen står i ro mens brukeren fyller inn neste kommune.
+  function oppdater(){
+    var nrs = [];
+    document.querySelectorAll('.cmpsel').forEach(function(s){
+      var v = parseInt(s.value, 10);
+      if(v && nrs.indexOf(v) < 0) nrs.push(v);
+    });
+    state.compare = nrs;
+    history.replaceState(null, '', nrs.length ? '?k=' + nrs.join(',') : location.pathname);
+    if(nrs.length >= 2 && renderCompare()){
+      var hint = detail.querySelector('.dhead span');
+      if(hint) hint.textContent = nrs.length + ' kommuner — endre utvalget i velgerne over';
+    } else {
+      detail.innerHTML = tom;
+      if(nrs.length === 1){
+        var h = detail.querySelector('.cmp-empty h2');
+        if(h) h.textContent = 'Velg én kommune til';
+      }
+    }
+  }
   document.querySelectorAll('.cmpsel').forEach(function(sel, idx){
     sel.innerHTML = optionsHTML;
     if(state.compare[idx]) sel.value = state.compare[idx];
-    sel.onchange = function(){
-      var nrs = [];
-      document.querySelectorAll('.cmpsel').forEach(function(s){
-        var v = parseInt(s.value, 10);
-        if(v) nrs.push(v);
-      });
-      if(nrs.length >= 2){
-        window.location.search = '?k=' + nrs.join(',');
-      } else if(nrs.length === 1){
-        window.location.href = 'kommune.html?k=' + nrs[0];
-      }
-    };
+    sel.onchange = oppdater;
   });
+  oppdater();
 });
 </script>
 </body>
