@@ -1,0 +1,135 @@
+{
+ "kilde": "https://www.ssb.no/helse/helsetjenester/artikler/mest-bruk-av-vikarbyra-ved-sykehusene-i-nord-norge",
+ "publisert": "2024-11-15",
+ "hentet": "2026-10-29",
+ "merknad": "Figurdata fra artikkelen; grunnlag er helseforetakenes resultatregnskap rapportert til SSB (artskontoer). Ikke i Statistikkbanken.",
+ "figurer": [
+  {
+   "kategorier": [
+    "Vest",
+    "Midt-Norge",
+    "Nord",
+    "Sør-Øst"
+   ],
+   "serier": [
+    {
+     "navn": "Andel innleiekostnader av lønns- og personalkostnadene. 2023. Prosent.",
+     "data": [
+      1.32,
+      0.87,
+      3.88,
+      1.53
+     ]
+    }
+   ]
+  },
+  {
+   "kategorier": [
+    "Vest",
+    "Midt-Norge",
+    "Nord",
+    "Sør-Øst"
+   ],
+   "serier": [
+    {
+     "navn": "Andel vikarkostnader av lønns- og personalkostnadene. 2023. Prosent.",
+     "data": [
+      3.88,
+      4.12,
+      6.03,
+      2.91
+     ]
+    }
+   ]
+  },
+  {
+   "kategorier": [
+    "Vest",
+    "Midt-Norge",
+    "Nord",
+    "Sør-Øst"
+   ],
+   "serier": [
+    {
+     "navn": "Andel overtidskostnader av lønns- og personalkostnadene. 2023. Prosent.",
+     "data": [
+      3.57,
+      4.53,
+      5.43,
+      3.43
+     ]
+    }
+   ]
+  },
+  {
+   "kategorier": [
+    "Vest",
+    "Midt-Norge",
+    "Nord",
+    "Sør-Øst"
+   ],
+   "serier": [
+    {
+     "navn": "Andel kostnader til ekstrahjelp av lønns- og personalkostnadene. 2023. Prosent.",
+     "data": [
+      0.6,
+      0.83,
+      0.78,
+      1.88
+     ]
+    }
+   ]
+  },
+  {
+   "kategorier": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "serier": [
+    {
+     "navn": "Innleie fra vikarbyrå",
+     "data": [
+      2.9,
+      3.4,
+      4.4,
+      4.6,
+      3.9
+     ]
+    },
+    {
+     "navn": "Vikarer",
+     "data": [
+      7.1,
+      7.4,
+      7.3,
+      6.5,
+      6
+     ]
+    },
+    {
+     "navn": "Ekstrahjelp",
+     "data": [
+      0.9,
+      0.8,
+      0.8,
+      0.7,
+      0.8
+     ]
+    },
+    {
+     "navn": "Overtid",
+     "data": [
+      4.6,
+      5.4,
+      5.3,
+      5.4,
+      5.4
+     ]
+    }
+   ]
+  }
+ ]
+}

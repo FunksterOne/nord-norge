@@ -1,0 +1,105 @@
+slug,tittel,status,aar,mal,hf,rate,rate_norge,forhold_til_norge,rang_av,helse_nord_rate
+biopsi_lmh,Biopsi av livmorhals,test,2025,kont_rate,UNN,9.424,9.949,0.95,12 av 21,9.672
+biopsi_lmh,Biopsi av livmorhals,test,2025,kont_rate,Nordlandssykehuset,10.408,9.949,1.05,6 av 21,9.672
+biopsi_lmh,Biopsi av livmorhals,test,2025,kont_rate,Helgelandssykehuset,10.563,9.949,1.06,5 av 21,9.672
+biopsi_lmh,Biopsi av livmorhals,test,2025,kont_rate,Finnmarkssykehuset,8.194,9.949,0.82,19 av 21,9.672
+mr_kne,MR kne,test,2025,kont_rate,UNN,16.925,15.535,1.09,4 av 21,15.167
+mr_kne,MR kne,test,2025,kont_rate,Nordlandssykehuset,15.653,15.535,1.01,12 av 21,15.167
+mr_kne,MR kne,test,2025,kont_rate,Helgelandssykehuset,12.244,15.535,0.79,20 av 21,15.167
+mr_kne,MR kne,test,2025,kont_rate,Finnmarkssykehuset,12.784,15.535,0.82,19 av 21,15.167
+hallux_valgus,Operasjon for hallux valgus,published,2025,kont_rate,UNN,0.57,0.327,1.74,3 av 21,0.572
+hallux_valgus,Operasjon for hallux valgus,published,2025,kont_rate,Nordlandssykehuset,0.629,0.327,1.92,2 av 21,0.572
+hallux_valgus,Operasjon for hallux valgus,published,2025,kont_rate,Helgelandssykehuset,0.267,0.327,0.82,18 av 21,0.572
+hallux_valgus,Operasjon for hallux valgus,published,2025,kont_rate,Finnmarkssykehuset,0.792,0.327,2.42,1 av 21,0.572
+ppp,PPP,test,2024,pas_rate,UNN,15.571,17.098,0.91,14 av 21,19.406
+ppp,PPP,test,2024,pas_rate,Nordlandssykehuset,18.93,17.098,1.11,6 av 21,19.406
+ppp,PPP,test,2024,pas_rate,Helgelandssykehuset,23.331,17.098,1.36,4 av 21,19.406
+ppp,PPP,test,2024,pas_rate,Finnmarkssykehuset,25.961,17.098,1.52,2 av 21,19.406
+spes_utvikl,"Spesifikk utviklingsforstyrring, barn og unge",published,2025,pas_rate,UNN,15.298,9.952,1.54,3 av 21,15.757
+spes_utvikl,"Spesifikk utviklingsforstyrring, barn og unge",published,2025,pas_rate,Nordlandssykehuset,17.862,9.952,1.79,1 av 21,15.757
+spes_utvikl,"Spesifikk utviklingsforstyrring, barn og unge",published,2025,pas_rate,Helgelandssykehuset,12.99,9.952,1.31,4 av 21,15.757
+spes_utvikl,"Spesifikk utviklingsforstyrring, barn og unge",published,2025,pas_rate,Finnmarkssykehuset,15.944,9.952,1.6,2 av 21,15.757
+depresjon_barn,"Depresjon, barn og unge",published,2025,pas_rate,UNN,2.906,2.34,1.24,5 av 21,2.944
+depresjon_barn,"Depresjon, barn og unge",published,2025,pas_rate,Nordlandssykehuset,1.895,2.34,0.81,15 av 21,2.944
+depresjon_barn,"Depresjon, barn og unge",published,2025,pas_rate,Helgelandssykehuset,2.424,2.34,1.04,10 av 21,2.944
+depresjon_barn,"Depresjon, barn og unge",published,2025,pas_rate,Finnmarkssykehuset,5.601,2.34,2.39,1 av 21,2.944
+adhd_barn,"ADHD, barn og unge",published,2025,pas_rate,UNN,33.706,21.246,1.59,1 av 21,29.714
+adhd_barn,"ADHD, barn og unge",published,2025,pas_rate,Nordlandssykehuset,29.664,21.246,1.4,4 av 21,29.714
+adhd_barn,"ADHD, barn og unge",published,2025,pas_rate,Helgelandssykehuset,20.16,21.246,0.95,13 av 21,29.714
+adhd_barn,"ADHD, barn og unge",published,2025,pas_rate,Finnmarkssykehuset,29.948,21.246,1.41,3 av 21,29.714
+autisme_barn,"Autisme, barn og unge",published,2025,pas_rate,UNN,7.689,9.237,0.83,18 av 21,8.064
+autisme_barn,"Autisme, barn og unge",published,2025,pas_rate,Nordlandssykehuset,7.909,9.237,0.86,16 av 21,8.064
+autisme_barn,"Autisme, barn og unge",published,2025,pas_rate,Helgelandssykehuset,7.447,9.237,0.81,19 av 21,8.064
+autisme_barn,"Autisme, barn og unge",published,2025,pas_rate,Finnmarkssykehuset,10.128,9.237,1.1,8 av 21,8.064
+epi_akinn,"Akuttinnleggelser, epilepsi",test,2024,pas_rate,UNN,0.745,0.576,1.29,1 av 21,0.68
+epi_akinn,"Akuttinnleggelser, epilepsi",test,2024,pas_rate,Nordlandssykehuset,0.71,0.576,1.23,4 av 21,0.68
+epi_akinn,"Akuttinnleggelser, epilepsi",test,2024,pas_rate,Helgelandssykehuset,0.633,0.576,1.1,8 av 21,0.68
+epi_akinn,"Akuttinnleggelser, epilepsi",test,2024,pas_rate,Finnmarkssykehuset,0.522,0.576,0.91,17 av 21,0.68
+tonsiller_voksne,"Operasjon av mandler, voksne",published,2025,kont_rate,UNN,1.415,1.146,1.23,4 av 21,1.461
+tonsiller_voksne,"Operasjon av mandler, voksne",published,2025,kont_rate,Nordlandssykehuset,1.366,1.146,1.19,5 av 21,1.461
+tonsiller_voksne,"Operasjon av mandler, voksne",published,2025,kont_rate,Helgelandssykehuset,1.441,1.146,1.26,3 av 21,1.461
+tonsiller_voksne,"Operasjon av mandler, voksne",published,2025,kont_rate,Finnmarkssykehuset,1.779,1.146,1.55,1 av 21,1.461
+tonsiller_barn,"Operasjon av mandler, barn",published,2025,kont_rate,UNN,7.662,4.727,1.62,2 av 21,6.531
+tonsiller_barn,"Operasjon av mandler, barn",published,2025,kont_rate,Nordlandssykehuset,3.767,4.727,0.8,19 av 21,6.531
+tonsiller_barn,"Operasjon av mandler, barn",published,2025,kont_rate,Helgelandssykehuset,6.144,4.727,1.3,4 av 21,6.531
+tonsiller_barn,"Operasjon av mandler, barn",published,2025,kont_rate,Finnmarkssykehuset,9.354,4.727,1.98,1 av 21,6.531
+skulder,Skulderoperasjoner,test,2024,kont_rate,UNN,1.727,0.84,2.06,3 av 21,1.526
+skulder,Skulderoperasjoner,test,2024,kont_rate,Nordlandssykehuset,1.514,0.84,1.8,5 av 21,1.526
+skulder,Skulderoperasjoner,test,2024,kont_rate,Helgelandssykehuset,0.719,0.84,0.86,11 av 21,1.526
+skulder,Skulderoperasjoner,test,2024,kont_rate,Finnmarkssykehuset,1.897,0.84,2.26,1 av 21,1.526
+pacemaker,Innsetting av pacemaker og hjertestarter,published,2025,kont_rate,UNN,0.775,0.924,0.84,18 av 21,0.855
+pacemaker,Innsetting av pacemaker og hjertestarter,published,2025,kont_rate,Nordlandssykehuset,0.939,0.924,1.02,10 av 21,0.855
+pacemaker,Innsetting av pacemaker og hjertestarter,published,2025,kont_rate,Helgelandssykehuset,0.966,0.924,1.05,7 av 21,0.855
+pacemaker,Innsetting av pacemaker og hjertestarter,published,2025,kont_rate,Finnmarkssykehuset,0.775,0.924,0.84,19 av 21,0.855
+oredren,Ventilasjonsrør i trommehinnen,published,2025,kont_rate,UNN,4.978,4.313,1.15,8 av 21,4.435
+oredren,Ventilasjonsrør i trommehinnen,published,2025,kont_rate,Nordlandssykehuset,2.856,4.313,0.66,19 av 21,4.435
+oredren,Ventilasjonsrør i trommehinnen,published,2025,kont_rate,Helgelandssykehuset,5.549,4.313,1.29,4 av 21,4.435
+oredren,Ventilasjonsrør i trommehinnen,published,2025,kont_rate,Finnmarkssykehuset,4.941,4.313,1.15,9 av 21,4.435
+livmorhals,Biopsi av livmorhalsen,published,2023,kont_rate,UNN,12.958,10.284,1.26,5 av 21,12.725
+livmorhals,Biopsi av livmorhalsen,published,2023,kont_rate,Nordlandssykehuset,12.542,10.284,1.22,7 av 21,12.725
+livmorhals,Biopsi av livmorhalsen,published,2023,kont_rate,Helgelandssykehuset,13.18,10.284,1.28,4 av 21,12.725
+livmorhals,Biopsi av livmorhalsen,published,2023,kont_rate,Finnmarkssykehuset,11.877,10.284,1.15,8 av 21,12.725
+kneprotese,Innsetting av primære kneproteser,published,2025,kont_rate,UNN,4.157,4.088,1.02,8 av 21,4.386
+kneprotese,Innsetting av primære kneproteser,published,2025,kont_rate,Nordlandssykehuset,5.26,4.088,1.29,1 av 21,4.386
+kneprotese,Innsetting av primære kneproteser,published,2025,kont_rate,Helgelandssykehuset,4.064,4.088,0.99,9 av 21,4.386
+kneprotese,Innsetting av primære kneproteser,published,2025,kont_rate,Finnmarkssykehuset,3.644,4.088,0.89,16 av 21,4.386
+karpaltunnel,Operasjoner for karpaltunnelsyndrom,published,2025,kont_rate,UNN,1.761,1.465,1.2,6 av 21,1.647
+karpaltunnel,Operasjoner for karpaltunnelsyndrom,published,2025,kont_rate,Nordlandssykehuset,1.945,1.465,1.33,2 av 21,1.647
+karpaltunnel,Operasjoner for karpaltunnelsyndrom,published,2025,kont_rate,Helgelandssykehuset,1.204,1.465,0.82,16 av 21,1.647
+karpaltunnel,Operasjoner for karpaltunnelsyndrom,published,2025,kont_rate,Finnmarkssykehuset,1.272,1.465,0.87,15 av 21,1.647
+ivf,In vitro fertilisering,published,2025,pas_rate,UNN,3.455,4.237,0.82,21 av 21,3.644
+ivf,In vitro fertilisering,published,2025,pas_rate,Nordlandssykehuset,3.627,4.237,0.86,17 av 21,3.644
+ivf,In vitro fertilisering,published,2025,pas_rate,Helgelandssykehuset,4.291,4.237,1.01,9 av 21,3.644
+ivf,In vitro fertilisering,published,2025,pas_rate,Finnmarkssykehuset,3.703,4.237,0.87,15 av 21,3.644
+innl_eldre,Akutte innleggelser,published,2025,kont_rate,UNN,328.079,358.831,0.91,20 av 21,355.787
+innl_eldre,Akutte innleggelser,published,2025,kont_rate,Nordlandssykehuset,379.649,358.831,1.06,3 av 21,355.787
+innl_eldre,Akutte innleggelser,published,2025,kont_rate,Helgelandssykehuset,377.658,358.831,1.05,5 av 21,355.787
+innl_eldre,Akutte innleggelser,published,2025,kont_rate,Finnmarkssykehuset,353.446,358.831,0.98,13 av 21,355.787
+injeksj,Injeksjonsbehandling i øyet,published,2025,pas_rate,UNN,10.968,11.382,0.96,11 av 21,10.6
+injeksj,Injeksjonsbehandling i øyet,published,2025,pas_rate,Nordlandssykehuset,10.549,11.382,0.93,13 av 21,10.6
+injeksj,Injeksjonsbehandling i øyet,published,2025,pas_rate,Helgelandssykehuset,9.737,11.382,0.86,20 av 21,10.6
+injeksj,Injeksjonsbehandling i øyet,published,2025,pas_rate,Finnmarkssykehuset,10.945,11.382,0.96,12 av 21,10.6
+hofteprotese,Innsetting av primære hofteproteser,published,2025,kont_rate,UNN,4.707,4.504,1.05,8 av 21,4.881
+hofteprotese,Innsetting av primære hofteproteser,published,2025,kont_rate,Nordlandssykehuset,5.439,4.504,1.21,2 av 21,4.881
+hofteprotese,Innsetting av primære hofteproteser,published,2025,kont_rate,Helgelandssykehuset,4.843,4.504,1.08,5 av 21,4.881
+hofteprotese,Innsetting av primære hofteproteser,published,2025,kont_rate,Finnmarkssykehuset,4.263,4.504,0.95,16 av 21,4.881
+akinn_kols,Akuttinnleggelser for kols,published,2025,kont_rate,UNN,17.59,19.973,0.88,18 av 21,19.068
+akinn_kols,Akuttinnleggelser for kols,published,2025,kont_rate,Nordlandssykehuset,20.715,19.973,1.04,9 av 21,19.068
+akinn_kols,Akuttinnleggelser for kols,published,2025,kont_rate,Helgelandssykehuset,21.741,19.973,1.09,6 av 21,19.068
+akinn_kols,Akuttinnleggelser for kols,published,2025,kont_rate,Finnmarkssykehuset,16.316,19.973,0.82,20 av 21,19.068
+hjertesvikt,Konsultasjon for hjertesvikt,published,2025,pas_rate,UNN,20.272,21.285,0.95,14 av 21,24.459
+hjertesvikt,Konsultasjon for hjertesvikt,published,2025,pas_rate,Nordlandssykehuset,24.373,21.285,1.15,7 av 21,24.459
+hjertesvikt,Konsultasjon for hjertesvikt,published,2025,pas_rate,Helgelandssykehuset,29.699,21.285,1.4,1 av 21,24.459
+hjertesvikt,Konsultasjon for hjertesvikt,published,2025,pas_rate,Finnmarkssykehuset,29.447,21.285,1.38,3 av 21,24.459
+akinn_hjsv,Akuttinnleggelser for hjertesvikt,published,2025,kont_rate,UNN,13.802,16.502,0.84,15 av 21,13.922
+akinn_hjsv,Akuttinnleggelser for hjertesvikt,published,2025,kont_rate,Nordlandssykehuset,13.744,16.502,0.83,16 av 21,13.922
+akinn_hjsv,Akuttinnleggelser for hjertesvikt,published,2025,kont_rate,Helgelandssykehuset,12.411,16.502,0.75,19 av 21,13.922
+akinn_hjsv,Akuttinnleggelser for hjertesvikt,published,2025,kont_rate,Finnmarkssykehuset,16.428,16.502,1.0,9 av 21,13.922
+fremfall,Kirurgiske inngrep for skjede- og livmorfremfall,published,2025,kont_rate,UNN,2.83,2.009,1.41,5 av 21,2.984
+fremfall,Kirurgiske inngrep for skjede- og livmorfremfall,published,2025,kont_rate,Nordlandssykehuset,3.232,2.009,1.61,2 av 21,2.984
+fremfall,Kirurgiske inngrep for skjede- og livmorfremfall,published,2025,kont_rate,Helgelandssykehuset,2.694,2.009,1.34,7 av 21,2.984
+fremfall,Kirurgiske inngrep for skjede- og livmorfremfall,published,2025,kont_rate,Finnmarkssykehuset,3.195,2.009,1.59,3 av 21,2.984
+endometriose,Kirurgiske inngrep for endometriose,published,2025,kont_rate,UNN,1.703,1.613,1.06,8 av 21,1.597
+endometriose,Kirurgiske inngrep for endometriose,published,2025,kont_rate,Nordlandssykehuset,1.782,1.613,1.1,5 av 21,1.597
+endometriose,Kirurgiske inngrep for endometriose,published,2025,kont_rate,Helgelandssykehuset,1.38,1.613,0.86,13 av 21,1.597
+endometriose,Kirurgiske inngrep for endometriose,published,2025,kont_rate,Finnmarkssykehuset,1.176,1.613,0.73,17 av 21,1.597

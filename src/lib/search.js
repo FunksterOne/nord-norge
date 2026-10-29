@@ -16,6 +16,7 @@ const SIDER = [
   ['Pensjonsetterslepet: kommunale pensjoner og premieavvik', 'tema-pensjon.html', 'Tema 09'],
   ['Ung i nord: unge voksne, bosted, arbeid, bolig og barn', 'tema-ung.html', 'Tema 10'],
   ['20 år med nordområdepolitikk: strategier, stortingsmeldinger og utviklingen 2006–2026', 'tema-nordomrade.html', 'Tema 11'],
+  ['Sykehusene i nord mot 2042: spesialisthelsetjenesten, personell, reisetid og ventetid', 'tema-helse.html', 'Tema 12'],
   ['Metode og kilder', 'metode.html', 'Referanse'],
 ];
 

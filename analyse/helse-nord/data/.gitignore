@@ -1,0 +1,3 @@
+# Store rådatauttrekk som fetch_helse.py ikke leser; hentes på nytt med skriptene i ../skript
+skde_atlas_rater.csv
+somatikk_bosted.csv

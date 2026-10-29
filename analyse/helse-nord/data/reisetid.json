@@ -1,0 +1,2242 @@
+{
+ "kilde": "OSRM (OpenStreetMap), bilprofil, beregnet 2026-10-29",
+ "sykehus": [
+  {
+   "navn": "UNN Tromsø",
+   "hf": "UNN",
+   "sted": "Tromsø",
+   "kommunenr": "5501",
+   "niva": "regionsykehus",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 69.68389,
+   "lon": 18.98255,
+   "koord_kilde": "OSM W25444602 amenity=hospital «Universitetssykehuset Nord-Norge» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Hansine Hansens veg 67, 9019 TROMSØ (102 m); 3,3 km fra stedsnavnpunktet Tromsø (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5501 Tromsø",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.unn.no/steder/unn-tromso/; https://www.unn.no/avdelinger/medisinsk-klinikk-tromso/akuttmottak-og-observasjonspost/akuttmottaket-tromso/; https://www.unn.no/avdelinger/kirurgisk-klinikk-tromso/kvinneklinikken/fodeavdelingen-tromso/; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Regionsykehus og universitetssykehus for Nord-Norge (Breivika). Fødeavdelingen er kvinneklinikk (høyeste fødenivå), her kodet som fodeavdeling. MFR: 1 292 fødsler i 2025."
+  },
+  {
+   "navn": "UNN Harstad",
+   "hf": "UNN",
+   "sted": "Harstad",
+   "kommunenr": "5503",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 68.79625,
+   "lon": 16.52526,
+   "koord_kilde": "OSM W103088720 amenity=hospital «Harstad sykehus» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt St Olavs gate 70, 9406 HARSTAD (5 m); 0,9 km fra stedsnavnpunktet Harstad (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5503 Harstad",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.unn.no/steder/unn-harstad/ (generell kirurgi, indremedisin, akuttmottak, fødeavdeling); https://www.unn.no/avdelinger/klinikk-harstad/medisinsk-avdeling-harstad/akuttmottaket-harstad/ (ø-hjelp til alle fagområder); https://www.unn.no/avdelinger/klinikk-harstad/kirurgisk-avdeling-harstad/fode-og-gynekologi-harstad/; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Lokalsykehus for Sør-Troms. MFR: 258 fødsler i 2025."
+  },
+  {
+   "navn": "UNN Narvik",
+   "hf": "UNN",
+   "sted": "Narvik",
+   "kommunenr": "1806",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 68.44742,
+   "lon": 17.46525,
+   "koord_kilde": "OSM N12388471524 amenity=hospital «Nye UNN Narvik» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Stasjonsveien 61, 8515 NARVIK (7 m); 1,8 km fra stedsnavnpunktet Narvik (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1806 Narvik",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.unn.no/steder/unn-narvik-furumoen/ (nytt sykehus på Furumoen tatt i bruk høsten 2024); https://www.unn.no/avdelinger/klinikk-narvik/akutt-og-operasjonsavdeling-narvik/ (akuttmottak, intensiv, ortopedisk/kirurgisk sengepost); https://www.unn.no/avdelinger/klinikk-narvik/kirurgisk-avdeling-narvik/Fode-og-gynekologi-Narvik/ (fødeavdeling, keisersnitt); Helse Nord RHF, ekstraordinært styremøte 9.1.2024, høringsutkast «Tiltak for å sikre bærekraft», s. 114 og alternativ 1: https://www.helse-nord.no/48d1ba/siteassets/dokumenter-og-blokker/4-om-oss/styret/styremoter/styremoter-2024/20240109/ekstraordinart-styremote-09012024---innkalling-og-saksdokumenter.pdf; https://www.helse-nord.no/nyheter/2024/slik-fordeles-midlene-til-narvik-og-lofoten/ (Lofoten og Narvik beholder «akuttfunksjonene de har i dag»); Helse Nord RHF styresak 26-2026/3 (stortingssvar: akuttilbudet ved Narvik sykehus opprettholdes); Helse Nord RHF styresak 128-2026 Budsjett 2027 (beredskapstilskudd for å opprettholde akuttilbud i Lofoten og Narvik; lokal kopi kilder/hn-styresak-128-2026-...txt); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Koordinat for nytt sykehus på Furumoen (Stasjonsveien 61), ikke det gamle sykehuset i sentrum. Akuttkirurgi står ikke uttrykkelig på unn.no; status bygger på at Helse Nord i januar 2024 foreslo å avvikle akuttkirurgisk funksjon i Narvik, at forslaget ikke ble gjennomført, og at staten fortsatt finansierer videreført akuttilbud (budsjett 2027). MFR: 269 fødsler i 2025."
+  },
+  {
+   "navn": "DMS Midt-Troms (Finnsnes)",
+   "hf": "UNN",
+   "sted": "Finnsnes",
+   "kommunenr": "5530",
+   "niva": "dms",
+   "akuttkirurgi": false,
+   "akutt_indremedisin": false,
+   "fodsel": "fodestue",
+   "lat": 69.23473,
+   "lon": 18.01028,
+   "koord_kilde": "Kartverket adresseregister (ws.geonorge.no/adresser): Helsesenterveien 32, 9300 FINNSNES; 1,3 km fra stedsnavnpunktet Finnsnes (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5530 Senja",
+   "kilde": "https://www.unn.no/steder/distriktsmedisinsk-senter-midt-troms/ (UNN har ansvar for fødestua, røntgen, dialyse, geriatri, rehabilitering); https://www.unn.no/avdelinger/kirurgisk-klinikk-tromso/kvinneklinikken/fodestua-finnsnes/; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Samarbeid mellom UNN og Senja kommune. Ingen OSM-sykehusobjekt; koordinat fra Kartverkets adressepunkt. MFR («Distriktsmedisinsk senter Midt-Troms»): 50 fødsler i 2025, og fødsler hver måned januar–juli 2026."
+  },
+  {
+   "navn": "DMS Nord-Troms (Sonjatun, Storslett)",
+   "hf": "UNN",
+   "sted": "Storslett",
+   "kommunenr": "5544",
+   "niva": "dms",
+   "akuttkirurgi": false,
+   "akutt_indremedisin": false,
+   "fodsel": "fodestue",
+   "lat": 69.7664,
+   "lon": 21.03558,
+   "koord_kilde": "OSM R12772694 building=civic «Sonjatun helsesenter» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Sonjatunvegen 21, 9151 STORSLETT (8 m); 0,5 km fra stedsnavnpunktet Storslett (Kartverket stedsnavn, Tettsted); kommune kontrollert med Kartverket kommuneinfo: 5544 Nordreisa",
+   "kilde": "https://www.unn.no/steder/distriktsmedisinsk-senter-nord-troms/ (UNN har ansvar for fødestua, røntgen, dialyse, lysbehandling); https://www.unn.no/avdelinger/kirurgisk-klinikk-tromso/kvinneklinikken/fodestua-sonjatun/ (døgnkontinuerlig vaktberedskap); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Samarbeid mellom UNN og Nordreisa kommune. OSM-objektet er Sonjatun helsesenter (building=civic), ikke amenity=hospital. UNN-siden skriver «Sonjatunveien 21»; Kartverkets adresse er «Sonjatunvegen 21». Helse Nord foreslo i januar 2024 å gjøre fødestua om til svangerskaps- og barseltilbud, men MFR viser fødsler også i 2026 (24 fødsler i 2025). Siden oppgir også telefon til en sykestue; driftsform ikke kontrollert."
+  },
+  {
+   "navn": "Nordlandssykehuset Bodø",
+   "hf": "NLSH",
+   "sted": "Bodø",
+   "kommunenr": "1804",
+   "niva": "stort_akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 67.28303,
+   "lon": 14.39675,
+   "koord_kilde": "OSM W396742652 amenity=hospital «Nordlandssykehuset - Nordlánda s​kihp​​​pijviesso» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Parkveien 95, 8005 BODØ (38 m); 0,9 km fra stedsnavnpunktet Bodø (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1804 Bodø",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.nordlandssykehuset.no/avdelinger/kirurgisk-klinikk/kvinneklinikken/fodeavdeling-bodo/ (risikofødende fra hele Nordland); https://www.nordlandssykehuset.no/om-oss/om-nordlandssykehuset/; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Eneste store akuttsykehus i Helse Nord. Koordinat for det somatiske sykehuset i sentrum (Parkveien 95); Rønvik er psykisk helsevern og er ikke med. Fødeavdelingen har kvinneklinikknivå, her kodet som fodeavdeling. MFR: 1 027 fødsler i 2025."
+  },
+  {
+   "navn": "Nordlandssykehuset Vesterålen",
+   "hf": "NLSH",
+   "sted": "Stokmarknes",
+   "kommunenr": "1866",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 68.56001,
+   "lon": 14.91023,
+   "koord_kilde": "OSM W397959960 amenity=hospital «Stokmarknes sykehus» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Ivar Bergsmos gate 3, 8450 STOKMARKNES (138 m); 0,7 km fra stedsnavnpunktet Stokmarknes (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1866 Hadsel",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.nordlandssykehuset.no/steder/vesteralen/; https://www.nordlandssykehuset.no/avdelinger/kirurgisk-klinikk/kvinneklinikken/fodeavdeling-vesteralen/ (døgnberedskap gynekolog, akutte keisersnitt); https://www.nordlandssykehuset.no/avdelinger/medisinsk-klinikk/medisinsk-avdeling-vesteralen/ (intensivsenger, akutt slagenhet); Helse Nord RHF, ekstraordinært styremøte 9.1.2024, høringsutkast «Tiltak for å sikre bærekraft», s. 114 og alternativ 1: https://www.helse-nord.no/48d1ba/siteassets/dokumenter-og-blokker/4-om-oss/styret/styremoter/styremoter-2024/20240109/ekstraordinart-styremote-09012024---innkalling-og-saksdokumenter.pdf; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Nytt lokalsykehus tatt i bruk 2014. Akuttkirurgi står ikke uttrykkelig på NLSH-sidene; belagt i Helse Nords dokument fra januar 2024 (akuttkirurgi fra Gravdal foreslått flyttet hit). Ingen ortopedisk vakt ifølge samme dokument. MFR: 275 fødsler i 2025."
+  },
+  {
+   "navn": "Nordlandssykehuset Lofoten",
+   "hf": "NLSH",
+   "sted": "Gravdal",
+   "kommunenr": "1860",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodestue",
+   "lat": 68.11971,
+   "lon": 13.53695,
+   "koord_kilde": "OSM N1380945804 amenity=hospital «Nordlandssykehuset Lofoten» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Sykehusbakken 23, 8372 GRAVDAL (12 m); 0,7 km fra stedsnavnpunktet Gravdal (Kartverket stedsnavn, Tettsted); kommune kontrollert med Kartverket kommuneinfo: 1860 Vestvågøy",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.nordlandssykehuset.no/steder/lofoten-gravdal/; https://www.nordlandssykehuset.no/avdelinger/kirurgisk-klinikk/kvinneklinikken/fodestue-lofoten/ (jordmorstyrt fødestue); https://www.nordlandssykehuset.no/avdelinger/kirurgisk-klinikk/kirurgisk-sengeenhet-lofoten/; Helse Nord RHF, ekstraordinært styremøte 9.1.2024, høringsutkast «Tiltak for å sikre bærekraft», s. 114 og alternativ 1: https://www.helse-nord.no/48d1ba/siteassets/dokumenter-og-blokker/4-om-oss/styret/styremoter/styremoter-2024/20240109/ekstraordinart-styremote-09012024---innkalling-og-saksdokumenter.pdf; https://www.helse-nord.no/nyheter/2024/slik-fordeles-midlene-til-narvik-og-lofoten/ (Lofoten og Narvik beholder «akuttfunksjonene de har i dag»); Meld. St. 9 (2023–2024) s. 46–47 (akuttilbudet i Lofoten og Narvik skal ikke svekkes); Helse Nord RHF styresak 128-2026 Budsjett 2027 (beredskapstilskudd for å opprettholde akuttilbud i Lofoten og Narvik; lokal kopi kilder/hn-styresak-128-2026-...txt); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Akuttkirurgi står ikke uttrykkelig på NLSH-sidene; status bygger på at Helse Nord i januar 2024 foreslo å avvikle akuttkirurgisk funksjon her, at forslaget ikke ble gjennomført, og at staten fortsatt finansierer videreført akuttilbud (budsjett 2027). Fødetilbudet var i 2024 en forsterket fødestue med keisersnittberedskap (HN 2024); NLSH omtaler det i dag som jordmorstyrt fødestue, og om keisersnittberedskapen består, er ikke bekreftet. MFR: 41 fødsler i 2025."
+  },
+  {
+   "navn": "Helgelandssykehuset Mo i Rana",
+   "hf": "HSYK",
+   "sted": "Mo i Rana",
+   "kommunenr": "1833",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 66.32602,
+   "lon": 14.18593,
+   "koord_kilde": "OSM W401423370 amenity=hospital «Helgelandssykehuset Mo i Rana» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Sjøforsgata 36, 8613 MO I RANA (36 m); 2,4 km fra stedsnavnpunktet Mo i Rana (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1833 Rana",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.helgelandssykehuset.no/steder/helgelandssykehuset-mo-i-rana/ (kirurgi, ortopedi for hele Helgeland, intensiv, kvinne- og fødepost); https://www.helgelandssykehuset.no/nyheter/slik-forbereder-akuttsykehusene-seg/ (Mo i Rana og Sandnessjøen begge akuttsykehus); https://www.helgelandssykehuset.no/avdelinger/kirurgisk-klinikk/kvinne-og-fodepost-mo-i-rana/ (planlagte og akutte keisersnitt); https://www.helgelandssykehuset.no/nyheter/endringer-i-fodetilbudet---sporsmal-og-svar/ (to fullverdige fødeavdelinger); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Ett av to akuttsykehus i Helgelandssykehuset etter 1.10.2025. Fødeavdelingene i Mo i Rana og Sandnessjøen har alternerende sommerstenging. MFR: 251 fødsler i 2025."
+  },
+  {
+   "navn": "Helgelandssykehuset Sandnessjøen",
+   "hf": "HSYK",
+   "sted": "Sandnessjøen",
+   "kommunenr": "1820",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 66.01822,
+   "lon": 12.61859,
+   "koord_kilde": "OSM N3412237053 amenity=hospital «Helgelandssykehuset Sandnessjøen» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Prestmarkveien 1, 8800 SANDNESSJØEN (71 m); 0,1 km fra stedsnavnpunktet Sandnessjøen (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1820 Alstahaug",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.helgelandssykehuset.no/steder/helgelandssykehuset-sandnessjoen/ (akuttkirurgisk, unntatt ortopedi, også for Grane, Hattfjelldal og Vefsn); https://www.helgelandssykehuset.no/nyheter/slik-forbereder-akuttsykehusene-seg/; https://www.helgelandssykehuset.no/avdelinger/kirurgisk-klinikk/kvinne-og-fodepost-sandnessjoen/; https://www.helgelandssykehuset.no/nyheter/endringer-i-fodetilbudet---sporsmal-og-svar/; FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Ett av to akuttsykehus i Helgelandssykehuset; tar imot fødende fra Sør-Helgeland mens fødestua i Brønnøysund er stengt. Akutt ortopedi går til Mo i Rana. MFR: 284 fødsler i 2025."
+  },
+  {
+   "navn": "Helgelandssykehuset Mosjøen",
+   "hf": "HSYK",
+   "sted": "Mosjøen",
+   "kommunenr": "1824",
+   "niva": "uten_akutt",
+   "akuttkirurgi": false,
+   "akutt_indremedisin": false,
+   "fodsel": "ingen",
+   "lat": 65.83094,
+   "lon": 13.21234,
+   "koord_kilde": "OSM W597009281 amenity=hospital «Mosjøen sykehus» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Vefsnvegen 25, 8661 MOSJØEN (17 m); 1,2 km fra stedsnavnpunktet Mosjøen (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1824 Vefsn",
+   "kilde": "https://www.helgelandssykehuset.no/nyheter/slik-blir-sykehusets-tilbud-i-mosjoen (publisert 5.9.2025: fra 1. oktober ivaretas alle akutt- og døgnfunksjoner i Mo i Rana og Sandnessjøen); https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); Helse Nord RHF styresak 136-2026/13 (stortingssvar: akutt- og døgnfunksjonene i Mosjøen lagt ned 1.10.2025); Helse Nord RHF, ekstraordinært styremøte 9.1.2024, høringsutkast «Tiltak for å sikre bærekraft», s. 114 og alternativ 1: https://www.helse-nord.no/48d1ba/siteassets/dokumenter-og-blokker/4-om-oss/styret/styremoter/styremoter-2024/20240109/ekstraordinart-styremote-09012024---innkalling-og-saksdokumenter.pdf (Mosjøen har siden 2006 bare hatt akutt indremedisin, ikke akuttkirurgi); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Kontrollert: akutt- og døgnfunksjonene i somatikk ble flyttet ut 1.10.2025. Tilbyr fortsatt bl.a. skadepoliklinikk, dagkirurgi, indremedisinsk poliklinikk med øyeblikkelig hjelp-funksjoner, døgnbasert slagalarm og fødepoliklinikk. HSYKs stedsside for Mosjøen omtaler fortsatt «lokalsykehus» og «operasjon», og er trolig ikke oppdatert. Ingen registrerte fødsler i MFR 2018–2025."
+  },
+  {
+   "navn": "DMS Sør-Helgeland (Brønnøysund)",
+   "hf": "HSYK",
+   "sted": "Brønnøysund",
+   "kommunenr": "1813",
+   "niva": "dms",
+   "akuttkirurgi": false,
+   "akutt_indremedisin": false,
+   "fodsel": "ingen",
+   "lat": 65.46476,
+   "lon": 12.20681,
+   "koord_kilde": "Kartverket adresseregister (ws.geonorge.no/adresser): Skules vei 13, 8904 BRØNNØYSUND; 0,4 km fra stedsnavnpunktet Brønnøysund (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 1813 Brønnøy",
+   "kilde": "https://www.helgelandssykehuset.no/steder/dms-sor-helgeland/; https://www.helgelandssykehuset.no/avdelinger/kirurgisk-klinikk/fode-og-barselstue-bronnoysund/ (alle gravide på Sør-Helgeland henvises til Sandnessjøen for fødsel); https://www.helgelandssykehuset.no/nyheter/endringer-i-fodetilbudet---sporsmal-og-svar/ (midlertidig stengt uten bestemt sluttdato); Helse Nord RHF styresak 119-2026/5 og 75-2026/7 (stortingssvar: fødestua stengt for fødsler fra 20.3.2026); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Formelt jordmorstyrt fødestue, men stengt for fødsler fra 20.3.2026 uten bestemt sluttdato; derfor kodet som ingen. Jordmor i beredskap 24/7 for undersøkelse og følgetjeneste. MFR: 26 fødsler i 2025. Foreløpige månedstall (P1b, t.o.m. juli 2026) viser én fødsel i mars og én i april 2026, øvrige måneder uten tall («manglende data»); HSYK oppgir fem fødsler i stengt fødestue per høsten 2026. Laboratorium, røntgen, slagalarm, dialyse og poliklinikker. Ingen OSM-sykehusobjekt; koordinat fra Kartverkets adressepunkt."
+  },
+  {
+   "navn": "Hammerfest sykehus",
+   "hf": "FIN",
+   "sted": "Hammerfest",
+   "kommunenr": "5603",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 70.67199,
+   "lon": 23.6521,
+   "koord_kilde": "OSM R13504208 amenity=hospital «Hammerfest sykehus» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Kransvikveien 35, 9601 HAMMERFEST (6 m); 1,5 km fra stedsnavnpunktet Hammerfest (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5603 Hammerfest",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.finnmarkssykehuset.no/steder/hammerfest-sykehus/ (akuttfunksjon; akuttmedisin, kirurgi, ortopedi, indremedisin, gynekologi/føde); https://www.finnmarkssykehuset.no/nyheter/innflytting-i-nytt-sykehus/ (innflytting i nye Hammerfest sykehus 2.–4.1.2025); https://www.finnmarkssykehuset.no/avdelinger/hammerfest-sykehus/gynekologi-og-fode/foden-hammerfest/ (døgnkontinuerlig beredskap for akutte keisersnitt); Finnmarkssykehuset strategisk utviklingsplan 2023–2038, s. 30 (full akuttmedisinsk funksjon med intensiv; lokal kopi kilder/hf-planer/); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Koordinat for nytt sykehus på Fuglenes (Kransvikveien 35), tatt i bruk januar 2025; det gamle lå i Sykehusveien 35. Fødeavdelingen på FIN-siden har fortsatt gammel adresse (Sykehusveien 35). MFR: 391 fødsler i 2025."
+  },
+  {
+   "navn": "Kirkenes sykehus",
+   "hf": "FIN",
+   "sted": "Kirkenes",
+   "kommunenr": "5605",
+   "niva": "akutt",
+   "akuttkirurgi": true,
+   "akutt_indremedisin": true,
+   "fodsel": "fodeavdeling",
+   "lat": 69.70704,
+   "lon": 30.03536,
+   "koord_kilde": "OSM R13497453 amenity=hospital «Kirkenes sykehus» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Skytterhusveien 2, 9901 KIRKENES (42 m); 2,3 km fra stedsnavnpunktet Kirkenes (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5605 Sør-Varanger",
+   "kilde": "https://www.helse-nord.no/regional-utviklingsplan-helse-nord/malomrader/samhandling-og-samarbeid/ (Helse Nord: regionsykehus, stort akuttsykehus, akuttsykehus, sykehus uten akuttfunksjoner; sist oppdatert 22.10.2026); https://www.finnmarkssykehuset.no/steder/kirkenes-sykehus/ (akuttfunksjon, nytt i 2018); https://www.finnmarkssykehuset.no/nyheter/innflytting-i-nytt-sykehus/ (Kirkenes tok ø-hjelp innen medisin, kirurgi og ortopedi under flyttingen i Hammerfest); https://www.finnmarkssykehuset.no/avdelinger/kirkenes-sykehus/fode-gyn-kirkenes/ (planlagte og akutte keisersnitt); Helse Nord RHF styresak 128-2026 Budsjett 2027 (beredskapstilskudd for å opprettholde akuttilbud i Lofoten og Narvik; lokal kopi kilder/hn-styresak-128-2026-...txt) (tilskudd til beredskap og akuttjenester ved Kirkenes sykehus); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Lokalsykehus for Øst-Finnmark ved Andrevann. MFR: 164 fødsler i 2025."
+  },
+  {
+   "navn": "Klinikk Alta",
+   "hf": "FIN",
+   "sted": "Alta",
+   "kommunenr": "5601",
+   "niva": "dms",
+   "akuttkirurgi": false,
+   "akutt_indremedisin": false,
+   "fodsel": "fodestue",
+   "lat": 69.96883,
+   "lon": 23.27602,
+   "koord_kilde": "OSM R11058191 amenity=hospital «Finnmarkssykehuset, Klinikk Alta» via Nominatim /lookup; kontrollert mot Kartverkets adressepunkt Markveien 31, 9510 ALTA (20 m); 0,2 km fra stedsnavnpunktet Alta (Kartverket stedsnavn, By); kommune kontrollert med Kartverket kommuneinfo: 5601 Alta",
+   "kilde": "https://www.finnmarkssykehuset.no/avdelinger/klinikk-alta/; https://www.finnmarkssykehuset.no/avdelinger/klinikk-alta/somatisk-dognenhet/fodestue-alta/ (fødestue i Alta, fødeavdeling i Hammerfest og Kirkenes); Finnmarkssykehuset strategisk utviklingsplan 2023–2038, s. 30 (slagalarm med 24/7 akuttvakt ved Klinikk Alta); Helse Nord RHF styresak 56-2026/7 og 94-2026/4 (stortingssvar: fødestue i Alta, 70 barn i 2025); FHI Statistikk Open API, Medisinsk fødselsregister tabell Is1 (428) og P1b (491): https://statistikk-data.fhi.no/api/open/v1/mfr/Table/428 (lest 2026-10-29)",
+   "merknad": "Ikke akuttsykehus. Spesialistklinikk med somatisk døgnenhet, poliklinikker, slagalarm og fødestue; kodet som dms fordi skjemaet mangler egen kategori. Ikke regnet som indremedisinsk akuttfunksjon, selv om klinikken har slagalarm med 24/7 akuttvakt. Planlagt sommerflytting av fødsler til Hammerfest i 2026 ble omgjort (pressemelding 20.2.2026). MFR: 70 fødsler i 2025."
+  },
+  {
+   "navn": "Sykehuset Namsos",
+   "hf": "HNT",
+   "sted": "Namsos",
+   "niva": "akutt",
+   "utenfor": true,
+   "lat": 64.47069,
+   "lon": 11.50589,
+   "kilde": "Helse Nord-Trøndelag; koordinat fra Kartverket stedsnavn"
+  }
+ ],
+ "kommuner": {
+  "1804": {
+   "sted": "Bodø",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 3,
+    "km": 1,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 3,
+    "km": 1
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 3,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 550,
+    "km": 539
+   }
+  },
+  "1806": {
+   "sted": "Narvik",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 4,
+    "km": 2,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 4,
+    "km": 2
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 4,
+    "km": 2
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 231,
+    "km": 237
+   }
+  },
+  "1811": {
+   "sted": "Terråk",
+   "akutt": {
+    "navn": "Sykehuset Namsos",
+    "min": 135,
+    "km": 127,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 319,
+    "km": 330
+   },
+   "naermest": {
+    "navn": "Sykehuset Namsos",
+    "niva": "akutt",
+    "min": 135,
+    "km": 127
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 988,
+    "km": 1013
+   }
+  },
+  "1812": {
+   "sted": "Vik",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 226,
+    "km": 235,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 226,
+    "km": 235
+   },
+   "naermest": {
+    "navn": "DMS Sør-Helgeland (Brønnøysund)",
+    "niva": "dms",
+    "min": 43,
+    "km": 38
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 895,
+    "km": 918
+   }
+  },
+  "1813": {
+   "sted": "Brønnøysund",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 212,
+    "km": 219,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 212,
+    "km": 219
+   },
+   "naermest": {
+    "navn": "DMS Sør-Helgeland (Brønnøysund)",
+    "niva": "dms",
+    "min": 2,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 882,
+    "km": 902
+   }
+  },
+  "1815": {
+   "sted": "Gladstad",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 399,
+    "km": 252,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 399,
+    "km": 252
+   },
+   "naermest": {
+    "navn": "DMS Sør-Helgeland (Brønnøysund)",
+    "niva": "dms",
+    "min": 202,
+    "km": 41
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 1069,
+    "km": 935
+   }
+  },
+  "1816": {
+   "sted": "Forvika",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 221,
+    "km": 54,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 221,
+    "km": 54
+   },
+   "naermest": {
+    "navn": "DMS Sør-Helgeland (Brønnøysund)",
+    "niva": "dms",
+    "min": 96,
+    "km": 38
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 963,
+    "km": 931
+   }
+  },
+  "1818": {
+   "sted": "Silvalen",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 118,
+    "km": 26,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 118,
+    "km": 26
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "niva": "akutt",
+    "min": 118,
+    "km": 26
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 874,
+    "km": 794
+   }
+  },
+  "1820": {
+   "sted": "Sandnessjøen",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 1,
+    "km": 0,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 1,
+    "km": 0
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "niva": "akutt",
+    "min": 1,
+    "km": 0
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 759,
+    "km": 770
+   }
+  },
+  "1822": {
+   "sted": "Leland",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 20,
+    "km": 18,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 20,
+    "km": 18
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "niva": "akutt",
+    "min": 20,
+    "km": 18
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 739,
+    "km": 751
+   }
+  },
+  "1824": {
+   "sted": "Mosjøen",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 64,
+    "km": 63,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 64,
+    "km": 63
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mosjøen",
+    "niva": "uten_akutt",
+    "min": 3,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 734,
+    "km": 746
+   }
+  },
+  "1825": {
+   "sted": "Trofors",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 103,
+    "km": 106,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 103,
+    "km": 106
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mosjøen",
+    "niva": "uten_akutt",
+    "min": 41,
+    "km": 43
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 773,
+    "km": 789
+   }
+  },
+  "1826": {
+   "sted": "Hattfjelldal",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 115,
+    "km": 115,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 115,
+    "km": 115
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mosjøen",
+    "niva": "uten_akutt",
+    "min": 73,
+    "km": 76
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 762,
+    "km": 773
+   }
+  },
+  "1827": {
+   "sted": "Solfjellsjøen",
+   "akutt": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 115,
+    "km": 20,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "min": 115,
+    "km": 20
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Sandnessjøen",
+    "niva": "akutt",
+    "min": 115,
+    "km": 20
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 870,
+    "km": 788
+   }
+  },
+  "1828": {
+   "sted": "Nesna",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 68,
+    "km": 65,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 68,
+    "km": 65
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "niva": "akutt",
+    "min": 68,
+    "km": 65
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 716,
+    "km": 724
+   }
+  },
+  "1832": {
+   "sted": "Korgen",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 44,
+    "km": 42,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 44,
+    "km": 42
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "niva": "akutt",
+    "min": 44,
+    "km": 42
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 691,
+    "km": 700
+   }
+  },
+  "1833": {
+   "sted": "Mo i Rana",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 6,
+    "km": 3,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 6,
+    "km": 3
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "niva": "akutt",
+    "min": 6,
+    "km": 3
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 653,
+    "km": 661
+   }
+  },
+  "1834": {
+   "sted": "Lurøy",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 241,
+    "km": 89,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 241,
+    "km": 89
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "niva": "akutt",
+    "min": 241,
+    "km": 89
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 889,
+    "km": 748
+   }
+  },
+  "1835": {
+   "sted": "Husøy",
+   "akutt": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 616,
+    "km": 116,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "min": 616,
+    "km": 116
+   },
+   "naermest": {
+    "navn": "Helgelandssykehuset Mo i Rana",
+    "niva": "akutt",
+    "min": 616,
+    "km": 116
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 1265,
+    "km": 775
+   }
+  },
+  "1836": {
+   "sted": "Vågaholmen",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 219,
+    "km": 186,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 219,
+    "km": 186
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 219,
+    "km": 186
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 726,
+    "km": 690
+   }
+  },
+  "1837": {
+   "sted": "Ørnes",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 119,
+    "km": 118,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 119,
+    "km": 118
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 119,
+    "km": 118
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 626,
+    "km": 622
+   }
+  },
+  "1838": {
+   "sted": "Inndyr",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 91,
+    "km": 90,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 91,
+    "km": 90
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 91,
+    "km": 90
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 598,
+    "km": 594
+   }
+  },
+  "1839": {
+   "sted": "Moldjord",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 111,
+    "km": 105,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 111,
+    "km": 105
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 111,
+    "km": 105
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 573,
+    "km": 565
+   }
+  },
+  "1840": {
+   "sted": "Rognan",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 92,
+    "km": 85,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 92,
+    "km": 85
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 92,
+    "km": 85
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 527,
+    "km": 517
+   }
+  },
+  "1841": {
+   "sted": "Fauske",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 57,
+    "km": 53,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 57,
+    "km": 53
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 57,
+    "km": 53
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 492,
+    "km": 485
+   }
+  },
+  "1845": {
+   "sted": "Straumen",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 72,
+    "km": 68,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 72,
+    "km": 68
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 72,
+    "km": 68
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 478,
+    "km": 471
+   }
+  },
+  "1848": {
+   "sted": "Leines",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 233,
+    "km": 236,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 233,
+    "km": 236
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 233,
+    "km": 236
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 464,
+    "km": 453
+   }
+  },
+  "1851": {
+   "sted": "Lødingen",
+   "akutt": {
+    "navn": "UNN Harstad",
+    "min": 82,
+    "km": 76,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Harstad",
+    "min": 82,
+    "km": 76
+   },
+   "naermest": {
+    "navn": "UNN Harstad",
+    "niva": "akutt",
+    "min": 82,
+    "km": 76
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 326,
+    "km": 333
+   }
+  },
+  "1853": {
+   "sted": "Bogen",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 42,
+    "km": 43,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 42,
+    "km": 43
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 42,
+    "km": 43
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 242,
+    "km": 249
+   }
+  },
+  "1856": {
+   "sted": "Røstlandet",
+   "akutt": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 232,
+    "km": 112,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Bodø",
+    "min": 232,
+    "km": 112
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Bodø",
+    "niva": "stort_akutt",
+    "min": 232,
+    "km": 112
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 763,
+    "km": 631
+   }
+  },
+  "1857": {
+   "sted": "Sørland",
+   "akutt": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 172,
+    "km": 96,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 172,
+    "km": 96
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "niva": "akutt",
+    "min": 172,
+    "km": 96
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 657,
+    "km": 588
+   }
+  },
+  "1859": {
+   "sted": "Ramberg",
+   "akutt": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 32,
+    "km": 30,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 32,
+    "km": 30
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "niva": "akutt",
+    "min": 32,
+    "km": 30
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 517,
+    "km": 522
+   }
+  },
+  "1860": {
+   "sted": "Leknes",
+   "akutt": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 6,
+    "km": 5,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 6,
+    "km": 5
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "niva": "akutt",
+    "min": 6,
+    "km": 5
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 488,
+    "km": 495
+   }
+  },
+  "1865": {
+   "sted": "Svolvær",
+   "akutt": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 78,
+    "km": 73,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 78,
+    "km": 73
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "niva": "akutt",
+    "min": 78,
+    "km": 73
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 417,
+    "km": 427
+   }
+  },
+  "1866": {
+   "sted": "Stokmarknes",
+   "akutt": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 3,
+    "km": 1,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 3,
+    "km": 1
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "niva": "akutt",
+    "min": 3,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 406,
+    "km": 411
+   }
+  },
+  "1867": {
+   "sted": "Straume",
+   "akutt": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 87,
+    "km": 83,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 87,
+    "km": 83
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "niva": "akutt",
+    "min": 87,
+    "km": 83
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 428,
+    "km": 436
+   }
+  },
+  "1868": {
+   "sted": "Myre",
+   "akutt": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 72,
+    "km": 67,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 72,
+    "km": 67
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "niva": "akutt",
+    "min": 72,
+    "km": 67
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 414,
+    "km": 420
+   }
+  },
+  "1870": {
+   "sted": "Sortland",
+   "akutt": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 31,
+    "km": 28,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 31,
+    "km": 28
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "niva": "akutt",
+    "min": 31,
+    "km": 28
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 375,
+    "km": 383
+   }
+  },
+  "1871": {
+   "sted": "Andenes",
+   "akutt": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 135,
+    "km": 129,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "min": 135,
+    "km": 129
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Vesterålen",
+    "niva": "akutt",
+    "min": 135,
+    "km": 129
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 474,
+    "km": 479
+   }
+  },
+  "1874": {
+   "sted": "Reine",
+   "akutt": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 60,
+    "km": 56,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "min": 60,
+    "km": 56
+   },
+   "naermest": {
+    "navn": "Nordlandssykehuset Lofoten",
+    "niva": "akutt",
+    "min": 60,
+    "km": 56
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 545,
+    "km": 547
+   }
+  },
+  "1875": {
+   "sted": "Oppeid",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 145,
+    "km": 125,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 145,
+    "km": 125
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 145,
+    "km": 125
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 372,
+    "km": 359
+   }
+  },
+  "5501": {
+   "sted": "Tromsø",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 7,
+    "km": 4,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 7,
+    "km": 4
+   },
+   "naermest": {
+    "navn": "UNN Tromsø",
+    "niva": "regionsykehus",
+    "min": 7,
+    "km": 4
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 7,
+    "km": 4
+   }
+  },
+  "5503": {
+   "sted": "Harstad",
+   "akutt": {
+    "navn": "UNN Harstad",
+    "min": 3,
+    "km": 1,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Harstad",
+    "min": 3,
+    "km": 1
+   },
+   "naermest": {
+    "navn": "UNN Harstad",
+    "niva": "akutt",
+    "min": 3,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 299,
+    "km": 306
+   }
+  },
+  "5510": {
+   "sted": "Borkenes",
+   "akutt": {
+    "navn": "UNN Harstad",
+    "min": 23,
+    "km": 19,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Harstad",
+    "min": 23,
+    "km": 19
+   },
+   "naermest": {
+    "navn": "UNN Harstad",
+    "niva": "akutt",
+    "min": 23,
+    "km": 19
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 313,
+    "km": 317
+   }
+  },
+  "5512": {
+   "sted": "Evenskjer",
+   "akutt": {
+    "navn": "UNN Harstad",
+    "min": 36,
+    "km": 32,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Harstad",
+    "min": 36,
+    "km": 32
+   },
+   "naermest": {
+    "navn": "UNN Harstad",
+    "niva": "akutt",
+    "min": 36,
+    "km": 32
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 269,
+    "km": 276
+   }
+  },
+  "5514": {
+   "sted": "Hamnvik",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 122,
+    "km": 117,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 122,
+    "km": 117
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 101,
+    "km": 94
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 234,
+    "km": 236
+   }
+  },
+  "5516": {
+   "sted": "Årstein",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 41,
+    "km": 39,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 41,
+    "km": 39
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 41,
+    "km": 39
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 212,
+    "km": 216
+   }
+  },
+  "5518": {
+   "sted": "Tennevoll",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 54,
+    "km": 55,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 54,
+    "km": 55
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 54,
+    "km": 55
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 202,
+    "km": 205
+   }
+  },
+  "5520": {
+   "sted": "Setermoen",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 69,
+    "km": 72,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 69,
+    "km": 72
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 69,
+    "km": 72
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 162,
+    "km": 164
+   }
+  },
+  "5522": {
+   "sted": "Sjøvegan",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 73,
+    "km": 72,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 73,
+    "km": 72
+   },
+   "naermest": {
+    "navn": "UNN Narvik",
+    "niva": "akutt",
+    "min": 73,
+    "km": 72
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 190,
+    "km": 191
+   }
+  },
+  "5524": {
+   "sted": "Moen",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 113,
+    "km": 113,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 113,
+    "km": 113
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 41,
+    "km": 37
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 125,
+    "km": 128
+   }
+  },
+  "5526": {
+   "sted": "Sørreisa",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 120,
+    "km": 121,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 120,
+    "km": 121
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 23,
+    "km": 18
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 156,
+    "km": 160
+   }
+  },
+  "5528": {
+   "sted": "Brøstadbotn",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 106,
+    "km": 102,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 106,
+    "km": 102
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 54,
+    "km": 43
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 186,
+    "km": 185
+   }
+  },
+  "5530": {
+   "sted": "Finnsnes",
+   "akutt": {
+    "navn": "UNN Narvik",
+    "min": 144,
+    "km": 140,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Narvik",
+    "min": 144,
+    "km": 140
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 5,
+    "km": 2
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 160,
+    "km": 162
+   }
+  },
+  "5532": {
+   "sted": "Storsteinnes",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 92,
+    "km": 93,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 92,
+    "km": 93
+   },
+   "naermest": {
+    "navn": "DMS Midt-Troms (Finnsnes)",
+    "niva": "dms",
+    "min": 75,
+    "km": 72
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 92,
+    "km": 93
+   }
+  },
+  "5534": {
+   "sted": "Hansnes",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 72,
+    "km": 64,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 72,
+    "km": 64
+   },
+   "naermest": {
+    "navn": "UNN Tromsø",
+    "niva": "regionsykehus",
+    "min": 72,
+    "km": 64
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 72,
+    "km": 64
+   }
+  },
+  "5536": {
+   "sted": "Lyngseidet",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 144,
+    "km": 136,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 144,
+    "km": 136
+   },
+   "naermest": {
+    "navn": "UNN Tromsø",
+    "niva": "regionsykehus",
+    "min": 144,
+    "km": 136
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 144,
+    "km": 136
+   }
+  },
+  "5538": {
+   "sted": "Hatteng",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 99,
+    "km": 98,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 99,
+    "km": 98
+   },
+   "naermest": {
+    "navn": "UNN Tromsø",
+    "niva": "regionsykehus",
+    "min": 99,
+    "km": 98
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 99,
+    "km": 98
+   }
+  },
+  "5540": {
+   "sted": "Olderdalen",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 178,
+    "km": 180,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 178,
+    "km": 180
+   },
+   "naermest": {
+    "navn": "DMS Nord-Troms (Sonjatun, Storslett)",
+    "niva": "dms",
+    "min": 52,
+    "km": 46
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 178,
+    "km": 180
+   }
+  },
+  "5542": {
+   "sted": "Skjervøy",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 252,
+    "km": 248,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 252,
+    "km": 248
+   },
+   "naermest": {
+    "navn": "DMS Nord-Troms (Sonjatun, Storslett)",
+    "niva": "dms",
+    "min": 52,
+    "km": 47
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 252,
+    "km": 248
+   }
+  },
+  "5544": {
+   "sted": "Storslett",
+   "akutt": {
+    "navn": "UNN Tromsø",
+    "min": 228,
+    "km": 226,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "UNN Tromsø",
+    "min": 228,
+    "km": 226
+   },
+   "naermest": {
+    "navn": "DMS Nord-Troms (Sonjatun, Storslett)",
+    "niva": "dms",
+    "min": 1,
+    "km": 1
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 228,
+    "km": 226
+   }
+  },
+  "5546": {
+   "sted": "Burfjord",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 233,
+    "km": 231,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 233,
+    "km": 231
+   },
+   "naermest": {
+    "navn": "DMS Nord-Troms (Sonjatun, Storslett)",
+    "niva": "dms",
+    "min": 70,
+    "km": 72
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 297,
+    "km": 297
+   }
+  },
+  "5601": {
+   "sted": "Alta",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 148,
+    "km": 143,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 148,
+    "km": 143
+   },
+   "naermest": {
+    "navn": "Klinikk Alta",
+    "niva": "dms",
+    "min": 1,
+    "km": 0
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 383,
+    "km": 385
+   }
+  },
+  "5603": {
+   "sted": "Hammerfest",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 5,
+    "km": 3,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 5,
+    "km": 3
+   },
+   "naermest": {
+    "navn": "Hammerfest sykehus",
+    "niva": "akutt",
+    "min": 5,
+    "km": 3
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 525,
+    "km": 525
+   }
+  },
+  "5605": {
+   "sted": "Kirkenes",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 5,
+    "km": 3,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 5,
+    "km": 3
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 5,
+    "km": 3
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 742,
+    "km": 794
+   }
+  },
+  "5607": {
+   "sted": "Vadsø",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 165,
+    "km": 171,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 165,
+    "km": 171
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 165,
+    "km": 171
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 742,
+    "km": 790
+   }
+  },
+  "5610": {
+   "sted": "Karasjok",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 217,
+    "km": 218,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 217,
+    "km": 218
+   },
+   "naermest": {
+    "navn": "Klinikk Alta",
+    "niva": "dms",
+    "min": 187,
+    "km": 198
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 513,
+    "km": 548
+   }
+  },
+  "5612": {
+   "sted": "Kautokeino",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 266,
+    "km": 272,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 266,
+    "km": 272
+   },
+   "naermest": {
+    "navn": "Klinikk Alta",
+    "niva": "dms",
+    "min": 123,
+    "km": 132
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 391,
+    "km": 419
+   }
+  },
+  "5614": {
+   "sted": "Øksfjord",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 258,
+    "km": 253,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 258,
+    "km": 253
+   },
+   "naermest": {
+    "navn": "Klinikk Alta",
+    "niva": "dms",
+    "min": 112,
+    "km": 110
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 358,
+    "km": 356
+   }
+  },
+  "5616": {
+   "sted": "Breivikbotn",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 359,
+    "km": 298,
+    "ferge": true
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 359,
+    "km": 298
+   },
+   "naermest": {
+    "navn": "Klinikk Alta",
+    "niva": "dms",
+    "min": 213,
+    "km": 155
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 460,
+    "km": 401
+   }
+  },
+  "5618": {
+   "sted": "Havøysund",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 169,
+    "km": 170,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 169,
+    "km": 170
+   },
+   "naermest": {
+    "navn": "Hammerfest sykehus",
+    "niva": "akutt",
+    "min": 169,
+    "km": 170
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 571,
+    "km": 581
+   }
+  },
+  "5620": {
+   "sted": "Honningsvåg",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 184,
+    "km": 180,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 184,
+    "km": 180
+   },
+   "naermest": {
+    "navn": "Hammerfest sykehus",
+    "niva": "akutt",
+    "min": 184,
+    "km": 180
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 585,
+    "km": 592
+   }
+  },
+  "5622": {
+   "sted": "Lakselv",
+   "akutt": {
+    "navn": "Hammerfest sykehus",
+    "min": 148,
+    "km": 144,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Hammerfest sykehus",
+    "min": 148,
+    "km": 144
+   },
+   "naermest": {
+    "navn": "Hammerfest sykehus",
+    "niva": "akutt",
+    "min": 148,
+    "km": 144
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 550,
+    "km": 556
+   }
+  },
+  "5624": {
+   "sted": "Kjøllefjord",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 319,
+    "km": 333,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 319,
+    "km": 333
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 319,
+    "km": 333
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 767,
+    "km": 787
+   }
+  },
+  "5626": {
+   "sted": "Mehamn",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 311,
+    "km": 327,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 311,
+    "km": 327
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 311,
+    "km": 327
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 759,
+    "km": 781
+   }
+  },
+  "5628": {
+   "sted": "Tana bru",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 132,
+    "km": 139,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 132,
+    "km": 139
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 132,
+    "km": 139
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 676,
+    "km": 728
+   }
+  },
+  "5630": {
+   "sted": "Berlevåg",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 256,
+    "km": 273,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 256,
+    "km": 273
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 256,
+    "km": 273
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 801,
+    "km": 863
+   }
+  },
+  "5632": {
+   "sted": "Båtsfjord",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 228,
+    "km": 244,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 228,
+    "km": 244
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 228,
+    "km": 244
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 772,
+    "km": 834
+   }
+  },
+  "5634": {
+   "sted": "Vardø",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 241,
+    "km": 246,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 241,
+    "km": 246
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 241,
+    "km": 246
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 818,
+    "km": 865
+   }
+  },
+  "5636": {
+   "sted": "Varangerbotn",
+   "akutt": {
+    "navn": "Kirkenes sykehus",
+    "min": 115,
+    "km": 122,
+    "ferge": false
+   },
+   "akutt_hn": {
+    "navn": "Kirkenes sykehus",
+    "min": 115,
+    "km": 122
+   },
+   "naermest": {
+    "navn": "Kirkenes sykehus",
+    "niva": "akutt",
+    "min": 115,
+    "km": 122
+   },
+   "regionsykehus": {
+    "navn": "UNN Tromsø",
+    "min": 691,
+    "km": 741
+   }
+  }
+ }
+}

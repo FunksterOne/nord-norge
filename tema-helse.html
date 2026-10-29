@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sykehusene i nord mot 2042 · Nord-Norge-dashbordet</title>
+<!-- OG BEGIN (tools/og.mjs) -->
+<meta name="description" content="Flere eldre, færre i arbeidsfør alder og lange avstander. Hva Helse Nords nye plan bygger på, og hva tallene viser.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nord-Norge mot 2050">
+<meta property="og:locale" content="nb_NO">
+<meta property="og:url" content="https://nord-norge.vercel.app/tema-helse.html">
+<meta property="og:title" content="Sykehusene i nord mot 2042 — flere pasienter, færre hender">
+<meta property="og:description" content="Flere eldre, færre i arbeidsfør alder og lange avstander. Hva Helse Nords nye plan bygger på, og hva tallene viser.">
+<meta property="og:image" content="https://nord-norge.vercel.app/og/tema-12.png?v=74497a55">
+<meta property="og:image:secure_url" content="https://nord-norge.vercel.app/og/tema-12.png?v=74497a55">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tema 12 · Spesialisthelsetjenesten: Sykehusene i nord mot 2042. Flere pasienter, færre hender">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sykehusene i nord mot 2042 — flere pasienter, færre hender">
+<meta name="twitter:description" content="Flere eldre, færre i arbeidsfør alder og lange avstander. Hva Helse Nords nye plan bygger på, og hva tallene viser.">
+<meta name="twitter:image" content="https://nord-norge.vercel.app/og/tema-12.png?v=74497a55">
+<link rel="icon" href="og/ikon.svg" type="image/svg+xml">
+<!-- OG END -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark light">
+<script>try{var q=new URLSearchParams(location.search).get("tema");if(q==="light"||q==="dark")localStorage.setItem("nn-tema",q);if((q||localStorage.getItem("nn-tema"))==="light")document.documentElement.setAttribute("data-tema","light")}catch(e){}</script>
+<link rel="stylesheet" href="assets/styles.css">
+<script type="module" src="/src/main.js"></script>
+<style>
+.hs-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
+.hs-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.hs-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
+.hs-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
+.hs-kilde > div.reg{border-left-color:var(--accent)}
+.hs-kilde .nr,.hs-merke{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.hs-kilde .nr{margin-bottom:4px}
+.hs-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
+.hs-merke{display:inline-block;font-size:10px;letter-spacing:.1em;padding:2px 6px;border:1px solid var(--line2);margin-right:6px;vertical-align:middle}
+.hs-merke.reg{border-color:var(--accent);color:var(--accent-text)}
+.hs-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);min-width:620px}
+.hs-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
+.hs-tabell td{padding:9px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
+.hs-tabell td:first-child{color:var(--ink)}
+.hs-tabell .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hs-tabell tr.sum td{border-top:2px solid var(--ink3);font-weight:600;color:var(--ink)}
+.hs-rull{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hs-p{font-size:14.5px;line-height:1.65;color:var(--ink2);margin:12px 0;max-width:78ch}
+.hs-h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin:26px 0 6px;color:var(--ink)}
+</style>
+</head>
+<body class="tema-page">
+<div class="wrap">
+
+<header class="nn-top">
+  <nav class="nn-bc" aria-label="Brødsmuler">
+    <a href="index.html">Hjem</a>
+    <span class="sep">›</span>
+    <span class="now">Sykehusene i nord</span>
+  </nav>
+</header>
+
+<section class="tema-hero">
+  <div class="tag">Temaserie 12 · Spesialisthelsetjenesten 2025–2045</div>
+  <h1>Sykehusene i nord mot 2042 — <em>flere pasienter</em>, færre hender.</h1>
+  <p class="lede" id="heroLede"></p>
+  <div class="hs-kilde">
+    <div><div class="nr">Det planen sier</div><p>Helse Nords regionale utviklingsplan 2027–2042, høringsutkast (høring 30. oktober–11. desember 2026), og framskrivingene i styresak 108-2026. Planen er publisert som nettsider; tallene står i styresaken.</p></div>
+    <div class="reg"><div class="nr">Det tallene viser</div><p>SSB (befolkning, årsverk, sysselsatte), FHI (ventetid), SKDEs helseatlas og egen beregning av kjøretid til nærmeste akuttsykehus for alle 80 kommunene.</p></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 01 — PREMISSENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 01 · Premissene</div>
+  <h2>Befolkningen står stille — men <em>sammensetningen</em> endres raskt.</h2>
+  <p class="akt-intro" id="premissIntro"></p>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke reg">SSB</span>Endring i befolkningen 2025–2045 per sykehusområde, prosent</div>
+    <div id="befGraf"></div>
+  </div>
+  <h3 class="hs-h3">Stemmer planens tall?</h3>
+  <div class="hs-rull"><table class="hs-tabell" id="kontrollTabell"></table></div>
+</section>
+
+<!-- ────────────────── AKT 02 — BEHOVET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 02 · Behovet</div>
+  <h2>Aldringen alene gir en fjerdedel flere liggedøgn. Planen regner med <em>7 prosent</em>.</h2>
+  <p class="akt-intro" id="behovIntro"></p>
+  <div class="kpi-rad" id="behovKPI"></div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke">Helse Nord</span>Somatiske liggedøgn: endring 2025–2045, prosent</div>
+    <div id="liggGraf"></div>
+  </div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke">Helse Nord</span>Polikliniske kontakter i somatikken: endring 2025–2045, prosent</div>
+    <div id="poliGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 03 — HENDENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 03 · Hendene</div>
+  <h2>Flere årsverk enn noen gang — men færre i <em>arbeidsfør alder</em> å rekruttere fra.</h2>
+  <p class="akt-intro" id="hendeIntro"></p>
+  <div class="kpi-rad" id="hendeKPI"></div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke reg">SSB</span>Avtalte årsverk i spesialisthelsetjenesten, indeks (2015 = 100)</div>
+    <div id="arsverkGraf"></div>
+  </div>
+  <div class="hs-rull"><table class="hs-tabell" id="hfTabell"></table></div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke reg">SSB</span>Innleie fra bemanningsbyrå i prosent av lønns- og personalkostnadene, 2023</div>
+    <div id="innleieGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 04 — AVSTANDENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 04 · Avstandene</div>
+  <h2>Fire av ti bor i kommuner med <em>over en time</em> til akuttsykehus.</h2>
+  <p class="akt-intro" id="avstandIntro"></p>
+  <div class="kpi-rad" id="avstandKPI"></div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke reg">Beregnet</span>Kjøretid fra kommunesenteret til nærmeste akuttsykehus</div>
+    <p class="hint" style="font-size:12px;margin-bottom:8px" id="kartTekst"></p>
+    <div id="reiseKart"></div>
+  </div>
+  <h3 class="hs-h3">Der endringene har slått inn</h3>
+  <div class="hs-rull"><table class="hs-tabell" id="endringTabell"></table></div>
+  <p class="hint" style="font-size:11.5px" id="endringNote"></p>
+</section>
+
+<!-- ────────────────── AKT 05 — SYKEHUSENE ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 05 · Sykehusene</div>
+  <h2>Ett regionsykehus, ett stort akuttsykehus og <em>åtte</em> akuttsykehus.</h2>
+  <p class="akt-intro" id="strukturIntro"></p>
+  <div class="hs-rull"><table class="hs-tabell" id="sykehusTabell"></table></div>
+  <h3 class="hs-h3">Endringer de siste årene</h3>
+  <div class="hs-rull"><table class="hs-tabell">
+    <thead><tr><th>Dato</th><th>Endring</th><th>Kilde</th></tr></thead>
+    <tbody>
+      <tr><td>3.7.2024</td><td>Foretaksmøtet slutter seg til to akuttsykehus på Helgeland, i Mo i Rana og Sandnessjøen.</td><td>Helse Nord RHF, styresak 22-2025</td></tr>
+      <tr><td>14.3.2025</td><td>Styret i Helse Nord vedtar fordelingen: Vefsn til Mo i Rana for indremedisin, Grane og Hattfjelldal til Sandnessjøen. Slagalarm i Mosjøen er en forutsetning.</td><td>Helse Nord RHF, styresak 22-2025</td></tr>
+      <tr><td>1.10.2025</td><td>Akutt- og døgnfunksjonene i somatikken avvikles i Mosjøen. Sykehuset blir sykehus uten akuttfunksjon, med døgnkontinuerlig slagalarm.</td><td>Helse Nord RHF, Årlig melding 2025 og styresak 112-2026</td></tr>
+      <tr><td>20.3.2026</td><td>Fødestua i Brønnøysund stenges for fødsler. Gravide på Sør-Helgeland henvises til Sandnessjøen.</td><td>Svar fra helse- og omsorgsministeren til Stortinget, gjengitt i styresak 43-2026</td></tr>
+      <tr><td>Fra 2024</td><td>Varige tilskudd til akuttilbudet i Narvik (80 millioner kroner) og Lofoten (65 millioner kroner), blant annet av hensyn til Forsvaret.</td><td>Svar til Stortinget, gjengitt i styresak 26-2026</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ────────────────── AKT 06 — VENTETID OG VARIASJON ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 06 · Ventetid og variasjon</div>
+  <h2>Lengre ventetid enn i landet — og <em>mer behandling</em> på noen områder.</h2>
+  <p class="akt-intro" id="ventIntro"></p>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke reg">FHI</span>Gjennomsnittlig ventetid for påbegynte forløp, dager</div>
+    <div id="ventGraf"></div>
+  </div>
+  <div class="hs-boks">
+    <div class="tittel"><span class="hs-merke">SKDE</span>Bruk av utvalgte tjenester i Helse Nord, forhold til landet (1,0 = som landet)</div>
+    <div id="atlasGraf"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 07 — OM GRUNNLAGET ────────────────── -->
+<section class="akt">
+  <div class="akt-num">Akt 07 · Om grunnlaget</div>
+  <h2>Hva planen tallfester — og hva den <em>ikke</em> gjør.</h2>
+  <p class="akt-intro" id="metodeIntro"></p>
+
+  <div class="neste-tema-blokk">
+    <div class="ntb-head">Videre lesning</div>
+    <div class="ntb-grid">
+      <a class="ntb-card" href="tema-aldring.html#omsorg">
+        <div class="ntb-num">05</div>
+        <h4>Hvor står vi globalt?</h4>
+        <p>Eldreomsorgen i kommunene mot 2050</p>
+      </a>
+      <a class="ntb-card ntb-arbeid" href="tema-arbeidskraft.html">
+        <div class="ntb-num">04</div>
+        <h4>Hvem skal bære?</h4>
+        <p>Arbeidskraften mot 2050</p>
+      </a>
+      <a class="ntb-card" href="tema-nordomrade.html">
+        <div class="ntb-num">11</div>
+        <h4>20 år med nordområdepolitikk</h4>
+        <p>Hva som ble sagt, og hva som skjedde</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="nn-footer">
+  <div class="nnf-grid">
+    <div class="nnf-col">
+      <h4>Nord-Norge-dashbordet</h4>
+      <p>Et åpent analyseverktøy for de 80 kommunene i Nordland, Troms og Finnmark. Tallene er hentet direkte fra offentlige kilder. Framskrivinger er ikke prognoser — de viser hva forutsetningene gir «alt annet likt».</p>
+    </div>
+    <div class="nnf-col">
+      <h4>Kilder og metode</h4>
+      <p>Helse Nords regionale utviklingsplan 2027–2042 og styresak 108-2026, SSB, FHI, SKDE og egen beregning av kjøretid. Forbehold og framgangsmåte står på <a href="metode.html#spesialisthelse"><b>metodesiden</b></a>.</p>
+      <p style="margin-top:8px"><a href="metode.html#spesialisthelse">→ Se metode og kilder</a></p>
+    </div>
+    <div class="nnf-col">
+      <h4>Navigasjon</h4>
+      <ul>
+        <li><a href="index.html">Forsiden</a></li>
+        <li><a href="metode.html">Metode og kilder</a></li>
+        <li><a href="https://www.helse-nord.no/regional-utviklingsplan-helse-nord/" target="_blank" rel="noopener">Regional utviklingsplan (Helse Nord)</a></li>
+        <li><a href="https://github.com/FunksterOne/nord-norge" target="_blank" rel="noopener">Kildekode (GitHub)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nnf-bottom">
+    <span>Bygget med Vite, Observable Plot og D3 · Kart: Kartverket (CC BY 4.0) · Ruter: OpenStreetMap (ODbL) via OSRM</span>
+    <span>·</span>
+    <span>Halvard Nordang, 2026</span>
+  </div>
+</footer>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js" defer></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof HELSE_DATA === 'undefined') return;
+  var H = HELSE_DATA, HF = H.hf, HN = H.hn, NO = H.norge, KM = H.kommuner;
+  var f0 = function(v){ return v == null ? '–' : (v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('nb-NO'); };
+  var f1 = function(v){ if(v == null) return '–'; var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var pp = function(v){ return (v > 0 ? '+' : '') + f1(v) + ' %'; };
+  var endr = function(a, b){ return (b / a - 1) * 100; };
+  var tid = function(m){ return m >= 60 ? Math.floor(m / 60) + ' t ' + (m % 60) + ' min' : m + ' min'; };
+  var pop = {}; K.forEach(function(k){ pop[String(k.nr)] = k.pop; });
+  var navnK = function(nr){ var k = K.find(function(x){ return String(x.nr) === String(nr); }); return k ? NN.kortNavn(k.navn) : nr; };
+  var rader = HF.concat([HN, NO]);
+  var hfNavn = function(o){ return o.kort || o.navn; };
+  var liste = function(a){ return a.length > 1 ? a.slice(0, -1).join(', ') + ' og ' + a[a.length - 1] : a.join(''); };
+  var smaa = function(t){ return /^[A-ZÆØÅ]{2,}/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1); };
+
+  // ─── Hero ───
+  var demoHN = endr(HN.ligg[0], HN.ligg[2]), planHN = endr(HN.ligg[0], HN.ligg[1]);
+  document.getElementById('heroLede').innerHTML =
+    'Helse Nords plan for 2027–2042 bygger på at folketallet i Nord-Norge nesten står stille fram til 2045, mens gruppen over 65 år vokser med ' + f1(HN.bef[4]) + ' % og gruppen 18–64 år går ned med ' + f1(-HN.bef[3]) + ' %. ' +
+    'Aldringen alene ville gitt ' + f1(demoHN) + ' % flere liggedøgn i somatikken. Planen regner med ' + f1(planHN) + ' %, fordi mer skal skje poliklinisk, digitalt og i kommunene. ' +
+    'Denne siden kontrollerer premissene og viser hva de betyr for personell, avstander og ventetid.';
+
+  // ─── Akt 01 ───
+  var hel = HF.find(function(h){ return h.kode === 'HSYK'; }), fin = HF.find(function(h){ return h.kode === 'FIN'; });
+  document.getElementById('premissIntro').innerHTML =
+    'Framskrivingen i planen er SSBs hovedalternativ fra 2026, fordelt på sykehusenes opptaksområder. Helse Nord som helhet går fra ' + f0(HN.bef[0]) + ' til ' + f0(HN.bef[1]) + ' innbyggere (' + pp(endr(HN.bef[0], HN.bef[1])) + '), mot ' + pp(endr(NO.bef[0], NO.bef[1])) + ' i landet. ' +
+    'Forskjellene innad er store. Helgelandssykehusets område får ' + f1(-endr(hel.bef[0], hel.bef[1])) + ' % færre innbyggere og ' + f1(-hel.bef[3]) + ' % færre i alderen 18–64 år, mens Finnmarkssykehusets område får den sterkeste veksten blant de eldste (' + pp(fin.bef[4]) + '). ' +
+    'Gruppen 18–64 år går ned i alle fire områdene, mens den øker med ' + f1(NO.bef[3]) + ' % i landet.';
+  document.getElementById('befGraf').innerHTML = NN.placeholder('hstolper', {format:'pst', grupper:[
+    {tittel:'18–64 år', rader: rader.map(function(o){ return {l:hfNavn(o), v:o.bef[3], farge: o.kode === 'HN' ? 'accent' : (o.kode === 'NO' ? 'muted' : (o.bef[3] < 0 ? 'neg' : 'muted')), uthev: o.kode === 'HN'}; })},
+    {tittel:'65 år og over', rader: rader.map(function(o){ return {l:hfNavn(o), v:o.bef[4], farge: o.kode === 'HN' ? 'accent' : 'muted', uthev: o.kode === 'HN'}; })}
+  ], kilde: H.kilde_framskriving + '. Opptaksområder for somatikk.'}, 520);
+  var krad = function(p, k, v){ return '<tr><td>' + p + '</td><td>' + k + '</td><td>' + v + '</td></tr>'; };
+  document.getElementById('kontrollTabell').innerHTML = '<thead><tr><th>Påstand i planen eller kronikken</th><th>Kontroll mot SSB</th><th>Vurdering</th></tr></thead><tbody>' +
+    krad('Nord-Norge passerte punktet der flere er over 65 enn under 20, allerede i 2023.', 'SSB 07459: 102 512 under 20 og 101 151 over 65 år per 1.1.2023. Like store 1.1.2024; flere over 65 fra 1.1.2025. Med under 19 år (nettsidens grense) var de eldste flest allerede i 2022.', '<b>Delvis riktig.</b> Årstallet avhenger av aldersgrensen.') +
+    krad('Landet passerer samme punkt i 2031, og Nord-Norge ligger åtte år foran.', 'SSB 14746 (2026): 2032 for landet, sju år etter Nord-Norge med under 20 år.', '<b>Omtrent riktig.</b>') +
+    krad('Befolkningen vokser ' + f1(endr(NO.bef[0], NO.bef[1])) + ' % i landet og ' + f1(endr(HN.bef[0], HN.bef[1])) + ' % i Nord-Norge fram til 2045.', 'Stemmer med SSB 14746 regnet fra 1.1.2025. Fra 1.1.2026 er tallene 8,8 og 0,3 %.', '<b>Riktig.</b>') +
+    krad('Helgeland får nesten fem prosent færre innbyggere, og bare de over 65 år blir flere.', 'SSB 14746: Helgelandssykehusets område ' + pp(endr(hel.bef[0], hel.bef[1])) + ', 0–17 år ' + pp(hel.bef[2]) + ', 18–64 år ' + pp(hel.bef[3]) + ', 65+ ' + pp(hel.bef[4]) + '.', '<b>Riktig.</b>') +
+    krad('Nord-Norge har under 9 % av befolkningen, og andelen faller.', '8,70 % 1.1.2026 og 8,0 % i 2045 i framskrivingen.', '<b>Riktig.</b>') +
+    '</tbody>';
+
+  // ─── Akt 02 ───
+  var andelUt = (HN.ligg[2] - HN.ligg[1]) / (HN.ligg[2] - HN.ligg[0]) * 100;
+  document.getElementById('behovIntro').innerHTML =
+    'Med dagens bruk av sykehus per aldersgruppe ville Helse Nord trengt ' + f0(HN.ligg[2]) + ' liggedøgn i somatikken i 2045, mot ' + f0(HN.ligg[0]) + ' i 2025 (' + pp(demoHN) + '). Planens modell gir ' + f0(HN.ligg[1]) + ' (' + pp(planHN) + '). ' +
+    'Det betyr at om lag ' + f0(andelUt) + ' % av økningen som aldringen gir, skal tas ut gjennom endret praksis: kortere liggetid, mer poliklinisk behandling og dagbehandling, digital oppfølging, flere pasienter som behandles i kommunene og mindre bruk av tjenester med lav nytte. ' +
+    'For polikliniske kontakter går modellen den andre veien: ' + pp(endr(HN.poli[0], HN.poli[1])) + ', mot ' + pp(endr(HN.poli[0], HN.poli[2])) + ' med ren demografi, fordi noe av det som i dag krever innleggelse, skal flyttes til poliklinikken. ' +
+    'Landet har samme mønster, men på et høyere nivå. <b>Hypotese:</b> Dersom omstillingen tar lengre tid enn planen forutsetter, vil behovet ligge nærmere den demografiske banen, og presset på senger og personell bli større enn planen viser.';
+  document.getElementById('behovKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + pp(demoHN) + '</div><div class="l">Liggedøgn med ren demografi</div><div class="nh">Helse Nord 2025–2045</div></div>' +
+    '<div class="kpi"><div class="v">' + pp(planHN) + '</div><div class="l">Liggedøgn i planens modell</div><div class="nh">landet ' + pp(endr(NO.ligg[0], NO.ligg[1])) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + f0(andelUt) + ' %</div><div class="l">Av aldringseffekten skal tas ut ved omstilling</div><div class="nh">' + f0(HN.ligg[2] - HN.ligg[1]) + ' liggedøgn i 2045</div></div>';
+  var par = function(felt){ return rader.map(function(o){ return {navn: hfNavn(o), demo: endr(o[felt][0], o[felt][2]), plan: endr(o[felt][0], o[felt][1])}; }); };
+  var tegnPar = function(id, felt){
+    var p = par(felt);
+    document.getElementById(id).innerHTML = NN.placeholder('stolper', {kategorier: p.map(function(x){ return x.navn; }), aksetekst: rader.map(function(o){ return (window.innerWidth < 600 ? {UNN:'UNN', NLSH:'NLSH', HSYK:'HSYK', FIN:'FIN', HN:'HN', NO:'Landet'} : {UNN:'UNN', NLSH:'Nordland', HSYK:'Helgeland', FIN:'Finnmark', HN:'Helse Nord', NO:'Landet'})[o.kode]; }),
+      serier: [{navn:'Ren demografi', data: p.map(function(x){ return x.demo; }), farge:'muted'}, {navn:'Planens modell', data: p.map(function(x){ return x.plan; }), farge:'accent'}],
+      format:'pst', hoyde:280, kilde: H.kilde_framskriving + '. Ren demografi: dagens bruk per alder og kjønn holdes fast. Planens modell: revidert modell med endret praksis.' + (window.innerWidth < 600 ? ' NLSH = Nordlandssykehuset, HSYK = Helgelandssykehuset, FIN = Finnmarkssykehuset, HN = Helse Nord.' : '')}, 320);
+  };
+  tegnPar('liggGraf', 'ligg'); tegnPar('poliGraf', 'poli');
+
+  // ─── Akt 03 ───
+  var AV = H.aarsverk, ai = AV.aar.length - 1, nordEndr = endr(AV.nord[0], AV.nord[ai]), landEndr = endr(AV.landet[0], AV.landet[ai]);
+  var S = H.ansatte.serie['86.1'], si = H.ansatte.aar.length - 1;
+  var andelSyss = S.nn[si] / S.landet[si] * 100;
+  var IN = H.innleie;
+  document.getElementById('hendeIntro').innerHTML =
+    'Avtalte årsverk i spesialisthelsetjenesten i Helseregion Nord økte fra ' + f0(AV.nord[0]) + ' i ' + AV.aar[0] + ' til ' + f0(AV.nord[ai]) + ' i ' + AV.aar[ai] + ' (' + pp(nordEndr) + '), mot ' + pp(landEndr) + ' i landet. ' +
+    'Landsdelen har ' + f1(andelSyss) + ' % av landets sysselsatte i sykehustjenester, men ' + f1(HN.bef[0] / NO.bef[0] * 100) + ' % av befolkningen. Helse Nord har ifølge egen risikovurdering ' + IN.per_innb.pst + ' % flere årsverk per innbygger enn resten av landet, blant annet fordi avstandene krever flere sykehus og mer beredskap. ' +
+    'Samtidig går gruppen 18–64 år ned med ' + f1(-HN.bef[3]) + ' % fram til 2045, og Helse Nord er mer avhengig av innleid personell enn andre regioner: ' + f1(IN.andel.Nord) + ' % av lønns- og personalkostnadene gikk til innleie fra byrå i ' + IN.aar + ', mot 0,9–1,5 % i de andre regionene. I ' + IN.nou.aar + ' sto regionen for ' + IN.nou.innleie + ' % av all innleie med ' + IN.nou.aarsverk + ' % av årsverkene (' + IN.nou.kilde + '). ' +
+    'Nasjonalt venter regjeringens helsepersonellplan at underskuddet av helsepersonell vokser fra 9 900 årsverk i 2025 til 42 400 i 2040 (Meld. St. 11 (2025–2026), s. 16).';
+  document.getElementById('hendeKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + pp(nordEndr) + '</div><div class="l">Årsverk ' + AV.aar[0] + '–' + AV.aar[ai] + '</div><div class="nh">Helseregion Nord · landet ' + pp(landEndr) + '</div></div>' +
+    '<div class="kpi"><div class="v down">' + pp(HN.bef[3]) + '</div><div class="l">18–64 år 2025–2045</div><div class="nh">Helse Nords opptaksområde</div></div>' +
+    '<div class="kpi"><div class="v">' + f1(IN.andel.Nord) + ' %</div><div class="l">Innleie av lønnskostnadene ' + IN.aar + '</div><div class="nh">de andre regionene 0,9–1,5 %</div></div>';
+  document.getElementById('arsverkGraf').innerHTML = NN.placeholder('linjer', {
+    x: AV.aar,
+    serier: [{navn:'Landet', kort:'Landet', data: AV.landet.map(function(v){ return v / AV.landet[0] * 100; }), farge:'muted'},
+             {navn:'Helseregion Nord', kort:'Nord', data: AV.nord.map(function(v){ return v / AV.nord[0] * 100; }), farge:'accent', uthev:true}],
+    format:'indeks', hoyde:260, kilde: AV.kilde + ', ' + AV.aar[0] + '–' + AV.aar[ai] + '. Helseregion Nord omfatter også Helse Nord RHF, Sykehusapotek Nord og private institusjoner med avtale.'
+  }, 290);
+  var hfT = '<thead><tr><th>Helseforetak</th><th class="num">Årsverk ' + AV.aar[0] + '</th><th class="num">Årsverk ' + AV.aar[ai] + '</th><th class="num">Endring</th><th class="num">18–64 år 2025–2045</th><th class="num">65+ 2025–2045</th></tr></thead><tbody>';
+  HF.forEach(function(h){ var a = AV.hf[h.kode]; hfT += '<tr><td>' + h.navn + '</td><td class="num">' + f0(a[0]) + '</td><td class="num">' + f0(a[ai]) + '</td><td class="num">' + pp(endr(a[0], a[ai])) + '</td><td class="num">' + pp(h.bef[3]) + '</td><td class="num">' + pp(h.bef[4]) + '</td></tr>'; });
+  hfT += '<tr class="sum"><td>Helseregion Nord</td><td class="num">' + f0(AV.nord[0]) + '</td><td class="num">' + f0(AV.nord[ai]) + '</td><td class="num">' + pp(nordEndr) + '</td><td class="num">' + pp(HN.bef[3]) + '</td><td class="num">' + pp(HN.bef[4]) + '</td></tr></tbody>';
+  document.getElementById('hfTabell').innerHTML = hfT;
+  var reg = Object.keys(IN.andel).sort(function(a, b){ return IN.andel[b] - IN.andel[a]; });
+  document.getElementById('innleieGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{rader: reg.map(function(r){ return {l: 'Helse ' + r, v: IN.andel[r], farge: r === 'Nord' ? 'accent' : 'muted', uthev: r === 'Nord'}; })}], kilde: IN.kilde + '.'}, reg.length * 34 + 40);
+
+  // ─── Akt 04 ───
+  var tot = 0, o60 = 0, o120 = 0, n60 = 0, n120 = 0;
+  Object.keys(KM).forEach(function(nr){ var p = pop[nr] || 0, m = KM[nr].min; tot += p; if(m > 60){ o60 += p; n60++; } if(m > 120){ o120 += p; n120++; } });
+  var lengst = Object.keys(KM).sort(function(a, b){ return KM[b].min - KM[a].min; }).slice(0, 5);
+  var usikre = Object.keys(KM).filter(function(nr){ return KM[nr].grunnlag === 'ssb2019'; });
+  var namsos = Object.keys(KM).filter(function(nr){ return /Namsos/.test(KM[nr].akutt); });
+  document.getElementById('avstandIntro').innerHTML =
+    f1(o60 / tot * 100) + ' % av innbyggerne i Nord-Norge bor i en av de ' + n60 + ' kommunene der kommunesenteret har over én times kjøretid til nærmeste akuttsykehus, og ' + f1(o120 / tot * 100) + ' % i en av de ' + n120 + ' kommunene med over to timer. ' +
+    'Lengst er det fra ' + liste(lengst.map(function(nr){ return navnK(nr) + ' (' + tid(KM[nr].min) + ')'; })) + '. ' +
+    'Kjøretid er ikke det samme som tid til behandling: ved alvorlig sykdom brukes ambulansefly, helikopter og ambulansebåt, og distriktsmedisinske sentre med slagalarm, som i Brønnøysund og Mosjøen, kan starte behandling lokalt. ' +
+    'Kjøretiden viser likevel hvorfor planen legger vekt på at det som skjer ofte, skal skje nært: «Nært er viktigst når noe skal skje ofte», som ungdomsrådene i Helse Nord formulerer det.';
+  document.getElementById('avstandKPI').innerHTML =
+    '<div class="kpi"><div class="v">' + f1(o60 / tot * 100) + ' %</div><div class="l">Over én time til akuttsykehus</div><div class="nh">' + n60 + ' av 80 kommuner</div></div>' +
+    '<div class="kpi"><div class="v">' + f1(o120 / tot * 100) + ' %</div><div class="l">Over to timer</div><div class="nh">' + n120 + ' av 80 kommuner</div></div>' +
+    '<div class="kpi"><div class="v">' + tid(KM['1824'].min) + '</div><div class="l">Fra Mosjøen etter 1.10.2025</div><div class="nh">til ' + KM['1824'].akutt.replace('Helgelandssykehuset ', '') + ' · ' + tid(KM['1824'].ssb2019[0]) + ' i 2019 (SSB)</div></div>';
+  document.getElementById('kartTekst').innerHTML = 'Fra kommunesenteret med bil, med ferge der veien krever det. ' + (namsos.length ? navnK(namsos[0]) + ' har kortest vei til Sykehuset Namsos i Helse Midt-Norge. ' : '') +
+    'For ' + usikre.map(navnK).join(', ').replace(/, ([^,]*)$/, ' og $1') + ' vises SSBs befolkningsvektede tall fra 2019, fordi fergeberegningen er usikker. Pek på en kommune for tall, og klikk for kommunesiden.';
+  document.getElementById('reiseKart').innerHTML = NN.placeholder('kart', {ind:'akuttmin'}, 560);
+  var endrRad = function(nr){ var o = KM[nr]; return '<tr><td>' + navnK(nr) + '</td><td>' + o.akutt.replace('Helgelandssykehuset ', '').replace('Nordlandssykehuset ', '') + '</td><td class="num">' + (o.ssb2019[0] != null ? tid(o.ssb2019[0]) : '–') + '</td><td class="num">' + tid(o.min) + '</td></tr>'; };
+  document.getElementById('endringTabell').innerHTML = '<thead><tr><th>Kommune</th><th>Nærmeste akuttsykehus i dag</th><th class="num">Medianinnbygger 2019</th><th class="num">Kommunesenteret i dag</th></tr></thead><tbody>' +
+    ['1824', '1825', '1826', '1813', '1812'].map(endrRad).join('') + '</tbody>';
+  document.getElementById('endringNote').innerHTML = 'Målene er ikke helt like: SSBs tall fra 2019 gjelder medianinnbyggeren, mens dagens tall gjelder kommunesenteret. I kommuner der sykehusstrukturen ikke er endret, er forskjellen mellom de to målene i median 3 minutter. De store forskjellene i tabellen skyldes derfor i hovedsak at akuttfunksjonene i Mosjøen ble lagt ned 1. oktober 2025. Tabellen viser nærmeste akuttsykehus med bil; etter Helse Nords vedtak skal innbyggerne i Vefsn til Mo i Rana for indremedisin.';
+
+  // ─── Akt 05 ───
+  var NIV = {regionsykehus:'Regionsykehus', stort_akutt:'Stort akuttsykehus', akutt:'Akuttsykehus', uten_akutt:'Sykehus uten akuttfunksjon', dms:'Distriktsmedisinsk senter / klinikk'};
+  var FOD = {fodeavdeling:'Fødeavdeling', fodestue:'Fødestue', ingen:'–'};
+  var rek = ['regionsykehus', 'stort_akutt', 'akutt', 'uten_akutt', 'dms'];
+  var SYK = H.sykehus.filter(function(s){ return !s.utenfor; }).slice().sort(function(a, b){ return rek.indexOf(a.niva) - rek.indexOf(b.niva); });
+  document.getElementById('strukturIntro').innerHTML =
+    'Planen deler sykehusene i fire nivåer og vil ha en tydeligere arbeidsdeling mellom dem: tjenester som krever høyt spesialiserte fagmiljøer, skal samles, mens det befolkningen trenger ofte, skal gis lokalt eller digitalt. ' +
+    'Planen navngir ikke hvilke funksjoner som skal flyttes. De tillitsvalgte har i drøftingen bedt om at planen skriver «funksjonsfordeling» der det er det som menes (styresak 127-2026). ' +
+    'Tabellen viser dagens nivå etter planen og fødetilbudet ifølge helseforetakenes egne sider, hentet 29. oktober 2026.';
+  document.getElementById('sykehusTabell').innerHTML = '<thead><tr><th>Sykehus</th><th>Helseforetak</th><th>Nivå</th><th>Fødetilbud</th></tr></thead><tbody>' +
+    SYK.map(function(s){ return '<tr><td>' + s.navn + '</td><td>' + s.hf + '</td><td>' + (NIV[s.niva] || s.niva) + '</td><td>' + (FOD[s.fodsel] || s.fodsel || '–') + '</td></tr>'; }).join('') + '</tbody>';
+
+  // ─── Akt 06 ───
+  var V = H.ventetid, VR = V.rhf;
+  var atl = H.atlas.analyser, hoy = atl.filter(function(a){ return a.hn >= 1.25; }), lav = atl.filter(function(a){ return a.hn <= 0.9; });
+  var perTekst = V.periode.replace(/(\d{4})-T(\d)/, '$2. tertial $1');
+  document.getElementById('ventIntro').innerHTML =
+    'I ' + perTekst + ' ventet pasientene i Helse Nord i gjennomsnitt ' + f1(VR['Helse Nord RHF'][0]) + ' dager før behandlingen startet, mot ' + f1(VR.Landet[0]) + ' dager i landet, og ' + f1(VR['Helse Nord RHF'][1]) + ' % av forløpene startet etter fristen, mot ' + f1(VR.Landet[1]) + ' % i landet. ' +
+    'Innad i regionen er ventetiden lengst ved Helgelandssykehuset (' + f1(V.hf.HSYK[0]) + ' dager) og kortest ved Finnmarkssykehuset (' + f1(V.hf.FIN[0]) + ' dager). ' +
+    'SKDEs helseatlas viser at befolkningen i nord får mer av noen behandlinger enn resten av landet, justert for alder og kjønn: ' + liste(hoy.slice(0, 4).map(function(a){ return smaa(a.tittel) + ' (' + f1(a.hn) + ' ganger landet)'; })) + '. ' +
+    'Planen viser selv til atlaset og vil redusere behandling med lav og usikker nytte. Variasjon betyr ikke i seg selv at noe er galt, men det er her planen regner med å frigjøre kapasitet.';
+  document.getElementById('ventGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[
+    {tittel:'Regioner', rader: ['Helse Nord RHF', 'Helse Midt-Norge RHF', 'Helse Vest RHF', 'Helse Sør-Øst RHF', 'Landet'].map(function(n){ return {l: n.replace(' RHF', ''), v: VR[n][0], farge: n === 'Helse Nord RHF' ? 'accent' : 'muted', uthev: n === 'Helse Nord RHF', note: f1(VR[n][1]) + ' % fristbrudd'}; })},
+    {tittel:'Helseforetak i Helse Nord', rader: HF.map(function(h){ return {l: h.navn, v: V.hf[h.kode][0], farge: 'muted', note: V.hf[h.kode][1] != null ? f1(V.hf[h.kode][1]) + ' % fristbrudd' : null}; })}
+  ], kilde: V.kilde + ', ' + perTekst + '.'}, 520);
+  var vis = hoy.concat(lav);
+  document.getElementById('atlasGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{rader: vis.map(function(a){ return {l: a.tittel + ' (' + a.aar + ')', v: a.hn, farge: a.hn >= 1.25 ? 'accent' : 'muted'}; }), ref:{v:1, tekst:'Som landet'}}], kilde: H.atlas.kilde + '. Viser analyser der Helse Nord ligger minst 25 % over eller minst 10 % under landet.'}, vis.length * 34 + 60);
+
+  // ─── Akt 07 ───
+  document.getElementById('metodeIntro').innerHTML =
+    'Planen er en strategisk retning, ikke en tiltaksplan. Den har fire målområder og åtte prioriterte retninger, men få tallfestede mål. Ifølge styresaken «medfører [planen] i seg selv ingen direkte økonomiske eller personellmessige disposisjoner». Framskrivingene står i styresak 108-2026, ikke i nettplanen. ' +
+    'Siden viser hva planen bygger på og hva tallene viser, ikke om planens valg er riktige. Kjøretiden er beregnet med OSRM på OpenStreetMap fra kommunesenteret, uten kø, ventetid på ferge og stengte veier. Opptaksområdene er utledet fra SSB 13982, og Lurøy og Tjeldsund er delt mellom to sykehus. ' +
+    'Høringsfristen er 11. desember 2026, og endelig plan behandles i styret i februar 2027. Helsereformutvalget leverer i november og kan foreslå endringer i organiseringen som planen ikke tar høyde for.';
+});
+</script>
+</body>
+</html>

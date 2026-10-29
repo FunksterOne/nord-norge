@@ -76,6 +76,9 @@ const S = [
   { fil: 'tema-nordomrade.html', bilde: 'tema-11', tittel: '20 år med nordområdepolitikk — hva som ble sagt, og hva som skjedde',
     tekst: 'Regjeringene har kalt nordområdene sitt viktigste satsingsområde i 20 år. Hva ble lovet, og hva skjedde med folketallet i nord?',
     kicker: 'Tema 11 · Nordområdepolitikken', h: '20 år med<br>nordområdepolitikk', sub: 'Hva som ble sagt, og hva som skjedde' },
+  { fil: 'tema-helse.html', bilde: 'tema-12', tittel: 'Sykehusene i nord mot 2042 — flere pasienter, færre hender',
+    tekst: 'Flere eldre, færre i arbeidsfør alder og lange avstander. Hva Helse Nords nye plan bygger på, og hva tallene viser.',
+    kicker: 'Tema 12 · Spesialisthelsetjenesten', h: 'Sykehusene i nord<br>mot 2042', sub: 'Flere pasienter, færre hender' },
 ];
 
 // ── Kartet (samme projeksjon som i src/charts/map.js), fargelagt med forsørgerbrøken 2050 på forsidekortet ──

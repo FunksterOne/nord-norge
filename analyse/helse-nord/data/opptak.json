@@ -1,0 +1,526 @@
+{
+ "kilde": "SSB 13982 Befolkning per opptaksområde i spesialisthelsetjenesten (kodeliste vs_HelseOpptakSom, somatikk, lokalsykehus S01–S11), sammenholdt med SSB 07459 (folketall per kommune 1.1.) og SSB 04317 (grunnkretser, Lurøy). Fordelingen er den eneste som gir SSBs tall nøyaktig 2024, 2025 og 2026. HF-nivå kontrollert mot unn.no/om-oss (24 kommuner, 195 499 innb. 1.1.2025). Helgeland-endringen 2025 mot Helgelandssykehusets nyhet 5.9.2025 og Helse Nords vedtak (styresak 22-2025). Hentet 29.10.2026.",
+ "gjelder": "Somatikk, 2026-inndeling (etter at Mosjøen mistet akuttfunksjonene 1.10.2025). Feltet sykehus_2024_2025 viser tidligere lokalsykehus der det er endret.",
+ "hf_koder": {
+  "UNN": "Universitetssykehuset Nord-Norge HF",
+  "NLSH": "Nordlandssykehuset HF",
+  "HSYK": "Helgelandssykehuset HF",
+  "FIN": "Finnmarkssykehuset HF"
+ },
+ "kommuner": {
+  "1804": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Bodø"
+  },
+  "1806": {
+   "hf": "UNN",
+   "sykehus": "Narvik",
+   "ssb_kode": "S04",
+   "merknad": "UNN (Narvik); bekreftet av unn.no.",
+   "navn": "Narvik"
+  },
+  "1811": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "merknad": "Helgelandssykehuset (Sandnessjøen) i SSB 13982, ikke Helse Nord-Trøndelag/Namsos.",
+   "navn": "Bindal"
+  },
+  "1812": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Sømna"
+  },
+  "1813": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Brønnøy"
+  },
+  "1815": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Vega"
+  },
+  "1816": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Vevelstad"
+  },
+  "1818": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Herøy (Nordland)"
+  },
+  "1820": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Alstahaug"
+  },
+  "1822": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Leirfjord"
+  },
+  "1824": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "sykehus_2024_2025": "Mosjøen",
+   "merknad": "Til Mosjøen t.o.m. 2025. Fra 1.10.2025 er akutt- og døgnfunksjonene i somatikk flyttet fra Mosjøen; Helse Nord vedtok at Vefsn legges til Mo i Rana (indremedisin). SSB 13982 2026 bekrefter.",
+   "navn": "Vefsn"
+  },
+  "1825": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "sykehus_2024_2025": "Mosjøen",
+   "merknad": "Til Mosjøen t.o.m. 2025; fra 1.10.2025 Sandnessjøen (Helse Nord-vedtak 2025, indremedisin). SSB 13982 2026 bekrefter.",
+   "navn": "Grane"
+  },
+  "1826": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "sykehus_2024_2025": "Mosjøen",
+   "merknad": "Til Mosjøen t.o.m. 2025; fra 1.10.2025 Sandnessjøen (Helse Nord-vedtak 2025, indremedisin). SSB 13982 2026 bekrefter.",
+   "navn": "Aarborte - Hattfjelldal"
+  },
+  "1827": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Dønna"
+  },
+  "1828": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "navn": "Nesna"
+  },
+  "1832": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "navn": "Hemnes"
+  },
+  "1833": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "navn": "Rana - Raane"
+  },
+  "1834": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "delt": {
+    "Mo i Rana": "fastlandet",
+    "Sandnessjøen": "øyene"
+   },
+   "merknad": "Delt: fastlandet (grunnkretsene Røytvik, Klevhals–Bratlandselv, Bratlandselv–Olvik, Kvinen, Konsvik, Aspdal–Rødøy; 548 innb. 1.1.2026) til Mo i Rana, øyene (Lovund, Onøy, Kvarøy, Sleneset m.fl.; 1 405 innb.) til Sandnessjøen. Utledet av SSB 13982 og grunnkretstall (SSB 04317); entydig løsning, men ikke bekreftet i tekstkilde.",
+   "navn": "Lurøy"
+  },
+  "1835": {
+   "hf": "HSYK",
+   "sykehus": "Sandnessjøen",
+   "ssb_kode": "S11",
+   "navn": "Træna"
+  },
+  "1836": {
+   "hf": "HSYK",
+   "sykehus": "Mo i Rana",
+   "ssb_kode": "S09",
+   "navn": "Rødøy"
+  },
+  "1837": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Meløy"
+  },
+  "1838": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Gildeskål"
+  },
+  "1839": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Beiarn"
+  },
+  "1840": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Saltdal"
+  },
+  "1841": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Fauske - Fuossko"
+  },
+  "1845": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Sørfold - Fuolldá"
+  },
+  "1848": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "navn": "Steigen"
+  },
+  "1851": {
+   "hf": "UNN",
+   "sykehus": "Narvik",
+   "ssb_kode": "S04",
+   "merknad": "UNN (Narvik), ikke Nordlandssykehuset; bekreftet av unn.no.",
+   "navn": "Lødingen"
+  },
+  "1853": {
+   "hf": "UNN",
+   "sykehus": "Narvik",
+   "ssb_kode": "S04",
+   "merknad": "UNN (Narvik); bekreftet av unn.no.",
+   "navn": "Evenes - Evenássi"
+  },
+  "1856": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "merknad": "Bodø, ikke Lofoten.",
+   "navn": "Røst"
+  },
+  "1857": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "merknad": "Bodø, ikke Lofoten.",
+   "navn": "Værøy"
+  },
+  "1859": {
+   "hf": "NLSH",
+   "sykehus": "Lofoten (Gravdal)",
+   "ssb_kode": "S07",
+   "navn": "Flakstad"
+  },
+  "1860": {
+   "hf": "NLSH",
+   "sykehus": "Lofoten (Gravdal)",
+   "ssb_kode": "S07",
+   "navn": "Vestvågøy"
+  },
+  "1865": {
+   "hf": "NLSH",
+   "sykehus": "Lofoten (Gravdal)",
+   "ssb_kode": "S07",
+   "navn": "Vågan"
+  },
+  "1866": {
+   "hf": "NLSH",
+   "sykehus": "Vesterålen (Stokmarknes)",
+   "ssb_kode": "S08",
+   "navn": "Hadsel"
+  },
+  "1867": {
+   "hf": "NLSH",
+   "sykehus": "Vesterålen (Stokmarknes)",
+   "ssb_kode": "S08",
+   "navn": "Bø"
+  },
+  "1868": {
+   "hf": "NLSH",
+   "sykehus": "Vesterålen (Stokmarknes)",
+   "ssb_kode": "S08",
+   "navn": "Øksnes"
+  },
+  "1870": {
+   "hf": "NLSH",
+   "sykehus": "Vesterålen (Stokmarknes)",
+   "ssb_kode": "S08",
+   "navn": "Sortland - Suortá"
+  },
+  "1871": {
+   "hf": "NLSH",
+   "sykehus": "Vesterålen (Stokmarknes)",
+   "ssb_kode": "S08",
+   "merknad": "Nordlandssykehuset Vesterålen, ikke UNN Harstad.",
+   "navn": "Andøy"
+  },
+  "1874": {
+   "hf": "NLSH",
+   "sykehus": "Lofoten (Gravdal)",
+   "ssb_kode": "S07",
+   "navn": "Moskenes"
+  },
+  "1875": {
+   "hf": "NLSH",
+   "sykehus": "Bodø",
+   "ssb_kode": "S06",
+   "merknad": "Nordlandssykehuset Bodø (også tidligere Tysfjord vest).",
+   "navn": "Hábmer - Hamarøy"
+  },
+  "5501": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Tromsø"
+  },
+  "5503": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "navn": "Harstad - Hárstták"
+  },
+  "5510": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "navn": "Kvæfjord"
+  },
+  "5512": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "delt": {
+    "Harstad": "hovedsakelig",
+    "Narvik": "trolig en mindre del (734–835 innb., ikke stedfestet)"
+   },
+   "merknad": "Hovedsakelig Harstad. SSB 13982 regner 734–835 innbyggere fra UNN Harstads kommuner til Narvik (2024–2026). Hvilken kommune/del er ikke fastslått; Tjeldsund er mest sannsynlig, men ingen grunnkretskombinasjon passer alle tre år.",
+   "navn": "Dielddanuorri - Tjeldsund"
+  },
+  "5514": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "merknad": "Harstad.",
+   "navn": "Ibestad"
+  },
+  "5516": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "merknad": "Harstad.",
+   "navn": "Gratangen - Rivtták"
+  },
+  "5518": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "merknad": "Harstad.",
+   "navn": "Loabák - Lavangen"
+  },
+  "5520": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Bardu"
+  },
+  "5522": {
+   "hf": "UNN",
+   "sykehus": "Harstad",
+   "ssb_kode": "S03",
+   "merknad": "Harstad.",
+   "navn": "Salangen"
+  },
+  "5524": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Målselv"
+  },
+  "5526": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Sørreisa"
+  },
+  "5528": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Dyrøy"
+  },
+  "5530": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Senja"
+  },
+  "5532": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Balsfjord"
+  },
+  "5534": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Karlsøy"
+  },
+  "5536": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Lyngen - Ivgu - Yykeä"
+  },
+  "5538": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Storfjord - Omasvuotna - Omasvuono"
+  },
+  "5540": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Gáivuotna - Kåfjord - Kaivuono"
+  },
+  "5542": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Skjervøy"
+  },
+  "5544": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "navn": "Nordreisa - Ráisa - Raisi"
+  },
+  "5546": {
+   "hf": "UNN",
+   "sykehus": "Tromsø",
+   "ssb_kode": "S05",
+   "merknad": "UNN Tromsø, ikke Finnmarkssykehuset.",
+   "navn": "Kvænangen"
+  },
+  "5601": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Alta"
+  },
+  "5603": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Hammerfest - Hámmerfeasta"
+  },
+  "5605": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Sør-Varanger"
+  },
+  "5607": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Vadsø"
+  },
+  "5610": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "merknad": "Hammerfest.",
+   "navn": "Kárásjohka - Karasjok"
+  },
+  "5612": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Guovdageaidnu - Kautokeino"
+  },
+  "5614": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "merknad": "Finnmarkssykehuset Hammerfest, ikke UNN.",
+   "navn": "Loppa"
+  },
+  "5616": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Hasvik"
+  },
+  "5618": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Måsøy"
+  },
+  "5620": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Nordkapp"
+  },
+  "5622": {
+   "hf": "FIN",
+   "sykehus": "Hammerfest",
+   "ssb_kode": "S01",
+   "navn": "Porsanger - Porsángu - Porsanki"
+  },
+  "5624": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "merknad": "Kirkenes.",
+   "navn": "Lebesby"
+  },
+  "5626": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "merknad": "Kirkenes.",
+   "navn": "Gamvik"
+  },
+  "5628": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "merknad": "Kirkenes.",
+   "navn": "Deatnu - Tana"
+  },
+  "5630": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Berlevåg"
+  },
+  "5632": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Båtsfjord"
+  },
+  "5634": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Vardø"
+  },
+  "5636": {
+   "hf": "FIN",
+   "sykehus": "Kirkenes",
+   "ssb_kode": "S02",
+   "navn": "Unjárga - Nesseby"
+  }
+ }
+}

@@ -73,6 +73,14 @@ export const INDIKATORER = {
     kilde: 'Kilde: IMDi, anmodning om bosetting per kommune 2027 (23.10.2026). Anmodning, ikke vedtak.',
     skjult: true,
   },
+  akuttmin: {
+    navn: 'Reisetid til akuttsykehus', kort: 'Kjøretid til nærmeste akuttsykehus',
+    enhet: 'Kjøretid med bil fra kommunesenteret til nærmeste akuttsykehus, minutter (OSRM; SSB 2019 for fire øykommuner)',
+    verdi: k => { const o = L.HELSE?.kommuner?.[String(k.nr)]; return o ? o.min : null; },
+    fmt: v => (v >= 60 ? `${Math.floor(v / 60)} t ${v % 60} min` : `${v} min`), akse: v => (v >= 60 ? `${tall(v / 60, 0)} t` : `${v} min`), type: 'sequential',
+    kilde: 'Kilde: egen beregning med OSRM (OpenStreetMap) fra kommunesenteret; SSB 12764 (2019) der fergeberegningen er usikker. Sykehus med akuttfunksjon etter Helse Nords regionale utviklingsplan 2027–2042.',
+    skjult: true,
+  },
   okon: {
     navn: 'Ikke-sysselsatte per 100 sysselsatte', kort: 'Ikke-sysselsatte per 100 sysselsatte',
     enhet: 'Innbyggere som ikke er i arbeid (alle aldre) per 100 sysselsatte, 4. kvartal 2025',

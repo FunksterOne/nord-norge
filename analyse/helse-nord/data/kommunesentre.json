@@ -1,0 +1,482 @@
+{
+ "1804": {
+  "sted": "Bodø",
+  "type": "By",
+  "lon": 14.37513,
+  "lat": 67.28267
+ },
+ "1806": {
+  "sted": "Narvik",
+  "type": "By",
+  "lon": 17.42777,
+  "lat": 68.43828
+ },
+ "1811": {
+  "sted": "Terråk",
+  "type": "Tettsted",
+  "lon": 12.36923,
+  "lat": 65.08498
+ },
+ "1812": {
+  "sted": "Vik",
+  "type": "Tettsted",
+  "lon": 12.16736,
+  "lat": 65.31255
+ },
+ "1813": {
+  "sted": "Brønnøysund",
+  "type": "By",
+  "lon": 12.20746,
+  "lat": 65.46814
+ },
+ "1815": {
+  "sted": "Gladstad",
+  "type": "Tettsted",
+  "lon": 11.96218,
+  "lat": 65.67683
+ },
+ "1816": {
+  "sted": "Forvika",
+  "type": "Gard",
+  "lon": 12.46212,
+  "lat": 65.71496
+ },
+ "1818": {
+  "sted": "Silvalen",
+  "type": "Tettbebyggelse",
+  "lon": 12.28856,
+  "lat": 65.9832
+ },
+ "1820": {
+  "sted": "Sandnessjøen",
+  "type": "By",
+  "lon": 12.61593,
+  "lat": 66.01815
+ },
+ "1822": {
+  "sted": "Leland",
+  "type": "Tettsted",
+  "lon": 12.94325,
+  "lat": 66.06406
+ },
+ "1824": {
+  "sted": "Mosjøen",
+  "type": "By",
+  "lon": 13.19136,
+  "lat": 65.837
+ },
+ "1825": {
+  "sted": "Trofors",
+  "type": "Tettsted",
+  "lon": 13.40631,
+  "lat": 65.53335
+ },
+ "1826": {
+  "sted": "Hattfjelldal",
+  "type": "Tettsted",
+  "lon": 13.98791,
+  "lat": 65.59736
+ },
+ "1827": {
+  "sted": "Solfjellsjøen",
+  "type": "Bygdelag (bygd)",
+  "lon": 12.4905,
+  "lat": 66.10899
+ },
+ "1828": {
+  "sted": "Nesna",
+  "type": "Tettsted",
+  "lon": 13.01844,
+  "lat": 66.19817
+ },
+ "1832": {
+  "sted": "Korgen",
+  "type": "Tettsted",
+  "lon": 13.8216,
+  "lat": 66.07662
+ },
+ "1833": {
+  "sted": "Mo i Rana",
+  "type": "By",
+  "lon": 14.14279,
+  "lat": 66.31278
+ },
+ "1834": {
+  "sted": "Lurøy",
+  "type": "Gard",
+  "lon": 12.85729,
+  "lat": 66.41982
+ },
+ "1835": {
+  "sted": "Husøy",
+  "type": "Øy i sjø",
+  "lon": 12.07492,
+  "lat": 66.49538
+ },
+ "1836": {
+  "sted": "Vågaholmen",
+  "type": "Tettsted",
+  "lon": 13.28749,
+  "lat": 66.71363
+ },
+ "1837": {
+  "sted": "Ørnes",
+  "type": "Tettsted",
+  "lon": 13.70579,
+  "lat": 66.86878
+ },
+ "1838": {
+  "sted": "Inndyr",
+  "type": "Tettsted",
+  "lon": 14.02663,
+  "lat": 67.03353
+ },
+ "1839": {
+  "sted": "Moldjord",
+  "type": "Tettbebyggelse",
+  "lon": 14.57644,
+  "lat": 67.00668
+ },
+ "1840": {
+  "sted": "Rognan",
+  "type": "Tettsted",
+  "lon": 15.39086,
+  "lat": 67.10021
+ },
+ "1841": {
+  "sted": "Fauske",
+  "type": "By",
+  "lon": 15.39333,
+  "lat": 67.25945
+ },
+ "1845": {
+  "sted": "Straumen",
+  "type": "Tettbebyggelse",
+  "lon": 15.59719,
+  "lat": 67.34812
+ },
+ "1848": {
+  "sted": "Leines",
+  "type": "Gard",
+  "lon": 14.80823,
+  "lat": 67.73667
+ },
+ "1851": {
+  "sted": "Lødingen",
+  "type": "Tettsted",
+  "lon": 15.99626,
+  "lat": 68.41373
+ },
+ "1853": {
+  "sted": "Bogen",
+  "type": "Tettsted",
+  "lon": 16.9928,
+  "lat": 68.52646
+ },
+ "1856": {
+  "sted": "Røstlandet",
+  "type": "Øy i sjø",
+  "lon": 12.10642,
+  "lat": 67.52087
+ },
+ "1857": {
+  "sted": "Sørland",
+  "type": "Tettsted",
+  "lon": 12.69784,
+  "lat": 67.66564
+ },
+ "1859": {
+  "sted": "Ramberg",
+  "type": "Tettsted",
+  "lon": 13.22989,
+  "lat": 68.08991
+ },
+ "1860": {
+  "sted": "Leknes",
+  "type": "By",
+  "lon": 13.61151,
+  "lat": 68.14746
+ },
+ "1865": {
+  "sted": "Svolvær",
+  "type": "By",
+  "lon": 14.56363,
+  "lat": 68.23525
+ },
+ "1866": {
+  "sted": "Stokmarknes",
+  "type": "By",
+  "lon": 14.90455,
+  "lat": 68.56552
+ },
+ "1867": {
+  "sted": "Straume",
+  "type": "Tettsted",
+  "lon": 14.47146,
+  "lat": 68.68899
+ },
+ "1868": {
+  "sted": "Myre",
+  "type": "Tettsted",
+  "lon": 15.07843,
+  "lat": 68.914
+ },
+ "1870": {
+  "sted": "Sortland",
+  "type": "By",
+  "lon": 15.41382,
+  "lat": 68.6982
+ },
+ "1871": {
+  "sted": "Andenes",
+  "type": "Tettsted",
+  "lon": 16.1194,
+  "lat": 69.31435
+ },
+ "1874": {
+  "sted": "Reine",
+  "type": "Tettsted",
+  "lon": 13.08874,
+  "lat": 67.93241
+ },
+ "1875": {
+  "sted": "Oppeid",
+  "type": "Tettbebyggelse",
+  "lon": 15.60942,
+  "lat": 68.08522
+ },
+ "5501": {
+  "sted": "Tromsø",
+  "type": "By",
+  "lon": 18.96366,
+  "lat": 69.65455
+ },
+ "5503": {
+  "sted": "Harstad",
+  "type": "By",
+  "lon": 16.54414,
+  "lat": 68.80112
+ },
+ "5510": {
+  "sted": "Borkenes",
+  "type": "Tettsted",
+  "lon": 16.17115,
+  "lat": 68.77261
+ },
+ "5512": {
+  "sted": "Evenskjer",
+  "type": "Tettsted",
+  "lon": 16.57213,
+  "lat": 68.58281
+ },
+ "5514": {
+  "sted": "Hamnvik",
+  "type": "Tettsted",
+  "lon": 17.17179,
+  "lat": 68.77927
+ },
+ "5516": {
+  "sted": "Årstein",
+  "type": "Gard",
+  "lon": 17.54143,
+  "lat": 68.69017
+ },
+ "5518": {
+  "sted": "Tennevoll",
+  "type": "Tettsted",
+  "lon": 17.80618,
+  "lat": 68.74709
+ },
+ "5520": {
+  "sted": "Setermoen",
+  "type": "Tettsted",
+  "lon": 18.34827,
+  "lat": 68.86094
+ },
+ "5522": {
+  "sted": "Sjøvegan",
+  "type": "Tettsted",
+  "lon": 17.85261,
+  "lat": 68.87261
+ },
+ "5524": {
+  "sted": "Moen",
+  "type": "Gard",
+  "lon": 18.62466,
+  "lat": 69.12323
+ },
+ "5526": {
+  "sted": "Sørreisa",
+  "type": "Tettsted",
+  "lon": 18.15292,
+  "lat": 69.14526
+ },
+ "5528": {
+  "sted": "Brøstadbotn",
+  "type": "Bygdelag (bygd)",
+  "lon": 17.69258,
+  "lat": 69.0886
+ },
+ "5530": {
+  "sted": "Finnsnes",
+  "type": "By",
+  "lon": 17.98104,
+  "lat": 69.22961
+ },
+ "5532": {
+  "sted": "Storsteinnes",
+  "type": "Tettsted",
+  "lon": 19.23444,
+  "lat": 69.24074
+ },
+ "5534": {
+  "sted": "Hansnes",
+  "type": "Tettsted",
+  "lon": 19.62752,
+  "lat": 69.96701
+ },
+ "5536": {
+  "sted": "Lyngseidet",
+  "type": "Tettsted",
+  "lon": 20.21878,
+  "lat": 69.57633
+ },
+ "5538": {
+  "sted": "Hatteng",
+  "type": "Tettbebyggelse",
+  "lon": 19.95948,
+  "lat": 69.27071
+ },
+ "5540": {
+  "sted": "Olderdalen",
+  "type": "Tettsted",
+  "lon": 20.53705,
+  "lat": 69.60298
+ },
+ "5542": {
+  "sted": "Skjervøy",
+  "type": "Tettsted",
+  "lon": 20.98143,
+  "lat": 70.03577
+ },
+ "5544": {
+  "sted": "Storslett",
+  "type": "Tettsted",
+  "lon": 21.02449,
+  "lat": 69.76823
+ },
+ "5546": {
+  "sted": "Burfjord",
+  "type": "Tettbebyggelse",
+  "lon": 22.05203,
+  "lat": 69.93803
+ },
+ "5601": {
+  "sted": "Alta",
+  "type": "By",
+  "lon": 23.27163,
+  "lat": 69.96887
+ },
+ "5603": {
+  "sted": "Hammerfest",
+  "type": "By",
+  "lon": 23.68206,
+  "lat": 70.66336
+ },
+ "5605": {
+  "sted": "Kirkenes",
+  "type": "By",
+  "lon": 30.045,
+  "lat": 69.72708
+ },
+ "5607": {
+  "sted": "Vadsø",
+  "type": "By",
+  "lon": 29.73094,
+  "lat": 70.08031
+ },
+ "5610": {
+  "sted": "Karasjok",
+  "type": "Tettsted",
+  "lon": 25.51113,
+  "lat": 69.47188
+ },
+ "5612": {
+  "sted": "Kautokeino",
+  "type": "Tettsted",
+  "lon": 23.04101,
+  "lat": 69.01243
+ },
+ "5614": {
+  "sted": "Øksfjord",
+  "type": "Tettsted",
+  "lon": 22.35047,
+  "lat": 70.23956
+ },
+ "5616": {
+  "sted": "Breivikbotn",
+  "type": "Tettsted",
+  "lon": 22.28712,
+  "lat": 70.58877
+ },
+ "5618": {
+  "sted": "Havøysund",
+  "type": "Tettsted",
+  "lon": 24.66213,
+  "lat": 70.99633
+ },
+ "5620": {
+  "sted": "Honningsvåg",
+  "type": "By",
+  "lon": 25.97679,
+  "lat": 70.97887
+ },
+ "5622": {
+  "sted": "Lakselv",
+  "type": "Tettsted",
+  "lon": 24.97173,
+  "lat": 70.0513
+ },
+ "5624": {
+  "sted": "Kjøllefjord",
+  "type": "Tettsted",
+  "lon": 27.3463,
+  "lat": 70.94572
+ },
+ "5626": {
+  "sted": "Mehamn",
+  "type": "Tettsted",
+  "lon": 27.85133,
+  "lat": 71.04137
+ },
+ "5628": {
+  "sted": "Tana bru",
+  "type": "Tettsted",
+  "lon": 28.19164,
+  "lat": 70.19863
+ },
+ "5630": {
+  "sted": "Berlevåg",
+  "type": "Tettsted",
+  "lon": 29.08593,
+  "lat": 70.85779
+ },
+ "5632": {
+  "sted": "Båtsfjord",
+  "type": "Tettsted",
+  "lon": 29.69479,
+  "lat": 70.62924
+ },
+ "5634": {
+  "sted": "Vardø",
+  "type": "By",
+  "lon": 31.10954,
+  "lat": 70.37052
+ },
+ "5636": {
+  "sted": "Varangerbotn",
+  "type": "Tettsted",
+  "lon": 28.55568,
+  "lat": 70.17278
+ }
+}

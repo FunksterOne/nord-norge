@@ -12,6 +12,7 @@ export const TEMAER = [
   { nr: '09', fil: 'tema-pensjon.html', tittel: 'Pensjonsetterslepet', sub: 'Kommunale pensjoner', metode: 'pensjon' },
   { nr: '10', fil: 'tema-ung.html', tittel: 'Ung i nord', sub: 'Unge voksne 18–34 år', metode: 'barometer' },
   { nr: '11', fil: 'tema-nordomrade.html', tittel: '20 år med nordområdepolitikk', sub: 'Hva som ble sagt, og hva som skjedde', metode: 'nordomradepolitikk' },
+  { nr: '12', fil: 'tema-helse.html', tittel: 'Sykehusene i nord mot 2042', sub: 'Flere pasienter, færre hender', metode: 'spesialisthelse' },
 ];
 const METODE = { 'sammenlign.html': 'normer', 'nord-norge.html': 'framskriving', 'fylke.html': 'framskriving', 'kommune.html': 'framskriving' };
 const MOBIL = '(max-width: 720px)';

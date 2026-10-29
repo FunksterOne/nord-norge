@@ -1,0 +1,901 @@
+aar,niva,kode,omraade,alder,personer
+2015,HF,983974880,Finnmarkssykehuset HF,0-17,16109
+2015,HF,983974880,Finnmarkssykehuset HF,18-66,48962
+2015,HF,983974880,Finnmarkssykehuset HF,67-79,7618
+2015,HF,983974880,Finnmarkssykehuset HF,80+,2916
+2015,HF,983974880,Finnmarkssykehuset HF,alle,75605
+2015,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,39741
+2015,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122808
+2015,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,19917
+2015,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8193
+2015,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,190659
+2015,HF,983974910,Nordlandssykehuset HF,0-17,28788
+2015,HF,983974910,Nordlandssykehuset HF,18-66,85684
+2015,HF,983974910,Nordlandssykehuset HF,67-79,15074
+2015,HF,983974910,Nordlandssykehuset HF,80+,6438
+2015,HF,983974910,Nordlandssykehuset HF,alle,135984
+2015,HF,983974929,Helgelandssykehuset HF,0-17,16489
+2015,HF,983974929,Helgelandssykehuset HF,18-66,48721
+2015,HF,983974929,Helgelandssykehuset HF,67-79,9254
+2015,HF,983974929,Helgelandssykehuset HF,80+,4028
+2015,HF,983974929,Helgelandssykehuset HF,alle,78492
+2016,HF,983974880,Finnmarkssykehuset HF,0-17,15833
+2016,HF,983974880,Finnmarkssykehuset HF,18-66,49005
+2016,HF,983974880,Finnmarkssykehuset HF,67-79,7988
+2016,HF,983974880,Finnmarkssykehuset HF,80+,2932
+2016,HF,983974880,Finnmarkssykehuset HF,alle,75758
+2016,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,39501
+2016,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122938
+2016,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,20758
+2016,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8239
+2016,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,191436
+2016,HF,983974910,Nordlandssykehuset HF,0-17,28492
+2016,HF,983974910,Nordlandssykehuset HF,18-66,85818
+2016,HF,983974910,Nordlandssykehuset HF,67-79,15682
+2016,HF,983974910,Nordlandssykehuset HF,80+,6415
+2016,HF,983974910,Nordlandssykehuset HF,alle,136407
+2016,HF,983974929,Helgelandssykehuset HF,0-17,16257
+2016,HF,983974929,Helgelandssykehuset HF,18-66,48517
+2016,HF,983974929,Helgelandssykehuset HF,67-79,9608
+2016,HF,983974929,Helgelandssykehuset HF,80+,4011
+2016,HF,983974929,Helgelandssykehuset HF,alle,78393
+2017,HF,983974880,Finnmarkssykehuset HF,0-17,15774
+2017,HF,983974880,Finnmarkssykehuset HF,18-66,49081
+2017,HF,983974880,Finnmarkssykehuset HF,67-79,8312
+2017,HF,983974880,Finnmarkssykehuset HF,80+,2982
+2017,HF,983974880,Finnmarkssykehuset HF,alle,76149
+2017,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,39431
+2017,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,123310
+2017,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,21622
+2017,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8282
+2017,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,192645
+2017,HF,983974910,Nordlandssykehuset HF,0-17,28316
+2017,HF,983974910,Nordlandssykehuset HF,18-66,86249
+2017,HF,983974910,Nordlandssykehuset HF,67-79,16185
+2017,HF,983974910,Nordlandssykehuset HF,80+,6499
+2017,HF,983974910,Nordlandssykehuset HF,alle,137249
+2017,HF,983974929,Helgelandssykehuset HF,0-17,16135
+2017,HF,983974929,Helgelandssykehuset HF,18-66,48508
+2017,HF,983974929,Helgelandssykehuset HF,67-79,9886
+2017,HF,983974929,Helgelandssykehuset HF,80+,4075
+2017,HF,983974929,Helgelandssykehuset HF,alle,78604
+2018,HF,983974880,Finnmarkssykehuset HF,0-17,15588
+2018,HF,983974880,Finnmarkssykehuset HF,18-66,48947
+2018,HF,983974880,Finnmarkssykehuset HF,67-79,8624
+2018,HF,983974880,Finnmarkssykehuset HF,80+,3008
+2018,HF,983974880,Finnmarkssykehuset HF,alle,76167
+2018,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,39003
+2018,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,123518
+2018,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,22388
+2018,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8408
+2018,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,193317
+2018,HF,983974910,Nordlandssykehuset HF,0-17,28028
+2018,HF,983974910,Nordlandssykehuset HF,18-66,86653
+2018,HF,983974910,Nordlandssykehuset HF,67-79,16655
+2018,HF,983974910,Nordlandssykehuset HF,80+,6567
+2018,HF,983974910,Nordlandssykehuset HF,alle,137903
+2018,HF,983974929,Helgelandssykehuset HF,0-17,15952
+2018,HF,983974929,Helgelandssykehuset HF,18-66,48465
+2018,HF,983974929,Helgelandssykehuset HF,67-79,10088
+2018,HF,983974929,Helgelandssykehuset HF,80+,4109
+2018,HF,983974929,Helgelandssykehuset HF,alle,78614
+2019,HF,983974880,Finnmarkssykehuset HF,0-17,15084
+2019,HF,983974880,Finnmarkssykehuset HF,18-66,48866
+2019,HF,983974880,Finnmarkssykehuset HF,67-79,8837
+2019,HF,983974880,Finnmarkssykehuset HF,80+,3078
+2019,HF,983974880,Finnmarkssykehuset HF,alle,75865
+2019,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,38420
+2019,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,123978
+2019,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,22938
+2019,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8582
+2019,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,193918
+2019,HF,983974910,Nordlandssykehuset HF,0-17,27767
+2019,HF,983974910,Nordlandssykehuset HF,18-66,86701
+2019,HF,983974910,Nordlandssykehuset HF,67-79,17053
+2019,HF,983974910,Nordlandssykehuset HF,80+,6672
+2019,HF,983974910,Nordlandssykehuset HF,alle,138193
+2019,HF,983974929,Helgelandssykehuset HF,0-17,15743
+2019,HF,983974929,Helgelandssykehuset HF,18-66,48239
+2019,HF,983974929,Helgelandssykehuset HF,67-79,10283
+2019,HF,983974929,Helgelandssykehuset HF,80+,4211
+2019,HF,983974929,Helgelandssykehuset HF,alle,78476
+2020,HF,983974880,Finnmarkssykehuset HF,0-17,14708
+2020,HF,983974880,Finnmarkssykehuset HF,18-66,48557
+2020,HF,983974880,Finnmarkssykehuset HF,67-79,9054
+2020,HF,983974880,Finnmarkssykehuset HF,80+,3153
+2020,HF,983974880,Finnmarkssykehuset HF,alle,75472
+2020,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,37747
+2020,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,123072
+2020,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,23503
+2020,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,8744
+2020,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,193066
+2020,HF,983974910,Nordlandssykehuset HF,0-17,27359
+2020,HF,983974910,Nordlandssykehuset HF,18-66,86383
+2020,HF,983974910,Nordlandssykehuset HF,67-79,17646
+2020,HF,983974910,Nordlandssykehuset HF,80+,6757
+2020,HF,983974910,Nordlandssykehuset HF,alle,138145
+2020,HF,983974929,Helgelandssykehuset HF,0-17,15368
+2020,HF,983974929,Helgelandssykehuset HF,18-66,47769
+2020,HF,983974929,Helgelandssykehuset HF,67-79,10416
+2020,HF,983974929,Helgelandssykehuset HF,80+,4310
+2020,HF,983974929,Helgelandssykehuset HF,alle,77863
+2021,HF,983974880,Finnmarkssykehuset HF,0-17,14237
+2021,HF,983974880,Finnmarkssykehuset HF,18-66,47951
+2021,HF,983974880,Finnmarkssykehuset HF,67-79,9260
+2021,HF,983974880,Finnmarkssykehuset HF,80+,3236
+2021,HF,983974880,Finnmarkssykehuset HF,alle,74684
+2021,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,36875
+2021,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122503
+2021,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,24078
+2021,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,9016
+2021,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,192472
+2021,HF,983974910,Nordlandssykehuset HF,0-17,26861
+2021,HF,983974910,Nordlandssykehuset HF,18-66,86033
+2021,HF,983974910,Nordlandssykehuset HF,67-79,18179
+2021,HF,983974910,Nordlandssykehuset HF,80+,6887
+2021,HF,983974910,Nordlandssykehuset HF,alle,137960
+2021,HF,983974929,Helgelandssykehuset HF,0-17,15028
+2021,HF,983974929,Helgelandssykehuset HF,18-66,47309
+2021,HF,983974929,Helgelandssykehuset HF,67-79,10656
+2021,HF,983974929,Helgelandssykehuset HF,80+,4404
+2021,HF,983974929,Helgelandssykehuset HF,alle,77397
+2022,HF,983974880,Finnmarkssykehuset HF,0-17,13998
+2022,HF,983974880,Finnmarkssykehuset HF,18-66,47418
+2022,HF,983974880,Finnmarkssykehuset HF,67-79,9428
+2022,HF,983974880,Finnmarkssykehuset HF,80+,3285
+2022,HF,983974880,Finnmarkssykehuset HF,alle,74129
+2022,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,36462
+2022,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122097
+2022,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,24657
+2022,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,9231
+2022,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,192447
+2022,HF,983974910,Nordlandssykehuset HF,0-17,26670
+2022,HF,983974910,Nordlandssykehuset HF,18-66,85810
+2022,HF,983974910,Nordlandssykehuset HF,67-79,18538
+2022,HF,983974910,Nordlandssykehuset HF,80+,7098
+2022,HF,983974910,Nordlandssykehuset HF,alle,138116
+2022,HF,983974929,Helgelandssykehuset HF,0-17,14760
+2022,HF,983974929,Helgelandssykehuset HF,18-66,47072
+2022,HF,983974929,Helgelandssykehuset HF,67-79,10921
+2022,HF,983974929,Helgelandssykehuset HF,80+,4481
+2022,HF,983974929,Helgelandssykehuset HF,alle,77234
+2023,HF,983974880,Finnmarkssykehuset HF,0-17,13904
+2023,HF,983974880,Finnmarkssykehuset HF,18-66,47327
+2023,HF,983974880,Finnmarkssykehuset HF,67-79,9517
+2023,HF,983974880,Finnmarkssykehuset HF,80+,3364
+2023,HF,983974880,Finnmarkssykehuset HF,alle,74112
+2023,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,36216
+2023,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122252
+2023,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,25127
+2023,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,9555
+2023,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,193150
+2023,HF,983974910,Nordlandssykehuset HF,0-17,26644
+2023,HF,983974910,Nordlandssykehuset HF,18-66,85972
+2023,HF,983974910,Nordlandssykehuset HF,67-79,18890
+2023,HF,983974910,Nordlandssykehuset HF,80+,7416
+2023,HF,983974910,Nordlandssykehuset HF,alle,138922
+2023,HF,983974929,Helgelandssykehuset HF,0-17,14639
+2023,HF,983974929,Helgelandssykehuset HF,18-66,47099
+2023,HF,983974929,Helgelandssykehuset HF,67-79,11064
+2023,HF,983974929,Helgelandssykehuset HF,80+,4550
+2023,HF,983974929,Helgelandssykehuset HF,alle,77352
+2024,HF,983974880,Finnmarkssykehuset HF,0-17,14071
+2024,HF,983974880,Finnmarkssykehuset HF,18-66,47832
+2024,HF,983974880,Finnmarkssykehuset HF,67-79,9683
+2024,HF,983974880,Finnmarkssykehuset HF,80+,3467
+2024,HF,983974880,Finnmarkssykehuset HF,alle,75053
+2024,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,36140
+2024,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,122803
+2024,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,25706
+2024,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,9931
+2024,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,194580
+2024,HF,983974910,Nordlandssykehuset HF,0-17,26641
+2024,HF,983974910,Nordlandssykehuset HF,18-66,86720
+2024,HF,983974910,Nordlandssykehuset HF,67-79,19224
+2024,HF,983974910,Nordlandssykehuset HF,80+,7641
+2024,HF,983974910,Nordlandssykehuset HF,alle,140226
+2024,HF,983974929,Helgelandssykehuset HF,0-17,14714
+2024,HF,983974929,Helgelandssykehuset HF,18-66,47169
+2024,HF,983974929,Helgelandssykehuset HF,67-79,11236
+2024,HF,983974929,Helgelandssykehuset HF,80+,4766
+2024,HF,983974929,Helgelandssykehuset HF,alle,77885
+2025,HF,983974880,Finnmarkssykehuset HF,0-17,13953
+2025,HF,983974880,Finnmarkssykehuset HF,18-66,47804
+2025,HF,983974880,Finnmarkssykehuset HF,67-79,9680
+2025,HF,983974880,Finnmarkssykehuset HF,80+,3605
+2025,HF,983974880,Finnmarkssykehuset HF,alle,75042
+2025,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,35701
+2025,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,123430
+2025,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,25951
+2025,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,10417
+2025,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,195499
+2025,HF,983974910,Nordlandssykehuset HF,0-17,26505
+2025,HF,983974910,Nordlandssykehuset HF,18-66,86737
+2025,HF,983974910,Nordlandssykehuset HF,67-79,19347
+2025,HF,983974910,Nordlandssykehuset HF,80+,8019
+2025,HF,983974910,Nordlandssykehuset HF,alle,140608
+2025,HF,983974929,Helgelandssykehuset HF,0-17,14573
+2025,HF,983974929,Helgelandssykehuset HF,18-66,47139
+2025,HF,983974929,Helgelandssykehuset HF,67-79,11239
+2025,HF,983974929,Helgelandssykehuset HF,80+,5003
+2025,HF,983974929,Helgelandssykehuset HF,alle,77954
+2026,HF,983974880,Finnmarkssykehuset HF,0-17,13844
+2026,HF,983974880,Finnmarkssykehuset HF,18-66,47927
+2026,HF,983974880,Finnmarkssykehuset HF,67-79,9775
+2026,HF,983974880,Finnmarkssykehuset HF,80+,3742
+2026,HF,983974880,Finnmarkssykehuset HF,alle,75288
+2026,HF,983974899,Universitetssykehuset Nord-Norge HF,0-17,35217
+2026,HF,983974899,Universitetssykehuset Nord-Norge HF,18-66,124115
+2026,HF,983974899,Universitetssykehuset Nord-Norge HF,67-79,25946
+2026,HF,983974899,Universitetssykehuset Nord-Norge HF,80+,10948
+2026,HF,983974899,Universitetssykehuset Nord-Norge HF,alle,196226
+2026,HF,983974910,Nordlandssykehuset HF,0-17,25981
+2026,HF,983974910,Nordlandssykehuset HF,18-66,86699
+2026,HF,983974910,Nordlandssykehuset HF,67-79,19367
+2026,HF,983974910,Nordlandssykehuset HF,80+,8317
+2026,HF,983974910,Nordlandssykehuset HF,alle,140364
+2026,HF,983974929,Helgelandssykehuset HF,0-17,14388
+2026,HF,983974929,Helgelandssykehuset HF,18-66,47065
+2026,HF,983974929,Helgelandssykehuset HF,67-79,11241
+2026,HF,983974929,Helgelandssykehuset HF,80+,5206
+2026,HF,983974929,Helgelandssykehuset HF,alle,77900
+2015,lokalsykehus,S01,Hammerfest,0-17,10528
+2015,lokalsykehus,S01,Hammerfest,18-66,30706
+2015,lokalsykehus,S01,Hammerfest,67-79,4482
+2015,lokalsykehus,S01,Hammerfest,80+,1744
+2015,lokalsykehus,S01,Hammerfest,alle,47460
+2015,lokalsykehus,S02,Kirkenes,0-17,5581
+2015,lokalsykehus,S02,Kirkenes,18-66,18256
+2015,lokalsykehus,S02,Kirkenes,67-79,3136
+2015,lokalsykehus,S02,Kirkenes,80+,1172
+2015,lokalsykehus,S02,Kirkenes,alle,28145
+2015,lokalsykehus,S03,Harstad,0-17,7477
+2015,lokalsykehus,S03,Harstad,18-66,23141
+2015,lokalsykehus,S03,Harstad,67-79,4408
+2015,lokalsykehus,S03,Harstad,80+,1949
+2015,lokalsykehus,S03,Harstad,alle,36975
+2015,lokalsykehus,S04,Narvik,0-17,5314
+2015,lokalsykehus,S04,Narvik,18-66,16785
+2015,lokalsykehus,S04,Narvik,67-79,3139
+2015,lokalsykehus,S04,Narvik,80+,1507
+2015,lokalsykehus,S04,Narvik,alle,26745
+2015,lokalsykehus,S05,Tromsø,0-17,26950
+2015,lokalsykehus,S05,Tromsø,18-66,82882
+2015,lokalsykehus,S05,Tromsø,67-79,12370
+2015,lokalsykehus,S05,Tromsø,80+,4737
+2015,lokalsykehus,S05,Tromsø,alle,126939
+2015,lokalsykehus,S06,Bodø,0-17,17520
+2015,lokalsykehus,S06,Bodø,18-66,52819
+2015,lokalsykehus,S06,Bodø,67-79,8751
+2015,lokalsykehus,S06,Bodø,80+,3622
+2015,lokalsykehus,S06,Bodø,alle,82712
+2015,lokalsykehus,S07,Lofoten,0-17,4912
+2015,lokalsykehus,S07,Lofoten,18-66,14181
+2015,lokalsykehus,S07,Lofoten,67-79,2555
+2015,lokalsykehus,S07,Lofoten,80+,1205
+2015,lokalsykehus,S07,Lofoten,alle,22853
+2015,lokalsykehus,S08,Vesterålen,0-17,6356
+2015,lokalsykehus,S08,Vesterålen,18-66,18684
+2015,lokalsykehus,S08,Vesterålen,67-79,3768
+2015,lokalsykehus,S08,Vesterålen,80+,1611
+2015,lokalsykehus,S08,Vesterålen,alle,30419
+2015,lokalsykehus,S09,Mo i Rana,0-17,7247
+2015,lokalsykehus,S09,Mo i Rana,18-66,21383
+2015,lokalsykehus,S09,Mo i Rana,67-79,3933
+2015,lokalsykehus,S09,Mo i Rana,80+,1768
+2015,lokalsykehus,S09,Mo i Rana,alle,34331
+2015,lokalsykehus,S10,Mosjøen,0-17,3298
+2015,lokalsykehus,S10,Mosjøen,18-66,10095
+2015,lokalsykehus,S10,Mosjøen,67-79,2037
+2015,lokalsykehus,S10,Mosjøen,80+,913
+2015,lokalsykehus,S10,Mosjøen,alle,16343
+2015,lokalsykehus,S11,Sandnessjøen,0-17,5944
+2015,lokalsykehus,S11,Sandnessjøen,18-66,17243
+2015,lokalsykehus,S11,Sandnessjøen,67-79,3284
+2015,lokalsykehus,S11,Sandnessjøen,80+,1347
+2015,lokalsykehus,S11,Sandnessjøen,alle,27818
+2016,lokalsykehus,S01,Hammerfest,0-17,10426
+2016,lokalsykehus,S01,Hammerfest,18-66,30738
+2016,lokalsykehus,S01,Hammerfest,67-79,4776
+2016,lokalsykehus,S01,Hammerfest,80+,1745
+2016,lokalsykehus,S01,Hammerfest,alle,47685
+2016,lokalsykehus,S02,Kirkenes,0-17,5407
+2016,lokalsykehus,S02,Kirkenes,18-66,18267
+2016,lokalsykehus,S02,Kirkenes,67-79,3212
+2016,lokalsykehus,S02,Kirkenes,80+,1187
+2016,lokalsykehus,S02,Kirkenes,alle,28073
+2016,lokalsykehus,S03,Harstad,0-17,7439
+2016,lokalsykehus,S03,Harstad,18-66,22976
+2016,lokalsykehus,S03,Harstad,67-79,4657
+2016,lokalsykehus,S03,Harstad,80+,1923
+2016,lokalsykehus,S03,Harstad,alle,36995
+2016,lokalsykehus,S04,Narvik,0-17,5256
+2016,lokalsykehus,S04,Narvik,18-66,16698
+2016,lokalsykehus,S04,Narvik,67-79,3218
+2016,lokalsykehus,S04,Narvik,80+,1525
+2016,lokalsykehus,S04,Narvik,alle,26697
+2016,lokalsykehus,S05,Tromsø,0-17,26806
+2016,lokalsykehus,S05,Tromsø,18-66,83264
+2016,lokalsykehus,S05,Tromsø,67-79,12883
+2016,lokalsykehus,S05,Tromsø,80+,4791
+2016,lokalsykehus,S05,Tromsø,alle,127744
+2016,lokalsykehus,S06,Bodø,0-17,17321
+2016,lokalsykehus,S06,Bodø,18-66,52922
+2016,lokalsykehus,S06,Bodø,67-79,9155
+2016,lokalsykehus,S06,Bodø,80+,3626
+2016,lokalsykehus,S06,Bodø,alle,83024
+2016,lokalsykehus,S07,Lofoten,0-17,4895
+2016,lokalsykehus,S07,Lofoten,18-66,14206
+2016,lokalsykehus,S07,Lofoten,67-79,2653
+2016,lokalsykehus,S07,Lofoten,80+,1192
+2016,lokalsykehus,S07,Lofoten,alle,22946
+2016,lokalsykehus,S08,Vesterålen,0-17,6276
+2016,lokalsykehus,S08,Vesterålen,18-66,18690
+2016,lokalsykehus,S08,Vesterålen,67-79,3874
+2016,lokalsykehus,S08,Vesterålen,80+,1597
+2016,lokalsykehus,S08,Vesterålen,alle,30437
+2016,lokalsykehus,S09,Mo i Rana,0-17,7122
+2016,lokalsykehus,S09,Mo i Rana,18-66,21267
+2016,lokalsykehus,S09,Mo i Rana,67-79,4070
+2016,lokalsykehus,S09,Mo i Rana,80+,1751
+2016,lokalsykehus,S09,Mo i Rana,alle,34210
+2016,lokalsykehus,S10,Mosjøen,0-17,3283
+2016,lokalsykehus,S10,Mosjøen,18-66,10044
+2016,lokalsykehus,S10,Mosjøen,67-79,2114
+2016,lokalsykehus,S10,Mosjøen,80+,913
+2016,lokalsykehus,S10,Mosjøen,alle,16354
+2016,lokalsykehus,S11,Sandnessjøen,0-17,5852
+2016,lokalsykehus,S11,Sandnessjøen,18-66,17206
+2016,lokalsykehus,S11,Sandnessjøen,67-79,3424
+2016,lokalsykehus,S11,Sandnessjøen,80+,1347
+2016,lokalsykehus,S11,Sandnessjøen,alle,27829
+2017,lokalsykehus,S01,Hammerfest,0-17,10450
+2017,lokalsykehus,S01,Hammerfest,18-66,30899
+2017,lokalsykehus,S01,Hammerfest,67-79,4968
+2017,lokalsykehus,S01,Hammerfest,80+,1788
+2017,lokalsykehus,S01,Hammerfest,alle,48105
+2017,lokalsykehus,S02,Kirkenes,0-17,5324
+2017,lokalsykehus,S02,Kirkenes,18-66,18182
+2017,lokalsykehus,S02,Kirkenes,67-79,3344
+2017,lokalsykehus,S02,Kirkenes,80+,1194
+2017,lokalsykehus,S02,Kirkenes,alle,28044
+2017,lokalsykehus,S03,Harstad,0-17,7374
+2017,lokalsykehus,S03,Harstad,18-66,22905
+2017,lokalsykehus,S03,Harstad,67-79,4853
+2017,lokalsykehus,S03,Harstad,80+,1929
+2017,lokalsykehus,S03,Harstad,alle,37061
+2017,lokalsykehus,S04,Narvik,0-17,5206
+2017,lokalsykehus,S04,Narvik,18-66,16607
+2017,lokalsykehus,S04,Narvik,67-79,3331
+2017,lokalsykehus,S04,Narvik,80+,1498
+2017,lokalsykehus,S04,Narvik,alle,26642
+2017,lokalsykehus,S05,Tromsø,0-17,26851
+2017,lokalsykehus,S05,Tromsø,18-66,83798
+2017,lokalsykehus,S05,Tromsø,67-79,13438
+2017,lokalsykehus,S05,Tromsø,80+,4855
+2017,lokalsykehus,S05,Tromsø,alle,128942
+2017,lokalsykehus,S06,Bodø,0-17,17296
+2017,lokalsykehus,S06,Bodø,18-66,53140
+2017,lokalsykehus,S06,Bodø,67-79,9490
+2017,lokalsykehus,S06,Bodø,80+,3664
+2017,lokalsykehus,S06,Bodø,alle,83590
+2017,lokalsykehus,S07,Lofoten,0-17,4861
+2017,lokalsykehus,S07,Lofoten,18-66,14350
+2017,lokalsykehus,S07,Lofoten,67-79,2733
+2017,lokalsykehus,S07,Lofoten,80+,1216
+2017,lokalsykehus,S07,Lofoten,alle,23160
+2017,lokalsykehus,S08,Vesterålen,0-17,6159
+2017,lokalsykehus,S08,Vesterålen,18-66,18759
+2017,lokalsykehus,S08,Vesterålen,67-79,3962
+2017,lokalsykehus,S08,Vesterålen,80+,1619
+2017,lokalsykehus,S08,Vesterålen,alle,30499
+2017,lokalsykehus,S09,Mo i Rana,0-17,7031
+2017,lokalsykehus,S09,Mo i Rana,18-66,21323
+2017,lokalsykehus,S09,Mo i Rana,67-79,4162
+2017,lokalsykehus,S09,Mo i Rana,80+,1799
+2017,lokalsykehus,S09,Mo i Rana,alle,34315
+2017,lokalsykehus,S10,Mosjøen,0-17,3258
+2017,lokalsykehus,S10,Mosjøen,18-66,9975
+2017,lokalsykehus,S10,Mosjøen,67-79,2194
+2017,lokalsykehus,S10,Mosjøen,80+,921
+2017,lokalsykehus,S10,Mosjøen,alle,16348
+2017,lokalsykehus,S11,Sandnessjøen,0-17,5846
+2017,lokalsykehus,S11,Sandnessjøen,18-66,17210
+2017,lokalsykehus,S11,Sandnessjøen,67-79,3530
+2017,lokalsykehus,S11,Sandnessjøen,80+,1355
+2017,lokalsykehus,S11,Sandnessjøen,alle,27941
+2018,lokalsykehus,S01,Hammerfest,0-17,10372
+2018,lokalsykehus,S01,Hammerfest,18-66,30894
+2018,lokalsykehus,S01,Hammerfest,67-79,5155
+2018,lokalsykehus,S01,Hammerfest,80+,1818
+2018,lokalsykehus,S01,Hammerfest,alle,48239
+2018,lokalsykehus,S02,Kirkenes,0-17,5216
+2018,lokalsykehus,S02,Kirkenes,18-66,18053
+2018,lokalsykehus,S02,Kirkenes,67-79,3469
+2018,lokalsykehus,S02,Kirkenes,80+,1190
+2018,lokalsykehus,S02,Kirkenes,alle,27928
+2018,lokalsykehus,S03,Harstad,0-17,7210
+2018,lokalsykehus,S03,Harstad,18-66,22698
+2018,lokalsykehus,S03,Harstad,67-79,5022
+2018,lokalsykehus,S03,Harstad,80+,1940
+2018,lokalsykehus,S03,Harstad,alle,36870
+2018,lokalsykehus,S04,Narvik,0-17,5132
+2018,lokalsykehus,S04,Narvik,18-66,16434
+2018,lokalsykehus,S04,Narvik,67-79,3405
+2018,lokalsykehus,S04,Narvik,80+,1503
+2018,lokalsykehus,S04,Narvik,alle,26474
+2018,lokalsykehus,S05,Tromsø,0-17,26661
+2018,lokalsykehus,S05,Tromsø,18-66,84386
+2018,lokalsykehus,S05,Tromsø,67-79,13961
+2018,lokalsykehus,S05,Tromsø,80+,4965
+2018,lokalsykehus,S05,Tromsø,alle,129973
+2018,lokalsykehus,S06,Bodø,0-17,17161
+2018,lokalsykehus,S06,Bodø,18-66,53340
+2018,lokalsykehus,S06,Bodø,67-79,9821
+2018,lokalsykehus,S06,Bodø,80+,3695
+2018,lokalsykehus,S06,Bodø,alle,84017
+2018,lokalsykehus,S07,Lofoten,0-17,4846
+2018,lokalsykehus,S07,Lofoten,18-66,14525
+2018,lokalsykehus,S07,Lofoten,67-79,2799
+2018,lokalsykehus,S07,Lofoten,80+,1207
+2018,lokalsykehus,S07,Lofoten,alle,23377
+2018,lokalsykehus,S08,Vesterålen,0-17,6021
+2018,lokalsykehus,S08,Vesterålen,18-66,18788
+2018,lokalsykehus,S08,Vesterålen,67-79,4035
+2018,lokalsykehus,S08,Vesterålen,80+,1665
+2018,lokalsykehus,S08,Vesterålen,alle,30509
+2018,lokalsykehus,S09,Mo i Rana,0-17,6957
+2018,lokalsykehus,S09,Mo i Rana,18-66,21366
+2018,lokalsykehus,S09,Mo i Rana,67-79,4231
+2018,lokalsykehus,S09,Mo i Rana,80+,1815
+2018,lokalsykehus,S09,Mo i Rana,alle,34369
+2018,lokalsykehus,S10,Mosjøen,0-17,3195
+2018,lokalsykehus,S10,Mosjøen,18-66,9946
+2018,lokalsykehus,S10,Mosjøen,67-79,2228
+2018,lokalsykehus,S10,Mosjøen,80+,953
+2018,lokalsykehus,S10,Mosjøen,alle,16322
+2018,lokalsykehus,S11,Sandnessjøen,0-17,5800
+2018,lokalsykehus,S11,Sandnessjøen,18-66,17153
+2018,lokalsykehus,S11,Sandnessjøen,67-79,3629
+2018,lokalsykehus,S11,Sandnessjøen,80+,1341
+2018,lokalsykehus,S11,Sandnessjøen,alle,27923
+2019,lokalsykehus,S01,Hammerfest,0-17,10079
+2019,lokalsykehus,S01,Hammerfest,18-66,30942
+2019,lokalsykehus,S01,Hammerfest,67-79,5300
+2019,lokalsykehus,S01,Hammerfest,80+,1824
+2019,lokalsykehus,S01,Hammerfest,alle,48145
+2019,lokalsykehus,S02,Kirkenes,0-17,5005
+2019,lokalsykehus,S02,Kirkenes,18-66,17924
+2019,lokalsykehus,S02,Kirkenes,67-79,3537
+2019,lokalsykehus,S02,Kirkenes,80+,1254
+2019,lokalsykehus,S02,Kirkenes,alle,27720
+2019,lokalsykehus,S03,Harstad,0-17,7081
+2019,lokalsykehus,S03,Harstad,18-66,22618
+2019,lokalsykehus,S03,Harstad,67-79,5114
+2019,lokalsykehus,S03,Harstad,80+,1979
+2019,lokalsykehus,S03,Harstad,alle,36792
+2019,lokalsykehus,S04,Narvik,0-17,5011
+2019,lokalsykehus,S04,Narvik,18-66,16359
+2019,lokalsykehus,S04,Narvik,67-79,3444
+2019,lokalsykehus,S04,Narvik,80+,1509
+2019,lokalsykehus,S04,Narvik,alle,26323
+2019,lokalsykehus,S05,Tromsø,0-17,26328
+2019,lokalsykehus,S05,Tromsø,18-66,85001
+2019,lokalsykehus,S05,Tromsø,67-79,14380
+2019,lokalsykehus,S05,Tromsø,80+,5094
+2019,lokalsykehus,S05,Tromsø,alle,130803
+2019,lokalsykehus,S06,Bodø,0-17,17038
+2019,lokalsykehus,S06,Bodø,18-66,53460
+2019,lokalsykehus,S06,Bodø,67-79,10060
+2019,lokalsykehus,S06,Bodø,80+,3784
+2019,lokalsykehus,S06,Bodø,alle,84342
+2019,lokalsykehus,S07,Lofoten,0-17,4822
+2019,lokalsykehus,S07,Lofoten,18-66,14489
+2019,lokalsykehus,S07,Lofoten,67-79,2893
+2019,lokalsykehus,S07,Lofoten,80+,1202
+2019,lokalsykehus,S07,Lofoten,alle,23406
+2019,lokalsykehus,S08,Vesterålen,0-17,5907
+2019,lokalsykehus,S08,Vesterålen,18-66,18752
+2019,lokalsykehus,S08,Vesterålen,67-79,4100
+2019,lokalsykehus,S08,Vesterålen,80+,1686
+2019,lokalsykehus,S08,Vesterålen,alle,30445
+2019,lokalsykehus,S09,Mo i Rana,0-17,6874
+2019,lokalsykehus,S09,Mo i Rana,18-66,21385
+2019,lokalsykehus,S09,Mo i Rana,67-79,4308
+2019,lokalsykehus,S09,Mo i Rana,80+,1864
+2019,lokalsykehus,S09,Mo i Rana,alle,34431
+2019,lokalsykehus,S10,Mosjøen,0-17,3136
+2019,lokalsykehus,S10,Mosjøen,18-66,9912
+2019,lokalsykehus,S10,Mosjøen,67-79,2224
+2019,lokalsykehus,S10,Mosjøen,80+,983
+2019,lokalsykehus,S10,Mosjøen,alle,16255
+2019,lokalsykehus,S11,Sandnessjøen,0-17,5733
+2019,lokalsykehus,S11,Sandnessjøen,18-66,16942
+2019,lokalsykehus,S11,Sandnessjøen,67-79,3751
+2019,lokalsykehus,S11,Sandnessjøen,80+,1364
+2019,lokalsykehus,S11,Sandnessjøen,alle,27790
+2020,lokalsykehus,S01,Hammerfest,0-17,9901
+2020,lokalsykehus,S01,Hammerfest,18-66,30829
+2020,lokalsykehus,S01,Hammerfest,67-79,5460
+2020,lokalsykehus,S01,Hammerfest,80+,1863
+2020,lokalsykehus,S01,Hammerfest,alle,48053
+2020,lokalsykehus,S02,Kirkenes,0-17,4807
+2020,lokalsykehus,S02,Kirkenes,18-66,17728
+2020,lokalsykehus,S02,Kirkenes,67-79,3594
+2020,lokalsykehus,S02,Kirkenes,80+,1290
+2020,lokalsykehus,S02,Kirkenes,alle,27419
+2020,lokalsykehus,S03,Harstad,0-17,6945
+2020,lokalsykehus,S03,Harstad,18-66,22343
+2020,lokalsykehus,S03,Harstad,67-79,5236
+2020,lokalsykehus,S03,Harstad,80+,1977
+2020,lokalsykehus,S03,Harstad,alle,36501
+2020,lokalsykehus,S04,Narvik,0-17,4971
+2020,lokalsykehus,S04,Narvik,18-66,16128
+2020,lokalsykehus,S04,Narvik,67-79,3494
+2020,lokalsykehus,S04,Narvik,80+,1523
+2020,lokalsykehus,S04,Narvik,alle,26116
+2020,lokalsykehus,S05,Tromsø,0-17,25831
+2020,lokalsykehus,S05,Tromsø,18-66,84601
+2020,lokalsykehus,S05,Tromsø,67-79,14773
+2020,lokalsykehus,S05,Tromsø,80+,5244
+2020,lokalsykehus,S05,Tromsø,alle,130449
+2020,lokalsykehus,S06,Bodø,0-17,16813
+2020,lokalsykehus,S06,Bodø,18-66,53476
+2020,lokalsykehus,S06,Bodø,67-79,10376
+2020,lokalsykehus,S06,Bodø,80+,3883
+2020,lokalsykehus,S06,Bodø,alle,84548
+2020,lokalsykehus,S07,Lofoten,0-17,4762
+2020,lokalsykehus,S07,Lofoten,18-66,14345
+2020,lokalsykehus,S07,Lofoten,67-79,3026
+2020,lokalsykehus,S07,Lofoten,80+,1195
+2020,lokalsykehus,S07,Lofoten,alle,23328
+2020,lokalsykehus,S08,Vesterålen,0-17,5784
+2020,lokalsykehus,S08,Vesterålen,18-66,18562
+2020,lokalsykehus,S08,Vesterålen,67-79,4244
+2020,lokalsykehus,S08,Vesterålen,80+,1679
+2020,lokalsykehus,S08,Vesterålen,alle,30269
+2020,lokalsykehus,S09,Mo i Rana,0-17,6735
+2020,lokalsykehus,S09,Mo i Rana,18-66,21194
+2020,lokalsykehus,S09,Mo i Rana,67-79,4372
+2020,lokalsykehus,S09,Mo i Rana,80+,1885
+2020,lokalsykehus,S09,Mo i Rana,alle,34186
+2020,lokalsykehus,S10,Mosjøen,0-17,3053
+2020,lokalsykehus,S10,Mosjøen,18-66,9780
+2020,lokalsykehus,S10,Mosjøen,67-79,2232
+2020,lokalsykehus,S10,Mosjøen,80+,992
+2020,lokalsykehus,S10,Mosjøen,alle,16057
+2020,lokalsykehus,S11,Sandnessjøen,0-17,5580
+2020,lokalsykehus,S11,Sandnessjøen,18-66,16795
+2020,lokalsykehus,S11,Sandnessjøen,67-79,3812
+2020,lokalsykehus,S11,Sandnessjøen,80+,1433
+2020,lokalsykehus,S11,Sandnessjøen,alle,27620
+2021,lokalsykehus,S01,Hammerfest,0-17,9669
+2021,lokalsykehus,S01,Hammerfest,18-66,30622
+2021,lokalsykehus,S01,Hammerfest,67-79,5578
+2021,lokalsykehus,S01,Hammerfest,80+,1906
+2021,lokalsykehus,S01,Hammerfest,alle,47775
+2021,lokalsykehus,S02,Kirkenes,0-17,4568
+2021,lokalsykehus,S02,Kirkenes,18-66,17329
+2021,lokalsykehus,S02,Kirkenes,67-79,3682
+2021,lokalsykehus,S02,Kirkenes,80+,1330
+2021,lokalsykehus,S02,Kirkenes,alle,26909
+2021,lokalsykehus,S03,Harstad,0-17,6829
+2021,lokalsykehus,S03,Harstad,18-66,22184
+2021,lokalsykehus,S03,Harstad,67-79,5352
+2021,lokalsykehus,S03,Harstad,80+,2051
+2021,lokalsykehus,S03,Harstad,alle,36416
+2021,lokalsykehus,S04,Narvik,0-17,4809
+2021,lokalsykehus,S04,Narvik,18-66,15922
+2021,lokalsykehus,S04,Narvik,67-79,3583
+2021,lokalsykehus,S04,Narvik,80+,1548
+2021,lokalsykehus,S04,Narvik,alle,25862
+2021,lokalsykehus,S05,Tromsø,0-17,25237
+2021,lokalsykehus,S05,Tromsø,18-66,84397
+2021,lokalsykehus,S05,Tromsø,67-79,15143
+2021,lokalsykehus,S05,Tromsø,80+,5417
+2021,lokalsykehus,S05,Tromsø,alle,130194
+2021,lokalsykehus,S06,Bodø,0-17,16507
+2021,lokalsykehus,S06,Bodø,18-66,53216
+2021,lokalsykehus,S06,Bodø,67-79,10661
+2021,lokalsykehus,S06,Bodø,80+,3999
+2021,lokalsykehus,S06,Bodø,alle,84383
+2021,lokalsykehus,S07,Lofoten,0-17,4663
+2021,lokalsykehus,S07,Lofoten,18-66,14422
+2021,lokalsykehus,S07,Lofoten,67-79,3136
+2021,lokalsykehus,S07,Lofoten,80+,1197
+2021,lokalsykehus,S07,Lofoten,alle,23418
+2021,lokalsykehus,S08,Vesterålen,0-17,5691
+2021,lokalsykehus,S08,Vesterålen,18-66,18395
+2021,lokalsykehus,S08,Vesterålen,67-79,4382
+2021,lokalsykehus,S08,Vesterålen,80+,1691
+2021,lokalsykehus,S08,Vesterålen,alle,30159
+2021,lokalsykehus,S09,Mo i Rana,0-17,6573
+2021,lokalsykehus,S09,Mo i Rana,18-66,20969
+2021,lokalsykehus,S09,Mo i Rana,67-79,4520
+2021,lokalsykehus,S09,Mo i Rana,80+,1912
+2021,lokalsykehus,S09,Mo i Rana,alle,33974
+2021,lokalsykehus,S10,Mosjøen,0-17,2990
+2021,lokalsykehus,S10,Mosjøen,18-66,9755
+2021,lokalsykehus,S10,Mosjøen,67-79,2227
+2021,lokalsykehus,S10,Mosjøen,80+,1016
+2021,lokalsykehus,S10,Mosjøen,alle,15988
+2021,lokalsykehus,S11,Sandnessjøen,0-17,5465
+2021,lokalsykehus,S11,Sandnessjøen,18-66,16585
+2021,lokalsykehus,S11,Sandnessjøen,67-79,3909
+2021,lokalsykehus,S11,Sandnessjøen,80+,1476
+2021,lokalsykehus,S11,Sandnessjøen,alle,27435
+2022,lokalsykehus,S01,Hammerfest,0-17,9571
+2022,lokalsykehus,S01,Hammerfest,18-66,30518
+2022,lokalsykehus,S01,Hammerfest,67-79,5705
+2022,lokalsykehus,S01,Hammerfest,80+,1921
+2022,lokalsykehus,S01,Hammerfest,alle,47715
+2022,lokalsykehus,S02,Kirkenes,0-17,4427
+2022,lokalsykehus,S02,Kirkenes,18-66,16900
+2022,lokalsykehus,S02,Kirkenes,67-79,3723
+2022,lokalsykehus,S02,Kirkenes,80+,1364
+2022,lokalsykehus,S02,Kirkenes,alle,26414
+2022,lokalsykehus,S03,Harstad,0-17,6721
+2022,lokalsykehus,S03,Harstad,18-66,22064
+2022,lokalsykehus,S03,Harstad,67-79,5493
+2022,lokalsykehus,S03,Harstad,80+,2115
+2022,lokalsykehus,S03,Harstad,alle,36393
+2022,lokalsykehus,S04,Narvik,0-17,4731
+2022,lokalsykehus,S04,Narvik,18-66,15690
+2022,lokalsykehus,S04,Narvik,67-79,3689
+2022,lokalsykehus,S04,Narvik,80+,1547
+2022,lokalsykehus,S04,Narvik,alle,25657
+2022,lokalsykehus,S05,Tromsø,0-17,25010
+2022,lokalsykehus,S05,Tromsø,18-66,84343
+2022,lokalsykehus,S05,Tromsø,67-79,15475
+2022,lokalsykehus,S05,Tromsø,80+,5569
+2022,lokalsykehus,S05,Tromsø,alle,130397
+2022,lokalsykehus,S06,Bodø,0-17,16389
+2022,lokalsykehus,S06,Bodø,18-66,53065
+2022,lokalsykehus,S06,Bodø,67-79,10858
+2022,lokalsykehus,S06,Bodø,80+,4146
+2022,lokalsykehus,S06,Bodø,alle,84458
+2022,lokalsykehus,S07,Lofoten,0-17,4596
+2022,lokalsykehus,S07,Lofoten,18-66,14475
+2022,lokalsykehus,S07,Lofoten,67-79,3201
+2022,lokalsykehus,S07,Lofoten,80+,1216
+2022,lokalsykehus,S07,Lofoten,alle,23488
+2022,lokalsykehus,S08,Vesterålen,0-17,5685
+2022,lokalsykehus,S08,Vesterålen,18-66,18270
+2022,lokalsykehus,S08,Vesterålen,67-79,4479
+2022,lokalsykehus,S08,Vesterålen,80+,1736
+2022,lokalsykehus,S08,Vesterålen,alle,30170
+2022,lokalsykehus,S09,Mo i Rana,0-17,6466
+2022,lokalsykehus,S09,Mo i Rana,18-66,20872
+2022,lokalsykehus,S09,Mo i Rana,67-79,4614
+2022,lokalsykehus,S09,Mo i Rana,80+,1962
+2022,lokalsykehus,S09,Mo i Rana,alle,33914
+2022,lokalsykehus,S10,Mosjøen,0-17,2927
+2022,lokalsykehus,S10,Mosjøen,18-66,9750
+2022,lokalsykehus,S10,Mosjøen,67-79,2268
+2022,lokalsykehus,S10,Mosjøen,80+,1022
+2022,lokalsykehus,S10,Mosjøen,alle,15967
+2022,lokalsykehus,S11,Sandnessjøen,0-17,5367
+2022,lokalsykehus,S11,Sandnessjøen,18-66,16450
+2022,lokalsykehus,S11,Sandnessjøen,67-79,4039
+2022,lokalsykehus,S11,Sandnessjøen,80+,1497
+2022,lokalsykehus,S11,Sandnessjøen,alle,27353
+2023,lokalsykehus,S01,Hammerfest,0-17,9513
+2023,lokalsykehus,S01,Hammerfest,18-66,30516
+2023,lokalsykehus,S01,Hammerfest,67-79,5769
+2023,lokalsykehus,S01,Hammerfest,80+,1965
+2023,lokalsykehus,S01,Hammerfest,alle,47763
+2023,lokalsykehus,S02,Kirkenes,0-17,4391
+2023,lokalsykehus,S02,Kirkenes,18-66,16811
+2023,lokalsykehus,S02,Kirkenes,67-79,3748
+2023,lokalsykehus,S02,Kirkenes,80+,1399
+2023,lokalsykehus,S02,Kirkenes,alle,26349
+2023,lokalsykehus,S03,Harstad,0-17,6729
+2023,lokalsykehus,S03,Harstad,18-66,22021
+2023,lokalsykehus,S03,Harstad,67-79,5626
+2023,lokalsykehus,S03,Harstad,80+,2173
+2023,lokalsykehus,S03,Harstad,alle,36549
+2023,lokalsykehus,S04,Narvik,0-17,4659
+2023,lokalsykehus,S04,Narvik,18-66,15625
+2023,lokalsykehus,S04,Narvik,67-79,3765
+2023,lokalsykehus,S04,Narvik,80+,1576
+2023,lokalsykehus,S04,Narvik,alle,25625
+2023,lokalsykehus,S05,Tromsø,0-17,24828
+2023,lokalsykehus,S05,Tromsø,18-66,84606
+2023,lokalsykehus,S05,Tromsø,67-79,15736
+2023,lokalsykehus,S05,Tromsø,80+,5806
+2023,lokalsykehus,S05,Tromsø,alle,130976
+2023,lokalsykehus,S06,Bodø,0-17,16391
+2023,lokalsykehus,S06,Bodø,18-66,53191
+2023,lokalsykehus,S06,Bodø,67-79,11068
+2023,lokalsykehus,S06,Bodø,80+,4347
+2023,lokalsykehus,S06,Bodø,alle,84997
+2023,lokalsykehus,S07,Lofoten,0-17,4520
+2023,lokalsykehus,S07,Lofoten,18-66,14461
+2023,lokalsykehus,S07,Lofoten,67-79,3256
+2023,lokalsykehus,S07,Lofoten,80+,1249
+2023,lokalsykehus,S07,Lofoten,alle,23486
+2023,lokalsykehus,S08,Vesterålen,0-17,5733
+2023,lokalsykehus,S08,Vesterålen,18-66,18320
+2023,lokalsykehus,S08,Vesterålen,67-79,4566
+2023,lokalsykehus,S08,Vesterålen,80+,1820
+2023,lokalsykehus,S08,Vesterålen,alle,30439
+2023,lokalsykehus,S09,Mo i Rana,0-17,6387
+2023,lokalsykehus,S09,Mo i Rana,18-66,20846
+2023,lokalsykehus,S09,Mo i Rana,67-79,4690
+2023,lokalsykehus,S09,Mo i Rana,80+,1966
+2023,lokalsykehus,S09,Mo i Rana,alle,33889
+2023,lokalsykehus,S10,Mosjøen,0-17,2927
+2023,lokalsykehus,S10,Mosjøen,18-66,9790
+2023,lokalsykehus,S10,Mosjøen,67-79,2313
+2023,lokalsykehus,S10,Mosjøen,80+,1044
+2023,lokalsykehus,S10,Mosjøen,alle,16074
+2023,lokalsykehus,S11,Sandnessjøen,0-17,5325
+2023,lokalsykehus,S11,Sandnessjøen,18-66,16463
+2023,lokalsykehus,S11,Sandnessjøen,67-79,4061
+2023,lokalsykehus,S11,Sandnessjøen,80+,1540
+2023,lokalsykehus,S11,Sandnessjøen,alle,27389
+2024,lokalsykehus,S01,Hammerfest,0-17,9563
+2024,lokalsykehus,S01,Hammerfest,18-66,30748
+2024,lokalsykehus,S01,Hammerfest,67-79,5896
+2024,lokalsykehus,S01,Hammerfest,80+,2048
+2024,lokalsykehus,S01,Hammerfest,alle,48255
+2024,lokalsykehus,S02,Kirkenes,0-17,4508
+2024,lokalsykehus,S02,Kirkenes,18-66,17084
+2024,lokalsykehus,S02,Kirkenes,67-79,3787
+2024,lokalsykehus,S02,Kirkenes,80+,1419
+2024,lokalsykehus,S02,Kirkenes,alle,26798
+2024,lokalsykehus,S03,Harstad,0-17,6760
+2024,lokalsykehus,S03,Harstad,18-66,22124
+2024,lokalsykehus,S03,Harstad,67-79,5724
+2024,lokalsykehus,S03,Harstad,80+,2275
+2024,lokalsykehus,S03,Harstad,alle,36883
+2024,lokalsykehus,S04,Narvik,0-17,4655
+2024,lokalsykehus,S04,Narvik,18-66,15574
+2024,lokalsykehus,S04,Narvik,67-79,3879
+2024,lokalsykehus,S04,Narvik,80+,1597
+2024,lokalsykehus,S04,Narvik,alle,25705
+2024,lokalsykehus,S05,Tromsø,0-17,24725
+2024,lokalsykehus,S05,Tromsø,18-66,85105
+2024,lokalsykehus,S05,Tromsø,67-79,16103
+2024,lokalsykehus,S05,Tromsø,80+,6059
+2024,lokalsykehus,S05,Tromsø,alle,131992
+2024,lokalsykehus,S06,Bodø,0-17,16448
+2024,lokalsykehus,S06,Bodø,18-66,53749
+2024,lokalsykehus,S06,Bodø,67-79,11299
+2024,lokalsykehus,S06,Bodø,80+,4525
+2024,lokalsykehus,S06,Bodø,alle,86021
+2024,lokalsykehus,S07,Lofoten,0-17,4494
+2024,lokalsykehus,S07,Lofoten,18-66,14550
+2024,lokalsykehus,S07,Lofoten,67-79,3321
+2024,lokalsykehus,S07,Lofoten,80+,1230
+2024,lokalsykehus,S07,Lofoten,alle,23595
+2024,lokalsykehus,S08,Vesterålen,0-17,5699
+2024,lokalsykehus,S08,Vesterålen,18-66,18421
+2024,lokalsykehus,S08,Vesterålen,67-79,4604
+2024,lokalsykehus,S08,Vesterålen,80+,1886
+2024,lokalsykehus,S08,Vesterålen,alle,30610
+2024,lokalsykehus,S09,Mo i Rana,0-17,6369
+2024,lokalsykehus,S09,Mo i Rana,18-66,20828
+2024,lokalsykehus,S09,Mo i Rana,67-79,4742
+2024,lokalsykehus,S09,Mo i Rana,80+,2040
+2024,lokalsykehus,S09,Mo i Rana,alle,33979
+2024,lokalsykehus,S10,Mosjøen,0-17,2939
+2024,lokalsykehus,S10,Mosjøen,18-66,9837
+2024,lokalsykehus,S10,Mosjøen,67-79,2330
+2024,lokalsykehus,S10,Mosjøen,80+,1094
+2024,lokalsykehus,S10,Mosjøen,alle,16200
+2024,lokalsykehus,S11,Sandnessjøen,0-17,5406
+2024,lokalsykehus,S11,Sandnessjøen,18-66,16504
+2024,lokalsykehus,S11,Sandnessjøen,67-79,4164
+2024,lokalsykehus,S11,Sandnessjøen,80+,1632
+2024,lokalsykehus,S11,Sandnessjøen,alle,27706
+2025,lokalsykehus,S01,Hammerfest,0-17,9517
+2025,lokalsykehus,S01,Hammerfest,18-66,30830
+2025,lokalsykehus,S01,Hammerfest,67-79,5886
+2025,lokalsykehus,S01,Hammerfest,80+,2135
+2025,lokalsykehus,S01,Hammerfest,alle,48368
+2025,lokalsykehus,S02,Kirkenes,0-17,4436
+2025,lokalsykehus,S02,Kirkenes,18-66,16974
+2025,lokalsykehus,S02,Kirkenes,67-79,3794
+2025,lokalsykehus,S02,Kirkenes,80+,1470
+2025,lokalsykehus,S02,Kirkenes,alle,26674
+2025,lokalsykehus,S03,Harstad,0-17,6662
+2025,lokalsykehus,S03,Harstad,18-66,22121
+2025,lokalsykehus,S03,Harstad,67-79,5767
+2025,lokalsykehus,S03,Harstad,80+,2408
+2025,lokalsykehus,S03,Harstad,alle,36958
+2025,lokalsykehus,S04,Narvik,0-17,4647
+2025,lokalsykehus,S04,Narvik,18-66,15540
+2025,lokalsykehus,S04,Narvik,67-79,3936
+2025,lokalsykehus,S04,Narvik,80+,1631
+2025,lokalsykehus,S04,Narvik,alle,25754
+2025,lokalsykehus,S05,Tromsø,0-17,24392
+2025,lokalsykehus,S05,Tromsø,18-66,85769
+2025,lokalsykehus,S05,Tromsø,67-79,16248
+2025,lokalsykehus,S05,Tromsø,80+,6378
+2025,lokalsykehus,S05,Tromsø,alle,132787
+2025,lokalsykehus,S06,Bodø,0-17,16241
+2025,lokalsykehus,S06,Bodø,18-66,53537
+2025,lokalsykehus,S06,Bodø,67-79,11447
+2025,lokalsykehus,S06,Bodø,80+,4727
+2025,lokalsykehus,S06,Bodø,alle,85952
+2025,lokalsykehus,S07,Lofoten,0-17,4488
+2025,lokalsykehus,S07,Lofoten,18-66,14566
+2025,lokalsykehus,S07,Lofoten,67-79,3334
+2025,lokalsykehus,S07,Lofoten,80+,1300
+2025,lokalsykehus,S07,Lofoten,alle,23688
+2025,lokalsykehus,S08,Vesterålen,0-17,5776
+2025,lokalsykehus,S08,Vesterålen,18-66,18634
+2025,lokalsykehus,S08,Vesterålen,67-79,4566
+2025,lokalsykehus,S08,Vesterålen,80+,1992
+2025,lokalsykehus,S08,Vesterålen,alle,30968
+2025,lokalsykehus,S09,Mo i Rana,0-17,6300
+2025,lokalsykehus,S09,Mo i Rana,18-66,20682
+2025,lokalsykehus,S09,Mo i Rana,67-79,4753
+2025,lokalsykehus,S09,Mo i Rana,80+,2169
+2025,lokalsykehus,S09,Mo i Rana,alle,33904
+2025,lokalsykehus,S10,Mosjøen,0-17,2940
+2025,lokalsykehus,S10,Mosjøen,18-66,9793
+2025,lokalsykehus,S10,Mosjøen,67-79,2317
+2025,lokalsykehus,S10,Mosjøen,80+,1129
+2025,lokalsykehus,S10,Mosjøen,alle,16179
+2025,lokalsykehus,S11,Sandnessjøen,0-17,5333
+2025,lokalsykehus,S11,Sandnessjøen,18-66,16664
+2025,lokalsykehus,S11,Sandnessjøen,67-79,4169
+2025,lokalsykehus,S11,Sandnessjøen,80+,1705
+2025,lokalsykehus,S11,Sandnessjøen,alle,27871
+2026,lokalsykehus,S01,Hammerfest,0-17,9475
+2026,lokalsykehus,S01,Hammerfest,18-66,30992
+2026,lokalsykehus,S01,Hammerfest,67-79,5947
+2026,lokalsykehus,S01,Hammerfest,80+,2234
+2026,lokalsykehus,S01,Hammerfest,alle,48648
+2026,lokalsykehus,S02,Kirkenes,0-17,4369
+2026,lokalsykehus,S02,Kirkenes,18-66,16935
+2026,lokalsykehus,S02,Kirkenes,67-79,3828
+2026,lokalsykehus,S02,Kirkenes,80+,1508
+2026,lokalsykehus,S02,Kirkenes,alle,26640
+2026,lokalsykehus,S03,Harstad,0-17,6534
+2026,lokalsykehus,S03,Harstad,18-66,22084
+2026,lokalsykehus,S03,Harstad,67-79,5766
+2026,lokalsykehus,S03,Harstad,80+,2513
+2026,lokalsykehus,S03,Harstad,alle,36897
+2026,lokalsykehus,S04,Narvik,0-17,4639
+2026,lokalsykehus,S04,Narvik,18-66,15592
+2026,lokalsykehus,S04,Narvik,67-79,3911
+2026,lokalsykehus,S04,Narvik,80+,1701
+2026,lokalsykehus,S04,Narvik,alle,25843
+2026,lokalsykehus,S05,Tromsø,0-17,24044
+2026,lokalsykehus,S05,Tromsø,18-66,86439
+2026,lokalsykehus,S05,Tromsø,67-79,16269
+2026,lokalsykehus,S05,Tromsø,80+,6734
+2026,lokalsykehus,S05,Tromsø,alle,133486
+2026,lokalsykehus,S06,Bodø,0-17,15915
+2026,lokalsykehus,S06,Bodø,18-66,53439
+2026,lokalsykehus,S06,Bodø,67-79,11528
+2026,lokalsykehus,S06,Bodø,80+,4891
+2026,lokalsykehus,S06,Bodø,alle,85773
+2026,lokalsykehus,S07,Lofoten,0-17,4424
+2026,lokalsykehus,S07,Lofoten,18-66,14612
+2026,lokalsykehus,S07,Lofoten,67-79,3339
+2026,lokalsykehus,S07,Lofoten,80+,1347
+2026,lokalsykehus,S07,Lofoten,alle,23722
+2026,lokalsykehus,S08,Vesterålen,0-17,5642
+2026,lokalsykehus,S08,Vesterålen,18-66,18648
+2026,lokalsykehus,S08,Vesterålen,67-79,4500
+2026,lokalsykehus,S08,Vesterålen,80+,2079
+2026,lokalsykehus,S08,Vesterålen,alle,30869
+2026,lokalsykehus,S09,Mo i Rana,0-17,8682
+2026,lokalsykehus,S09,Mo i Rana,18-66,28845
+2026,lokalsykehus,S09,Mo i Rana,67-79,6608
+2026,lokalsykehus,S09,Mo i Rana,80+,3160
+2026,lokalsykehus,S09,Mo i Rana,alle,47295
+2026,lokalsykehus,S10,Mosjøen,0-17,0
+2026,lokalsykehus,S10,Mosjøen,18-66,0
+2026,lokalsykehus,S10,Mosjøen,67-79,0
+2026,lokalsykehus,S10,Mosjøen,80+,0
+2026,lokalsykehus,S10,Mosjøen,alle,0
+2026,lokalsykehus,S11,Sandnessjøen,0-17,5706
+2026,lokalsykehus,S11,Sandnessjøen,18-66,18220
+2026,lokalsykehus,S11,Sandnessjøen,67-79,4633
+2026,lokalsykehus,S11,Sandnessjøen,80+,2046
+2026,lokalsykehus,S11,Sandnessjøen,alle,30605
