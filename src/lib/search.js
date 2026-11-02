@@ -7,6 +7,7 @@ const SIDER = [
   ['Sammenlign kommuner', 'sammenlign.html', 'Verktøy'],
   ['Hvem blir værende? Flyktningstrømmen, bofasthet og flytteforbud', 'tema-flyktning.html', 'Tema 01'],
   ['Store mot små: 6 mot 74 kommuner', 'tema-o6.html', 'Tema 02'],
+  ['Små kommuner og Helsereformutvalget: 74 av 80 under 15 000 innbyggere', 'tema-o6.html#reform', 'Tema 02'],
   ['Kvinneflukten', 'tema-kvinneflukt.html', 'Tema 03'],
   ['Hvem skal bære? Arbeidskraft, aldring og forsørgerbyrde', 'tema-arbeidskraft.html', 'Tema 04'],
   ['Aldring i internasjonalt perspektiv og eldreomsorgen mot 2050', 'tema-aldring.html', 'Tema 05'],
@@ -17,6 +18,7 @@ const SIDER = [
   ['Ung i nord: unge voksne, bosted, arbeid, bolig og barn', 'tema-ung.html', 'Tema 10'],
   ['20 år med nordområdepolitikk: strategier, stortingsmeldinger og utviklingen 2006–2026', 'tema-nordomrade.html', 'Tema 11'],
   ['Sykehusene i nord mot 2042: spesialisthelsetjenesten, personell, reisetid og ventetid', 'tema-helse.html', 'Tema 12'],
+  ['Helsereformutvalget (NOU 2026: 12): reformen, utviklingsplanene og kommunale omsorgsårsverk', 'tema-helse.html#reformen', 'Tema 12'],
   ['Metode og kilder', 'metode.html', 'Referanse'],
 ];
 

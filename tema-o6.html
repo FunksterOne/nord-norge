@@ -200,6 +200,23 @@
   <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">De differensierte virkemidlene — særlig <b>differensiert arbeids­giveravgift</b> (skatteutgift om lag 22,8 milliarder kroner i 2026, Prop. 1 LS (2026–2027)) — gjelder i hele landsdelen, også i flere av de store kommunene. Men hvis målet skiftes fra <i>vekst</i> til <i>kvalitet</i>, må også virkemidlene bygges om. Frikommuneforsøk, infrastruktur­investeringer som forkorter avstand, og digitale løsninger som åpner urbane tjenester for utkant­kommuner er blant utvalgets konkrete anbefalinger.</p>
 </section>
 
+<!-- ────────────────── AKT 06 — REFORMEN ────────────────── -->
+<section class="akt" id="reform">
+  <div class="akt-num">Akt 06 · Reformen</div>
+  <h2>Helsereformutvalget vil ha større kommuner. I nord gjelder det <em>74 av 80</em>.</h2>
+  <p class="akt-intro" id="reformIntro"></p>
+  <div class="kpi-rad" id="reformKPI"></div>
+
+  <div class="sitat">
+    <blockquote>«Utvalget mener derfor at små kommuner ikke vil ha tilstrekkelig kapasitet til å ivareta et helhetlig ansvar for helse- og omsorgstjenestene.»</blockquote>
+    <div class="kilde"><b>Helsereformutvalget</b> · NOU 2026: 12 <i>Én helsetjeneste</i>, avsnitt 1.2.10, s. 28</div>
+  </div>
+
+  <p style="margin-top:18px;font-size:14px;color:var(--ink2);line-height:1.6" id="reformMotvekt"></p>
+  <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">Hva forslaget betyr for sykehusene, legevakten og nærhelsetjenestene i nord, står i <a href="tema-helse.html#reformen">tema 12, akt 07</a>.</p>
+  <p class="hint" style="margin-top:10px;font-size:11.5px">Grunnlag: NOU 2026: 12, s. 27–28; FHI, «Tilgang til likeverdige kommunale tjenester», rapportutkast juni 2026 (underlagsrapport til utvalget); SSB 07459, befolkning 1.1.2026.</p>
+</section>
+
 <div class="neste-tema-blokk">
   <div class="ntb-kicker">Fortsett reisen</div>
   <h3>To andre temasider du bør lese</h3>
@@ -253,6 +270,26 @@
 </div>
 
 <script src="assets/data.js"></script>
+<script defer>
+// Akt 06: Helsereformutvalget og kommunestørrelsen (HELSE_DATA.hru, analyse/helse-nord/skript/hru_ssb.py)
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof HELSE_DATA === 'undefined' || !HELSE_DATA.hru) return;
+  var KN = HELSE_DATA.hru.kommuner, n = KN.nord, l = KN.landet;
+  var f1 = function(v){ return (Math.round(v * 10) / 10).toFixed(1).replace('.', ','); };
+  document.getElementById('reformIntro').innerHTML =
+    'Helsereformutvalget la fram NOU 2026: 12 <i>Én helsetjeneste</i> 2. november 2026. Utvalget vil beholde kommunenes ansvar for helse- og omsorgstjenestene, men mener at små kommuner må slå seg sammen og bli vesentlig større, og at interkommunalt samarbeid ikke er forpliktende nok til å erstatte sammenslåing. ' +
+    'Utvalget setter ikke noe måltall, men viser til tidligere vurderinger av at kommunene ofte trenger minst 15 000–20 000 innbyggere. ' +
+    'I Nord-Norge ligger ' + n.under['15000'][0] + ' av ' + n.antall + ' kommuner under 15 000 innbyggere — alle unntatt de seks største. Der bor ' + f1(n.under['15000'][1]) + ' % av befolkningen. I landet er det ' + l.under['15000'][0] + ' av ' + l.antall + ' kommuner, med ' + f1(l.under['15000'][1]) + ' % av befolkningen. ' +
+    'Grensen utvalget omtaler, faller dermed sammen med skillet denne siden bygger på.';
+  document.getElementById('reformKPI').innerHTML =
+    '<div class="kpi"><div class="v amber">' + n.under['15000'][0] + ' av ' + n.antall + '</div><div class="l">Kommuner under 15 000</div><div class="nh">Nord-Norge ' + KN.aar + ' · landet ' + l.under['15000'][0] + ' av ' + l.antall + '</div></div>' +
+    '<div class="kpi"><div class="v aur">' + f1(n.under['15000'][1]) + ' %</div><div class="l">Av befolkningen bor i dem</div><div class="nh">landet ' + f1(l.under['15000'][1]) + ' %</div></div>' +
+    '<div class="kpi"><div class="v">' + n.under['5000'][0] + '</div><div class="l">Kommuner under 5 000</div><div class="nh">' + f1(n.under['5000'][1]) + ' % av befolkningen · landet ' + l.under['5000'][0] + '</div></div>';
+  document.getElementById('reformMotvekt').innerHTML =
+    '<b>Motvekten i utvalgets eget underlag.</b> FHIs underlagsrapport om likeverdige kommunale tjenester finner at kommunestørrelse, sentralitet og frie inntekter har svake sammenhenger med både registerbaserte mål og brukererfaringer. Flere deler av Nord-Norge ligger over gjennomsnittet på samlemålene for tilgang og samhandling, men i fastlegeundersøkelsen ligger Helse Nord noe lavere enn de andre regionene på samlet vurdering og samhandling. ' +
+    'Utvalgets konklusjon hviler derfor mest på risiko — små fagmiljøer, rekruttering, fravær og beredskap — og mindre på målte forskjeller i tjenestene i dag. <b>Hypotese:</b> Dersom personellmangelen slår inn først i de minste kommunene, slik utvalget venter med grunnlag i SSB og Kommunekommisjonen (NOU 2026: 1), kan forskjellene i tjenestene vokse selv om de er små nå.';
+});
+</script>
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof DATA === 'undefined') return;

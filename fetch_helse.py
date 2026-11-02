@@ -8,6 +8,9 @@ Kilder (se analyse/helse-nord/notater/ for full dokumentasjon med sidetall):
     reisetid fra kommunesenteret (OSRM, skript/reisetid.py), SSB 12764 (kjøretid til akuttmottak 2019),
     SSB 13953 (avtalte årsverk), SSB 13470 (sysselsatte i sykehustjenester), FHI ventetider, SKDE helseatlas,
     SSB-artikkel om innleie 2023.
+  - NOU 2026: 12 Én helsetjeneste og SSBs leveranse til Helsereformutvalget (data/hru_ssb.json, skript/hru_ssb.py):
+    kommunale omsorgsårsverk, sykefravær etter region og kommunestørrelser.
+  - Regional utviklingsplan 2035 (2018) og 2023–2038 (2022): framskrivinger av liggedøgn (PLANER).
 """
 import csv, json, re, sys
 from pathlib import Path
@@ -41,6 +44,27 @@ INNLEIE = {"aar": 2023, "andel": {"Nord": 3.88, "Sør-Øst": 1.53, "Vest": 1.32,
            "kilde": "SSB, «Mest bruk av vikarbyrå ved sykehusene i Nord-Norge» (15.11.2024): innleie i prosent av lønns- og personalkostnadene",
            "nou": {"innleie": 35, "aarsverk": 12, "aar": 2021, "kilde": "NOU 2023: 4 Tid for handling, s. 86"},
            "per_innb": {"pst": 28, "kilde": "Helse Nord RHF styresak 62-2026, vedlegg s. 2: årsverk per innbygger mot resten av landet"}}
+# ── Tre generasjoner utviklingsplaner: liggedøgn med ren demografi mot planens anslag (analyse/helse-nord/VURDERING-HRU.md) ──
+# demo/plan i prosent; abs = [startår, ren demografi, planens anslag] der planen oppgir liggedøgn. RU42 hentes fra HN over.
+PLANER = [
+    {"kort": "RU2035", "navn": "Regional utviklingsplan 2035", "vedtatt": "2018-12-19", "status": "Vedtatt 19.12.2018", "periode": "til 2035",
+     "grunnlag": "Liggedøgn etter nasjonal framskrivingsmodell; startår og tjenesteområde ikke oppgitt", "demo": 37.0, "plan": 13.0,
+     "kilde": "Regional utviklingsplan 2035 Helse Nord, kap. 10 (s. 13)"},
+    {"kort": "RU2038", "navn": "Regional utviklingsplan 2023–2038", "vedtatt": "2022-12-14", "status": "Vedtatt 14.12.2022", "periode": "2019–2040",
+     "grunnlag": "Somatiske liggedøgn per opptaksområde, nasjonal framskrivingsmodell", "abs": [330530, 471886, 372713],
+     "hf": {"FIN": [56698, 82195, 64003], "UNN": [129073, 186113, 148506], "NLSH": [90172, 129921, 102522], "HSYK": [54587, 73656, 57683]},
+     "kilde": "Regional utviklingsplan 2023–2038, del 2, figur 14 (s. 47)"},
+    {"kort": "RU42", "navn": "Regional utviklingsplan 2027–2042 (høringsutkast)", "vedtatt": "2026-10-30", "status": "På høring fra 30.10.2026", "periode": "2025–2045",
+     "grunnlag": "Somatiske liggedøgn per opptaksområde, revidert modell", "abs": HN["ligg"][:1] + HN["ligg"][2:] + HN["ligg"][1:2],
+     "hf": {h["kode"]: [h["ligg"][0], h["ligg"][2], h["ligg"][1]] for h in HF},
+     "kilde": "Helse Nord RHF styresak 108-2026, tabell 28 (lagt ut på høring 30.10.2026)"},
+]
+for p in PLANER:
+    if "abs" in p:
+        a, d, pl = p["abs"]
+        p["demo"], p["plan"] = round((d / a - 1) * 100, 1), round((pl / a - 1) * 100, 1)
+        assert abs(sum(v[0] for v in p["hf"].values()) - a) < 5, p["kort"]
+    p["andel"] = round((p["demo"] - p["plan"]) / p["demo"] * 100, 1)
 
 
 def les_csv(navn):
@@ -126,13 +150,16 @@ def atlas():
 def main():
     K, H, rkilde = kommuner()
     ansatte = json.loads((A / "sykehusansatte.json").read_text(encoding="utf-8"))
+    # SSBs leveranse til Helsereformutvalget, trukket ut av skript/hru_ssb.py
+    hru = json.loads((A / "hru_ssb.json").read_text(encoding="utf-8"))
     payload = {
-        "hentet": "2026-10-29",
+        "hentet": "2026-11-02",
         "hf": HF, "hn": HN, "norge": NORGE, "kommuner": K,
         "sykehus": [{k: h.get(k) for k in ("navn", "hf", "sted", "niva", "fodsel", "utenfor")} for h in H],
         "reisetid_kilde": rkilde, "aarsverk": aarsverk(), "ansatte": {"aar": ansatte["aar"], "serie": ansatte["serie"]},
         "innleie": INNLEIE, "ventetid": ventetid(), "atlas": atlas(),
         "kilde_framskriving": "Helse Nord RHF styresak 108-2026, tabell 3, 28 og 44 (SSB 2026, hovedalternativet)",
+        "planer": PLANER, "hru": hru,
     }
     assert len(K) == 80, len(K)
     # Kontroll: befolkningen per helseforetak summerer til Helse Nord
