@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""«Fylket i tall»: 15 nøkkeltall for Nordland, Troms, Finnmark, Nord-Norge og landet → FYLKE_TALL i assets/data.js.
+"""«Fylket i tall»: 19 nøkkeltall for Nordland, Troms, Finnmark, Nord-Norge og landet → FYLKE_TALL i assets/data.js.
 
 Alle tall hentes fra SSBs PxWebApi v2. Nord-Norge er summen av de tre fylkene; andeler, satser og priser regnes fra
 summene (lønn veid med heltidsekvivalenter, kvadratmeterpris veid med antall omsetninger). Konjunkturbarometer for
@@ -20,11 +20,11 @@ NN = lambda k: str(k)[:2] in FY and len(str(k)) == 4
 
 # Konjunkturbarometerets fylkesfakta (s. 15, 17 og 19), bare til kontroll
 KB = {"Nordland": {"syss": 67.7, "ledige": 1491, "lonn": 57580, "uh": 30.9, "vgs": 38.8, "stud": 8812, "boliger": 132814,
-                   "fullf": 595, "areal": 38153, "bebygd": 1.0, "jordbruk": 1.9, "vernet": 19.8, "ndr": 1.0, "over175": 12},
+                   "fullf": 595, "areal": 38153, "bebygd": 1.0, "jordbruk": 1.9, "vernet": 19.8, "ndr": 1.0, "over175": 12, "vei": 54.8},
       "Troms": {"syss": 70.2, "ledige": 1032, "lonn": 58180, "uh": 37.2, "vgs": 34.9, "stud": 12553, "boliger": 94660,
-                "fullf": 517, "areal": 26189, "bebygd": 0.9, "jordbruk": 1.5, "vernet": 15.6, "ndr": -0.5, "over175": 3},
+                "fullf": 517, "areal": 26189, "bebygd": 0.9, "jordbruk": 1.5, "vernet": 15.6, "ndr": -0.5, "over175": 3, "vei": 45.4},
       "Finnmark": {"syss": 68.9, "ledige": 458, "lonn": 57310, "uh": 32.0, "vgs": 35.7, "stud": 2878, "boliger": 42158,
-                   "fullf": 137, "areal": 48637, "bebygd": 0.3, "jordbruk": 0.3, "vernet": 9.4, "ndr": -0.1, "over175": 6}}
+                   "fullf": 137, "areal": 48637, "bebygd": 0.3, "jordbruk": 0.3, "vernet": 9.4, "ndr": -0.1, "over175": 6, "vei": 40.4}}
 
 
 def hent(tab, filt, kodeliste=None):
@@ -81,6 +81,12 @@ def main():
     s = per_region({**d, **d2}, dims, summer_over="HovArbStyrkStatus", omkod={f"F-{k}": k for k in FY})
     tot, sys_ = med_nn({r: s[(r, "TOT")] for r in [*FY, "0"]}), med_nn({r: s[(r, "A.01")] for r in [*FY, "0"]})
     T["syss"] = {r: round(100 * sys_[r] / tot[r], 1) for r in tot}
+    # 01b Registrerte arbeidsledige som andel av arbeidsstyrken 15–74 år (SSB 13563, bosted, samme uttrekk som over)
+    d, dims = hent("13563", {"Region": "F-18,F-55,F-56", "HovArbStyrkStatus": "A,A.09", "Alder": "15-74", "InnvandrKat": "A-G", "ContentsCode": "Bosatte", "Tid": "2025"}, "agg_KommFylker")
+    d2, _ = hent("13563", {"Region": "0", "HovArbStyrkStatus": "A,A.09", "Alder": "15-74", "InnvandrKat": "A-G", "ContentsCode": "Bosatte", "Tid": "2025"})
+    s2 = per_region({**d, **d2}, dims, summer_over="HovArbStyrkStatus", omkod={f"F-{k}": k for k in FY})
+    ast, led = med_nn({r: s2[(r, "A")] for r in [*FY, "0"]}), med_nn({r: s2[(r, "A.09")] for r in [*FY, "0"]})
+    T["arbled"] = {r: round(100 * led[r] / ast[r], 1) for r in ast}
     # 02 Ledige stillinger, arbeidssted (SSB 14306)
     d, dims = hent("14306", {"Region": "18,55,56,0N", "NACE2007": "01-96", "ContentsCode": "LedigeStillinger", "Tid": "2026K3"})
     s = per_region(d, dims, omkod={"0N": "0"})
@@ -172,6 +178,21 @@ def main():
     T["mangler_regnskap"] = {"NN": sorted(navn_k[k].split(" - ")[0] for k in navn_k if NN(k) and k not in kom)}   # gjelder investeringsutgiftene (13544)
     print("Kommuner med regnskap 2025:", T["antall_kommuner"], "mangler i NN:", T["mangler_regnskap"]["NN"])
 
+    # 17 Husholdninger med gjeld over tre ganger samlet inntekt (SSB 08781, 2024). Ikke forbruksgjeld: Gjeldsregisteret
+    # har ikke åpne fylkestall. Nord-Norge veies med antall husholdninger fra SSB 06944.
+    d, dims = hent("08781", {"Region": "18,55,56,0", "GjeldStor": "06", "ContentsCode": "ProsentHush", "Tid": "2024"})
+    g = per_region(d, dims)
+    dh, dimh = hent("06944", {"Region": "18,55,56", "HusholdType": "0000", "ContentsCode": "AntallHushold", "Tid": "2024"})
+    hh = per_region(dh, dimh)
+    g = dict(g)
+    g["NN"] = sum(g[f] * hh[f] for f in FY) / sum(hh[f] for f in FY)
+    T["gjeld3"] = {r: round(v, 1) for r, v in g.items()}
+    # 18 Fylkesvei med dårlig eller svært dårlig dekke, andel av km (SSB 11842, KOSTRA). Nord-Norge = KOSTRA-aggregatet EAFK05.
+    d, dims = hent("11842", {"KOKfylkesregion0000": "1800,5500,5600,EAFK05,EAFK", "ContentsCode": "KOSandeldaarligd0000", "Tid": "2025"})
+    v = per_region(d, dims, regdim="KOKfylkesregion0000", omkod={"1800": "18", "5500": "55", "5600": "56", "EAFK05": "NN", "EAFK": "0"})
+    T["vei"] = {r: round(x, 1) for r, x in v.items()}
+    print("Nye tall:", {k: T[k] for k in ("arbled", "gjeld3", "vei")})
+
     # Kontroll mot konjunkturbarometeret
     navn = {v: k for k, v in FY.items()}
     print(f"{'indikator':12} {'fylke':9} {'SSB':>10} {'KB':>10}  avvik")
@@ -186,7 +207,7 @@ def main():
     ut = {"hentet": "2026-11-19", "mangler_regnskap": mangler, "verdier": {k: {("landet" if r == "0" else ("nord-norge" if r == "NN" else FY[r])): v for r, v in d.items()} for k, d in T.items()},
           "aar": {"syss": "2025", "ledige": "3. kvartal 2026", "lonn": "2025", "uh": "2025", "vgs": "2025", "stud": "2025", "boliger": "1.1.2026",
                   "fullf": "2025", "kvpris": "4. kvartal 2025–3. kvartal 2026", "areal": "2026", "bebygd": "2026", "jordbruk": "2026", "vernet": "2025",
-                  "ndr": "2025", "over175": "2025", "inv": "2025"},
+                  "ndr": "2025", "over175": "2025", "inv": "2025", "arbled": "2025", "gjeld3": "2024", "vei": "2025"},
           "kb": KB}
     js = DATA_JS.read_text(encoding="utf-8")
     lit = "const FYLKE_TALL = " + json.dumps(ut, ensure_ascii=False, separators=(",", ":")) + ";"

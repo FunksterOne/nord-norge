@@ -42,6 +42,12 @@ fylket, Nord-Norge og landet. Radene er gruppert i fem blokker. Hver rad oppgir 
 Tre tall mangler i dag på dashbordets fylkessider: månedslønn, utdanningsnivå og vernet areal. Resten finnes delvis i
 andre tabeller (06265 og 14310 i levekår og boligmarked), men ikke samlet per fylke.
 
+## Status 19. november 2026
+
+Registrerte arbeidsledige (SSB 13563), husholdninger med høy gjeld (SSB 08781, i stedet for forbruksgjeld) og fylkesvei
+med dårlig dekke (SSB 11842) er lagt inn; se `notater/fylketall.md`. Punktet om fylkesvei under var feil: 11842 har
+dekketilstand. Eksport og forbruksgjeld er fortsatt utelatt. Kortet har 19 rader (merket sa 15, men det var 16).
+
 ## Det som ikke tas med i denne runden, og hvorfor
 
 - **Helt ledige.** Ligger hos NAV, ikke i SSB-API-et. Kan legges til senere fra NAVs månedsstatistikk.

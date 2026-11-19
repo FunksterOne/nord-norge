@@ -5,6 +5,7 @@
 const RADER = [
   ['Arbeid', [
     ['syss', 'Sysselsatte i alderen 15–74 år', 'pst', 'SSB 13563'],
+    ['arbled', 'Registrerte arbeidsledige, andel av arbeidsstyrken 15–74 år', 'pst', 'SSB 13563'],
     ['ledige', 'Ledige stillinger', 'tall', 'SSB 14306', 'nat'],
     ['lonn', 'Gjennomsnittlig månedslønn, arbeidssted', 'kr', 'SSB 11422'],
   ]],
@@ -17,12 +18,16 @@ const RADER = [
     ['boliger', 'Boliger i alt', 'tall', 'SSB 06265', 'levekar'],
     ['fullf', 'Fullførte boliger', 'tall', 'SSB 05940'],
     ['kvpris', 'Kvadratmeterpris, brukte boliger', 'kr', 'SSB 14310'],
+    ['gjeld3', 'Husholdninger med gjeld over tre ganger samlet inntekt', 'pst0', 'SSB 08781'],
   ]],
   ['Areal', [
     ['areal', 'Land og ferskvann', 'km2', 'SSB 09594'],
     ['bebygd', 'Bebygd areal', 'pst', 'SSB 09594'],
     ['jordbruk', 'Jordbruksareal', 'pst', 'SSB 09594'],
     ['vernet', 'Vernet areal på land', 'pst', 'SSB 08936'],
+  ]],
+  ['Samferdsel', [
+    ['vei', 'Fylkesvei med dårlig eller svært dårlig dekke, andel av km', 'pst', 'SSB 11842 (KOSTRA)'],
   ]],
   ['Kommuneøkonomi', [
     ['ndr', 'Netto driftsresultat, kommunene samlet', 'pst', 'SSB 12134', 'refugees'],
@@ -57,6 +62,7 @@ function verdi(F, key, kol, fmt) {
   const v = F.verdier[key] && F.verdier[key][kol];
   if (v == null) return '–';
   if (fmt === 'pst') return nb(v, 1) + ' %';
+  if (fmt === 'pst0') return nb(v, 0) + ' %';   // SSB publiserer hele prosent (08781)
   if (fmt === 'kr') return 'kr ' + nb(v);
   if (fmt === 'km2') return nb(v) + ' km²';
   if (fmt === 'mrd') return nb(v, 1) + ' mrd. kr';
@@ -82,7 +88,7 @@ function tegn(el, F, fylke) {
   // lukket som standard (LAYOUT-VURDERING.md, anbefaling 06); valget huskes i nettleseren
   let åpen = '';
   try { åpen = localStorage.getItem('nn-fyt-aapen') === '1' ? ' open' : ''; } catch (e) { /* lagring ikke tilgjengelig */ }
-  el.innerHTML = '<details class="fyt"' + åpen + '><summary><span>' + (fylke === 'nord-norge' ? 'Nord-Norge' : fylke) + ' i tall <span class="fyt-pil">▾</span></span><span class="fyt-h">15 nøkkeltall · SSB</span></summary>' +
+  el.innerHTML = '<details class="fyt"' + åpen + '><summary><span>' + (fylke === 'nord-norge' ? 'Nord-Norge' : fylke) + ' i tall <span class="fyt-pil">▾</span></span><span class="fyt-h">' + RADER.reduce((n, g) => n + g[1].length, 0) + ' nøkkeltall · SSB</span></summary>' +
     '<div class="fyt-rull">' + h + '</div>' +
     '<p class="fyt-kilde">Alle tall er hentet fra SSBs statistikkbank. Nord-Norge er summen av de tre fylkene; andeler og priser er regnet av summene, lønn er veid med heltidsekvivalenter og kvadratmeterpris med antall omsetninger. Netto driftsresultat gjelder kommunekonsern, slik normen på 1,75 % måles.' + mangler + ' Ledige stillinger er SSBs utvalgsundersøkelse, avrundet til nærmeste hundre, og er ikke det samme som NAVs tall for utlyste stillinger. <a href="metode.html#fylketall">Metode og kontroll</a>.</p></details>';
   el.querySelector('.fyt').addEventListener('toggle', e => {

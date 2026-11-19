@@ -45,3 +45,22 @@ Kjørt 19. november 2026 med `python fetch_fylketall.py`. Barometerets fylkesfak
 - **Evenes og Gamvik:** mangler konsolidert regnskap for 2025 i SSB 13544 (november 2026). Investeringsutgiftene for
   Nordland og Finnmark mangler derfor disse to kommunene. Netto driftsresultat og antall over 1,75 % fra SSB 12134 omfatter
   alle 80 kommuner.
+
+## Tre nye tall (19. november 2026)
+
+Kortet har fått tre tall som var utsatt i august:
+
+- **Registrerte arbeidsledige som andel av arbeidsstyrken 15–74 år** (SSB 13563, 2025): Nordland 1,1 %, Troms 0,9 %,
+  Finnmark 1,5 %, Nord-Norge 1,1 %, landet 1,7 %. Tabellen bruker prioritert status: den som både er sysselsatt og
+  registrert ledig, telles som sysselsatt. Tallene er derfor lavere enn NAVs månedlige andel helt ledige og skal ikke
+  sammenlignes med dem. Barometeret oppgir ikke ledighet per fylke.
+- **Husholdninger med gjeld over tre ganger samlet inntekt** (SSB 08781, 2024): 13 / 14 / 12 %, landet 17 %. Ikke samme
+  mål som barometerets forbruksgjeld per innbygger over 18 år (36 500 / 37 600 / 43 800 kr), som kommer fra
+  Gjeldsregisteret og ikke finnes åpent per fylke.
+- **Fylkesvei med dårlig eller svært dårlig dekke** (SSB 11842, KOSTRA, 2025): 54,8 / 45,4 / 40,4 %, likt barometeret
+  på desimalen. Barometeret merker tallet 2026; SSB oppgir rapporteringsåret 2025. Nord-Norge (49,0 %) er
+  KOSTRA-aggregatet, landet 39,5 %.
+
+Rettelse til planen fra august: SSB 11842 har dekketilstand (andel og kilometer), ikke bare vei-km.
+
+Fortsatt utelatt: eksportverdi og sjømatandel (SSB har ikke fylkesfordeling) og forbruksgjeld (Gjeldsregisteret).
