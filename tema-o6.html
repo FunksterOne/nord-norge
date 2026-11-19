@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function(){
     aksetekst: sorted.map(function(){ return ''; }),
     serier: [{navn:'Innbyggere', data: sorted.map(function(k){ return k.pop; }), farge:'muted',
               fargePer: sorted.map(function(k, i){ return i < 6 ? 'accent' : 'muted'; })}],
-    format:'tall', hoyde:260
+    format:'tall', ingenAkse:true, hoyde:260
   }, 280);
 
   // Akt 03: aldersprofil, andel per ettårig alder 0–95

@@ -53,8 +53,12 @@ Det endrer tolkningen, fordi innvandringen er mannsdominert.
 ## Status
 
 Pakke A er gjennomført 19. november 2026: fire nye figurer i tema 02, de to stolpekortene i tema 03 er nummererte
-figurer, og tema 06 har fått folketallet med tre framskrivinger i akt 01. Vekten i tema 02 er beholdt. Pakke B og C
-gjenstår.
+figurer, og tema 06 har fått folketallet med tre framskrivinger i akt 01. Vekten i tema 02 er beholdt. Pakke C gjenstår.
+
+Pakke B er gjennomført 19. november 2026 (`fetch_kjonn_tid.py` → KJONN_TID): kjønnsbalansen 1986–2026 i akt 01,
+nettoflytting etter kjønn og alder i akt 03 og kvinner 20–39 år 1986–2050 i akt 04. Avklaringen om 05539: tabellen
+kan ikke deles i innenlandsk og utenlandsk flytting, og det finnes ingen åpen SSB-tabell med innenlandsk flytting etter
+fylke, kjønn og alder (søkt: 09587, 05540, 13255, 09203). Figuren er derfor merket «all flytting».
 
 ## Omfang
 

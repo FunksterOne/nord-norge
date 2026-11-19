@@ -2,7 +2,7 @@
 // Spesifikasjon:
 // { x:[…], serier:[{navn, data:[…], farge:'accent'|'ink'|'neg'|'pos'|'warn'|'cat-1..6'|'muted',
 //                    stil:'linje'|'stiplet'|'område'|'stolpe', etikett:true, utenVerdi:false}],
-//   format:'tall'|'pst'|'indeks'|'endring'|'kr', null:false, iDag:2026, ref:[{y, tekst}],
+//   format:'tall'|'tall1'|'pst'|'indeks'|'endring'|'kr', null:false, iDag:2026, ref:[{y, tekst}],
 //   hoyde:320, xTicks:[…], xFormat:'aar'|'tekst', yTittel:'…' }
 import { Plot, base, register, spec } from './core.js';
 import { heltall, tall, endring, prosent } from '../lib/format.js';
@@ -14,6 +14,7 @@ const FARGE = f => {
 };
 const TEKSTFARGE = f => (f === 'accent' ? 'var(--accent-text)' : FARGE(f));
 const FMT = {
+  tall1: v => tall(v, 1),
   pst1: v => prosent(v, 1), pst0: v => prosent(v, 0), kr1000: v => `${heltall(v)} kr`,
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => prosent(v, 1),
   endring: v => endring(Math.round(v), 0), kr: v => `${heltall(v)} kr`,
@@ -21,6 +22,7 @@ const FMT = {
 // Prosentakser viser én desimal når skrittet er under ett prosentpoeng, ellers blir to merker like («10 %, 10 %»)
 const pstAkse = v => `${tall(v, Math.abs(v - Math.round(v)) > 1e-9 ? 1 : 0)} %`;
 const AKSE = {
+  tall1: v => tall(v, Math.abs(v - Math.round(v)) > 1e-9 ? 1 : 0),
   pst1: pstAkse, pst0: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: pstAkse,
   endring: v => endring(v, 0), kr: v => heltall(v),

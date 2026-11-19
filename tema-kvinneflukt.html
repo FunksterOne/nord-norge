@@ -88,6 +88,12 @@
   <h2>I aldersgruppen 18–44 år mangler det <em>om lag 7 100 kvinner</em> i Nord-Norge.</h2>
   <p class="akt-intro">Skjevheten skyldes både at unge kvinner flytter ut og at arbeidsinnvandringen er mannsdominert (Norman-utvalget peker på innvandringen som den viktigste forklaringen), og det fødes om lag 105 gutter per 100 jenter. Per 1.1.2026 bor det 108,8 menn per 100 kvinner i denne aldersgruppen i Nord-Norge — i Loppa er forholdet 160 til 100. Tapet svekker både arbeidsmarkedet og framtidige fødselskull.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
+  <figure class="nn-fig">
+    <h3>Menn per 100 kvinner i alderen 18–44 år, 1986–2026</h3>
+    <p class="nn-fig-enhet">Bosatte 1.1. hvert år. Nord-Norge er summen av fylkene, regnet på dagens kommunegrenser.</p>
+    <div id="tidGraf"></div>
+    <p class="nn-kilde" id="tidNote"></p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 02 — BILDET ────────────────── -->
@@ -122,6 +128,12 @@
       <p class="nn-kilde">Grunnlag: SSB 07459, 1.1.2026, n=80 kommuner.</p>
     </figure>
   </div>
+  <figure class="nn-fig">
+    <h3>Nettoflytting til Nord-Norge etter kjønn og alder, sum 2011–2025</h3>
+    <p class="nn-fig-enhet">Innflyttinger minus utflyttinger, personer. Omfatter all flytting over landsdelens grense, også til og fra utlandet.</p>
+    <div id="flyttGraf"></div>
+    <p class="nn-kilde" id="flyttNote"></p>
+  </figure>
 
   <div class="kanon-anker">
     <div class="ka-kicker">I Hammerfest · kommunen vi følger</div>
@@ -141,6 +153,12 @@
     <div class="sub">«manglende» kvinner i alder 18–44 — forskjellen mellom antall menn og kvinner i alderen 18–44 år. Med full kjønnsbalanse (100/100) ville Nord-Norge hatt så mange flere unge kvinner. Selv uten flytting ville det vært noen flere menn, fordi det fødes flere gutter enn jenter.</div>
     <div class="calc" id="mangelCalc"></div>
   </div>
+  <figure class="nn-fig">
+    <h3>Kvinner i alderen 20–39 år i Nord-Norge, 1986–2050</h3>
+    <p class="nn-fig-enhet">Bosatte 1.1. Registrert til 2026, deretter SSBs lave (LLML), mellomste (MMMM) og høye (HHMH) alternativ. Det skraverte feltet er spennet mellom lav og høy.</p>
+    <div id="kvinnerGraf"></div>
+    <p class="nn-kilde" id="kvinnerNote"></p>
+  </figure>
   <h3 style="font-family:var(--font-display);font-size:18px;font-weight:600;margin:24px 0 10px">Tre koblede effekter</h3>
   <ul style="margin:0;padding-left:22px;font-size:14px;color:var(--ink2);line-height:1.7">
     <li><b>Lavere fødselsrate i landsdelen</b> — selv om hver kvinne får like mange barn som ellers i Norge, blir antall fødte færre fordi det er færre kvinner i fruktbar alder.</li>
@@ -340,6 +358,78 @@ document.addEventListener('DOMContentLoaded', function(){
   // ─── Akt 04: Manglende kvinner ───
   document.getElementById('mangelTall').textContent = '~' + fmt(Math.round(mangelKvinner/100)*100);
   document.getElementById('mangelCalc').textContent = totM18_44.toLocaleString('nb-NO') + ' menn − ' + totK18_44.toLocaleString('nb-NO') + ' kvinner = ' + mangelKvinner.toLocaleString('nb-NO') + ' i forskjell (alder 18–44, 1.1.2026)';
+
+  // ─── Pakke B (analyse/PLAN-FIGURER-08.md): KJONN_TID fra fetch_kjonn_tid.py ───
+  if(typeof KJONN_TID !== 'undefined' && window.NN){
+    var T = KJONN_TID, f1 = function(v){ return v.toFixed(1).replace('.', ','); };
+    var ratio = function(o){ return o.menn.map(function(m, i){ return Math.round(m / o.kvinner[i] * 1000) / 10; }); };
+    var rNN = ratio(T.nn), rL = ratio(T.landet);
+    // Akt 01: kjønnsbalansen over tid
+    document.getElementById('tidGraf').innerHTML = NN.placeholder('linjer', {
+      x: T.aar,
+      serier: [
+        {navn:'Nord-Norge', data:rNN, farge:'accent', uthev:true},
+        {navn:'Landet', data:rL, farge:'cat-4'}
+      ],
+      format:'tall1', ref:[{y:100, tekst:'Balanse 100'}], xTicks:[1990,2000,2010,2020], hoyde:300
+    }, 320);
+    var iMin = 0; rNN.forEach(function(v, i){ if(v < rNN[iMin]) iMin = i; });
+    var iMax = iMin; rNN.forEach(function(v, i){ if(i > iMin && v > rNN[iMax]) iMax = i; });
+    var n = rNN.length - 1;
+    document.getElementById('tidNote').innerHTML =
+      'Forholdet falt fra ' + f1(rNN[0]) + ' i ' + T.aar[0] + ' til ' + f1(rNN[iMin]) + ' i ' + T.aar[iMin] +
+      ', steg til ' + f1(rNN[iMax]) + ' i ' + T.aar[iMax] + ' og er ' + f1(rNN[n]) + ' i ' + T.aar[n] +
+      '. Avstanden til landet var ' + f1(rNN[0] - rL[0]) + ' i ' + T.aar[0] + ', ' + f1(rNN[iMin] - rL[iMin]) + ' i ' + T.aar[iMin] +
+      ' og ' + f1(rNN[n] - rL[n]) + ' i ' + T.aar[n] + '. <b>Hypotese:</b> Økningen etter ' + T.aar[iMin] +
+      ' faller sammen med arbeidsinnvandringen etter EU-utvidelsen i 2004, som Norman-utvalget peker på som den viktigste forklaringen på mannsoverskuddet. ' +
+      'Grunnlag: SSB 07459, 1.1.' + T.aar[0] + '–' + T.aar[n] + ', kodeliste agg_KommFylker.';
+
+    // Akt 03: nettoflytting etter kjønn og alder
+    var FL = T.flytting, sum = function(a){ return a.reduce(function(s, x){ return s + x; }, 0); };
+    var nM = FL.menn.Nettoflyttinger.map(sum), nK = FL.kvinner.Nettoflyttinger.map(sum);
+    document.getElementById('flyttGraf').innerHTML = NN.placeholder('stolper', {
+      kategorier: FL.grupper,
+      aksetekst: FL.grupper.map(function(g){ return g.replace(' år eller eldre', '+').replace(' år', '').replace('-', '–'); }),
+      serier: [
+        {navn:'Kvinner', data:nK, farge:'accent'},
+        {navn:'Menn', data:nM, farge:'muted'}
+      ],
+      format:'endring', hoyde:280
+    }, 310);
+    var g16 = FL.grupper.indexOf('16-19 år');
+    var fmtE = function(v){ return (v < 0 ? '−' : '+') + fmt(Math.abs(v)); };
+    document.getElementById('flyttNote').innerHTML =
+      'I alderen 16–19 år var nettoflyttingen ' + fmtE(nK[g16]) + ' kvinner og ' + fmtE(nM[g16]) + ' menn. ' +
+      'Samlet for 16–29 år fikk landsdelen netto ' + fmt(nM[g16] + nM[g16 + 1] - nK[g16] - nK[g16 + 1]) + ' flere menn enn kvinner. ' +
+      'Tabellen skiller ikke innenlandsk flytting fra flytting til og fra utlandet, så figuren viser ikke hvor mange unge kvinner som flytter sørover. ' +
+      'Den viser at kvinner i alderen 16–19 år er den eneste gruppen under 50 år med netto utflytting. ' +
+      'Grunnlag: SSB 05539, ' + FL.aar[0] + '–' + FL.aar[FL.aar.length - 1] + ', fylkene i Nord-Norge summert (flytting mellom dem går ut mot hverandre).';
+
+    // Akt 04: kvinner 20–39 år, registrert og framskrevet
+    var FR = T.framskriving, nReg = T.aar.length, nFr = FR.aar.length;
+    var x = T.aar.concat(FR.aar.slice(1));
+    var tom = function(k){ var a = []; for(var i = 0; i < k; i++) a.push(null); return a; };
+    var reg = T.nn.kvinner_20_39.concat(tom(nFr - 1));
+    var bane = function(a){ return tom(nReg - 1).concat(a); };
+    document.getElementById('kvinnerGraf').innerHTML = NN.placeholder('linjer', {
+      x: x,
+      band: {x: FR.aar, lo: FR.kvinner.lav, hi: FR.kvinner.hoy, farge:'accent'},
+      serier: [
+        {navn:'Registrert', data:reg, farge:'ink', etikett:false},
+        {navn:'Høy (HHMH)', kort:'Høy', data:bane(FR.kvinner.hoy), farge:'accent', svak:true},
+        {navn:'Middels (MMMM)', kort:'Middels', data:bane(FR.kvinner.hoved), farge:'accent', uthev:true},
+        {navn:'Lav (LLML)', kort:'Lav', data:bane(FR.kvinner.lav), farge:'accent', svak:true}
+      ],
+      format:'tall', iDag:2026, xTicks:[1990,2000,2010,2020,2030,2040,2050], hoyde:320
+    }, 340);
+    var k0 = FR.kvinner.hoved[0], k50 = FR.kvinner.hoved[nFr - 1];
+    var iTopp = 0; T.nn.kvinner_20_39.forEach(function(v, i){ if(v > T.nn.kvinner_20_39[iTopp]) iTopp = i; });
+    document.getElementById('kvinnerNote').innerHTML =
+      'I hovedalternativet går antallet fra ' + fmt(k0) + ' i ' + FR.aar[0] + ' til ' + fmt(k50) + ' i ' + FR.aar[nFr - 1] +
+      ', en nedgang på ' + f1((1 - k50 / k0) * 100) + '&nbsp;%. Lav og høy bane gir ' + fmt(FR.kvinner.lav[nFr - 1]) + ' og ' + fmt(FR.kvinner.hoy[nFr - 1]) +
+      '. Toppen i registrert tid var ' + fmt(T.nn.kvinner_20_39[iTopp]) + ' i ' + T.aar[iTopp] + '. ' +
+      'Grunnlag: SSB 07459 (1.1.' + T.aar[0] + '–' + T.aar[nReg - 1] + ') og 14746 (framskriving ' + FR.aar[0] + '–' + FR.aar[nFr - 1] + ').';
+  }
 });
 </script>
 </body>

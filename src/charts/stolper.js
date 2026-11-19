@@ -25,11 +25,13 @@ register('stolper', (el, width) => {
   const pad = grupper
     ? 0
     : Math.min(0.88, Math.max(0.25, 1 - (MAKS_BREDDE * nk) / plotW));
+  // Smal skjerm med mange kategorier: skråstilte etiketter, så de ikke flyter sammen
+  const skra = !s.ingenAkse && width < 560 && nk > 6;
   const fig = Plot.plot(base({
-    width, height: s.hoyde || 260, marginRight: 16, marginBottom: s.ingenAkse ? 6 : 28, marginLeft: s.ingenY ? 6 : 56, marginTop: s.verdier ? 22 : 22,
+    width, height: (s.hoyde || 260) + (skra ? 22 : 0), marginRight: 16, marginBottom: s.ingenAkse ? 6 : skra ? 50 : 28, marginLeft: s.ingenY ? 6 : 56, marginTop: s.verdier ? 22 : 22,
     ...(grupper
-      ? { fx: { label: null, tickSize: 0, padding: fxPad, tickFormat: k => etikett.get(k) ?? k, domain: s.kategorier }, x: { axis: null, domain: s.serier.map(se => se.navn), paddingInner: grPi, paddingOuter: grPo } }
-      : { x: { domain: s.kategorier, padding: pad, tickFormat: k => etikett.get(k) ?? k, axis: s.ingenAkse ? null : undefined } }),
+      ? { fx: { label: null, tickSize: 0, padding: fxPad, tickFormat: k => etikett.get(k) ?? k, domain: s.kategorier, tickRotate: skra ? -40 : 0 }, x: { axis: null, domain: s.serier.map(se => se.navn), paddingInner: grPi, paddingOuter: grPo } }
+      : { x: { domain: s.kategorier, padding: pad, tickFormat: k => etikett.get(k) ?? k, axis: s.ingenAkse ? null : undefined, tickRotate: skra ? -40 : 0 } }),
     y: s.ingenY ? { axis: null, nice: true } : { nice: true, tickFormat: s.format === 'pst' ? (v => `${tall(v, Math.abs(v - Math.round(v)) > 1e-9 ? 1 : 0)} %`) : fmt },
     color: { domain: s.serier.map(se => se.navn), range: s.serier.map(se => FARGE(se.farge)) },
     marks: [
