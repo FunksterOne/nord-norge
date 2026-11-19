@@ -240,6 +240,18 @@
   <p><b>Forbehold.</b> Kjøretid er ikke tid til behandling: ambulansefly, helikopter, ambulansebåt og distriktsmedisinske sentre med slagalarm er ikke med, og heller ikke kø, ventetid på ferge eller stengte veier. Framskrivingene er Helse Nords egne og avhenger av at omstillingen skjer som forutsatt. Akuttkirurgi per sykehus er bare dokumentert for enkelte sykehus og vises derfor ikke. Planen er et høringsutkast; endelig plan behandles i februar 2027. Omsorgsårsverk per innbygger over 80 år er et mål på omfang, ikke på bemanning per bruker, fordi tjenestene også gis til yngre. Høringsfristen for NOU 2026: 12 var ikke kunngjort 2. november 2026.</p>
 </div>
 
+<div class="metode-card" id="konjunkturbarometer">
+  <h2>Konjunkturbarometer for Nord-Norge</h2>
+  <p class="hint">Brukes i akt 07 på temasiden <a href="tema-naering.html#konjunktur">Hva skal vi leve av?</a> og i akt 03 på <a href="tema-helse.html#fodeland">Sykehusene i nord mot 2042</a>. Tallene bygges med <code>fetch_konjunktur.py</code>; vurdering og plan ligger i <code>analyse/konjunktur/</code>.</p>
+  <ul>
+    <li><span class="norm-tag">Rapport</span><b>Konjunkturbarometer for Nord-Norge 2026</b>, utgitt av Kunnskapsbanken i SpareBank 1 Nord-Norge og skrevet av KPB, med data per medio oktober 2026. Vurderingene av næringenes utvikling og utsikter er rapportens egne.</li>
+    <li><span class="norm-tag">Regnskap</span><b>Omsetning, driftsmargin og andel med underskudd</b> bygger på Proff Forvalt: virksomheter der hovedenheten har forretningsadresse i Nord-Norge og driftsinntekter over 1 million kroner både i 2024 og 2025, fordelt etter NACE (SN2025), med skjønnsmessige justeringer for kraftforedlende industri, havbruk og tjenesteyting. Verdiene er avlest fra figurene i rapporten (s. 20–22).</li>
+    <li><span class="norm-tag">SSB</span><b>Sysselsatte i bygg og anlegg</b> er beregnet av dashbordet fra SSB 13470 (arbeidssted, 4. kvartal, 15–74 år), med fylkene som SSBs sammenslåtte tidsserier. Byggnæring er SN2007 41 og 43 utenom 43.1; anlegg er 42 og 43.1 (riving og grunnarbeid). Med denne inndelingen treffer indeksene rapportens figur innenfor ett indekspoeng. Dashbordets fall fra 2022 til 2025 (−1 106) er litt større enn rapportens (−1 037).</li>
+    <li><span class="norm-tag">Microdata</span><b>Leger og sykepleiere etter fødeland</b> (2015, 2019 og 2025) og arbeidsinnvandrere i bygg og anlegg er KPBs beregninger på Microdata.no og kan ikke etterprøves med åpne data. Tallene henger sammen med rapportens egne summer (14,3 % vekst i alt, 36 % for utenlandsfødte).</li>
+  </ul>
+  <p><b>Forbehold.</b> Regnskapsutvalget utelater de minste selskapene og selskaper med hovedkontor utenfor landsdelen. Investeringstelleren (850 milliarder kroner) og anslaget om 150 milliarder kroner i investeringer som kan bli forsinket av Statnetts stans, er gjengitt fra rapporten og ikke kontrollert. Statnetts stans for nytt forbruk over 5 MW nord for Svartisen er kontrollert mot Statnetts nyhet 22. april 2026. Rapporten har to feil som ikke påvirker tallene her: ROBEK-avsnittet sier «én i Troms», men lister Kåfjord og Tromsø, og fylkesfaktaen for Troms sier «5 av 11 tromskommuner», men Troms har 21 kommuner.</p>
+</div>
+
 <div class="metode-card" id="eldreomsorg">
   <h2>Eldreomsorgen mot 2050</h2>
   <p class="hint">Brukes i akt 04 på temasiden <a href="tema-aldring.html#omsorg">Aldring i internasjonalt perspektiv</a> og i Arbeid-fanen på kommunesidene. Tallene bygges med <code>fetch_eldre.py</code> direkte fra SSB. Bakgrunnen er Riksrevisjonens Dokument 3:16 (2025–2026) om kommunale helse- og omsorgstjenester til eldre, datert 9. juni 2026. Rapporten tallfester ikke behovet per kommune; tallene er dashbordets egne.</p>

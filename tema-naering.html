@@ -44,6 +44,15 @@
 .nn-scrollx > div{min-width:700px}
 .kildeboks{padding:16px 18px;border-left:3px solid var(--accent);background:var(--panel);font-size:12.5px;color:var(--ink-2);line-height:1.6;margin:18px 0}
 @media (max-width:720px){.drv dl{grid-template-columns:1fr}}
+.konj-tabell{width:100%;border-collapse:collapse;font-size:13px;min-width:700px}
+.konj-tabell th{text-align:left;padding:9px 10px;color:var(--ink-3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line)}
+.konj-tabell td{padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+.konj-tabell td:first-child{color:var(--ink)}
+.konj-tabell .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.konj-tabell tr.uthev td{background:color-mix(in srgb, var(--accent) 10%, transparent)}
+.konj-v{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.konj-v::before{content:"";width:9px;height:9px;display:inline-block}
+.konj-v.p::before{background:var(--pos)}.konj-v.n::before{background:var(--amber)}.konj-v.m::before{background:var(--neg)}
 </style>
 </head>
 <body class="tema-page">
@@ -168,6 +177,31 @@
   </div>
 </section>
 
+<!-- AKT 07 -->
+<section class="akt" id="konjunktur">
+  <div class="akt-num">Akt 07 · Konjunkturen</div>
+  <h2>De fleste næringene går godt — <em>byggnæringen</em> er den eneste med rødt både i år og neste år</h2>
+  <p class="akt-intro" id="konjIntro"></p>
+  <div class="card">
+    <div class="ch"><h3>Utvikling 2026, utsikter 2027 og regnskapstall for 2025, per næring</h3></div>
+    <div class="nn-scrollx"><table class="konj-tabell" id="konjTabell"></table></div>
+    <p class="hint" style="font-size:11.5px;margin-top:8px" id="konjKilde"></p>
+  </div>
+
+  <h3 class="serif" style="font-size:19px;margin:28px 0 6px">Bygg og anlegg: nedgangen har mistet fart, men ikke snudd</h3>
+  <p style="font-size:14px;color:var(--ink-2);line-height:1.65;max-width:78ch" id="byggIntro"></p>
+  <div class="kpi-rad" id="byggKPI"></div>
+  <div class="card">
+    <div class="ch"><h3>Sysselsatte i bygg og anlegg, indeks (2008 = 100)</h3></div>
+    <div id="byggGraf"></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="ch"><h3>Endring i sysselsatte i bygg og anlegg 2022–2025, prosent</h3></div>
+    <div id="byggFylke"></div>
+  </div>
+  <div class="kildeboks" id="investBoks"></div>
+</section>
+
 <div class="kildeboks"><b>Om kildene.</b> Rapporten <i>Nord-Norge 2040 — Store muligheter, for få folk</i> (rapport 33-2026) er skrevet av Samfunnsøkonomisk Analyse AS på oppdrag fra Kunnskapsbanken i SpareBank 1 Nord-Norge, publisert 29. september 2026. Framskrivinger, verdiskaping og rangeringer er SØAs. Sysselsettingen per næring og region er dashbordets egne beregninger fra SSB tabell 13470 (sysselsatte etter arbeidssted, 4. kvartal) med SØAs metode for framtredende næringer. Næringsgruppene våre er smalere enn rapportens der SN2007-kodene ikke skiller (for eksempel sjømat uten fiskefôr og reiseliv uten guider), så nivåene kan avvike noe. Regioninndelingen er beskrevet på <a href="metode.html">metodesiden</a>.</div>
 
 <footer class="nn-footer">
@@ -201,6 +235,60 @@
 
 <script src="assets/data.js"></script>
 <script src="assets/app.js" defer></script>
+<script defer>
+// Akt 07: Konjunkturbarometer for Nord-Norge 2026 og SSB 13470 (KONJ_DATA, fetch_konjunktur.py)
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof KONJ_DATA === 'undefined') return;
+  var KD = KONJ_DATA, NA = KD.naeringer, B = KD.bygg, BK = KD.bygg_kb;
+  var f1 = function(v){ if(v == null) return '–'; var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var pp = function(v){ return v == null ? '–' : (v > 0 ? '+' : '') + f1(v) + ' %'; };
+  var f0 = function(v){ return (v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('nb-NO'); };
+  var VURD = {'1': ['p', 'Positiv'], '0': ['n', 'Nøytral'], '-1': ['m', 'Negativ']};
+  var vurd = function(v){ var x = VURD[String(v)]; return '<span class="konj-v ' + x[0] + '">' + x[1] + '</span>'; };
+  var pos = NA.filter(function(n){ return n.vurdering[1] === 1; }).map(function(n){ return n.navn.toLowerCase(); });
+  var bn = NA.find(function(n){ return n.kode === 'BN'; }), og = NA.find(function(n){ return n.kode === 'OG'; });
+  document.getElementById('konjIntro').innerHTML =
+    'Konjunkturbarometer for Nord-Norge 2026 fra Kunnskapsbanken i SpareBank 1 Nord-Norge vurderer elleve næringer. Utsiktene for 2027 er positive for ' + pos.slice(0, -1).join(', ') + ' og ' + pos[pos.length - 1] + '. ' +
+    'Byggnæringen er den eneste næringen med negativ vurdering både i 2026 og 2027: omsetningen økte bare ' + f1(bn.oms) + ' % i 2025, driftsmarginen var ' + f1(bn.margin) + ' %, og ' + f1(bn.neg) + ' % av selskapene gikk med underskudd. ' +
+    'Leverandørene til olje og gass hadde den sterkeste omsetningsveksten (' + pp(og.oms) + '), men utsiktene for 2027 er satt ned til nøytral. ' +
+    'Fiskeflåten har høye marginer fordi høye priser mer enn veier opp for lave kvoter, mens fiskeindustrien må konkurrere om mindre råstoff.';
+  var t = '<thead><tr><th>Næring</th><th>Utvikling 2026</th><th>Utsikter 2027</th><th class="num">Omsetning 2024–2025</th><th class="num">Driftsmargin 2025</th><th class="num">Andel med underskudd</th><th class="num">Sysselsetting 2024–2025</th></tr></thead><tbody>';
+  NA.forEach(function(n){ t += '<tr' + (n.kode === 'BN' ? ' class="uthev"' : '') + '><td>' + n.navn + '</td><td>' + vurd(n.vurdering[0]) + '</td><td>' + vurd(n.vurdering[1]) + '</td><td class="num">' + pp(n.oms) + '</td><td class="num">' + (n.margin == null ? '–' : f1(n.margin) + ' %') + '</td><td class="num">' + (n.neg == null ? '–' : f1(n.neg) + ' %') + '</td><td class="num">' + pp(n.syss) + '</td></tr>'; });
+  document.getElementById('konjTabell').innerHTML = t + '</tbody>';
+  document.getElementById('konjKilde').innerHTML = 'Kilde: ' + KD.naering_kilde + '. Vurderingene er rapportens egne. Verdiene er avlest fra figurene i rapporten. Utvalget er ikke det samme som alle virksomheter: små selskaper og selskaper med hovedkontor utenfor landsdelen er ikke med. «–» = ikke oppgitt.';
+
+  // Bygg og anlegg (SSB 13470, beregnet på nytt)
+  var A = B.aar, S = B.serie, i08 = 0, i19 = A.indexOf(2019), i22 = A.indexOf(2022), i25 = A.length - 1;
+  var tot = function(s){ return s.bygg.map(function(v, i){ return v + s.anlegg[i]; }); };
+  var NNt = tot(S['Nord-Norge']), REt = tot(S['Resten av landet']);
+  var ix = function(a){ return a.map(function(v){ return v / a[0] * 100; }); };
+  var e = function(a, i, j){ return (a[j] / a[i] - 1) * 100; };
+  var AI = BK.arbeidsinnvandrere;
+  document.getElementById('byggIntro').innerHTML =
+    'Sysselsettingen i bygg og anlegg i Nord-Norge økte med ' + f1(e(NNt, i08, i19)) + ' % fra 2008 til 2019, omtrent som i resten av landet. Deretter flatet den ut og nådde toppen i 2022. ' +
+    'Fra 2022 til 2025 falt den med ' + f0(NNt[i22] - NNt[i25]) + ' personer (' + pp(e(NNt, i22, i25)) + '), mot ' + pp(e(REt, i22, i25)) + ' i resten av landet. Fallet kom i byggnæringen (' + pp(e(S['Nord-Norge'].bygg, i22, i25)) + '), mens anleggsvirksomheten økte (' + pp(e(S['Nord-Norge'].anlegg, i22, i25)) + '). ' +
+    'Troms hadde størst nedgang (' + pp(e(tot(S.Troms), i22, i25)) + '), og Finnmark var omtrent uendret (' + pp(e(tot(S.Finnmark), i22, i25)) + '). ' +
+    'Ifølge konjunkturbarometeret falt antallet arbeidsinnvandrere i næringen fra ' + f0(AI.antall[1]) + ' i ' + AI.aar[1] + ' til ' + f0(AI.antall[2]) + ' i ' + AI.aar[2] + '. Det betyr mindre reservekapasitet når store prosjekter starter. ' +
+    '<b>Hypotese:</b> Dersom boligbyggingen holder seg på dagens lave nivå (se <a href="tema-bolig.html">tema 07</a>), stabiliserer byggnæringen seg på et lavere nivå enn i 2022, mens anlegg følger forsvars-, kraft- og samferdselsprosjektene.';
+  document.getElementById('byggKPI').innerHTML =
+    '<div class="kpi"><div class="v down">' + pp(e(NNt, i22, i25)) + '</div><div class="l">Sysselsatte i bygg og anlegg 2022–2025</div><div class="nh">' + f0(NNt[i25] - NNt[i22]) + ' personer · resten av landet ' + pp(e(REt, i22, i25)) + '</div></div>' +
+    '<div class="kpi"><div class="v down">' + pp(e(S['Nord-Norge'].bygg, i22, i25)) + '</div><div class="l">Byggnæringen</div><div class="nh">anlegg ' + pp(e(S['Nord-Norge'].anlegg, i22, i25)) + '</div></div>' +
+    '<div class="kpi"><div class="v">' + f0(AI.antall[2] - AI.antall[1]) + '</div><div class="l">Arbeidsinnvandrere i næringen ' + AI.aar[1] + '–' + AI.aar[2] + '</div><div class="nh">konjunkturbarometeret, s. ' + AI.side + '</div></div>';
+  document.getElementById('byggGraf').innerHTML = NN.placeholder('linjer', {x: A,
+    serier: [{navn:'Bygg og anlegg, resten av landet', kort:'Resten', data: ix(REt), farge:'muted'},
+             {navn:'Byggnæringen, Nord-Norge', kort:'Bygg', data: ix(S['Nord-Norge'].bygg), farge:'neg'},
+             {navn:'Anlegg, Nord-Norge', kort:'Anlegg', data: ix(S['Nord-Norge'].anlegg), farge:'pos'},
+             {navn:'Bygg og anlegg, Nord-Norge', kort:'Nord', data: ix(NNt), farge:'accent', uthev:true}],
+    format:'indeks', hoyde:280, kilde: B.kilde + '. Beregnet av dashbordet.'}, 310);
+  var R = ['Nordland', 'Troms', 'Finnmark', 'Nord-Norge', 'Resten av landet'];
+  document.getElementById('byggFylke').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{rader: R.map(function(r){ var v = e(tot(S[r]), i22, i25); return {l: r, v: v, farge: r === 'Nord-Norge' ? 'accent' : (v < 0 ? 'neg' : 'muted'), uthev: r === 'Nord-Norge'}; })}],
+    kilde: B.kilde + '. Fylkene er SSBs sammenslåtte tidsserier med 2024-inndelingen.'}, R.length * 34 + 40);
+  var RE = BK.rapport_endring, IV = BK.investeringer, ST = BK.statnett;
+  document.getElementById('investBoks').innerHTML = '<b>Investeringene og strømnettet.</b> Konjunkturbarometeret viser til Investeringstelleren 2025, som har registrert om lag ' + f0(IV.prosjekter) + ' prosjekter i Nord-Norge til en samlet verdi av ' + IV.mrd + ' milliarder kroner i ' + IV.periode + '. Bare ' + IV.modne_mrd + ' milliarder kroner gjelder modne prosjekter utenom forsvar, og det er om lag ' + -IV.realendring_pst + ' % mindre enn i 2023 justert for prisvekst. ' +
+    'Statnett satte 22. april 2026 nye reservasjoner av nettkapasitet for forbruk over 5 MW nord for Svartisen på hold. Ifølge rapporten kan investeringer for rundt ' + ST.mrd_i_fare + ' milliarder kroner bli forsinket eller ikke realisert, særlig datasentre og industri i nordre Nordland og søndre Troms, Bodø-regionen og Vest-Finnmark. Beløpene er rapportens og er ikke kontrollert mot primærkilden. ' +
+    'Rapporten oppgir litt andre tall for bygg og anlegg enn dashbordets beregning (' + f0(RE.nn) + ' personer og ' + f1(RE.nn_pst) + ' % for Nord-Norge, ' + f1(RE.troms) + ' % for Troms). Forskjellen skyldes trolig revisjoner i SSB-tallene eller en litt annen avgrensning av næringene (s. ' + RE.side + ').';
+});
+</script>
 <script defer>
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof NAERING_DATA === 'undefined') return;

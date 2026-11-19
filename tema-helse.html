@@ -119,6 +119,12 @@
     <div class="tittel"><span class="hs-merke reg">SSB</span>Innleie fra bemanningsbyrå i prosent av lønns- og personalkostnadene, 2023</div>
     <div id="innleieGraf"></div>
   </div>
+  <h3 class="hs-h3" id="fodeland">Leger og sykepleiere født i utlandet</h3>
+  <p class="hs-p" id="fodelandIntro"></p>
+  <div class="kpi-rad" id="fodelandKPI"></div>
+  <div class="hs-rull"><table class="hs-tabell" id="fodelandTabell"></table></div>
+  <p class="hint" style="font-size:11.5px" id="fodelandNote"></p>
+
   <h3 class="hs-h3" id="kommunene">Kommunene — der utvalget vil ha veksten</h3>
   <p class="hs-p" id="kommuneIntro"></p>
   <div class="kpi-rad" id="kommuneKPI"></div>
@@ -370,6 +376,33 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('hfTabell').innerHTML = hfT;
   var reg = Object.keys(IN.andel).sort(function(a, b){ return IN.andel[b] - IN.andel[a]; });
   document.getElementById('innleieGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{rader: reg.map(function(r){ return {l: 'Helse ' + r, v: IN.andel[r], farge: r === 'Nord' ? 'accent' : 'muted', uthev: r === 'Nord'}; })}], kilde: IN.kilde + '.'}, reg.length * 34 + 40);
+
+  // ─── Akt 03: helsepersonell etter fødeland (KONJ_DATA, fetch_konjunktur.py) ───
+  if(typeof KONJ_DATA !== 'undefined'){
+    var HP = KONJ_DATA.helsepersonell, HA = HP.aar;
+    var sum3 = function(g, i){ return HP[g].norge[i] + HP[g].utland[i]; };
+    var andelUtl = function(g, i){ return HP[g].utland[i] / sum3(g, i) * 100; };
+    var syk = HP.sykepleiere, dNorsk = syk.norge[2] - syk.norge[1], dUtl = syk.utland[2] - syk.utland[1];
+    document.getElementById('fodelandIntro').innerHTML =
+      'Konjunkturbarometer for Nord-Norge 2026 har koblet leger og sykepleiere med hovedarbeid i Nord-Norge mot fødeland. I ' + HA[2] + ' var ' + f1(andelUtl('leger', 2)) + ' % av legene og ' + f1(andelUtl('sykepleiere', 2)) + ' % av sykepleierne født i utlandet. ' +
+      'Antallet utenlandsfødte økte fra ' + f0(HP.leger.utland[0] + syk.utland[0]) + ' i ' + HA[0] + ' til ' + f0(HP.leger.utland[2] + syk.utland[2]) + ' i ' + HA[2] + '. ' +
+      'For sykepleierne er utviklingen etter ' + HA[1] + ' tydelig: antallet norskfødte gikk ned med ' + f0(-dNorsk) + ', mens antallet utenlandsfødte økte med ' + f0(dUtl) + '. Hele nettoveksten i sykepleiere de siste seks årene kom dermed fra utenlandsfødte. ' +
+      'De fleste har lang tilknytning til Norge: ' + (HP.botid_leger.pst[2] + HP.botid_leger.pst[3] + HP.botid_leger.pst[4]) + ' % av de utenlandsfødte legene har bodd her i minst ti år, og om lag ' + HP.utd_norge_leger + ' % har tatt hele eller deler av legeutdanningen i Norge. ' +
+      'Andelen norskfødte leger er høyest i Troms (' + HP.norskfodt_fylke.leger.Troms + ' %), der UiT og UNN utdanner leger, og lavest i Finnmark (' + HP.norskfodt_fylke.leger.Finnmark + ' %). ' +
+      '<b>Hypotese:</b> Dersom den internasjonale konkurransen om helsepersonell tiltar, rammes Finnmark og Nordland først, fordi de er mest avhengige av utenlandsfødte leger.';
+    document.getElementById('fodelandKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + f1(andelUtl('leger', 2)) + ' %</div><div class="l">Av legene er født i utlandet</div><div class="nh">' + HA[2] + ' · ' + f1(andelUtl('leger', 0)) + ' % i ' + HA[0] + '</div></div>' +
+      '<div class="kpi"><div class="v down">' + f0(dNorsk) + '</div><div class="l">Norskfødte sykepleiere ' + HA[1] + '–' + HA[2] + '</div><div class="nh">utenlandsfødte +' + f0(dUtl) + '</div></div>' +
+      '<div class="kpi"><div class="v">' + HP.utd_norge_leger + ' %</div><div class="l">Av de utenlandsfødte legene har utdanning fra Norge</div><div class="nh">hele eller deler av legeutdanningen</div></div>';
+    var rad = function(g, navn){
+      var a = HP[g];
+      return '<tr><td>' + navn + ', norskfødte</td>' + HA.map(function(_, i){ return '<td class="num">' + f0(a.norge[i]) + '</td>'; }).join('') + '<td class="num">' + pp(endr(a.norge[1], a.norge[2])) + '</td></tr>' +
+        '<tr><td>' + navn + ', født i utlandet</td>' + HA.map(function(_, i){ return '<td class="num">' + f0(a.utland[i]) + '</td>'; }).join('') + '<td class="num">' + pp(endr(a.utland[1], a.utland[2])) + '</td></tr>' +
+        '<tr class="sum"><td>Andel født i utlandet</td>' + HA.map(function(_, i){ return '<td class="num">' + f1(andelUtl(g, i)) + ' %</td>'; }).join('') + '<td class="num"></td></tr>';
+    };
+    document.getElementById('fodelandTabell').innerHTML = '<thead><tr><th>Leger og sykepleiere i Nord-Norge</th>' + HA.map(function(a){ return '<th class="num">' + a + '</th>'; }).join('') + '<th class="num">Endring ' + HA[1] + '–' + HA[2] + '</th></tr></thead><tbody>' + rad('leger', 'Leger') + rad('sykepleiere', 'Sykepleiere') + '</tbody>';
+    document.getElementById('fodelandNote').innerHTML = HP.kilde + '. Leger er allmennleger og legespesialister; sykepleiere omfatter spesialsykepleiere og jordmødre. Tallene er KPBs og kan ikke etterprøves med åpne data. De dekker alle arbeidsgivere, ikke bare sykehusene.';
+  }
 
   // ─── Akt 03: kommunal side (SSBs leveranse til Helsereformutvalget) ───
   var R = H.hru, RA = R.aar, rl = RA.length - 1, OM = 'Kommunal omsorgstjeneste';
