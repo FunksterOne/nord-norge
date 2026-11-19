@@ -326,7 +326,7 @@ Nøkkeltall og funn:
 4. Alle helseforetakene i Helse Nord har relativt få planlagte polikliniske konsultasjoner per 1 000 innbyggere over 80 år (PDF-side 64).
 5. Helse Midt-Norge og Helse Nord har størst utfordringer med overliggerdøgn blant utskrivningsklare pasienter (PDF-side 90–91).
 
-Dokument 3:16 (2025–2026) om kommunale tjenester til eldre er omtalt i `analyse/eldreomsorg/riksrevisjonen-eldre-essens.md`.
+Dokument 3:16 (2025–2026) om kommunale tjenester til eldre er omtalt i `analyse/eldre/riksrevisjonen-eldre-essens.md`.
 
 ### D5. SSB Rapporter 2026/18 Behov for og tilgang på arbeidskraft i offentlig helse og omsorg fremover (Helsemod)
 
