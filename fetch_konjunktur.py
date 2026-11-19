@@ -57,8 +57,16 @@ HELSEPERS = {"aar": [2015, 2019, 2025],
              "kilde": f"{KB}, s. 82–87: KPBs beregning på Microdata.no (hovedarbeidsforhold i Nord-Norge)"}
 
 
+# ── Unge utenfor, s. 79–81 (KPBs panelanalyse på Microdata.no, 15–24 år, 2021–2024) ──
+UNGE_KB = {"ukjent_2024": 2800, "andel_ukjent_alle_aar": 14, "ukjent_innvandrerbakgrunn": 53, "ukjent_grunnskole": 33,
+           "fordeling_2024": {"registrerte ledige": 9, "AAP eller uføretrygd": 20, "andre ordninger, ikke på tiltak": 9, "ukjent status": 62},
+           "side": "79–81", "kilde": "Konjunkturbarometer for Nord-Norge 2026, s. 79–81: KPBs beregning på Microdata.no"}
+
+
 def main():
     ba = json.loads((A / "bygg_anlegg.json").read_text(encoding="utf-8"))
+    nordisk = json.loads((A / "nordisk_framskriving.json").read_text(encoding="utf-8"))   # skript/nordisk.py
+    unge = json.loads((A / "unge_utenfor.json").read_text(encoding="utf-8"))             # skript/unge_utenfor.py
     h = HELSEPERS
     # Kontroll mot rapportens egne summer (s. 82–83): om lag 1 300 → 1 800 utenlandsfødte, +14,3 % i alt, +36 % utenlandsfødte
     u = [h["leger"]["utland"][i] + h["sykepleiere"]["utland"][i] for i in range(3)]
@@ -67,7 +75,7 @@ def main():
     assert sum(h["botid_leger"]["pst"]) == 100
     payload = {"hentet": "2026-11-19", "kilde": KB + " (Kunnskapsbanken, SpareBank 1 Nord-Norge; KPB)",
                "naeringer": NAERINGER, "naering_kilde": f"{KB}, s. 20–22. Proff Forvalt: hovedenhet i Nord-Norge, driftsinntekter over 1 million kroner i 2024 og 2025. Sysselsetting: SSB",
-               "bygg": ba, "bygg_kb": BYGG_KB, "helsepersonell": h}
+               "bygg": ba, "bygg_kb": BYGG_KB, "helsepersonell": h, "nordisk": nordisk, "unge": unge, "unge_kb": UNGE_KB}
     i22, i25 = ba["aar"].index(2022), ba["aar"].index(2025)
     nn = ba["serie"]["Nord-Norge"]
     print("Bygg og anlegg NN 2022→2025:", nn["bygg"][i22] + nn["anlegg"][i22], "→", nn["bygg"][i25] + nn["anlegg"][i25])

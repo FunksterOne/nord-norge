@@ -69,6 +69,12 @@
 .el-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
 .el-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
 .el-tabell td:last-child{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink3);white-space:nowrap;text-align:right}
+.norden-tabell{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.norden-tabell th{text-align:right;padding:8px 10px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
+.norden-tabell th:first-child,.norden-tabell td:first-child{text-align:left}
+.norden-tabell td{padding:7px 10px;border-top:1px solid var(--line2);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.norden-tabell tr.nasjon td{color:var(--ink3);font-style:italic}
+.norden-tabell tr.nn td:first-child{color:var(--accent-text);font-weight:600}
 </style>
 </head>
 <body class="tema-page">
@@ -122,6 +128,15 @@
     <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til én desimal. Nye fylker etter 2024-reformen.</p>
   </div>
   <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet). Forsørgerbrøken teller alder, ikke arbeid: teller man alle som ikke er i arbeid per sysselsatt, ligger Nord-Norge på landsnivå (se <a href="tema-arbeidskraft.html#telle">Tre måter å telle på</a>).</p>
+
+  <h3 id="norden" style="font-family:var(--font-display);font-size:19px;font-weight:600;margin:30px 0 6px">Nord-Norge mot Nord-Sverige og Nord-Finland</h3>
+  <p class="hint" style="font-size:14px;line-height:1.65;color:var(--ink-2);max-width:78ch" id="nordenIntro"></p>
+  <div class="fylke-graf">
+    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Endring i befolkningen 20–66 år, 2026–2035, prosent</div>
+    <div id="nordenGraf"></div>
+  </div>
+  <div style="overflow-x:auto;margin-top:14px"><table class="norden-tabell" id="nordenTabell"></table></div>
+  <p class="hint" style="font-size:11.5px;margin-top:8px" id="nordenKilde"></p>
 </section>
 
 <!-- ────────────────── AKT 04 — OMSORGEN ────────────────── -->
@@ -445,6 +460,35 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('omsFunn').innerHTML = RR.funn.map(function(f){ return '<tr><td>' + f.t + '</td><td>s. ' + f.side + '</td></tr>'; }).join('');
     document.getElementById('omsNote').innerHTML = 'Grunnlag: Riksrevisjonen, <a href="' + RR.url + '" target="_blank" rel="noopener">' + RR.dok + '</a>, datert ' + dato(RR.dato) + '. Sidetallene er kontrollert mot rapporten. Rapporten bygger på 2024-årgangen av SSBs framskriving (forsørgerbrøk ' + RR.forsorg['2024'].toFixed(2).replace('.', ',') + ' i 2024 og ' + RR.forsorg['2050'].toFixed(2).replace('.', ',') + ' i 2050, s. ' + RR.forsorg.side + '); dashbordet bruker 2026-årgangen (' + LA.fb[0].toFixed(2).replace('.', ',') + ' og ' + LA.fb[1].toFixed(2).replace('.', ',') + '). Beregningene er et behov som følger av demografien, ikke en prognose: velferdsteknologi og strengere tildeling trekker ned, og at en institusjonsbruker krever flere årsverk enn en hjemmetjenestebruker, trekker opp. Mer på <a href="metode.html#eldreomsorg">metodesiden</a>.';
   }
+});
+</script>
+<script defer>
+// Akt 03: Nord-Norge mot Nord-Sverige og Nord-Finland (KONJ_DATA.nordisk, analyse/konjunktur/skript/nordisk.py)
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof KONJ_DATA === 'undefined' || !KONJ_DATA.nordisk) return;
+  var N = KONJ_DATA.nordisk, R = N.rader;
+  var f1 = function(v){ var r = Math.round(Math.abs(v) * 10) / 10; return (v < 0 && r ? '−' : '') + r.toFixed(1).replace('.', ','); };
+  var pp = function(v){ return (v > 0 ? '+' : '') + f1(v) + ' %'; };
+  var NNR = ['Nordland', 'Troms', 'Finnmark'];
+  var reg = R.filter(function(r){ return !r.nasjon; });
+  var g = function(navn){ return R.find(function(r){ return r.region === navn; }); };
+  var vekst = reg.filter(function(r){ return r.endring['20–66'] > 0; }).map(function(r){ return r.region; });
+  var nnMin67 = Math.min.apply(null, NNR.map(function(n){ return g(n).endring['67+']; }));
+  var andreMaks67 = Math.max.apply(null, reg.filter(function(r){ return NNR.indexOf(r.region) < 0; }).map(function(r){ return r.endring['67+']; }));
+  document.getElementById('nordenIntro').innerHTML =
+    'Konjunkturbarometer for Nord-Norge 2026 sammenligner befolkningsframskrivingene for de nordlige regionene i Norge, Sverige og Finland. Tallene her er hentet direkte fra de tre statistikkbyråene. ' +
+    'Fram til 2035 er det bare ' + vekst.join(' og ') + ' som får flere i alderen 20–66 år. Begge har den største byen og universitetet i sin landsdel (Umeå og Oulu). Troms er nesten uendret (' + pp(g('Troms').endring['20–66']) + '), mens Nordland (' + pp(g('Nordland').endring['20–66']) + ') ligger nær Norrbotten (' + pp(g('Norrbotten').endring['20–66']) + '). ' +
+    'Nedgangen blant barn og unge er mindre i Troms (' + pp(g('Troms').endring['0–19']) + ') og Finnmark (' + pp(g('Finnmark').endring['0–19']) + ') enn i alle de svenske og finske regionene, men aldringen er sterkere: gruppen 67 år og over vokser med minst ' + f1(nnMin67) + ' % i alle tre nordnorske fylker, mot høyst ' + f1(andreMaks67) + ' % i nabolandenes nordlige regioner. ' +
+    '<b>Hypotese:</b> Dersom innvandringen blir lavere enn forutsatt, blir utviklingen svakere i alle de nordlige regionene, fordi en vesentlig del av veksten i alle tre land bygger på nettoinnvandring.';
+  var rader = R.slice();
+  document.getElementById('nordenGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper:[{rader: rader.map(function(r){
+    var nn = NNR.indexOf(r.region) >= 0;
+    return {l: r.region + (r.nasjon ? ' (landet)' : ''), v: r.endring['20–66'], farge: nn ? 'accent' : (r.nasjon ? 'muted' : (r.endring['20–66'] < 0 ? 'neg' : 'muted')), uthev: nn};
+  })}], kilde: N.kilde + '.'}, rader.length * 30 + 40);
+  var t = '<thead><tr><th>Region</th><th>0–19 år</th><th>20–66 år</th><th>67 år og over</th><th>Totalt</th></tr></thead><tbody>';
+  rader.forEach(function(r){ t += '<tr class="' + (r.nasjon ? 'nasjon' : (NNR.indexOf(r.region) >= 0 ? 'nn' : '')) + '"><td>' + r.region + (r.nasjon ? ' (landet)' : '') + '</td>' + ['0–19', '20–66', '67+', 'Totalt'].map(function(k){ return '<td>' + pp(r.endring[k]) + '</td>'; }).join('') + '</tr>'; });
+  document.getElementById('nordenTabell').innerHTML = t + '</tbody>';
+  document.getElementById('nordenKilde').innerHTML = 'Kilde: ' + N.kilde + '. Finland er summert fra kommunene til landskap med Statistics Finlands klassifikasjonsnøkkel. Framskrivingene er laget i ulike år (Norge 2026, Sverige 2025, Finland 2024) og med ulike forutsetninger om innvandring, og er derfor ikke helt sammenlignbare.';
 });
 </script>
 </body>

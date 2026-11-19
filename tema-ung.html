@@ -143,9 +143,25 @@
   <div class="kpi-rad" id="tillitKPI"></div>
 </section>
 
-<!-- ────────────────── AKT 07 — OM UNDERSØKELSEN ────────────────── -->
+<!-- ────────────────── AKT 07 — UTENFOR ────────────────── -->
+<section class="akt" id="utenfor">
+  <div class="akt-num">Akt 07 · Utenfor</div>
+  <h2>Færre unge står utenfor enn for ti år siden — men andelen har <em>økt</em> igjen siden 2021.</h2>
+  <p class="akt-intro" id="utenforIntro"></p>
+  <div class="kpi-rad" id="utenforKPI"></div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">SSB</span>Andel 15–24 år utenfor arbeid, utdanning og arbeidsmarkedstiltak, prosent</div>
+    <div id="utenforGraf"></div>
+  </div>
+  <div class="ug-boks">
+    <div class="tittel"><span class="ug-merke">SSB</span>Hvem er utenfor? 15–24 år i Nord-Norge, <span id="utenforAar"></span></div>
+    <div id="utenforFordeling"></div>
+  </div>
+</section>
+
+<!-- ────────────────── AKT 08 — OM UNDERSØKELSEN ────────────────── -->
 <section class="akt">
-  <div class="akt-num">Akt 07 · Om tallene</div>
+  <div class="akt-num">Akt 08 · Om tallene</div>
   <h2>Hva undersøkelsen kan — og <em>ikke</em> kan — si.</h2>
   <p class="akt-intro" id="metodeIntro"></p>
   <div class="ug-boks" id="kontrollBoks"></div>
@@ -338,7 +354,33 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v down">' + p0(TL.beste.nn) + '</div><div class="l">Kommunen jobber for innbyggernes beste</div><div class="nh">Sør-Norge ' + p0(TL.beste.sor) + '</div></div>' +
     '<div class="kpi"><div class="v">' + p0(TL.innspill.nn) + '</div><div class="l">Innspill fra innbyggerne tas hensyn til</div><div class="nh">Sør-Norge ' + p0(TL.innspill.sor) + '</div></div>';
 
-  // ─── Akt 07 ───
+  // ─── Akt 07: unge utenfor (KONJ_DATA.unge, SSB 13556; KONJ_DATA.unge_kb, Konjunkturbarometeret) ───
+  if(typeof KONJ_DATA !== 'undefined' && KONJ_DATA.unge){
+    var U = KONJ_DATA.unge, UK = KONJ_DATA.unge_kb, UA = U.aar, ui = UA.length - 1;
+    var n = U['nord-norge']['15-24'], l = U.landet['15-24'];
+    var andel = function(s, i){ return s.NEET[i] / s.TOT[i] * 100; };
+    var i15 = UA.indexOf(2015), i21 = UA.indexOf(2021), i24 = UA.indexOf(2024);
+    var minI = i15; for(var q = i15; q <= ui; q++){ if(andel(n, q) < andel(n, minI)) minI = q; }
+    document.getElementById('utenforIntro').innerHTML =
+      'Ved utgangen av ' + UA[ui] + ' var ' + f0(n.NEET[ui]) + ' unge i alderen 15–24 år i Nord-Norge verken i arbeid, utdanning eller på arbeidsmarkedstiltak, ' + f1(andel(n, ui)) + ' % av aldersgruppen, mot ' + f1(andel(l, ui)) + ' % i landet. ' +
+      'Antallet er ' + f0(Math.round(100 * (1 - n.NEET[ui] / n.NEET[i15]))) + ' % lavere enn i ' + UA[i15] + ', da ' + f0(n.NEET[i15]) + ' sto utenfor. Det meste av fallet kom før ' + UA[minI] + ', da andelen var ' + f1(andel(n, minI)) + ' %. Siden har den økt igjen' + (andel(n, ui) > andel(l, ui) ? (function(){ var s = ui - 1; while(s >= 0 && andel(n, s) <= andel(l, s)) s--; return ', og i ' + UA[ui] + ' lå Nord-Norge over landet for første gang siden ' + UA[s]; })() : '') + '. ' +
+      'Konjunkturbarometer for Nord-Norge 2026 har fulgt de unge med ukjent status i registrene over tid. Av rundt ' + f0(UK.ukjent_2024) + ' med ukjent status i 2024 hadde bare om lag ' + UK.andel_ukjent_alle_aar + ' % samme status alle fire årene 2021–2024. De fleste er altså i en overgang, ikke varig utenfor. ' + UK.ukjent_innvandrerbakgrunn + ' % hadde innvandrerbakgrunn, og ' + UK.ukjent_grunnskole + ' % hadde bare grunnskole. ' +
+      '<b>Hypotese:</b> Dersom økningen siden ' + UA[minI] + ' fortsetter, kan den lille kjernen som blir værende utenfor, vokse. Det er den gruppen tiltakene bør treffe, mer enn alle som til enhver tid står registrert utenfor.';
+    document.getElementById('utenforKPI').innerHTML =
+      '<div class="kpi"><div class="v">' + f0(n.NEET[ui]) + '</div><div class="l">Unge 15–24 år utenfor i ' + UA[ui] + '</div><div class="nh">' + f1(andel(n, ui)) + ' % · landet ' + f1(andel(l, ui)) + ' %</div></div>' +
+      '<div class="kpi"><div class="v">' + f0(n.NEET[ui] - n.NEET[i15]) + '</div><div class="l">Endring siden ' + UA[i15] + '</div><div class="nh">' + f0(n.NEET[i15]) + ' i ' + UA[i15] + '</div></div>' +
+      '<div class="kpi"><div class="v">' + UK.andel_ukjent_alle_aar + ' %</div><div class="l">Av dem med ukjent status var det alle fire årene</div><div class="nh">2021–2024 · konjunkturbarometeret</div></div>';
+    document.getElementById('utenforGraf').innerHTML = NN.placeholder('linjer', {x: UA,
+      serier: [{navn:'Landet', kort:'Landet', data: UA.map(function(_, i){ return andel(l, i); }), farge:'muted'},
+               {navn:'Nord-Norge', kort:'Nord-Norge', data: UA.map(function(_, i){ return andel(n, i); }), farge:'accent', uthev:true}],
+      format:'pst', hoyde:260, kilde: U.kilde + '. Nord-Norge er summen av fylkene slik de var inndelt hvert år.'}, 290);
+    document.getElementById('utenforAar').textContent = UA[ui];
+    var deler = [['A.09', 'Registrerte arbeidsledige'], ['U.04-U.05', 'Arbeidsavklaringspenger eller uføretrygd'], ['U.90B', 'Andre, ikke på tiltak (også ukjent status)']];
+    document.getElementById('utenforFordeling').innerHTML = NN.placeholder('hstolper', {format:'tall', grupper:[{rader: deler.map(function(d){ return {l: d[1], v: n[d[0]][ui], note: f1(n[d[0]][ui] / n.NEET[ui] * 100) + ' %', farge: d[0] === 'U.90B' ? 'accent' : 'muted', uthev: d[0] === 'U.90B'}; })}],
+      kilde: U.kilde + '. «Andre» er bosatte som ikke er registrert i arbeid, utdanning, tiltak eller ytelse. Ifølge konjunkturbarometeret hadde 62 % av alle utenfor i 2024 helt ukjent status (' + UK.kilde + ').'}, 3 * 34 + 40);
+  }
+
+  // ─── Akt 08 ───
   var R = B.rapportens_registertall;
   document.getElementById('metodeIntro').innerHTML =
     M.tittel + ' ble gjennomført i ' + M.innsamling + '. Av de ' + f0(M.n_nn) + ' deltakerne i Nord-Norge er ' + f0(M.n_nn_rekruttert) + ' rekruttert gjennom et nettpanel og et tilfeldig trukket SMS-utvalg, og ' + f0(M.n_nn_lenke) + ' svarte via en åpen lenke i sosiale medier. Svarene er vektet etter kjønn og alder innen SSBs sentralitetsnivåer. ' +

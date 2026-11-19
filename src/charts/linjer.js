@@ -18,9 +18,11 @@ const FMT = {
   tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => prosent(v, 1),
   endring: v => endring(Math.round(v), 0), kr: v => `${heltall(v)} kr`,
 };
+// Prosentakser viser én desimal når skrittet er under ett prosentpoeng, ellers blir to merker like («10 %, 10 %»)
+const pstAkse = v => `${tall(v, Math.abs(v - Math.round(v)) > 1e-9 ? 1 : 0)} %`;
 const AKSE = {
-  pst1: v => `${tall(v, 0)} %`, pst0: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
-  tall: v => heltall(v), indeks: v => tall(v, 0), pst: v => `${tall(v, 0)} %`,
+  pst1: pstAkse, pst0: v => `${tall(v, 0)} %`, kr1000: v => heltall(v),
+  tall: v => heltall(v), indeks: v => tall(v, 0), pst: pstAkse,
   endring: v => endring(v, 0), kr: v => heltall(v),
 };
 

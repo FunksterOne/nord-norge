@@ -19,6 +19,8 @@ const SIDER = [
   ['20 år med nordområdepolitikk: strategier, stortingsmeldinger og utviklingen 2006–2026', 'tema-nordomrade.html', 'Tema 11'],
   ['Sykehusene i nord mot 2042: spesialisthelsetjenesten, personell, reisetid og ventetid', 'tema-helse.html', 'Tema 12'],
   ['Fylket i tall: lønn, utdanning, boliger, areal og kommuneøkonomi', 'fylke.html', 'Fylker'],
+  ['Nord-Norge mot Nord-Sverige og Nord-Finland: befolkningen mot 2035', 'tema-aldring.html#norden', 'Tema 05'],
+  ['Unge utenfor arbeid og utdanning (NEET)', 'tema-ung.html#utenfor', 'Tema 10'],
   ['Konjunkturbarometer 2026: næringenes utsikter og bygg og anlegg', 'tema-naering.html#konjunktur', 'Tema 08'],
   ['Leger og sykepleiere født i utlandet', 'tema-helse.html#fodeland', 'Tema 12'],
   ['Helsereformutvalget (NOU 2026: 12): reformen, utviklingsplanene og kommunale omsorgsårsverk', 'tema-helse.html#reformen', 'Tema 12'],
