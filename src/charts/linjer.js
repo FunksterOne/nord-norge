@@ -1,7 +1,7 @@
 // Generelt linje-/områdediagram for temasidene.
 // Spesifikasjon:
 // { x:[…], serier:[{navn, data:[…], farge:'accent'|'ink'|'neg'|'pos'|'warn'|'cat-1..6'|'muted',
-//                    stil:'linje'|'stiplet'|'område'|'stolpe', etikett:true}],
+//                    stil:'linje'|'stiplet'|'område'|'stolpe', etikett:true, utenVerdi:false}],
 //   format:'tall'|'pst'|'indeks'|'endring'|'kr', null:false, iDag:2026, ref:[{y, tekst}],
 //   hoyde:320, xTicks:[…], xFormat:'aar'|'tekst', yTittel:'…' }
 import { Plot, base, register, spec } from './core.js';
@@ -52,7 +52,7 @@ register('linjer', (el, width) => {
     if (se.etikett === false) return;
     const pts = rows.filter(r => r.si === si);
     const last = pts[pts.length - 1]; if (!last) return;
-    ends.push({ x: last.x, value: last.v, py: yScale(last.v), text: `${se.kort || se.navn} ${fmt(last.v)}`, farge: se.farge, uthev: se.uthev });
+    ends.push({ x: last.x, value: last.v, py: yScale(last.v), text: se.utenVerdi ? (se.kort || se.navn) : `${se.kort || se.navn} ${fmt(last.v)}`, farge: se.farge, uthev: se.uthev });
   });
   const placed = dodge(ends).map(e => ({ ...e, y: yInv(e.py) }));
 

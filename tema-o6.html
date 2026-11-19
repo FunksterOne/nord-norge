@@ -104,6 +104,12 @@
   <h2><em>Seks kommuner</em> — 7,5 % av antallet — har <em>46,6 %</em> av innbyggerne.</h2>
   <p class="akt-intro">Tromsø alene har flere innbyggere enn alle 18 Finnmark-kommunene til sammen. Bodø er større enn hele Indre Finnmark og Vesterålen samlet. Den geografiske inndelingen i 80 kommuner skjuler en demografisk virkelighet med to ulike Nord-Norge.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
+  <figure class="nn-fig">
+    <h3>De 80 kommunene sortert etter folketall</h3>
+    <p class="nn-fig-enhet">Innbyggere per 1.1.2026. De seks største er uthevet. Pek på en stolpe for kommunenavnet.</p>
+    <div id="rangGraf"></div>
+    <p class="nn-kilde">Grunnlag: SSB 07459, folkemengde 1.1.2026, n=80 kommuner.</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 02 — BILDET (VEKT) ────────────────── -->
@@ -134,6 +140,12 @@
     </div>
   </div>
   <div class="o6-liste" id="o6KommuneListe"></div>
+  <figure class="nn-fig">
+    <h3>De seks største kommunenes andel av folketallet, 2000–2050</h3>
+    <p class="nn-fig-enhet">Prosent av befolkningen i Nord-Norge. Registrert til 2026, SSBs hovedalternativ (MMMM) deretter.</p>
+    <div id="andelGraf"></div>
+    <p class="nn-kilde">Grunnlag: SSB 07459 (1.1. hvert femte år 2000–2025 og 2026) og 14746 (framskriving 2026–2050). De seks er de største per 1.1.2026 i hele perioden.</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
@@ -153,6 +165,12 @@
     <tbody></tbody>
   </table>
   <p class="nn-fig-enhet">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting og uføre fra SSB 11715/13563. Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
+  <figure class="nn-fig">
+    <h3>Aldersprofilen: de seks største mot de 74</h3>
+    <p class="nn-fig-enhet">Andel av gruppens innbyggere per ettårig alder, prosent, 1.1.2026. Over 95 år er utelatt.</p>
+    <div id="alderGraf"></div>
+    <p class="nn-kilde" id="alderNote"></p>
+  </figure>
 
   <div class="kanon-anker">
     <div class="ka-kicker">I Hammerfest · kommunen vi følger</div>
@@ -215,6 +233,12 @@
   <h2>Helsereformutvalget vil ha større kommuner. I nord gjelder det <em>74 av 80</em>.</h2>
   <p class="akt-intro" id="reformIntro"></p>
   <div class="kpi-rad" id="reformKPI"></div>
+  <figure class="nn-fig">
+    <h3>Kommunene etter innbyggertall, Nord-Norge og landet</h3>
+    <p class="nn-fig-enhet">Prosent av kommunene i hver størrelsesklasse, 1.1.2026.</p>
+    <div id="storrelseGraf"></div>
+    <p class="nn-kilde">Grunnlag: SSB 07459, folkemengde 1.1.2026, n=80 kommuner i Nord-Norge og 357 i landet.</p>
+  </figure>
 
   <div class="sitat">
     <blockquote>«Utvalget mener derfor at små kommuner ikke vil ha tilstrekkelig kapasitet til å ivareta et helhetlig ansvar for helse- og omsorgstjenestene.»</blockquote>
@@ -467,6 +491,70 @@ document.addEventListener('DOMContentLoaded', function(){
       format:'indeks', iDag:2026, ref:[{y:100, tekst:'2000-nivå'}], xTicks:[2000,2010,2020,2030,2040,2050],
       yTittel:'Folketall, indeks (2000 = 100). Faktisk til 2025, SSB hovedalternativ (MMMM) fra 2026.', hoyde:330
     }, 360);
+
+    // Akt 02: de seks største kommunenes andel av folketallet 2000–2050
+    var andel = o6Series.map(function(v, i){ return Math.round(v / (v + restSeries[i]) * 1000) / 10; });
+    var iDag = seriesYears.indexOf(2026);
+    andel[iDag] = Math.round(o6Pct * 10) / 10;   // 1.1.2026 er registrert, ikke framskrevet
+    if(window.NN) document.getElementById('andelGraf').innerHTML = NN.placeholder('linjer', {
+      x: seriesYears,
+      serier: [
+        {navn:'Registrert', data:andel.map(function(v, i){ return i <= iDag ? v : null; }), farge:'accent', uthev:true, etikett:false},
+        {navn:'Framskrevet', kort:'2050:', data:andel.map(function(v, i){ return i >= iDag ? v : null; }), farge:'accent', stil:'stiplet'}
+      ],
+      format:'pst', iDag:2026, xTicks:[2000,2010,2020,2030,2040,2050], hoyde:280
+    }, 300);
+  }
+
+  // Akt 01: de 80 kommunene sortert etter folketall, de seks største uthevet
+  if(window.NN) document.getElementById('rangGraf').innerHTML = NN.placeholder('stolper', {
+    kategorier: sorted.map(function(k){ return NN.kortNavn ? NN.kortNavn(k.navn) : k.navn; }),
+    aksetekst: sorted.map(function(){ return ''; }),
+    serier: [{navn:'Innbyggere', data: sorted.map(function(k){ return k.pop; }), farge:'muted',
+              fargePer: sorted.map(function(k, i){ return i < 6 ? 'accent' : 'muted'; })}],
+    format:'tall', hoyde:260
+  }, 280);
+
+  // Akt 03: aldersprofil, andel per ettårig alder 0–95
+  var profil = function(group){
+    var sum = [], tot = 0;
+    group.forEach(function(k){ k.alder.forEach(function(v, a){ sum[a] = (sum[a] || 0) + v; tot += v; }); });
+    return sum.slice(0, 96).map(function(v){ return Math.round(v / tot * 10000) / 100; });
+  };
+  var aldre = []; for(var a = 0; a <= 95; a++) aldre.push(a);
+  var pO6 = profil(O6), pRest = profil(REST);
+  if(window.NN) document.getElementById('alderGraf').innerHTML = NN.placeholder('linjer', {
+    x: aldre, xEtikett: aldre.map(function(a){ return a + ' år'; }),
+    serier: [
+      {navn:'De seks største', kort:'De seks største', data:pO6, farge:'accent', uthev:true, utenVerdi:true},
+      {navn:'De 74 øvrige', kort:'De 74', data:pRest, farge:'cat-4', utenVerdi:true}
+    ],
+    format:'pst', null:true, xTicks:[0,20,40,60,80], hoyde:300
+  }, 320);
+  var andelAlder = function(group, fra, til){
+    var s = 0, t = 0;
+    group.forEach(function(k){ k.alder.forEach(function(v, a){ t += v; if(a >= fra && a <= til) s += v; }); });
+    return (s / t * 100).toFixed(1).replace('.', ',');
+  };
+  document.getElementById('alderNote').innerHTML =
+    'I alderen 20–39 år er andelen ' + andelAlder(O6, 20, 39) + '&nbsp;% i de seks største og ' + andelAlder(REST, 20, 39) + '&nbsp;% i de 74. ' +
+    'Fra 60 år og eldre er den ' + andelAlder(O6, 60, 200) + '&nbsp;% mot ' + andelAlder(REST, 60, 200) + '&nbsp;%. Grunnlag: SSB 07459, 1.1.2026.';
+
+  // Akt 06: kommuner etter størrelsesklasse (HELSE_DATA.hru: antall kommuner under 5 000, 10 000 og 15 000)
+  if(typeof HELSE_DATA !== 'undefined' && HELSE_DATA.hru && window.NN){
+    var KN = HELSE_DATA.hru.kommuner;
+    var klasser = function(g){
+      var u5 = g.under['5000'][0], u10 = g.under['10000'][0], u15 = g.under['15000'][0];
+      return [u5, u10 - u5, u15 - u10, g.antall - u15].map(function(n){ return Math.round(n / g.antall * 1000) / 10; });
+    };
+    document.getElementById('storrelseGraf').innerHTML = NN.placeholder('stolper', {
+      kategorier: ['Under 5 000', '5 000–9 999', '10 000–14 999', '15 000 og over'],
+      serier: [
+        {navn:'Nord-Norge', data:klasser(KN.nord), farge:'accent'},
+        {navn:'Landet', data:klasser(KN.landet), farge:'muted'}
+      ],
+      format:'pst', hoyde:260
+    }, 290);
   }
 });
 </script>

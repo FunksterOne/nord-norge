@@ -30,7 +30,7 @@ register('stolper', (el, width) => {
     ...(grupper
       ? { fx: { label: null, tickSize: 0, padding: fxPad, tickFormat: k => etikett.get(k) ?? k, domain: s.kategorier }, x: { axis: null, domain: s.serier.map(se => se.navn), paddingInner: grPi, paddingOuter: grPo } }
       : { x: { domain: s.kategorier, padding: pad, tickFormat: k => etikett.get(k) ?? k, axis: s.ingenAkse ? null : undefined } }),
-    y: s.ingenY ? { axis: null, nice: true } : { nice: true, tickFormat: fmt },
+    y: s.ingenY ? { axis: null, nice: true } : { nice: true, tickFormat: s.format === 'pst' ? (v => `${tall(v, Math.abs(v - Math.round(v)) > 1e-9 ? 1 : 0)} %`) : fmt },
     color: { domain: s.serier.map(se => se.navn), range: s.serier.map(se => FARGE(se.farge)) },
     marks: [
       Plot.ruleY([0], { stroke: 'var(--line)' }),

@@ -132,6 +132,12 @@
   <h2>Hvor står vi i dag — <em>før</em> valget er tatt?</h2>
   <p class="akt-intro">Alt dashbordet har vist så langt, kan summeres til fire grunnleggende observasjoner. Til sammen utgjør de utgangspunktet for valgene som tas de neste 15 årene.</p>
   <div class="kpi-rad" id="sjokkKPI"></div>
+  <figure class="nn-fig">
+    <h3>Folketallet i Nord-Norge 2000–2050: tre framskrivinger</h3>
+    <p class="nn-fig-enhet">Innbyggere 1.1. Registrert til 2026, deretter SSBs lave (LLML), mellomste (MMMM) og høye (HHMH) alternativ. Det skraverte feltet er spennet mellom lav og høy.</p>
+    <div id="banerGraf"></div>
+    <p class="nn-kilde">Grunnlag: SSB 07459 (registrert, hvert femte år 2000–2025 og 2026) og 14746 (framskriving 2026–2050), n=80 kommuner. Framskrivingene er SSBs, ikke scenariene på denne siden.</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 02 — BILDET ────────────────── -->
@@ -539,6 +545,28 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="kpi"><div class="v down">' + fmt(navMangel) + '</div><div class="l">Arbeidskraftsmangel</div><div class="nh">NAV bedriftsundersøkelse 2026</div></div>' +
       '<div class="kpi"><div class="v warn">' + (oad2050 != null ? oad2050 : '—') + '</div><div class="l">Forsørgerbrøk 2050</div><div class="nh">eldre per 100 arbeidsføre</div></div>' +
       '<div class="kpi"><div class="v">8,3 %</div><div class="l">Av verdiskapingen i Fastlands-Norge</div><div class="nh">2021 (BIN, «Nord-Norge 2040», s. 32)</div></div>';
+  }
+
+  // Akt 01: registrert folketall og SSBs tre framskrivinger (DATA.kommuner[].hist, DATA.proj.landsdel)
+  if(typeof DATA !== 'undefined' && DATA.proj && DATA.proj.landsdel && window.NN){
+    var L = DATA.proj.landsdel, KM = Object.values(DATA.kommuner);
+    var hAar = [2000, 2005, 2010, 2015, 2020, 2025];
+    var hist = hAar.map(function(y){ return KM.reduce(function(s, k){ return s + k.hist[y]; }, 0); });
+    var x = hAar.concat(DATA.proj.years);
+    var n0 = hAar.length;
+    var reg = hist.concat([L.main[0]]).concat(DATA.proj.years.slice(1).map(function(){ return null; }));
+    var bane = function(arr){ return hAar.map(function(){ return null; }).concat(arr); };
+    document.getElementById('banerGraf').innerHTML = NN.placeholder('linjer', {
+      x: x,
+      band: {x: DATA.proj.years, lo: L.low, hi: L.high, farge:'accent'},
+      serier: [
+        {navn:'Registrert', data:reg, farge:'ink', etikett:false},
+        {navn:'Høy (HHMH)', kort:'Høy', data:bane(L.high), farge:'accent', svak:true},
+        {navn:'Middels (MMMM)', kort:'Middels', data:bane(L.main), farge:'accent', uthev:true},
+        {navn:'Lav (LLML)', kort:'Lav', data:bane(L.low), farge:'accent', svak:true}
+      ],
+      format:'tall', iDag:2026, xTicks:[2000,2010,2020,2030,2040,2050], hoyde:320
+    }, 340);
   }
 });
 </script>
