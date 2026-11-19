@@ -828,6 +828,7 @@ function originCard(k,vesP,iveP,lands,shown){
         '<input id="tn" type="range" min="5" max="'+Math.max(5,Math.min(40,k.land.filter(l=>l[1]>0).length))+'" value="'+state.topN+'">'+
         '<span class="mono" id="tnv">'+state.topN+'</span></div><div style="height:10px"></div>':'')+
       (shown.length?barChart(shown.map(l=>({l:l[0],v:l[1]})),'var(--amber)'):'<p class="hint">Ingen treff.</p>')+
+      '<p class="nn-kilde">Grunnlag: SSB 09817, innvandrere og norskfødte med innvandrerforeldre etter landbakgrunn.</p>'+
     '</div>'+
   '</div>';
 }
@@ -2727,6 +2728,7 @@ function forsorgCmp(k){
     blokk(fbPst(r.s2066[5] / r.s2066[0] * 100), 'AAP eller uføretrygd, 20–66', 'landet ' + fbPst(FORSORG_DATA.landet_aapufo_pct)) +
     '</div>';
 }
+// opts.kompakt (kommunesiden): fordelingen per 100 sysselsatte og scenariotabellen legges bak «Les mer»-bokser.
 function forsorgCard(rKey, navn, opts){
   const FB_FARGE = fbFarger(), FB_NAVN = fbNavn();
   if(typeof FORSORG_DATA === 'undefined' || !rKey) return '';
@@ -2808,9 +2810,9 @@ function forsorgCard(rKey, navn, opts){
     kpi +
     '<p class="fb-p">' + obs + '</p>' +
     '<h4 class="fb-h4">100 personer i alderen 20–66 år, etter hva de gjør (4. kvartal ' + D.status_aar + ')</h4>' + prikkHTML +
-    '<h4 class="fb-h4">Hvem forsørges per 100 sysselsatte?</h4>' + stolper + tabell +
+    (opts.kompakt ? '<details class="nn-mer"><summary>Hvem forsørges per 100 sysselsatte?</summary>' + stolper + tabell + '</details>' : '<h4 class="fb-h4">Hvem forsørges per 100 sysselsatte?</h4>' + stolper + tabell) +
     '<h4 class="fb-h4">Mot ' + D.aar[n] + ': de to målene beveger seg ulikt</h4>' + graf +
-    '<p class="fb-p">' + hyp + '</p>' + scen +
+    '<p class="fb-p">' + hyp + '</p>' + (opts.kompakt ? '<details class="nn-mer"><summary>Hva om flere er i arbeid? To scenarioer for ' + D.aar[n] + '</summary>' + scen + '</details>' : scen) +
     '<p class="hint" style="margin-top:8px;font-size:11.5px">Kilder: SSB 13563 (arbeidsstyrkestatus, bosted), 07459, 07984 og 14746. AAP og uføretrygd telles samlet av SSB. En sysselsatt har arbeidet minst én time i referanseuka, så en deltidsansatt teller som én sysselsatt. Målet teller et barn, en pensjonist og en uføretrygdet likt, selv om de koster ulikt og finansieres ulikt.' +
     (liten ? ' <b>' + navn + ' er liten, så noen få personer kan endre tallene mye.</b>' : '') + '</p>' +
   '</div>';

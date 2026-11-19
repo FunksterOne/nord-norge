@@ -49,7 +49,13 @@ overskriftsnivåer i hver seksjon: et eget kort «1 · Befolkning» og rett unde
 
 Fase 1 er gjennomført 19. november 2026. Avvik fra planen: overskriften er det første navnet i kommunens offisielle navn
 hos SSB, ikke alltid det norske. For Gáivuotna – Kåfjord – Kaivuono står det samiske navnet først, og siden følger det.
-Fase 2 og 3 gjenstår.
+Fase 2 er gjennomført samme dag. Underknappene er små valg med strek under det aktive; figurtitlene i fanene får
+nummer (`nummererFigurer` i kommune.html); figuren i fanen Befolkning og landbakgrunnskortet har fått kildelinje; og
+«Hvem bærer hvem?» legger fordelingen per 100 sysselsatte og scenariotabellen bak «Les mer» på kommunesiden
+(`forsorgCard(..., {kompakt:true})`). Fanen Arbeid gikk fra 5 595 til 4 873 piksler på Hammerfest-siden. Figurene i
+Levekår og KOSTRA-delen av Økonomi ligger i lukkede bokser under en tekstoppsummering og er ikke nummerert. Rettelse
+til planen: bare `forsorgCard` deles med fylkes- og landsdelssiden, så risikoen var mindre enn antatt.
+Fase 3 gjenstår.
 
 ## Anbefalinger
 

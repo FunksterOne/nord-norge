@@ -39,6 +39,16 @@
 .k-hero .k-kort{margin-top:18px}
 .k-hero .k-kort h2{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0;color:var(--ink)}
 .k-hero .k-kort p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-2)}
+/* Fase 2 (PLAN-KOMMUNESIDEN.md): underknappene i fanene er små, avgrensede valg, ikke fylte knapper som fanene */
+section.tab .bf-modes{display:inline-flex;flex-wrap:wrap;gap:0;padding:2px;background:transparent;border:1px solid var(--line)}
+section.tab .bf-modes button{flex:none;min-width:0;font-size:12.5px;padding:6px 14px;font-weight:500;color:var(--ink-2)}
+section.tab .bf-modes button:hover{background:var(--panel);color:var(--ink)}
+section.tab .bf-modes button[aria-pressed="true"]{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+section.tab .minseg button[aria-selected=true]{background:var(--panel) !important;color:var(--ink) !important;border-color:transparent !important;box-shadow:inset 0 -2px 0 var(--accent)}
+/* Figurnummer i fanene: tittelen i hver figur får «Figur NN»; skjulte faner teller ikke */
+.nn-fig-t{counter-increment:figur}
+.nn-fig-t::before{content:"Figur " counter(figur, decimal-leading-zero);display:block;font:600 11px/1.3 var(--font-sans);letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--accent-text);margin-bottom:4px;font-style:normal}
+@media (max-width:600px){ section.tab .bf-modes{display:flex} section.tab .bf-modes button{flex:1 1 auto} }
 .k-hero .fy{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:0;border:1px solid;color:#fff}
 .k-hero .k-nav-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
 .k-hero .k-prev,.k-hero .k-next{font-size:18px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);border-radius:50%;text-decoration:none;color:var(--ink);background:var(--paper)}
@@ -354,9 +364,24 @@ document.addEventListener('DOMContentLoaded', function(){
       // 8. Bærekraft: indikatorer mot eksterne normer
       host.innerHTML = sustKommuneCard(k);
     }
+    nummererFigurer(host);
     // Bind eventuelle interaktive elementer (slidere/modus-bytter inni rendered HTML)
     bindRenderedControls(host);
     if(typeof attachMethodBadges === 'function') attachMethodBadges();
+  }
+
+  // Figurstandard i fanene (fase 2): den første tittelen i hver blokk med figur eller tabell får «Figur NN». Blokkene
+  // kommer fra mange tegnefunksjoner med ulik oppbygning, så blokken er nærmeste .card/.bf-graph, ellers tittelens
+  // besteforelder. Kortversjonene (.bf-diagnose) er tekst og nummereres ikke.
+  function nummererFigurer(host){
+    var sett = [];
+    host.querySelectorAll('.card > h3, .ch > h3, .h-row > h3, .chart-title').forEach(function(h){
+      if(h.closest('.bf-diagnose')) return;
+      var blokk = h.closest('.card, .bf-graph') || h.parentElement.parentElement;
+      if(!blokk || sett.indexOf(blokk) >= 0) return;
+      sett.push(blokk);
+      if(blokk.querySelector('svg, table, [data-nnchart]')) h.classList.add('nn-fig-t');
+    });
   }
 
   // Bind events for kontroller som dukker opp i rendert HTML (modus-bytter osv.)
@@ -536,6 +561,12 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-graph">'+
           '<p class="chart-title">'+currentMode.lab+' · '+currentMode.sub+'</p>'+
           chartSvg+
+          '<p class="nn-kilde">'+({
+            tot:'Grunnlag: SSB 07459 (registrert folketall 2000–2026) og 14746 (framskriving 2026–2050: lav, hoved og høy). TF-ATTR er dashbordets strukturmodell; se metodesiden.',
+            dec:'Grunnlag: dashbordets yttergrense-modell (TF-MVP) med valgt flyttevindu, bygd på SSB 06913 og 07459.',
+            fb:'Grunnlag: SSB 14746, hovedalternativet (MMMM). Forsørgerbrøk = innbyggere 65 år og eldre per 100 i alderen 20–64.',
+            ald:'Grunnlag: SSB 07459 (registrert) og 14746 (framskriving, hovedalternativet).'
+          })[state.projMode || 'tot']+'</p>'+
           (state.projMode === 'dec' ? '<p class="hint" style="margin:8px 0 0;font-size:11.5px"><b>Dekomponeringen finnes bare for TF-MVP</b> — yttergrense-modellen med valgt flyttevindu, ikke SSB MMMM eller TF-ATTR. Sluttfolketallet her avviker derfor fra Folketall-fanen. Bytt flyttevindu i visningen under for å se hvor følsom fordelingen er.</p>' : '')+
         '</div>'+
         '<div class="bf-kpis">'+kpiHTML+'</div>'+
@@ -804,7 +835,7 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn) : '') + eldreCard(k);
+      '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
   }
 
   // ─── Dedikert Økonomi-panel ───
