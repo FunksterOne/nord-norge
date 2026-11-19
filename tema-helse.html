@@ -229,7 +229,7 @@
 <section class="akt">
   <div class="akt-num">Akt 08 · Om grunnlaget</div>
   <h2>Hva planen tallfester — og hva den <em>ikke</em> gjør.</h2>
-  <p class="akt-intro" id="metodeIntro"></p>
+  <p class="akt-intro" id="metodeIntro" data-ingress="hel"></p>
 
   <div class="neste-tema-blokk">
     <div class="ntb-head">Videre lesning</div>
@@ -441,8 +441,8 @@ document.addEventListener('DOMContentLoaded', function(){
   var namsos = Object.keys(KM).filter(function(nr){ return /Namsos/.test(KM[nr].akutt); });
   document.getElementById('avstandIntro').innerHTML =
     f1(o60 / tot * 100) + ' % av innbyggerne i Nord-Norge bor i en av de ' + n60 + ' kommunene der kommunesenteret har over én times kjøretid til nærmeste akuttsykehus, og ' + f1(o120 / tot * 100) + ' % i en av de ' + n120 + ' kommunene med over to timer. ' +
-    'Lengst er det fra ' + liste(lengst.map(function(nr){ return navnK(nr) + ' (' + tid(KM[nr].min) + ')'; })) + '. ' +
     'Kjøretid er ikke det samme som tid til behandling: ved alvorlig sykdom brukes ambulansefly, helikopter og ambulansebåt, og distriktsmedisinske sentre med slagalarm, som i Brønnøysund og Mosjøen, kan starte behandling lokalt. ' +
+    'Lengst er det fra ' + liste(lengst.map(function(nr){ return navnK(nr) + ' (' + tid(KM[nr].min) + ')'; })) + '. ' +
     'Kjøretiden viser likevel hvorfor planen legger vekt på at det som skjer ofte, skal skje nært: «Nært er viktigst når noe skal skje ofte», som ungdomsrådene i Helse Nord formulerer det.';
   document.getElementById('avstandKPI').innerHTML =
     '<div class="kpi"><div class="v">' + f1(o60 / tot * 100) + ' %</div><div class="l">Over én time til akuttsykehus</div><div class="nh">' + n60 + ' av 80 kommuner</div></div>' +

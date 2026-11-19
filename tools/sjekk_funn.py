@@ -19,7 +19,7 @@ JS = r"""(() => {
     const a = li.querySelector('a[data-akt]'); const n = Number(a.dataset.akt);
     const tekst = norm(li.innerText.replace(a.innerText, ''));
     const akt = akter[n - 1];
-    return {tekst, n, akt: akt ? norm(akt.innerText) : ''};
+    return {tekst, n, akt: akt ? norm(akt.textContent) : ''};   // textContent: også tekst i lukkede «Les mer»-bokser
   });
 })()"""
 TALL = re.compile(r"(?<![\d,])\d{1,3}(?: \d{3})+(?:,\d+)?|\d+(?:,\d+)?")

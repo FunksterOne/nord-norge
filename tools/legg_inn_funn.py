@@ -32,9 +32,9 @@ FUNN = {
     "tema-arbeidskraft.html": [
         ("Bedriftene i Nord-Norge mangler 5 850 personer i 2026. Det er 17,3 % av landets mangel, mens landsdelen har 8,7 % av befolkningen.", 1, "Akt 01"),
         ("To av næringene med størst mangel, helse og sosial og undervisning, er i hovedsak kommunale.", 2, "Akt 02"),
-        ("Det kommunale underskuddet kan bli 11 797 stillinger i 2050, dobbelt så stort som dagens samlede mangel.", 4, "Akt 03½"),
-        ("Teller man alle som ikke er i arbeid per sysselsatt i stedet for alder, ligger Nord-Norge på landsnivå.", 6, "Akt 04"),
-        ("Troms og Nordland venter den høyeste sysselsettingsveksten i landet, mens gruppen i arbeidsfør alder blir mindre.", 7, "Akt 05"),
+        ("Det kommunale underskuddet kan bli 11 797 stillinger i 2050, dobbelt så stort som dagens samlede mangel.", 4, "Akt 04"),
+        ("Teller man alle som ikke er i arbeid per sysselsatt i stedet for alder, ligger Nord-Norge på landsnivå.", 6, "Akt 06"),
+        ("Troms og Nordland venter den høyeste sysselsettingsveksten i landet, mens gruppen i arbeidsfør alder blir mindre.", 7, "Akt 07"),
     ],
     "tema-aldring.html": [
         ("Forsørgerbrøken i OECD stiger fra 22 i 2000 til 52 i 2050. Norge ligger på 49 med samme grunnlag.", 1, "Akt 01"),
@@ -47,7 +47,7 @@ FUNN = {
         ("Utgangspunktet er 489 778 innbyggere, en mangel på 5 850 arbeidstakere og en forsørgerbrøk som stiger til 51 i 2050.", 1, "Akt 01"),
         ("Tre veivalg avgjør framtiden: arbeidskraft i nord, mer fornybar energi og mer foredling og tjenester.", 2, "Akt 02"),
         ("De fire mulige framtidene i 2040 spenner fra «Pendlersamfunn» til «Det meste er Nord».", 3, "Akt 03"),
-        ("Mange milepæler fram mot 2040 er allerede vedtatt eller planlagt, blant annet i kraftnett, kvoter, baser og industri.", 4, "Akt 03½"),
+        ("Mange milepæler fram mot 2040 er allerede vedtatt eller planlagt, blant annet i kraftnett, kvoter, baser og industri.", 4, "Akt 04"),
     ],
     "tema-bolig.html": [
         ("Igangsettingstillatelsene er på det laveste nivået siden 2000: 1 239 boliger de siste tolv månedene, 25 % færre enn året før.", 1, "Akt 01"),
