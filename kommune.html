@@ -34,6 +34,11 @@
 <style>
 .k-hero{padding:20px 0 24px;margin-bottom:18px;border-bottom:1px solid var(--line2)}
 .k-hero h1{font-family:var(--font-display);font-size:42px;font-weight:600;margin:6px 0 6px;color:var(--ink)}
+.k-hero .k-alt{font-family:var(--font-display);font-size:22px;font-style:italic;margin:-4px 0 14px;color:var(--ink-2)}
+.k-hero .kpis-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.k-hero .k-kort{margin-top:18px}
+.k-hero .k-kort h2{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0;color:var(--ink)}
+.k-hero .k-kort p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-2)}
 .k-hero .fy{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:0;border:1px solid;color:#fff}
 .k-hero .k-nav-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
 .k-hero .k-prev,.k-hero .k-next{font-size:18px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line2);border-radius:50%;text-decoration:none;color:var(--ink);background:var(--paper)}
@@ -254,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="kicker">Sammenligning · alle 80 kommuner</div>' +
       '<h2 class="exhibit-h">Hvor står ' + k.navn.split(' - ')[0] + ' blant kommunene i Nord-Norge?</h2>' +
       '<div class="nn-pl-grid">' +
-        NN.placeholder('plassering', {nr:k.nr}, 520) +
+        NN.placeholder('plassering', {nr:k.nr, vis:3}, 520) +
         '<div>' + NN.placeholder('kart', {ind:'endring', highlight:k.nr, fylke:k.fylke, side:false, height:430}, 430) + '</div>' +
       '</div>';
   }
@@ -268,23 +273,31 @@ document.addEventListener('DOMContentLoaded', function(){
     picker.onchange = function(){ if(this.value) window.location.search = '?k=' + this.value; };
   }
 
-  // Hero med statusBadges + KPIs + forrige/neste-nav
+  // Toppen: navn, fire nøkkeltall og kortversjonen (PLAN-KOMMUNESIDEN.md, fase 1), forrige/neste-nav
   function renderHero(){
     var st = kommuneStatus(k);
-    var med = medianAge(k.alder);
-    var barn = k.alder.slice(0,18).reduce(function(s,x){return s+x;},0);
-    var eldre = k.alder.slice(67).reduce(function(s,x){return s+x;},0);
-    var forGrunnskole = k.alder.slice(0,6).reduce(function(s,x){return s+x;},0);
-    var a80 = k.alder.slice(80).reduce(function(s,x){return s+x;},0);
-    var sj = k.syss, sjr = sj?sj.rate:null;
-    var sjVal = sjr && sjr.zzz!=null ? sjr.zzz.toFixed(1).replace('.',',')+' %' : '–';
-    var sjGap = (sjr && sjr.zzz!=null && sjr.tot!=null) ? (sjr.tot-sjr.zzz).toFixed(1).replace('.',',') : null;
     // Forrige/neste innen samme fylke
     var fk = K.filter(function(x){return x.fylke===k.fylke;}).sort(function(a,b){return b.pop-a.pop;});
     var idx = fk.findIndex(function(x){return x.nr===k.nr;});
     var prev = idx > 0 ? fk[idx-1] : null;
     var next = idx >= 0 && idx < fk.length-1 ? fk[idx+1] : null;
     var fyColor = {Nordland:'var(--nl)', Troms:'var(--tr)', Finnmark:'var(--fi)'};
+    var navnDeler = k.navn.split(' - ');
+    var sgn = function(v, d){ return (v < 0 ? '−' : v > 0 ? '+' : '') + Math.abs(v).toFixed(d).replace('.', ','); };
+    var o = DATA.proj && DATA.proj.kommuner && DATA.proj.kommuner[k.nr], n = DATA.proj ? DATA.proj.years.length : 0;
+    var endrTxt = '–', endrSub = 'SSB hovedalternativ (MMMM)', fbTxt = '–';
+    if(o && o.main && n > 1){
+      endrTxt = sgn((o.main[n-1] / o.main[0] - 1) * 100, 1) + ' %';
+      endrSub = 'SSB hovedalternativ (MMMM), ' + fmt(Math.round(o.main[n-1])) + ' innbyggere i 2050';
+      if(o.a65 && o.a2064 && o.a2064[0] && o.a2064[n-1])
+        fbTxt = Math.round(100 * o.a65[0] / o.a2064[0]) + ' → ' + Math.round(100 * o.a65[n-1] / o.a2064[n-1]);
+    }
+    var ko = DATA.proj && DATA.proj.kostra && DATA.proj.kostra[k.nr];
+    var ndr = ko && ko.ndr != null ? +ko.ndr : null, ndrAar = ko && ko.yr ? ko.yr : '';
+    var ndrUnder = ndr != null && ndr < 1.75;
+    var ndrTxt = ndr != null ? sgn(ndr, 1) + ' %' : '–';
+    var robekTxt = st.robek === 'in' ? 'i ROBEK' : st.robek === 'pending' ? 'ROBEK-behandling pågår' : 'ikke i ROBEK';
+    var ndrSub = 'Prosent av driftsinntektene. TBU-norm 1,75&nbsp;% · ' + robekTxt;
     var hero = document.getElementById('kommuneHero');
     hero.innerHTML =
       '<div class="k-nav-row">' +
@@ -293,17 +306,28 @@ document.addEventListener('DOMContentLoaded', function(){
         (next ? '<a class="k-next" href="kommune.html?k=' + next.nr + '" title="' + next.navn + '">→</a>' : '<span class="k-next" style="opacity:.3">→</span>') +
         '<a class="k-cmp" href="sammenlign.html?k=' + k.nr + '">+ Sammenlign</a>' +
       '</div>' +
-      '<h1 class="serif">' + k.navn + '</h1>' +
-      statusBadges(k, st) +
-      '<div class="kpis kpis-7">' +
+      '<h1 class="serif">' + navnDeler[0] + '</h1>' +
+      (navnDeler.length > 1 ? '<p class="k-alt">' + navnDeler.slice(1).join(' · ') + '</p>' : '') +
+      '<div class="kpis kpis-4">' +
         popKpi(k, '') +
-        '<div class="kpi"><div class="v">' + k.andel.toFixed(1).replace('.',',') + ' %</div><div class="l">Innvandrerbakgrunn</div><div class="s">' + fmt(k.bc) + ' personer</div></div>' +
-        '<div class="kpi"><div class="v">' + med + '</div><div class="l">Medianalder</div><div class="s">år</div></div>' +
-        '<div class="kpi"><div class="v">' + (forGrunnskole/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">Under skolealder</div><div class="s">' + fmt(forGrunnskole) + ' barn 0–5 år</div></div>' +
-        '<div class="kpi"><div class="v">' + (a80/k.pop*100).toFixed(1).replace('.',',') + ' %</div><div class="l">80 år og over</div><div class="s">' + fmt(a80) + ' personer</div></div>' +
-        '<div class="kpi"><div class="v">' + (barn/k.pop*100).toFixed(0).replace('.',',') + '/' + (eldre/k.pop*100).toFixed(0).replace('.',',') + '</div><div class="l">0–17 / 67+ %</div><div class="s">' + fmt(barn) + ' / ' + fmt(eldre) + '</div></div>' +
-        '<div class="kpi"><div class="v" style="color:var(--syss)">' + sjVal + '</div><div class="l">Sysselsatte innvandrere</div><div class="s">' + (sjGap!=null ? (sjGap.charAt(0)==='-' ? sjGap.slice(1) + ' prosentpoeng over hele befolkningen' : sjGap + ' prosentpoeng under hele befolkningen') : '20–66 år, 2025') + '</div></div>' +
-      '</div>';
+        '<div class="kpi"><div class="v">' + endrTxt + '</div><div class="l">Endring 2026–2050</div><div class="s">' + endrSub + '</div></div>' +
+        '<div class="kpi"><div class="v">' + fbTxt + '</div><div class="l">Forsørgerbrøk</div><div class="s">65+ per 100 i alderen 20–64, i dag og 2050 (SSB MMMM)</div></div>' +
+        '<div class="kpi"><div class="v"' + (ndrUnder ? ' style="color:var(--warn)"' : '') + '>' + ndrTxt + '</div><div class="l">Netto driftsresultat ' + ndrAar + '</div><div class="s">' + ndrSub + '</div></div>' +
+      '</div>' +
+      '<div id="kKort">' + kortversjon(k) + '</div>';
+  }
+
+  // Kortversjonen (diagnoseCard i assets/app.js) står øverst som sidens ingress. Den tegnes på nytt når
+  // flyttevinduet i fanen Befolkning endres, fordi teksten nevner yttergrense-modellen.
+  function kortversjon(k){
+    if(typeof diagnoseCard !== 'function') return '';
+    var pMatch = diagnoseCard(k).match(/<p style="margin:0[^"]*"[^>]*>([\s\S]*?)<\/p>/);
+    return pMatch ?
+      '<div class="bf-diagnose k-kort">'+
+        '<div class="h-row"><h2>Kortversjon — demografi og framtid</h2>'+
+        '<span class="tag">SSB MMMM · hovedbane</span></div>'+
+        '<p>'+pMatch[1]+'</p>'+
+      '</div>' : '';
   }
 
   // Render hver seksjon med relevante fragmenter fra app.js
@@ -504,6 +528,8 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     }
 
+    var kKort = document.getElementById('kKort');
+    if(kKort) kKort.innerHTML = kortversjon(k);
     host.innerHTML =
       '<div class="bf-panel">'+
         '<div class="bf-modes" id="bfModes">'+modeBtns+'</div>'+
@@ -538,7 +564,6 @@ document.addEventListener('DOMContentLoaded', function(){
             '</div>'+
           '</div>'+
         '</details>'+
-        diagnoseHTML+
       '</div>';
 
     // Wire opp TF-MVP-details: når åpnet/lukket, oppdater state og re-rendre.
@@ -665,6 +690,12 @@ document.addEventListener('DOMContentLoaded', function(){
           '<div class="k"><div class="v">'+k.andel.toFixed(1).replace('.',',')+' %</div><div class="l">Innvandrerbakgrunn</div><div class="h">'+vesP+' % vestlig · '+iveP+' % ikke-vestlig</div></div>'+
           botid10KPI(k)+
           bosetting2027KPI(k)+
+          (function(){
+            var u6 = k.alder.slice(0,6).reduce(function(s,x){return s+x;}, 0);
+            var sjr = k.syss && k.syss.rate;
+            var sj = sjr && sjr.zzz != null ? '<div class="k"><div class="v">'+sjr.zzz.toFixed(1).replace('.',',')+' %</div><div class="l">Sysselsatte innvandrere</div><div class="h">20–66 år, 2025 · hele befolkningen '+(sjr.tot!=null?sjr.tot.toFixed(1).replace('.',',')+' %':'–')+'</div></div>' : '';
+            return '<div class="k"><div class="v">'+(u6/pop*100).toFixed(1).replace('.',',')+' %</div><div class="l">Under skolealder</div><div class="h">'+fmt(u6)+' barn 0–5 år</div></div>' + sj;
+          })()+
         '</div>'+
         // Folketekst (pedagogisk oppsummering)
         '<div class="bf-diagnose" style="border-left-color:var(--aurora)">'+

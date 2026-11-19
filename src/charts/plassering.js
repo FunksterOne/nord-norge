@@ -1,5 +1,5 @@
 // «Hvor står kommunen?» — bisvermstriper for alle 80 kommuner per indikator,
-// med valgt kommune fremhevet i aksentblått. Spesifikasjon: { nr }
+// med valgt kommune fremhevet i aksentblått. Spesifikasjon: { nr, vis } — vis = antall synlige, resten bak «Vis flere».
 import { Plot, register, spec } from './core.js';
 import { L } from '../lib/legacy.js';
 import { tall, endringPst, prosent, kortNavn } from '../lib/format.js';
@@ -11,10 +11,10 @@ function defs() {
   const yr = (L.DATA?.proj?.kostra && Object.values(L.DATA.proj.kostra)[0]?.yr) || '';
   return [
     { ...INDIKATORER.endring, key: 'endring', navn: 'Folketall 2026–2050', tekst: v => endringPst(v, 1) },
-    { ...INDIKATORER.eldre, key: 'eldre', navn: 'Andel 65 år og over', tekst: v => prosent(v, 1) },
     { ...INDIKATORER.forsorg, key: 'forsorg', navn: 'Forsørgerbrøk 2050', tekst: v => tall(v, 0) },
-    { ...INDIKATORER.innv, key: 'innv', navn: 'Innvandrerbakgrunn', tekst: v => prosent(v, 1) },
     { key: 'ndr', navn: `Netto driftsresultat ${yr}`, verdi: k => kostra(k.nr, 'ndr'), tekst: v => prosent(v, 1), ref: 1.75, refTxt: 'TBU-norm 1,75 %' },
+    { ...INDIKATORER.eldre, key: 'eldre', navn: 'Andel 65 år og over', tekst: v => prosent(v, 1) },
+    { ...INDIKATORER.innv, key: 'innv', navn: 'Innvandrerbakgrunn', tekst: v => prosent(v, 1) },
     { key: 'fond', navn: `Disposisjonsfond ${yr}`, verdi: k => kostra(k.nr, 'fond'), tekst: v => prosent(v, 1), ref: 10, refTxt: 'Solid buffer: minst 10 %' },
   ];
 }
@@ -62,6 +62,14 @@ register('plassering', (el, width) => {
       row.appendChild(n);
     }
     out.push(row);
+  }
+  if (s.vis && out.length > s.vis) {
+    const mer = document.createElement('details');
+    mer.className = 'nn-mer nn-pl-mer';
+    const ant = out.length - s.vis;
+    mer.innerHTML = `<summary>Vis ${ant === 3 ? 'tre' : ant} til</summary>`;
+    mer.append(...out.splice(s.vis));
+    out.push(mer);
   }
   const src = document.createElement('div'); src.className = 'nn-source';
   src.textContent = 'Hver prikk er én kommune. Kilde: SSB (07459, 14746, 09817, KOSTRA 12143). Pek på en prikk for navn, klikk for å åpne kommunen.';
