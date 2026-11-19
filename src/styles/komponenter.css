@@ -109,3 +109,9 @@
             mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
   }
 }
+
+/* Fire nøkkeltall øverst på kommune-, fylkes- og landsdelssiden (PLAN-KOMMUNESIDEN.md) */
+.nivaa-kpi.kpis-4{grid-template-columns:repeat(4,minmax(0,1fr));margin:6px 0 18px}
+/* Seksjonshodet på fylkes- og landsdelssiden: én overskrift, ikke et eget kort over seksjonens første kort */
+body .stepcard{background:none;border:0;padding:0;margin:4px 0 16px;overflow:visible}
+body .stepcard::before,body .stepcard .sn{display:none}

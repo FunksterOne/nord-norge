@@ -64,6 +64,7 @@
   <h1 class="serif" style="margin:6px 0 12px" id="ftitle">Fylke</h1>
   <p class="essence" id="fessence">Velg seksjon nedenfor for å se hvordan dette fylket utvikler seg mot 2050.</p>
 </div>
+<div id="nivaaKpi"></div>
 <div data-fylketall="auto"></div>
 
 <nav class="nn-secnav" id="secnav">
@@ -523,6 +524,9 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>fram mot 2050</em>';
   document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026');
   document.title = fylke + ' — Nord-Norge-dashbordet';
+  // Ingress og fire nøkkeltall regnet fra tallene (nivaaIngress/nivaaKpiHTML i assets/app.js)
+  document.getElementById('fessence').innerHTML = nivaaIngress(fylke);
+  document.getElementById('nivaaKpi').innerHTML = nivaaKpiHTML(fylke);
 
   // Kart over fylket + små multipler for fylkets kommuner
   // Fylkesspesifikke tall i teksten (vekst og nedgang mot 2050, antall kommuner)

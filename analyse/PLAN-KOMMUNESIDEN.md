@@ -55,7 +55,11 @@ nummer (`nummererFigurer` i kommune.html); figuren i fanen Befolkning og landbak
 (`forsorgCard(..., {kompakt:true})`). Fanen Arbeid gikk fra 5 595 til 4 873 piksler på Hammerfest-siden. Figurene i
 Levekår og KOSTRA-delen av Økonomi ligger i lukkede bokser under en tekstoppsummering og er ikke nummerert. Rettelse
 til planen: bare `forsorgCard` deles med fylkes- og landsdelssiden, så risikoen var mindre enn antatt.
-Fase 3 gjenstår.
+Fase 3 er gjennomført samme dag. Fylkes- og landsdelssiden har de samme fire nøkkeltallene som kommunesiden
+(`nivaaKpiHTML` i assets/app.js; netto driftsresultat vises som antall kommuner under TBU-normen og antall i ROBEK).
+Fylkessiden har fått en ingress regnet fra tallene (`nivaaIngress`); landsdelssidens håndskrevne ingress er beholdt.
+Seksjonshodet er ikke lenger et eget kort, og «Akt N ·» er fjernet fra merkene over oppsummeringskortene, fordi
+nummereringen ikke fulgte fanene. Anbefaling 07 er dermed gjennomført.
 
 ## Anbefalinger
 

@@ -138,6 +138,45 @@ function aprilPop(k){
   if(k.isAgg) return k.fylke==='Alle'?BEFK_DATA.landsdel:(BEFK_DATA.fylker[k.fylke]||null);
   return BEFK_DATA.kommuner[k.nr]||null;
 }
+// Fire nøkkeltall for fylke og landsdel (PLAN-KOMMUNESIDEN.md, fase 3), de samme som øverst på kommunesiden:
+// folketall, endring 2026–2050, forsørgerbrøk i dag og 2050, og kommunene under TBU-normen for netto driftsresultat.
+function nivaaTall(fylke){
+  const alle = !fylke || fylke === 'Alle';
+  const ks = K.filter(k => alle || k.fylke === fylke);
+  const P = DATA.proj, n = (P.years || []).length;
+  let p0 = 0, p1 = 0, e0 = 0, a0 = 0, e1 = 0, a1 = 0, ned = 0;
+  ks.forEach(k => {
+    const o = P.kommuner[k.nr]; if(!o || !o.main) return;
+    p0 += o.main[0]; p1 += o.main[n-1]; if(o.main[n-1] < o.main[0]) ned++;
+    if(o.a65 && o.a2064){ e0 += o.a65[0]; a0 += o.a2064[0]; e1 += o.a65[n-1]; a1 += o.a2064[n-1]; }
+  });
+  const ko = P.kostra || {}, medNdr = ks.filter(k => ko[k.nr] && ko[k.nr].ndr != null);
+  const under = medNdr.filter(k => +ko[k.nr].ndr < 1.75).length;
+  const robek = ks.filter(k => P.robek && P.robek.kommuner && P.robek.kommuner[k.nr]).length;
+  const yr = medNdr.length ? ko[medNdr[0].nr].yr : '';
+  const apr = typeof BEFK_DATA !== 'undefined' && BEFK_DATA ? (alle ? BEFK_DATA.landsdel : BEFK_DATA.fylker[fylke]) : null;
+  return {navn: alle ? 'Nord-Norge' : fylke, antall: ks.length, pop: apr || p0, popDato: apr ? BEFK_DATA.dato_norsk : '1.1.2026',
+          p0, p1, endr: p0 ? (p1 / p0 - 1) * 100 : null, aar: (P.years || [])[n-1] || 2050, ned,
+          fb0: a0 ? 100 * e0 / a0 : null, fb1: a1 ? 100 * e1 / a1 : null, under, medNdr: medNdr.length, robek, yr};
+}
+function nivaaKpiHTML(fylke){
+  const t = nivaaTall(fylke);
+  const sg = (v, d) => (v < 0 ? '−' : v > 0 ? '+' : '') + Math.abs(v).toFixed(d).replace('.', ',');
+  return '<div class="kpis kpis-4 nivaa-kpi">' +
+    '<div class="kpi"><div class="v">' + fmt(t.pop) + '</div><div class="l">Folketall</div><div class="s">per ' + t.popDato + ' · ' + t.antall + ' kommuner</div></div>' +
+    '<div class="kpi"><div class="v">' + (t.endr != null ? sg(t.endr, 1) + ' %' : '–') + '</div><div class="l">Endring 2026–' + t.aar + '</div><div class="s">SSB hovedalternativ (MMMM), ' + fmt(Math.round(t.p1)) + ' innbyggere i ' + t.aar + '</div></div>' +
+    '<div class="kpi"><div class="v">' + (t.fb0 != null ? Math.round(t.fb0) + ' → ' + Math.round(t.fb1) : '–') + '</div><div class="l">Forsørgerbrøk</div><div class="s">65+ per 100 i alderen 20–64, i dag og ' + t.aar + ' (SSB MMMM)</div></div>' +
+    '<div class="kpi"><div class="v">' + t.under + ' av ' + t.medNdr + '</div><div class="l">Kommuner under TBU-normen ' + t.yr + '</div><div class="s">Netto driftsresultat under 1,75&nbsp;% · ' + t.robek + ' i ROBEK</div></div>' +
+  '</div>';
+}
+function nivaaIngress(fylke){
+  const t = nivaaTall(fylke);
+  const sg = v => (v < 0 ? '−' : '+') + Math.abs(v).toFixed(1).replace('.', ',');
+  return t.navn + ' har ' + fmt(t.pop) + ' innbyggere per ' + t.popDato + '. I SSBs hovedalternativ blir det <b>' + fmt(Math.round(t.p1)) +
+    '</b> i ' + t.aar + ' (' + sg(t.endr) + '&nbsp;%), men <b>' + t.ned + ' av ' + t.antall + ' kommuner</b> får færre innbyggere. ' +
+    'Forsørgerbrøken stiger fra ' + Math.round(t.fb0) + ' til <b>' + Math.round(t.fb1) + '</b> eldre per 100 i alderen 20–64, og ' + t.under + ' av ' + t.medNdr +
+    ' kommuner hadde netto driftsresultat under normen på 1,75&nbsp;% i ' + t.yr + '.';
+}
 function popKpi(k, ekstraSub){
   const apr=aprilPop(k);
   if(!apr) return '<div class="kpi"><div class="v">'+fmt(k.pop)+'</div><div class="l">Folketall</div><div class="s">'+(ekstraSub||'')+'per 1.1.2026</div></div>';
@@ -1304,7 +1343,7 @@ function renderBigPicture(){
     nums.push({nv:fmt0(agg.pop),cls:'',nl:'i dag',nh:'1.1.2026'});
     if(futurePct!=null) nums.push({nv:pctF(futurePct),cls:futurePct>=0?'up':'down',nl:'mot '+projYear,nh:'SSB MMMM'});
     tldrHost.className='tldr';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 1 · Hva skjer · '+(state.fylke&&state.fylke!=='Alle'?state.fylke+' samlet':'Landsdelen samlet')+'</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Hva skjer · '+(state.fylke&&state.fylke!=='Alle'?state.fylke+' samlet':'Landsdelen samlet')+'</div>'+
       '<h3>Sett under ett: går folketallet i Nord-Norge ned?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+nums.map(n=>'<div class="tldr-num"><div class="nv '+n.cls+'">'+n.nv+'</div><div class="nl">'+n.nl+'</div><div class="nh">'+n.nh+'</div></div>').join('')+'</div>';
@@ -1329,7 +1368,7 @@ function renderComposition(){
     text+='<b>'+pInnv.toFixed(1).replace('.',',')+' %</b> har innvandrerbakgrunn — i alt <b>'+fmt(agg.bc)+'</b> personer fordelt på <b>'+(agg.land||[]).filter(l=>l[1]>0).length+'</b> opprinnelsesland. ';
     text+='<i>Aldersgruppen som vokser raskest mot 2050, er 80+ — det er den som driver mest av framtidens omsorgsbehov.</i>';
     tldrHost.className='tldr t-people';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · '+(state.fylke&&state.fylke!=='Alle'?state.fylke+' samlet':'Landsdelen samlet')+'</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Hvem blir igjen · '+(state.fylke&&state.fylke!=='Alle'?state.fylke+' samlet':'Landsdelen samlet')+'</div>'+
       '<h3>Hvem bor i '+_scope+' i dag?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -1456,7 +1495,7 @@ function renderLevekar(){
     text+='<b>'+pctSelv.toFixed(0).replace('.',',')+' %</b> av husholdningene eier boligen selv. ';
     text+='<i>Pensjon og uføretrygd utgjør til sammen en stor del av inntektene, så inntektsbasen er følsom for endringer i statlige stønader.</i>';
     tldrHost.className='tldr t-people';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Levekår</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Hvem blir igjen · Levekår</div>'+
       '<h3>Hva tjener folk i '+_scope2+' — og hvor kommer pengene fra?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -1620,7 +1659,7 @@ function renderBurden(){
     }
     text+='<i>Det er denne forskyvningen — flere eldre og færre i arbeid — som setter kommuneøkonomien på prøve i Akt 3.</i>';
     tldrHost.className='tldr t-burden';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 2 · Hvem blir igjen · Bæreevne</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Hvem blir igjen · Bæreevne</div>'+
       '<h3>Hvor tungt blir aldringen å bære?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -1660,7 +1699,7 @@ function renderEconomy(){
     text+='Av '+scopeTot+' kommuner i '+scopeOmrade+' er <b>'+inR+'</b> registrert i ROBEK i dag, og <b>'+pend+'</b> over grensen under behandling. ';
     text+='<i>Disse tre tallene — resultat, buffer, gjeld — bestemmer hvor mye handlingsrom kommunene har når aldringskostnaden kommer.</i>';
     tldrHost.className='tldr t-burden';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 3 · Kan vi bære det? · Økonomien i dag</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Kan vi bære det? · Økonomien i dag</div>'+
       '<h3>Hvor solid står kommuneøkonomien?</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
@@ -2407,7 +2446,7 @@ function renderSustainability(){
     text+='<b>'+(counts.robekIn+counts.robekPnd)+'</b> er i ROBEK eller har innmelding under behandling. ';
     text+='Hvert tall er en <i>observasjon</i> mot en konkret etablert standard.';
     tldrHost.className='tldr';
-    tldrHost.innerHTML='<div class="tldr-tag">Akt 3 · Kan vi bære det? · Indikatoroversikt</div>'+
+    tldrHost.innerHTML='<div class="tldr-tag">Kan vi bære det? · Indikatoroversikt</div>'+
       '<h3>Kommunene mot etablerte normer</h3>'+
       '<p class="tldr-text">'+text+'</p>'+
       '<div class="tldr-nums">'+
