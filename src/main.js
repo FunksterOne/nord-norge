@@ -2,6 +2,7 @@ import './styles/tokens.css';
 import './styles/base.css';
 import './styles/charts.css';
 import './styles/nav.css';
+import './styles/komponenter.css';
 import { initTheme } from './lib/theme.js';
 import { initNav } from './lib/nav.js';
 import { initSearch } from './lib/search.js';

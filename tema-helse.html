@@ -32,25 +32,11 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script type="module" src="/src/main.js"></script>
 <style>
-.hs-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
-.hs-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
 .hs-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
 .hs-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
 .hs-kilde > div.reg{border-left-color:var(--accent)}
-.hs-kilde .nr,.hs-merke{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
-.hs-kilde .nr{margin-bottom:4px}
+.hs-kilde .nr{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
 .hs-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
-.hs-merke{display:inline-block;font-size:10px;letter-spacing:.1em;padding:2px 6px;border:1px solid var(--line2);margin-right:6px;vertical-align:middle}
-.hs-merke.reg{border-color:var(--accent);color:var(--accent-text)}
-.hs-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);min-width:620px}
-.hs-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
-.hs-tabell td{padding:9px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
-.hs-tabell td:first-child{color:var(--ink)}
-.hs-tabell .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.hs-tabell tr.sum td{border-top:2px solid var(--ink3);font-weight:600;color:var(--ink)}
-.hs-rull{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.hs-p{font-size:14.5px;line-height:1.65;color:var(--ink2);margin:12px 0;max-width:78ch}
-.hs-h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin:26px 0 6px;color:var(--ink)}
 </style>
 </head>
 <body class="tema-page">
@@ -80,12 +66,12 @@
   <div class="akt-num">Akt 01 · Premissene</div>
   <h2>Befolkningen står stille — men <em>sammensetningen</em> endres raskt.</h2>
   <p class="akt-intro" id="premissIntro"></p>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Endring i befolkningen 2025–2045 per sykehusområde, prosent</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Endring i befolkningen 2025–2045 per sykehusområde, prosent</h3>
     <div id="befGraf"></div>
-  </div>
-  <h3 class="hs-h3">Stemmer planens tall?</h3>
-  <div class="hs-rull"><table class="hs-tabell" id="kontrollTabell"></table></div>
+  </figure>
+  <h3 class="nn-h3">Stemmer planens tall?</h3>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="kontrollTabell"></table></div>
 </section>
 
 <!-- ────────────────── AKT 02 — BEHOVET ────────────────── -->
@@ -94,14 +80,14 @@
   <h2>Aldringen alene gir en fjerdedel flere liggedøgn. Planen regner med <em>7 prosent</em>.</h2>
   <p class="akt-intro" id="behovIntro"></p>
   <div class="kpi-rad" id="behovKPI"></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke">Helse Nord</span>Somatiske liggedøgn: endring 2025–2045, prosent</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Helse Nord</span>Somatiske liggedøgn: endring 2025–2045, prosent</h3>
     <div id="liggGraf"></div>
-  </div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke">Helse Nord</span>Polikliniske kontakter i somatikken: endring 2025–2045, prosent</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Helse Nord</span>Polikliniske kontakter i somatikken: endring 2025–2045, prosent</h3>
     <div id="poliGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — HENDENE ────────────────── -->
@@ -110,36 +96,36 @@
   <h2>Flere årsverk enn noen gang — men færre i <em>arbeidsfør alder</em> å rekruttere fra.</h2>
   <p class="akt-intro" id="hendeIntro"></p>
   <div class="kpi-rad" id="hendeKPI"></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Avtalte årsverk i spesialisthelsetjenesten, indeks (2015 = 100)</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Avtalte årsverk i spesialisthelsetjenesten, indeks (2015 = 100)</h3>
     <div id="arsverkGraf"></div>
-  </div>
-  <div class="hs-rull"><table class="hs-tabell" id="hfTabell"></table></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Innleie fra bemanningsbyrå i prosent av lønns- og personalkostnadene, 2023</div>
+  </figure>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="hfTabell"></table></div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Innleie fra bemanningsbyrå i prosent av lønns- og personalkostnadene, 2023</h3>
     <div id="innleieGraf"></div>
-  </div>
-  <h3 class="hs-h3" id="fodeland">Leger og sykepleiere født i utlandet</h3>
-  <p class="hs-p" id="fodelandIntro"></p>
+  </figure>
+  <h3 class="nn-h3" id="fodeland">Leger og sykepleiere født i utlandet</h3>
+  <p class="nn-p" id="fodelandIntro"></p>
   <div class="kpi-rad" id="fodelandKPI"></div>
-  <div class="hs-rull"><table class="hs-tabell" id="fodelandTabell"></table></div>
-  <p class="hint" style="font-size:11.5px" id="fodelandNote"></p>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="fodelandTabell"></table></div>
+  <p class="nn-kilde" id="fodelandNote"></p>
 
-  <h3 class="hs-h3" id="kommunene">Kommunene — der utvalget vil ha veksten</h3>
-  <p class="hs-p" id="kommuneIntro"></p>
+  <h3 class="nn-h3" id="kommunene">Kommunene — der utvalget vil ha veksten</h3>
+  <p class="nn-p" id="kommuneIntro"></p>
   <div class="kpi-rad" id="kommuneKPI"></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Avtalte årsverk i kommunale omsorgstjenester, indeks (2015 = 100)</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Avtalte årsverk i kommunale omsorgstjenester, indeks (2015 = 100)</h3>
     <div id="omsorgGraf"></div>
-  </div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Utdanning blant årsverkene i kommunale omsorgstjenester, andel i prosent</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Utdanning blant årsverkene i kommunale omsorgstjenester, andel i prosent</h3>
     <div id="utdGraf"></div>
-  </div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">SSB</span>Legemeldt sykefravær i helse- og omsorgstjenestene per helseregion, 2025, prosent</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Legemeldt sykefravær i helse- og omsorgstjenestene per helseregion, 2025, prosent</h3>
     <div id="fravaerGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 04 — AVSTANDENE ────────────────── -->
@@ -148,14 +134,14 @@
   <h2>Fire av ti bor i kommuner med <em>over en time</em> til akuttsykehus.</h2>
   <p class="akt-intro" id="avstandIntro"></p>
   <div class="kpi-rad" id="avstandKPI"></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">Beregnet</span>Kjøretid fra kommunesenteret til nærmeste akuttsykehus</div>
-    <p class="hint" style="font-size:12px;margin-bottom:8px" id="kartTekst"></p>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">Beregnet</span>Kjøretid fra kommunesenteret til nærmeste akuttsykehus</h3>
+    <p class="nn-kilde" style="margin:0 0 8px" id="kartTekst"></p>
     <div id="reiseKart"></div>
-  </div>
-  <h3 class="hs-h3">Der endringene har slått inn</h3>
-  <div class="hs-rull"><table class="hs-tabell" id="endringTabell"></table></div>
-  <p class="hint" style="font-size:11.5px" id="endringNote"></p>
+  </figure>
+  <h3 class="nn-h3">Der endringene har slått inn</h3>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="endringTabell"></table></div>
+  <p class="nn-kilde" id="endringNote"></p>
 </section>
 
 <!-- ────────────────── AKT 05 — SYKEHUSENE ────────────────── -->
@@ -163,9 +149,9 @@
   <div class="akt-num">Akt 05 · Sykehusene</div>
   <h2>Ett regionsykehus, ett stort akuttsykehus og <em>åtte</em> akuttsykehus.</h2>
   <p class="akt-intro" id="strukturIntro"></p>
-  <div class="hs-rull"><table class="hs-tabell" id="sykehusTabell"></table></div>
-  <h3 class="hs-h3">Endringer de siste årene</h3>
-  <div class="hs-rull"><table class="hs-tabell">
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="sykehusTabell"></table></div>
+  <h3 class="nn-h3">Endringer de siste årene</h3>
+  <div class="nn-tabell-rull"><table class="nn-tabell">
     <thead><tr><th>Dato</th><th>Endring</th><th>Kilde</th></tr></thead>
     <tbody>
       <tr><td>3.7.2024</td><td>Foretaksmøtet slutter seg til to akuttsykehus på Helgeland, i Mo i Rana og Sandnessjøen.</td><td>Helse Nord RHF, styresak 22-2025</td></tr>
@@ -182,14 +168,14 @@
   <div class="akt-num">Akt 06 · Ventetid og variasjon</div>
   <h2>Lengre ventetid enn i landet — og <em>mer behandling</em> på noen områder.</h2>
   <p class="akt-intro" id="ventIntro"></p>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke reg">FHI</span>Gjennomsnittlig ventetid for påbegynte forløp, dager</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">FHI</span>Gjennomsnittlig ventetid for påbegynte forløp, dager</h3>
     <div id="ventGraf"></div>
-  </div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke">SKDE</span>Bruk av utvalgte tjenester i Helse Nord, forhold til landet (1,0 = som landet)</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">SKDE</span>Bruk av utvalgte tjenester i Helse Nord, forhold til landet (1,0 = som landet)</h3>
     <div id="atlasGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 07 — REFORMEN OG PLANENE ────────────────── -->
@@ -198,13 +184,13 @@
   <h2>Tre planer har regnet med samme omstilling. Nå vil utvalget <em>legge ned</em> Helse Nord RHF.</h2>
   <p class="akt-intro" id="reformIntro"></p>
   <div class="kpi-rad" id="reformKPI"></div>
-  <div class="hs-boks">
-    <div class="tittel"><span class="hs-merke">Helse Nord</span>Liggedøgn: ren demografi mot planens anslag i tre utviklingsplaner, endring i prosent</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Helse Nord</span>Liggedøgn: ren demografi mot planens anslag i tre utviklingsplaner, endring i prosent</h3>
     <div id="planGraf"></div>
-  </div>
-  <div class="hs-rull"><table class="hs-tabell" id="planTabell"></table></div>
-  <h3 class="hs-h3">Det planene sa — og det som skjedde</h3>
-  <div class="hs-rull"><table class="hs-tabell">
+  </figure>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="planTabell"></table></div>
+  <h3 class="nn-h3">Det planene sa — og det som skjedde</h3>
+  <div class="nn-tabell-rull"><table class="nn-tabell">
     <thead><tr><th>Plan</th><th>Det planen sa</th><th>Det som skjedde</th></tr></thead>
     <tbody>
       <tr><td>RU2035 (2018)</td><td>Helse Nord skal «ta initiativ til at det i løpet av 2020 er etablert et systematisk samarbeid med alle kommuner» om pasientene som bruker tjenestene mest.</td><td>Helsefellesskapene i nord ble etablert fra april 2021 (Troms og Ofoten) til mai 2023 (Helgeland). Kommunenes samhandlingsledere kaller samarbeidet «for fragmentert og lite forpliktende» (innspill til Helsereformutvalget, 27.5.2026).</td></tr>
@@ -212,8 +198,8 @@
       <tr><td>RU 2023–2038 (2022)</td><td>Planlegging skal skje «med støtte i felles framskrivingsmodeller, på tvers av omsorgsnivå».</td><td>Framskrivingene til RU42 i styresak 108-2026 gjelder spesialisthelsetjenesten. Helsereformutvalget foreslår en årlig stortingsmelding med felles analyse av behov, personell og investeringer på begge nivåer.</td></tr>
     </tbody>
   </table></div>
-  <h3 class="hs-h3">Det Helsereformutvalget foreslår — og hva det betyr i nord</h3>
-  <div class="hs-rull"><table class="hs-tabell">
+  <h3 class="nn-h3">Det Helsereformutvalget foreslår — og hva det betyr i nord</h3>
+  <div class="nn-tabell-rull"><table class="nn-tabell">
     <thead><tr><th>Forslag i NOU 2026: 12</th><th>Hvem i utvalget</th><th>Betydning for Nord-Norge</th><th>NOU</th></tr></thead>
     <tbody>
       <tr><td>Legge ned de regionale helseforetakene. Staten ved departementet får ansvaret for spesialisthelsetjenesten, og antall helseforetak reduseres til 10–15. Regional statlig tilstedeværelse, for eksempel gjennom regionale forvaltningsorganer.</td><td>Flertallet</td><td>Helse Nord RHF avvikles. Utvalget navngir ingen sammenslåinger av UNN, Nordlandssykehuset, Helgelandssykehuset og Finnmarkssykehuset. Større investeringer skal besluttes i statsbudsjettet.</td><td class="num">s. 29–31</td></tr>
@@ -225,7 +211,7 @@
       <tr><td>Øyeblikkelig hjelp i sykehus skal ikke lenger aktivitetsfinansieres. Statlig finansiering av døgnopphold i nærhelsetjenestene.</td><td>Samlet</td><td>Gir sykehusene insentiv til å unngå innleggelser, ikke til å øke dem. Hvordan Helse Nord treffes, er ikke beregnet.</td><td class="num">s. 30</td></tr>
     </tbody>
   </table></div>
-  <p class="hint" style="font-size:11.5px" id="reformNote"></p>
+  <p class="nn-kilde" id="reformNote"></p>
 </section>
 
 <!-- ────────────────── AKT 08 — OM GRUNNLAGET ────────────────── -->

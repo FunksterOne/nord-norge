@@ -38,17 +38,8 @@
 .pj-steg .nr{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--ink3);margin-bottom:6px}
 .pj-steg h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 6px;color:var(--ink)}
 .pj-steg p{font-size:13px;line-height:1.55;color:var(--ink2);margin:0}
-.pj-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
-.pj-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
 .pj-velg{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 10px;font-size:13px;color:var(--ink2)}
 .pj-velg select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line2);padding:6px 10px;border-radius:0;max-width:100%}
-.pj-tabell{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
-.pj-tabell th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--line2)}
-.pj-tabell th:first-child,.pj-tabell td:first-child{text-align:left}
-.pj-tabell td{padding:6px 8px;border-top:1px solid var(--line2);text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
-.pj-tabell td:first-child{font-family:var(--font-sans)}
-.pj-tabell tr.uth td{background:color-mix(in srgb, var(--accent) 8%, transparent);font-weight:600}
-.pj-tabell tr.sum td{border-top:2px solid var(--ink);font-weight:600}
 .pj-scroll{overflow-x:auto}
 </style>
 </head>
@@ -80,7 +71,7 @@
     <div class="uth"><div class="nr">03</div><h3>Forskjellen skyves</h3><p>Når premien er høyere enn kostnaden, føres forskjellen i balansen som en eiendel. Den utgiftsføres over de sju neste årene, eller året etter hvis kommunestyret har valgt det. Pengene er brukt, men kostnaden kommer senere.</p></div>
   </div>
   <div class="kpi-rad" id="flytKPI"></div>
-  <p class="hint" style="font-size:12px;margin-top:6px" id="flytNote"></p>
+  <p class="nn-kilde" id="flytNote"></p>
 </section>
 
 <!-- ────────────────── AKT 02 — BILDET ────────────────── -->
@@ -88,15 +79,15 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Etterslepet er størst i <em>Troms</em> — og bufferen er tynnest der det er størst.</h2>
   <p class="akt-intro" id="bildeIntro"></p>
-  <div class="pj-boks">
-    <div class="tittel">Akkumulert premieavvik i prosent av brutto driftsinntekter, 2025</div>
+  <figure class="nn-fig">
+    <h3>Akkumulert premieavvik i prosent av brutto driftsinntekter, 2025</h3>
     <div id="fylkeGraf"></div>
-  </div>
-  <div class="pj-boks">
-    <div class="tittel">Kommunene med størst etterslep og minst buffer</div>
-    <p class="hint" style="font-size:12px;margin-bottom:8px">Kommuner der premieavviket er over 10 % av driftsinntektene og større enn disposisjonsfondet. Disposisjonsfondet er kommunens frie oppsparte midler i driften.</p>
-    <div class="pj-scroll"><table class="pj-tabell" id="risikoTabell"></table></div>
-  </div>
+  </figure>
+  <figure class="nn-fig">
+    <h3>Kommunene med størst etterslep og minst buffer</h3>
+    <p class="nn-fig-enhet">Kommuner der premieavviket er over 10 % av driftsinntektene og større enn disposisjonsfondet. Disposisjonsfondet er kommunens frie oppsparte midler i driften.</p>
+    <div class="pj-scroll"><table class="nn-tabell" id="risikoTabell"></table></div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — HVEM BÆRER RISIKOEN ────────────────── -->
@@ -120,17 +111,17 @@
   <div class="akt-num">Akt 04 · Framover</div>
   <h2>Kostnaden faller i 2026 og er tilbake i 2028 — så avgjør <em>premiefondet</em> resten.</h2>
   <p class="akt-intro" id="framIntro"></p>
-  <div class="pj-boks">
-    <div class="tittel">Regnskapsført pensjonskostnad i prosent av brutto driftsinntekter, 2025–2050</div>
+  <figure class="nn-fig">
+    <h3>Regnskapsført pensjonskostnad i prosent av brutto driftsinntekter, 2025–2050</h3>
     <div class="pj-velg"><label for="pjVelg">Vis for</label><select id="pjVelg"></select><span id="pjGrunnlag" style="font-size:12px;color:var(--ink3)"></span></div>
     <div id="framGraf"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:6px">Linjen er basisscenariet; feltet viser spennet mellom lavt og høyt scenario. Loddrette stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er kalibrert mot budsjettene til Bodø og Tromsø og følger Det tekniske beregningsutvalgets anslag om at kostnaden faller i 2026 og stiger i 2027; de bygger likevel på få budsjetter.</p>
-  </div>
+    <p class="nn-kilde">Linjen er basisscenariet; feltet viser spennet mellom lavt og høyt scenario. Loddrette stiplede linjer: 2027, når forholdstallet senkes til 0,75, og 2033, når dagens etterslep er utgiftsført. Årene 2026–2027 er kalibrert mot budsjettene til Bodø og Tromsø og følger Det tekniske beregningsutvalgets anslag om at kostnaden faller i 2026 og stiger i 2027; de bygger likevel på få budsjetter.</p>
+  </figure>
   <div class="kpi-rad" id="framKPI"></div>
-  <div class="pj-boks">
-    <div class="tittel">Forutsetningene i de tre scenariene</div>
-    <div class="pj-scroll"><table class="pj-tabell" id="scenTabell"></table></div>
-  </div>
+  <figure class="nn-fig">
+    <h3>Forutsetningene i de tre scenariene</h3>
+    <div class="pj-scroll"><table class="nn-tabell" id="scenTabell"></table></div>
+  </figure>
   <div class="black-swan">
     <div class="bs-icon">◆</div>
     <div>

@@ -47,8 +47,6 @@
 .vekt-side ul li{margin-bottom:2px}
 .vekt-pivot{text-align:center;font-family:var(--font-display);font-size:36px;color:var(--ink3);font-weight:600}
 
-.duo-graph{padding:18px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
-.duo-graph svg{display:block;width:100%;height:auto}
 
 .gap-tabell{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:var(--paper);border:1px solid var(--line2);border-radius:0;overflow:hidden}
 .gap-tabell th{text-align:left;padding:12px 14px;background:var(--paper2);color:var(--ink2);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line2)}
@@ -143,7 +141,7 @@
     </thead>
     <tbody></tbody>
   </table>
-  <p class="hint" style="font-size:12px;font-style:italic">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting og uføre fra SSB 11715/13563. Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
+  <p class="nn-fig-enhet">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting og uføre fra SSB 11715/13563. Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
 
   <div class="kanon-anker">
     <div class="ka-kicker">I Hammerfest · kommunen vi følger</div>
@@ -159,11 +157,11 @@
   <h2>Hver kommune teller likt i politikken, men <em>ikke</em> i befolkningen</h2>
   <p class="akt-intro">Politisk-juridisk har hver av de 80 kommunene én stemme i mange sammenhenger. Demografisk har de svært ulik vekt. Det er denne asymmetrien som gjør Norman-utvalgets hovedfunn så viktig: distriktspolitikken kan ikke utformes som om de 74 var én homogen masse, og heller ikke som om de skulle bli kopier av de seks.</p>
   <div class="kpi-rad" id="konsekvensKPI"></div>
-  <div class="duo-graph">
-    <h3 style="font-family:var(--font-display);font-size:15px;font-weight:600;margin:0 0 8px">Befolkning 2000–2050 — to baner</h3>
-    <p class="hint" style="font-size:11.5px;margin:0 0 10px">Historikk + framskriving (SSB MMMM). Blå = O6 samlet, grå = de 74 samlet. Skala­forskjellen er normalisert til indeks 100 = 2000.</p>
+  <figure class="nn-fig">
+    <h3>Befolkning 2000–2050 — to baner</h3>
+    <p class="nn-fig-enhet">Historikk + framskriving (SSB MMMM). Blå = O6 samlet, grå = de 74 samlet. Skala­forskjellen er normalisert til indeks 100 = 2000.</p>
     <div id="duoGraf"></div>
-  </div>
+  </figure>
 
   <div class="black-swan">
     <div class="bs-icon"></div>
@@ -214,7 +212,7 @@
 
   <p style="margin-top:18px;font-size:14px;color:var(--ink2);line-height:1.6" id="reformMotvekt"></p>
   <p style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.6">Hva forslaget betyr for sykehusene, legevakten og nærhelsetjenestene i nord, står i <a href="tema-helse.html#reformen">tema 12, akt 07</a>.</p>
-  <p class="hint" style="margin-top:10px;font-size:11.5px">Grunnlag: NOU 2026: 12, s. 27–28; FHI, «Tilgang til likeverdige kommunale tjenester», rapportutkast juni 2026 (underlagsrapport til utvalget); SSB 07459, befolkning 1.1.2026.</p>
+  <p class="nn-kilde">Grunnlag: NOU 2026: 12, s. 27–28; FHI, «Tilgang til likeverdige kommunale tjenester», rapportutkast juni 2026 (underlagsrapport til utvalget); SSB 07459, befolkning 1.1.2026.</p>
 </section>
 
 <div class="neste-tema-blokk">

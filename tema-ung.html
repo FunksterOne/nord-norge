@@ -32,15 +32,11 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script type="module" src="/src/main.js"></script>
 <style>
-.ug-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
-.ug-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
 .ug-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
 .ug-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
 .ug-kilde > div.reg{border-left-color:var(--accent)}
 .ug-kilde .nr{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
 .ug-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
-.ug-merke{display:inline-block;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--line2);color:var(--ink3);margin-right:6px;vertical-align:middle}
-.ug-merke.reg{border-color:var(--accent);color:var(--accent-text)}
 </style>
 </head>
 <body class="tema-page">
@@ -70,19 +66,19 @@
   <h2>De fleste vil bli — men det blir <em>færre</em> av dem.</h2>
   <p class="akt-intro" id="bliIntro"></p>
   <div class="kpi-rad" id="bliKPI"></div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke reg">SSB</span>Unge voksne og eldre i Nord-Norge, 2020–2050</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Unge voksne og eldre i Nord-Norge, 2020–2050</h3>
     <div id="krysGraf"></div>
-  </div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">Barometer</span>Hvor tror du at du bor om fem år?</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Barometer</span>Hvor tror du at du bor om fem år?</h3>
     <div id="bostedGraf"></div>
-  </div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke reg">SSB</span>Året det blir flere over 67 enn mellom 18 og 34, per kommune</div>
-    <p class="hint" style="font-size:12px;margin-bottom:8px" id="kartTekst"></p>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Året det blir flere over 67 enn mellom 18 og 34, per kommune</h3>
+    <p class="nn-fig-enhet" id="kartTekst"></p>
     <div id="krysKart"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 02 — ARBEID ────────────────── -->
@@ -91,10 +87,10 @@
   <h2>Et godt sted å bo — <em>svakere</em> som karrierearena.</h2>
   <p class="akt-intro" id="arbeidIntro"></p>
   <div class="kpi-rad" id="arbeidKPI"></div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">Barometer</span>De tre viktigste kriteriene ved valg av jobb</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Barometer</span>De tre viktigste kriteriene ved valg av jobb</h3>
     <div id="kriterieGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — BOLIG OG ØKONOMI ────────────────── -->
@@ -103,10 +99,10 @@
   <h2>Fire av ti eier boligen — og <em>byggingen</em> faller.</h2>
   <p class="akt-intro" id="boligIntro"></p>
   <div class="kpi-rad" id="boligKPI"></div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">Barometer</span>Hvordan bor du i dag?</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Barometer</span>Hvordan bor du i dag?</h3>
     <div id="boligGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 04 — HVA BOSTEDET MÅ LEVERE ────────────────── -->
@@ -114,10 +110,10 @@
   <div class="akt-num">Akt 04 · Hva bostedet må levere</div>
   <h2>Størst avstand mellom ønske og virkelighet: <em>å komme seg ut</em>.</h2>
   <p class="akt-intro" id="tjenesteIntro"></p>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">Barometer</span>Andel som mener tilbudet er viktig, minus andel som er fornøyd med det</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Barometer</span>Andel som mener tilbudet er viktig, minus andel som er fornøyd med det</h3>
     <div id="gapGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 05 — FÆRRE BARN ────────────────── -->
@@ -125,14 +121,14 @@
   <div class="akt-num">Akt 05 · Færre barn</div>
   <h2>Flere dør enn fødes — og unge peker på <em>økonomien</em>.</h2>
   <p class="akt-intro" id="barnIntro"></p>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke reg">SSB</span>Levendefødte og døde i Nord-Norge, 1995–2025</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Levendefødte og døde i Nord-Norge, 1995–2025</h3>
     <div id="fodteGraf"></div>
-  </div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">Barometer</span>Hva er årsakene til at folk får færre barn? Andel som svarer «stor betydning»</div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Barometer</span>Hva er årsakene til at folk får færre barn? Andel som svarer «stor betydning»</h3>
     <div id="barnGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 06 — TILHØRIGHET OG TILLIT ────────────────── -->
@@ -149,14 +145,14 @@
   <h2>Færre unge står utenfor enn for ti år siden — men andelen har <em>økt</em> igjen siden 2021.</h2>
   <p class="akt-intro" id="utenforIntro"></p>
   <div class="kpi-rad" id="utenforKPI"></div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">SSB</span>Andel 15–24 år utenfor arbeid, utdanning og arbeidsmarkedstiltak, prosent</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">SSB</span>Andel 15–24 år utenfor arbeid, utdanning og arbeidsmarkedstiltak, prosent</h3>
     <div id="utenforGraf"></div>
-  </div>
-  <div class="ug-boks">
-    <div class="tittel"><span class="ug-merke">SSB</span>Hvem er utenfor? 15–24 år i Nord-Norge, <span id="utenforAar"></span></div>
+  </figure>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">SSB</span>Hvem er utenfor? 15–24 år i Nord-Norge, <span id="utenforAar"></span></h3>
     <div id="utenforFordeling"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 08 — OM UNDERSØKELSEN ────────────────── -->
@@ -164,7 +160,7 @@
   <div class="akt-num">Akt 08 · Om tallene</div>
   <h2>Hva undersøkelsen kan — og <em>ikke</em> kan — si.</h2>
   <p class="akt-intro" id="metodeIntro"></p>
-  <div class="ug-boks" id="kontrollBoks"></div>
+  <div class="nn-boks" id="kontrollBoks"></div>
 
   <div class="neste-tema-blokk">
     <div class="ntb-head">Videre lesning</div>
@@ -397,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function(){
       rad('Bodø passerer', R.kryss_bodo, KO.bodo_kryss) +
       rad('Fødte i Nord-Norge, endring siden 1995', f0(R.fodte_1995_pct_nn) + ' %', f1(nnEnd95) + ' %') +
     '</tbody></table></div>' +
-    '<p class="hint" style="font-size:11.5px;margin-top:8px">Rapporten regner endringen for 67+ fra 2025; dashbordet regner fra ' + KO.basisaar + ', første år i framskrivingen. Ellers stemmer tallene. Rapportens tall for boligbyggingen stemmer også eksakt med dashbordets (SSB 05889).</p>';
+    '<p class="nn-kilde">Rapporten regner endringen for 67+ fra 2025; dashbordet regner fra ' + KO.basisaar + ', første år i framskrivingen. Ellers stemmer tallene. Rapportens tall for boligbyggingen stemmer også eksakt med dashbordets (SSB 05889).</p>';
 });
 </script>
 </body>

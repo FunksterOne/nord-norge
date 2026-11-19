@@ -35,8 +35,6 @@
 .sjokk-num{font-family:var(--font-display);font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:var(--neg);margin:18px 0 8px;letter-spacing:-0.02em}
 .sjokk-sub{font-family:var(--font-display);font-size:18px;color:var(--ink2);line-height:1.5;font-style:italic}
 
-.arbeid-graf-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
-.arbeid-graf-wrap svg{display:block;width:100%;height:auto}
 
 .naering-rad{display:grid;grid-template-columns:220px 1fr 110px;gap:12px;align-items:center;padding:6px 0}
 .naering-rad.kommunal{background:color-mix(in srgb, var(--neg) 5%, transparent);border-radius:0;padding:8px 10px}
@@ -85,8 +83,6 @@
 .kvote-tabell th:last-child{text-align:right}
 .kvote-tabell td{padding:10px 14px;color:var(--ink2);border-top:1px solid var(--line2)}
 .kvote-tabell td:last-child{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink);white-space:nowrap}
-.tt-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
-.tt-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
 </style>
 </head>
 <body class="tema-page">
@@ -119,12 +115,12 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Hvor mangler vi — og hvor er mangelen <em>kommunal</em>?</h2>
   <p class="akt-intro">De seks næringene med størst arbeidskraftsmangel i Nord-Norge. To av dem er i hovedsak kommunale sektorer: helse og sosial, og undervisning. Det betyr at en stor del av rekrutteringskrisen ikke kan løses av markedet alene — kommunene må fylle stillingene med begrenset lønnsfleksibilitet. Det er her aldringen treffer hardest, fordi det er der den eldste delen av befolkningen øker tjenestebehovet.</p>
-  <div class="arbeid-graf-wrap">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">De seks næringene med størst mangel i Nord-Norge 2026</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Stolpene viser antall manglende personer. Blå stolper er sektorer som i hovedsak er kommunale. Tallet til høyre er landsdelens andel av nasjonal mangel. Nord-Norge har 8,7 % av befolkningen, så en andel klart over det betyr at landsdelen er overrepresentert.</p>
+  <figure class="nn-fig">
+    <h3>De seks næringene med størst mangel i Nord-Norge 2026</h3>
+    <p class="nn-fig-enhet">Stolpene viser antall manglende personer. Blå stolper er sektorer som i hovedsak er kommunale. Tallet til høyre er landsdelens andel av nasjonal mangel. Nord-Norge har 8,7 % av befolkningen, så en andel klart over det betyr at landsdelen er overrepresentert.</p>
     <div id="naeringerListe"></div>
-    <p class="hint" style="font-size:11px;margin-top:12px;opacity:.75;font-style:italic">Helse og sosial alene står for 1 750 manglende personer i Nord-Norge — 24 % av den nasjonale mangelen i sektoren. Offentlig administrasjon: 30 %. Undervisning: 23 %. Disse sektorene presses dobbelt — av aldring (etterspørsel) og av færre i arbeidsfør alder (tilbud).</p>
-  </div>
+    <p class="nn-kilde">Helse og sosial alene står for 1 750 manglende personer i Nord-Norge — 24 % av den nasjonale mangelen i sektoren. Offentlig administrasjon: 30 %. Undervisning: 23 %. Disse sektorene presses dobbelt — av aldring (etterspørsel) og av færre i arbeidsfør alder (tilbud).</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
@@ -133,12 +129,12 @@
   <h2>Hva sier demografien fram mot 2050?</h2>
   <p class="akt-intro">Hvis mangelen er stor i 2026, hva betyr aldringen for 2050? SSBs offisielle bane viser at gruppen 65+ vokser, mens gruppen 20–64 blir mindre. Forsørgerbrøken — antall innbyggere over 65 år per 100 i alderen 20–64 — stiger kraftig. Det er et aldersmål: det teller ikke hvem som faktisk er i arbeid (se akt 04).</p>
   <div class="demografi-grid" id="demografiKPI"></div>
-  <div class="arbeid-graf-wrap">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbrøk i Nord-Norge 2026–2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 i alderen 20–64. Den vertikale streken markerer i dag. Nord-Norge stiger fra om lag 38 (2026) til om lag 51 (2050) — en økning i forsørgerbrøken på <b>36 %</b> på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men økningen fram mot 2050 er bratt.</p>
+  <figure class="nn-fig">
+    <h3>Forsørgerbrøk i Nord-Norge 2026–2050</h3>
+    <p class="nn-fig-enhet">Antall personer 65+ per 100 i alderen 20–64. Den vertikale streken markerer i dag. Nord-Norge stiger fra om lag 38 (2026) til om lag 51 (2050) — en økning i forsørgerbrøken på <b>36 %</b> på 24 år. <b>OECD-referansen</b> (~52 i 2050, Pensions at a Glance 2025) er prognosen for det vektede gjennomsnittet av OECD-landene; den brukes som globalt sammenligningspunkt for hvor mye aldringen vil ramme rike land samlet. Nord-Norge ligger så vidt under OECD-snittet (52) i 2050 — men økningen fram mot 2050 er bratt.</p>
     <div id="forsorgerGraf"></div>
-  </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Flere eldre, færre i arbeidsfør alder.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbrøken så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Ikke alle i arbeidsfør alder er i arbeid, men nedgangen betyr at færre kan fylle stillingene. Det må dekkes av innvandring, automatisering eller høyere produktivitet.</p>
+  </figure>
+  <p class="nn-p"><b>Flere eldre, færre i arbeidsfør alder.</b> Det er to bevegelser samtidig — derfor stiger forsørgerbrøken så raskt. Den arbeidsføre gruppen reduseres med <b id="wfChange">—</b> personer i Nord-Norge mot 2050 (SSB MMMM). Ikke alle i arbeidsfør alder er i arbeid, men nedgangen betyr at færre kan fylle stillingene. Det må dekkes av innvandring, automatisering eller høyere produktivitet.</p>
 </section>
 
 <!-- ────────────────── AKT 03½ — GAPET ────────────────── -->
@@ -149,20 +145,20 @@
 
   <div class="kpi-rad" id="gapKPI"></div>
 
-  <div class="arbeid-graf-wrap">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Bemanningsunderskuddet i kommunal sektor — Nord-Norge 2026–2050</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Blå linje: stillinger som <i>må fylles</i> (behov). Grå linje: stillinger som <i>faktisk kan fylles</i> (tilbud). Det røde feltet mellom dem er underskuddet; tallene viser underskuddet hvert femte år.</p>
+  <figure class="nn-fig">
+    <h3>Bemanningsunderskuddet i kommunal sektor — Nord-Norge 2026–2050</h3>
+    <p class="nn-fig-enhet">Blå linje: stillinger som <i>må fylles</i> (behov). Grå linje: stillinger som <i>faktisk kan fylles</i> (tilbud). Det røde feltet mellom dem er underskuddet; tallene viser underskuddet hvert femte år.</p>
     <div id="gapGraf"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:10px;opacity:.85"><b>Slik regnes det.</b> Dagens kommunale bemanning settes som referansepunkt (a2064 × 79 % sysselsettingsrate × 30 % kommunal andel ≈ 67 000 i Nord-Norge). Behovet skaleres år for år etter brukergruppenes vekst: helse og omsorg (50 % av kommunal sektor) skaleres med antall 65+, skole og barnehage (30 %) med antall 0–19, og øvrige tjenester (20 %) med folketallet. Tilbudet skaleres med antallet i alderen 20–64. Underskuddet er differansen. Dette er et anslag på størrelsesorden, ikke en prognose. Forutsetningene er begrunnet, men ikke kalibrert mot lokale data per kommune.</p>
-  </div>
+    <p class="nn-kilde"><b>Slik regnes det.</b> Dagens kommunale bemanning settes som referansepunkt (a2064 × 79 % sysselsettingsrate × 30 % kommunal andel ≈ 67 000 i Nord-Norge). Behovet skaleres år for år etter brukergruppenes vekst: helse og omsorg (50 % av kommunal sektor) skaleres med antall 65+, skole og barnehage (30 %) med antall 0–19, og øvrige tjenester (20 %) med folketallet. Tilbudet skaleres med antallet i alderen 20–64. Underskuddet er differansen. Dette er et anslag på størrelsesorden, ikke en prognose. Forutsetningene er begrunnet, men ikke kalibrert mot lokale data per kommune.</p>
+  </figure>
 
-  <div class="arbeid-graf-wrap" style="background:color-mix(in srgb, var(--neg) 4%, transparent);border-color:color-mix(in srgb, var(--neg) 20%, transparent)">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px;color:var(--neg)">Totalt for landsdelen — alle sektorer</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Samme regnestykke for hele arbeidsmarkedet, ikke bare kommunal sektor. Behovet skaleres med folketallet, tilbudet med antallet i arbeidsfør alder. Underskuddet er det landsdelen må dekke gjennom innvandring, automatisering eller akseptert produksjonsfall.</p>
+  <figure class="nn-fig" style="background:color-mix(in srgb, var(--neg) 4%, transparent);border-color:color-mix(in srgb, var(--neg) 20%, transparent)">
+    <h3>Totalt for landsdelen — alle sektorer</h3>
+    <p class="nn-fig-enhet">Samme regnestykke for hele arbeidsmarkedet, ikke bare kommunal sektor. Behovet skaleres med folketallet, tilbudet med antallet i arbeidsfør alder. Underskuddet er det landsdelen må dekke gjennom innvandring, automatisering eller akseptert produksjonsfall.</p>
     <div id="gapTotaltGraf"></div>
-  </div>
+  </figure>
 
-  <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--neg) 6%, transparent);border-left:4px solid var(--neg);border-radius:0;line-height:1.6"><b id="gapClose">—</b></p>
+  <p class="nn-p"><b id="gapClose">—</b></p>
 </section>
 
 <!-- ────────────────── AKT 03¾ — REGIONLAG ────────────────── -->
@@ -185,9 +181,9 @@
       </tr></thead>
       <tbody id="regTblBody"></tbody>
     </table>
-    <p class="hint" style="font-size:11.5px;margin-top:12px;line-height:1.55">Grunnlag: SSB folketall per kommune (1.1.2026), SSB framskriving MMMM (tab. 14746), summert fra kommune til region (Lødingen regnes til Vesterålen regionråd). Regioninndelingen er en analysetilnærming fra <b>SØA 2026</b> — ikke et forvaltningsnivå. Dashbordets tall for den enkelte kommune endres ikke; dette er bare et nytt aggregeringsnivå.</p>
+    <p class="nn-kilde">Grunnlag: SSB folketall per kommune (1.1.2026), SSB framskriving MMMM (tab. 14746), summert fra kommune til region (Lødingen regnes til Vesterålen regionråd). Regioninndelingen er en analysetilnærming fra <b>SØA 2026</b> — ikke et forvaltningsnivå. Dashbordets tall for den enkelte kommune endres ikke; dette er bare et nytt aggregeringsnivå.</p>
   </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px;padding:14px 16px;background:color-mix(in srgb, var(--ink) 4%, transparent);border-left:4px solid var(--ink2);border-radius:0;line-height:1.6"><b>Slik leser du tabellen.</b> Tyngst trykk ligger der aldringen allerede er høy <i>og</i> den arbeidsføre gruppen faller mest. Sorter på <b>«Arb.føre 2050»</b> for å se hvilke regioner som mister mest arbeidskraft, eller på <b>«Forsørg.b. 2050»</b> for å se hvor forsørgerbrøken blir høyest. Tromsø og Bodø står lenger ned på begge listene — det er distriktsregionene som bærer tyngden.</p>
+  <p class="nn-p"><b>Slik leser du tabellen.</b> Tyngst trykk ligger der aldringen allerede er høy <i>og</i> den arbeidsføre gruppen faller mest. Sorter på <b>«Arb.føre 2050»</b> for å se hvilke regioner som mister mest arbeidskraft, eller på <b>«Forsørg.b. 2050»</b> for å se hvor forsørgerbrøken blir høyest. Tromsø og Bodø står lenger ned på begge listene — det er distriktsregionene som bærer tyngden.</p>
 </section>
 
 <!-- ────────────────── AKT 04 — TRE MÅTER Å TELLE PÅ ────────────────── -->
@@ -197,17 +193,19 @@
   <p class="akt-intro" id="telleIntro"></p>
   <div id="telleGraf"></div>
 
-  <h3 class="tt-h3">Hvem bærer hvem i Nord-Norge?</h3>
+  <h3 class="nn-h3">Hvem bærer hvem i Nord-Norge?</h3>
   <div id="telleKort"></div>
 
-  <h3 class="tt-h3">Kommunene som bytter plass</h3>
-  <p class="tt-p" id="telleBytteTekst"></p>
+  <h3 class="nn-h3">Kommunene som bytter plass</h3>
+  <p class="nn-p" id="telleBytteTekst"></p>
   <div class="fb-scroll"><table class="fb-tabell" id="telleBytte"></table></div>
 
-  <h3 class="tt-h3">Ikke-sysselsatte per 100 sysselsatte, per kommune</h3>
-  <p class="tt-p" id="telleKartTekst"></p>
-  <div id="telleKart"></div>
-  <p class="hint" style="font-size:12px;font-style:italic;margin-top:12px">Forsørgerbrøken (65+ per 100 i alderen 20–64) er SSBs og OECDs mål og det eneste som kan sammenlignes mellom land og fylker; derfor brukes den på resten av siden. Ikke-sysselsatte per 100 sysselsatte teller faktisk arbeid, men et barn, en pensjonist og en uføretrygdet teller likt. Mer på <a href="metode.html#forsorgerbyrde">metodesiden</a>.</p>
+  <figure class="nn-fig">
+    <h3>Ikke-sysselsatte per 100 sysselsatte, per kommune</h3>
+    <p class="nn-fig-enhet" id="telleKartTekst"></p>
+    <div id="telleKart"></div>
+    <p class="nn-kilde">Forsørgerbrøken (65+ per 100 i alderen 20–64) er SSBs og OECDs mål og det eneste som kan sammenlignes mellom land og fylker; derfor brukes den på resten av siden. Ikke-sysselsatte per 100 sysselsatte teller faktisk arbeid, men et barn, en pensjonist og en uføretrygdet teller likt. Mer på <a href="metode.html#forsorgerbyrde">metodesiden</a>.</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 05 — KONSEKVENS ────────────────── -->
@@ -243,7 +241,7 @@
       <tr><td>Innenlands nettoflytting 2021–2025 (tap til resten av landet)</td><td id="kildeTilflytt">—</td></tr>
     </tbody>
   </table>
-  <p class="hint" style="font-size:11.5px;font-style:italic;margin-top:8px">Tilførsel av nye personer til Nord-Norge over fem år. Innvandringen fra utlandet er den klart største kilden — uten den ville nye årskull alene ikke dekket avgangen. Innenlands tap (sørover) trekker fra.</p>
+  <p class="nn-kilde">Tilførsel av nye personer til Nord-Norge over fem år. Innvandringen fra utlandet er den klart største kilden — uten den ville nye årskull alene ikke dekket avgangen. Innenlands tap (sørover) trekker fra.</p>
 
   <div class="black-swan">
     <div class="bs-icon"></div>
@@ -280,7 +278,7 @@
     <div class="kilde">Oppsummert etter <b>SSB framskriving MMMM</b> (tab. 14746) sammenlignet med <b>OECDs prognose for vektet OECD-snitt i 2050</b></div>
   </div>
 
-  <p class="hint" style="margin-top:18px">Ingen av regjeringens sju nordområdedokumenter fra 2006 til 2025 har et tallfestet mål for arbeidskraften i Nord-Norge. Se <a href="tema-nordomrade.html#dok2020">20 år med nordområdepolitikk</a>. Hva det betyr for sykehusene, står på temasiden <a href="tema-helse.html">Sykehusene i nord mot 2042</a>.</p>
+  <p class="nn-kilde">Ingen av regjeringens sju nordområdedokumenter fra 2006 til 2025 har et tallfestet mål for arbeidskraften i Nord-Norge. Se <a href="tema-nordomrade.html#dok2020">20 år med nordområdepolitikk</a>. Hva det betyr for sykehusene, står på temasiden <a href="tema-helse.html">Sykehusene i nord mot 2042</a>.</p>
 </section>
 
 <!-- Standard footer -->

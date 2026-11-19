@@ -34,7 +34,6 @@
 <style>
 .sjokk-num{font-family:var(--font-display);font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:var(--accent-text);margin:18px 0 8px;letter-spacing:-0.02em}
 
-.land-graf{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .land-rad{display:grid;grid-template-columns:180px 1fr 60px;gap:12px;align-items:center;padding:4px 0}
 .land-rad.norge{background:var(--accent-tint);border-radius:0;padding:8px 10px;border-left:3px solid var(--accent)}
 .land-rad.snitt{background:color-mix(in srgb, var(--ink) 5%, transparent);border-radius:0;padding:8px 10px;border-left:3px solid var(--ink3)}
@@ -44,7 +43,6 @@
 .land-rad .bar > div{position:absolute;top:0;left:0;height:100%;border-radius:0;display:flex;align-items:center;padding-left:9px;color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700}
 .land-rad .verdi{font-family:var(--font-mono);font-size:13px;color:var(--ink);text-align:right;font-weight:600}
 
-.fylke-graf{padding:20px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
 .fylke-rad{display:grid;grid-template-columns:200px 1fr 70px;gap:12px;align-items:center;padding:4px 0}
 .fylke-rad.nordnorge{background:var(--accent-tint);border-radius:0;padding:8px 10px;border-left:3px solid var(--accent)}
 .fylke-rad .navn{font-size:13px;color:var(--ink);font-weight:500;text-align:right}
@@ -60,21 +58,8 @@
 .reform-kort .stikkord{font-size:11px;color:var(--ink3);font-style:italic;margin-top:10px}
 .reform-kort.norge{border-left-color:var(--nl)}
 .reform-kort.norge .land{color:var(--nl)}
-.el-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
-.el-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
-.el-fig{margin:14px 0 6px}
 .el-note{font-size:12px;font-style:italic;margin-top:14px}
 .el-scroll{overflow-x:auto}
-.el-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2)}
-.el-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
-.el-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
-.el-tabell td:last-child{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink3);white-space:nowrap;text-align:right}
-.norden-tabell{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
-.norden-tabell th{text-align:right;padding:8px 10px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
-.norden-tabell th:first-child,.norden-tabell td:first-child{text-align:left}
-.norden-tabell td{padding:7px 10px;border-top:1px solid var(--line2);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
-.norden-tabell tr.nasjon td{color:var(--ink3);font-style:italic}
-.norden-tabell tr.nn td:first-child{color:var(--accent-text);font-weight:600}
 </style>
 </head>
 <body class="tema-page">
@@ -100,7 +85,7 @@
   <h2>Forsørgerbrøken i OECD <em>mer enn dobles</em> på 50 år.</h2>
   <p class="akt-intro">I 2000 hadde OECD-snittet 22 eldre per 100 i arbeidsfør alder. I 2050 vil tallet være 52. Det er ikke en gradvis økning — det er en akselererende kurve drevet av etterkrigs-kohortene som nå er i ferd med å gå av med pensjon. For rike land samlet betyr det at hver person i arbeidsfør alder vil bære mer enn dobbelt så mange eldre i 2050 som i 2000.</p>
   <div class="kpi-rad" id="globalKPI"></div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px;font-style:italic">Kilde: OECD Pensions at a Glance 2025 (publisert november 2025). «OECD» = vektet gjennomsnitt av medlemslandene. «Forsørgerbrøk» = personer 65+ per 100 personer 20–64 år (OECDs standarddefinisjon).</p>
+  <p class="nn-p">Kilde: OECD Pensions at a Glance 2025 (publisert november 2025). «OECD» = vektet gjennomsnitt av medlemslandene. «Forsørgerbrøk» = personer 65+ per 100 personer 20–64 år (OECDs standarddefinisjon).</p>
 </section>
 
 <!-- ────────────────── AKT 02 — BILDET ────────────────── -->
@@ -108,12 +93,12 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Hvor i verden er <em>belastningen</em> størst?</h2>
   <p class="akt-intro">OECDs prognose for 2050 viser stor variasjon mellom medlemslandene. Asia rammes hardest: Sør-Korea og Japan ligger på om lag 80, dvs. 8 eldre per 10 i arbeidsfør alder. I Europa er Italia, Spania og Hellas verst, mens USA, Israel og Australia slipper lett unna. Norge ligger i den nedre halvdelen — bedre enn de fleste rike land, men ikke immun.</p>
-  <div class="land-graf">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbrøk 2050 — 14 land og OECD-snittet</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år i 2050, FNs befolkningsframskriving (World Population Prospects 2024, middelalternativ) — samme grunnlag som OECD bruker. <b>Norge</b> er markert med blått. SSBs egen framskriving gir Norge 47, og Eurostat (EUROPOP2023) gir EU-snittet 55; de er ikke tatt med fordi de bygger på andre framskrivinger.</p>
+  <figure class="nn-fig">
+    <h3>Forsørgerbrøk 2050 — 14 land og OECD-snittet</h3>
+    <p class="nn-fig-enhet">Antall personer 65+ per 100 personer 20–64 år i 2050, FNs befolkningsframskriving (World Population Prospects 2024, middelalternativ) — samme grunnlag som OECD bruker. <b>Norge</b> er markert med blått. SSBs egen framskriving gir Norge 47, og Eurostat (EUROPOP2023) gir EU-snittet 55; de er ikke tatt med fordi de bygger på andre framskrivinger.</p>
     <div id="landListe"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">Sør-Korea har lavest fruktbarhet i OECD (0,80 barn per kvinne i 2025); Japan ligger på 1,14, og flere land — blant dem Chile, Spania og Polen — ligger like lavt eller lavere. Italia og Spania har høy levealder og lav fruktbarhet. USA og Israel har høyere fruktbarhet og innvandring av yngre arbeidstakere. Norge har innvandring og en fruktbarhet på 1,48 (2025).</p>
-  </div>
+    <p class="nn-kilde">Sør-Korea har lavest fruktbarhet i OECD (0,80 barn per kvinne i 2025); Japan ligger på 1,14, og flere land — blant dem Chile, Spania og Polen — ligger like lavt eller lavere. Italia og Spania har høy levealder og lav fruktbarhet. USA og Israel har høyere fruktbarhet og innvandring av yngre arbeidstakere. Norge har innvandring og en fruktbarhet på 1,48 (2025).</p>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 03 — BRUTT OPP ────────────────── -->
@@ -121,22 +106,22 @@
   <div class="akt-num">Akt 03 · Brutt opp</div>
   <h2>Innenfor Norge er aldringen <em>ikke jevn</em>.</h2>
   <p class="akt-intro">Det nasjonale gjennomsnittet på 47 i 2050 skjuler stor variasjon mellom fylkene. <b>Innlandet, Telemark og Vestfold</b> ligger faktisk høyere enn alle Nord-Norge-fylkene — innlands- og industrifylkene er Norges mest belastede områder. Nordland følger på fjerdeplass, likt med Møre og Romsdal (2026-årgangen av framskrivingen). Distriktsutfordringen er ikke kun nord; den er innland-sør og kyst-nord. Oslo drar landssnittet ned.</p>
-  <div class="fylke-graf">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Forsørgerbrøk 2050 — alle norske fylker</div>
-    <p class="hint" style="font-size:12px;margin-bottom:10px">Antall personer 65+ per 100 personer 20–64 år ifølge SSBs hovedalternativ (tab. 14746). Nord-Norge-fylker er fremhevet. Landsgjennomsnittet (47) er markert som referanselinje.</p>
+  <figure class="nn-fig">
+    <h3>Forsørgerbrøk 2050 — alle norske fylker</h3>
+    <p class="nn-fig-enhet">Antall personer 65+ per 100 personer 20–64 år ifølge SSBs hovedalternativ (tab. 14746). Nord-Norge-fylker er fremhevet. Landsgjennomsnittet (47) er markert som referanselinje.</p>
     <div id="fylkeListe"></div>
-    <p class="hint" style="font-size:11.5px;margin-top:12px;opacity:.85;font-style:italic">SSB tab. 14746, hovedalternativet MMMM. Avrundet til én desimal. Nye fylker etter 2024-reformen.</p>
-  </div>
-  <p class="hint" style="font-size:12.5px;margin-top:14px"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet). Forsørgerbrøken teller alder, ikke arbeid: teller man alle som ikke er i arbeid per sysselsatt, ligger Nord-Norge på landsnivå (se <a href="tema-arbeidskraft.html#telle">Tre måter å telle på</a>).</p>
+    <p class="nn-kilde">SSB tab. 14746, hovedalternativet MMMM. Avrundet til én desimal. Nye fylker etter 2024-reformen.</p>
+  </figure>
+  <p class="nn-p"><b>Pedagogisk poeng.</b> «Distriktene aldres raskere» stemmer, men Nord-Norge er ikke verst stilt. Innlandet (57) og Telemark (56) ligger over alle de tre nordnorske fylkene, mens Nord-Norge samlet (51) ligger over landssnittet (47) og Nordland er blant de fire mest belastede fylkene. Teller man kommuner i stedet for innbyggere, er bildet et annet: 72 av de 80 kommunene i Nord-Norge får høyere forsørgerbrøk enn landet i 2050 (se akt 04). Nord-Norges største utfordring er likevel arbeidskraften (se <a href="tema-arbeidskraft.html">Hvem skal bære?</a> for det perspektivet). Forsørgerbrøken teller alder, ikke arbeid: teller man alle som ikke er i arbeid per sysselsatt, ligger Nord-Norge på landsnivå (se <a href="tema-arbeidskraft.html#telle">Tre måter å telle på</a>).</p>
 
-  <h3 id="norden" style="font-family:var(--font-display);font-size:19px;font-weight:600;margin:30px 0 6px">Nord-Norge mot Nord-Sverige og Nord-Finland</h3>
-  <p class="hint" style="font-size:14px;line-height:1.65;color:var(--ink-2);max-width:78ch" id="nordenIntro"></p>
-  <div class="fylke-graf">
-    <div style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:8px">Endring i befolkningen 20–66 år, 2026–2035, prosent</div>
+  <h3 id="norden" class="nn-h3">Nord-Norge mot Nord-Sverige og Nord-Finland</h3>
+  <p class="nn-p" id="nordenIntro"></p>
+  <figure class="nn-fig">
+    <h3>Endring i befolkningen 20–66 år, 2026–2035, prosent</h3>
     <div id="nordenGraf"></div>
-  </div>
-  <div style="overflow-x:auto;margin-top:14px"><table class="norden-tabell" id="nordenTabell"></table></div>
-  <p class="hint" style="font-size:11.5px;margin-top:8px" id="nordenKilde"></p>
+  </figure>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="nordenTabell"></table></div>
+  <p class="nn-kilde" id="nordenKilde"></p>
 </section>
 
 <!-- ────────────────── AKT 04 — OMSORGEN ────────────────── -->
@@ -146,22 +131,34 @@
   <p class="akt-intro" id="omsIntro"></p>
   <div class="kpi-rad" id="omsKPI"></div>
 
-  <h3 class="el-h3">Flere svært gamle, færre i arbeidsfør alder</h3>
-  <p class="el-p" id="omsBefTekst"></p>
-  <div class="el-fig" id="omsBefGraf"></div>
+  <h3 class="nn-h3">Flere svært gamle, færre i arbeidsfør alder</h3>
+  <p class="nn-p" id="omsBefTekst"></p>
+  <figure class="nn-fig">
+    <h3>Endring i befolkningen 80 år og over og 20–64 år, 2026–2050, prosent</h3>
+    <div id="omsBefGraf"></div>
+  </figure>
 
-  <h3 class="el-h3">Behovet målt mot befolkningen i arbeidsfør alder er størst i de minst sentrale kommunene</h3>
-  <p class="el-p" id="omsAvTekst"></p>
-  <div class="el-fig" id="omsAvGraf"></div>
-  <div id="omsKart"></div>
-  <p class="el-p" id="omsKartTekst" style="margin-top:10px"></p>
+  <h3 class="nn-h3">Behovet målt mot befolkningen i arbeidsfør alder er størst i de minst sentrale kommunene</h3>
+  <p class="nn-p" id="omsAvTekst"></p>
+  <figure class="nn-fig">
+    <h3>Omsorgsårsverk per 100 i alderen 20–64 år i 2050, etter fylke og sentralitet</h3>
+    <div id="omsAvGraf"></div>
+  </figure>
+  <figure class="nn-fig">
+    <h3>Omsorgsårsverk per 100 i alderen 20–64 år i 2050, per kommune</h3>
+    <div id="omsKart"></div>
+  </figure>
+  <p class="nn-p" id="omsKartTekst" style="margin-top:10px"></p>
 
-  <h3 class="el-h3">Demens: om lag en dobling i landet, mindre i nord</h3>
-  <p class="el-p" id="omsDemTekst"></p>
-  <div class="el-fig" id="omsDemGraf"></div>
+  <h3 class="nn-h3">Demens: om lag en dobling i landet, mindre i nord</h3>
+  <p class="nn-p" id="omsDemTekst"></p>
+  <figure class="nn-fig">
+    <h3>Anslått antall personer med demens, indeks (2026 = 100)</h3>
+    <div id="omsDemGraf"></div>
+  </figure>
 
-  <h3 class="el-h3">Hva Riksrevisjonen fant</h3>
-  <div class="el-scroll"><table class="el-tabell">
+  <h3 class="nn-h3">Hva Riksrevisjonen fant</h3>
+  <div class="el-scroll"><table class="nn-tabell">
     <thead><tr><th>Funn</th><th>Side</th></tr></thead>
     <tbody id="omsFunn"></tbody>
   </table></div>
@@ -201,7 +198,7 @@
     </div>
   </div>
 
-  <p class="hint" style="font-size:13px;margin-top:18px;line-height:1.65"><b>Norges utfordring</b> er ikke pensjonsreform-nivå — det er gjennomslagsfart. 2024-forliket kom 25 år etter Sverige og sju år etter Finland. Det betyr at vi har samme demografiske press som naboene, men har valgt slakere takt på politiske svar. Sett opp mot den arbeidskraftsmangelen som <a href="tema-arbeidskraft.html">NAV-undersøkelsen viser</a>, vil norske grep komme senere enn svenske/finske.</p>
+  <p class="nn-kilde"><b>Norges utfordring</b> er ikke pensjonsreform-nivå — det er gjennomslagsfart. 2024-forliket kom 25 år etter Sverige og sju år etter Finland. Det betyr at vi har samme demografiske press som naboene, men har valgt slakere takt på politiske svar. Sett opp mot den arbeidskraftsmangelen som <a href="tema-arbeidskraft.html">NAV-undersøkelsen viser</a>, vil norske grep komme senere enn svenske/finske.</p>
 
   <div class="black-swan">
     <div class="bs-icon"></div>
@@ -453,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function(){
         .concat([{navn:'Hele landet', data:LA.demens.map(function(v){ return v / LA.demens[0] * 100; }), farge:'ink', stil:'stiplet'},
                  {navn:'Nord-Norge', data:N.demens.map(function(v){ return v / N.demens[0] * 100; }), farge:'accent', uthev:true}]),
       format:'indeks', xTicks:E.aar, hoyde:280,
-      yTittel:'Anslått antall personer med demens, indeks 2026 = 100.',
+      yTittel:'Indeks, 2026 = 100',
       kilde:'Egen beregning: aldersspesifikke rater fra Demenskartet (Aldring og helse; HUNT4 70+ og Gjøra mfl. 2021) på SSB 14746 MMMM.'
     }, 320);
 
@@ -485,8 +482,8 @@ document.addEventListener('DOMContentLoaded', function(){
     var nn = NNR.indexOf(r.region) >= 0;
     return {l: r.region + (r.nasjon ? ' (landet)' : ''), v: r.endring['20–66'], farge: nn ? 'accent' : (r.nasjon ? 'muted' : (r.endring['20–66'] < 0 ? 'neg' : 'muted')), uthev: nn};
   })}], kilde: N.kilde + '.'}, rader.length * 30 + 40);
-  var t = '<thead><tr><th>Region</th><th>0–19 år</th><th>20–66 år</th><th>67 år og over</th><th>Totalt</th></tr></thead><tbody>';
-  rader.forEach(function(r){ t += '<tr class="' + (r.nasjon ? 'nasjon' : (NNR.indexOf(r.region) >= 0 ? 'nn' : '')) + '"><td>' + r.region + (r.nasjon ? ' (landet)' : '') + '</td>' + ['0–19', '20–66', '67+', 'Totalt'].map(function(k){ return '<td>' + pp(r.endring[k]) + '</td>'; }).join('') + '</tr>'; });
+  var t = '<thead><tr><th>Region</th><th class="num">0–19 år</th><th class="num">20–66 år</th><th class="num">67 år og over</th><th class="num">Totalt</th></tr></thead><tbody>';
+  rader.forEach(function(r){ t += '<tr class="' + (r.nasjon ? 'svak' : (NNR.indexOf(r.region) >= 0 ? 'uthev' : '')) + '"><td>' + r.region + (r.nasjon ? ' (landet)' : '') + '</td>' + ['0–19', '20–66', '67+', 'Totalt'].map(function(k){ return '<td class="num">' + pp(r.endring[k]) + '</td>'; }).join('') + '</tr>'; });
   document.getElementById('nordenTabell').innerHTML = t + '</tbody>';
   document.getElementById('nordenKilde').innerHTML = 'Kilde: ' + N.kilde + '. Finland er summert fra kommunene til landskap med Statistics Finlands klassifikasjonsnøkkel. Framskrivingene er laget i ulike år (Norge 2026, Sverige 2025, Finland 2024) og med ulike forutsetninger om innvandring, og er derfor ikke helt sammenlignbare.';
 });

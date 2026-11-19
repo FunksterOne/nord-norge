@@ -35,12 +35,7 @@
 .sjokk-num{font-family:var(--font-display);font-size:clamp(64px,9vw,128px);font-weight:600;line-height:1;color:var(--neg);margin:18px 0 8px;letter-spacing:-0.02em}
 .sjokk-sub{font-family:var(--font-display);font-size:18px;color:var(--ink2);line-height:1.5;font-style:italic}
 
-.trakt-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
-.trakt-wrap svg{display:block;width:100%;height:auto}
 
-.bf-fig{margin:14px 0 6px}
-.bf-h3{font-family:var(--font-display);font-size:21px;font-weight:600;line-height:1.25;margin:34px 0 8px;color:var(--ink)}
-.bf-p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 10px;max-width:78ch}
 .bf-note{font-size:12px;font-style:italic;margin-top:14px}
 .bf-kilder{font-size:11px;line-height:1.5;color:var(--ink3);margin:6px 0 0}
 .bf-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-text);font-weight:700;margin-bottom:6px}
@@ -104,8 +99,11 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>24 år med flytting <em>inn og ut</em></h2>
   <p class="akt-intro">Tre flyttestrømmer fra og til Nord-Norge per år 2002–2025. Blått: innvandring fra utlandet (inkluderer flyktninger og arbeidsinnvandring). Grått: utvandring til utlandet. Rødt: nettoflytting innenlands — folk som drar sørover. Ukrainere er vist separat under.</p>
-  <div class="trakt-wrap"><div id="traktGraf"></div></div>
-  <p class="hint" style="font-size:12px;font-style:italic;margin-top:4px">Kilde: SSB-tabell 09588 (innenlands flyttinger). Flyktning­andelen kan ikke skilles ut i denne tabellen; det krever innvandringsgrunn (SSB 07113).</p>
+  <figure class="nn-fig">
+    <h3>Innvandring, utvandring og innenlands nettoflytting, Nord-Norge 2002–2025, personer per år</h3>
+    <div id="traktGraf"></div>
+  </figure>
+  <p class="nn-kilde">Kilde: SSB-tabell 09588 (innenlands flyttinger). Flyktning­andelen kan ikke skilles ut i denne tabellen; det krever innvandringsgrunn (SSB 07113).</p>
 
   <!-- Ukraina-sparkline som egen blokk -->
   <div class="ukraine-card">
@@ -125,7 +123,10 @@
   <h2>Fem år etter bosetting bor nå <em>fire av fem</em> flyktninger fortsatt i kommunen</h2>
   <p class="akt-intro" id="femIntro"></p>
   <div class="kpi-rad" id="femKPI"></div>
-  <div class="bf-fig" id="femGraf"></div>
+  <figure class="nn-fig">
+    <h3>Andel av bosettingskullet som bor i bosettingskommunen etter fem år, etter bosettingsår, prosent</h3>
+    <div id="femGraf"></div>
+  </figure>
   <p class="bf-kilder" id="femNote"></p>
 </section>
 
@@ -136,27 +137,42 @@
   <p class="akt-intro" id="langIntro"></p>
   <div class="kpi-rad" id="langKPI"></div>
 
-  <h3 class="bf-h3">Landet: flyttingen fortsetter jevnt etter femte år</h3>
-  <p class="bf-p" id="kurveTekst"></p>
-  <div class="bf-fig" id="kurveGraf"></div>
+  <h3 class="nn-h3">Landet: flyttingen fortsetter jevnt etter femte år</h3>
+  <p class="nn-p" id="kurveTekst"></p>
+  <figure class="nn-fig">
+    <h3>Andel av kullet som bor i bosettingskommunen, etter år siden bosetting, landet, prosent</h3>
+    <div id="kurveGraf"></div>
+  </figure>
 
-  <h3 class="bf-h3">Nord-Norge beholder netto under en femdel etter 20 år</h3>
-  <p class="bf-p" id="nettoTekst"></p>
-  <div class="bf-fig" id="nettoGraf"></div>
-  <div class="bf-fig" id="gruppeGraf"></div>
+  <h3 class="nn-h3">Nord-Norge beholder netto under en femdel etter 20 år</h3>
+  <p class="nn-p" id="nettoTekst"></p>
+  <figure class="nn-fig">
+    <h3>Netto bevaring etter botid: innvandrere fra ti flyktningland og alle innvandrere, prosent</h3>
+    <div id="nettoGraf"></div>
+  </figure>
+  <figure class="nn-fig">
+    <h3>Netto bevaring i Nord-Norge etter ti års botid, etter landbakgrunn, prosent</h3>
+    <div id="gruppeGraf"></div>
+  </figure>
 
-  <h3 class="bf-h3">Flyktningene blir i Norge, men ikke i kommunen</h3>
-  <p class="bf-p" id="grunnTekst"></p>
-  <div class="bf-fig" id="grunnGraf"></div>
+  <h3 class="nn-h3">Flyktningene blir i Norge, men ikke i kommunen</h3>
+  <p class="nn-p" id="grunnTekst"></p>
+  <figure class="nn-fig">
+    <h3>Andel som fortsatt bor i Norge, ikke-nordiske førstegangsinnvandrere 1990–2025, etter innvandringsgrunn</h3>
+    <div id="grunnGraf"></div>
+  </figure>
 
   <div class="bf-boks">
     <div class="bf-kicker">Kommunestørrelsen forklarer mye</div>
     <p id="storrelseTekst"></p>
   </div>
 
-  <h3 class="bf-h3">Botid per kommune</h3>
-  <p class="bf-p" id="botidTekst"></p>
-  <div id="botidKart"></div>
+  <h3 class="nn-h3">Botid per kommune</h3>
+  <p class="nn-p" id="botidTekst"></p>
+  <figure class="nn-fig">
+    <h3>Andel av innvandrerne med minst ti års botid i Norge, per kommune</h3>
+    <div id="botidKart"></div>
+  </figure>
   <p class="hint bf-note">Forbehold: Det finnes ikke åpne tall for bofasthet per fylke utover fem år. Netto bevaring er beregnet fra SSB 10598 (innvandrere etter fylke, landbakgrunn og botid) og teller med tilflyttere fra resten av landet. Flyktninger som registreres i et mottak i Nord-Norge før de bosettes et annet sted, kan trekke tallene ned; beregningen starter derfor ved ett års botid. Fylkesinndelingen er endret i 2020 og 2024. Mer på <a href="metode.html#bofasthet">metodesiden</a>.</p>
 </section>
 
@@ -171,7 +187,7 @@
     <p>Ingen høringsnotat eller lovforslag er publisert. Regjeringen har ikke valgt modell, og varighet, sanksjoner, hvem som omfattes og lovhjemmel er ikke fastsatt. Statsbudsjettet for 2027 (7. oktober 2026) omtaler ikke flytteforbudet. Siden oppdateres når høringsnotatet kommer.</p>
   </div>
 
-  <div class="pj-scroll"><table class="bf-tabell">
+  <div class="pj-scroll"><table class="nn-tabell">
     <thead><tr><th>Status</th><th>Hva</th><th>Kilde</th></tr></thead>
     <tbody>
       <tr><td><b>Gjelder i dag</b></td><td>Kommunen en flyktning flytter til, kan avslå økonomisk sosialhjelp de første fem årene etter bosetting og vise til bosettingskommunen, med mindre det er åpenbart urimelig.</td><td>Sosialtjenesteforskriften § 3; IMDi, rundskriv om integreringstilskudd 2025</td></tr>
@@ -196,13 +212,13 @@
     </div>
   </div>
 
-  <h3 class="bf-h3">Premisset om flytting etter fem år</h3>
-  <p class="bf-p">Regjeringen begrunner forslaget med at mange flyktninger med store hjelpebehov flytter til de samme kommunene, særlig etter at integreringstilskuddet faller bort etter fem år. Initiativet kom fra Fredrikstad og Sarpsborg. <b>Observasjon:</b> Fafo finner ingen markant endring i flyttemønsteret etter fem år, og SSB viser at flyttingen øker gradvis fra bosettingsåret (se akt 04). Det er ikke publisert noen konsekvensutredning med tall for omfang, kostnader eller forventet effekt.</p>
+  <h3 class="nn-h3">Premisset om flytting etter fem år</h3>
+  <p class="nn-p">Regjeringen begrunner forslaget med at mange flyktninger med store hjelpebehov flytter til de samme kommunene, særlig etter at integreringstilskuddet faller bort etter fem år. Initiativet kom fra Fredrikstad og Sarpsborg. <b>Observasjon:</b> Fafo finner ingen markant endring i flyttemønsteret etter fem år, og SSB viser at flyttingen øker gradvis fra bosettingsåret (se akt 04). Det er ikke publisert noen konsekvensutredning med tall for omfang, kostnader eller forventet effekt.</p>
 
-  <h3 class="bf-h3">Unntakene i dag er sjeldne og vilkårlige</h3>
-  <p class="bf-p"><b>Observasjon:</b> Fafo har undersøkt de tre unntakene som finnes fra dagens femårsregel: avtalt sekundærflytting mellom kommuner, introduksjonsprogram i ny kommune og sosialhjelp når et avslag er «åpenbart urimelig». Unntak gis ytterst sjelden, også ved vold, trusler eller mobbing i bosettingskommunen. Ansatte i kommunene og i Nav ser det som sin oppgave å begrense flytting, og regelverket sier lite om når unntak skal gis. Hvem som får unntak, avhenger derfor mer av hvilken kommune og hvilken saksbehandler flyktningen møter enn av situasjonen (Fafo-rapport 2026:32, s. 4–5). Rapporten konkluderer med at et generelt flytteforbud må ha tydelige unntaksregler. <b>Forbehold:</b> Spørreundersøkelsen fikk lavest svarprosent i Finnmark (33 %) og Troms (38 %), og i de minst sentrale kommunene (39 %), så den sier minst om kommunene som bosetter flest per innbygger (s. 13).</p>
+  <h3 class="nn-h3">Unntakene i dag er sjeldne og vilkårlige</h3>
+  <p class="nn-p"><b>Observasjon:</b> Fafo har undersøkt de tre unntakene som finnes fra dagens femårsregel: avtalt sekundærflytting mellom kommuner, introduksjonsprogram i ny kommune og sosialhjelp når et avslag er «åpenbart urimelig». Unntak gis ytterst sjelden, også ved vold, trusler eller mobbing i bosettingskommunen. Ansatte i kommunene og i Nav ser det som sin oppgave å begrense flytting, og regelverket sier lite om når unntak skal gis. Hvem som får unntak, avhenger derfor mer av hvilken kommune og hvilken saksbehandler flyktningen møter enn av situasjonen (Fafo-rapport 2026:32, s. 4–5). Rapporten konkluderer med at et generelt flytteforbud må ha tydelige unntaksregler. <b>Forbehold:</b> Spørreundersøkelsen fikk lavest svarprosent i Finnmark (33 %) og Troms (38 %), og i de minst sentrale kommunene (39 %), så den sier minst om kommunene som bosetter flest per innbygger (s. 13).</p>
 
-  <h3 class="bf-h3">Juridisk uenighet</h3>
+  <h3 class="nn-h3">Juridisk uenighet</h3>
   <div class="pj-steg">
     <div>
       <div class="nr">EMBERLAND · BI · APRIL 2026</div>
@@ -214,8 +230,8 @@
     </div>
   </div>
 
-  <h3 class="bf-h3">Erfaringer fra andre land</h3>
-  <div class="pj-scroll"><table class="bf-tabell">
+  <h3 class="nn-h3">Erfaringer fra andre land</h3>
+  <div class="pj-scroll"><table class="nn-tabell">
     <thead><tr><th>Land</th><th>Ordning</th><th>Hva forskningen finner</th></tr></thead>
     <tbody>
       <tr><td><b>Tyskland</b></td><td>Bostedsplikt i delstaten i inntil tre år fra 2016 (§ 12a AufenthG), med unntak for arbeid og utdanning.</td><td>Om lag seks prosentpoeng lavere sannsynlighet for å være i arbeid (IAB 2020). BAMFs evaluering (2023) finner trolig ingen integreringsgevinst.</td></tr>
@@ -224,18 +240,21 @@
     </tbody>
   </table></div>
 
-  <h3 class="bf-h3">Hva det kan bety for Nord-Norge</h3>
+  <h3 class="nn-h3">Hva det kan bety for Nord-Norge</h3>
   <div class="kpi-rad" id="ffKPI"></div>
   <div id="ffNN"></div>
 
-  <h3 class="bf-h3" id="bosetting2027">Bosettingen i 2027</h3>
-  <p class="bf-p" id="bosIntro"></p>
-  <div class="pj-scroll"><table class="bf-tabell" id="bosTabell"></table></div>
-  <p class="hint" style="font-size:12px;margin:12px 0 8px" id="bosKartTekst"></p>
-  <div id="bosKart"></div>
+  <h3 class="nn-h3" id="bosetting2027">Bosettingen i 2027</h3>
+  <p class="nn-p" id="bosIntro"></p>
+  <div class="pj-scroll"><table class="nn-tabell" id="bosTabell"></table></div>
+  <p class="nn-fig-enhet" id="bosKartTekst"></p>
+  <figure class="nn-fig">
+    <h3>IMDis anmodning om bosetting av flyktninger i 2027, per 1 000 innbyggere</h3>
+    <div id="bosKart"></div>
+  </figure>
 
-  <h3 class="bf-h3">Partiene</h3>
-  <div class="pj-scroll"><table class="bf-tabell">
+  <h3 class="nn-h3">Partiene</h3>
+  <div class="pj-scroll"><table class="nn-tabell">
     <thead><tr><th>Parti</th><th>Standpunkt</th></tr></thead>
     <tbody>
       <tr><td>Ap (regjeringen)</td><td>Utreder forbudet og vil kombinere det med bedre norskopplæring.</td></tr>
@@ -264,7 +283,7 @@
       <tr><td>Netto effekt — innvandring minus alle utflyttinger</td><td id="nettoTotal">—</td></tr>
     </tbody>
   </table>
-  <p class="hint" style="font-size:12px;font-style:italic">Tallene viser <i>hele</i> innvandringen og utvandringen til/fra utlandet og resten av Norge. Flyktning­andelen er størst i innvandringen fra utenfor EØS (Somalia, Eritrea, Syria, Afghanistan, Ukraina), men denne innvandringen omfatter også arbeids- og familieinnvandring, som ikke kan skilles ut i kommunale tidsserier.</p>
+  <p class="nn-fig-enhet">Tallene viser <i>hele</i> innvandringen og utvandringen til/fra utlandet og resten av Norge. Flyktning­andelen er størst i innvandringen fra utenfor EØS (Somalia, Eritrea, Syria, Afghanistan, Ukraina), men denne innvandringen omfatter også arbeids- og familieinnvandring, som ikke kan skilles ut i kommunale tidsserier.</p>
 
   <div class="kanon-anker">
     <div class="ka-kicker">I Hammerfest · kommunen vi følger</div>
@@ -543,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function(){
     kilde:N.kilde + '. Innvandringskull: 5 år ' + N.kullspenn[0] + ', 10 år ' + N.kullspenn[1] + ', 15 år ' + N.kullspenn[2] + ', 20 år ' + N.kullspenn[3] + '. Ti flyktningland: ' + N.flyktningland + '.'
   }, 360);
   document.getElementById('gruppeGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', maks:100, grupper:[{
-    tittel:'Netto bevaring i Nord-Norge etter ti års botid, etter landbakgrunn',
+    
     rader: N.grupper.map(function(g, j){ return {l:g.navn, v:g.nn[nb(10)], farge: j === 0 ? 'accent' : 'muted', uthev: j === 0, note:'landet ' + pst(g.landet[nb(10)])}; })
   }], kilde:N.kilde + ', innvandringskull ' + N.kullspenn[1] + '.'}, N.grupper.length * 34 + 70);
 
@@ -587,10 +606,10 @@ document.addEventListener('DOMContentLoaded', function(){
     '<div class="kpi"><div class="v">2027</div><div class="l">første ukrainske kull når fem år</div><div class="nh">kollektiv beskyttelse avvikles ikke i 2027</div></div>';
   var perKull = Math.round(BS.nn * F.flyttet10_nn / 100 / 100) * 100;
   document.getElementById('ffNN').innerHTML =
-    '<p class="bf-p"><b>Observasjon:</b> ' + pst(andelKol) + ' av dem som ble bosatt i Nord-Norge i ' + BS.aar + ', hadde kollektiv beskyttelse. Om ukrainerne omfattes, avgjør derfor i praksis hva forbudet betyr for landsdelen, og det er ikke avklart.</p>' +
-    '<p class="bf-p"><b>Hypotese — befolkning:</b> Dersom modell 2 innføres og omfatter alle grupper, forventer vi at flere blir boende de første årene. Med om lag ' + tal(Math.round(BS.nn / 100) * 100) + ' bosatte per år og ' + pst(F.flyttet10_nn) + ' fraflytting over ti år gjelder det i størrelsesorden ' + tal(perKull) + ' personer per kull. Anslaget bygger på kullene før 2022 og er usikkert.</p>' +
-    '<p class="bf-p"><b>Hypotese — arbeidskraft:</b> Unntakene for arbeid og utdanning betyr at de som har jobb, kan flytte som i dag. De som holdes igjen, står oftere utenfor arbeid, så forbudet vil trolig øke folketallet mer enn arbeidsstyrken.</p>' +
-    '<p class="bf-p"><b>Hypotese — kommuneøkonomi:</b> Varer bindingen lenger enn de fem årene med integreringstilskudd, får bosettingskommunen ansvaret for sosialhjelp uten tilskudd. Det rammer særlig små kommuner og kan gjøre flere av dem mindre villige til å bosette.</p>';
+    '<p class="nn-p"><b>Observasjon:</b> ' + pst(andelKol) + ' av dem som ble bosatt i Nord-Norge i ' + BS.aar + ', hadde kollektiv beskyttelse. Om ukrainerne omfattes, avgjør derfor i praksis hva forbudet betyr for landsdelen, og det er ikke avklart.</p>' +
+    '<p class="nn-p"><b>Hypotese — befolkning:</b> Dersom modell 2 innføres og omfatter alle grupper, forventer vi at flere blir boende de første årene. Med om lag ' + tal(Math.round(BS.nn / 100) * 100) + ' bosatte per år og ' + pst(F.flyttet10_nn) + ' fraflytting over ti år gjelder det i størrelsesorden ' + tal(perKull) + ' personer per kull. Anslaget bygger på kullene før 2022 og er usikkert.</p>' +
+    '<p class="nn-p"><b>Hypotese — arbeidskraft:</b> Unntakene for arbeid og utdanning betyr at de som har jobb, kan flytte som i dag. De som holdes igjen, står oftere utenfor arbeid, så forbudet vil trolig øke folketallet mer enn arbeidsstyrken.</p>' +
+    '<p class="nn-p"><b>Hypotese — kommuneøkonomi:</b> Varer bindingen lenger enn de fem årene med integreringstilskudd, får bosettingskommunen ansvaret for sosialhjelp uten tilskudd. Det rammer særlig små kommuner og kan gjøre flere av dem mindre villige til å bosette.</p>';
 
   // Bosettingen i 2027 (IMDis anmodning per kommune)
   var AK = AN.kommuner, nrs = Object.keys(AK);

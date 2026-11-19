@@ -42,14 +42,7 @@
 .drv dd b{color:var(--ink);font-weight:600}
 .nn-scrollx{overflow-x:auto}
 .nn-scrollx > div{min-width:700px}
-.kildeboks{padding:16px 18px;border-left:3px solid var(--accent);background:var(--panel);font-size:12.5px;color:var(--ink-2);line-height:1.6;margin:18px 0}
 @media (max-width:720px){.drv dl{grid-template-columns:1fr}}
-.konj-tabell{width:100%;border-collapse:collapse;font-size:13px;min-width:700px}
-.konj-tabell th{text-align:left;padding:9px 10px;color:var(--ink-3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line)}
-.konj-tabell td{padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
-.konj-tabell td:first-child{color:var(--ink)}
-.konj-tabell .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.konj-tabell tr.uthev td{background:color-mix(in srgb, var(--accent) 10%, transparent)}
 .konj-v{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .konj-v::before{content:"";width:9px;height:9px;display:inline-block}
 .konj-v.p::before{background:var(--pos)}.konj-v.n::before{background:var(--amber)}.konj-v.m::before{background:var(--neg)}
@@ -78,10 +71,10 @@
   <h2>Arbeidslivet kan etterspørre <em>42 000</em> flere enn det finnes folk til i 2040</h2>
   <p class="akt-intro">SØA framskriver etterspørselen etter arbeidskraft næring for næring og sammenligner med tilbudet: befolkningen 15–74 år med dagens sysselsettingsandel. Etterspørselen øker med rundt 33 000 sysselsatte fram mot 2040, mens tilbudet faller med om lag 9 000. Skal behovet dekkes av folk som allerede bor i landsdelen, må sysselsettingsandelen opp fra 67 til 79 prosent.</p>
   <div class="kpi-rad" id="naerKPI"></div>
-  <div class="card">
-    <div class="ch"><h3>Sysselsatte i Nord-Norge: faktisk 2025 og tilgjengelig mot etterspurt arbeidskraft i 2040</h3></div>
+  <figure class="nn-fig">
+    <h3>Sysselsatte i Nord-Norge: faktisk 2025 og tilgjengelig mot etterspurt arbeidskraft i 2040</h3>
     <div data-nnchart="tilbudgap" data-spec='{"rader":[{"l":"2025, faktisk","tilbud":248217},{"l":"2040, mellomalternativ","tilbud":239025,"etterspurt":281069},{"l":"2040, lavalternativ","tilbud":234993,"etterspurt":279207}],"kilde":"Kilde: SØA (2026), figur 18. Mellomalternativ = SSBs hovedalternativ for alle kommuner; lavalternativ = sterk aldring i kommuner med sentralitet 5–6. Tilgjengelig = befolkning 15–74 år × sysselsettingsandelen i 2025."}' style="min-height:250px"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- AKT 02 -->
@@ -89,16 +82,16 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Sjømat er <em>fire og en halv gang</em> så viktig for sysselsettingen i nord som i landet</h2>
   <p class="akt-intro" id="sjoIntro">Kartet under viser hvor næringene står sterkere enn i landet som helhet. SØA kaller en næring framtredende i en region når andelen av sysselsettingen er minst 50 prosent høyere enn landsgjennomsnittet. Vi har gjort samme beregning for alle 13 regioner med SSBs tall for sysselsatte etter arbeidssted.</p>
-  <div class="card">
-    <div class="ch"><h3>Næringskonsentrasjon per region — andel av sysselsettingen sammenlignet med landet</h3></div>
+  <figure class="nn-fig">
+    <h3>Næringskonsentrasjon per region — andel av sysselsettingen sammenlignet med landet</h3>
     <div class="nn-scrollx"><div data-nnchart="lq" data-spec='{"grupper":["fiske","havbruk","fiskeind","reiseliv","kraftind","energi","bergverk","petroleum","anlegg","luft","forsvar","ikt","kunnskap","finans"]}' style="min-height:620px"></div></div>
-  </div>
-  <p class="hint" style="font-size:12.5px;margin-top:12px">Sammenligning med rapporten: SØA finner sjømat framtredende i 10 av 13 regioner, energiproduksjon i Ofoten, petroleum i Vest-Finnmark, kraftforedlende industri på Helgeland og i Salten, og persontransport i Bodø. Beregningen over bekrefter dette og viser i tillegg at bergverk og forsvar er framtredende i flere regioner, blant annet bergverk på Helgeland og i Alta og forsvar i Midt-Troms. Reiseliv er framtredende i Lofoten også her, men havner like under grensen i Tromsø. Det skyldes trolig at vi bare teller overnatting, servering og reisearrangører, mens SØA også regner med guider, opplevelser, museer og turbiltransport.</p>
+  </figure>
+  <p class="nn-p">Sammenligning med rapporten: SØA finner sjømat framtredende i 10 av 13 regioner, energiproduksjon i Ofoten, petroleum i Vest-Finnmark, kraftforedlende industri på Helgeland og i Salten, og persontransport i Bodø. Beregningen over bekrefter dette og viser i tillegg at bergverk og forsvar er framtredende i flere regioner, blant annet bergverk på Helgeland og i Alta og forsvar i Midt-Troms. Reiseliv er framtredende i Lofoten også her, men havner like under grensen i Tromsø. Det skyldes trolig at vi bare teller overnatting, servering og reisearrangører, mens SØA også regner med guider, opplevelser, museer og turbiltransport.</p>
 
-  <div class="card" style="margin-top:20px">
-    <div class="ch"><h3>Andel sysselsatte i offentlig sektor, 2025</h3></div>
+  <figure class="nn-fig" style="margin-top:20px">
+    <h3>Andel sysselsatte i offentlig sektor, 2025</h3>
     <div data-nnchart="hstolper" data-spec='{"format":"pst","maks":60,"grupper":[{"rader":[{"l":"Troms","v":47,"uthev":true,"farge":"accent"},{"l":"Finnmark","v":43,"uthev":true,"farge":"accent"},{"l":"Nordland","v":41,"uthev":true,"farge":"accent"},{"l":"Resten av landet","v":37,"farge":"cat-4"},{"l":"Oslo og Akershus","v":33,"farge":"cat-4"}]}],"kilde":"Kilde: SØA (2026), figur 4, basert på SSBs registerbaserte sysselsettingsstatistikk. Offentlig sektor = offentlig dominerte næringer (helse, omsorg, undervisning, forsvar, administrasjon, infrastruktur). Høyest i Øst-Finnmark (50 %), lavest i Lofoten (36 %)."}' style="min-height:170px"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- AKT 03 -->
@@ -106,10 +99,10 @@
   <div class="akt-num">Akt 03 · Brutt opp</div>
   <h2>Havbruk og IKT har trukket veksten — <em>fisket</em> sysselsetter færre enn for ti år siden</h2>
   <p class="akt-intro" id="vekstIntro">Sysselsettingen i Nord-Norge har vokst saktere enn i landet. Bak snittet skjuler det seg store forskjeller mellom næringene.</p>
-  <div class="card">
-    <div class="ch"><h3>Endring i sysselsatte 2015–2025, Nord-Norge mot hele landet</h3></div>
+  <figure class="nn-fig">
+    <h3>Endring i sysselsatte 2015–2025, Nord-Norge mot hele landet</h3>
     <div data-nnchart="naeringvekst" data-spec='{"grupper":["havbruk","ikt","forsvar","reiseliv","fiskeind","kunnskap","anlegg","helse","bergverk","energi","bygg","kraftind","handel","fiske","finans","petroleum"]}' style="min-height:520px"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- AKT 04 -->
@@ -117,10 +110,10 @@
   <div class="akt-num">Akt 04 · Verdiskaping</div>
   <h2>Ett årsverk i petroleum skaper nesten <em>18 ganger</em> så mye som ett i reiselivet</h2>
   <p class="akt-intro">Verdiskaping per årsverk er driftsresultat pluss lønnskostnader, delt på antall årsverk. Det sier noe om hvor mye hver næring kan betale for arbeidskraften — og dermed hvem som vinner når folk blir knappe. Snittet for næringslivet i Nord-Norge er rundt 1,4 millioner kroner.</p>
-  <div class="card">
-    <div class="ch"><h3>Verdiskaping per årsverk i Nord-Norge, snitt 2022–2024 (1 000 kr)</h3></div>
+  <figure class="nn-fig">
+    <h3>Verdiskaping per årsverk i Nord-Norge, snitt 2022–2024 (1 000 kr)</h3>
     <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"refs":[{"v":1400,"tekst":"Snitt ≈ 1 400"}],"rader":[{"l":"Petroleum","v":11168,"uthev":true,"farge":"accent"},{"l":"Finansielle tjenester","v":7934},{"l":"Energiproduksjon","v":5592},{"l":"Havbruk","v":3704},{"l":"Kraftforedlende industri","v":2206},{"l":"Fiskeri og fiskeindustri","v":1677},{"l":"IKT-tjenester","v":1627},{"l":"Næringseiendom","v":1426},{"l":"Annen industri, bergverk og skogbruk","v":1418},{"l":"Kunnskapsbaserte tjenester","v":1146},{"l":"Transport og logistikk av varer","v":1109},{"l":"Teknologiindustri","v":1107},{"l":"Anlegg","v":1005},{"l":"Transport av personer","v":972},{"l":"Kultur, fritid og media","v":921},{"l":"Byggenæring","v":894},{"l":"Andre forretningsmessige tjenester","v":811},{"l":"Detaljhandel","v":784},{"l":"Personrettede tjenester","v":780},{"l":"Landbruk og landbruksbasert industri","v":759},{"l":"Reiseliv","v":630,"uthev":true,"farge":"accent"}]}],"kilde":"Kilde: SØA (2026), figur 9, basert på årsregnskap i SAFE (SØAs foretaks- og enhetsregister). Næringene i overskriften er uthevet."}' style="min-height:500px"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- AKT 05 -->
@@ -128,10 +121,10 @@
   <div class="akt-num">Akt 05 · Drivkreftene</div>
   <h2>Markedene peker oppover — <em>flaskehalsene</em> avgjør hvor mye som blir realisert</h2>
   <p class="akt-intro">SØA går gjennom næring for næring: markedsutvikling, naturressurser, kraft, teknologi, regulering og kapital. Under er hovedpunktene, med tallene rapporten bygger på.</p>
-  <div class="card">
-    <div class="ch"><h3>Økt etterspørsel etter arbeidskraft fram mot 2040, utvalgte næringer</h3></div>
+  <figure class="nn-fig">
+    <h3>Økt etterspørsel etter arbeidskraft fram mot 2040, utvalgte næringer</h3>
     <div data-nnchart="hstolper" data-spec='{"format":"tall","grupper":[{"rader":[{"l":"Offentlig sektor (særlig helse og omsorg)","v":20000,"uthev":true,"farge":"accent","note":"flere eldre"},{"l":"Reiseliv","v":4300,"note":"+33 %"},{"l":"Sjømat","v":2500,"note":"særlig havbruk"},{"l":"Forsvar","v":1800,"note":"langtidsplanen for forsvaret"},{"l":"Kraftforedlende industri","v":500,"note":"2–3 nye etableringer"},{"l":"IKT-tjenester","v":300,"note":""}]}],"kilde":"Kilde: SØA (2026), framskriving i mellomalternativet. Tallene er avrundet slik rapporten oppgir dem."}' style="min-height:230px"></div>
-  </div>
+  </figure>
 
   <div class="drv-grid">
     <div class="drv"><div class="drv-k">Sjømat</div><h3>Vokser videre, men saktere enn før</h3><dl>
@@ -159,7 +152,7 @@
       <dt>Rom</dt><dd>Oppskytingsbasen på Andøya, satellittmiljøet i Tromsø og et planlagt arktisk ESA-senter i Tromsø.</dd>
       <dt>Forbehold</dt><dd>Kapitalkrevende, med lange utviklingsløp og følsomme for råvarepriser og vern.</dd></dl></div>
   </div>
-  <p class="hint" style="font-size:12.5px">Datoene og vedtakene er samlet i tidslinjen på <a href="tema-scenarier.html">Fire fremtider mot 2040</a>.</p>
+  <p class="nn-p">Datoene og vedtakene er samlet i tidslinjen på <a href="tema-scenarier.html">Fire fremtider mot 2040</a>.</p>
 </section>
 
 <!-- AKT 06 -->
@@ -167,14 +160,14 @@
   <div class="akt-num">Akt 06 · Konsekvens</div>
   <h2>Næringene med lavest lønnsevne <em>taper først</em> i kampen om folk</h2>
   <p class="akt-intro">SØA har beregnet hvordan arbeidskraften kan fordele seg i 2040 når den trekkes mot næringer som kan betale mest. Ingen næring får dekket hele behovet. Figuren viser hvor stor del av etterspørselen hver næring ikke får dekket: petroleum mangler rundt 1 prosent, reiselivet 23 prosent.</p>
-  <div class="card">
-    <div class="ch"><h3>Rekruttering relativt til etterspurt arbeidskraft i 2040, per næring (prosent)</h3></div>
+  <figure class="nn-fig">
+    <h3>Rekruttering relativt til etterspurt arbeidskraft i 2040, per næring (prosent)</h3>
     <div data-nnchart="hstolper" data-spec='{"format":"pst","grupper":[{"rader":[{"l":"Petroleum","v":-1.4,"uthev":true,"farge":"accent"},{"l":"Forsvar","v":-7.9},{"l":"Forretningsmessige tjenester","v":-9.4},{"l":"Sjømat","v":-10.7},{"l":"Offentlig administrasjon","v":-11.9},{"l":"Industri","v":-12.2},{"l":"Helse","v":-12.6},{"l":"Høyere utdanning","v":-14.2},{"l":"Personrettede tjenester","v":-14.8},{"l":"Bygg og anlegg","v":-15.0},{"l":"Infrastrukturtjenester","v":-15.4},{"l":"Grunnutdanning","v":-16.4},{"l":"Varehandel og transport","v":-17.9},{"l":"Omsorg","v":-18.6},{"l":"Landbruk og næringsmiddelindustri","v":-19.3},{"l":"Reiseliv","v":-23.0,"uthev":true,"farge":"accent"}]}],"kilde":"Kilde: SØA (2026), figur 19, mellomalternativet. Verdiene er avlest fra figuren i rapporten (±0,5 prosentpoeng). Beregningen er en forenkling: høyere priser kan gi reiselivet mer lønnsevne enn modellen antar."}' style="min-height:400px"></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="ch"><h3>Allerede i dag: mangel på arbeidskraft per næring i Nord-Norge, 2026</h3></div>
+  </figure>
+  <figure class="nn-fig" style="margin-top:18px">
+    <h3>Allerede i dag: mangel på arbeidskraft per næring i Nord-Norge, 2026</h3>
     <div id="navMangel"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- AKT 07 -->
@@ -182,27 +175,27 @@
   <div class="akt-num">Akt 07 · Konjunkturen</div>
   <h2>De fleste næringene går godt — <em>byggnæringen</em> er den eneste med rødt både i år og neste år</h2>
   <p class="akt-intro" id="konjIntro"></p>
-  <div class="card">
-    <div class="ch"><h3>Utvikling 2026, utsikter 2027 og regnskapstall for 2025, per næring</h3></div>
-    <div class="nn-scrollx"><table class="konj-tabell" id="konjTabell"></table></div>
-    <p class="hint" style="font-size:11.5px;margin-top:8px" id="konjKilde"></p>
-  </div>
+  <figure class="nn-fig">
+    <h3>Utvikling 2026, utsikter 2027 og regnskapstall for 2025, per næring</h3>
+    <div class="nn-tabell-rull"><table class="nn-tabell" id="konjTabell"></table></div>
+    <p class="nn-kilde" id="konjKilde"></p>
+  </figure>
 
-  <h3 class="serif" style="font-size:19px;margin:28px 0 6px">Bygg og anlegg: nedgangen har mistet fart, men ikke snudd</h3>
-  <p style="font-size:14px;color:var(--ink-2);line-height:1.65;max-width:78ch" id="byggIntro"></p>
+  <h3 class="nn-h3">Bygg og anlegg: nedgangen har mistet fart, men ikke snudd</h3>
+  <p class="nn-p" id="byggIntro"></p>
   <div class="kpi-rad" id="byggKPI"></div>
-  <div class="card">
-    <div class="ch"><h3>Sysselsatte i bygg og anlegg, indeks (2008 = 100)</h3></div>
+  <figure class="nn-fig">
+    <h3>Sysselsatte i bygg og anlegg, indeks (2008 = 100)</h3>
     <div id="byggGraf"></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="ch"><h3>Endring i sysselsatte i bygg og anlegg 2022–2025, prosent</h3></div>
+  </figure>
+  <figure class="nn-fig" style="margin-top:18px">
+    <h3>Endring i sysselsatte i bygg og anlegg 2022–2025, prosent</h3>
     <div id="byggFylke"></div>
-  </div>
-  <div class="kildeboks" id="investBoks"></div>
+  </figure>
+  <div class="nn-boks" id="investBoks"></div>
 </section>
 
-<div class="kildeboks"><b>Om kildene.</b> Rapporten <i>Nord-Norge 2040 — Store muligheter, for få folk</i> (rapport 33-2026) er skrevet av Samfunnsøkonomisk Analyse AS på oppdrag fra Kunnskapsbanken i SpareBank 1 Nord-Norge, publisert 29. september 2026. Framskrivinger, verdiskaping og rangeringer er SØAs. Sysselsettingen per næring og region er dashbordets egne beregninger fra SSB tabell 13470 (sysselsatte etter arbeidssted, 4. kvartal) med SØAs metode for framtredende næringer. Næringsgruppene våre er smalere enn rapportens der SN2007-kodene ikke skiller (for eksempel sjømat uten fiskefôr og reiseliv uten guider), så nivåene kan avvike noe. Regioninndelingen er beskrevet på <a href="metode.html">metodesiden</a>.</div>
+<div class="nn-boks"><b>Om kildene.</b> Rapporten <i>Nord-Norge 2040 — Store muligheter, for få folk</i> (rapport 33-2026) er skrevet av Samfunnsøkonomisk Analyse AS på oppdrag fra Kunnskapsbanken i SpareBank 1 Nord-Norge, publisert 29. september 2026. Framskrivinger, verdiskaping og rangeringer er SØAs. Sysselsettingen per næring og region er dashbordets egne beregninger fra SSB tabell 13470 (sysselsatte etter arbeidssted, 4. kvartal) med SØAs metode for framtredende næringer. Næringsgruppene våre er smalere enn rapportens der SN2007-kodene ikke skiller (for eksempel sjømat uten fiskefôr og reiseliv uten guider), så nivåene kan avvike noe. Regioninndelingen er beskrevet på <a href="metode.html">metodesiden</a>.</div>
 
 <footer class="nn-footer">
   <div class="nnf-grid">

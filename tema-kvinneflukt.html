@@ -32,10 +32,6 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script type="module" src="/src/main.js"></script>
 <style>
-.scatter-wrap{padding:24px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin:14px 0}
-.scatter-wrap svg{display:block;width:100%;height:auto}
-.scatter-leg{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin-top:10px;align-items:center}
-.scatter-leg .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
 
 .brutt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
 .brutt-card{padding:20px 22px;background:var(--paper2);border:1px solid var(--line2);border-radius:0}
@@ -90,16 +86,11 @@
   <div class="akt-num">Akt 02 · Bildet</div>
   <h2>Kjønnsbalansen <em>per kommune</em> — der det er små samfunn, er det færrest kvinner</h2>
   <p class="akt-intro">Hver boble er én kommune. Y-aksen: menn per 100 kvinner i alder 18–44. X-aksen: kommunens folketall (logaritmisk). Den stiplede linjen er perfekt balanse (100). Alt over linjen betyr mannsoverskudd. Mønsteret er konsekvent: jo mindre kommunen er, jo større spennvidde — og overvekten går nesten alltid mot menn.</p>
-  <div class="scatter-wrap">
+  <figure class="nn-fig">
+    <h3>Menn per 100 kvinner i alderen 18–44 år, etter kommunens folketall</h3>
     <div id="scatterGraf"></div>
-    <div class="scatter-leg">
-      <span><i class="dot" style="background:var(--nl)"></i>Nordland</span>
-      <span><i class="dot" style="background:var(--tr)"></i>Troms</span>
-      <span><i class="dot" style="background:var(--fi)"></i>Finnmark</span>
-      <span style="margin-left:auto;color:var(--ink3)">— stiplet linje = perfekt kjønnsbalanse (100/100)</span>
-    </div>
-  </div>
-  <h3 style="font-family:var(--font-display);font-size:18px;font-weight:600;margin:24px 0 10px">De ti kommunene med størst overvekt av menn</h3>
+  </figure>
+  <h3 class="nn-h3">De ti kommunene med størst overvekt av menn</h3>
   <div class="topp-liste" id="toppListe"></div>
 </section>
 
@@ -111,12 +102,12 @@
   <div class="brutt-grid">
     <div class="brutt-card">
       <h3>Per aldersgruppe — hele Nord-Norge</h3>
-      <p class="hint" style="font-size:11.5px;margin:0 0 10px">Menn per 100 kvinner i hver aldersgruppe (1.1.2026)</p>
+      <p class="nn-kilde">Menn per 100 kvinner i hver aldersgruppe (1.1.2026)</p>
       <div class="agg-bars" id="alderBars"></div>
     </div>
     <div class="brutt-card">
       <h3>Per fylke — alder 18–44 samlet</h3>
-      <p class="hint" style="font-size:11.5px;margin:0 0 10px">Vektet snitt per fylke. Vertikal linje = 100 (perfekt balanse)</p>
+      <p class="nn-kilde">Vektet snitt per fylke. Vertikal linje = 100 (perfekt balanse)</p>
       <div class="agg-bars" id="fylkeBars"></div>
     </div>
   </div>

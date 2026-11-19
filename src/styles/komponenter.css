@@ -1,0 +1,93 @@
+/* Felles komponenter for temasidene (analyse/PLAN-LAYOUT-1-3.md, fase A).
+   Figur, tabell, merke, kildelinje, notisboks, «Les mer», hovedfunn og mellomtitler.
+   Erstatter sidevise varianter som hs-boks, ug-boks, graf-kort, fylke-graf, hs-tabell, konj-tabell m.fl. */
+
+/* ── Figur (exhibit): nummer, tittel, eventuell enhet, figur, kilde ── */
+.nn-fig {
+  margin: 18px 0;
+  padding: 22px 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--rule);
+}
+.nn-fig > h3, .nn-fig > .nn-fig-h > h3 {
+  font: 600 16px/1.3 var(--font-display);
+  color: var(--ink);
+  margin: 0 0 10px;
+  counter-increment: figur;
+}
+.nn-fig > h3::before, .nn-fig > .nn-fig-h > h3::before {
+  content: "Figur " counter(figur, decimal-leading-zero);
+  display: block;
+  font: 600 11px/1.3 var(--font-sans);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 4px;
+}
+.nn-fig-enhet { display: block; font: 400 12.5px/1.45 var(--font-sans); color: var(--ink-3); margin: 3px 0 0; max-width: 90ch; }
+.nn-fig > .nn-fig-enhet { margin: -4px 0 12px; }
+.nn-fig .nn-tabell-rull { margin: 0; }
+@media (max-width: 600px) { .nn-fig { padding: 16px 14px; } }
+
+/* ── Kildelinje: alltid «Kilde: …», lik størrelse og farge overalt ── */
+.nn-kilde { font: 400 11.5px/1.5 var(--font-sans); color: var(--ink-3); margin: 10px 0 0; max-width: 90ch; }
+
+/* ── Merke foran figurtittel: SSB, FHI, Beregnet … (.reg = registerdata/egne beregninger) ── */
+.nn-etikett {
+  display: inline-block;
+  font: 500 10px/1.2 var(--font-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  margin-right: 8px;
+  border: 1px solid var(--line);
+  color: var(--ink-3);
+  vertical-align: 2px;
+}
+.nn-etikett.reg { border-color: var(--accent); color: var(--accent-text); }
+
+/* ── Tabell: tabulære tall, høyrestilte tallkolonner, tung linje over sum ── */
+.nn-tabell-rull { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
+.nn-tabell { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--panel); min-width: 560px; }
+.nn-tabell th { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.nn-tabell td { padding: 8px 12px; color: var(--ink-2); border-top: 1px solid var(--line); vertical-align: top; line-height: 1.5; }
+.nn-tabell td:first-child { color: var(--ink); }
+.nn-tabell .num, .nn-tabell th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nn-tabell tr.sum td { border-top: 2px solid var(--rule); font-weight: 600; color: var(--ink); }
+.nn-tabell tr.gr td { font: 600 10.5px/1.3 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); padding-top: 14px; border-top: 0; }
+.nn-tabell tr.uthev td { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.nn-tabell tr.svak td { color: var(--ink-3); font-style: italic; }
+.nn-fig .nn-tabell { background: transparent; }
+
+/* ── Mellomtittel og brødtekst inne i en akt ── */
+.nn-h3 { font: 600 19px/1.3 var(--font-display); color: var(--ink); margin: 28px 0 6px; }
+.nn-p { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); margin: 12px 0; max-width: 78ch; }
+
+/* ── Notisboks: kilder, forbehold og kontekst som ikke er figur ── */
+.nn-boks {
+  margin: 18px 0;
+  padding: 16px 18px;
+  background: var(--panel);
+  border-left: 3px solid var(--accent);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.nn-boks > .tittel { font: 600 15px/1.3 var(--font-display); color: var(--ink); margin-bottom: 6px; }
+
+/* ── «Les mer»: detaljer og bakgrunn som tas ut av ingressene ── */
+.nn-mer { margin: 10px 0 18px; border-top: 1px solid var(--line); }
+.nn-mer > summary { cursor: pointer; list-style: none; padding: 10px 0 6px; font: 600 12px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); }
+.nn-mer > summary::-webkit-details-marker { display: none; }
+.nn-mer > summary::after { content: " ▾"; }
+.nn-mer[open] > summary::after { content: " ▴"; }
+.nn-mer > :not(summary) { font-size: 14px; line-height: 1.65; color: var(--ink-2); max-width: 78ch; }
+
+/* ── Hovedfunn (fase B): nummererte funn under heroen ── */
+.nn-funn { margin: 0 0 40px; padding: 18px 22px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--accent); }
+.nn-funn > h2 { font: 600 11px/1.3 var(--font-sans); letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-text); margin: 0 0 10px; }
+.nn-funn ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px 28px; counter-reset: funn; }
+.nn-funn li { counter-increment: funn; font-size: 14px; line-height: 1.55; color: var(--ink); padding-left: 32px; position: relative; }
+.nn-funn li::before { content: counter(funn, decimal-leading-zero); position: absolute; left: 0; top: 1px; font: 600 12px/1.4 var(--font-mono); color: var(--accent-text); }
+.nn-funn li a { white-space: nowrap; font-size: 12.5px; color: var(--accent-text); }

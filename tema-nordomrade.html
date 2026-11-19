@@ -32,16 +32,12 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script type="module" src="/src/main.js"></script>
 <style>
-.np-boks{padding:22px 24px;background:var(--paper2);border:1px solid var(--line2);margin:14px 0}
-.np-boks .tittel{font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:6px;color:var(--ink)}
 .np-kilde{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:22px 0 0}
 .np-kilde > div{padding:14px 16px;border:1px solid var(--line2);border-left:3px solid var(--line);background:var(--paper2)}
 .np-kilde > div.reg{border-left-color:var(--accent)}
-.np-kilde .nr,.np-dok .meta,.np-merke{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.np-kilde .nr,.np-dok .meta{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 .np-kilde .nr{margin-bottom:4px}
 .np-kilde p{font-size:13px;line-height:1.5;color:var(--ink2);margin:0}
-.np-merke{display:inline-block;font-size:10px;letter-spacing:.1em;padding:2px 6px;border:1px solid var(--line2);margin-right:6px;vertical-align:middle}
-.np-merke.reg{border-color:var(--accent);color:var(--accent-text)}
 .np-dokliste{display:grid;gap:14px;margin:18px 0}
 .np-dok{padding:20px 24px;background:var(--paper2);border:1px solid var(--line2);border-left:3px solid var(--line)}
 .np-dok.rodgronn{border-left-color:var(--cat-1, var(--accent))}
@@ -52,13 +48,6 @@
 .np-dok .sitat{border-left:2px solid var(--accent);padding:2px 0 2px 12px;font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--ink);margin:12px 0 8px}
 .np-dok .storting{font-size:12.5px;color:var(--ink3);margin:0}
 .np-dok .lenke{font-size:12.5px}
-.np-tabell{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper2);min-width:640px}
-.np-tabell th{text-align:left;padding:10px 12px;color:var(--ink3);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line2)}
-.np-tabell td{padding:10px 12px;color:var(--ink2);border-top:1px solid var(--line2);vertical-align:top;line-height:1.5}
-.np-tabell td:first-child{color:var(--ink);white-space:nowrap}
-.np-tabell td.num,.np-tabell th.num{text-align:right;font-variant-numeric:tabular-nums}
-.np-tabell .hb{font-size:16px;color:var(--accent-text);margin-right:6px}
-.np-rull{overflow-x:auto;-webkit-overflow-scrolling:touch}
 </style>
 </head>
 <body class="tema-page">
@@ -87,11 +76,11 @@
   <div class="akt-num">Akt 01 · Rekken</div>
   <h2>Tre regjeringer, sju dokumenter — <em>samme</em> hovedmål.</h2>
   <p class="akt-intro" id="rekkeIntro"></p>
-  <div class="np-boks">
-    <div class="tittel"><span class="np-merke reg">SSB</span>Folketall i Nord-Norge 1. januar, med nordområdedokumentene markert</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Folketall i Nord-Norge 1. januar, med nordområdedokumentene markert</h3>
     <div id="rekkeGraf"></div>
-  </div>
-  <div class="np-rull"><table class="np-tabell" id="rekkeTabell"></table></div>
+  </figure>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="rekkeTabell"></table></div>
 </section>
 
 <!-- ────────────────── AKT 02 — DOKUMENTENE ────────────────── -->
@@ -100,7 +89,7 @@
   <h2>Hva hvert dokument sa — og hva det <em>ikke</em> sa.</h2>
   <p class="akt-intro" id="dokIntro"></p>
   <div class="np-dokliste" id="dokListe"></div>
-  <div class="np-boks" id="etterBoks"></div>
+  <div class="nn-boks" id="etterBoks"></div>
 </section>
 
 <!-- ────────────────── AKT 03 — HVA DE SNAKKER OM ────────────────── -->
@@ -108,11 +97,11 @@
   <div class="akt-num">Akt 03 · Hva de snakker om</div>
   <h2>Fra <em>samarbeid</em> med Russland til <em>sikkerhet</em>.</h2>
   <p class="akt-intro" id="ordIntro"></p>
-  <div class="np-boks">
-    <div class="tittel"><span class="np-merke">Dokumentene</span>Temaord per 10 000 ord i hvert dokument</div>
-    <p class="hint" style="font-size:12px;margin-bottom:8px">Fargen viser nivået i hver rad sammenlignet med radens høyeste verdi, så skiftet over tid blir synlig for hvert tema. Tallene kan sammenlignes på tvers av radene.</p>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett">Dokumentene</span>Temaord per 10 000 ord i hvert dokument</h3>
+    <p class="nn-fig-enhet">Fargen viser nivået i hver rad sammenlignet med radens høyeste verdi, så skiftet over tid blir synlig for hvert tema. Tallene kan sammenlignes på tvers av radene.</p>
     <div id="ordGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 04 — PROBLEMET OG MÅLET ────────────────── -->
@@ -120,8 +109,8 @@
   <div class="akt-num">Akt 04 · Problemet og målet</div>
   <h2>Problemet ble beskrevet stadig bedre — men fikk <em>aldri</em> et mål.</h2>
   <p class="akt-intro" id="malIntro"></p>
-  <div class="np-rull"><table class="np-tabell" id="malTabell"></table></div>
-  <p class="hint" style="font-size:11.5px" id="malNote"></p>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="malTabell"></table></div>
+  <p class="nn-kilde" id="malNote"></p>
 </section>
 
 <!-- ────────────────── AKT 05 — HVA SOM SKJEDDE ────────────────── -->
@@ -130,10 +119,10 @@
   <h2>All vekst kom fra <em>innvandring</em>.</h2>
   <p class="akt-intro" id="skjeddIntro"></p>
   <div class="kpi-rad" id="skjeddKPI"></div>
-  <div class="np-boks">
-    <div class="tittel"><span class="np-merke reg">SSB</span>Befolkningsregnskap for Nord-Norge per år</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Befolkningsregnskap for Nord-Norge per år</h3>
     <div id="regnskapGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 06 — ARBEIDSPLASSENE ────────────────── -->
@@ -142,10 +131,10 @@
   <h2>Satsingsnæringene vokste lite — <em>helse</em> vokste mest.</h2>
   <p class="akt-intro" id="jobbIntro"></p>
   <div class="kpi-rad" id="jobbKPI"></div>
-  <div class="np-boks">
-    <div class="tittel"><span class="np-merke reg">SSB</span>Endring i sysselsatte etter næring, Nord-Norge</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Endring i sysselsatte etter næring, Nord-Norge</h3>
     <div id="jobbGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 07 — ANSLAG MOT FASIT ────────────────── -->
@@ -153,10 +142,10 @@
   <div class="akt-num">Akt 07 · Anslag mot fasit</div>
   <h2>Anslaget i 2017 var for <em>optimistisk</em>.</h2>
   <p class="akt-intro" id="anslagIntro"></p>
-  <div class="np-boks">
-    <div class="tittel"><span class="np-merke reg">SSB</span>Folketall i Nord-Norge: faktisk utvikling mot anslaget i nordområdestrategien 2017</div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Folketall i Nord-Norge: faktisk utvikling mot anslaget i nordområdestrategien 2017</h3>
     <div id="anslagGraf"></div>
-  </div>
+  </figure>
 </section>
 
 <!-- ────────────────── AKT 08 — PENGENE ────────────────── -->
@@ -164,8 +153,8 @@
   <div class="akt-num">Akt 08 · Pengene</div>
   <h2>Nye penger er få — og <em>ingen</em> lovet å måle effekten.</h2>
   <p class="akt-intro" id="pengerIntro"></p>
-  <div class="np-rull"><table class="np-tabell" id="pengerTabell"></table></div>
-  <p class="hint" style="font-size:11.5px">Beløpene er slik dokumentene og budsjettene oppgir dem. Definisjonen av «nordområdetiltak» har skiftet fra regjering til regjering, så rekken kan ikke sammenlignes direkte. Bevilgningene er ikke etterprøvd i statsregnskapet.</p>
+  <div class="nn-tabell-rull"><table class="nn-tabell" id="pengerTabell"></table></div>
+  <p class="nn-kilde">Beløpene er slik dokumentene og budsjettene oppgir dem. Definisjonen av «nordområdetiltak» har skiftet fra regjering til regjering, så rekken kan ikke sammenlignes direkte. Bevilgningene er ikke etterprøvd i statsregnskapet.</p>
 </section>
 
 <!-- ────────────────── AKT 09 — OM GRUNNLAGET ────────────────── -->
@@ -173,7 +162,7 @@
   <div class="akt-num">Akt 09 · Om grunnlaget</div>
   <h2>Hva en slik gjennomgang kan — og <em>ikke</em> kan — si.</h2>
   <p class="akt-intro" id="metodeIntro"></p>
-  <div class="np-boks" id="innovasjonBoks"></div>
+  <div class="nn-boks" id="innovasjonBoks"></div>
 
   <div class="neste-tema-blokk">
     <div class="ntb-head">Videre lesning</div>
