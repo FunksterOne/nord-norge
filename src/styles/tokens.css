@@ -54,7 +54,7 @@
   --rule: #0C2136;
   --ink: #0C2136;
   --ink-2: #43566B;
-  --ink-3: #6B7C91;
+  --ink-3: #5F7085;   /* WCAG AA: 5,07 på hvit, 4,72 på panel (var #6B7C91, 3,98 på panel) */
   --accent: #2149D3;
   --accent-text: #2149D3;
   --accent-tint: #E8EDFB;

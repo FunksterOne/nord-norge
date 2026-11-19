@@ -10,6 +10,7 @@ import { initScrolly } from './lib/scrolly.js';
 import { initFylketall } from './lib/fylketall.js';
 import { initFunn } from './lib/funn.js';
 import { initIngress } from './lib/ingress.js';
+import { initTabeller } from './lib/tabeller.js';
 import { startCharts, placeholder } from './charts/core.js';
 import { kortNavn } from './lib/format.js';
 import './charts/proj.js';
@@ -40,6 +41,7 @@ initScrolly();
 initFylketall();
 initFunn();
 initIngress();
+initTabeller();
 
 // Ferskeste folketallsdato (01222) fylles inn der siden ber om det.
 document.addEventListener('DOMContentLoaded', () => {

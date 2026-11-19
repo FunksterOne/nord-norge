@@ -43,6 +43,10 @@
 .norm-list li{padding:12px;background:var(--paper2);border:1px solid var(--line2);border-radius:0;margin-bottom:8px}
 .norm-list .norm-tag{font-size:11px;font-weight:700;color:var(--bg);background:var(--ink);padding:2px 8px;border-radius:0;margin-right:8px;display:inline-block;text-transform:uppercase;letter-spacing:.04em}
 .norm-list b{color:var(--ink)}
+.metode-toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 28px;margin:0 0 28px;padding:18px 22px;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--rule)}
+.metode-toc .mt-g{font:600 11px/1.3 var(--font-sans);letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--accent-text);margin-bottom:6px}
+.metode-toc ul{list-style:none;margin:0;padding:0}
+.metode-toc li{margin:4px 0;font-size:13.5px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -62,9 +66,15 @@
   <p class="essence">Hva dashbordet bygger på, og hvilke eksterne normer som brukes for å vurdere indikatorene.</p>
 </div>
 
+<nav class="metode-toc" aria-label="Innhold">
+  <div><div class="mt-g">Grunnlag</div><ul><li><a href="#ssb">SSB-tabeller</a></li><li><a href="#kilder">Andre offentlige kilder</a></li><li><a href="#internasjonale">Internasjonale kilder</a></li><li><a href="#begreper">Forkortelser og begreper</a></li><li><a href="#regioner">Regioner, kart og visualisering</a></li><li><a href="#forbehold">Forbehold</a></li></ul></div>
+  <div><div class="mt-g">Framskrivinger og modeller</div><ul><li><a href="#framskriving">Framskrivingsmodeller</a></li><li><a href="#etterproving">Etterprøving 2020–2024</a></li><li><a href="#boligbehov">Boligbehovsmodellen (BB-KVOTE)</a></li><li><a href="#normer">Eksterne normer for indikatorer</a></li><li><a href="#forsorgerbyrde">Forsørgerbyrde: tre måter å telle på</a></li></ul></div>
+  <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li></ul></div>
+</nav>
+
 <div class="metode-card" id="ssb">
   <h2>SSB-tabeller</h2>
-  <p class="hint">Alle tall hentes direkte fra SSBs statistikkbank (PxWebApi v0) via Python-skript. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring.</p>
+  <p class="hint">Tallene hentes direkte fra statistikkbankene med Python-skript (<code>fetch_*.py</code> og <code>analyse/*/skript/</code>): SSBs PxWebApi v0 og v2, og for de nordiske sammenligningene SCB og Statistics Finland. Markører i <code>assets/data.js</code> oppdateres ved hver kjøring. Tabellen under viser de mest brukte SSB-tabellene; tabeller som bare brukes i ett tema, står i temaets kort lenger ned.</p>
   <table class="kildetabell">
     <thead><tr><th>Kode</th><th>Innhold</th><th>Periode</th></tr></thead>
     <tbody>
@@ -293,7 +303,7 @@
   <p><b>Flytteforbudet.</b> Akt 05 på temasiden gjengir status per 23. oktober 2026 fra pressemeldinger, stortingsdokumenter, Emberland-utredningen (8. april 2026), Fafo-rapport 2026:32 og medieoppslag. Ingen høringsnotat var publisert. Fafo-rapportens spørreundersøkelse hadde lavest svarprosent i Finnmark (33 %) og Troms (38 %). Hypotesene om virkninger for Nord-Norge er merket som hypoteser.</p>
 </div>
 
-<div class="metode-card">
+<div class="metode-card" id="etterproving">
   <h2>Etterprøving 2020–2024</h2>
   <p>Alle banene fikk 2020 som utgangspunkt, ble rullet fram til 2024 og sammenlignet med faktisk registrert folketall. Strukturmodellen (TF-ATTR) traff bedre enn SSB MMMM i de små, minst sentrale kommunene, der prognoser pleier å bomme mest. Det er bakgrunnen for å vise den som tilleggsbane ved siden av hovedbanen SSB MMMM.</p>
   <div id="bteval_metode" style="margin-top:14px"></div>

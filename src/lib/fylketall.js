@@ -79,10 +79,15 @@ function tegn(el, F, fylke) {
   h += '</tbody></table>';
   const m = F.mangler_regnskap || [];
   const mangler = m.length ? ' Investeringsutgiftene mangler ' + (m.length > 1 ? m.slice(0, -1).join(', ') + ' og ' + m[m.length - 1] : m[0]) + ', som ikke hadde levert regnskap for 2025 til SSB.' : '';
-  const åpen = window.innerWidth >= 720 ? ' open' : '';
+  // lukket som standard (LAYOUT-VURDERING.md, anbefaling 06); valget huskes i nettleseren
+  let åpen = '';
+  try { åpen = localStorage.getItem('nn-fyt-aapen') === '1' ? ' open' : ''; } catch (e) { /* lagring ikke tilgjengelig */ }
   el.innerHTML = '<details class="fyt"' + åpen + '><summary><span>' + (fylke === 'nord-norge' ? 'Nord-Norge' : fylke) + ' i tall <span class="fyt-pil">▾</span></span><span class="fyt-h">15 nøkkeltall · SSB</span></summary>' +
     '<div class="fyt-rull">' + h + '</div>' +
     '<p class="fyt-kilde">Alle tall er hentet fra SSBs statistikkbank. Nord-Norge er summen av de tre fylkene; andeler og priser er regnet av summene, lønn er veid med heltidsekvivalenter og kvadratmeterpris med antall omsetninger. Netto driftsresultat gjelder kommunekonsern, slik normen på 1,75 % måles.' + mangler + ' Ledige stillinger er SSBs utvalgsundersøkelse, avrundet til nærmeste hundre, og er ikke det samme som NAVs tall for utlyste stillinger. <a href="metode.html#fylketall">Metode og kontroll</a>.</p></details>';
+  el.querySelector('.fyt').addEventListener('toggle', e => {
+    try { localStorage.setItem('nn-fyt-aapen', e.target.open ? '1' : '0'); } catch (err) { /* ignorer */ }
+  });
   el.querySelectorAll('[data-gaatil]').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
     const b = document.querySelector('.nn-secnav button[data-sec="' + a.dataset.gaatil + '"]');

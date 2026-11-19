@@ -37,6 +37,10 @@ function kort(el, grense) {
 export function initIngress() {
   document.addEventListener('DOMContentLoaded', () => setTimeout(() => {
     if (!document.body.classList.contains('tema-page')) return;
+    // hardt mellomrom mellom tall og prosenttegn, så «8,4 %» ikke deles over to linjer
+    document.querySelectorAll('section.akt .akt-intro, .tema-hero .lede').forEach(el => {
+      if (/\d %/.test(el.innerHTML)) el.innerHTML = el.innerHTML.replace(/(\d) %/g, '$1 %');
+    });
     document.querySelectorAll('section.akt .akt-intro').forEach(el => kort(el, GRENSE_AKT));
     kort(document.querySelector('.tema-hero .lede'), GRENSE_HERO);
   }, 0));
