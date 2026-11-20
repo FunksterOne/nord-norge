@@ -199,7 +199,7 @@ export function navKort(nr, host, opt = {}) {
 // fylkene og landet. Kart over kommunene med fire NAV-indikatorer.
 const FYLKER = { 18: 'Nordland', 55: 'Troms', 56: 'Finnmark' };
 const FYLKEFARGE = { 18: 'var(--nl)', 55: 'var(--tr)', 56: 'var(--fi)' };
-const KARTIND = [['navLedige', 'Helt ledige'], ['navAap', 'AAP'], ['navNedsatt', 'Nedsatt arbeidsevne'], ['navUfore', 'Uføretrygd']];
+const KARTIND = [['navLedige', 'Helt ledige'], ['navAap', 'AAP'], ['navNedsatt', 'Nedsatt arbeidsevne'], ['navUfore', 'Uføretrygd'], ['navMinstepensjon', 'Minstepensjon']];
 
 function byggNivaa(kode, d, andre) {
   const erNN = kode === 'NN';
@@ -260,7 +260,7 @@ function byggNivaa(kode, d, andre) {
 
   const kartDel = `<div class="card nav-fig"><div class="ch"><h3 class="serif">Kommunene i ${navn}</h3>` +
     `<div class="minseg nav-kartvalg">${KARTIND.map(([k, n], i) => `<button type="button" data-navind="${k}" aria-selected="${i === 0}">${n}</button>`).join('')}</div></div>` +
-    '<p class="hint">Siste hele år for ledighet, AAP og nedsatt arbeidsevne; siste tellingsdato for uføretrygd. Pek for tall, klikk for kommunesiden.</p><div class="nav-kart"></div></div>';
+    '<p class="hint">Siste hele år for ledighet, AAP og nedsatt arbeidsevne; siste tellingsdato for uføretrygd og minstepensjon. Pek for tall, klikk for kommunesiden.</p><div class="nav-kart"></div></div>';
 
   return '<div class="nav-blokk">' +
     '<div class="ch" style="margin-top:32px;padding-top:18px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:18px">NAV-statistikk: ledighet, helse og trygd</h3></div>' +

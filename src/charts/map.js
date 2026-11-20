@@ -142,6 +142,13 @@ export const INDIKATORER = {
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, Tabell 20/PST220. Kan avvike fra SSB 11715, som har en annen telledato og et annet befolkningsgrunnlag.',
   },
+  navMinstepensjon: {
+    navn: 'Minstepensjon (NAV)', kort: 'Alderspensjonister med minstepensjon',
+    get enhet() { return `Alderspensjonister med minstepensjon i prosent av alle alderspensjonister, september ${L.NAVK?.meta?.minstepensjon ?? ''} (NAV)`; },
+    verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.minstepensjon ?? null,
+    fmt: v => prosent(v, 1), type: 'sequential',
+    kilde: 'Kilde: NAV, PST011 og PST062 (dagens kommuneinndeling).',
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',
