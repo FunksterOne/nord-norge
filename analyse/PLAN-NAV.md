@@ -1,7 +1,7 @@
 # Plan: NAV-statistikk for alle 80 kommuner i Nord-Norge-dashbordet
 
-Status: fase 1–6 ferdige 20. november 2026, unntatt commit og publisering. De venter på
-Halvards godkjenning.
+Status: alle seks faser ferdige 20. november 2026. Publisert i commit 385e9dc og kontrollert
+på nord-norge.vercel.app.
 
 ## Status fase 6 (20. november 2026)
 
