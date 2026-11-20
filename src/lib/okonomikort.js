@@ -253,13 +253,15 @@ export function syssKort(kode, host) {
   const r = rate(d), rL = rate(la), rN = rate(nn), r0 = rate(d, 0), rL0 = rate(la, 0);
   const rInn = rate(d.innv), rUten = rate(d.uten_innv);
   const andel = (x, s) => (x.tot[i] ? x.status[s] / x.tot[i] * 100 : null);
-  const uf = andel(d, 'U.04-U.05'), ufL = andel(la, 'U.04-U.05');
+  // Uføretrygd fra NAV (samme mål som i resten av dashbordet); SSBs hovedstatus brukes bare i fordelingen under
+  const NV = L.NAVK, uf = NV?.ref?.[kode]?.ufore ?? null, ufL = NV?.ref?.landet?.ufore ?? null;
+  const ufDato = (() => { const m = NV?.meta?.ufore || ''; return `${{ '09': 'september', '12': 'desember' }[m.slice(5)] || ''} ${m.slice(0, 4)}`.trim(); })();
 
   const kpis = '<div class="bf-kpis">' +
     kpi(p1(r), `Sysselsettingsrate ${a}`, `20–66 år${erNN ? '' : ` · Nord-Norge ${p1(rN)}`} · landet ${p1(rL)}`) +
     kpi(ppTekst(r - r0).replace(' prosentpoeng', ''), `Endring ${a0}–${a}`, `prosentpoeng · landet ${ppTekst(rL - rL0)}`) +
     kpi(p1(rInn), `Innvandrere i arbeid ${a}`, `resten av befolkningen ${p1(rUten)}`) +
-    kpi(p1(uf), `På AAP eller uføretrygd ${a}`, `av befolkningen 20–66 år · landet ${p1(ufL)}`) + '</div>';
+    kpi(p1(uf), 'Uføretrygd, 18–67 år', `NAV, ${ufDato} · landet ${p1(ufL)}`) + '</div>';
 
   const avs = [];
   let s1 = `I ${a} var <b>${p1(r)}</b> av innbyggerne i alderen 20–66 år i ${navn} sysselsatt, ${ord(r, rL)} landet (${p1(rL)})`;

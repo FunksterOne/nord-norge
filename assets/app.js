@@ -2311,6 +2311,12 @@ function getUforePct(nr){
   const r=NAV_KART.kommuner[String(nr)];
   return r && r.ufore!=null ? r.ufore : null;
 }
+function uforeRegion(rKey){
+  if(typeof NAV_KART==='undefined' || rKey==null) return null;
+  const ref=NAV_KART.ref||{}, kode={Nordland:'18',Troms:'55',Finnmark:'56',nn:'NN',landet:'landet'}[rKey];
+  const v=kode ? (ref[kode]&&ref[kode].ufore) : (NAV_KART.kommuner[String(rKey)]&&NAV_KART.kommuner[String(rKey)].ufore);
+  return v!=null ? v : null;
+}
 function uforeMeta(){
   const d=(typeof NAV_KART!=='undefined'&&NAV_KART.meta&&NAV_KART.meta.ufore)||'';
   const mnd={'09':'september','12':'desember'}[d.slice(5)]||'';
@@ -2796,7 +2802,7 @@ function forsorgCmp(k){
   return '<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line2)"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:600">Hvem bærer hvem?</div>' +
     blokk(fbT(r.demo[0], 1), 'forsørgerbrøk 65+/20–64', 'landet ' + fbT(L.demo[0], 1)) +
     blokk(fbT(fbOkonIDag(r), 1), 'ikke-sysselsatte per 100 sysselsatte', 'landet ' + fbT(fbOkonIDag(L), 1)) +
-    blokk(fbPst(r.s2066[5] / r.s2066[0] * 100), 'AAP eller uføretrygd, 20–66', 'landet ' + fbPst(FORSORG_DATA.landet_aapufo_pct)) +
+    blokk(uforeRegion(k.nr) != null ? fbPst(uforeRegion(k.nr)) : '–', 'uføretrygd, 18–67 (NAV)', 'landet ' + fbPst(uforeRegion('landet'))) +
     '</div>';
 }
 // opts.kompakt (kommunesiden): fordelingen per 100 sysselsatte og scenariotabellen legges bak «Les mer»-bokser.
@@ -2809,7 +2815,9 @@ function forsorgCard(rKey, navn, opts){
   const id = 'fb' + String(rKey).replace(/\W/g, '');
   const sammen = [[navn, r]].concat(rKey !== 'nn' && rKey !== 'landet' ? [['Nord-Norge', NNr]] : []).concat(rKey !== 'landet' ? [['Hele landet', L]] : []);
   const okon0 = fbOkonIDag(r), okonL = fbOkonIDag(L), demo0 = r.demo[0], demoL = L.demo[0];
-  const aap = r.s2066[5] / r.s2066[0] * 100, aapL = D.landet_aapufo_pct;
+  // Uføretrygd fra NAV (samme mål som i resten av dashbordet); SSBs status «AAP eller uføretrygd» brukes bare i
+  // fordelingen av 100 personer under, der alle statusene må komme fra samme kilde.
+  const ufo = uforeRegion(rKey), ufoL = uforeRegion('landet'), ufoDato = uforeMeta().tekst;
   const sy = r.syss, dSy = (sy[sy.length - 1] / sy[0] - 1) * 100, n = D.aar.length - 1;
   const liten = r.bef.tot < 3000;
 
@@ -2823,9 +2831,7 @@ function forsorgCard(rKey, navn, opts){
     else if(tyngreDemo && tyngreOkon) obs += 'Byrden er høyere enn i landet på begge mål. ';
     else obs += 'Byrden er lavere enn eller lik landet på begge mål. ';
   }
-  obs += fbPst(aap) + ' av innbyggerne i alderen 20–66 mottar arbeidsavklaringspenger eller uføretrygd (landet ' + fbPst(aapL) + ')';
-  const ekstra = (aap - aapL) / 100 * r.s2066[0];
-  obs += aap > aapL + 0.2 && ekstra >= 5 ? '. Med landets andel ville om lag <b>' + fbT(Math.round(ekstra / (ekstra >= 100 ? 10 : 1)) * (ekstra >= 100 ? 10 : 1)) + '</b> færre stått utenfor arbeid av denne grunnen.' : '.';
+  if(ufo != null && ufoL != null) obs += 'Ifølge NAV mottar ' + fbPst(ufo) + ' av innbyggerne i alderen 18–67 uføretrygd (' + ufoDato + ', landet ' + fbPst(ufoL) + ').';
   const hyp = '<b>Hypotese:</b> Dersom sysselsettingen i hver aldersgruppe holdes som i dag, og befolkningen følger SSBs hovedalternativ, stiger forsørgerbrøken til <b>' + fbT(r.demo[n], 1) + '</b> og antallet ikke-sysselsatte per 100 sysselsatte til <b>' + fbT(r.okon[n], 1) + '</b> i ' + D.aar[n] + ' (landet ' + fbT(L.demo[n], 1) + ' og ' + fbT(L.okon[n], 1) + '). ' +
     'Antallet sysselsatte ' + (dSy >= 0 ? 'øker' : 'faller') + ' med ' + fbPst(Math.abs(dSy)) + ', fra ' + fbT(sy[0]) + ' til ' + fbT(sy[n]) + ' (landet ' + (L.syss[n] >= L.syss[0] ? '+' : '−') + fbPst(Math.abs((L.syss[n] / L.syss[0] - 1) * 100)) + ').';
 
@@ -2873,7 +2879,7 @@ function forsorgCard(rKey, navn, opts){
     // Pilen viser framskrivingen fra 2026 til 2050 på samme grunnlag; dagens faktiske tall (4. kvartal) står under,
     // fordi det avviker noe fra framskrivingens startår (sysselsettingsraten er et snitt av 2024 og 2025).
     '<div class="k"><div class="v">' + fbT(r.okon[0], 1) + ' → ' + fbT(r.okon[n], 1) + '</div><div class="l">Ikke-sysselsatte per 100 sysselsatte 2026–' + D.aar[n] + '</div><div class="h">alle aldre, alt annet likt · i dag ' + fbT(okon0, 1) + ' (4. kv. ' + D.status_aar + ') · landet ' + fbT(L.okon[0], 1) + ' → ' + fbT(L.okon[n], 1) + '</div></div>' +
-    '<div class="k"><div class="v' + (aap > aapL + 1 ? ' down' : '') + '">' + fbPst(aap) + '</div><div class="l">AAP eller uføretrygd, 20–66 år</div><div class="h">landet ' + fbPst(aapL) + ' · SSB 13563, ' + D.status_aar + '</div></div>' +
+    '<div class="k"><div class="v' + (ufo != null && ufoL != null && ufo > ufoL + 1 ? ' down' : '') + '">' + (ufo != null ? fbPst(ufo) : '–') + '</div><div class="l">Uføretrygd, 18–67 år</div><div class="h">landet ' + (ufoL != null ? fbPst(ufoL) : '–') + ' · NAV, ' + ufoDato + '</div></div>' +
     '<div class="k"><div class="v' + (dSy < -5 ? ' down' : '') + '">' + (dSy >= 0 ? '+' : '−') + fbPst(Math.abs(dSy)) + '</div><div class="l">Sysselsatte 2026–' + D.aar[n] + '</div><div class="h">' + fbT(sy[0]) + ' → ' + fbT(sy[n]) + ' · alt annet likt · i dag ' + fbT(r.s15[1]) + ' (15 år og over, 4. kv. ' + D.status_aar + ')</div></div>' +
     '</div>';
 
