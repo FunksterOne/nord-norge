@@ -113,14 +113,13 @@ export const INDIKATORER = {
     kilde: 'Kilde: egen beregning fra SSB 14746, 14534, 12003 og 07459 (fetch_eldre.py).',
     skjult: true,
   },
-  // NAV-statistikk (fetch_nav.py → NAV_KART). Skjult i verktøylinjen; brukes i NAV-panelet på fylke og landsdel.
+  // NAV-statistikk (fetch_nav.py → NAV_KART). Vises i hovedkartets verktøylinje og i NAV-panelet på fylke og landsdel.
   navLedige: {
     navn: 'Helt ledige (NAV)', kort: 'Helt ledige',
     get enhet() { return `Helt ledige i prosent av arbeidsstyrken, årssnitt ${L.NAVK?.meta?.ledige ?? ''} (NAV). Kommuner der NAV har skjult tallet, er uten farge`; },
     verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.ledige ?? null,
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, HL060. Måneder NAV har skjult (færre enn fire ledige) er regnet som 1,5.',
-    skjult: true,
   },
   navAap: {
     navn: 'AAP (NAV)', kort: 'Mottakere av AAP',
@@ -128,7 +127,6 @@ export const INDIKATORER = {
     verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.aap ?? null,
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, AAP155.',
-    skjult: true,
   },
   navNedsatt: {
     navn: 'Nedsatt arbeidsevne (NAV)', kort: 'Nedsatt arbeidsevne',
@@ -136,7 +134,6 @@ export const INDIKATORER = {
     verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.nedsatt ?? null,
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, NED155.',
-    skjult: true,
   },
   navUfore: {
     navn: 'Uføretrygd (NAV)', kort: 'Mottakere av uføretrygd',
@@ -144,7 +141,6 @@ export const INDIKATORER = {
     verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.ufore ?? null,
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, Tabell 20/PST220. Kan avvike fra SSB 11715, som har en annen telledato og et annet befolkningsgrunnlag.',
-    skjult: true,
   },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
