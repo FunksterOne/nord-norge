@@ -18,6 +18,7 @@ function indikatorer() {
     { gruppe: 'Befolkning', key: 'eldre', navn: 'Andel 65 år og over', verdi: I.eldre.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Befolkning', key: 'forsorg', navn: 'Forsørgerbrøk 2050', verdi: I.forsorg.verdi, tekst: v => tall(v, 0) },
     { gruppe: 'Befolkning', key: 'innv', navn: 'Innvandrerbakgrunn', verdi: I.innv.verdi, tekst: v => prosent(v, 1) },
+    { gruppe: 'Arbeid', key: 'syssRate', navn: 'Sysselsatte 20–66 år', verdi: I.syssRate.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'navLedige', navn: `Helt ledige ${nav.ledige || ''}`.trim(), verdi: I.navLedige.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'navUfore', navn: 'Uføretrygd (NAV)', verdi: I.navUfore.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'pendNetto', navn: 'Netto pendling', verdi: I.pendNetto.verdi, tekst: v => endringPst(v, 1) },
