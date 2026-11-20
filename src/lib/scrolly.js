@@ -1,4 +1,5 @@
-// Fem kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
+// Seks kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
+// Fane 06 (NAV) har egne valg (s.valg) som bytter kartlag og tekst innenfor fanen.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
@@ -22,6 +23,51 @@ function fakta() {
   const R = P.robek || { kommuner: {} };
   const robekNavn = Object.keys(R.kommuner).map(nr => kortNavn(L.K.find(k => k.nr === +nr)?.navn || nr));
   return { ks, top, R, robekNavn };
+}
+
+// Fane 06: NAV-statistikk. Hvert valg har eget kartlag og egen tekst, regnet fra NAV_KART.
+function navSteg() {
+  const N = L.NAVK;
+  if (!N) return null;
+  const M = N.meta, ref = N.ref, nn = ref.NN, la = ref.landet;
+  const ks = L.K.map(k => ({ k, navn: kortNavn(k.navn), v: N.kommuner[String(k.nr)] || {} }));
+  const p1 = v => prosent(v, 1);
+  const rang = f => ks.filter(x => x.v[f] != null).sort((a, b) => b.v[f] - a.v[f]);
+  const smaa = xs => (xs.every(x => x.k.pop < 1500) ? ' Begge er små kommuner, der noen få personer gir store utslag.' : '');
+  const md = f => p1(median(ks.filter(x => x.v[f] != null).map(x => x.v[f])));
+  const uMnd = M.ufore.slice(5) === '09' ? 'september' : 'desember';
+  const lag = [];
+  {
+    const r = rang('ledige'), over = r.filter(x => x.v.ledige > la.ledige).length;
+    lag.push({ ind: 'navLedige', knapp: 'Helt ledige',
+      h: `${over} av ${r.length} kommuner${r.length < 80 ? " med tall" : ""} har høyere ledighet enn landet`,
+      p: `I ${M.ledige} var ${p1(nn.ledige)} av arbeidsstyrken i Nord-Norge helt ledige, mot ${p1(la.ledige)} i landet. Høyest var ledigheten i ${r[0].navn} (${p1(r[0].v.ledige)}) og ${r[1].navn} (${p1(r[1].v.ledige)}).${smaa(r.slice(0, 2))} NAV skjuler tall under fire personer; der er måneden regnet som 1,5.` });
+  }
+  {
+    const r = rang('aap');
+    lag.push({ ind: 'navAap', knapp: 'AAP',
+      h: `${p1(nn.aap)} av befolkningen 18–66 år mottok arbeidsavklaringspenger`,
+      p: `Årssnittet for Nord-Norge i ${M.aap}. Medianen blant kommunene er ${md('aap')}; høyest er ${r[0].navn} (${p1(r[0].v.aap)}) og ${r[1].navn} (${p1(r[1].v.aap)}), lavest ${r[r.length - 1].navn} (${p1(r[r.length - 1].v.aap)}).${smaa(r.slice(0, 2))}` });
+  }
+  {
+    const r = rang('nedsatt');
+    lag.push({ ind: 'navNedsatt', knapp: 'Nedsatt arbeidsevne',
+      h: `${p1(nn.nedsatt)} har nedsatt arbeidsevne etter NAVs vurdering`,
+      p: `Årssnittet for Nord-Norge i ${M.nedsatt}, med eller uten arbeidsavklaringspenger. Medianen blant kommunene er ${md('nedsatt')}; høyest er ${r[0].navn} (${p1(r[0].v.nedsatt)}) og ${r[1].navn} (${p1(r[1].v.nedsatt)}).${smaa(r.slice(0, 2))}` });
+  }
+  {
+    const r = rang('ufore'), over = r.filter(x => x.v.ufore > la.ufore).length;
+    lag.push({ ind: 'navUfore', knapp: 'Uføretrygd',
+      h: `${over} av ${r.length} kommuner har flere uføretrygdede enn landet`,
+      p: `I ${uMnd} ${M.ufore.slice(0, 4)} mottok ${p1(nn.ufore)} av befolkningen 18–67 år i Nord-Norge uføretrygd, mot ${p1(la.ufore)} i landet. Høyest er ${r[0].navn} (${p1(r[0].v.ufore)}) og ${r[1].navn} (${p1(r[1].v.ufore)}).${smaa(r.slice(0, 2))} NAVs tall avviker noe fra SSBs, som telles på et annet tidspunkt.` });
+  }
+  {
+    const r = rang('minstepensjon'), over = r.filter(x => x.v.minstepensjon > la.minstepensjon).length;
+    lag.push({ ind: 'navMinstepensjon', knapp: 'Minstepensjon',
+      h: `${p1(nn.minstepensjon)} av alderspensjonistene har minstepensjon`,
+      p: `Andelen i Nord-Norge i september ${M.minstepensjon}, mot ${p1(la.minstepensjon)} i landet. ${over} av ${r.length} kommuner ligger over landet; høyest er ${r[0].navn} (${p1(r[0].v.minstepensjon)}) og ${r[1].navn} (${p1(r[1].v.minstepensjon)}).${smaa(r.slice(0, 2))}` });
+  }
+  return { ind: lag[3].ind, kicker: '06 · NAV', valg: lag, start: 3 };
 }
 
 function steg() {
@@ -50,7 +96,7 @@ function steg() {
     { ind: 'robek', kicker: '05 · Kommuneøkonomi',
       h: `${f.robekNavn.length} kommuner står under statlig økonomisk kontroll`,
       p: `Per ${dato} er ${f.robekNavn.length} av de 80 kommunene registrert i ROBEK: ${f.robekNavn.join(', ')}. Når folketallet går ned og omsorgsbehovet øker, blir handlingsrommet trangere.` },
-  ];
+  ].concat(navSteg() || []);
 }
 
 // Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
@@ -89,18 +135,34 @@ function build(sec) {
         ${neste ? `<button type="button" class="neste" data-gaa="${i + 1}">${s.node ? 'Start' : 'Neste'}: ${nr(neste) ? nr(neste) + ' ' : ''}${kort(neste)} →</button>` : `<a class="neste" href="nord-norge.html">Hele landsdelen →</a>`}
       </div>`;
     if (s.node) { tekst.replaceChildren(s.node); s.node.insertAdjacentHTML('beforeend', nav); s.node.querySelectorAll('.nn-sk-nav').forEach((n, j, a) => { if (j < a.length - 1) n.remove(); }); }
+    else if (s.valg) visValg(s, s.valgt ?? s.start ?? 0, nav);
     else tekst.innerHTML = `
       <div class="kicker">${s.kicker}</div>
       <h3>${s.h}</h3>
       <p>${s.p}</p>${nav}`;
+    if (!s.valg) settInd(s.ind);
+  };
+  const settInd = ind => {
     const sp = JSON.parse(chart.dataset.spec);
-    if (sp.ind !== s.ind) {
-      sp.ind = s.ind; chart.dataset.spec = JSON.stringify(sp);
+    if (sp.ind !== ind) {
+      sp.ind = ind; chart.dataset.spec = JSON.stringify(sp);
       chart.classList.add('bytter');
       setTimeout(() => { redraw(chart); chart.classList.remove('bytter'); }, 120);
     }
   };
+  const visValg = (s, j, nav) => {
+    s.valgt = j;
+    const v = s.valg[j];
+    tekst.innerHTML = `
+      <div class="kicker">${s.kicker}</div>
+      <div class="minseg nn-sk-valg" role="group" aria-label="Velg kartlag">${s.valg.map((x, i) => `<button type="button" data-skvalg="${i}" aria-pressed="${i === j}" aria-selected="${i === j}">${x.knapp}</button>`).join('')}</div>
+      <h3>${v.h}</h3>
+      <p>${v.p}</p>${nav ?? s.nav ?? ''}`;
+    if (nav) s.nav = nav;
+    settInd(v.ind);
+  };
   sec.addEventListener('click', e => {
+    const sv = e.target.closest('[data-skvalg]'); if (sv) return visValg(steps[aktiv], +sv.dataset.skvalg);
     const f = e.target.closest('[role=tab]'); if (f) return vis(faner.indexOf(f));
     const g = e.target.closest('[data-gaa]'); if (g) vis(+g.dataset.gaa);
   });

@@ -49,7 +49,7 @@
 .nn-d3tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s; background: var(--raised); border: 1px solid var(--line); border-top: 2px solid var(--accent); padding: 8px 10px; font-size: 12px; line-height: 1.5; color: var(--ink); min-width: 190px; z-index: 5; }
 .nn-d3tip b { font-weight: 600; }
 .nn-trykk svg text { font-family: var(--font-sans); }
-/* Fem kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
+/* Seks kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
 .nn-scrolly { margin-top: 8px; }
 .nn-sk-faner { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
 .nn-sk-faner::-webkit-scrollbar { display: none; }
@@ -68,6 +68,7 @@
 .nn-sk-oversikt .essence { font: 400 18px/1.5 var(--font-display); color: var(--ink); margin: 0 0 14px; border-left: 3px solid var(--accent); padding-left: 14px; }
 .nn-sk-oversikt .nn-sk-kartnote, .nn-sk-oversikt .nn-sk-veier { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
 .nn-sk-oversikt .nn-sk-kartnote { color: var(--ink-3); }
+.nn-sk-valg { margin: 4px 0 2px; }
 .nn-sk-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
 .nn-sk-nav button, .nn-sk-nav a { font: 500 13px/1 var(--font-sans); color: var(--ink-2); background: none; border: 1px solid var(--line); padding: 10px 14px; cursor: pointer; text-decoration: none; }
 .nn-sk-nav .neste { color: var(--ink); border-color: var(--accent); }
