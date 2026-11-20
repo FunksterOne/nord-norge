@@ -60,7 +60,7 @@
 </header>
 
 <div style="margin-bottom:20px">
-  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall per <span data-befk-dato>1. juli 2026</span></div>
+  <div class="kicker" id="fkicker">Fylkesoversikt &middot; SSB &middot; Folketall per <span data-befk-dato>1. oktober 2026</span></div>
   <h1 class="serif" style="margin:6px 0 12px" id="ftitle">Fylke</h1>
   <p class="essence" id="fessence">Velg seksjon nedenfor for å se hvordan dette fylket utvikler seg mot 2050.</p>
 </div>
@@ -208,7 +208,7 @@
         <button data-m="L" aria-pressed="false">Livsfaser</button>
       </div>
     </div>
-    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de <span id="fyAntallK">—</span> kommunene i fylket. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per <span data-befk-dato>1. juli 2026</span>.</p>
+    <p class="hint">Folketall 1.1.2026 etter alder (SSB tabell 07459). Summert for de <span id="fyAntallK">—</span> kommunene i fylket. Aldersfordeling publiseres bare per 1. januar — derfor 1.1.2026 her, mens folketallet ellers vises per <span data-befk-dato>1. oktober 2026</span>.</p>
     <div id="compAgeGraph"></div>
   </div>
 
@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Oppdater brodsmuler + headere
   document.getElementById('bcFylke').textContent = fylke;
   document.getElementById('ftitle').innerHTML = fylke + ' &mdash; <em>fram mot 2050</em>';
-  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. juli 2026');
+  document.getElementById('fkicker').textContent = 'Fylkesoversikt · ' + fylke + ' · SSB · Folketall per ' + (typeof BEFK_DATA!=='undefined'?BEFK_DATA.dato_norsk:'1. oktober 2026');
   document.title = fylke + ' — Nord-Norge-dashbordet';
   // Ingress og fire nøkkeltall regnet fra tallene (nivaaIngress/nivaaKpiHTML i assets/app.js)
   document.getElementById('fessence').innerHTML = nivaaIngress(fylke);
