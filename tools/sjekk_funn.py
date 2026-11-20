@@ -2,10 +2,12 @@
 """Kontrollerer at hvert tall i hovedfunnene (aside.nn-funn) står i teksten til akten funnet lenker til.
 
 Kjøres etter hver dataoppdatering: et funn som ikke lenger stemmer med siden, skrives ut som AVVIK.
+Kode 0 = ingen avvik, 1 = avvik (også en side uten funnboks), 2 = serveren svarer ikke.
 Bruk: python tools/sjekk_funn.py http://localhost:8123/   (eller https://nord-norge.vercel.app/)
 """
 import asyncio, json, os, re, subprocess, sys, tempfile, time, urllib.request
 import websockets
+sys.stdout.reconfigure(encoding="utf-8")
 
 BASE = sys.argv[1]
 SIDER = [f"tema-{s}.html" for s in ["flyktning", "o6", "kvinneflukt", "arbeidskraft", "aldring", "scenarier", "bolig", "naering",
@@ -25,6 +27,14 @@ JS = r"""(() => {
 TALL = re.compile(r"(?<![\d,])\d{1,3}(?: \d{3})+(?:,\d+)?|\d+(?:,\d+)?")
 IGNORER = {"2000", "2006", "2008", "2015", "2019", "2021", "2022", "2025", "2026", "2027", "2030", "2031", "2035", "2040",
            "2042", "2045", "2050", "18", "44", "24", "15", "34", "64", "67", "20", "80", "100", "10"}
+
+
+def server_svarer():
+    try:
+        with urllib.request.urlopen(BASE + SIDER[0], timeout=10) as r:
+            return r.status == 200
+    except OSError:
+        return False
 
 
 async def main():
@@ -60,10 +70,16 @@ async def main():
                 if mangler:
                     avvik += 1
                     print(f"AVVIK {s} akt {f['n']}: {mangler} — «{f['tekst'][:90]}»")
+            if not funn:   # ingen funnboks betyr at siden ikke lastet, ikke at alt stemmer
+                avvik += 1
+                print(f"AVVIK {s}: fant ingen hovedfunn — lastet siden?")
             print(f"{s:24} {len(funn)} funn kontrollert")
     proc.kill()
     print("Ingen avvik." if not avvik else f"{avvik} funn med tall som ikke står i akten.")
     sys.exit(1 if avvik else 0)
 
 
+if not server_svarer():
+    print(f"FEIL: {BASE} svarer ikke. Start utviklingsserveren (npm run dev) eller kontroller adressen.")
+    sys.exit(2)
 asyncio.run(main())
