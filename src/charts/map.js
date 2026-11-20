@@ -177,6 +177,21 @@ export const INDIKATORER = {
     fmt: v => endringPst(v, 1), type: 'diverging',
     kilde: 'Kilde: SSB 03321 (sysselsatte 15–74 år etter bosteds- og arbeidskommune).',
   },
+  // Sysselsettingsrate 20–66 år, 4. kvartal 2025 (SSB 11607, k.syss; samme som sysselsettingskortet på kommunesiden)
+  syssRate: {
+    navn: 'Sysselsettingsrate', kort: 'Sysselsatte i prosent av befolkningen 20–66 år',
+    enhet: 'Sysselsatte i prosent av befolkningen 20–66 år, 4. kvartal 2025',
+    verdi: k => k.syss?.rate?.tot ?? null,
+    fmt: v => prosent(v, 1), type: 'sequential',
+    kilde: 'Kilde: SSB 11607.',
+  },
+  syssInnv: {
+    navn: 'Innvandrere i arbeid', kort: 'Sysselsatte innvandrere i prosent av innvandrere 20–66 år',
+    enhet: 'Sysselsatte innvandrere i prosent av innvandrere 20–66 år, 4. kvartal 2025',
+    verdi: k => k.syss?.rate?.zzz ?? null,
+    fmt: v => prosent(v, 1), type: 'sequential',
+    kilde: 'Kilde: SSB 11607. Kommuner der SSB ikke oppgir tallet, er grå.',
+  },
   // Arbeidsplasser etter næring (fetch_naering_kommune.py → NAERING_K, SSB 07984)
   arbVekst: {
     navn: 'Arbeidsplasser, endring', kort: 'Endring i antall arbeidsplasser',

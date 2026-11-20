@@ -1,5 +1,6 @@
-// Åtte kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
-// Fane 06 (NAV), 07 (Skatt) og 08 (Pendling og næring) har egne valg (s.valg) som bytter kartlag og tekst.
+// Ni kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
+// Fane 06 (NAV), 07 (Skatt), 08 (Pendling og næring) og 09 (Sysselsetting) har egne valg (s.valg)
+// som bytter kartlag og tekst.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
@@ -106,6 +107,37 @@ function skattSteg() {
   return lag.length ? { ind: lag[0].ind, kicker: '07 · Skatt', valg: lag, start: 0 } : null;
 }
 
+// Fane 09: sysselsetting 20–66 år. Kommunene fra SSB 11607 (k.syss), Nord-Norge og landet fra SSB 13563
+// (SYSS_NIVAA); de to tabellene gir samme totaltall for 2025.
+function syssSteg() {
+  const S = L.SYSSN;
+  const ks = L.K.map(k => ({ k, navn: kortNavn(k.navn), r: k.syss?.rate })).filter(x => x.r?.tot != null);
+  if (!ks.length) return null;
+  const p1 = v => prosent(v, 1);
+  const rate = x => (x.tot.at(-1) ? x.syss.at(-1) / x.tot.at(-1) * 100 : null);
+  const smaa = xs => (xs.some(x => x.k.pop < 1500) ? ' Tallene for de minste kommunene bygger på få personer og kan svinge mye fra år til år.' : '');
+  const lag = [];
+  {
+    const r = [...ks].sort((a, b) => b.r.tot - a.r.tot), sist = r.slice(-2).reverse();
+    const nn = S ? rate(S.nivaa.NN) : null, la = S ? rate(S.nivaa.landet) : null;
+    const over = la != null ? r.filter(x => x.r.tot > la).length : null;
+    lag.push({ ind: 'syssRate', knapp: 'Sysselsettingsrate',
+      h: over != null ? `${over} av ${r.length} kommuner har høyere sysselsetting enn landet` : `Medianen er ${p1(median(r.map(x => x.r.tot)))} i arbeid`,
+      p: `${nn != null ? `I 2025 var ${p1(nn)} av innbyggerne 20–66 år i Nord-Norge sysselsatt, mot ${p1(la)} i landet. ` : ''}Høyest er ${r[0].navn} (${p1(r[0].r.tot)}) og ${r[1].navn} (${p1(r[1].r.tot)}); lavest ${sist[0].navn} (${p1(sist[0].r.tot)}) og ${sist[1].navn} (${p1(sist[1].r.tot)}).${smaa([...r.slice(0, 2), ...sist])} Raten teller alle som har arbeid i 4. kvartal, også deltid.` });
+  }
+  {
+    const r = ks.filter(x => x.r.zzz != null).sort((a, b) => b.r.zzz - a.r.zzz);
+    if (r.length >= 10) {
+      const gap = r.map(x => x.r.tot - x.r.zzz), sist = r.slice(-2).reverse();
+      const nn = S ? [rate(S.nivaa.NN.innv), rate(S.nivaa.NN.uten_innv)] : null;
+      lag.push({ ind: 'syssInnv', knapp: 'Innvandrere i arbeid',
+        h: `Innvandrere har lavere sysselsetting enn hele befolkningen i ${gap.filter(g => g > 0).length} av ${r.length} kommuner`,
+        p: `${nn ? `I Nord-Norge samlet var ${p1(nn[0])} av innvandrerne 20–66 år sysselsatt i 2025, mot ${p1(nn[1])} i resten av befolkningen. ` : ''}Medianforskjellen mellom hele befolkningen og innvandrerne i kommunene er ${tall(median(gap), 1)} prosentpoeng. Høyest andel innvandrere i arbeid har ${r[0].navn} (${p1(r[0].r.zzz)}) og ${r[1].navn} (${p1(r[1].r.zzz)}); lavest ${sist[0].navn} (${p1(sist[0].r.zzz)}) og ${sist[1].navn} (${p1(sist[1].r.zzz)}).${smaa([...r.slice(0, 2), ...sist])}${r.length < ks.length ? ` SSB oppgir ikke tallet for ${ks.length - r.length} kommuner.` : ''}` });
+    }
+  }
+  return { ind: lag[0].ind, kicker: '09 · Sysselsetting', valg: lag, start: 0 };
+}
+
 // Fane 08: pendling (SSB 03321, PENDLING_DATA) og arbeidsplasser etter næring (SSB 07984, NAERING_K).
 function arbeidSteg() {
   const P = L.PENDLING, N = L.NAERINGK;
@@ -171,7 +203,7 @@ function steg() {
     { ind: 'robek', kicker: '05 · Kommuneøkonomi',
       h: `${f.robekNavn.length} kommuner står under statlig økonomisk kontroll`,
       p: `Per ${dato} er ${f.robekNavn.length} av de 80 kommunene registrert i ROBEK: ${f.robekNavn.join(', ')}. Når folketallet går ned og omsorgsbehovet øker, blir handlingsrommet trangere.` },
-  ].concat(navSteg() || [], skattSteg() || [], arbeidSteg() || []);
+  ].concat(navSteg() || [], skattSteg() || [], arbeidSteg() || [], syssSteg() || []);
 }
 
 // Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
