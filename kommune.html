@@ -836,10 +836,12 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + '<div id="pendlingBlokk"></div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
+      '</div>' + '<div id="pendlingBlokk"></div>' + '<div id="naeringBlokk"></div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
     // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
     // Pendling (NN.pendlingKort, PENDLING_DATA)
     if(window.NN && NN.pendlingKort) NN.pendlingKort(k.nr, document.getElementById('pendlingBlokk'));
+    // Arbeidsplasser etter næring (NN.naeringKort, NAERING_K)
+    if(window.NN && NN.naeringKort) NN.naeringKort(k.nr, document.getElementById('naeringBlokk'));
     if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
   }
 

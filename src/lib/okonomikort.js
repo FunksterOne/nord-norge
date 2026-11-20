@@ -149,3 +149,66 @@ export function pendlingKort(nr, host) {
     `<p class="hint" style="margin:0 0 10px">Hvor de som bor i ${navn}, jobber, og hvor de som jobber i ${navn}, bor. Mer på <a href="metode.html#pendling">metodesiden</a>.</p>` +
     kpis + tekst + f1 + f2 + '</div>';
 }
+
+// ------------------------------------------------------------------ Sysselsetting etter næring (NAERING_K, fetch_naering_kommune.py)
+export function naeringKort(nr, host) {
+  const N = L.NAERINGK;
+  if (!N || !host) return;
+  const d = N.kommuner[String(nr)];
+  if (!d) { host.innerHTML = ''; return; }
+  const navn = kortNavn(L.K.find(k => String(k.nr) === String(nr))?.navn || String(nr));
+  const aar = N.aar, i0 = 0, i1 = aar.length - 1, a0 = aar[i0], a1 = aar[i1];
+  const tot = d.arb['00-99'], la = N.landet.arb, nn = N.NN.arb;
+  const T1 = tot[i1], T0 = tot[i0];
+  const rader = N.naeringer.filter(([k]) => k !== '00').map(([k, n]) => {
+    const v0 = d.arb[k]?.[i0], v1 = d.arb[k]?.[i1];
+    const andel = v1 != null && T1 ? v1 / T1 * 100 : null;
+    const andelL = la[k]?.[i1] != null ? la[k][i1] / la['00-99'][i1] * 100 : null;
+    const andelN = nn[k]?.[i1] != null ? nn[k][i1] / nn['00-99'][i1] * 100 : null;
+    return { k, n, v0, v1, endr: v0 != null && v1 != null ? v1 - v0 : null, andel, andelL, andelN, skjult: v1 == null };
+  });
+  const synlig = rader.filter(r => !r.skjult).sort((a, b) => b.v1 - a.v1);
+  const skjulte = rader.filter(r => r.skjult);
+  const medEndr = rader.filter(r => r.endr != null).sort((a, b) => b.endr - a.endr);
+  const storst = synlig[0], vekst = medEndr[0], fall = medEndr[medEndr.length - 1];
+  const sign = v => `${v > 0 ? '+' : v < 0 ? '−' : ''}${heltall(Math.abs(v))}`;
+  const blant = skjulte.length ? ' blant dem med tall' : '';
+
+  const kpis = '<div class="bf-kpis">' +
+    kpi(heltall(T1), `Arbeidsplasser ${a1}`, `${sign(T1 - T0)} siden ${a0} (${pp((T1 / T0 - 1) * 100)})`) +
+    (storst ? kpi(p0(storst.andel), storst.n, `størst${blant}: ${heltall(storst.v1)} arbeidsplasser · landet ${p0(storst.andelL)}`) : '') +
+    (vekst && vekst.endr > 0 ? kpi(sign(vekst.endr), `Størst vekst: ${vekst.n.toLowerCase()}`, `${heltall(vekst.v0)} → ${heltall(vekst.v1)} siden ${a0}`) : '') +
+    (fall && fall.endr < 0 ? kpi(sign(fall.endr), `Størst nedgang: ${fall.n.toLowerCase()}`, `${heltall(fall.v0)} → ${heltall(fall.v1)} siden ${a0}`) : '') + '</div>';
+
+  const avs = [];
+  avs.push(`Det er <b>${heltall(T1)}</b> arbeidsplasser i ${navn} i ${a1}, ${T1 === T0 ? 'like mange som' : T1 > T0 ? `${heltall(T1 - T0)} flere enn` : `${heltall(T0 - T1)} færre enn`} i ${a0}.` +
+    (storst ? ` ${storst.n} er den største næringen${blant}, med ${heltall(storst.v1)} arbeidsplasser (${p0(storst.andel)}), mot ${p0(storst.andelL)} i landet.` : ''));
+  if (vekst && fall && vekst !== fall) {
+    avs.push((vekst.endr > 0 ? `${skjulte.length ? 'Blant næringene med tall har ' + vekst.n.toLowerCase() : vekst.n + ' har'} vokst mest (${sign(vekst.endr)})` : 'Ingen næring med tall har vokst') +
+      (fall.endr < 0 ? `, mens ${fall.n.toLowerCase()} har gått mest ned (${sign(fall.endr)}).` : '.'));
+  }
+  const sterk = synlig.filter(r => r.andelL && r.andel >= 3 && r.andel / r.andelL >= 1.5).sort((a, b) => b.andel / b.andelL - a.andel / a.andelL).slice(0, 3);
+  if (sterk.length) avs.push(`Næringer med klart større andel av arbeidsplassene enn i landet: ${sterk.map(r => `${r.n.toLowerCase()} (${p0(r.andel)} mot ${p0(r.andelL)})`).join(', ')}.`);
+  if (skjulte.length) avs.push(`SSB skjuler tallene for ${skjulte.map(r => r.n.toLowerCase()).join(', ')} for at enkeltbedrifter ikke skal kunne identifiseres. De er ikke med i figurene, men inngår i totalen.`);
+  const tekst = '<div class="bf-diagnose nav-tekst"><div class="h-row"><h3>Hvor jobber folk?</h3><span class="tag">SSB · regelbasert tekst</span></div>' +
+    avs.map(t => `<p>${t}</p>`).join('') + '</div>';
+
+  const f1 = figur(`Arbeidsplasser etter næring, ${a1}`, `Sysselsatte 15–74 år med arbeidssted i ${navn}, 4. kvartal. Skjulte næringer og næringer uten arbeidsplasser er utelatt.`,
+    placeholder('hstolper', { format: 'tall', grupper: [{ tittel: '', rader: synlig.filter(r => r.v1 > 0).map((r, j) => ({ l: r.n, v: r.v1, farge: j === 0 ? 'accent' : 'ink' })) }] }, 40 + 26 * synlig.filter(r => r.v1 > 0).length),
+    'Kilde: SSB 07984, sysselsatte etter arbeidssted.');
+  const f2 = medEndr.length ? figur(`Endring i arbeidsplasser ${a0}–${a1}`, 'Antall arbeidsplasser. Næringer uten endring og næringer som er skjult ett av årene, er utelatt.',
+    placeholder('hstolper', { format: 'tall', grupper: [{ tittel: '', rader: medEndr.filter(r => r.endr !== 0).map(r => ({ l: r.n, v: r.endr, farge: r.endr >= 0 ? 'pos' : 'neg' })) }] }, 40 + 26 * medEndr.filter(r => r.endr !== 0).length),
+    'Kilde: SSB 07984.') : '';
+  const celle = v => (v == null ? 'skjult' : heltall(v));
+  const tab = rader.slice().sort((a, b) => (b.v1 ?? -1) - (a.v1 ?? -1)).map(r => `<tr><td>${r.n}</td><td class="num">${celle(r.v0)}</td><td class="num">${celle(r.v1)}</td>` +
+    `<td class="num">${r.endr == null ? '–' : sign(r.endr)}</td><td class="num">${r.andel == null ? '–' : tall(r.andel, 1)}</td><td class="num">${r.andelN == null ? '–' : tall(r.andelN, 1)}</td><td class="num">${r.andelL == null ? '–' : tall(r.andelL, 1)}</td></tr>`).join('');
+  const tabell = figur(`Arbeidsplasser i ${navn} etter næring`, `Antall ${a0} og ${a1}, og andel av alle arbeidsplasser ${a1} i prosent.`,
+    '<div class="nn-tabell-rull"><table class="nn-tabell"><thead><tr><th>Næring</th>' +
+    `<th class="num">${a0}</th><th class="num">${a1}</th><th class="num">Endring</th><th class="num">Andel</th><th class="num">Andel NN</th><th class="num">Andel landet</th></tr></thead>` +
+    `<tbody>${tab}<tr class="sum"><td>Alle næringer</td><td class="num">${heltall(T0)}</td><td class="num">${heltall(T1)}</td><td class="num">${sign(T1 - T0)}</td><td class="num">100</td><td class="num">100</td><td class="num">100</td></tr></tbody></table></div>`,
+    'Kilde: SSB 07984. NN = Nord-Norge. Summen omfatter de skjulte næringene.');
+
+  host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Arbeidsplasser etter næring</h3>' +
+    `<p class="hint" style="margin:0 0 10px">Hvilke næringer arbeidsplassene i ${navn} finnes i, og hvordan de har endret seg siden ${a0}. Mer på <a href="metode.html#naering-kommune">metodesiden</a>.</p>` +
+    kpis + tekst + f1 + f2 + tabell + '</div>';
+}

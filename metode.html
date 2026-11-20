@@ -69,7 +69,7 @@
 <nav class="metode-toc" aria-label="Innhold">
   <div><div class="mt-g">Grunnlag</div><ul><li><a href="#ssb">SSB-tabeller</a></li><li><a href="#kilder">Andre offentlige kilder</a></li><li><a href="#internasjonale">Internasjonale kilder</a></li><li><a href="#begreper">Forkortelser og begreper</a></li><li><a href="#regioner">Regioner, kart og visualisering</a></li><li><a href="#forbehold">Forbehold</a></li></ul></div>
   <div><div class="mt-g">Framskrivinger og modeller</div><ul><li><a href="#framskriving">Framskrivingsmodeller</a></li><li><a href="#etterproving">Etterprøving 2020–2024</a></li><li><a href="#boligbehov">Boligbehovsmodellen (BB-KVOTE)</a></li><li><a href="#normer">Eksterne normer for indikatorer</a></li><li><a href="#forsorgerbyrde">Forsørgerbyrde: tre måter å telle på</a></li></ul></div>
-  <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li><li><a href="#nav">NAV-statistikk per kommune</a></li><li><a href="#skatt">Skatteinngang og inntektsutjevning</a></li><li><a href="#pendling">Pendling inn og ut</a></li></ul></div>
+  <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li><li><a href="#nav">NAV-statistikk per kommune</a></li><li><a href="#skatt">Skatteinngang og inntektsutjevning</a></li><li><a href="#pendling">Pendling inn og ut</a></li><li><a href="#naering-kommune">Arbeidsplasser etter næring per kommune</a></li></ul></div>
 </nav>
 
 <div class="metode-card" id="ssb">
@@ -299,6 +299,19 @@
     <li><span class="norm-tag">Kontroll</span> <b>Narvik er kontrollert mot rapporten:</b> 10 541 sysselsatte bosatte, 1 189 utpendlere (1 039 i 2020), 712 innpendlere (786 i 2020) og 730 utpendlere som jobber i Nord-Norge. Alle tall er like.</li>
   </ul>
   <p><b>Forbehold.</b> Arbeidssted er der arbeidsgiveren har registrert virksomheten. Noen som «jobber i Oslo», jobber på avstand eller ukependler. Inntektsskatten går til bostedskommunen, så utpendling svekker ikke kommunens skatteinngang. Tabellen kan gi noen få flere sysselsatte enn SSB 07984, fordi SSB avrunder og skjermer tallene ulikt.</p>
+</div>
+
+<div class="metode-card" id="naering-kommune">
+  <h2>Arbeidsplasser etter næring per kommune</h2>
+  <p class="hint">Brukes i Arbeid-fanen på kommunesidene. Tallene bygges med <code>fetch_naering_kommune.py</code>. Næringsgruppene på temasiden <a href="tema-naering.html">Hva skal vi leve av?</a> bygger på en annen tabell (SSB 13470) og en annen inndeling.</p>
+  <ul>
+    <li><span class="norm-tag">Kilde</span> <b>SSB 07984:</b> sysselsatte 15–74 år per 4. kvartal etter arbeidssted, 17 næringer (SN2007) og i alt, 2020–2025, for de 80 kommunene, Nord-Norge og landet. For siste år hentes også sysselsatte etter bosted. Andelene er antall i næringen delt på alle arbeidsplasser i kommunen.</li>
+    <li><span class="norm-tag">Skjult</span> <b>SSB skjuler tall</b> som kan føres tilbake til enkeltbedrifter. De vises som «skjult», regnes aldri som 0, og er ikke med i figurene. Totalen er SSBs egen og omfatter de skjulte næringene. Når noen næringer er skjult, sier teksten «blant dem med tall», fordi en skjult næring kan være større.</li>
+    <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling.</b> Bare koder som var gyldige det aktuelle året, brukes: tabellen har nuller for nedlagte koder, og de ville ellers fylt hull der SSB har skjult tallet. Nord-Norge er summen av fylkene.</li>
+    <li><span class="norm-tag">Tekst</span> <b>Regelbasert:</b> største næring, størst vekst og nedgang siden 2020, og næringer som har minst 3 % av arbeidsplassene og minst 1,5 ganger landets andel.</li>
+    <li><span class="norm-tag">Kontroll</span> <b>Narvik er kontrollert mot rapporten «Narvik mot 2030, 2036 og 2050»:</b> 10 064 arbeidsplasser i 2025 og 10 047 i 2020, 2 644 i helse og omsorg, overnatting og servering +125, undervisning −98, og de samme fem skjulte næringene. Alle tall er like.</li>
+  </ul>
+  <p><b>Forbehold.</b> Arbeidsplasser telles der arbeidsgiveren har registrert virksomheten, ikke nødvendigvis der arbeidet utføres. I små kommuner er tallene små og kan endre seg mye av én etablering eller nedleggelse.</p>
 </div>
 
 <div class="metode-card" id="konjunkturbarometer">
