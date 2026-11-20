@@ -96,7 +96,8 @@ export function initSearch() {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'nn-sokknapp';
-  btn.innerHTML = 'Søk <kbd>Ctrl K</kbd>';
+  btn.innerHTML = 'Velg kommune <kbd>Ctrl K</kbd>';
+  btn.setAttribute('aria-label', 'Velg kommune: søk etter kommune, fylke, region eller tema');
   btn.addEventListener('click', open);
   const mount = () => {
     const host = document.querySelector('.nn-stripe .nn-verktoy');
