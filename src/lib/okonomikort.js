@@ -12,7 +12,7 @@ const p0 = v => (v == null ? '–' : `${tall(v, 0)} %`);
 const p1 = v => (v == null ? '–' : `${tall(v, 1)} %`);
 const pp = v => `${v > 0 ? '+' : v < 0 ? '−' : ''}${tall(Math.abs(v), 1)} %`;
 const kr = v => (v == null ? '–' : `${heltall(v)} kr`);
-const mill = v => (v == null ? '–' : `${tall(v, 1)} millioner kroner`);
+const mill = v => (v == null ? "–" : v >= 1000 ? `${tall(v / 1000, 2)} milliarder kroner` : `${tall(v, 1)} millioner kroner`);
 
 function figur(tittel, undertekst, innhold, kilde) {
   return `<div class="card nav-fig"><div class="ch"><h3 class="serif">${tittel}</h3></div>` +
@@ -30,14 +30,18 @@ export function skatteVekst(serie, aar) {
 }
 
 // ------------------------------------------------------------------ A1 + A2: skatt
-export function skattKort(nr, host) {
+// nr: kommunenummer, eller med opt.nivaa: '18', '55', '56' eller 'NN' (fylkes- og landsdelssidene;
+// tallene er summen av kommunene, se fetch_skatt.py)
+export function skattKort(nr, host, opt = {}) {
   const S = L.SKATT;
   if (!S || !host) return;
-  const kode = String(nr);
-  const kom = S.inngang.kommuner[kode], ko = S.kostra.kommuner[kode];
+  const kode = String(nr), niv = !!opt.nivaa, erNN = kode === 'NN';
+  const kom = niv ? S.inngang.fylker[kode] : S.inngang.kommuner[kode], ko = niv ? S.kostra.fylker[kode] : S.kostra.kommuner[kode];
   if (!kom || !ko) { host.innerHTML = ''; return; }
-  const navn = kortNavn(document.querySelector('[data-knavn]')?.dataset.knavn || L.K.find(k => String(k.nr) === kode)?.navn || kode);
-  const fy = kode.slice(0, 2), fyNavn = FYLKE[fy];
+  const navn = niv ? (erNN ? 'Nord-Norge' : FYLKE[kode]) : kortNavn(document.querySelector('[data-knavn]')?.dataset.knavn || L.K.find(k => String(k.nr) === kode)?.navn || kode);
+  // sammenligningsnivået: fylket for en kommune, Nord-Norge for et fylke, ingen for Nord-Norge
+  const fy = niv ? (erNN ? null : 'NN') : kode.slice(0, 2), fyNavn = fy === 'NN' ? 'Nord-Norge' : FYLKE[fy];
+  const mottaker = niv ? `kommunene i ${navn}` : navn, kommunen = niv ? 'kommunene' : 'kommunen';
   const aarNa = +S.siste_mnd.slice(0, 4);
   const vK = skatteVekst(kom, aarNa), vF = skatteVekst(S.inngang.fylker[fy], aarNa), vL = skatteVekst(S.inngang.landet, aarNa);
   const helt = String(aarNa - 1), forrige = String(aarNa - 2);
@@ -49,7 +53,7 @@ export function skattKort(nr, host) {
   const andel = (a, t = kaar) => (g(ko, a, t) != null && g(la, a, t) ? g(ko, a, t) / g(la, a, t) * 100 : null);
 
   const kpis = '<div class="bf-kpis">' +
-    (vK ? kpi(pp(vK.vekst), `Skatteinngang januar–${MND[vK.mnd]} ${aarNa}`, `mot samme periode i fjor · ${fyNavn} ${vF ? pp(vF.vekst) : '–'} · landet ${vL ? pp(vL.vekst) : '–'}`) : '') +
+    (vK ? kpi(pp(vK.vekst), `Skatteinngang januar–${MND[vK.mnd]} ${aarNa}`, `mot samme periode i fjor${fy ? ` · ${fyNavn} ${vF ? pp(vF.vekst) : '–'}` : ''} · landet ${vL ? pp(vL.vekst) : '–'}`) : '') +
     kpi(kr(g(ko, 'skatt')), `Skatt per innbygger ${kaar}`, `${p0(andel('skatt'))} av landet · ${p0(g(lu, 'skatt') ? g(ko, 'skatt') / g(lu, 'skatt') * 100 : null)} av landet utenom Oslo`) +
     kpi(kr(g(ko, 'ramme')), `Rammetilskudd per innbygger ${kaar}`, `landet ${kr(g(la, 'ramme'))}`) +
     kpi(kr(g(ko, 'frie')), `Frie inntekter per innbygger ${kaar}`, `${p0(andel('frie'))} av landet`) +
@@ -59,16 +63,16 @@ export function skattKort(nr, host) {
   const avs = [];
   if (vK) {
     const endr = (v, fra) => `${tall(Math.abs(v), 1)} % ${v >= 0 ? 'mer' : 'mindre'} enn ${fra}`;
-    avs.push(`Skatteinngangen til ${navn} var <b>${mill(vK.verdi)}</b> fra januar til ${MND[vK.mnd]} ${aarNa}, ${endr(vK.vekst, 'i samme periode i fjor')}.` +
-      (vF && vL ? ` I samme periode var endringen ${pp(vF.vekst)} i ${fyNavn} og ${pp(vL.vekst)} i landet.` : '') +
+    avs.push(`Skatteinngangen til ${mottaker} var <b>${mill(vK.verdi)}</b> fra januar til ${MND[vK.mnd]} ${aarNa}, ${endr(vK.vekst, 'i samme periode i fjor')}.` +
+      (vF && vL && fy ? ` I samme periode var endringen ${pp(vF.vekst)} i ${fyNavn} og ${pp(vL.vekst)} i landet.` : vL ? ` I samme periode var endringen ${pp(vL.vekst)} i landet.` : '') +
       (tot != null ? ` For hele ${helt} var inngangen ${mill(tot)}${totF ? `, ${endr((tot / totF - 1) * 100, 'i ' + forrige)}` : ''}.` : '') +
       ' Veksten henger også sammen med lønnsveksten og skattøren Stortinget fastsetter hvert år, og er ikke et mål på økt aktivitet alene.');
   }
   const as = andel('skatt'), af = andel('frie'), e = g(ko, 'eiendom');
-  avs.push(`Innbyggerne betalte <b>${kr(g(ko, 'skatt'))}</b> i skatt på inntekt og formue per innbygger til kommunen i ${kaar}, ${p0(as)} av landsgjennomsnittet. ` +
-    `Med rammetilskudd på ${kr(g(ko, 'ramme'))} per innbygger, mot ${kr(g(la, 'ramme'))} i landet, fikk kommunen frie inntekter på <b>${kr(g(ko, 'frie'))}</b> per innbygger, ${p0(af)} av landsnivået.` +
+  avs.push(`Innbyggerne betalte <b>${kr(g(ko, 'skatt'))}</b> i skatt på inntekt og formue per innbygger til ${kommunen} i ${kaar}, ${p0(as)} av landsgjennomsnittet. ` +
+    `Med rammetilskudd på ${kr(g(ko, 'ramme'))} per innbygger, mot ${kr(g(la, 'ramme'))} i landet, fikk ${kommunen} frie inntekter på <b>${kr(g(ko, 'frie'))}</b> per innbygger, ${p0(af)} av landsnivået.` +
     (as != null && af != null && as < 95 && af >= 95 ? ' Inntektsutjevningen og rammetilskuddet veier altså opp for lav skatt per innbygger.' : '') +
-    (e ? ` I tillegg kommer eiendomsskatt på ${kr(e)} per innbygger, mot ${kr(g(la, 'eiendom'))} i landet.` : ' KOSTRA viser ingen eiendomsskatt for kommunen i ' + kaar + '.'));
+    (e ? ` I tillegg kommer eiendomsskatt på ${kr(e)} per innbygger, mot ${kr(g(la, 'eiendom'))} i landet.` : ` KOSTRA viser ingen eiendomsskatt for ${kommunen} i ` + kaar + '.'));
   const tekst = '<div class="bf-diagnose nav-tekst"><div class="h-row"><h3>Hva viser skattetallene?</h3><span class="tag">SSB · regelbasert tekst</span></div>' +
     avs.map(a => `<p>${a}</p>`).join('') + '</div>';
 
@@ -101,7 +105,7 @@ export function skattKort(nr, host) {
     `<tbody>${rader}</tbody></table></div>`, 'Kilde: SSB 12137 og 07022.');
 
   host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Skatteinngang og inntektsutjevning</h3>' +
-    `<p class="hint" style="margin:0 0 10px">Hvor mye skatt innbyggerne i ${navn} betaler til kommunen, og hvor mye utjevningen og rammetilskuddet legger til. Mer på <a href="metode.html#skatt">metodesiden</a>.</p>` +
+    `<p class="hint" style="margin:0 0 10px">Hvor mye skatt innbyggerne i ${navn} betaler til ${kommunen}, og hvor mye utjevningen og rammetilskuddet legger til. ${niv ? ' Tallene er summen av kommunene.' : ''} Mer på <a href="metode.html#skatt">metodesiden</a>.</p>` +
     kpis + tekst + f1 + f2 + tabell + '</div>';
 }
 

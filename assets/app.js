@@ -1675,6 +1675,12 @@ function renderBurden(){
     const navKode=_scopeKey==='Alle'?'NN':({Nordland:'18',Troms:'55',Finnmark:'56'})[_scopeKey];
     if(navKode && navHost.dataset.kode!==navKode){ navHost.dataset.kode=navKode; NN.navNivaa(navKode, navHost); }
   }
+  // Skatteinngang (pakke A1/A2 i analyse/PLAN-NARVIK-TEMAER.md): summen av kommunene i fylket/landsdelen
+  const skHost=document.getElementById('skattNivaa');
+  if(skHost && window.NN && NN.skattKort){
+    const skKode=_scopeKey==='Alle'?'NN':({Nordland:'18',Troms:'55',Finnmark:'56'})[_scopeKey];
+    if(skKode && skHost.dataset.kode!==skKode){ skHost.dataset.kode=skKode; NN.skattKort(skKode, skHost, {nivaa:true}); }
+  }
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
     const savedMode=state.projMode;
