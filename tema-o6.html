@@ -164,7 +164,7 @@
     </thead>
     <tbody></tbody>
   </table>
-  <p class="nn-fig-enhet">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting og uføre fra SSB 11715/13563. Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
+  <p class="nn-fig-enhet">Vektet snitt = veid med folketall innen hver gruppe (vekt mot Tromsø/Bodø-tunge tall for O6). Sysselsetting fra SSB 13563, uføretrygd fra NAV (september 2026). Median­alder beregnet fra alders­fordelingen i hver kommune.</p>
   <figure class="nn-fig">
     <h3>Aldersprofilen: de seks største mot de 74</h3>
     <p class="nn-fig-enhet">Andel av gruppens innbyggere per ettårig alder, prosent, 1.1.2026. Over 95 år er utelatt.</p>
@@ -396,8 +396,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var sysO6 = weightedAvg(O6, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.sysselsRate : null; });
   var sysRest = weightedAvg(REST, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.sysselsRate : null; });
   // Uføre­andel
-  var ufoO6 = weightedAvg(O6, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.uforePct18_67 : null; });
-  var ufoRest = weightedAvg(REST, function(k){ var r = ARBEID[String(k.nr)]; return r ? r.uforePct18_67 : null; });
+  // Uføretrygd fra NAV (samme mål som resten av dashbordet)
+  var NAVU = (typeof NAV_KART !== 'undefined') ? NAV_KART.kommuner : {};
+  var ufoO6 = weightedAvg(O6, function(k){ var r = NAVU[String(k.nr)]; return r && r.ufore != null ? r.ufore : null; });
+  var ufoRest = weightedAvg(REST, function(k){ var r = NAVU[String(k.nr)]; return r && r.ufore != null ? r.ufore : null; });
 
   var tbody = document.querySelector('#gapTabell tbody');
   function row(label, hint, o6v, restv, unit, decimals){
@@ -420,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function(){
     row('Innvandrerandel', 'av befolkningen (SSB 09817)', innvO6, innvRest, ' %') +
     row('Medianalder', 'år', medO6, medRest, ' år') +
     row('Sysselsettingsrate 20–66', '% av aldersgruppen (SSB 13563, 2025)', sysO6, sysRest, ' %') +
-    row('Uføreandel 18–67', '% av aldersgruppen (SSB 11715, 2025)', ufoO6, ufoRest, ' %');
+    row('Uføretrygd 18–67', '% av aldersgruppen (NAV, september 2026)', ufoO6, ufoRest, ' %');
 
   // ─── Akt 04: KPI + duo-graf ───
   var inROBEK = 0, restROBEK = 0;

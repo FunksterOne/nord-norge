@@ -140,7 +140,7 @@ export const INDIKATORER = {
     get enhet() { const d = L.NAVK?.meta?.ufore || ''; return `Mottakere av uføretrygd i prosent av befolkningen 18–67 år, ${d.slice(5) === '09' ? 'september' : d.slice(5) === '12' ? 'desember' : ''} ${d.slice(0, 4)} (NAV)`; },
     verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.ufore ?? null,
     fmt: v => prosent(v, 1), type: 'sequential',
-    kilde: 'Kilde: NAV, Tabell 20/PST220. Kan avvike fra SSB 11715, som har en annen telledato og et annet befolkningsgrunnlag.',
+    kilde: 'Kilde: NAV, Tabell 20/PST220. Samme mål brukes for uføretrygd i hele dashbordet.',
   },
   navMinstepensjon: {
     navn: 'Minstepensjon (NAV)', kort: 'Alderspensjonister med minstepensjon',

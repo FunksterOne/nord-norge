@@ -806,14 +806,15 @@ document.addEventListener('DOMContentLoaded', function(){
     var aar = (typeof ARBEID_DATA !== 'undefined' && ARBEID_DATA.year) || 2025;
     var tolkning = '';
     if(sysRate != null) tolkning += 'Sysselsettingsraten i <b>' + k.navn + '</b> er <b>' + (sysRate*100).toFixed(0).replace('.',',') + ' %</b> i ' + aar + ', mot 76,7 % i landet. ';
-    if(uforePct != null) tolkning += 'Uføreandelen er <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b>, ' + (uforePct > 12 ? 'klart over' : uforePct > 11.5 ? 'over' : uforePct < 9.5 ? 'under' : 'rundt') + ' nasjonalt snitt (10,7 %). ';
+    var um = (typeof uforeMeta === 'function') ? uforeMeta() : {tekst:'', landet:null};
+    if(uforePct != null && um.landet != null) tolkning += 'Andelen som mottar uføretrygd, er <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b>, ' + (uforePct > um.landet + 1.3 ? 'klart over' : uforePct > um.landet + 0.8 ? 'over' : uforePct < um.landet - 1.2 ? 'under' : 'rundt') + ' landet (' + um.landet.toFixed(1).replace('.',',') + ' %). ';
     tolkning += 'Hva det betyr for forsørgerbyrden fram mot 2050, står i fanen <a href="kommune.html?k=' + k.nr + '&sec=forsorg">Forsørgerbyrde og omsorg</a>.';
 
     host.innerHTML =
       '<div class="bf-panel">'+
         '<div class="bf-kpis">'+
           '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 ('+aar+')</div></div>'+
-          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 ('+aar+')</div></div>'+
+          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføretrygd</div><div class="h">18–67 år · NAV, '+um.tekst+'</div></div>'+
         '</div>'+
         '<div class="bf-diagnose"><div class="h-row"><h3>Arbeid i korte trekk</h3></div><p>'+tolkning+'</p></div>'+
         // Sysselsetting fordeling (innvandrere/hele)
@@ -824,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Arbeidsplasser etter næring (NN.naeringKort, NAERING_K)
     if(window.NN && NN.naeringKort) NN.naeringKort(k.nr, document.getElementById('naeringBlokk'));
     // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
-    if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
+    if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ferdig: function(){ nummererFigurer(host); }});
   }
 
   // ─── Forsørgerbyrde og omsorg ───

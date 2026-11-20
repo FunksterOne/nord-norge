@@ -2303,10 +2303,18 @@ function getSysselsRate(nr){
   const r=ARBEID_DATA.kommuner[String(nr)];
   return r&&r.sysselsRate!=null ? r.sysselsRate/100 : null;
 }
+// Uføretrygd: ett mål i hele dashbordet — NAVs andel av befolkningen 18–67 år ved siste telling (NAV_KART,
+// fetch_nav.py). SSB 11715 (2025) brukes ikke lenger, fordi den har en annen telledato og ga et annet tall for
+// samme kommune. SSBs hovedstatus «AAP eller uføretrygd» (13563) er et annet mål og står bare i forsørgerkortet.
 function getUforePct(nr){
-  if(typeof ARBEID_DATA==='undefined') return null;
-  const r=ARBEID_DATA.kommuner[String(nr)];
-  return r ? r.uforePct18_67 : null;
+  if(typeof NAV_KART==='undefined') return null;
+  const r=NAV_KART.kommuner[String(nr)];
+  return r && r.ufore!=null ? r.ufore : null;
+}
+function uforeMeta(){
+  const d=(typeof NAV_KART!=='undefined'&&NAV_KART.meta&&NAV_KART.meta.ufore)||'';
+  const mnd={'09':'september','12':'desember'}[d.slice(5)]||'';
+  return {tekst:(mnd?mnd+' ':'')+d.slice(0,4), landet:(typeof NAV_KART!=='undefined'&&NAV_KART.ref&&NAV_KART.ref.landet)?NAV_KART.ref.landet.ufore:null};
 }
 function getSysselsAbs(nr){
   if(typeof ARBEID_DATA==='undefined') return null;
@@ -2338,7 +2346,7 @@ const EXT_NORMS = {
   scirnAnnual: -0.15,     // OECD SCIRN: ≥0,15 %/år nedgang = "shrinking"
   oecd2050: 52,           // OECD-snitt forsørgerbyrde 65+/20-64 i 2050
   nasjSyss: 76.7,         // SSB 13563, 2025: 2 629 263 sysselsatte av 3 428 369 i alderen 20–66
-  nasjUfor: 10.7,         // SSB 11715, 2025: 10,7 % uføretrygdede 18–67
+  nasjUfor: (typeof NAV_KART!=='undefined' && NAV_KART.ref && NAV_KART.ref.landet.ufore) || 10.6, // NAV, siste telling: uføretrygdede 18–67, landet
   tbuNDR: 1.75,           // TBU-norm netto driftsresultat
   ksFond: 5.0,            // KS FoU mai 2025 anbefalt minimum
   ksGjeld: 85.0,          // KS 2025: korrigert netto lånegjeld ≤ 85 % (75 % var Riksrevisjonens analysegrense i 2015)
@@ -2421,7 +2429,7 @@ function sustKommuneCard(k){
     row('Forsørgerbrøk 2050 (65+/20–64)', fmt0(e.oad2050), stat(e.oad2050, oadOK), 'OECD-standard · OECD-snitt 2050 ≈ 52')+
     sectionHeader('Arbeidsmarked og helse ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')')+
     row('Sysselsettingsrate 20–66', e.syssRate!=null?fmt0(e.syssRate)+' %':'–', stat(e.syssRate, sysOK), 'SSB 13563 · nasjonalt snitt 76,7 %')+
-    row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'SSB 11715 · nasjonalt snitt 10,7 %')+
+    row('Uføretrygdede 18–67', e.uforePct!=null?fmt1(e.uforePct)+' %':'–', stat(e.uforePct, ufoOK), 'NAV, '+uforeMeta().tekst+' · landet '+fmt1(N.nasjUfor)+' %')+
     row('Ikke-sysselsatte per 100 sysselsatte', e.okon!=null?fmt1(e.okon):'–', stat(e.okon, okonOK), 'SSB 13563 · landet '+(okonL!=null?fmt1(okonL):'–')+' · alle aldre')+
     sectionHeader('Kommuneøkonomi'+(e.yr?' ('+e.yr+')':''))+
     row('Netto driftsresultat', e.ndr!=null?fmt1(e.ndr)+' %':'–', stat(e.ndr, ndrOK), 'TBU-norm · +1¾ % av brutto driftsinntekter')+
@@ -2486,7 +2494,7 @@ function renderSustainability(){
       {key:'popDecl', lab:'Befolkningsnedgang (OECD SCIRN)', test:r=>r.annualPct!=null && r.annualPct <= N.scirnAnnual},
       {key:'oadOver', lab:'Forsørgerbrøk 2050 over OECD-snitt', test:r=>r.oad2050!=null && r.oad2050 > N.oecd2050},
       {key:'sysUnder', lab:'Sysselsetting under nasjonalt snitt', test:r=>r.syssRate!=null && r.syssRate < N.nasjSyss},
-      {key:'ufoOver', lab:'Uføreandel over nasjonalt snitt', test:r=>r.uforePct!=null && r.uforePct > N.nasjUfor},
+      {key:'ufoOver', lab:'Uføretrygd over landet (NAV)', test:r=>r.uforePct!=null && r.uforePct > N.nasjUfor},
       {key:'ndrUnder', lab:'NDR under TBU-norm', test:r=>r.ndr!=null && r.ndr < N.tbuNDR},
       {key:'fondUnder', lab:'Disposisjonsfond under KS-anbefaling', test:r=>r.fond!=null && r.fond < N.ksFond},
       {key:'gjeldOver', lab:'Lånegjeld over KS-grense', test:r=>r.gj!=null && r.gj > N.ksGjeld},
