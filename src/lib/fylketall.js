@@ -1,9 +1,11 @@
 // «Fylket i tall»: nøkkeltall for fylket, Nord-Norge og landet (FYLKE_TALL, fetch_fylketall.py).
 // Monteres i elementer med data-fylketall="auto" (fylket fra state.fylke) eller data-fylketall="nord-norge".
-/* global FYLKE_TALL, state */
+/* global FYLKE_TALL, SYSS_NIVAA, state */
 
 const RADER = [
   ['Arbeid', [
+    ['syss2066', 'Sysselsatte i alderen 20–66 år', 'pst', 'SSB 13563', 'nat'],
+    ['syssInnv', 'Sysselsatte innvandrere i alderen 20–66 år', 'pst', 'SSB 13563', 'nat'],
     ['syss', 'Sysselsatte i alderen 15–74 år', 'pst', 'SSB 13563'],
     ['arbled', 'Registrerte arbeidsledige, andel av arbeidsstyrken 15–74 år', 'pst', 'SSB 13563'],
     ['ledige', 'Ledige stillinger', 'tall', 'SSB 14306', 'nat'],
@@ -70,7 +72,20 @@ function verdi(F, key, kol, fmt) {
   return nb(v);
 }
 
-function tegn(el, F, fylke) {
+// Sysselsetting 20–66 år fra SYSS_NIVAA (fetch_sysselsetting_nivaa.py), samme aldersgruppe som
+// profilen på kommunesidene. Legges inn i kopien av FYLKE_TALL før tegning.
+function medSysselsetting(F) {
+  if (typeof SYSS_NIVAA === 'undefined') return F;
+  const S = SYSS_NIVAA, navn = { 18: 'Nordland', 55: 'Troms', 56: 'Finnmark', NN: 'nord-norge', landet: 'landet' };
+  const rate = x => (x.tot[x.tot.length - 1] ? x.syss[x.syss.length - 1] / x.tot[x.tot.length - 1] * 100 : null);
+  const v = { syss2066: {}, syssInnv: {} };
+  Object.entries(navn).forEach(([k, n]) => { const d = S.nivaa[k]; if (!d) return; v.syss2066[n] = rate(d); v.syssInnv[n] = rate(d.innv); });
+  const a = S.aar[S.aar.length - 1];
+  return { ...F, verdier: { ...F.verdier, ...v }, aar: { ...F.aar, syss2066: a, syssInnv: a } };
+}
+
+function tegn(el, F0, fylke) {
+  const F = medSysselsetting(F0);
   const kol = fylke === 'nord-norge' ? ['nord-norge', 'landet'] : [fylke, 'nord-norge', 'landet'];
   const navn = { 'nord-norge': 'Nord-Norge', landet: 'Landet' };
   let h = '<table><thead><tr><th>Indikator</th>' + kol.map(k => '<th>' + (navn[k] || k) + '</th>').join('') + '</tr></thead><tbody>';
