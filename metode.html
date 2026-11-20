@@ -292,10 +292,11 @@
 
 <div class="metode-card" id="pendling">
   <h2>Pendling inn og ut</h2>
-  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene og i kartlaget «Netto pendling». Tallene bygges med <code>fetch_pendling.py</code>.</p>
+  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene, i kapitlet «Arbeid og næring» på fylkes- og landsdelssidene og i kartlaget «Netto pendling». Tallene bygges med <code>fetch_pendling.py</code>.</p>
   <ul>
     <li><span class="norm-tag">Kilde</span> <b>SSB 03321:</b> sysselsatte 15–74 år per 4. kvartal etter bostedskommune og arbeidsstedskommune, 2020–2025. Utpendlere er sysselsatte som bor i kommunen og har arbeidssted i en annen kommune. Innpendlere er sysselsatte med arbeidssted i kommunen som bor i en annen kommune. Netto pendling er innpendlere minus utpendlere.</li>
     <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling.</b> Pendling mellom to koder som i dag er samme kommune, regnes som arbeid i egen kommune. Serien starter i 2020, slik at kommunesammenslåingene i 2020 ikke gir brudd.</li>
+    <li><span class="norm-tag">Fylker</span> <b>Fylkene og Nord-Norge er summen av strømmene mellom kommunene.</b> Utpendlere bor i fylket og jobber utenfor det, innpendlere motsatt. Pendling mellom to kommuner i samme fylke vises for seg. For Nord-Norge gjelder det samme med landsdelsgrensen. De største strømmene oppgis per kommune utenfor fylket eller landsdelen.</li>
     <li><span class="norm-tag">Kontroll</span> <b>Narvik er kontrollert mot rapporten:</b> 10 541 sysselsatte bosatte, 1 189 utpendlere (1 039 i 2020), 712 innpendlere (786 i 2020) og 730 utpendlere som jobber i Nord-Norge. Alle tall er like.</li>
   </ul>
   <p><b>Forbehold.</b> Arbeidssted er der arbeidsgiveren har registrert virksomheten. Noen som «jobber i Oslo», jobber på avstand eller ukependler. Inntektsskatten går til bostedskommunen, så utpendling svekker ikke kommunens skatteinngang. Tabellen kan gi noen få flere sysselsatte enn SSB 07984, fordi SSB avrunder og skjermer tallene ulikt.</p>
@@ -303,11 +304,13 @@
 
 <div class="metode-card" id="naering-kommune">
   <h2>Arbeidsplasser etter næring per kommune</h2>
-  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene. Tallene bygges med <code>fetch_naering_kommune.py</code>. Næringsgruppene på temasiden <a href="tema-naering.html">Hva skal vi leve av?</a> bygger på en annen tabell (SSB 13470) og en annen inndeling.</p>
+  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene og i kapitlet «Arbeid og næring» på fylkes- og landsdelssidene. Tallene bygges med <code>fetch_naering_kommune.py</code>. Næringsgruppene på temasiden <a href="tema-naering.html">Hva skal vi leve av?</a> bygger på en annen tabell (SSB 13470) og en annen inndeling.</p>
   <ul>
     <li><span class="norm-tag">Kilde</span> <b>SSB 07984:</b> sysselsatte 15–74 år per 4. kvartal etter arbeidssted, 17 næringer (SN2007) og i alt, 2020–2025, for de 80 kommunene, Nord-Norge og landet. For siste år hentes også sysselsatte etter bosted. Andelene er antall i næringen delt på alle arbeidsplasser i kommunen.</li>
     <li><span class="norm-tag">Skjult</span> <b>SSB skjuler tall</b> som kan føres tilbake til enkeltbedrifter. De vises som «skjult», regnes aldri som 0, og er ikke med i figurene. Totalen er SSBs egen og omfatter de skjulte næringene. Når noen næringer er skjult, sier teksten «blant dem med tall», fordi en skjult næring kan være større.</li>
-    <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling.</b> Bare koder som var gyldige det aktuelle året, brukes: tabellen har nuller for nedlagte koder, og de ville ellers fylt hull der SSB har skjult tallet. Nord-Norge er summen av fylkene.</li>
+    <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling.</b> Bare koder som var gyldige det aktuelle året, brukes: tabellen har nuller for nedlagte koder, og de ville ellers fylt hull der SSB har skjult tallet. Kodene for Troms og Finnmark fra 2024 har nuller også for 2020–2023 uten at det står i teksten; en celle SSB har skjult under den gamle koden, holdes derfor skjult. (Rettet 20. november 2026: før det ble slike celler vist som 0 for 2020–2023.) Nord-Norge er summen av fylkene.</li>
+    <li><span class="norm-tag">Fylker</span> <b>Fylkene er SSBs egne fylkestall.</b> SSB har tall for Troms og Finnmark hver for seg bare fra 2024. For 2020–2023 er de summen av kommunene der ingen kommune er skjult; totalen er alltid med og stemmer med SSBs tall for Troms og Finnmark samlet. Fordi mange næringer er skjult i minst én kommune, sammenligner kortet for Troms og Finnmark med 2024. Er en næring skjult i ett fylke, mangler den også for Nord-Norge.</li>
+    <li><span class="norm-tag">Startår</span> <b>Sammenligningen starter i det første året der minst halvparten av næringene har tall.</b> For de fleste kommunene er det 2020.</li>
     <li><span class="norm-tag">Tekst</span> <b>Regelbasert:</b> største næring, størst vekst og nedgang siden 2020, og næringer som har minst 3 % av arbeidsplassene og minst 1,5 ganger landets andel.</li>
     <li><span class="norm-tag">Kontroll</span> <b>Narvik er kontrollert mot rapporten «Narvik mot 2030, 2036 og 2050»:</b> 10 064 arbeidsplasser i 2025 og 10 047 i 2020, 2 644 i helse og omsorg, overnatting og servering +125, undervisning −98, og de samme fem skjulte næringene. Alle tall er like.</li>
   </ul>

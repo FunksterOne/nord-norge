@@ -75,6 +75,7 @@ def main():
     arb = defaultdict(dict)    # nøkkel -> {(næring, år): v}
     bo = defaultdict(dict)
     skj = defaultdict(set)     # (nøkkel, år) -> næringer skjult (arbeidssted)
+    hull = set()               # (id(mål), nøkkel, celle) som SSB har skjult
     for k, v, st in celler_status(d):
         r = k["Region"]
         fra, til = gyldig.get(r, (0, 9999))
@@ -86,11 +87,16 @@ def main():
         if v is None:
             if mål is arb and nokkel in KODER and k["NACE2007"] != "00-99":
                 skj[(nokkel, k["Tid"])].add(k["NACE2007"])
+            # Skjult celle: hold den skjult, også om en annen kode for samme kommune har 0 der
+            # (55xx/56xx har nuller for 2020–2023 uten periodemerke i teksten)
+            hull.add((id(mål), nokkel, cell))
             continue
         if cell in mål[nokkel] and nokkel in KODER:  # to koder samme kommune samme år: summer
             mål[nokkel][cell] += v
         else:
             mål[nokkel][cell] = v
+    for mid, nokkel, cell in hull:
+        (arb if mid == id(arb) else bo)[nokkel].pop(cell, None)
     # Nord-Norge fra fylkene
     for t in aar:
         deler = ["F18", "F54"] if int(t) <= 2023 else ["F18", "F55", "F56"]
@@ -102,6 +108,16 @@ def main():
             if all(x is not None for x in valsb):
                 bo["NN"][(n, t)] = sum(valsb)
     siste = aar[-1]
+    for fy in ("55", "56"):
+        for t in aar:
+            if int(t) >= 2024:
+                continue
+            for n in ["00-99"] + naer:
+                vals = [arb[kk].get((n, t)) for kk in KODER if kk[:2] == fy]
+                if all(x is not None for x in vals):
+                    arb["F" + fy][(n, t)] = sum(vals)
+                else:
+                    arb["F" + fy].pop((n, t), None)
 
     def pakk(nokkel):
         return {"arb": {n: [arb[nokkel].get((n, t)) for t in aar] for n in ["00-99"] + naer},
@@ -109,7 +125,8 @@ def main():
 
     D = {"hentet": time.strftime("%Y-%m-%d"), "kilde": "SSB 07984, sysselsatte 15–74 år per 4. kvartal etter arbeidssted og bosted",
          "aar": [int(t) for t in aar], "naeringer": [[n, KORT.get(n, n)] for n in naer],
-         "kommuner": {}, "NN": pakk("NN"), "landet": pakk("landet")}
+         "kommuner": {}, "NN": pakk("NN"), "landet": pakk("landet"),
+         "fylker": {fy: pakk("F" + fy) for fy in ("18", "55", "56")}}
     for kk in KODER:
         p = pakk(kk)
         p["skjult"] = {t: sorted(skj[(kk, t)]) for t in (aar[0], siste) if skj[(kk, t)]}
@@ -139,3 +156,5 @@ if __name__ == "__main__":
     print("  helse:", n["arb"]["86-88"], " overnatting:", n["arb"]["55-56"], " undervisning:", n["arb"]["85"])
     print("  skjult:", n["skjult"])
     print("Landet i alt:", D["landet"]["arb"]["00-99"], " NN:", D["NN"]["arb"]["00-99"])
+    for fy, v in D["fylker"].items():
+        print(fy, v["arb"]["00-99"], " skjult siste år:", [n for n, x in v["arb"].items() if x[-1] is None])

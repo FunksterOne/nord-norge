@@ -1681,6 +1681,13 @@ function renderBurden(){
     const skKode=_scopeKey==='Alle'?'NN':({Nordland:'18',Troms:'55',Finnmark:'56'})[_scopeKey];
     if(skKode && skHost.dataset.kode!==skKode){ skHost.dataset.kode=skKode; NN.skattKort(skKode, skHost, {nivaa:true}); }
   }
+  // Pendling og arbeidsplasser etter næring for fylket/landsdelen
+  [['pendlingNivaa','pendlingKort'],['naeringNivaa','naeringKort']].forEach(function(par){
+    const h=document.getElementById(par[0]);
+    if(!h || !window.NN || !NN[par[1]]) return;
+    const kd=_scopeKey==='Alle'?'NN':({Nordland:'18',Troms:'55',Finnmark:'56'})[_scopeKey];
+    if(kd && h.dataset.kode!==kd){ h.dataset.kode=kd; NN[par[1]](kd, h, {nivaa:true}); }
+  });
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
     const savedMode=state.projMode;

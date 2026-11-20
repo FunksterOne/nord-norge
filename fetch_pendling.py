@@ -44,6 +44,12 @@ def main():
 
     ut = {k: {"aar": [], "bosatte": [], "arbeid": [], "ut": [], "inn": [], "ut_nn": []} for k in KODER}
     topp = {}
+    # Fylkene og Nord-Norge: ut = bor i området og jobber utenfor, inn = motsatt, mellom = pendler mellom
+    # to kommuner i området. ut_nn (fylker) = jobber i en annen kommune i Nord-Norge utenfor fylket.
+    NIV = {"18": None, "55": None, "56": None, "NN": None}
+    medl = {n: {k for k in KODER if n == "NN" or k[:2] == n} for n in NIV}
+    fut = {n: {"aar": [], "bosatte": [], "arbeid": [], "ut": [], "inn": [], "mellom": [], "ut_nn": []} for n in NIV}
+    ftopp = {}
     for a in aar:
         print(f"SSB 03321 {a} ...", flush=True)
         bo = defaultdict(lambda: defaultdict(float))    # bosted -> arbeidssted -> n
@@ -69,9 +75,28 @@ def main():
                     "topp_ut": [[navn.get(d, d), round(v)] for d, v in sorted(b.items(), key=lambda x: -x[1]) if d != k and v > 0][:TOPP],
                     "topp_inn": [[navn.get(d, d), round(v)] for d, v in sorted(w.items(), key=lambda x: -x[1]) if d != k and v > 0][:TOPP],
                 }
+        for n, M in medl.items():
+            tb = sum(sum(bo.get(k, {}).values()) for k in M)
+            tw = sum(sum(arb.get(k, {}).values()) for k in M)
+            ut_f = sum(v for k in M for d, v in bo.get(k, {}).items() if d not in M)
+            inn_f = sum(v for k in M for d, v in arb.get(k, {}).items() if d not in M)
+            mellom = sum(v for k in M for d, v in bo.get(k, {}).items() if d in M and d != k)
+            fut[n]["aar"].append(int(a)); fut[n]["bosatte"].append(round(tb)); fut[n]["arbeid"].append(round(tw))
+            fut[n]["ut"].append(round(ut_f)); fut[n]["inn"].append(round(inn_f)); fut[n]["mellom"].append(round(mellom))
+            fut[n]["ut_nn"].append(None if n == "NN" else round(sum(v for k in M for d, v in bo.get(k, {}).items() if d not in M and d in KODER)))
+            if a == aar[-1]:
+                til, fra = defaultdict(float), defaultdict(float)
+                for k in M:
+                    for d, v in bo.get(k, {}).items():
+                        if d not in M: til[d] += v
+                    for d, v in arb.get(k, {}).items():
+                        if d not in M: fra[d] += v
+                ftopp[n] = {"topp_ut": [[navn.get(d, d), round(v)] for d, v in sorted(til.items(), key=lambda x: -x[1]) if v > 0][:TOPP],
+                            "topp_inn": [[navn.get(d, d), round(v)] for d, v in sorted(fra.items(), key=lambda x: -x[1]) if v > 0][:TOPP]}
         time.sleep(1)
     D = {"hentet": time.strftime("%Y-%m-%d"), "kilde": "SSB 03321, sysselsatte 15–74 år per 4. kvartal etter bosteds- og arbeidsstedskommune",
-         "aar": [int(a) for a in aar], "kommuner": {k: {**ut[k], **topp.get(k, {})} for k in KODER}}
+         "aar": [int(a) for a in aar], "kommuner": {k: {**ut[k], **topp.get(k, {})} for k in KODER},
+         "fylker": {n: {**fut[n], **ftopp.get(n, {})} for n in NIV}}
     mangler = [k for k in KODER if not ut[k]["aar"]]
     if mangler:
         print("MANGLER:", mangler)
@@ -96,3 +121,5 @@ if __name__ == "__main__":
     print("Narvik:", {f: n[f] for f in ("aar", "bosatte", "arbeid", "ut", "inn", "ut_nn")})
     print("  topp ut:", n["topp_ut"])
     print("  topp inn:", n["topp_inn"])
+    for f, v in D["fylker"].items():
+        print(f, {x: v[x][-1] for x in ("bosatte", "arbeid", "ut", "inn", "mellom", "ut_nn")}, v["topp_ut"][:3])

@@ -110,58 +110,74 @@ export function skattKort(nr, host, opt = {}) {
 }
 
 // ------------------------------------------------------------------ B1: pendling
-export function pendlingKort(nr, host) {
+// nr: kommunenummer, eller med opt.nivaa: '18', '55', '56' eller 'NN' (strømmer over fylkes- eller landsdelsgrensen)
+export function pendlingKort(nr, host, opt = {}) {
   const P = L.PENDLING;
   if (!P || !host) return;
-  const d = P.kommuner[String(nr)];
+  const niv = !!opt.nivaa, erNN = String(nr) === 'NN';
+  const d = niv ? P.fylker?.[String(nr)] : P.kommuner[String(nr)];
   if (!d || !d.aar.length) { host.innerHTML = ''; return; }
-  const navn = kortNavn(L.K.find(k => String(k.nr) === String(nr))?.navn || String(nr));
+  const navn = niv ? (erNN ? 'Nord-Norge' : FYLKE[nr]) : kortNavn(L.K.find(k => String(k.nr) === String(nr))?.navn || String(nr));
+  // område: «kommunen», «fylket» eller «landsdelen»
+  const omr = niv ? (erNN ? 'landsdelen' : 'fylket') : 'kommunen';
+  const andre = niv ? (erNN ? 'resten av landet' : 'andre fylker') : 'andre kommuner';
   const i = d.aar.length - 1, a = d.aar[i];
   const bo = d.bosatte[i], ut = d.ut[i], inn = d.inn[i], arb = d.arbeid[i], hjemme = bo - ut, netto = inn - ut;
   const kpis = '<div class="bf-kpis">' +
     kpi(heltall(ut), `Utpendlere ${a}`, `${p1(ut / bo * 100)} av ${heltall(bo)} sysselsatte bosatte`) +
     kpi(heltall(inn), `Innpendlere ${a}`, `${p1(inn / arb * 100)} av ${heltall(arb)} arbeidsplasser`) +
     kpi(`${netto > 0 ? '+' : netto < 0 ? '−' : ''}${heltall(Math.abs(netto))}`, 'Netto pendling', netto >= 0 ? 'flere pendler inn enn ut' : 'flere pendler ut enn inn') +
-    kpi(heltall(d.ut_nn[i]), 'Utpendlere som jobber i Nord-Norge', `${p0(ut ? d.ut_nn[i] / ut * 100 : null)} av utpendlerne`) + '</div>';
+    (d.ut_nn[i] != null ? kpi(heltall(d.ut_nn[i]), niv ? 'Jobber ellers i Nord-Norge' : 'Utpendlere som jobber i Nord-Norge', `${p0(ut ? d.ut_nn[i] / ut * 100 : null)} av utpendlerne`) : '') +
+    (niv ? kpi(heltall(d.mellom[i]), `Pendler mellom kommuner i ${omr}`, `${p1(d.mellom[i] / bo * 100)} av de sysselsatte bosatte`) : '') + '</div>';
 
   const avs = [];
   const topp = (l, n = 2) => l.slice(0, n).map(([k, v]) => `${kortNavn(k)} (${heltall(v)})`).join(' og ');
-  avs.push(`Av ${heltall(bo)} sysselsatte som bor i ${navn}, jobber ${heltall(hjemme)} i kommunen og <b>${heltall(ut)}</b> (${p1(ut / bo * 100)}) i en annen kommune` +
-    (d.topp_ut?.length ? `, flest i ${topp(d.topp_ut)}` : '') + '.');
-  avs.push(`Samtidig kommer <b>${heltall(inn)}</b> av de ${heltall(arb)} som jobber i ${navn} (${p1(inn / arb * 100)}), fra andre kommuner` +
+  avs.push(`Av ${heltall(bo)} sysselsatte som bor i ${navn}, jobber ${heltall(hjemme)} i ${omr} og <b>${heltall(ut)}</b> (${p1(ut / bo * 100)}) ${niv ? `utenfor ${omr}` : 'i en annen kommune'}` +
+    (d.topp_ut?.length ? `, flest i ${topp(d.topp_ut)}` : '') + '.' +
+    (niv ? ` I tillegg pendler ${heltall(d.mellom[i])} mellom to kommuner i ${omr}.` : ''));
+  avs.push(`Samtidig kommer <b>${heltall(inn)}</b> av de ${heltall(arb)} som jobber i ${navn} (${p1(inn / arb * 100)}), fra ${andre}` +
     (d.topp_inn?.length ? `, særlig ${topp(d.topp_inn)}` : '') + `. Det gir en netto ${netto < 0 ? 'utpendling' : 'innpendling'} på ${heltall(Math.abs(netto))} personer.`);
   if (d.aar[0] < a) {
     const u0 = d.ut[0], n0 = d.inn[0], a0 = d.aar[0];
     const retn = (x0, x1) => (x1 > x0 ? 'økt' : x1 < x0 ? 'gått ned' : 'vært uendret');
     avs.push(`Siden ${a0} har utpendlingen ${retn(u0, ut)} fra ${heltall(u0)} til ${heltall(ut)}, mens innpendlingen har ${retn(n0, inn)} fra ${heltall(n0)} til ${heltall(inn)}.`);
   }
-  avs.push('Inntektsskatten går til kommunen der man bor, så utpendlere betaler skatt til bostedskommunen. Arbeidssted er der arbeidsgiveren har registrert virksomheten; noen av dem jobber på avstand eller ukependler.');
+  avs.push('Inntektsskatten går til kommunen der man bor, så utpendlere betaler skatt til bostedskommunen. Arbeidssted er der arbeidsgiveren har registrert virksomheten; noen av dem jobber på avstand eller ukependler.' +
+    (niv ? ` Tallene er summen av strømmene mellom kommunene; de største strømmene er oppgitt per kommune utenfor ${omr}.` : ''));
   const tekst = '<div class="bf-diagnose nav-tekst"><div class="h-row"><h3>Hvem pendler?</h3><span class="tag">SSB · regelbasert tekst</span></div>' +
     avs.map(t => `<p>${t}</p>`).join('') + '</div>';
 
   const stolper = (l, tittel) => placeholder('hstolper', { format: 'tall', grupper: [{ tittel, rader: l.map(([k, v]) => ({ l: kortNavn(k), v })) }] }, 40 + 26 * l.length);
-  const f1 = (d.topp_ut?.length || d.topp_inn?.length) ? figur(`De største pendlerstrømmene, ${a}`, 'Antall sysselsatte. Utpendling går fra kommunen til arbeidsstedet; innpendling kommer fra bostedet.',
+  const f1 = (d.topp_ut?.length || d.topp_inn?.length) ? figur(`De største pendlerstrømmene, ${a}`, `Antall sysselsatte. Utpendling går fra ${omr} til arbeidsstedet; innpendling kommer fra bostedet.`,
     (d.topp_ut?.length ? stolper(d.topp_ut, `Jobber i … (bor i ${navn})`) : '') + (d.topp_inn?.length ? stolper(d.topp_inn, `Bor i … (jobber i ${navn})`) : ''),
     'Kilde: SSB 03321, sysselsatte 15–74 år per 4. kvartal.') : '';
   const f2 = figur(`Utpendling og innpendling ${d.aar[0]}–${a}`, 'Antall sysselsatte per 4. kvartal.',
     placeholder('linjer', { x: d.aar, format: 'tall', hoyde: 230, serier: [
       { navn: 'Utpendlere', kort: 'Ut', data: d.ut, farge: 'accent', uthev: true },
-      { navn: 'Innpendlere', kort: 'Inn', data: d.inn, farge: 'ink' }] }, 240),
+      { navn: 'Innpendlere', kort: 'Inn', data: d.inn, farge: 'ink' }].concat(niv ? [{ navn: `Mellom kommuner i ${omr}`, kort: 'Mellom', data: d.mellom, farge: 'var(--ink-3)', stil: 'stiplet' }] : []) }, 240),
     'Kilde: SSB 03321. Kommunekoder ført fram til dagens inndeling.');
 
   host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Pendling inn og ut</h3>' +
-    `<p class="hint" style="margin:0 0 10px">Hvor de som bor i ${navn}, jobber, og hvor de som jobber i ${navn}, bor. Mer på <a href="metode.html#pendling">metodesiden</a>.</p>` +
+    `<p class="hint" style="margin:0 0 10px">Hvor de som bor i ${navn}, jobber, og hvor de som jobber i ${navn}, bor.${niv ? ` Pendling over ${erNN ? 'landsdelsgrensen' : 'fylkesgrensen'}.` : ''} Mer på <a href="metode.html#pendling">metodesiden</a>.</p>` +
     kpis + tekst + f1 + f2 + '</div>';
 }
 
 // ------------------------------------------------------------------ Sysselsetting etter næring (NAERING_K, fetch_naering_kommune.py)
-export function naeringKort(nr, host) {
+// nr: kommunenummer, eller med opt.nivaa: '18', '55', '56' eller 'NN'
+export function naeringKort(nr, host, opt = {}) {
   const N = L.NAERINGK;
   if (!N || !host) return;
-  const d = N.kommuner[String(nr)];
+  const niv = !!opt.nivaa, erNN = String(nr) === 'NN';
+  const d = niv ? (erNN ? N.NN : N.fylker?.[String(nr)]) : N.kommuner[String(nr)];
   if (!d) { host.innerHTML = ''; return; }
-  const navn = kortNavn(L.K.find(k => String(k.nr) === String(nr))?.navn || String(nr));
-  const aar = N.aar, i0 = 0, i1 = aar.length - 1, a0 = aar[i0], a1 = aar[i1];
+  const navn = niv ? (erNN ? 'Nord-Norge' : FYLKE[nr]) : kortNavn(L.K.find(k => String(k.nr) === String(nr))?.navn || String(nr));
+  // Startåret er det første året der minst halvparten av næringene med tall i siste år også har tall.
+  // For Troms og Finnmark blir det 2024: før det har SSB bare fylkene samlet, og summen av kommunene har
+  // for mange skjulte celler.
+  const i1 = N.aar.length - 1;
+  const medTall = N.naeringer.filter(([k]) => d.arb[k]?.[i1] != null).map(([k]) => k);
+  const i0Funnet = N.aar.findIndex((_, i) => i < i1 && medTall.filter(k => d.arb[k]?.[i] != null).length * 2 >= medTall.length);
+  const aar = N.aar, i0 = i0Funnet < 0 ? i1 : i0Funnet, a0 = aar[i0], a1 = aar[i1];
   const tot = d.arb['00-99'], la = N.landet.arb, nn = N.NN.arb;
   const T1 = tot[i1], T0 = tot[i0];
   const rader = N.naeringer.filter(([k]) => k !== '00').map(([k, n]) => {
@@ -193,7 +209,9 @@ export function naeringKort(nr, host) {
   }
   const sterk = synlig.filter(r => r.andelL && r.andel >= 3 && r.andel / r.andelL >= 1.5).sort((a, b) => b.andel / b.andelL - a.andel / a.andelL).slice(0, 3);
   if (sterk.length) avs.push(`Næringer med klart større andel av arbeidsplassene enn i landet: ${sterk.map(r => `${r.n.toLowerCase()} (${p0(r.andel)} mot ${p0(r.andelL)})`).join(', ')}.`);
-  if (skjulte.length) avs.push(`SSB skjuler tallene for ${skjulte.map(r => r.n.toLowerCase()).join(', ')} for at enkeltbedrifter ikke skal kunne identifiseres. De er ikke med i figurene, men inngår i totalen.`);
+  if (skjulte.length) avs.push(erNN
+    ? `Tallene for ${skjulte.map(r => r.n.toLowerCase()).join(', ')} mangler fordi SSB skjuler dem for minst ett av fylkene. De er ikke med i figurene, men inngår i totalen.`
+    : `SSB skjuler tallene for ${skjulte.map(r => r.n.toLowerCase()).join(', ')} for at enkeltbedrifter ikke skal kunne identifiseres. De er ikke med i figurene, men inngår i totalen.`);
   const tekst = '<div class="bf-diagnose nav-tekst"><div class="h-row"><h3>Hvor jobber folk?</h3><span class="tag">SSB · regelbasert tekst</span></div>' +
     avs.map(t => `<p>${t}</p>`).join('') + '</div>';
 
@@ -204,13 +222,14 @@ export function naeringKort(nr, host) {
     placeholder('hstolper', { format: 'tall', grupper: [{ tittel: '', rader: medEndr.filter(r => r.endr !== 0).map(r => ({ l: r.n, v: r.endr, farge: r.endr >= 0 ? 'pos' : 'neg' })) }] }, 40 + 26 * medEndr.filter(r => r.endr !== 0).length),
     'Kilde: SSB 07984.') : '';
   const celle = v => (v == null ? 'skjult' : heltall(v));
+  const nnKol = !erNN; // landsdelen sammenlignes ikke med seg selv
   const tab = rader.slice().sort((a, b) => (b.v1 ?? -1) - (a.v1 ?? -1)).map(r => `<tr><td>${r.n}</td><td class="num">${celle(r.v0)}</td><td class="num">${celle(r.v1)}</td>` +
-    `<td class="num">${r.endr == null ? '–' : sign(r.endr)}</td><td class="num">${r.andel == null ? '–' : tall(r.andel, 1)}</td><td class="num">${r.andelN == null ? '–' : tall(r.andelN, 1)}</td><td class="num">${r.andelL == null ? '–' : tall(r.andelL, 1)}</td></tr>`).join('');
+    `<td class="num">${r.endr == null ? '–' : sign(r.endr)}</td><td class="num">${r.andel == null ? '–' : tall(r.andel, 1)}</td>${nnKol ? `<td class="num">${r.andelN == null ? '–' : tall(r.andelN, 1)}</td>` : ''}<td class="num">${r.andelL == null ? '–' : tall(r.andelL, 1)}</td></tr>`).join('');
   const tabell = figur(`Arbeidsplasser i ${navn} etter næring`, `Antall ${a0} og ${a1}, og andel av alle arbeidsplasser ${a1} i prosent.`,
     '<div class="nn-tabell-rull"><table class="nn-tabell"><thead><tr><th>Næring</th>' +
-    `<th class="num">${a0}</th><th class="num">${a1}</th><th class="num">Endring</th><th class="num">Andel</th><th class="num">Andel NN</th><th class="num">Andel landet</th></tr></thead>` +
-    `<tbody>${tab}<tr class="sum"><td>Alle næringer</td><td class="num">${heltall(T0)}</td><td class="num">${heltall(T1)}</td><td class="num">${sign(T1 - T0)}</td><td class="num">100</td><td class="num">100</td><td class="num">100</td></tr></tbody></table></div>`,
-    'Kilde: SSB 07984. NN = Nord-Norge. Summen omfatter de skjulte næringene.');
+    `<th class="num">${a0}</th><th class="num">${a1}</th><th class="num">Endring</th><th class="num">Andel</th>${nnKol ? '<th class="num">Andel NN</th>' : ''}<th class="num">Andel landet</th></tr></thead>` +
+    `<tbody>${tab}<tr class="sum"><td>Alle næringer</td><td class="num">${heltall(T0)}</td><td class="num">${heltall(T1)}</td><td class="num">${sign(T1 - T0)}</td><td class="num">100</td>${nnKol ? '<td class="num">100</td>' : ''}<td class="num">100</td></tr></tbody></table></div>`,
+    `Kilde: SSB 07984.${nnKol ? ' NN = Nord-Norge.' : ''} Summen omfatter de skjulte næringene.${niv && !erNN && String(nr) !== '18' ? ` Sammenligningen starter i ${a0}: før 2024 har SSB bare tall for Troms og Finnmark samlet, og summen av kommunene har for mange skjulte tall.` : ''}`);
 
   host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Arbeidsplasser etter næring</h3>' +
     `<p class="hint" style="margin:0 0 10px">Hvilke næringer arbeidsplassene i ${navn} finnes i, og hvordan de har endret seg siden ${a0}. Mer på <a href="metode.html#naering-kommune">metodesiden</a>.</p>` +
