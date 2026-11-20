@@ -67,7 +67,7 @@
 </div>
 
 <nav class="metode-toc" aria-label="Innhold">
-  <div><div class="mt-g">Grunnlag</div><ul><li><a href="#ssb">SSB-tabeller</a></li><li><a href="#kilder">Andre offentlige kilder</a></li><li><a href="#internasjonale">Internasjonale kilder</a></li><li><a href="#begreper">Forkortelser og begreper</a></li><li><a href="#regioner">Regioner, kart og visualisering</a></li><li><a href="#forsidekart">Kartene på forsiden</a></li><li><a href="#forbehold">Forbehold</a></li></ul></div>
+  <div><div class="mt-g">Grunnlag</div><ul><li><a href="#ssb">SSB-tabeller</a></li><li><a href="#kilder">Andre offentlige kilder</a></li><li><a href="#internasjonale">Internasjonale kilder</a></li><li><a href="#begreper">Forkortelser og begreper</a></li><li><a href="#regioner">Regioner, kart og visualisering</a></li><li><a href="#forsidekart">Kartene på forsiden</a></li><li><a href="#sammenligning">Sammenligningssiden</a></li><li><a href="#forbehold">Forbehold</a></li></ul></div>
   <div><div class="mt-g">Framskrivinger og modeller</div><ul><li><a href="#framskriving">Framskrivingsmodeller</a></li><li><a href="#etterproving">Etterprøving 2020–2024</a></li><li><a href="#boligbehov">Boligbehovsmodellen (BB-KVOTE)</a></li><li><a href="#normer">Eksterne normer for indikatorer</a></li><li><a href="#forsorgerbyrde">Forsørgerbyrde: tre måter å telle på</a></li></ul></div>
   <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li><li><a href="#nav">NAV-statistikk per kommune</a></li><li><a href="#skatt">Skatteinngang og inntektsutjevning</a></li><li><a href="#pendling">Pendling inn og ut</a></li><li><a href="#sysselsetting-nivaa">Sysselsetting i fylkene og Nord-Norge</a></li><li><a href="#naering-kommune">Arbeidsplasser etter næring per kommune</a></li></ul></div>
 </nav>
@@ -462,6 +462,19 @@
     </tbody>
   </table></div>
   <p><b>Forbehold.</b> Små kommuner gir store prosentutslag. Når en av kommunene som nevnes i teksten har under 1 500 innbyggere, sier teksten det.</p>
+</div>
+
+<div class="metode-card" id="sammenligning">
+  <h2>Sammenligningssiden</h2>
+  <p class="hint">Gjelder <a href="sammenlign.html">sammenligningssiden</a>, der 2–4 kommuner vises ved siden av hverandre. Tallene hentes fra de samme datablokkene og beregningene som kommunesidene og kartlagene; siden bygges av <code>src/lib/sammenlign.js</code>.</p>
+  <ul>
+    <li><span class="norm-tag">Profil</span> <b>Samme elleve indikatorer som profilen på kommunesidene.</b> Hver kommune er en prikk i sin faste farge, plassert etter rangering blant alle 80 kommunene (persentil, lavest til venstre). Kommuner uten tall for en indikator er ikke med i rangeringen for den.</li>
+    <li><span class="norm-tag">Sammendrag</span> <b>Regelbasert:</b> for hver indikator i profilen måles avstanden mellom høyeste og laveste plassering blant de valgte kommunene. Opptil tre indikatorer med avstand på minst 40 persentilpoeng nevnes som størst forskjell, og indikatorer med avstand under 15 som mest like. Avstanden måles i plassering, ikke i tallverdi, slik at indikatorer med ulik enhet kan sammenlignes.</li>
+    <li><span class="norm-tag">Tabell</span> <b>22 indikatorer i gruppene Befolkning, Arbeid og Økonomi</b>, med Nord-Norge og landet som referanse der tallet finnes på samme grunnlag; ellers står det –. Nord-Norge-tallene er de samme som på landsdelssiden, regnet på samme måte som der (se kortene for NAV, skatt, pendling, sysselsetting og næring over). Nord-Norge for ROBEK er antall registrerte kommuner.</li>
+    <li><span class="norm-tag">Næring</span> <b>Største næring</b> er næringen med flest arbeidsplasser blant dem SSB oppgir tall for; † betyr at noen næringer er skjult. <b>Mest særpregede næring</b> er næringen med høyest andel av arbeidsplassene i forhold til landets andel, blant næringer med minst 3 % av arbeidsplassene i kommunen (SSB 07984, siste år).</li>
+    <li><span class="norm-tag">Figurer</span> <b>Folketall som indeks med 2026 = 100:</b> faktisk folketall hvert femte år 2000–2025 (SSB 07459) og SSBs hovedalternativ 2026–2050 (14746). Forsørgerbrøken er innbyggere 65+ per 100 i alderen 20–64 (14746). Aldersfordelingen er i prosent av folketallet 1.1.2026, slik at store og små kommuner kan sammenlignes.</li>
+  </ul>
+  <p><b>Forbehold.</b> Små kommuner gir store utslag i prosent og plassering; noen få personer eller én stor skattyter kan flytte en kommune langt på sporet. Rangeringen sier hvor kommunen ligger blant de 80, ikke om verdien er god eller dårlig, og siden bruker derfor ingen farger for bra eller dårlig.</p>
 </div>
 
 <div class="metode-card" id="regioner">
