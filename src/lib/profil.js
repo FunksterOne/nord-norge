@@ -28,7 +28,7 @@ function indikatorer() {
 }
 const EKSTRA = { folketall: { key: 'folketall', navn: 'Folketall', verdi: k => k.pop, tekst: v => heltall(v) } };
 
-// Plassering blant de andre kommunene: persentil og en setning som «lavere enn 72 av 79»
+// Plassering blant kommunene: persentil og en setning som «12. høyest av 80»
 export function plassering(nr, d) {
   const alle = L.K.map(k => ({ nr: k.nr, v: d.verdi(k) })).filter(r => r.v != null && Number.isFinite(r.v));
   const me = alle.find(r => r.nr === nr);
@@ -37,7 +37,11 @@ export function plassering(nr, d) {
   const lav = andre.filter(r => r.v < me.v).length, hoy = andre.filter(r => r.v > me.v).length, lik = andre.length - lav - hoy;
   const m = andre.length;
   const p = m ? (lav + lik / 2) / m * 100 : 50;
-  const setning = hoy > lav ? `lavere enn ${hoy} av ${m}` : lav > hoy ? `høyere enn ${lav} av ${m}` : `midt blant de ${m + 1}`;
+  // Rangering fra nærmeste ende: «12. høyest av 80», «5. lavest av 80», «høyest av 80»
+  const n = m + 1;
+  const setning = hoy < lav ? (hoy ? `${hoy + 1}. høyest av ${n}` : `høyest av ${n}`)
+    : lav < hoy ? (lav ? `${lav + 1}. lavest av ${n}` : `lavest av ${n}`)
+    : `midt blant de ${n}`;
   return { v: me.v, p, setning, m };
 }
 
