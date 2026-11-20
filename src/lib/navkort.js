@@ -181,7 +181,10 @@ function bygg(d, opt) {
 
   return '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">NAV-statistikk: ledighet, helse og trygd</h3>' +
     `<p class="hint" style="margin:0 0 10px">Tidsserier fra NAV for ${navn}, sammenlignet med ${fyNavn} og landet eller Nord-Norge.</p>` +
-    kpis + tekst + f1 + f2 + f3 + f4 + f5 + tabell + mer + '</div>';
+    kpis + tekst +
+    // Diagrammene og årstabellen står i en utfoldbar boks, så fanen ikke blir for lang
+    '<details class="nn-mer nav-detaljer"><summary>Vis fem diagrammer og tabell år for år</summary>' + f1 + f2 + f3 + f4 + f5 + tabell + '</details>' +
+    mer + '</div>';
 }
 
 // Tegner NAV-blokken i host. opt: { ssbUfore, ferdig(host) }
@@ -264,7 +267,7 @@ function byggNivaa(kode, d, andre) {
 
   return '<div class="nav-blokk">' +
     '<div class="ch" style="margin-top:32px;padding-top:18px;border-top:1px solid var(--line2)"><h3 class="serif" style="font-size:18px">NAV-statistikk: ledighet, helse og trygd</h3></div>' +
-    `<p class="sub">Tidsserier fra NAV for ${navn}, sammenlignet med ${sml}. Kommunetallene finnes på hver kommuneside under «Arbeid og forsørgerbyrde».</p>` +
+    `<p class="sub">Tidsserier fra NAV for ${navn}, sammenlignet med ${sml}. Kommunetallene finnes på hver kommuneside under «Arbeid og næring».</p>` +
     kpis + tekst + kartDel + f1 + f2 + f3 + f4 + f5 + '</div>';
 }
 

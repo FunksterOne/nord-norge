@@ -153,12 +153,13 @@ section.tab .minseg button[aria-selected=true]{background:var(--panel) !importan
 <nav class="nn-secnav" id="secnav">
   <button data-sec="befolkning" aria-current="true">1 · Befolkning</button>
   <button data-sec="sammensetning" aria-current="false">2 · Sammensetning</button>
-  <button data-sec="arbeid" aria-current="false">3 · Arbeid og forsørgerbyrde</button>
-  <button data-sec="levekar" aria-current="false">4 · Levekår</button>
-  <button data-sec="bolig" aria-current="false">5 · Bolig</button>
-  <button data-sec="okonomi" aria-current="false">6 · Økonomi</button>
-  <button data-sec="pensjon" aria-current="false">7 · Pensjon</button>
-  <button data-sec="barekraft" aria-current="false">8 · Bærekraft</button>
+  <button data-sec="arbeid" aria-current="false">3 · Arbeid og næring</button>
+  <button data-sec="forsorg" aria-current="false">4 · Forsørgerbyrde og omsorg</button>
+  <button data-sec="levekar" aria-current="false">5 · Levekår</button>
+  <button data-sec="bolig" aria-current="false">6 · Bolig</button>
+  <button data-sec="okonomi" aria-current="false">7 · Økonomi</button>
+  <button data-sec="pensjon" aria-current="false">8 · Pensjon</button>
+  <button data-sec="barekraft" aria-current="false">9 · Bærekraft</button>
 </nav>
 
 <!-- 7 seksjoner -->
@@ -175,9 +176,15 @@ section.tab .minseg button[aria-selected=true]{background:var(--panel) !importan
 </section>
 
 <section class="tab" data-tab="arbeid">
-  <h2 class="section-title">Arbeid og forsørgerbyrde</h2>
-  <p class="section-sub">Hvem jobber — og hvor mange skal de forsørge?</p>
+  <h2 class="section-title">Arbeid og næring</h2>
+  <p class="section-sub">Hvem jobber, hvor jobber de, og hvem står utenfor?</p>
   <div id="kArbeid"></div>
+</section>
+
+<section class="tab" data-tab="forsorg">
+  <h2 class="section-title">Forsørgerbyrde og omsorg</h2>
+  <p class="section-sub">Hvor mange skal de som jobber, bære fram mot 2050 — og hvor mange trengs i omsorgen?</p>
+  <div id="kForsorg"></div>
 </section>
 
 <section class="tab" data-tab="levekar">
@@ -269,10 +276,12 @@ document.addEventListener('DOMContentLoaded', function(){
     plass.innerHTML =
       '<div class="kicker">Sammenligning · alle 80 kommuner</div>' +
       '<h2 class="exhibit-h">Hvor står ' + k.navn.split(' - ')[0] + ' blant kommunene i Nord-Norge?</h2>' +
-      '<div class="nn-pl-grid">' +
-        NN.placeholder('plassering', {nr:k.nr, vis:3}, 520) +
-        '<div>' + NN.placeholder('kart', {ind:'endring', highlight:k.nr, fylke:k.fylke, side:false, height:430}, 430) + '</div>' +
-      '</div>';
+      // Profil: én rad per indikator, prikken = plassering blant de 80 (src/lib/profil.js)
+      (NN.profilHTML ? NN.profilHTML(k.nr) : '') +
+      '<p class="nn-source">Prikken viser hvor kommunen ligger blant de 80 kommunene, fra lavest til høyest; streken midt på er medianen. Kilder: SSB, NAV og KOSTRA (se <a href="metode.html">metodesiden</a>).</p>' +
+      '<details class="nn-mer"><summary>Vis alle 80 kommuner som prikker</summary>' +
+        NN.placeholder('plassering', {nr:k.nr}, 520) +
+      '</details>';
   }
 
   // Kommune-velger (alle 80, alfabetisk)
@@ -326,6 +335,10 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="kpi"><div class="v"' + (ndrUnder ? ' style="color:var(--warn)"' : '') + '>' + ndrTxt + '</div><div class="l">Netto driftsresultat ' + ndrAar + '</div><div class="s">' + ndrSub + '</div></div>' +
       '</div>' +
       '<div id="kKort">' + kortversjon(k) + '</div>';
+    if(window.NN && NN.rangLinjer){
+      var kk = hero.querySelectorAll('.kpis .kpi');
+      NN.rangLinjer(k.nr, [{el:kk[0], key:'folketall'}, {el:kk[1], key:'endring'}, {el:kk[2], key:'forsorg', etter:' i 2050'}, {el:kk[3], key:'ndr'}]);
+    }
   }
 
   // Kortversjonen (diagnoseCard i assets/app.js) står øverst som sidens ingress. Den tegnes på nytt når
@@ -347,10 +360,16 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!host) return;
     if(sec === 'befolkning'){
       renderBefolkningPanel(k, host);
+      host.insertAdjacentHTML('beforeend',
+        '<div class="card" style="margin-top:18px"><div class="ch"><h3 class="serif">' + k.navn.split(' - ')[0] + ' på kartet</h3></div>' +
+        '<p class="hint">Endring i folketall 2026–2050 etter SSBs hovedalternativ. Kommunen er markert; nabofylkene vises dempet.</p>' +
+        NN.placeholder('kart', {ind:'endring', highlight:k.nr, fylke:k.fylke, side:false, height:430}, 430) + '</div>');
     } else if(sec === 'sammensetning'){
       renderSammensetningPanel(k, host);
     } else if(sec === 'arbeid'){
       renderArbeidPanel(k, host);
+    } else if(sec === 'forsorg'){
+      renderForsorgPanel(k, host);
     } else if(sec === 'levekar'){
       renderLevekarPanel(k, host);
     } else if(sec === 'bolig'){
@@ -408,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function renderAllSections(){
-    ['befolkning','sammensetning','arbeid','levekar','bolig','okonomi','pensjon','barekraft'].forEach(renderSection);
+    ['befolkning','sammensetning','arbeid','forsorg','levekar','bolig','okonomi','pensjon','barekraft'].forEach(renderSection);
   }
 
   // ─── Dedikert Befolkning-panel (pedagogisk redesign) ───
@@ -621,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function(){
     host.querySelectorAll('#bfMw button').forEach(function(b){
       b.onclick = function(){
         state.mw = this.dataset.mw;
-        requestAnimationFrame(function(){ renderSection('befolkning'); renderSection('arbeid'); });
+        requestAnimationFrame(function(){ renderSection('befolkning'); renderSection('forsorg'); });
       };
     });
     host.querySelectorAll('#bfUkr button').forEach(function(b){
@@ -745,8 +764,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  // ─── Dedikert Arbeid og forsørgerbyrde-panel ───
-  // Forsørgerbyrde-graf øverst → KPI-rad → sysselsettings-kort → Norman-tolkning
+  // ─── Arbeid og næring / Forsørgerbyrde og omsorg (delt 20.11.2026) ───
   // Eldreomsorgen mot 2050 (ELDRE_DATA, fetch_eldre.py): 80+, 90+, demens og årsverk «alt annet likt»
   function eldreCard(k){
     if(typeof ELDRE_DATA === 'undefined') return '';
@@ -781,28 +799,50 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function renderArbeidPanel(k, host){
+    // 3. Arbeid og næring: sysselsetting og uføre (SSB), pendling, næring og NAV-statistikk
+    var sj = k.syss;
+    var sysRate = (typeof getSysselsRate === 'function') ? getSysselsRate(k.nr) : null;
+    var uforePct = (typeof getUforePct === 'function') ? getUforePct(k.nr) : null;
+    var aar = (typeof ARBEID_DATA !== 'undefined' && ARBEID_DATA.year) || 2025;
+    var tolkning = '';
+    if(sysRate != null) tolkning += 'Sysselsettingsraten i <b>' + k.navn + '</b> er <b>' + (sysRate*100).toFixed(0).replace('.',',') + ' %</b> i ' + aar + ', mot 76,7 % i landet. ';
+    if(uforePct != null) tolkning += 'Uføreandelen er <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b>, ' + (uforePct > 12 ? 'klart over' : uforePct > 11.5 ? 'over' : uforePct < 9.5 ? 'under' : 'rundt') + ' nasjonalt snitt (10,7 %). ';
+    tolkning += 'Hva det betyr for forsørgerbyrden fram mot 2050, står i fanen <a href="kommune.html?k=' + k.nr + '&sec=forsorg">Forsørgerbyrde og omsorg</a>.';
+
+    host.innerHTML =
+      '<div class="bf-panel">'+
+        '<div class="bf-kpis">'+
+          '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 ('+aar+')</div></div>'+
+          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 ('+aar+')</div></div>'+
+        '</div>'+
+        '<div class="bf-diagnose"><div class="h-row"><h3>Arbeid i korte trekk</h3></div><p>'+tolkning+'</p></div>'+
+        // Sysselsetting fordeling (innvandrere/hele)
+        (sj ? '<div style="margin-top:4px">' + sysCard(sj) + '</div>' : '')+
+      '</div>' + '<div id="pendlingBlokk"></div>' + '<div id="naeringBlokk"></div>' + '<div id="navBlokk"></div>';
+    // Pendling (NN.pendlingKort, PENDLING_DATA)
+    if(window.NN && NN.pendlingKort) NN.pendlingKort(k.nr, document.getElementById('pendlingBlokk'));
+    // Arbeidsplasser etter næring (NN.naeringKort, NAERING_K)
+    if(window.NN && NN.naeringKort) NN.naeringKort(k.nr, document.getElementById('naeringBlokk'));
+    // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
+    if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
+  }
+
+  // ─── Forsørgerbyrde og omsorg ───
+  // Forsørgerbrøk-graf øverst → KPI-rad → tolkning → «Hvem bærer hvem?» → eldreomsorgen mot 2050
+  function renderForsorgPanel(k, host){
     // Bruk lokalt projMode='fb' for grafen — påvirker ikke Befolkning
     var savedProjMode = state.projMode;
     state.projMode = 'fb';
     var chartSvg = projChart(k, 'fb');
     state.projMode = savedProjMode;
 
-    // KPI-er — SSB MMMM (hovedbane), samme bane som grafen over
     var P = DATA.proj, o = P && P.kommuner[k.nr];
     var yrs = P.years, n = yrs ? yrs.length : 0;
-    var sj = k.syss, sjr = sj ? sj.rate : null;
-    var sysRate = (typeof getSysselsRate === 'function') ? getSysselsRate(k.nr) : null;
-    var uforePct = (typeof getUforePct === 'function') ? getUforePct(k.nr) : null;
     var oad0 = null, oad1 = null;
     if(o && n >= 2 && o.a65 && o.a2064){
       oad0 = o.a2064[0] ? 100*o.a65[0]/o.a2064[0] : null;
       oad1 = o.a2064[n-1] ? 100*o.a65[n-1]/o.a2064[n-1] : null;
     }
-    var sysInnv = sjr && sjr.zzz != null ? sjr.zzz : null;
-    var sysGap = (sjr && sjr.zzz != null && sjr.tot != null) ? (sjr.tot - sjr.zzz) : null;
-    var fmtP = function(v, d){ return v == null ? '–' : v.toFixed(d == null ? 1 : d).replace('.',',') + ' %'; };
-
-    // Tolkning
     var aldring = (oad0 != null && oad1 != null) ? (oad1 - oad0) : null;
     var presset = aldring == null ? 'ukjent' :
       aldring > 25 ? 'svært stort' :
@@ -810,39 +850,25 @@ document.addEventListener('DOMContentLoaded', function(){
       aldring > 8 ? 'moderat' : 'beskjedent';
     var tolkning = (aldring != null && aldring < 0) ? '<b>' + k.navn + '</b> har høy forsørgerbrøk i dag, men den ventes å falle mot 2050. ' : '<b>' + k.navn + '</b> har et <b>' + presset + '</b> aldringspress fram mot 2050. ';
     if(oad0 != null && oad1 != null) tolkning += 'Forsørgerbrøken går fra <b>' + oad0.toFixed(0).replace('.',',') + '</b> til <b>' + oad1.toFixed(0).replace('.',',') + '</b> innbyggere 65 år og over per 100 i alderen 20–64. ';
-    if(sysRate != null) tolkning += 'Sysselsettingsraten er <b>' + (sysRate*100).toFixed(0).replace('.',',') + ' %</b> i ' + ((typeof ARBEID_DATA !== 'undefined' && ARBEID_DATA.year) || 2025) + '. ';
-    if(uforePct != null) tolkning += 'Uføreandelen på <b>' + uforePct.toFixed(1).replace('.',',') + ' %</b> er ' + (uforePct > 12 ? 'klart over' : uforePct > 11.5 ? 'over' : uforePct < 9.5 ? 'under' : 'rundt') + ' nasjonalt snitt (10,7 %)' + (uforePct > 12 ? ' — det forsterker presset' : '') + '. ';
+    tolkning += 'Forsørgerbrøken teller alder, ikke arbeid. «Hvem bærer hvem?» under teller hvem som faktisk er i jobb; sysselsetting, pendling og næring står i fanen <a href="kommune.html?k=' + k.nr + '&sec=arbeid">Arbeid og næring</a>.';
 
     host.innerHTML =
       '<div class="bf-panel">'+
-        // Forsørgerbyrde-graf
         '<div class="bf-graph">'+
           '<p class="chart-title">Forsørgerbrøk 2026–2050 — innbyggere 65+ per 100 i alderen 20–64</p>'+
           chartSvg+
         '</div>'+
-        // KPI-rad
         '<div class="bf-kpis">'+
-          '<div class="k"><div class="v">'+(sysRate != null ? (sysRate*100).toFixed(0).replace('.',',')+' %' : '–')+'</div><div class="l">Sysselsettingsrate</div><div class="h">20–66 år · SSB 13563 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
-          '<div class="k"><div class="v">'+(uforePct != null ? uforePct.toFixed(1).replace('.',',')+' %' : '–')+'</div><div class="l">Uføreandel</div><div class="h">18–67 år · SSB 11715 ('+(typeof ARBEID_DATA!=='undefined'?ARBEID_DATA.year:'2025')+')</div></div>'+
           (oad0 != null ? '<div class="k"><div class="v">'+oad0.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbrøk i dag</div><div class="h">65+ per 100 i alderen 20–64 · SSB MMMM</div></div>' : '')+
           (oad1 != null ? '<div class="k"><div class="v '+(aldring > 15 ? 'down' : '')+'">'+oad1.toFixed(0).replace('.',',')+'</div><div class="l">Forsørgerbrøk 2050</div><div class="h">'+(aldring != null ? (aldring >= 0 ? '+' : '−') + Math.abs(aldring).toFixed(0).replace('.',',') + ' fra i dag' : '')+'</div></div>' : '')+
         '</div>'+
-        // Sysselsetting fordeling (innvandrere/hele)
-        (sj ? '<div style="margin-top:4px">' + sysCard(sj) + '</div>' : '')+
-        // Tolkning
         '<div class="bf-diagnose" style="border-left-color:var(--neg)">'+
           '<div class="h-row"><h3>Hva betyr dette?</h3>'+
           '<span class="tag" style="color:var(--neg);background:color-mix(in srgb, var(--neg) 15%, transparent)">'+presset+' press</span></div>'+
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + '<div id="pendlingBlokk"></div>' + '<div id="naeringBlokk"></div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
-    // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
-    // Pendling (NN.pendlingKort, PENDLING_DATA)
-    if(window.NN && NN.pendlingKort) NN.pendlingKort(k.nr, document.getElementById('pendlingBlokk'));
-    // Arbeidsplasser etter næring (NN.naeringKort, NAERING_K)
-    if(window.NN && NN.naeringKort) NN.naeringKort(k.nr, document.getElementById('naeringBlokk'));
-    if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
+      '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
   }
 
   // ─── Dedikert Økonomi-panel ───

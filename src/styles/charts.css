@@ -142,3 +142,27 @@
 .fb-tabell td{padding:6px 8px;border-top:1px solid var(--line2);text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
 .fb-tabell td:first-child{font-family:var(--font-sans);color:var(--ink-2)}
 .fb-tabell tr.sum td{border-top:2px solid var(--ink);font-weight:600}
+
+/* Profil «Hvor står kommunen?» (src/lib/profil.js): én rad per indikator, prikk = plassering blant de 80 */
+.nn-pr { margin: 6px 0 4px; }
+.nn-pr-rad, .nn-pr-akse { display: grid; grid-template-columns: minmax(140px, 1.2fr) minmax(140px, 2fr) 120px 150px; grid-template-areas: "navn spor verdi rang"; gap: 4px 14px; align-items: center; }
+.nn-pr-rad { padding: 7px 0; border-bottom: 1px solid var(--line-soft, var(--line)); }
+.nn-pr-navn { grid-area: navn; font-size: 13px; color: var(--ink-2); }
+.nn-pr-verdi { grid-area: verdi; font: 600 15px/1 var(--font-display); color: var(--accent-text); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.nn-pr-rang { grid-area: rang; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; }
+.nn-pr-gruppe { font: 600 10.5px/1.3 var(--font-mono, var(--font-sans)); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); padding: 12px 0 2px; }
+.nn-pr-akse { font-size: 10.5px; color: var(--ink-3); }
+.nn-pr-akse-t { grid-area: spor; display: flex; justify-content: space-between; }
+.nn-pr-spor { grid-area: spor; position: relative; display: block; height: 14px; }
+.nn-pr-spor::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid color-mix(in srgb, var(--ink-3) 45%, transparent); }
+.nn-pr-spor .med { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px dashed var(--ink-3); }
+.nn-pr-spor .prikk { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); transform: translate(-50%, -50%); }
+.nn-pr-spor.liten { height: 10px; }
+.nn-pr-spor.liten .prikk { width: 9px; height: 9px; border-width: 1.5px; }
+.nn-pr-mini { margin-top: 8px; display: grid; gap: 4px; font-size: 11px; color: var(--ink-3); }
+.nn-pr-mini .nn-pr-spor { grid-area: auto; }
+@media (max-width: 640px) {
+  .nn-pr-rad, .nn-pr-akse { grid-template-columns: minmax(0, 1fr) 104px; grid-template-areas: "navn verdi" "spor rang"; gap: 3px 12px; }
+  .nn-pr-akse { grid-template-areas: "spor rang"; }
+  .nn-pr-rang { font-size: 10.5px; text-align: right; }
+}

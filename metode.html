@@ -264,7 +264,7 @@
 
 <div class="metode-card" id="nav">
   <h2>NAV-statistikk per kommune</h2>
-  <p class="hint">Brukes i Arbeid-fanen på kommunesidene og under «Arbeid og forsørgerbyrde» på fylkessidene og <a href="nord-norge.html">landsdelssiden</a>. Tallene bygges med <code>fetch_nav.py</code>. Plan, kontrollrapport og skript ligger i <code>analyse/PLAN-NAV.md</code> og <code>analyse/nav/</code>.</p>
+  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene, fylkessidene og <a href="nord-norge.html">landsdelssiden</a>. Tallene bygges med <code>fetch_nav.py</code>. Plan, kontrollrapport og skript ligger i <code>analyse/PLAN-NAV.md</code> og <code>analyse/nav/</code>.</p>
   <ul>
     <li><span class="norm-tag">Kilder</span> <b>NAVs kommunetabeller.</b> Helt ledige (HL060, månedstall 2012–2026), mottakere av arbeidsavklaringspenger (årsgjennomsnitt 2010–2015 og AAP155 med månedstall fra 2016), personer med nedsatt arbeidsevne (NED155, månedstall fra 2016), mottakere av uføretrygd (kommunetabellene for desember 2010 til september 2026, Tabell 20/PST220) og alderspensjonister og minstepensjonister (PST011 og PST062, september 2016–2026). Årganger som ikke lenger ligger på NAVs hovedsider, er hentet fra NAVs arkivsider. Data per 20. november 2026: månedstall til og med oktober 2026, uføre og pensjon til og med september 2026.</li>
     <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling</b> med SSBs kodeliste (Klass 131). Der NAV selv har regnet om eldre år til ny inndeling, brukes NAVs tall. Ellers summeres kommunene som ble slått sammen (Senja, Hammerfest og Tjeldsund før 2020, Harstad 2010–2011). Andelen regnes da som summen av antallene delt på summen av nevnerne; nevneren for hver kommune er medianen av antall delt på andel i året. Tysfjord ble delt mellom Narvik og Hamarøy i 2020, og tallene fordeles ikke. Narvik og Hamarøy har derfor ingen tall før 2020, unntatt der NAV har regnet om: uføre fra desember 2018 og pensjon fra 2016.</li>
@@ -292,7 +292,7 @@
 
 <div class="metode-card" id="pendling">
   <h2>Pendling inn og ut</h2>
-  <p class="hint">Brukes i Arbeid-fanen på kommunesidene og i kartlaget «Netto pendling». Tallene bygges med <code>fetch_pendling.py</code>.</p>
+  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene og i kartlaget «Netto pendling». Tallene bygges med <code>fetch_pendling.py</code>.</p>
   <ul>
     <li><span class="norm-tag">Kilde</span> <b>SSB 03321:</b> sysselsatte 15–74 år per 4. kvartal etter bostedskommune og arbeidsstedskommune, 2020–2025. Utpendlere er sysselsatte som bor i kommunen og har arbeidssted i en annen kommune. Innpendlere er sysselsatte med arbeidssted i kommunen som bor i en annen kommune. Netto pendling er innpendlere minus utpendlere.</li>
     <li><span class="norm-tag">Inndeling</span> <b>Kommunekodene føres fram til dagens inndeling.</b> Pendling mellom to koder som i dag er samme kommune, regnes som arbeid i egen kommune. Serien starter i 2020, slik at kommunesammenslåingene i 2020 ikke gir brudd.</li>
@@ -303,7 +303,7 @@
 
 <div class="metode-card" id="naering-kommune">
   <h2>Arbeidsplasser etter næring per kommune</h2>
-  <p class="hint">Brukes i Arbeid-fanen på kommunesidene. Tallene bygges med <code>fetch_naering_kommune.py</code>. Næringsgruppene på temasiden <a href="tema-naering.html">Hva skal vi leve av?</a> bygger på en annen tabell (SSB 13470) og en annen inndeling.</p>
+  <p class="hint">Brukes i fanen «Arbeid og næring» på kommunesidene. Tallene bygges med <code>fetch_naering_kommune.py</code>. Næringsgruppene på temasiden <a href="tema-naering.html">Hva skal vi leve av?</a> bygger på en annen tabell (SSB 13470) og en annen inndeling.</p>
   <ul>
     <li><span class="norm-tag">Kilde</span> <b>SSB 07984:</b> sysselsatte 15–74 år per 4. kvartal etter arbeidssted, 17 næringer (SN2007) og i alt, 2020–2025, for de 80 kommunene, Nord-Norge og landet. For siste år hentes også sysselsatte etter bosted. Andelene er antall i næringen delt på alle arbeidsplasser i kommunen.</li>
     <li><span class="norm-tag">Skjult</span> <b>SSB skjuler tall</b> som kan føres tilbake til enkeltbedrifter. De vises som «skjult», regnes aldri som 0, og er ikke med i figurene. Totalen er SSBs egen og omfatter de skjulte næringene. Når noen næringer er skjult, sier teksten «blant dem med tall», fordi en skjult næring kan være større.</li>
@@ -330,7 +330,7 @@
 
 <div class="metode-card" id="eldreomsorg">
   <h2>Eldreomsorgen mot 2050</h2>
-  <p class="hint">Brukes i akt 04 på temasiden <a href="tema-aldring.html#omsorg">Aldring i internasjonalt perspektiv</a> og i Arbeid-fanen på kommunesidene. Tallene bygges med <code>fetch_eldre.py</code> direkte fra SSB. Bakgrunnen er Riksrevisjonens Dokument 3:16 (2025–2026) om kommunale helse- og omsorgstjenester til eldre, datert 9. juni 2026. Rapporten tallfester ikke behovet per kommune; tallene er dashbordets egne.</p>
+  <p class="hint">Brukes i akt 04 på temasiden <a href="tema-aldring.html#omsorg">Aldring i internasjonalt perspektiv</a> og i fanen «Forsørgerbyrde og omsorg» på kommunesidene. Tallene bygges med <code>fetch_eldre.py</code> direkte fra SSB. Bakgrunnen er Riksrevisjonens Dokument 3:16 (2025–2026) om kommunale helse- og omsorgstjenester til eldre, datert 9. juni 2026. Rapporten tallfester ikke behovet per kommune; tallene er dashbordets egne.</p>
   <ul>
     <li><span class="norm-tag">Befolkning</span> <b>80+, 90+ og 20–64 år</b> fra SSB 14746, hovedalternativet MMMM (2026-årgangen). Forsørgerbrøken (65+ per 20–64) fra SSB 14751: landet 0,33 i 2026 og 0,47 i 2050. Riksrevisjonen bruker 2024-årgangen (0,32 i 2024 og 0,48 i 2050).</li>
     <li><span class="norm-tag">Anslag</span> <b>Personer med demens.</b> Aldersspesifikke forekomstrater fra Demenskartet (Aldring og helse; HUNT4 70+ og Gjøra mfl. 2021): 0,08 % (30–64 år), 0,57 % (65–69), 6,39 % (70–74), 10,03 % (75–79), 17,80 % (80–84), 30,45 % (85–89) og 41,47 % (90+), brukt på befolkningsbanen. Ratene er like for begge kjønn og hele landet. For landet gir det 2–4 % lavere tall enn FHIs anslag.</li>

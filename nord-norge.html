@@ -64,7 +64,8 @@
 <nav class="nn-secnav" id="secnav">
   <button data-sec="intro" aria-current="true">Befolkning</button>
   <button data-sec="model" aria-current="false">Sammensetning</button>
-  <button data-sec="nat" aria-current="false">Arbeid og forsørgerbyrde</button>
+  <button data-sec="nat" aria-current="false">Arbeid og næring</button>
+  <button data-sec="forsorg" aria-current="false">Forsørgerbyrde og omsorg</button>
   <button data-sec="levekar" aria-current="false">Levekår</button>
   <button data-sec="refugees" aria-current="false">Økonomi</button>
   <button data-sec="robek" aria-current="false">Bærekraft</button>
@@ -251,8 +252,8 @@
 <button class="nextstep" data-next="nat">
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 3</div>
-    <div class="ns-t">Arbeid og forsørgerbyrde</div>
-    <div class="ns-h">Når gruppen 67+ vokser raskere enn gruppen i arbeidsfør alder, øker forsørgerbyrden. Hvor tungt blir det å bære i 2050?</div>
+    <div class="ns-t">Arbeid og næring</div>
+    <div class="ns-h">Hvem jobber, hvor jobber de, og hvem står utenfor? Ledighet, AAP og uføretrygd fra NAV.</div>
   </div>
   <div class="ns-arr">→</div>
 </button>
@@ -260,24 +261,10 @@
 
 <section class="tab" data-tab="nat">
   <div class="stepcard" data-color="fi">
-    <div class="sn">3 · Arbeid og forsørgerbyrde</div>
-    <h2>Arbeid og forsørgerbyrde</h2>
-    <p class="sq">Når eldregruppen vokser raskere enn gruppen i arbeidsfør alder — hvor tungt blir det å bære i 2050?</p>
+    <div class="sn">3 · Arbeid og næring</div>
+    <h2>Arbeid og næring</h2>
+    <p class="sq">Hvem jobber, hvor mangler det folk, og hvem står utenfor arbeidslivet?</p>
   </div>
-
-  <!-- Klartekst -->
-  <div class="tldr t-burden" id="burdenTldr"></div>
-
-  <!-- Hero: forsørgerbyrde for landsdelen -->
-  <div class="card hero-chart" id="burdenChart">
-    <div class="ch"><h3 class="serif">Forsørgerbrøk 2026–2050 · Nord-Norge totalt</h3></div>
-    <p class="hint">Forsørgerbrøk: antall personer 65+ per 100 i alderen 20–64. Målet teller alder, ikke hvem som er i arbeid; se «Hvem bærer hvem?» under. Indekspanelet under viser hvorfor — eldregruppen vokser mens gruppen i arbeidsfør alder står stille eller går ned. Bane: SSB MMMM (tabell 14746).</p>
-    <div id="burdenGraph"></div>
-  </div>
-
-  <!-- Hvem bærer hvem? (forsorgCard i assets/app.js) -->
-  <div id="forsorgKort" style="margin-top:18px"></div>
-  <p class="hint" style="margin-top:12px">Regjeringens nordområdedokumenter har beskrevet aldringen og nedgangen i arbeidsfør alder siden 2017, men ingen av dem setter et tallfestet mål for befolkning eller arbeidskraft. Se temasiden <a href="tema-nordomrade.html">20 år med nordområdepolitikk</a>.</p>
 
   <!-- NAV-statistikk for fylket/landsdelen (NN.navNivaa i src/lib/navkort.js, data/nav/fylke-*.json) -->
   <div id="navNivaa"></div>
@@ -314,9 +301,40 @@
   <div id="navTop6Graf"></div>
   <p class="hint" style="font-size:11.5px;margin-top:14px;font-style:italic">Kilde: NAVs bedriftsundersøkelse 2026 — svar fra 13 119 virksomheter, publisert 20. mai 2026. Tall rundet til nærmeste 50. Data per fylke; kan ikke brytes ned til kommunenivå. <a href="https://bibliotek.nav.no/record/6225" target="_blank" rel="noopener">Last ned rapport</a>.</p>
 
-<button class="nextstep" data-next="levekar">
+<button class="nextstep" data-next="forsorg">
   <div class="ns-l">
     <div class="ns-n">→ Kapittel 4</div>
+    <div class="ns-t">Forsørgerbyrde og omsorg</div>
+    <div class="ns-h">Når gruppen 65+ vokser raskere enn gruppen i arbeidsfør alder, øker forsørgerbyrden. Hvor tungt blir det å bære i 2050?</div>
+  </div>
+  <div class="ns-arr">→</div>
+</button>
+</section>
+
+<section class="tab" data-tab="forsorg">
+  <div class="stepcard" data-color="fi">
+    <div class="sn">4 · Forsørgerbyrde og omsorg</div>
+    <h2>Forsørgerbyrde og omsorg</h2>
+    <p class="sq">Når eldregruppen vokser raskere enn gruppen i arbeidsfør alder — hvor tungt blir det å bære i 2050?</p>
+  </div>
+
+  <!-- Klartekst -->
+  <div class="tldr t-burden" id="burdenTldr"></div>
+
+  <!-- Hero: forsørgerbyrde for landsdelen -->
+  <div class="card hero-chart" id="burdenChart">
+    <div class="ch"><h3 class="serif">Forsørgerbrøk 2026–2050 · Nord-Norge totalt</h3></div>
+    <p class="hint">Forsørgerbrøk: antall personer 65+ per 100 i alderen 20–64. Målet teller alder, ikke hvem som er i arbeid; se «Hvem bærer hvem?» under. Indekspanelet under viser hvorfor — eldregruppen vokser mens gruppen i arbeidsfør alder står stille eller går ned. Bane: SSB MMMM (tabell 14746).</p>
+    <div id="burdenGraph"></div>
+  </div>
+
+  <!-- Hvem bærer hvem? (forsorgCard i assets/app.js) -->
+  <div id="forsorgKort" style="margin-top:18px"></div>
+  <p class="hint" style="margin-top:12px">Regjeringens nordområdedokumenter har beskrevet aldringen og nedgangen i arbeidsfør alder siden 2017, men ingen av dem setter et tallfestet mål for befolkning eller arbeidskraft. Se temasiden <a href="tema-nordomrade.html">20 år med nordområdepolitikk</a>.</p>
+
+<button class="nextstep" data-next="levekar">
+  <div class="ns-l">
+    <div class="ns-n">→ Kapittel 5</div>
     <div class="ns-t">Levekår</div>
     <div class="ns-h">Hva tjener folk i Nord-Norge, hvordan bor de, og hvor stor andel av inntekten kommer fra lønn, pensjon og uføretrygd?</div>
   </div>
@@ -326,7 +344,7 @@
 
 <section class="tab" data-tab="levekar">
   <div class="stepcard" data-color="tr">
-    <div class="sn">4 · Levekår</div>
+    <div class="sn">5 · Levekår</div>
     <h2>Levekår</h2>
     <p class="sq">Hva tjener husholdningene, hvordan bor de, og hvor stor andel av inntektene kommer fra lønn, pensjon og uføretrygd?</p>
     <details>
@@ -385,7 +403,7 @@
 
 <button class="nextstep" data-next="refugees">
   <div class="ns-l">
-    <div class="ns-n">→ Kapittel 5</div>
+    <div class="ns-n">→ Kapittel 6</div>
     <div class="ns-t">Økonomi</div>
     <div class="ns-h">Demografien presser kommunenes utgifter framover. Neste kapittel ser på det økonomiske grunnlaget: KOSTRA-nøkkeltallene, ROBEK-status og rentekostnadene.</div>
   </div>
@@ -395,7 +413,7 @@
 
 <section class="tab" data-tab="refugees">
   <div class="stepcard" data-color="amber">
-    <div class="sn">5 · Økonomi</div>
+    <div class="sn">6 · Økonomi</div>
     <h2>Økonomi</h2>
     <p class="sq">Hvor solid står kommunenes økonomi når aldringskostnaden kommer?</p>
   </div>
@@ -435,7 +453,7 @@
 
 <button class="nextstep" data-next="robek">
   <div class="ns-l">
-    <div class="ns-n">→ Kapittel 6</div>
+    <div class="ns-n">→ Kapittel 7</div>
     <div class="ns-t">Bærekraft</div>
     <div class="ns-h">Demografi og økonomi sett mot etablerte normer fra OECD, TBU, KS og kommuneloven. Hvor står kommunene mot hver enkelt standard?</div>
   </div>
@@ -445,7 +463,7 @@
 
 <section class="tab" data-tab="robek">
   <div class="stepcard" data-color="ink">
-    <div class="sn">6 · Bærekraft</div>
+    <div class="sn">7 · Bærekraft</div>
     <h2>Bærekraft</h2>
     <p class="sq">Hvordan står Nord-Norges kommuner mot etablerte normer fra OECD, TBU, KS, SSB og kommuneloven?</p>
     <details>

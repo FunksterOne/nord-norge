@@ -2548,6 +2548,9 @@ var _natts=document.getElementById('natts'); if(_natts) _natts.addEventListener(
   const k=b.dataset.leg; state.natHidden[k]=!state.natHidden[k]; renderNatTS();});
 function setTab(t){
   document.querySelectorAll('#journey button').forEach(x=>x.setAttribute('aria-current',x.dataset.tab===t?'true':'false'));
+  // Fanevelgeren på landsdels- og fylkessidene (#secnav) og ?sec= i adressen følger med
+  document.querySelectorAll('#secnav button').forEach(x=>x.setAttribute('aria-current',x.dataset.sec===t?'true':'false'));
+  try{ const u=new URL(location.href); if(document.getElementById('secnav')){ u.searchParams.set('sec',t); history.replaceState(null,'',u); } }catch(e){}
   document.querySelectorAll('.tab').forEach(p=>p.classList.toggle('active',p.dataset.tab===t));
   window.scrollTo({top:0,behavior:'smooth'});
 }

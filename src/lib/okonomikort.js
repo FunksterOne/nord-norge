@@ -210,5 +210,6 @@ export function naeringKort(nr, host) {
 
   host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Arbeidsplasser etter næring</h3>' +
     `<p class="hint" style="margin:0 0 10px">Hvilke næringer arbeidsplassene i ${navn} finnes i, og hvordan de har endret seg siden ${a0}. Mer på <a href="metode.html#naering-kommune">metodesiden</a>.</p>` +
-    kpis + tekst + f1 + f2 + tabell + '</div>';
+    kpis + tekst + f1 +
+    '<details class="nn-mer"><summary>Vis endring per næring og tabell</summary>' + f2 + tabell + '</details>' + '</div>';
 }
