@@ -214,6 +214,14 @@ export const INDIKATORER = {
   },
 };
 
+// Gruppene i kartmenyen (hovedkartet på landsdels- og fylkessidene)
+const GRUPPER = [
+  ['Befolkning', ['endring', 'folketall', 'eldre', 'forsorg', 'innv']],
+  ['Arbeid', ['syssRate', 'syssInnv', 'pendNetto', 'arbVekst', 'primaerAndel']],
+  ['NAV', ['navLedige', 'navAap', 'navNedsatt', 'navUfore', 'navMinstepensjon']],
+  ['Økonomi', ['skattAndel', 'skatteVekst', 'robek']],
+];
+
 function colorScale(def, values) {
   const nums = values.filter(v => typeof v === 'number' && Number.isFinite(v));
   if (def.type === 'diverging') {
@@ -303,11 +311,16 @@ function render(el, width) {
 
   const out = [];
   if (s.controls) {
+    // Menyen er delt i grupper (GRUPPER); kartlag som ikke står i en gruppe, havner under «Annet».
     const bar = document.createElement('div');
-    bar.className = 'nn-seg';
-    bar.setAttribute('role', 'tablist');
-    bar.innerHTML = Object.entries(INDIKATORER).filter(([key, d]) => !d.skjult || key === ind).map(([key, d]) =>
-      `<button type="button" role="tab" data-ind="${key}" aria-selected="${key === ind}">${d.navn}</button>`).join('');
+    bar.className = 'nn-kartmeny';
+    const synlige = Object.entries(INDIKATORER).filter(([key, d]) => !d.skjult || key === ind).map(([key]) => key);
+    const plassert = new Set(GRUPPER.flatMap(([, ks]) => ks));
+    const grupper = GRUPPER.map(([navn, ks]) => [navn, ks.filter(k => synlige.includes(k))])
+      .concat([['Annet', synlige.filter(k => !plassert.has(k))]]).filter(([, ks]) => ks.length);
+    const knapp = key => `<button type="button" data-ind="${key}" aria-pressed="${key === ind}" aria-selected="${key === ind}">${INDIKATORER[key].navn.replace(/ \(NAV\)$/, '')}</button>`; // gruppen heter NAV
+    bar.innerHTML = grupper.map(([navn, ks]) =>
+      `<div class="nn-kartmeny-gr" role="group" aria-label="${navn}"><span class="nn-kartmeny-t">${navn}</span><div class="nn-seg">${ks.map(knapp).join('')}</div></div>`).join('');
     bar.addEventListener('click', e => {
       const b = e.target.closest('button[data-ind]'); if (!b) return;
       el.dataset.spec = JSON.stringify({ ...s, ind: b.dataset.ind });

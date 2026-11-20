@@ -23,6 +23,12 @@
 .nnchart figure { margin: 0; }
 .nnchart figure > div[class$="-swatches"], .nnchart figure > svg:first-child:not(:last-child) { margin-bottom: 6px; }
 @media (max-width: 720px) { .nn-seg { width: 100%; } .nn-seg button { flex: 1 1 auto; padding: 9px 8px; } }
+/* Kartmenyen i grupper (src/charts/map.js, GRUPPER): etikett til venstre, knapper til høyre; under hverandre på smal skjerm */
+.nn-kartmeny { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; align-items: center; margin: 0 0 12px; }
+.nn-kartmeny-gr { display: contents; }
+.nn-kartmeny-t { font: 500 10.5px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.nn-kartmeny .nn-seg { margin: 0; }
+@media (max-width: 720px) { .nn-kartmeny { grid-template-columns: 1fr; gap: 4px; } .nn-kartmeny-t { margin-top: 8px; } }
 .nn-kart-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 28px; align-items: start; }
 @media (max-width: 760px) { .nn-kart-grid { grid-template-columns: 1fr; } }
 .nn-rank { border-top: 3px solid var(--rule); padding-top: 12px; }
