@@ -57,7 +57,11 @@
 .nn-trykk svg text { font-family: var(--font-sans); }
 /* Ni kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
 .nn-scrolly { margin-top: 8px; }
-.nn-sk-faner { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
+.nn-sk-faner { display: flex; flex-wrap: wrap; gap: 4px 18px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+/* Fanegrupper på forsiden: gruppenavn i kapitéler over fanene i gruppen */
+.nn-sk-gr { display: flex; flex-direction: column; min-width: 0; }
+.nn-sk-gr-t { font: 500 10px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); padding: 6px 12px 0; }
+.nn-sk-gr-k { display: flex; flex-wrap: wrap; gap: 2px; }
 .nn-sk-faner::-webkit-scrollbar { display: none; }
 .nn-sk-faner button { flex: none; font: 500 13.5px/1 var(--font-sans); color: var(--ink-3); background: none; border: 0; border-bottom: 2px solid transparent; padding: 11px 12px 10px; cursor: pointer; white-space: nowrap; }
 .nn-sk-faner button:hover { color: var(--ink); }

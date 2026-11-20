@@ -1,5 +1,6 @@
 // Ni kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
-// Fane 06 (NAV), 07 (Skatt), 08 (Pendling og næring) og 09 (Sysselsetting) har egne valg (s.valg)
+// Fanene er gruppert som i hovedkartet (GRUPPER): Befolkning 01–04, Arbeid 05–07, Økonomi 08–09.
+// Fane 05 (Sysselsetting), 06 (Pendling og næring), 07 (NAV) og 08 (Skatt) har egne valg (s.valg)
 // som bytter kartlag og tekst.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
@@ -27,7 +28,7 @@ function fakta() {
   return { ks, top, R, robekNavn };
 }
 
-// Fane 06: NAV-statistikk. Hvert valg har eget kartlag og egen tekst, regnet fra NAV_KART.
+// Fane 07: NAV-statistikk. Hvert valg har eget kartlag og egen tekst, regnet fra NAV_KART.
 function navSteg() {
   const N = L.NAVK;
   if (!N) return null;
@@ -69,10 +70,10 @@ function navSteg() {
       h: `${p1(nn.minstepensjon)} av alderspensjonistene har minstepensjon`,
       p: `Andelen i Nord-Norge i september ${M.minstepensjon}, mot ${p1(la.minstepensjon)} i landet. ${over} av ${r.length} kommuner ligger over landet; høyest er ${r[0].navn} (${p1(r[0].v.minstepensjon)}) og ${r[1].navn} (${p1(r[1].v.minstepensjon)}).${smaa(r.slice(0, 2))}` });
   }
-  return { ind: lag[3].ind, kicker: '06 · NAV', valg: lag, start: 3 };
+  return { ind: lag[3].ind, kicker: '07 · NAV', valg: lag, start: 3 };
 }
 
-// Fane 07: skatt. Skatteinngang hittil i år (SSB 07022) og skatt per innbygger (SSB 12137), fra SKATT_DATA.
+// Fane 08: skatt. Skatteinngang hittil i år (SSB 07022) og skatt per innbygger (SSB 12137), fra SKATT_DATA.
 function skattSteg() {
   const S = L.SKATT;
   if (!S) return null;
@@ -104,10 +105,10 @@ function skattSteg() {
         p: `I ${a} betalte innbyggerne i Nord-Norge ${tall(nn.skatt[a], 0)} kr per innbygger i skatt på inntekt og formue til kommunene, ${tall(andel(nn, 'skatt'), 0)} % av landsgjennomsnittet. Høyest var ${r[0].navn} (${tall(r[0].v, 0)} %), lavest ${sist.navn} (${tall(sist.v, 0)} %).${r[0].k.pop < 3000 ? ` ${r[0].navn} er en liten kommune, der noen få store skatteytere kan gi store utslag fra år til år.` : ''} Inntektsutjevningen og rammetilskuddet løfter de frie inntektene per innbygger til ${tall(andel(nn, 'frie'), 0)} % av landsnivået.` });
     }
   }
-  return lag.length ? { ind: lag[0].ind, kicker: '07 · Skatt', valg: lag, start: 0 } : null;
+  return lag.length ? { ind: lag[0].ind, kicker: '08 · Skatt', valg: lag, start: 0 } : null;
 }
 
-// Fane 09: sysselsetting 20–66 år. Kommunene fra SSB 11607 (k.syss), Nord-Norge og landet fra SSB 13563
+// Fane 05: sysselsetting 20–66 år. Kommunene fra SSB 11607 (k.syss), Nord-Norge og landet fra SSB 13563
 // (SYSS_NIVAA); de to tabellene gir samme totaltall for 2025.
 function syssSteg() {
   const S = L.SYSSN;
@@ -135,10 +136,10 @@ function syssSteg() {
         p: `${nn ? `I Nord-Norge samlet var ${p1(nn[0])} av innvandrerne 20–66 år sysselsatt i 2025, mot ${p1(nn[1])} i resten av befolkningen. ` : ''}Medianforskjellen mellom hele befolkningen og innvandrerne i kommunene er ${tall(median(gap), 1)} prosentpoeng. Høyest andel innvandrere i arbeid har ${r[0].navn} (${p1(r[0].r.zzz)}) og ${r[1].navn} (${p1(r[1].r.zzz)}); lavest ${sist[0].navn} (${p1(sist[0].r.zzz)}) og ${sist[1].navn} (${p1(sist[1].r.zzz)}).${smaa([...r.slice(0, 2), ...sist])}${r.length < ks.length ? ` SSB oppgir ikke tallet for ${ks.length - r.length} kommuner.` : ''}` });
     }
   }
-  return { ind: lag[0].ind, kicker: '09 · Sysselsetting', valg: lag, start: 0 };
+  return { ind: lag[0].ind, kicker: '05 · Sysselsetting', valg: lag, start: 0 };
 }
 
-// Fane 08: pendling (SSB 03321, PENDLING_DATA) og arbeidsplasser etter næring (SSB 07984, NAERING_K).
+// Fane 06: pendling (SSB 03321, PENDLING_DATA) og arbeidsplasser etter næring (SSB 07984, NAERING_K).
 function arbeidSteg() {
   const P = L.PENDLING, N = L.NAERINGK;
   const smaa = xs => (xs.every(x => x.k.pop < 1500) ? ' Begge er små kommuner, der få personer gir store prosentutslag.' : '');
@@ -174,7 +175,7 @@ function arbeidSteg() {
       h: `I ${over} kommuner er minst ${grense === 20 ? 'hver femte' : 'hver tiende'} arbeidsplass i jordbruk, skogbruk eller fiske`,
       p: `I Nord-Norge samlet er andelen ${prosent(andel(N.NN.arb), 1)}, mot ${prosent(andel(N.landet.arb), 1)} i landet (${a1}). Høyest er ${pr[0].navn} (${prosent(pr[0].v, 1)}) og ${pr[1].navn} (${prosent(pr[1].v, 1)}). Fiskeoppdrett er med i gruppen, mens fiskeforedling hører til industrien.${skjult ? ` SSB skjuler tallet i ${skjult} ${skjult === 1 ? 'kommune' : 'kommuner'}.` : ''}` });
   }
-  return lag.length ? { ind: lag[0].ind, kicker: '08 · Pendling og næring', valg: lag, start: 0 } : null;
+  return lag.length ? { ind: lag[0].ind, kicker: '06 · Pendling og næring', valg: lag, start: 0 } : null;
 }
 
 function steg() {
@@ -200,13 +201,17 @@ function steg() {
     { ind: 'innv', kicker: '04 · Innvandring',
       h: `Innvandring holder folketallet oppe i mange småsamfunn`,
       p: `Medianandelen med innvandrerbakgrunn er ${prosent(median(f.ks.map(x => x.innv)), 1)}. Høyest er ${i1.navn} (${prosent(i1.innv, 1)}), ${i2.navn} og ${i3.navn}. Uten innvandringen siden 2002 ville nedgangen vært langt større — se temasiden «Hvem blir værende?».` },
-    { ind: 'robek', kicker: '05 · Kommuneøkonomi',
+  ].concat(syssSteg() || [], arbeidSteg() || [], navSteg() || [], skattSteg() || [], [
+    { ind: 'robek', kicker: '09 · Kommuneøkonomi',
       h: `${f.robekNavn.length} kommuner står under statlig økonomisk kontroll`,
       p: `Per ${dato} er ${f.robekNavn.length} av de 80 kommunene registrert i ROBEK: ${f.robekNavn.join(', ')}. Når folketallet går ned og omsorgsbehovet øker, blir handlingsrommet trangere.` },
-  ].concat(navSteg() || [], skattSteg() || [], arbeidSteg() || [], syssSteg() || []);
+  ]);
 }
 
-// Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
+// Gruppe per fanenummer (samme inndeling som kartmenyen i hovedkartet, men NAV hører til Arbeid her)
+const GRUPPE = n => (!n ? '' : n <= 4 ? 'Befolkning' : n <= 7 ? 'Arbeid' : 'Økonomi');
+
+// Kartet og teksten står side om side (under hverandre på mobil). Fanene bytter indikator og tekst
 // samtidig, så leseren aldri må rulle for å se hva kartet viser. Piltastene flytter mellom fanene.
 function build(sec) {
   // Ingressen ligger i HTML-en som .nn-sk-oversikt og blir første fane («Oversikt»). Selve noden flyttes
@@ -219,8 +224,16 @@ function build(sec) {
   const kort = s => s.kicker.replace(/^\d+\s*·\s*/, '');
   const nr = s => (s.kicker.match(/^(\d+)/) || [])[1];
   sec.innerHTML = `
-    <div class="nn-sk-faner" role="tablist" aria-label="Velg kart">${steps.map((s, i) => `
-      <button type="button" role="tab" id="skFane${i}" aria-controls="skTekst" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${nr(s) ? `<span class="nr">${nr(s)}</span> ` : ''}${kort(s)}</button>`).join('')}
+    <div class="nn-sk-faner" role="tablist" aria-label="Velg kart">${(() => {
+      const knapp = (s, i) => `<button type="button" role="tab" id="skFane${i}" aria-controls="skTekst" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${nr(s) ? `<span class="nr">${nr(s)}</span> ` : ''}${kort(s)}</button>`;
+      const grupper = [];
+      steps.forEach((s, i) => {
+        const g = GRUPPE(+nr(s));
+        if (!grupper.length || grupper[grupper.length - 1].g !== g) grupper.push({ g, k: [] });
+        grupper[grupper.length - 1].k.push(knapp(s, i));
+      });
+      return grupper.map(({ g, k }) => `<div class="nn-sk-gr" role="presentation">${g ? `<span class="nn-sk-gr-t" aria-hidden="true">${g}</span>` : '<span class="nn-sk-gr-t" aria-hidden="true">&nbsp;</span>'}<div class="nn-sk-gr-k" role="presentation">${k.join('')}</div></div>`).join('');
+    })()}
     </div>
     <div class="nn-sk-grid">
       <div class="nn-sk-kart"><div data-nnchart="kart" data-spec='${JSON.stringify({ ind: steps[0].ind, side: false, height: h })}' style="min-height:${h + 40}px"></div></div>
