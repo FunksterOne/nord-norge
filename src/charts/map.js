@@ -171,7 +171,7 @@ function render(el, width) {
   const tipText = d => {
     const k = d.k; if (!k) return d.navn;
     const regNavn = (L.REGIONS.find(r => r.id === d.region) || {}).navn;
-    return `${k.navn}\n${def.kort}: ${def.fmt(d.v)}\n${k.fylke}${regNavn ? ' · ' + regNavn : ''}\nFolketall: ${heltall(k.pop)}`;
+    return `${k.navn}\n${def.kort}: ${def.fmt(d.v)}\n${k.fylke}${regNavn ? ' · ' + regNavn : ''}\nFolketall ${L.BEFK ? L.BEFK.dato_norsk : '1.1.2026'}: ${heltall(L.BEFK?.kommuner?.[k.nr] ?? k.pop)}`;
   };
 
   const isSize = def.type === 'size';

@@ -20,7 +20,7 @@ register('spredning', (el, width) => {
       s.refY != null && Plot.text([s.refY], { y: d => d, frameAnchor: 'left', dx: 4, dy: 10, text: () => s.refTekst || '', fill: 'var(--ink-2)', fontSize: 11, textAnchor: 'start' }),
       Plot.dot(pts, { x: 'x', y: 'y', r: 'pop', fill: d => FY[d.fylke], fillOpacity: 0.7, stroke: 'var(--bg)', strokeWidth: 1 }),
       ...(labels ? ['start', 'middle', 'end'].map(a => Plot.text(labels.filter(l => l.anchor === a), { x: 'x', y: 'y', text: 'text', textAnchor: a, fill: 'var(--ink)', fontSize: 11, fontWeight: 600 })) : []),
-      Plot.tip(pts, Plot.pointer({ x: 'x', y: 'y', title: d => `${d.kort} (${d.fylke})\n${s.yTittel || 'Verdi'}: ${yF(d.y)}\nFolketall: ${heltall(d.pop)}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(pts, Plot.pointer({ x: 'x', y: 'y', title: d => `${d.kort} (${d.fylke})\n${s.yTittel || 'Verdi'}: ${yF(d.y)}\nFolketall 1.1.2026: ${heltall(d.pop)}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ].filter(Boolean),
   });
   const first = Plot.plot(opts(null));

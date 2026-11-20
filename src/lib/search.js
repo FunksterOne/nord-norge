@@ -32,7 +32,9 @@ const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 
 function items() {
   const out = [];
-  for (const k of L.K) out.push({ t: k.navn, s: `${k.fylke} · ${heltall(k.pop)} innbyggere`, href: `kommune.html?k=${k.nr}`, w: 3, key: norm(k.navn + ' ' + kortNavn(k.navn)) });
+  // Ferskeste kvartalsvise folketall (SSB 01222), ellers 1.1.2026
+  const naa = k => L.BEFK?.kommuner?.[k.nr] ?? k.pop;
+  for (const k of L.K) out.push({ t: k.navn, s: `${k.fylke} · ${heltall(naa(k))} innbyggere`, href: `kommune.html?k=${k.nr}`, w: 3, key: norm(k.navn + ' ' + kortNavn(k.navn)) });
   for (const f of ['Nordland', 'Troms', 'Finnmark']) out.push({ t: f, s: 'Fylke', href: `fylke.html?f=${f}`, w: 4, key: norm(f) });
   for (const r of L.REGIONS) {
     const ks = L.K.filter(k => k.region === r.id);

@@ -348,9 +348,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // Hurtigvalg: 6 største kommuner med folketall
   var topK = document.getElementById('topKommuner');
   if(topK){
-    var sorted = K.slice().sort(function(a,b){return b.pop - a.pop;}).slice(0,6);
+    var naa = function(x){ return (typeof BEFK_DATA !== 'undefined' && BEFK_DATA.kommuner[x.nr]) || x.pop; };   // ferskeste kvartal (SSB 01222)
+    var sorted = K.slice().sort(function(a,b){return naa(b) - naa(a);}).slice(0,6);
     topK.innerHTML = sorted.map(function(x){
-      var pop = x.pop ? x.pop.toLocaleString('nb-NO') : '–';
+      var pop = naa(x) ? naa(x).toLocaleString('nb-NO') : '–';
       return '<a href="kommune.html?k=' + x.nr + '"><span>' + (window.NN && NN.kortNavn ? NN.kortNavn(x.navn) : x.navn.split(' - ')[0]) + '</span><span class="lbl">' + pop + ' innb.</span></a>';
     }).join('');
   }

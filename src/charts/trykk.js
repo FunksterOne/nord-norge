@@ -64,7 +64,7 @@ register('trykkmatrise', (el, width) => {
     tip.style.opacity = 1;
     tip.style.left = Math.min(e.clientX - b.left + 14, b.width - 210) + 'px';
     tip.style.top = (e.clientY - b.top + 12) + 'px';
-    tip.innerHTML = `<b>${d.navn}</b> · ${d.fylke} · ${d.n} kommuner<br>Folketall: ${heltall(d.pop)}<br>65+ i dag: ${tall(d.a65, 1)} %<br>Arbeidsføre 2026–2050: ${endringPst(d.wf, 1)}<br>Forsørgerbrøk 2050: ${tall(d.b50, 0)}`;
+    tip.innerHTML = `<b>${d.navn}</b> · ${d.fylke} · ${d.n} kommuner<br>Folketall 1.1.2026: ${heltall(d.pop)}<br>65+ i dag: ${tall(d.a65, 1)} %<br>Arbeidsføre 2026–2050: ${endringPst(d.wf, 1)}<br>Forsørgerbrøk 2050: ${tall(d.b50, 0)}`;
   }).on('pointerleave', () => { tip.style.opacity = 0; })
     .on('click', () => { const t = document.getElementById('regTbl'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 

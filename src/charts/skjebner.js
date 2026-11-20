@@ -54,7 +54,7 @@ register('skjebner', (el, width) => {
       Plot.lineY(rows.filter(r => r.s === 'p'), { fx: 'fx', fy: 'fy', x: 'year', y: 'v', z: 'nr', stroke: r => r.v >= 100 ? 'var(--pos)' : 'var(--neg)', strokeWidth: 1.8 }),
       Plot.text(labels, { fx: 'fx', fy: 'fy', frameAnchor: 'top-left', dx: 4, dy: 4, text: 'navn', fill: 'var(--ink)', fontSize: 10.5, fontWeight: 500 }),
       Plot.text(labels, { fx: 'fx', fy: 'fy', frameAnchor: 'bottom-right', dx: -4, dy: -3, text: d => endringPst(d.ch, 0), fill: d => d.ch >= 0 ? 'var(--pos)' : 'var(--neg)', fontSize: 10.5, fontWeight: 600 }),
-      Plot.tip(labels, Plot.pointer({ fx: 'fx', fy: 'fy', frameAnchor: 'middle', title: d => `${d.navn}\nFolketall 2026: ${heltall(d.pop)}\nEndring mot 2050 (SSB MMMM): ${endringPst(d.ch, 1)}\nKlikk for kommunesiden`, fill: 'var(--raised)', stroke: 'var(--line)' })),
+      Plot.tip(labels, Plot.pointer({ fx: 'fx', fy: 'fy', frameAnchor: 'middle', title: d => `${d.navn}\nFolketall 1.1.2026: ${heltall(d.pop)}\nEndring mot 2050 (SSB MMMM): ${endringPst(d.ch, 1)}\nKlikk for kommunesiden`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   });
   fig.style.cursor = 'pointer';

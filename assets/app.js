@@ -903,7 +903,7 @@ function tldrBanner(k, view){
     if(firstY&&lastY&&pastPct!=null){
       text+='<b>'+k.navn+'</b> '+(pastPct>=0?'vokste':'gikk ned')+' fra <b>'+fmt0(firstV)+'</b> ('+firstY+') til <b>'+fmt0(lastV)+'</b> ('+lastY+') — <b>'+pctF(pastPct)+'</b> på '+((+lastY)-(+firstY))+' år. ';
     } else {
-      text+='<b>'+k.navn+'</b> har <b>'+fmt0(k.pop)+'</b> innbyggere i dag. ';
+      text+='<b>'+k.navn+'</b> har <b>'+fmt0(aprilPop(k)||k.pop)+'</b> innbyggere per '+(aprilPop(k)?BEFK_DATA.dato_norsk:'1.1.2026')+'. ';
     }
     if(projMain){
       text+='SSB MMMM peker mot <b>'+fmt0(projMain)+'</b> i '+projYear+' ('+pctF(futurePct)+' fra i dag). ';
@@ -1363,7 +1363,7 @@ function renderComposition(){
     const pEldre80=agg.pop?100*eldre80/agg.pop:0;
     const pInnv=agg.andel||0;
     const _scope = (state.fylke && state.fylke !== 'Alle') ? state.fylke : 'Nord-Norge';
-    let text=_scope+' har <b>'+fmt(agg.pop)+'</b> innbyggere. Medianalderen er <b>'+med+' år</b>. ';
+    let text=_scope+' har <b>'+fmt(aprilPop(agg)||agg.pop)+'</b> innbyggere per '+(aprilPop(agg)?BEFK_DATA.dato_norsk:'1.1.2026')+'. Medianalderen er <b>'+med+' år</b> (1.1.2026). ';
     text+='<b>'+pBarn.toFixed(0).replace('.',',')+' %</b> er under 18 (<i>'+fmt(barn)+'</i>), <b>'+pEldre.toFixed(0).replace('.',',')+' %</b> har passert 67 (<i>'+fmt(eldre)+'</i>) og <b>'+pEldre80.toFixed(1).replace('.',',')+' %</b> er 80 år eller eldre. ';
     text+='<b>'+pInnv.toFixed(1).replace('.',',')+' %</b> har innvandrerbakgrunn — i alt <b>'+fmt(agg.bc)+'</b> personer fordelt på <b>'+(agg.land||[]).filter(l=>l[1]>0).length+'</b> opprinnelsesland. ';
     text+='<i>Aldersgruppen som vokser raskest mot 2050, er 80+ — det er den som driver mest av framtidens omsorgsbehov.</i>';

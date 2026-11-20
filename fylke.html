@@ -670,9 +670,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // Kommune-liste
   var klista = document.getElementById('fylkeKommuner');
   if(klista && typeof K !== 'undefined'){
-    var fk = K.filter(function(x){return x.fylke===fylke;}).sort(function(a,b){return b.pop-a.pop;});
+    var naa = function(x){ return aprilPop(x) || x.pop; };   // ferskeste kvartal (SSB 01222)
+    var fk = K.filter(function(x){return x.fylke===fylke;}).sort(function(a,b){return naa(b)-naa(a);});
     klista.innerHTML = fk.map(function(x){
-      return '<a href="kommune.html?k=' + x.nr + '"><span>' + x.navn + '</span><span class="pop">' + fmt(x.pop) + '</span></a>';
+      return '<a href="kommune.html?k=' + x.nr + '"><span>' + x.navn + '</span><span class="pop">' + fmt(naa(x)) + '</span></a>';
     }).join('');
   }
   // Reroute nextstep-buttons
