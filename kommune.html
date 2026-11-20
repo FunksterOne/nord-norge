@@ -836,8 +836,10 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
+      '</div>' + '<div id="pendlingBlokk"></div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
     // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
+    // Pendling (NN.pendlingKort, PENDLING_DATA)
+    if(window.NN && NN.pendlingKort) NN.pendlingKort(k.nr, document.getElementById('pendlingBlokk'));
     if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
   }
 
@@ -971,13 +973,15 @@ document.addEventListener('DOMContentLoaded', function(){
           '<span class="tag" style="color:'+verdictColor+';background:'+(fails === 0 ? 'color-mix(in srgb, var(--pos) 15%, transparent)' : fails <= 1 ? 'color-mix(in srgb, var(--cat-5) 15%, transparent)' : 'color-mix(in srgb, var(--neg) 15%, transparent)')+'">'+verdict+'</span></div>'+
           '<p>'+verdictTekst+'</p>'+
         '</div>'+
+        // Skatteinngang og inntektsutjevning (NN.skattKort i src/lib/okonomikort.js, SKATT_DATA)
+        '<div id="skattBlokk"></div>'+
         // KOSTRA-detalj-kort (eksisterende kostraCard)
         '<div>' + kostraCard(k) + '</div>'+
         // ROBEK-status-kort
         '<div>' + robekCard(k) + '</div>'+
         // Pensjon har egen fane; her bare en henvisning
         (typeof PENSJON_DATA !== 'undefined' && PENSJON_DATA.kommuner[String(k.nr)] ? '<p class="hint" style="margin-top:16px;font-size:12.5px">Pensjonsforpliktelser, premieavvik og pensjonskostnad fram mot 2050 står i fanen <a href="kommune.html?k='+k.nr+'&sec=pensjon">Pensjon</a>.</p>' : '')+
-      '</div>';
+      '</div>';  if(window.NN && NN.skattKort) NN.skattKort(k.nr, document.getElementById('skattBlokk'));
   }
 
   // ─── Dedikert Levekår-panel ───

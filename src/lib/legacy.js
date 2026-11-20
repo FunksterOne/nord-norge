@@ -24,6 +24,8 @@ export const L = {
   get HELSE() { return typeof HELSE_DATA !== 'undefined' ? HELSE_DATA : null; },
   get ELDRE() { return typeof ELDRE_DATA !== 'undefined' ? ELDRE_DATA : null; },
   get FORSORG() { return typeof FORSORG_DATA !== 'undefined' ? FORSORG_DATA : null; },
+  get SKATT() { return typeof SKATT_DATA !== 'undefined' ? SKATT_DATA : null; }, // eslint-disable-line no-undef
+  get PENDLING() { return typeof PENDLING_DATA !== 'undefined' ? PENDLING_DATA : null; }, // eslint-disable-line no-undef
   get NAVK() { return typeof NAV_KART !== 'undefined' ? NAV_KART : null; }, // eslint-disable-line no-undef
   get NAERING() { return typeof NAERING_DATA !== 'undefined' ? NAERING_DATA : null; }, // eslint-disable-line no-undef
   MW(o) { return typeof window.MW === 'function' ? window.MW(o) : null; },

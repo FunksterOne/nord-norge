@@ -149,6 +149,34 @@ export const INDIKATORER = {
     fmt: v => prosent(v, 1), type: 'sequential',
     kilde: 'Kilde: NAV, PST011 og PST062 (dagens kommuneinndeling).',
   },
+  // Skatt og pendling (fetch_skatt.py → SKATT_DATA, fetch_pendling.py → PENDLING_DATA)
+  skattAndel: {
+    navn: 'Skatt per innbygger', kort: 'Skatt per innbygger i prosent av landet',
+    get enhet() { const a = L.SKATT?.kostra_aar?.slice(-1)[0] ?? ''; return `Skatt på inntekt og formue per innbygger i prosent av landsgjennomsnittet, ${a} (KOSTRA)`; },
+    verdi: k => { const S = L.SKATT; if (!S) return null; const a = String(S.kostra_aar.slice(-1)[0]); const v = S.kostra.kommuner[String(k.nr)]?.skatt?.[a], l = S.kostra.landet.skatt?.[a]; return v != null && l ? v / l * 100 : null; },
+    fmt: v => prosent(v, 0), type: 'sequential',
+    kilde: 'Kilde: SSB 12137 (KOSTRA, kommunekonsern).',
+  },
+  skatteVekst: {
+    navn: 'Skatteinngang hittil i år', kort: 'Endring i skatteinngang hittil i år',
+    get enhet() { const m = L.SKATT?.siste_mnd || ''; return `Endring i ordinær skatt til kommunen fra januar til ${['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'][+m.slice(5) - 1] || ''} ${m.slice(0, 4)}, mot samme periode året før`; },
+    verdi: k => {
+      const S = L.SKATT; if (!S) return null;
+      const aar = +S.siste_mnd.slice(0, 4), s = S.inngang.kommuner[String(k.nr)];
+      const i = s?.[aar], f = s?.[aar - 1]; if (!i || !f) return null;
+      const m = i.reduce((x, v, j) => (v != null ? j : x), -1);
+      return m >= 0 && f[m] ? (i[m] / f[m] - 1) * 100 : null;
+    },
+    fmt: v => endringPst(v, 1), type: 'diverging',
+    kilde: 'Kilde: SSB 07022 (skatteregnskapet). Veksten påvirkes også av lønnsvekst og skattøren.',
+  },
+  pendNetto: {
+    navn: 'Netto pendling', kort: 'Netto innpendling i prosent av sysselsatte bosatte',
+    get enhet() { const a = L.PENDLING?.aar?.slice(-1)[0] ?? ''; return `Innpendlere minus utpendlere i prosent av sysselsatte som bor i kommunen, 4. kvartal ${a}. Positivt: flere pendler inn enn ut`; },
+    verdi: k => { const d = L.PENDLING?.kommuner?.[String(k.nr)]; if (!d?.aar?.length) return null; const i = d.aar.length - 1; return d.bosatte[i] ? (d.inn[i] - d.ut[i]) / d.bosatte[i] * 100 : null; },
+    fmt: v => endringPst(v, 1), type: 'diverging',
+    kilde: 'Kilde: SSB 03321 (sysselsatte 15–74 år etter bosteds- og arbeidskommune).',
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',
