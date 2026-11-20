@@ -27,7 +27,8 @@ export function indikatorer() {
     { gruppe: 'Økonomi', key: 'fond', navn: `Disposisjonsfond ${aarK()}`, verdi: k => kostra(k.nr, 'fond'), tekst: v => prosent(v, 1) },
   ];
 }
-const EKSTRA = { folketall: { key: 'folketall', navn: 'Folketall', verdi: k => k.pop, tekst: v => heltall(v) } };
+// Folketallet i toppen av kommunesiden er ferskeste kvartal (SSB 01222); plasseringen regnes på samme tall
+const EKSTRA = { folketall: { key: 'folketall', navn: 'Folketall', verdi: k => L.BEFK?.kommuner?.[k.nr] ?? k.pop, tekst: v => heltall(v) } };
 
 // Plassering blant kommunene: persentil og en setning som «12. høyest av 80»
 export function plassering(nr, d) {

@@ -64,7 +64,8 @@ function rader() {
   const ni = N ? N.aar.length - 1 : 0;
   return [
     ['Befolkning', [
-      { navn: 'Folketall', meta: '1.1.2026', v: k => k.pop, fmt: heltall, nn: () => L.K.reduce((s, k) => s + k.pop, 0) },
+      // Ferskeste kvartal (SSB 01222), som «Folketall i dag» på kommunesiden; øvrige befolkningstall er per 1.1.2026
+      { navn: 'Folketall', meta: L.BEFK ? `per ${L.BEFK.dato_norsk}` : '1.1.2026', v: k => L.BEFK?.kommuner?.[k.nr] ?? k.pop, fmt: heltall, nn: () => L.BEFK?.landsdel ?? L.K.reduce((s, k) => s + k.pop, 0) },
       { navn: 'Endring i folketall 2026–2050', meta: 'SSB hovedalternativ', v: k => I.endring.verdi(k), fmt: fortegn, nn: () => nnK && I.endring.verdi(nnK) },
       { navn: 'Andel 65 år og over', meta: '1.1.2026', v: k => I.eldre.verdi(k), fmt: p1, nn: () => nnK && I.eldre.verdi(nnK) },
       { navn: 'Medianalder', meta: '1.1.2026', v: k => median(k.alder), fmt: t0, nn: () => nnK && median(nnK.alder) },
@@ -164,7 +165,7 @@ export function sammenlign(host, nrs) {
   // 01 Toppen
   const topp = `<div class="nn-cmp-topp" style="grid-template-columns:repeat(${ks.length},minmax(0,1fr))">` + ks.map((k, i) =>
     `<div class="nn-cmp-k" style="border-top-color:${FARGER[i]}"><div class="nn-cmp-k-navn"><i style="background:${FARGER[i]}"></i>${kortNavn(k.navn)}</div>` +
-    `<div class="nn-cmp-k-meta">${k.fylke} · ${heltall(k.pop)} innbyggere</div><a href="kommune.html?k=${k.nr}">Kommunesiden →</a></div>`).join('') + '</div>';
+    `<div class="nn-cmp-k-meta">${k.fylke} · ${heltall(L.BEFK?.kommuner?.[k.nr] ?? k.pop)} innbyggere</div><a href="kommune.html?k=${k.nr}">Kommunesiden →</a></div>`).join('') + '</div>';
   // 03 Tabellen
   const kol = ks.length + 3;
   const tab = rader().map(([gruppe, rs]) => `<tr class="gr"><td colspan="${kol}">${gruppe}</td></tr>` + rs.map(r => {

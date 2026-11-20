@@ -1652,7 +1652,7 @@ function renderBurden(){
       text+=(Math.abs(ok0-okL)<2?'Målt mot faktisk arbeid er byrden altså omtrent som i landet. ':ok0>okL?'Målt mot faktisk arbeid er byrden høyere enn i landet. ':'Målt mot faktisk arbeid er byrden lavere enn i landet. ');
       text+='Holdes sysselsettingen i hver aldersgruppe som i dag, '+(dS>=0?'øker':'faller')+' antallet sysselsatte med <b>'+t1(Math.abs(dS))+' %</b> mot '+projYear+' (landet '+(dSL>=0?'+':'−')+t1(Math.abs(dSL))+' %). ';
       fNums='<div class="tldr-num"><div class="nv">'+t1(ok0)+'</div><div class="nl">Per 100 sysselsatte i dag</div><div class="nh">ikke-sysselsatte, alle aldre · landet '+t1(okL)+'</div></div>'+
-        '<div class="tldr-num"><div class="nv '+(FR.okon[m]>FL.okon[m]+2?'warn':'')+'">'+t1(FR.okon[m])+'</div><div class="nl">Per 100 sysselsatte '+projYear+'</div><div class="nh">alt annet likt · landet '+t1(FL.okon[m])+'</div></div>'+
+        '<div class="tldr-num"><div class="nv '+(FR.okon[m]>FL.okon[m]+2?'warn':'')+'">'+t1(FR.okon[m])+'</div><div class="nl">Per 100 sysselsatte '+projYear+'</div><div class="nh">alt annet likt, fra '+t1(FR.okon[0])+' i 2026 · landet '+t1(FL.okon[m])+'</div></div>'+
         '<div class="tldr-num"><div class="nv '+(dS<-5?'down':'')+'">'+(dS>=0?'+':'−')+t1(Math.abs(dS))+' %</div><div class="nl">Sysselsatte 2026–'+projYear+'</div><div class="nh">alt annet likt</div></div>';
     }
     if(a80_0&&a80_1){
@@ -2862,9 +2862,11 @@ function forsorgCard(rKey, navn, opts){
 
   const kpi = '<div class="fb-kpis">' +
     '<div class="k"><div class="v">' + fbT(demo0, 1) + ' → ' + fbT(r.demo[n], 1) + '</div><div class="l">Forsørgerbrøk 2026–' + D.aar[n] + '</div><div class="h">65+ per 100 i alderen 20–64 · landet ' + fbT(demoL, 1) + ' → ' + fbT(L.demo[n], 1) + '</div></div>' +
-    '<div class="k"><div class="v">' + fbT(okon0, 1) + ' → ' + fbT(r.okon[n], 1) + '</div><div class="l">Ikke-sysselsatte per 100 sysselsatte</div><div class="h">alle aldre · landet ' + fbT(okonL, 1) + ' → ' + fbT(L.okon[n], 1) + '</div></div>' +
+    // Pilen viser framskrivingen fra 2026 til 2050 på samme grunnlag; dagens faktiske tall (4. kvartal) står under,
+    // fordi det avviker noe fra framskrivingens startår (sysselsettingsraten er et snitt av 2024 og 2025).
+    '<div class="k"><div class="v">' + fbT(r.okon[0], 1) + ' → ' + fbT(r.okon[n], 1) + '</div><div class="l">Ikke-sysselsatte per 100 sysselsatte 2026–' + D.aar[n] + '</div><div class="h">alle aldre, alt annet likt · i dag ' + fbT(okon0, 1) + ' (4. kv. ' + D.status_aar + ') · landet ' + fbT(L.okon[0], 1) + ' → ' + fbT(L.okon[n], 1) + '</div></div>' +
     '<div class="k"><div class="v' + (aap > aapL + 1 ? ' down' : '') + '">' + fbPst(aap) + '</div><div class="l">AAP eller uføretrygd, 20–66 år</div><div class="h">landet ' + fbPst(aapL) + ' · SSB 13563, ' + D.status_aar + '</div></div>' +
-    '<div class="k"><div class="v' + (dSy < -5 ? ' down' : '') + '">' + (dSy >= 0 ? '+' : '−') + fbPst(Math.abs(dSy)) + '</div><div class="l">Sysselsatte 2026–' + D.aar[n] + '</div><div class="h">' + fbT(sy[0]) + ' → ' + fbT(sy[n]) + ' · alt annet likt</div></div>' +
+    '<div class="k"><div class="v' + (dSy < -5 ? ' down' : '') + '">' + (dSy >= 0 ? '+' : '−') + fbPst(Math.abs(dSy)) + '</div><div class="l">Sysselsatte 2026–' + D.aar[n] + '</div><div class="h">' + fbT(sy[0]) + ' → ' + fbT(sy[n]) + ' · alt annet likt · i dag ' + fbT(r.s15[1]) + ' (15 år og over, 4. kv. ' + D.status_aar + ')</div></div>' +
     '</div>';
 
   return '<div class="card fb-kort" id="' + id + '"' + (opts.utenRamme ? ' style="border:0;padding:0;background:none"' : '') + '>' +
