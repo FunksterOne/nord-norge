@@ -1,5 +1,5 @@
-// Sju kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
-// Fane 06 (NAV) og 07 (Skatt) har egne valg (s.valg) som bytter kartlag og tekst innenfor fanen.
+// Åtte kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
+// Fane 06 (NAV), 07 (Skatt) og 08 (Pendling og næring) har egne valg (s.valg) som bytter kartlag og tekst.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
@@ -106,6 +106,45 @@ function skattSteg() {
   return lag.length ? { ind: lag[0].ind, kicker: '07 · Skatt', valg: lag, start: 0 } : null;
 }
 
+// Fane 08: pendling (SSB 03321, PENDLING_DATA) og arbeidsplasser etter næring (SSB 07984, NAERING_K).
+function arbeidSteg() {
+  const P = L.PENDLING, N = L.NAERINGK;
+  const smaa = xs => (xs.every(x => x.k.pop < 1500) ? ' Begge er små kommuner, der få personer gir store prosentutslag.' : '');
+  const pp = v => `${v > 0 ? '+' : v < 0 ? '−' : ''}${tall(Math.abs(v), 1)} %`;
+  const lag = [];
+  if (P) {
+    const ks = L.K.map(k => ({ k, navn: kortNavn(k.navn), d: P.kommuner[String(k.nr)] })).filter(x => x.d?.aar?.length)
+      .map(x => { const i = x.d.aar.length - 1; return { ...x, v: (x.d.inn[i] - x.d.ut[i]) / x.d.bosatte[i] * 100 }; }).sort((a, b) => b.v - a.v);
+    const ut = ks.filter(x => x.v < 0).length, a = P.aar[P.aar.length - 1], f = P.fylker?.NN;
+    const sist = ks.slice(-2).reverse();
+    const nnTekst = f ? ` Totalt jobber ${tall(f.mellom[f.mellom.length - 1] / f.bosatte[f.bosatte.length - 1] * 100, 1)} % av de sysselsatte i en annen nordnorsk kommune enn der de bor, og ${tall(f.ut[f.ut.length - 1] / f.bosatte[f.bosatte.length - 1] * 100, 1)} % utenfor landsdelen.` : '';
+    lag.push({ ind: 'pendNetto', knapp: 'Netto pendling',
+      h: `${ut} av ${ks.length} kommuner har flere som pendler ut enn inn`,
+      p: `Kartet viser innpendlere minus utpendlere i prosent av de sysselsatte som bor i kommunen, ${a}. Størst netto innpendling har ${ks[0].navn} (${pp(ks[0].v)}) og ${ks[1].navn} (${pp(ks[1].v)}); størst netto utpendling ${sist[0].navn} (${pp(sist[0].v)}) og ${sist[1].navn} (${pp(sist[1].v)}).${nnTekst}` });
+  }
+  if (N) {
+    const i1 = N.aar.length - 1, a0 = N.aar[0], a1 = N.aar[i1];
+    const ks = L.K.map(k => ({ k, navn: kortNavn(k.navn), d: N.kommuner[String(k.nr)]?.arb }))
+      .filter(x => x.d?.['00-99']?.[0] && x.d['00-99'][i1] != null)
+      .map(x => ({ ...x, v: (x.d['00-99'][i1] / x.d['00-99'][0] - 1) * 100 })).sort((a, b) => b.v - a.v);
+    const opp = ks.filter(x => x.v > 0).length, T = N.NN.arb['00-99'], TL = N.landet.arb['00-99'];
+    const sist = ks.slice(-2).reverse();
+    lag.push({ ind: 'arbVekst', knapp: 'Arbeidsplasser',
+      h: `${opp} av ${ks.length} kommuner har flere arbeidsplasser i ${a1} enn i ${a0}`,
+      p: `Samlet gikk antall arbeidsplasser i Nord-Norge fra ${tall(T[0], 0)} til ${tall(T[i1], 0)} (${pp((T[i1] / T[0] - 1) * 100)}), mot ${pp((TL[i1] / TL[0] - 1) * 100)} i landet. Sterkest vekst hadde ${ks[0].navn} (${pp(ks[0].v)}) og ${ks[1].navn} (${pp(ks[1].v)}); størst nedgang ${sist[0].navn} (${pp(sist[0].v)}) og ${sist[1].navn} (${pp(sist[1].v)}).${smaa(ks.slice(0, 2))}` });
+    const pr = L.K.map(k => ({ k, navn: kortNavn(k.navn), d: N.kommuner[String(k.nr)]?.arb }))
+      .filter(x => x.d?.['01-03']?.[i1] != null && x.d['00-99'][i1])
+      .map(x => ({ ...x, v: x.d['01-03'][i1] / x.d['00-99'][i1] * 100 })).sort((a, b) => b.v - a.v);
+    const grense = pr.filter(x => x.v >= 20).length >= 3 ? 20 : 10, over = pr.filter(x => x.v >= grense).length;
+    const andel = o => o['01-03'][i1] / o['00-99'][i1] * 100;
+    const skjult = ks.length - pr.length;
+    lag.push({ ind: 'primaerAndel', knapp: 'Jordbruk, skogbruk og fiske',
+      h: `I ${over} kommuner er minst ${grense === 20 ? 'hver femte' : 'hver tiende'} arbeidsplass i jordbruk, skogbruk eller fiske`,
+      p: `I Nord-Norge samlet er andelen ${prosent(andel(N.NN.arb), 1)}, mot ${prosent(andel(N.landet.arb), 1)} i landet (${a1}). Høyest er ${pr[0].navn} (${prosent(pr[0].v, 1)}) og ${pr[1].navn} (${prosent(pr[1].v, 1)}). Fiskeoppdrett er med i gruppen, mens fiskeforedling hører til industrien.${skjult ? ` SSB skjuler tallet i ${skjult} ${skjult === 1 ? 'kommune' : 'kommuner'}.` : ''}` });
+  }
+  return lag.length ? { ind: lag[0].ind, kicker: '08 · Pendling og næring', valg: lag, start: 0 } : null;
+}
+
 function steg() {
   const f = fakta();
   const ned = f.ks.filter(x => x.endr < 0).length;
@@ -132,7 +171,7 @@ function steg() {
     { ind: 'robek', kicker: '05 · Kommuneøkonomi',
       h: `${f.robekNavn.length} kommuner står under statlig økonomisk kontroll`,
       p: `Per ${dato} er ${f.robekNavn.length} av de 80 kommunene registrert i ROBEK: ${f.robekNavn.join(', ')}. Når folketallet går ned og omsorgsbehovet øker, blir handlingsrommet trangere.` },
-  ].concat(navSteg() || [], skattSteg() || []);
+  ].concat(navSteg() || [], skattSteg() || [], arbeidSteg() || []);
 }
 
 // Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst

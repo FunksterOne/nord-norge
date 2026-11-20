@@ -49,7 +49,7 @@
 .nn-d3tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s; background: var(--raised); border: 1px solid var(--line); border-top: 2px solid var(--accent); padding: 8px 10px; font-size: 12px; line-height: 1.5; color: var(--ink); min-width: 190px; z-index: 5; }
 .nn-d3tip b { font-weight: 600; }
 .nn-trykk svg text { font-family: var(--font-sans); }
-/* Sju kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
+/* Åtte kart på forsiden (src/lib/scrolly.js): faner over, kart og tekst side om side */
 .nn-scrolly { margin-top: 8px; }
 .nn-sk-faner { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
 .nn-sk-faner::-webkit-scrollbar { display: none; }

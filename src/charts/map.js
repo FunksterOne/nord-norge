@@ -177,6 +177,21 @@ export const INDIKATORER = {
     fmt: v => endringPst(v, 1), type: 'diverging',
     kilde: 'Kilde: SSB 03321 (sysselsatte 15–74 år etter bosteds- og arbeidskommune).',
   },
+  // Arbeidsplasser etter næring (fetch_naering_kommune.py → NAERING_K, SSB 07984)
+  arbVekst: {
+    navn: 'Arbeidsplasser, endring', kort: 'Endring i antall arbeidsplasser',
+    get enhet() { const a = L.NAERINGK?.aar || []; return `Endring i antall sysselsatte med arbeidssted i kommunen, 4. kvartal ${a[0] ?? ''}–${a[a.length - 1] ?? ''}`; },
+    verdi: k => { const t = L.NAERINGK?.kommuner?.[String(k.nr)]?.arb?.['00-99']; if (!t) return null; const a = t[0], b = t[t.length - 1]; return a && b != null ? (b / a - 1) * 100 : null; },
+    fmt: v => endringPst(v, 1), type: 'diverging',
+    kilde: 'Kilde: SSB 07984 (sysselsatte 15–74 år etter arbeidssted).',
+  },
+  primaerAndel: {
+    navn: 'Jordbruk, skogbruk og fiske', kort: 'Andel arbeidsplasser i jordbruk, skogbruk og fiske',
+    get enhet() { const a = L.NAERINGK?.aar?.slice(-1)[0] ?? ''; return `Arbeidsplasser i jordbruk, skogbruk og fiske i prosent av alle arbeidsplasser i kommunen, 4. kvartal ${a}`; },
+    verdi: k => { const d = L.NAERINGK?.kommuner?.[String(k.nr)]?.arb; if (!d) return null; const v = d['01-03']?.slice(-1)[0], t = d['00-99']?.slice(-1)[0]; return v != null && t ? v / t * 100 : null; },
+    fmt: v => prosent(v, 1), type: 'sequential',
+    kilde: 'Kilde: SSB 07984. Kommuner der SSB har skjult tallet, er grå.',
+  },
   robek: {
     navn: 'ROBEK', kort: 'ROBEK-status',
     enhet: 'Kommuner registrert i ROBEK (kommuneloven § 28-1)',
