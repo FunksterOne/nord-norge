@@ -3,7 +3,7 @@
 // { x:[…], serier:[{navn, data:[…], farge:'accent'|'ink'|'neg'|'pos'|'warn'|'cat-1..6'|'muted',
 //                    stil:'linje'|'stiplet'|'område'|'stolpe', etikett:true, utenVerdi:false}],
 //   format:'tall'|'tall1'|'pst'|'indeks'|'endring'|'kr', null:false, iDag:2026, ref:[{y, tekst}],
-//   hoyde:320, xTicks:[…], xFormat:'aar'|'tekst', yTittel:'…' }
+//   hoyde:320, xTicks:[…], xFormat:'aar'|'tekst', yTittel:'…', brudd:false (true = brutt linje ved manglende verdi) }
 import { Plot, base, register, spec } from './core.js';
 import { heltall, tall, endring, prosent } from '../lib/format.js';
 
@@ -82,6 +82,15 @@ register('linjer', (el, width) => {
     } else if (se.stil === 'stolpe') {
       marks.push(Plot.rectY(d, { x: 'x', y: 'v', fill: c, interval: isYear ? 1 : undefined, inset: 1 }));
     } else {
+      // brudd:true — linjen brytes der verdien mangler, i stedet for å trekkes over hullet; enkeltpunkter
+      // uten nabo vises som prikk
+      if (s.brudd) {
+        const full = s.x.map((x, i) => ({ x, v: se.data[i] != null && Number.isFinite(se.data[i]) ? se.data[i] : NaN }));
+        const ensom = full.filter((p, i) => Number.isFinite(p.v) && !Number.isFinite(full[i - 1]?.v ?? NaN) && !Number.isFinite(full[i + 1]?.v ?? NaN));
+        if (ensom.length) marks.push(Plot.dot(ensom, { x: 'x', y: 'v', fill: c, r: se.uthev ? 3 : 2.4 }));
+        marks.push(Plot.lineY(full, { x: 'x', y: 'v', stroke: c, strokeWidth: se.uthev ? 2.6 : se.svak ? 1.2 : 1.8, strokeOpacity: se.svak ? 0.45 : 1, strokeDasharray: se.stil === 'stiplet' ? '5,3' : null }));
+        return;
+      }
       marks.push(Plot.lineY(d, { x: 'x', y: 'v', stroke: c, strokeWidth: se.uthev ? 2.6 : se.svak ? 1.2 : 1.8, strokeOpacity: se.svak ? 0.45 : 1, strokeDasharray: se.stil === 'stiplet' ? '5,3' : null }));
     }
   });

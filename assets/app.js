@@ -1669,6 +1669,12 @@ function renderBurden(){
   }
   const fbHost=document.getElementById('forsorgKort');
   if(fbHost && typeof forsorgCard==='function') fbHost.innerHTML=forsorgCard(fKey, fNavn);
+  // NAV-statistikk (fase 5 i analyse/PLAN-NAV.md): tegnes på nytt bare når fylket byttes
+  const navHost=document.getElementById('navNivaa');
+  if(navHost && window.NN && NN.navNivaa){
+    const navKode=_scopeKey==='Alle'?'NN':({Nordland:'18',Troms:'55',Finnmark:'56'})[_scopeKey];
+    if(navKode && navHost.dataset.kode!==navKode){ navHost.dataset.kode=navKode; NN.navNivaa(navKode, navHost); }
+  }
   // Hero-graf: projChart i 'fb'-modus for landsdelen
   if(graphHost){
     const savedMode=state.projMode;

@@ -265,6 +265,9 @@
   <!-- Hvem bærer hvem? (forsorgCard i assets/app.js) -->
   <div id="forsorgKort" style="margin-top:18px"></div>
 
+  <!-- NAV-statistikk for fylket/landsdelen (NN.navNivaa i src/lib/navkort.js, data/nav/fylke-*.json) -->
+  <div id="navNivaa"></div>
+
   <!-- Bakteppe: nasjonal sysselsetting -->
   <details class="explain" style="margin-top:18px">
     <summary style="cursor:pointer;font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);padding:4px 0;list-style:none">▾ Bakteppe: Hvem fyller jobbene i Norge — etter verdensregion og kjønn?</summary>
@@ -592,7 +595,8 @@ document.addEventListener('DOMContentLoaded', function(){
       // Bunnteksten beskriver hele dashbordet (alle 80 kommunene) og skal ikke
       // fylkes-oversettes — ellers står det «Nordland dashboard» over en setning
       // om alle tre fylkene.
-      if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top, .nn-footer')) return;
+      // NAV-panelet (.nav-blokk) sammenligner fylket med Nord-Norge og skriver navnene selv.
+      if(el.closest('.nn-bc, .nn-actions, .nn-secnav, .nn-top, .nn-footer, .nav-blokk')) return;
       // Gå rekursivt gjennom ALLE tekstnoder under el (inkl. inni <b>, <i>, <span>)
       var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
       var node;

@@ -102,6 +102,7 @@ section.tab .minseg button[aria-selected=true]{background:var(--panel) !importan
 .bf-diagnose .tag{font-size:10.5px;font-weight:700;color:var(--amber);background:color-mix(in srgb, var(--cat-5) 15%, transparent);padding:3px 9px;border-radius:0;text-transform:uppercase;letter-spacing:.04em}
 .bf-diagnose p{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink2)}
 .bf-diagnose p b{color:var(--ink)}
+.nav-tekst p + p{margin-top:8px}
 
 /* TF-MVP utvidbar visning — flyttet vekk fra hovedfortelling (SSB MMMM + TF-ATTR) */
 .bf-mvp-details{border:1px solid var(--line2);border-radius:0;background:var(--paper2);overflow:hidden}
@@ -835,7 +836,9 @@ document.addEventListener('DOMContentLoaded', function(){
           '<p>'+tolkning+'</p>'+
           '<p style="margin:10px 0 0;font-size:12.5px;color:var(--ink3);font-style:italic">Norman-utvalget (NOU 2020:15) peker på at disse mønstrene er strukturelle: når antallet eldre vokser raskere enn antallet sysselsatte, må kommunal tjenesteproduksjon tilpasses — ikke bare bygges ut.</p>'+
         '</div>'+
-      '</div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
+      '</div>' + '<div id="navBlokk"></div>' + (typeof forsorgCard === 'function' ? forsorgCard(forsorgRegionKey(k), window.NN && NN.kortNavn ? NN.kortNavn(k.navn) : k.navn, {kompakt:true}) : '') + eldreCard(k);
+    // NAV-statistikk (fetch_nav.py → data/nav/<nr>.json) lastes ved behov og nummereres etterpå
+    if(window.NN && NN.navKort) NN.navKort(k.nr, document.getElementById('navBlokk'), {ssbUfore: uforePct, ferdig: function(){ nummererFigurer(host); }});
   }
 
   // ─── Dedikert Økonomi-panel ───
