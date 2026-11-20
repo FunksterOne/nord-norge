@@ -1,9 +1,10 @@
-// Seks kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
-// Fane 06 (NAV) har egne valg (s.valg) som bytter kartlag og tekst innenfor fanen.
+// Sju kart på forsiden: faner bytter indikator og forklarende tekst side om side med kartet.
+// Fane 06 (NAV) og 07 (Skatt) har egne valg (s.valg) som bytter kartlag og tekst innenfor fanen.
 // <section class="nn-scrolly" data-scrolly="fire-kart"></section>
 import { L } from './legacy.js';
 import { tall, prosent, endringPst, kortNavn } from './format.js';
 import { redraw } from '../charts/core.js';
+import { skatteVekst } from './okonomikort.js';
 
 const median = a => { const b = [...a].sort((x, y) => x - y); const m = b.length / 2; return b.length % 2 ? b[Math.floor(m)] : (b[m - 1] + b[m]) / 2; };
 
@@ -70,6 +71,41 @@ function navSteg() {
   return { ind: lag[3].ind, kicker: '06 · NAV', valg: lag, start: 3 };
 }
 
+// Fane 07: skatt. Skatteinngang hittil i år (SSB 07022) og skatt per innbygger (SSB 12137), fra SKATT_DATA.
+function skattSteg() {
+  const S = L.SKATT;
+  if (!S) return null;
+  const MND = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
+  const aarNa = +S.siste_mnd.slice(0, 4);
+  const ks = L.K.map(k => ({ k, navn: kortNavn(k.navn), s: S.inngang.kommuner[String(k.nr)], ko: S.kostra.kommuner[String(k.nr)] }));
+  const pp = v => `${v > 0 ? '+' : v < 0 ? '−' : ''}${tall(Math.abs(v), 1)} %`;
+  const smaa = xs => (xs.every(x => x.k.pop < 1500) ? ' Begge er små kommuner, der enkeltpersoners inntekt kan gi store utslag.' : '');
+  const lag = [];
+  {
+    const vN = skatteVekst(S.inngang.fylker.NN, aarNa), vL = skatteVekst(S.inngang.landet, aarNa);
+    const r = ks.map(x => ({ ...x, v: skatteVekst(x.s, aarNa) })).filter(x => x.v).sort((a, b) => b.v.vekst - a.v.vekst);
+    if (vN && vL && r.length) {
+      const over = r.filter(x => x.v.vekst > vL.vekst).length, mill = vN.verdi >= 1000 ? `${tall(vN.verdi / 1000, 2)} milliarder kroner` : `${tall(vN.verdi, 1)} millioner kroner`;
+      const sist = r[r.length - 1];
+      lag.push({ ind: 'skatteVekst', knapp: 'Skatteinngang i år',
+        h: `${over} av ${r.length} kommuner har sterkere skattevekst enn landet i år`,
+        p: `Fra januar til ${MND[vN.mnd]} ${aarNa} fikk kommunene i Nord-Norge ${mill} i skatt på inntekt og formue, ${pp(vN.vekst)} mot samme periode i fjor. I landet var endringen ${pp(vL.vekst)}. Sterkest vekst hadde ${r[0].navn} (${pp(r[0].v.vekst)}) og ${r[1].navn} (${pp(r[1].v.vekst)}); svakest ${sist.navn} (${pp(sist.v.vekst)}).${smaa(r.slice(0, 2))} Veksten følger også lønnsveksten og skattøren, og er ikke et mål på aktivitet alene.` });
+    }
+  }
+  {
+    const a = String(S.kostra_aar[S.kostra_aar.length - 1]), la = S.kostra.landet, nn = S.kostra.fylker.NN;
+    const andel = (o, f) => (o?.[f]?.[a] != null && la[f]?.[a] ? o[f][a] / la[f][a] * 100 : null);
+    const r = ks.map(x => ({ ...x, v: andel(x.ko, 'skatt') })).filter(x => x.v != null).sort((p, q) => q.v - p.v);
+    if (r.length) {
+      const under = r.filter(x => x.v < 100).length, sist = r[r.length - 1];
+      lag.push({ ind: 'skattAndel', knapp: 'Skatt per innbygger',
+        h: `${under} av ${r.length} kommuner har lavere skatt per innbygger enn landsgjennomsnittet`,
+        p: `I ${a} betalte innbyggerne i Nord-Norge ${tall(nn.skatt[a], 0)} kr per innbygger i skatt på inntekt og formue til kommunene, ${tall(andel(nn, 'skatt'), 0)} % av landsgjennomsnittet. Høyest var ${r[0].navn} (${tall(r[0].v, 0)} %), lavest ${sist.navn} (${tall(sist.v, 0)} %).${r[0].k.pop < 3000 ? ` ${r[0].navn} er en liten kommune, der noen få store skatteytere kan gi store utslag fra år til år.` : ''} Inntektsutjevningen og rammetilskuddet løfter de frie inntektene per innbygger til ${tall(andel(nn, 'frie'), 0)} % av landsnivået.` });
+    }
+  }
+  return lag.length ? { ind: lag[0].ind, kicker: '07 · Skatt', valg: lag, start: 0 } : null;
+}
+
 function steg() {
   const f = fakta();
   const ned = f.ks.filter(x => x.endr < 0).length;
@@ -96,7 +132,7 @@ function steg() {
     { ind: 'robek', kicker: '05 · Kommuneøkonomi',
       h: `${f.robekNavn.length} kommuner står under statlig økonomisk kontroll`,
       p: `Per ${dato} er ${f.robekNavn.length} av de 80 kommunene registrert i ROBEK: ${f.robekNavn.join(', ')}. Når folketallet går ned og omsorgsbehovet øker, blir handlingsrommet trangere.` },
-  ].concat(navSteg() || []);
+  ].concat(navSteg() || [], skattSteg() || []);
 }
 
 // Kartet og teksten står side om side (under hverandre på mobil). Fanene 01–05 bytter indikator og tekst
