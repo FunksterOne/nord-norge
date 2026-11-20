@@ -191,3 +191,39 @@
 .nav-blokk .bf-diagnose p + p{margin-top:8px}
 .nav-blokk .bf-diagnose p b{color:var(--ink)}
 .nav-blokk .bf-diagnose p.hint{font-size:12px;color:var(--ink3)}
+
+/* Sammenligningssiden (src/lib/sammenlign.js) */
+.nn-cmp-h { margin: 30px 0 4px; }
+.nn-cmp-topp { display: grid; gap: 10px; margin: 6px 0 4px; }
+.nn-cmp-k { border: 1px solid var(--line); border-top: 4px solid; padding: 12px 14px; background: var(--panel); min-width: 0; }
+.nn-cmp-k-navn { font: 600 18px/1.2 var(--font-display); color: var(--ink); display: flex; align-items: center; gap: 8px; overflow-wrap: anywhere; }
+.nn-cmp-k-navn i, .nn-cmp-tab thead i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.nn-cmp-k-meta { font-size: 12px; color: var(--ink-3); margin: 4px 0 8px; }
+.nn-cmp-k a { font-size: 12.5px; }
+.nn-cmp-pr { margin: 8px 0 18px; }
+.nn-cmp-pr-rad { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(200px, 3fr); gap: 4px 16px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line-soft, var(--line)); }
+.nn-cmp-pr-rad.akse { font-size: 10.5px; color: var(--ink-3); border-bottom: 0; padding: 0; }
+.nn-cmp-pr-rad .nn-pr-spor, .nn-cmp-pr-rad .nn-pr-akse-t, .nn-cmp-pr-rad .nn-pr-navn { grid-area: auto; }
+.nn-cmp-tab-rull { overflow-x: auto; margin: 8px 0 4px; }
+.nn-cmp-tab { width: 100%; border-collapse: collapse; font-size: 13px; }
+.nn-cmp-tab th, .nn-cmp-tab td { padding: 7px 10px; border-top: 1px solid var(--line); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nn-cmp-tab thead th { font-size: 12px; font-weight: 600; color: var(--ink); border-top: 0; border-bottom: 1px solid var(--line); vertical-align: bottom; }
+.nn-cmp-tab thead th i { margin-right: 6px; }
+.nn-cmp-tab th[scope=row], .nn-cmp-tab thead th:first-child { text-align: left; white-space: normal; font-weight: 500; color: var(--ink-2); min-width: 170px; position: sticky; left: 0; background: var(--bg); z-index: 1; }
+.nn-cmp-tab th[scope=row] .meta { display: block; font-size: 11px; color: var(--ink-3); font-weight: 400; }
+.nn-cmp-tab td { color: var(--ink); font-weight: 600; }
+.nn-cmp-tab .ref { color: var(--ink-3); font-weight: 400; }
+.nn-cmp-tab tr.gr td { font: 500 10.5px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); text-align: left; padding-top: 16px; border-top: 0; position: sticky; left: 0; }
+@media (max-width: 640px) {
+  .nn-cmp-topp { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .nn-cmp-pr-rad { grid-template-columns: 1fr; gap: 4px; }
+  .nn-cmp-pr-rad.akse > span:first-child { display: none; }
+  .nn-cmp-tab th[scope=row], .nn-cmp-tab thead th:first-child { min-width: 130px; max-width: 150px; }
+  .nn-cmp-tab th, .nn-cmp-tab td { padding: 7px 8px; }
+}
+.nn-cmp-liste { margin: 6px 0 8px 18px; padding: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
+.nn-cmp-liste b { color: var(--ink); }
+.nn-cmp-tab td.tekst { white-space: normal; min-width: 110px; max-width: 170px; text-align: right; font-weight: 500; font-size: 12.5px; }
+.nn-cmp-tab th { text-transform: none; letter-spacing: normal; }
+.nn-cmp-tab th[scope=row] { font-size: 13px; }
+.nn-cmp-tab th[scope=row] .meta { text-transform: none; letter-spacing: normal; }

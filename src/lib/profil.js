@@ -10,7 +10,7 @@ import { tall, prosent, endringPst, heltall } from './format.js';
 const kostra = (nr, f) => { const k = L.DATA?.proj?.kostra?.[nr]; return k && k[f] != null ? +k[f] : null; };
 const aarK = () => (L.DATA?.proj?.kostra && Object.values(L.DATA.proj.kostra)[0]?.yr) || '';
 
-function indikatorer() {
+export function indikatorer() {
   const I = INDIKATORER;
   const nav = L.NAVK?.meta || {};
   return [

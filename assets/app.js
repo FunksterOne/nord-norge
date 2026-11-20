@@ -1196,6 +1196,8 @@ function pensjonCmp(k){
 }
 function renderCompare(){
   if(state.compare.length<2) return false;
+  // Ny sammenligning (src/lib/sammenlign.js): profil, tabell med samme indikator på samme rad, figurer og sammendrag
+  if(window.NN && NN.sammenlign) return NN.sammenlign(elDet, state.compare);
   const ks=state.compare.map(nr=>K.find(k=>k.nr===nr));
   elDet.innerHTML=`<div class="dhead"><h2 class="serif">Sammenligning</h2>
     <span style="font-size:13px;color:var(--ink3)">${ks.length} kommuner — trykk ● i lista for å fjerne</span></div>
