@@ -27,6 +27,7 @@ export const L = {
   get SKATT() { return typeof SKATT_DATA !== 'undefined' ? SKATT_DATA : null; }, // eslint-disable-line no-undef
   get PENDLING() { return typeof PENDLING_DATA !== 'undefined' ? PENDLING_DATA : null; }, // eslint-disable-line no-undef
   get NAERINGK() { return typeof NAERING_K !== 'undefined' ? NAERING_K : null; }, // eslint-disable-line no-undef
+  get SYSSN() { return typeof SYSS_NIVAA !== 'undefined' ? SYSS_NIVAA : null; }, // eslint-disable-line no-undef
   get NAVK() { return typeof NAV_KART !== 'undefined' ? NAV_KART : null; }, // eslint-disable-line no-undef
   get NAERING() { return typeof NAERING_DATA !== 'undefined' ? NAERING_DATA : null; }, // eslint-disable-line no-undef
   MW(o) { return typeof window.MW === 'function' ? window.MW(o) : null; },

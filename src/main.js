@@ -14,7 +14,7 @@ import { initTabeller } from './lib/tabeller.js';
 import { startCharts, placeholder } from './charts/core.js';
 import { kortNavn } from './lib/format.js';
 import { navKort, navNivaa } from './lib/navkort.js';
-import { skattKort, pendlingKort, naeringKort } from './lib/okonomikort.js';
+import { skattKort, pendlingKort, naeringKort, syssKort } from './lib/okonomikort.js';
 import { profilHTML, rangLinjer } from './lib/profil.js';
 import './charts/proj.js';
 import './charts/map.js';
@@ -39,7 +39,7 @@ initNav();
 initTheme();
 const sok = initSearch();
 // Gammel kode (assets/app.js) bruker NN.placeholder() for å be om nye diagrammer.
-window.NN = { placeholder, kortNavn, sok, navKort, navNivaa, skattKort, pendlingKort, naeringKort, profilHTML, rangLinjer };
+window.NN = { placeholder, kortNavn, sok, navKort, navNivaa, skattKort, pendlingKort, naeringKort, syssKort, profilHTML, rangLinjer };
 startCharts();
 initScrolly();
 initFylketall();

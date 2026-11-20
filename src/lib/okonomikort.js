@@ -236,3 +236,59 @@ export function naeringKort(nr, host, opt = {}) {
     kpis + tekst + f1 +
     '<details class="nn-mer"><summary>Vis endring per næring og tabell</summary>' + f2 + tabell + '</details>' + '</div>';
 }
+
+// ------------------------------------------------------------------ Sysselsetting for fylker og Nord-Norge (SYSS_NIVAA, fetch_sysselsetting_nivaa.py)
+// kode: '18', '55', '56' eller 'NN'. Kommunene har sitt eget sysselsettingskort i kommune.html.
+const FYLKEFARGE = { 18: 'var(--nl)', 55: 'var(--tr)', 56: 'var(--fi)' };
+export function syssKort(kode, host) {
+  const S = L.SYSSN;
+  if (!S || !host) return;
+  const d = S.nivaa[kode], la = S.nivaa.landet, nn = S.nivaa.NN;
+  if (!d) { host.innerHTML = ''; return; }
+  const erNN = kode === 'NN', navn = erNN ? 'Nord-Norge' : FYLKE[kode];
+  const aar = S.aar, i = aar.length - 1, a = aar[i], a0 = aar[0];
+  const rate = (x, j = i) => (x.tot[j] ? x.syss[j] / x.tot[j] * 100 : null);
+  const ppTekst = v => `${v > 0 ? '+' : v < 0 ? '−' : '±'}${tall(Math.abs(v), 1)} prosentpoeng`;
+  const ord = (v, ref) => (Math.abs(v - ref) < 0.2 ? 'om lag som' : v > ref ? 'over' : 'under');
+  const r = rate(d), rL = rate(la), rN = rate(nn), r0 = rate(d, 0), rL0 = rate(la, 0);
+  const rInn = rate(d.innv), rUten = rate(d.uten_innv);
+  const andel = (x, s) => (x.tot[i] ? x.status[s] / x.tot[i] * 100 : null);
+  const uf = andel(d, 'U.04-U.05'), ufL = andel(la, 'U.04-U.05');
+
+  const kpis = '<div class="bf-kpis">' +
+    kpi(p1(r), `Sysselsettingsrate ${a}`, `20–66 år${erNN ? '' : ` · Nord-Norge ${p1(rN)}`} · landet ${p1(rL)}`) +
+    kpi(ppTekst(r - r0).replace(' prosentpoeng', ''), `Endring ${a0}–${a}`, `prosentpoeng · landet ${ppTekst(rL - rL0)}`) +
+    kpi(p1(rInn), `Innvandrere i arbeid ${a}`, `resten av befolkningen ${p1(rUten)}`) +
+    kpi(p1(uf), `På AAP eller uføretrygd ${a}`, `av befolkningen 20–66 år · landet ${p1(ufL)}`) + '</div>';
+
+  const avs = [];
+  let s1 = `I ${a} var <b>${p1(r)}</b> av innbyggerne i alderen 20–66 år i ${navn} sysselsatt, ${ord(r, rL)} landet (${p1(rL)})`;
+  if (erNN) {
+    const f = ['18', '55', '56'].map(k => [FYLKE[k], rate(S.nivaa[k])]).sort((x, y) => y[1] - x[1]);
+    s1 += `. Raten var høyest i ${f[0][0]} (${p1(f[0][1])}) og lavest i ${f[2][0]} (${p1(f[2][1])}).`;
+  } else s1 += ` og ${ord(r, rN)} Nord-Norge samlet (${p1(rN)}).`;
+  avs.push(s1 + ` Siden ${a0} har raten endret seg med ${ppTekst(r - r0)}, mot ${ppTekst(rL - rL0)} i landet.`);
+  avs.push(`Blant innvandrerne var <b>${p1(rInn)}</b> sysselsatt, mot ${p1(rUten)} i resten av befolkningen, en forskjell på ${tall(Math.abs(rUten - rInn), 1)} prosentpoeng. I landet er forskjellen ${tall(Math.abs(rate(la.uten_innv) - rate(la.innv)), 1)} prosentpoeng.`);
+  const smaa = t => t.replace(/^\S+/, w => (w === w.toUpperCase() ? w : w.toLowerCase())); // AAP og AFP beholder store bokstaver
+  const utenfor = S.status.filter(([s]) => s !== 'A.01').map(([s, n]) => [n, andel(d, s), andel(la, s)]).sort((x, y) => y[1] - x[1]);
+  avs.push(`Den største gruppen utenfor arbeid er ${smaa(utenfor[0][0])}: <b>${p1(utenfor[0][1])}</b> av befolkningen 20–66 år, mot ${p1(utenfor[0][2])} i landet. Deretter følger ${smaa(utenfor[1][0])} (${p1(utenfor[1][1])}) og ${smaa(utenfor[2][0])} (${p1(utenfor[2][1])}).`);
+  const tekst = '<div class="bf-diagnose nav-tekst"><div class="h-row"><h3>Hvem er i arbeid?</h3><span class="tag">SSB · regelbasert tekst</span></div>' +
+    avs.map(t => `<p>${t}</p>`).join('') + '</div>';
+
+  const serier = [{ navn, kort: navn, data: aar.map((_, j) => rate(d, j)), farge: 'accent', uthev: true }];
+  if (erNN) ['18', '55', '56'].forEach(k => serier.push({ navn: FYLKE[k], kort: FYLKE[k], data: aar.map((_, j) => rate(S.nivaa[k], j)), farge: FYLKEFARGE[k] }));
+  else serier.push({ navn: 'Nord-Norge', kort: 'Nord-Norge', data: aar.map((_, j) => rate(nn, j)), farge: 'ink' });
+  serier.push({ navn: 'Landet', kort: 'Landet', data: aar.map((_, j) => rate(la, j)), farge: 'var(--ink-3)', stil: 'stiplet' });
+  const f1 = figur(`Sysselsettingsrate ${a0}–${a}`, 'Sysselsatte i prosent av befolkningen 20–66 år, 4. kvartal.',
+    placeholder('linjer', { x: aar, format: 'pst', hoyde: 240, serier }, 250),
+    `Kilde: SSB 13563.${!erNN && kode !== '18' ? ' Troms og Finnmark 2020–2023 er summen av kommunene; SSB har dem bare samlet de årene.' : ''}`);
+  const f2 = figur(`Hovedstatus for befolkningen 20–66 år, ${a}`, `Prosent av befolkningen 20–66 år i ${navn} og i landet. Hver person telles i én gruppe.`,
+    placeholder('hstolper', { format: 'pst', grupper: [
+      { tittel: navn, rader: S.status.map(([s, n], j) => ({ l: n, v: andel(d, s), farge: j === 0 ? 'accent' : 'ink' })) },
+      { tittel: 'Landet', rader: S.status.map(([s, n]) => ({ l: n, v: andel(la, s), farge: 'var(--ink-3)' })) }] }, 40 + 26 * 2 * S.status.length + 40),
+    'Kilde: SSB 13563, hovedstatus på arbeidsmarkedet.');
+
+  host.innerHTML = '<div class="nav-blokk"><h3 class="nn-h3" style="margin:26px 0 4px">Sysselsetting</h3>' +
+    `<p class="hint" style="margin:0 0 10px">Hvor mange i alderen 20–66 år i ${navn} som er i arbeid, og hva resten gjør. Mer på <a href="metode.html#sysselsetting-nivaa">metodesiden</a>.</p>` +
+    kpis + tekst + f1 + '<details class="nn-mer"><summary>Vis hovedstatus for hele aldersgruppen</summary>' + f2 + '</details></div>';
+}

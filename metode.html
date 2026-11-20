@@ -69,7 +69,7 @@
 <nav class="metode-toc" aria-label="Innhold">
   <div><div class="mt-g">Grunnlag</div><ul><li><a href="#ssb">SSB-tabeller</a></li><li><a href="#kilder">Andre offentlige kilder</a></li><li><a href="#internasjonale">Internasjonale kilder</a></li><li><a href="#begreper">Forkortelser og begreper</a></li><li><a href="#regioner">Regioner, kart og visualisering</a></li><li><a href="#forbehold">Forbehold</a></li></ul></div>
   <div><div class="mt-g">Framskrivinger og modeller</div><ul><li><a href="#framskriving">Framskrivingsmodeller</a></li><li><a href="#etterproving">Etterprøving 2020–2024</a></li><li><a href="#boligbehov">Boligbehovsmodellen (BB-KVOTE)</a></li><li><a href="#normer">Eksterne normer for indikatorer</a></li><li><a href="#forsorgerbyrde">Forsørgerbyrde: tre måter å telle på</a></li></ul></div>
-  <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li><li><a href="#nav">NAV-statistikk per kommune</a></li><li><a href="#skatt">Skatteinngang og inntektsutjevning</a></li><li><a href="#pendling">Pendling inn og ut</a></li><li><a href="#naering-kommune">Arbeidsplasser etter næring per kommune</a></li></ul></div>
+  <div><div class="mt-g">Temasider og kort</div><ul><li><a href="#bofasthet">Bofasthet for flyktninger og innvandrere</a></li><li><a href="#eldreomsorg">Eldreomsorgen mot 2050</a></li><li><a href="#pensjon">Kommunale pensjoner og premieavvik</a></li><li><a href="#barometer">Barometer 2026X – Ung i nord</a></li><li><a href="#nordomradepolitikk">Nordområdepolitikken 2006–2026</a></li><li><a href="#spesialisthelse">Sykehusene i nord mot 2042</a></li><li><a href="#konjunkturbarometer">Konjunkturbarometer for Nord-Norge</a></li><li><a href="#fylketall">Fylket i tall</a></li><li><a href="#nav">NAV-statistikk per kommune</a></li><li><a href="#skatt">Skatteinngang og inntektsutjevning</a></li><li><a href="#pendling">Pendling inn og ut</a></li><li><a href="#sysselsetting-nivaa">Sysselsetting i fylkene og Nord-Norge</a></li><li><a href="#naering-kommune">Arbeidsplasser etter næring per kommune</a></li></ul></div>
 </nav>
 
 <div class="metode-card" id="ssb">
@@ -300,6 +300,17 @@
     <li><span class="norm-tag">Kontroll</span> <b>Narvik er kontrollert mot rapporten:</b> 10 541 sysselsatte bosatte, 1 189 utpendlere (1 039 i 2020), 712 innpendlere (786 i 2020) og 730 utpendlere som jobber i Nord-Norge. Alle tall er like.</li>
   </ul>
   <p><b>Forbehold.</b> Arbeidssted er der arbeidsgiveren har registrert virksomheten. Noen som «jobber i Oslo», jobber på avstand eller ukependler. Inntektsskatten går til bostedskommunen, så utpendling svekker ikke kommunens skatteinngang. Tabellen kan gi noen få flere sysselsatte enn SSB 07984, fordi SSB avrunder og skjermer tallene ulikt.</p>
+</div>
+
+<div class="metode-card" id="sysselsetting-nivaa">
+  <h2>Sysselsetting i fylkene og Nord-Norge</h2>
+  <p class="hint">Brukes i kapitlet «Arbeid og næring» på fylkes- og landsdelssidene. Tallene bygges med <code>fetch_sysselsetting_nivaa.py</code>. Kommunesidene bruker samme tabell gjennom <code>ARBEID_DATA</code>.</p>
+  <ul>
+    <li><span class="norm-tag">Kilde</span> <b>SSB 13563:</b> befolkningen 20–66 år etter hovedstatus på arbeidsmarkedet per 4. kvartal, 2020–2025, alle og etter innvandrerkategori. Sysselsettingsraten er sysselsatte delt på hele aldersgruppen. Hver person telles i én hovedstatus: sysselsatt, registrert ledig, på tiltak, under utdanning, AAP eller uføretrygd, AFP eller alderspensjon, eller andre.</li>
+    <li><span class="norm-tag">Fylker</span> <b>Nordland og landet er SSBs egne tall.</b> SSB har Troms og Finnmark hver for seg bare fra 2024. For 2020–2023 er de summen av kommunene; summen er lik SSBs tall for Troms og Finnmark samlet for alle grupper og år. Nord-Norge er summen av fylkene.</li>
+    <li><span class="norm-tag">Tekst</span> <b>Regelbasert:</b> forskjeller under 0,2 prosentpoeng omtales som «om lag som».</li>
+  </ul>
+  <p><b>Forbehold.</b> Statusen gjelder 4. kvartal. Uføretrygd og AAP her er SSBs hovedstatus og avviker noe fra NAVs tall lenger ned, som har en annen aldersgruppe og telledato.</p>
 </div>
 
 <div class="metode-card" id="naering-kommune">
