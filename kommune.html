@@ -455,9 +455,11 @@ document.addEventListener('DOMContentLoaded', function(){
     state.projMode = state.projMode || 'tot';
     state.mw = state.mw || 'sentral';
     state.ukr = state.ukr != null ? state.ukr : 0;
-    state.showMVP = !!state.showMVP;
-    // Drivkrefter og Forsørgerbyrde er TF-MVP-basert per natur — auto-åpne TF-MVP-detaljene
-    if(state.projMode === 'dec' || state.projMode === 'fb') state.showMVP = true;
+    // TF-MVP-linjen (gul) vises alltid. Tidligere ble den bare tegnet etter at Drivkrefter eller
+    // Forsørgerbrøk var valgt, så den manglet første gang grafen ble vist. Den utfoldbare boksen med
+    // innstillinger (flyttevindu, Ukraina-scenario) styres nå av state.mvpOpen og påvirker ikke linjen.
+    state.showMVP = true;
+    state.mvpOpen = !!state.mvpOpen;
 
     var modeBtns = modes.map(function(m){
       return '<button data-bm="'+m.key+'" aria-pressed="'+(state.projMode===m.key)+'" title="'+m.sub+'">'+m.lab+'</button>';
@@ -592,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function(){
         '<div class="bf-kpis">'+kpiHTML+'</div>'+
         // TF-MVP-alternativer i utvidbar visning. SSB MMMM + TF-ATTR er hovedfortellingen;
         // TF-MVP-vinduene gir transparens om hvor mye historisk valg påvirker utfallet.
-        '<details class="bf-mvp-details" id="bfMvpDetails"'+(state.showMVP ? ' open' : '')+'>'+
+        '<details class="bf-mvp-details" id="bfMvpDetails"'+(state.mvpOpen ? ' open' : '')+'>'+
           '<summary>'+
             '<span class="bf-mvp-arrow">▸</span> '+
             '<span>Vis yttergrense-modeller — TF-MVP og scenarier</span>'+
@@ -623,11 +625,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // eventet får fullføre før DOM-en byttes ut under det.
     var mvpDet = host.querySelector('#bfMvpDetails');
     if(mvpDet){
-      mvpDet.addEventListener('toggle', function(e){
-        if(e.target.open === state.showMVP) return;
-        state.showMVP = e.target.open;
-        requestAnimationFrame(function(){ renderSection('befolkning'); });
-      });
+      mvpDet.addEventListener('toggle', function(e){ state.mvpOpen = e.target.open; });
     }
 
     // Wire opp modus-knappene — defer render så klikk-event på button får fullføre
