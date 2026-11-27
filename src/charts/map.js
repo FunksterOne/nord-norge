@@ -231,12 +231,16 @@ const GRUPPER = [
   ['Økonomi', ['skattAndel', 'skatteVekst', 'robek']],
 ];
 
+// Fargeskalaen i forklaringen: første etikett er midtstilt over venstre ende, så den trenger litt luft
+// for ikke å havne helt i skjermkanten på mobil (f.eks. «−40 %»).
+const RAMPE = { marginLeft: 14, width: 254 };
+
 function colorScale(def, values) {
   const nums = values.filter(v => typeof v === 'number' && Number.isFinite(v));
   if (def.type === 'diverging') {
     const m = Math.max(...nums.map(Math.abs));
     const lim = Math.ceil(m / 5) * 5;
-    return { type: 'diverging', domain: [-lim, lim], pivot: 0, range: [css('--neg'), css('--panel'), css('--pos')], interpolate: 'lab', legend: true, tickFormat: v => endringPst(v, 0), label: null };
+    return { type: 'diverging', domain: [-lim, lim], pivot: 0, range: [css('--neg'), css('--panel'), css('--pos')], interpolate: 'lab', legend: true, ...RAMPE, tickFormat: v => endringPst(v, 0), label: null };
   }
   if (def.type === 'sequential' && def.klasser) {
     const n = def.klasser.length, f = interpolateLab(css('--line'), css('--accent'));
@@ -244,7 +248,7 @@ function colorScale(def, values) {
   }
   if (def.type === 'sequential') {
     const lo = Math.min(...nums), hi = Math.max(...nums);
-    return { type: 'linear', domain: [lo, hi], range: [css('--line'), css('--accent')], interpolate: 'lab', legend: true, tickFormat: def.akse || (v => def.fmt(v).replace(/,0 %$/, ' %')), label: null };
+    return { type: 'linear', domain: [lo, hi], range: [css('--line'), css('--accent')], interpolate: 'lab', legend: true, ...RAMPE, tickFormat: def.akse || (v => def.fmt(v).replace(/,0 %$/, ' %')), label: null };
   }
   if (def.type === 'cat') {
     return { domain: ['i', 'pend', 'ikke'], range: [css('--neg'), css('--warn'), css('--line')], legend: true, tickFormat: v => def.fmt(v), label: null };
