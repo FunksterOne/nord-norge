@@ -1,6 +1,6 @@
 // Backtest 2020 → 2024: gjennomsnittlig prosentfeil per sentralitetsklasse og modell.
 // Spesifikasjon: { grupper:[{lab, sub, v:[ssb, mvp, attr], uthev}], serier:[[navn, farge], …] }
-import { Plot, register, spec } from './core.js';
+import { Plot, tekst, register, spec } from './core.js';
 import { tall } from '../lib/format.js';
 
 register('backtest', (el, width) => {
@@ -26,7 +26,7 @@ register('backtest', (el, width) => {
     x: { domain: [0, maks], tickFormat: v => `${tall(v, 1)} %`, ticks: 5, tickSize: 0, label: 'Gjennomsnittlig prosentfeil — lavere er bedre →', labelAnchor: 'right' },
     marks: [
       Plot.barX(vis, { fy: 'g', y: 'serie', x: 'v', fill: r => r.farge, fillOpacity: r => (r.vinner ? 1 : 0.38) }),
-      Plot.text(vis, { fy: 'g', y: 'serie', x: 'v', text: r => tall(r.v, 2) + (r.vinner ? ' ●' : ''), dx: 5, textAnchor: 'start', fill: r => (r.vinner ? 'var(--ink)' : 'var(--ink-3)'), fontWeight: r => (r.vinner ? 600 : 400), fontSize: 11 }),
+      tekst(vis, { fy: 'g', y: 'serie', x: 'v', text: r => tall(r.v, 2) + (r.vinner ? ' ●' : ''), dx: 5, textAnchor: 'start', fill: r => (r.vinner ? 'var(--ink)' : 'var(--ink-3)'), fontWeight: r => (r.vinner ? 600 : 400), fontSize: 11 }),
       Plot.tip(vis, Plot.pointer({ fy: 'g', y: 'serie', x: 'v', title: r => `${r.lab} (${r.sub})\n${r.serie}: ${tall(r.v, 2)} % feil${r.vinner ? '\nMinst feil i raden' : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   });

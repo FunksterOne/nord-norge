@@ -29,6 +29,20 @@ export function base(opts = {}) {
 }
 export { Plot };
 
+// Plot.text der fontWeight kan variere per punkt. Plot godtar bare en fast fontWeight (en funksjon blir
+// gjort om til tekst og ignoreres av nettleseren), så dataene deles i ett merke per vekt.
+export function tekst(data, opts = {}) {
+  const fw = opts.fontWeight;
+  if (typeof fw !== 'function') return Plot.text(data, opts);
+  const grupper = new Map();
+  Array.from(data || []).forEach((d, i) => {
+    const w = fw(d, i);
+    if (!grupper.has(w)) grupper.set(w, []);
+    grupper.get(w).push(d);
+  });
+  return [...grupper].map(([w, rader]) => Plot.text(rader, { ...opts, fontWeight: w }));
+}
+
 function draw(el) {
   const render = registry.get(el.dataset.nnchart);
   if (!render) return;

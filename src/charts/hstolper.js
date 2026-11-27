@@ -4,7 +4,7 @@
 // Stolpetykkelsen er fast (rundt 14 px) uansett antall rader, slik at figurene ser like ut på tvers av sidene.
 // Negative verdier tegnes mot venstre fra en nullinje. Verdien står til venstre for stolpen, men når
 // etiketten ligger over stolpen, står den til høyre for nullinjen så den ikke kolliderer med etiketten.
-import { Plot, register, spec } from './core.js';
+import { Plot, tekst, register, spec } from './core.js';
 import { heltall, tall } from '../lib/format.js';
 
 const FARGE = f => (!f ? 'var(--muted-mark)' : f.startsWith('var(') || f.startsWith('color-mix') ? f : ({ accent: 'var(--accent)', ink: 'var(--ink)', neg: 'var(--neg)', pos: 'var(--pos)', warn: 'var(--warn)', muted: 'var(--muted-mark)' })[f] || `var(--${f})`);
@@ -71,9 +71,9 @@ register('hstolper', (el, width) => {
           Plot.ruleX([r.v], { stroke: r.farge || 'var(--ink-3)', strokeDasharray: '3,3' }),
           Plot.text([r.v], { x: d => d, frameAnchor: 'top', dy: ri % 2 ? -2 : -12, text: () => r.tekst, fill: r.farge || 'var(--ink-3)', fontSize: 11 }),
         ]),
-        Plot.text(vals.filter(r => r.v >= 0), { x: 'v', y: 'key', text: r => etikett(r, overHer), dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
-        Plot.text(vals.filter(r => r.v < 0), { x: overHer ? 0 : 'v', y: 'key', text: r => etikett(r, overHer), dx: overHer ? 6 : -6, textAnchor: overHer ? 'start' : 'end', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
-        overHer && Plot.text(rader, { y: 'key', frameAnchor: 'left', text: radTekst, dy: -14, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: 11.5 }),
+        tekst(vals.filter(r => r.v >= 0), { x: 'v', y: 'key', text: r => etikett(r, overHer), dx: 6, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
+        tekst(vals.filter(r => r.v < 0), { x: overHer ? 0 : 'v', y: 'key', text: r => etikett(r, overHer), dx: overHer ? 6 : -6, textAnchor: overHer ? 'start' : 'end', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: tett ? 10 : 11.5 }),
+        overHer && tekst(rader, { y: 'key', frameAnchor: 'left', text: radTekst, dy: -14, textAnchor: 'start', fill: r => (r.uthev ? 'var(--ink)' : 'var(--ink-2)'), fontWeight: r => (r.uthev ? 600 : 400), fontSize: 11.5 }),
         overHer && toLinjer && Plot.text(rader.filter(r => r.note), { y: 'key', frameAnchor: 'left', text: 'note', dy: 15, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 10.5 }),
         overHer && noteHøyre && Plot.text(rader.filter(r => r.note), { y: 'key', frameAnchor: 'right', text: 'note', dy: -14, textAnchor: 'end', fill: 'var(--ink-3)', fontSize: 11 }),
         tom.length && Plot.text(tom, { x: 0, y: 'key', text: () => 'undertrykt', dx: 6, textAnchor: 'start', fill: 'var(--ink-3)', fontSize: 11 }),

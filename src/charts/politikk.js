@@ -3,7 +3,7 @@
 //   Fargen i hver rad er skalert mot radens egen høyeste verdi, slik at skiftet over tid vises for hvert tema.
 // regnskap:  { x:[…], serier:[{navn, data:[…], farge}], netto:{navn, data:[…]}, kilde }
 //   Stablede stolper med positive og negative bidrag per år, og nettoendringen som punkt.
-import { Plot, base, register, spec } from './core.js';
+import { Plot, tekst, base, register, spec } from './core.js';
 import { tall, heltall } from '../lib/format.js';
 
 const FARGE = f => (!f ? 'var(--muted-mark)' : f.startsWith('var(') ? f : ({ accent: 'var(--accent)', ink: 'var(--ink)', neg: 'var(--neg)', pos: 'var(--pos)', warn: 'var(--warn)', muted: 'var(--muted-mark)' })[f] || `var(--${f})`);
@@ -31,7 +31,7 @@ register('varmekart', (el, width) => {
     y: { domain: s.rader.map(r => r.l), label: null, tickSize: 0, padding: 0.08 },
     marks: [
       Plot.cell(rows, { x: 'k', y: 'l', fill: 'var(--accent)', fillOpacity: d => 0.08 + 0.82 * d.a }),
-      Plot.text(rows, {
+      tekst(rows, {
         x: 'k', y: 'l', text: d => (d.v == null ? '–' : tall(d.v, desCelle)),
         fill: d => (d.a > 0.55 ? 'var(--paper, #fff)' : 'var(--ink)'),
         fontWeight: d => (d.a >= 0.999 ? 700 : 500), fontVariant: 'tabular-nums',

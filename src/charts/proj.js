@@ -1,6 +1,6 @@
 // Befolkningsbaner (kommune/fylke/landsdel): total, dekomponering, forsørgerbyrde, aldring.
 // Leser de globale strukturene fra assets/data.js og assets/app.js (DATA, K, AGG, state, MW).
-import { Plot, base, register, spec } from './core.js';
+import { Plot, tekst, base, register, spec } from './core.js';
 import { heltall, tall, endring } from '../lib/format.js';
 import { L } from '../lib/legacy.js';
 
@@ -109,7 +109,7 @@ function renderTot(el, width, k, o) {
       us && Plot.lineY(S('ukr'), { x: 'year', y: 'value', stroke: 'var(--cat-6)', strokeWidth: 2 }),
       Plot.lineY(S('main'), { x: 'year', y: 'value', stroke: 'var(--accent)', strokeWidth: 2.6 }),
       Plot.dot([{ year: 2026, value: k.pop }], { x: 'year', y: 'value', r: 4.5, fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2 }),
-      Plot.text(placed, { x: 'year', y: 'y', text: 'text', fill: d => d.color, dx: 8, textAnchor: 'start', fontWeight: d => d.weight || 400, fontSize: 11.5 }),
+      tekst(placed, { x: 'year', y: 'y', text: 'text', fill: d => d.color, dx: 8, textAnchor: 'start', fontWeight: d => d.weight || 400, fontSize: 11.5 }),
       Plot.ruleX(tipRows, Plot.pointerX({ x: 'year', stroke: 'var(--ink-3)', strokeOpacity: 0.6 })),
       Plot.dot(tipRows, Plot.pointerX({ x: 'year', y: 'yAnchor', r: 4, fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2 })),
       Plot.tip(tipRows, Plot.pointerX({ x: 'year', y: 'yAnchor', title: d => `${d.year}\n${d.tekst}`, fill: 'var(--raised)', stroke: 'var(--line)', textPadding: 9, fontSize: 12 })),
@@ -147,7 +147,9 @@ function renderDec(el, width, k, o) {
     marks: [
       Plot.ruleY([0], { stroke: 'var(--rule)' }),
       Plot.barY(rows, { x: 'lab', y: 'v', fill: d => d.sum ? (d.v < 0 ? 'var(--neg)' : 'var(--accent)') : 'var(--muted-mark)' }),
-      Plot.text(rows, { x: 'lab', y: 'v', text: d => endring(Math.round(d.v), 0), dy: d => d.v < 0 ? 12 : -10, fill: 'var(--ink)', fontWeight: 600, fontSize: 13 }),
+      // dy må være et fast tall i Plot (en funksjon gir translate(x,NaN)), derfor ett merke for hver retning
+      Plot.text(rows.filter(d => d.v < 0), { x: 'lab', y: 'v', text: d => endring(Math.round(d.v), 0), dy: 12, fill: 'var(--ink)', fontWeight: 600, fontSize: 13 }),
+      Plot.text(rows.filter(d => !(d.v < 0)), { x: 'lab', y: 'v', text: d => endring(Math.round(d.v), 0), dy: -10, fill: 'var(--ink)', fontWeight: 600, fontSize: 13 }),
       Plot.tip(rows, Plot.pointer({ x: 'lab', y: 'v', title: d => `${d.lab}\n${endring(Math.round(d.v), 0)} personer`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   }));

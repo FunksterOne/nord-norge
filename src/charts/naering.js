@@ -1,5 +1,5 @@
 // Næringsdiagrammer: konsentrasjonskart (lokaliseringskvotient per region) og manualdiagram.
-import { Plot, register, spec, redraw } from './core.js';
+import { Plot, tekst, register, spec, redraw } from './core.js';
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 import { L } from '../lib/legacy.js';
 import { tall, heltall, prosent, endringPst } from '../lib/format.js';
@@ -44,7 +44,7 @@ register('lq', (el, width) => {
     marks: [
       Plot.cell(rows, { x: 'gNavn', y: 'region', fill: r => Math.max(0.1, Math.min(r.lq || 0.1, 16)), inset: 1.5 }),
       Plot.cell(rows.filter(r => r.lq >= 1.5), { x: 'gNavn', y: 'region', stroke: 'var(--accent-text)', strokeWidth: 1.5, inset: 1.5, fill: 'none' }),
-      Plot.text(rows, { x: 'gNavn', y: 'region', text: r => (r.n > 0 ? tall(r.lq, 1) : '–'), fill: r => (r.lq >= 4 ? '#fff' : r.lq >= 1 ? 'var(--ink)' : 'var(--ink-3)'), fontSize: compact ? 9.5 : 10.5, fontWeight: r => (r.lq >= 1.5 ? 600 : 400) }),
+      tekst(rows, { x: 'gNavn', y: 'region', text: r => (r.n > 0 ? tall(r.lq, 1) : '–'), fill: r => (r.lq >= 4 ? '#fff' : r.lq >= 1 ? 'var(--ink)' : 'var(--ink-3)'), fontSize: compact ? 9.5 : 10.5, fontWeight: r => (r.lq >= 1.5 ? 600 : 400) }),
       Plot.tip(rows, Plot.pointer({ x: 'gNavn', y: 'region', title: r => `${r.region} · ${r.gNavn}\n${heltall(r.n)} sysselsatte (${prosent(r.andel, 1)} av regionen)\nKvotient mot landet: ${tall(r.lq, 2)}${r.lq >= 1.5 ? '\nFramtredende næring (≥ 1,5)' : ''}`, fill: 'var(--raised)', stroke: 'var(--line)' })),
     ],
   });

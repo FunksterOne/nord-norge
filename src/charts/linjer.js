@@ -4,7 +4,7 @@
 //                    stil:'linje'|'stiplet'|'område'|'stolpe', etikett:true, utenVerdi:false}],
 //   format:'tall'|'tall1'|'pst'|'indeks'|'endring'|'kr', null:false, iDag:2026, ref:[{y, tekst}],
 //   hoyde:320, xTicks:[…], xFormat:'aar'|'tekst', yTittel:'…', brudd:false (true = brutt linje ved manglende verdi) }
-import { Plot, base, register, spec } from './core.js';
+import { Plot, tekst, base, register, spec } from './core.js';
 import { heltall, tall, endring, prosent } from '../lib/format.js';
 
 const FARGE = f => {
@@ -94,7 +94,7 @@ register('linjer', (el, width) => {
       marks.push(Plot.lineY(d, { x: 'x', y: 'v', stroke: c, strokeWidth: se.uthev ? 2.6 : se.svak ? 1.2 : 1.8, strokeOpacity: se.svak ? 0.45 : 1, strokeDasharray: se.stil === 'stiplet' ? '5,3' : null }));
     }
   });
-  marks.push(Plot.text(placed, { x: 'x', y: 'y', text: 'text', fill: d => TEKSTFARGE(d.farge), dx: 8, textAnchor: 'start', fontWeight: d => (d.uthev ? 600 : 500), fontSize: 11.5 }));
+  marks.push(tekst(placed, { x: 'x', y: 'y', text: 'text', fill: d => TEKSTFARGE(d.farge), dx: 8, textAnchor: 'start', fontWeight: d => (d.uthev ? 600 : 500), fontSize: 11.5 }));
   // Verktøytips: alle serier ved valgt x
   const byX = new Map();
   rows.forEach(r => { const o = byX.get(r.x) || { x: r.x, y: r.v, lines: [] }; o.lines.push(`${s.serier[r.si].navn}: ${fmt(r.v)}`); byX.set(r.x, o); });
