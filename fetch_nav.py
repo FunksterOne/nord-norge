@@ -621,14 +621,24 @@ def publiser(D):
     aar = {kat: siste_hele(D["fylker"]["NN"][kat]) for kat in ("helt_ledige", "aap", "nedsatt")}
     udato = max(d for d in D["fylker"]["NN"]["ufore"])
     paar = max(D["fylker"]["NN"]["pensjon"], key=int)
-    kart["meta"] = {"ledige": aar["helt_ledige"], "aap": aar["aap"], "nedsatt": aar["nedsatt"], "ufore": udato, "minstepensjon": paar}
+    # Siste måned med helt ledige for Nord-Norge (månedstall, ikke sesongjustert); brukes i profilen og sammenligningen
+    hl_nn = D["fylker"]["NN"]["helt_ledige"]
+    la_mnd = max(hl_nn, key=int)
+    mn_mnd = max((m for m, v in hl_nn[la_mnd].get("mnd", {}).items() if isinstance(v[1], (int, float))), key=int)
+    mdato = f"{la_mnd}-{int(mn_mnd):02d}"
+    kart["meta"] = {"ledige": aar["helt_ledige"], "ledigeMnd": mdato, "aap": aar["aap"], "nedsatt": aar["nedsatt"], "ufore": udato, "minstepensjon": paar}
+
+    def mnd_pst(x):
+        v = x.get("helt_ledige", {}).get(la_mnd, {}).get("mnd", {}).get(mn_mnd)
+        return r4(v[1]) if v and isinstance(v[1], (int, float)) else None
 
     def rad(x):
         return {"ledige": r4(x.get("helt_ledige", {}).get(aar["helt_ledige"], {}).get("pst")),
                 "aap": r4(x.get("aap", {}).get(aar["aap"], {}).get("pst")),
                 "nedsatt": r4(x.get("nedsatt", {}).get(aar["nedsatt"], {}).get("pst")),
                 "ufore": r4(x.get("ufore", {}).get(udato, {}).get("pst")),
-                "minstepensjon": r4(x.get("pensjon", {}).get(paar, {}).get("pst"))}
+                "minstepensjon": r4(x.get("pensjon", {}).get(paar, {}).get("pst")),
+                "ledigeMnd": mnd_pst(x)}
     for k in KODER:
         kart["kommuner"][k] = rad(D["kommuner"][k])
         if D["kommuner"][k].get("helt_ledige", {}).get(aar["helt_ledige"], {}).get("anslatt"):
@@ -637,6 +647,7 @@ def publiser(D):
         kart["ref"][fy] = rad(D["fylker"][fy])
     L = D["landet"]
     kart["ref"]["landet"] = {"ledige": r4(L["helt_ledige"].get(aar["helt_ledige"], {}).get("pst")),
+                             "ledigeMnd": mnd_pst(L),
                              "aap": r4(L.get("aap", {}).get(aar["aap"], {}).get("pst")),
                              "nedsatt": r4(L.get("nedsatt", {}).get(aar["nedsatt"], {}).get("pst")),
                              "ufore": r4(L["ufore"].get(udato, {}).get("pst")),

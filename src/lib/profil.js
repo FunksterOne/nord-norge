@@ -10,16 +10,22 @@ import { tall, prosent, endringPst, heltall } from './format.js';
 const kostra = (nr, f) => { const k = L.DATA?.proj?.kostra?.[nr]; return k && k[f] != null ? +k[f] : null; };
 const aarK = () => (L.DATA?.proj?.kostra && Object.values(L.DATA.proj.kostra)[0]?.yr) || '';
 
+// «2026-10» → «oktober 2026»
+const MND = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
+export const mndTekst = d => (d ? `${MND[+String(d).slice(5) - 1] || ''} ${String(d).slice(0, 4)}`.trim() : '');
+
 export function indikatorer() {
   const I = INDIKATORER;
   const nav = L.NAVK?.meta || {};
+  const ledMnd = mndTekst(nav.ledigeMnd);
   return [
     { gruppe: 'Befolkning', key: 'endring', navn: 'Folketall 2026–2050', verdi: I.endring.verdi, tekst: v => endringPst(v, 1) },
     { gruppe: 'Befolkning', key: 'eldre', navn: 'Andel 65 år og over', verdi: I.eldre.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Befolkning', key: 'forsorg', navn: 'Forsørgerbrøk 2050', verdi: I.forsorg.verdi, tekst: v => tall(v, 0) },
     { gruppe: 'Befolkning', key: 'innv', navn: 'Innvandrerbakgrunn', verdi: I.innv.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'syssRate', navn: 'Sysselsatte 20–66 år', verdi: I.syssRate.verdi, tekst: v => prosent(v, 1) },
-    { gruppe: 'Arbeid', key: 'navLedige', navn: `Helt ledige ${nav.ledige || ''}`.trim(), verdi: I.navLedige.verdi, tekst: v => prosent(v, 1) },
+    // Siste månedstall fra NAV (ikke sesongjustert, én desimal fra NAV); kartet bruker fortsatt årssnittet
+    { gruppe: 'Arbeid', key: 'navLedige', navn: `Helt ledige ${ledMnd}`.trim(), verdi: k => L.NAVK?.kommuner?.[String(k.nr)]?.ledigeMnd ?? null, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'navUfore', navn: 'Uføretrygd (NAV)', verdi: I.navUfore.verdi, tekst: v => prosent(v, 1) },
     { gruppe: 'Arbeid', key: 'pendNetto', navn: 'Netto pendling', verdi: I.pendNetto.verdi, tekst: v => endringPst(v, 1) },
     { gruppe: 'Økonomi', key: 'skattAndel', navn: 'Skatt per innbygger', verdi: I.skattAndel.verdi, tekst: v => `${tall(v, 0)} % av landet` },

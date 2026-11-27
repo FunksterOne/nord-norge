@@ -7,7 +7,7 @@ import { L } from './legacy.js';
 import { INDIKATORER as I } from '../charts/map.js';
 import { placeholder } from '../charts/core.js';
 import { tall, heltall, kortNavn } from './format.js';
-import { indikatorer, plassering } from './profil.js';
+import { indikatorer, plassering, mndTekst } from './profil.js';
 
 export const FARGER = ['var(--cat-1)', 'var(--cat-5)', 'var(--cat-3)', 'var(--cat-6)'];
 const FARGENAVN = ['cat-1', 'cat-5', 'cat-3', 'cat-6'];
@@ -76,7 +76,8 @@ function rader() {
     ['Arbeid', [
       { navn: 'Sysselsatte 20–66 år', meta: '4. kvartal 2025', v: k => k.syss?.rate?.tot, fmt: p1, nn: () => SY && rate(SY.nivaa.NN), la: () => SY && rate(SY.nivaa.landet) },
       { navn: 'Innvandrere i arbeid, 20–66 år', meta: '4. kvartal 2025', v: k => k.syss?.rate?.zzz, fmt: p1, nn: () => SY && rate(SY.nivaa.NN.innv), la: () => SY && rate(SY.nivaa.landet.innv) },
-      { navn: 'Helt ledige', meta: `NAV, årssnitt ${navAar.ledige ?? ''}`, v: k => NAV?.kommuner?.[String(k.nr)]?.ledige, fmt: p1, nn: () => NAV?.ref?.NN?.ledige, la: () => NAV?.ref?.landet?.ledige },
+      // Siste månedstall, som i profilen over (ikke sesongjustert)
+      { navn: 'Helt ledige', meta: `NAV, ${mndTekst(navAar.ledigeMnd)}`, v: k => NAV?.kommuner?.[String(k.nr)]?.ledigeMnd, fmt: p1, nn: () => NAV?.ref?.NN?.ledigeMnd, la: () => NAV?.ref?.landet?.ledigeMnd },
       { navn: 'Uføretrygd, 18–67 år', meta: `NAV, ${String(navAar.ufore ?? '').slice(0, 4)}`, v: k => NAV?.kommuner?.[String(k.nr)]?.ufore, fmt: p1, nn: () => NAV?.ref?.NN?.ufore, la: () => NAV?.ref?.landet?.ufore },
       { navn: 'Netto pendling', meta: 'inn minus ut, % av sysselsatte bosatte', v: k => I.pendNetto.verdi(k), fmt: fortegn, nn: () => nnPend && (nnPend.inn.at(-1) - nnPend.ut.at(-1)) / nnPend.bosatte.at(-1) * 100 },
       { navn: 'Arbeidsplasser, endring', meta: N ? `${N.aar[0]}–${N.aar[ni]}` : '', v: k => I.arbVekst.verdi(k), fmt: fortegn,
