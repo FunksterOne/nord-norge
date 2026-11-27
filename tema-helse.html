@@ -137,6 +137,15 @@
     <h3><span class="nn-etikett reg">SSB</span>Legemeldt sykefravær i helse- og omsorgstjenestene per helseregion, 2025, prosent</h3>
     <div id="fravaerGraf"></div>
   </figure>
+
+  <h3 class="nn-h3" id="mangel">Mangelen fram mot 2040 — størst blant helsefagarbeidere</h3>
+  <p class="nn-p" id="mangelIntro"></p>
+  <div class="kpi-rad" id="mangelKPI"></div>
+  <figure class="nn-fig">
+    <h3><span class="nn-etikett reg">SSB</span>Framskrevet mangel (−) eller overskudd i 2040, i prosent av etterspørselen, landet</h3>
+    <div id="mangelGraf"></div>
+  </figure>
+  <p class="nn-kilde" id="mangelNote"></p>
 </section>
 
 <!-- ────────────────── AKT 04 — AVSTANDENE ────────────────── -->
@@ -356,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function(){
     'Avtalte årsverk i spesialisthelsetjenesten i Helseregion Nord økte fra ' + f0(AV.nord[0]) + ' i ' + AV.aar[0] + ' til ' + f0(AV.nord[ai]) + ' i ' + AV.aar[ai] + ' (' + pp(nordEndr) + '), mot ' + pp(landEndr) + ' i landet. ' +
     'Landsdelen har ' + f1(andelSyss) + ' % av landets sysselsatte i sykehustjenester, men ' + f1(HN.bef[0] / NO.bef[0] * 100) + ' % av befolkningen. Helse Nord har ifølge egen risikovurdering ' + IN.per_innb.pst + ' % flere årsverk per innbygger enn resten av landet, blant annet fordi avstandene krever flere sykehus og mer beredskap. ' +
     'Samtidig går gruppen 18–64 år ned med ' + f1(-HN.bef[3]) + ' % fram til 2045, og Helse Nord er mer avhengig av innleid personell enn andre regioner: ' + f1(IN.andel.Nord) + ' % av lønns- og personalkostnadene gikk til innleie fra byrå i ' + IN.aar + ', mot 0,9–1,5 % i de andre regionene. I ' + IN.nou.aar + ' sto regionen for ' + IN.nou.innleie + ' % av all innleie med ' + IN.nou.aarsverk + ' % av årsverkene (' + IN.nou.kilde + '). ' +
-    'Nasjonalt venter regjeringens helsepersonellplan at underskuddet av helsepersonell vokser fra 9 900 årsverk i 2025 til 42 400 i 2040 (Meld. St. 11 (2025–2026), s. 16).';
+    'Nasjonalt venter regjeringens helsepersonellplan at underskuddet av helsepersonell vokser fra 9 900 årsverk i 2025 til 42 400 i 2040 (Meld. St. 11 (2025–2026), s. 16). Riksrevisjonen tar utgangspunkt i SSBs anslag på 8 700 manglende årsverk i 2024; NAVs bedriftsundersøkelse anslår mangelen i 2026 til 9 200 personer. Tallene måler ulike ting og er ikke direkte sammenlignbare (se nedenfor).';
   document.getElementById('hendeKPI').innerHTML =
     '<div class="kpi"><div class="v">' + pp(nordEndr) + '</div><div class="l">Årsverk ' + AV.aar[0] + '–' + AV.aar[ai] + '</div><div class="nh">Helseregion Nord · landet ' + pp(landEndr) + '</div></div>' +
     '<div class="kpi"><div class="v down">' + pp(HN.bef[3]) + '</div><div class="l">18–64 år 2025–2045</div><div class="nh">Helse Nords opptaksområde</div></div>' +
@@ -432,6 +441,31 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('fravaerGraf').innerHTML = NN.placeholder('hstolper', {format:'tall1', grupper: [['Spesialisthelsetjenesten', 'Sykehusene'], ['Kommunal helsetjeneste', 'Kommunal helsetjeneste'], [OM, 'Kommunal omsorg']].map(function(t){
     return {tittel: t[1], rader: REG.map(function(r){ return {l: r, v: SF[r][t[0]][rl], farge: r === 'Helse Nord' ? 'accent' : 'muted', uthev: r === 'Helse Nord'}; })};
   }), kilde: hruKilde + ', ' + RA[rl] + '. Regionene er sykehusenes opptaksområder. Celler SSB har skjult av personvernhensyn, er utelatt.'}, 620);
+
+  // ─── Akt 03: mangelen fram mot 2040 (Riksrevisjonen, Dokument 3:6 (2026–2027), grunnlagsdata fra SSB) ───
+  // Tallene er skrevet av fra rapportteksten; sidetallene er kontrollert mot rapporten. Gruppene uten tall i teksten
+  // (de står bare i rapportens figur 1 og 2) er utelatt.
+  var RR36 = {dok:'Dokument 3:6 (2026–2027)', url:'https://www.stortinget.no/globalassets/pdf/dokumentserien/2026-2027/dok3-202627-006.pdf', dato:'24. november 2026',
+    grupper: [{l:'Helsefagarbeidere', pst:-28, n:-25900}, {l:'Jordmødre', pst:-21}, {l:'Helse- og tannhelsesekretærer', pst:-15},
+              {l:'Sykepleiere', pst:-12, n:-14700}, {l:'Leger', pst:6, n:2300}, {l:'Psykologer', pst:17, n:1600}]};
+  var EK = (typeof ELDRE_DATA !== 'undefined') ? ELDRE_DATA.kommuner : {};
+  var nLav = Object.keys(EK).filter(function(k){ return EK[k][0] >= 5; }).length, nAlle = Object.keys(EK).length;
+  document.getElementById('mangelIntro').innerHTML =
+    'SSB framskriver at landet i 2040 trenger om lag 329 000 årsverk fra 14 sentrale helsepersonellgrupper, mens tilbudet blir om lag 295 300. Med dagens mangel på 8 700 årsverk gir det et underskudd på om lag 42 400 årsverk. Helsefagarbeidere (25 900) og sykepleiere (14 700) står for 40 600 av dem, mens det ventes overskudd av leger og psykologer. ' +
+    'Behovet vokser mest i de kommunale omsorgstjenestene, med 77 800 årsverk (48 %) fra 2024 til 2040. Av dem er 27 800 erstatning for omsorg som pårørende ikke lenger kan gi, fordi SSB holder pårørendes innsats fast mens antallet eldre øker. ' +
+    'SSB fordeler ikke behovet på regioner eller kommuner, men Riksrevisjonens gjennomgang viser hvorfor nord er utsatt. Helse Nords opptaksområde har 75 årsverk i helsetjenesten per 1 000 innbyggere, mot 58 i Helse Sør-Øst, fordi spredt bosetting krever desentraliserte tilbud. I opptaksområdet til Finnmarkssykehuset utføres 15,8 % av årsverkene i spesialisthelsetjenesten av personell som er 60 år eller eldre, dobbelt så mye som i Helse Stavanger (7,4 %). ' +
+    'I kommunene med lav sentralitet (klasse 5 og 6) gjelder det samme 16 % av årsverkene i den kommunale helse- og omsorgstjenesten, mot 11 % i de mest sentrale. ' + nLav + ' av de ' + nAlle + ' kommunene i Nord-Norge er i klasse 5 eller 6.';
+  document.getElementById('mangelKPI').innerHTML =
+    '<div class="kpi"><div class="v down">−42 400</div><div class="l">Årsverk i 2040</div><div class="nh">14 helsepersonellgrupper, landet</div></div>' +
+    '<div class="kpi"><div class="v down">28 %</div><div class="l">Mangel på helsefagarbeidere</div><div class="nh">av etterspørselen i 2040 · sykepleiere 12 %</div></div>' +
+    '<div class="kpi"><div class="v">15,8 %</div><div class="l">Årsverk utført av 60 år og eldre</div><div class="nh">Finnmarkssykehuset 2025 · Helse Stavanger 7,4 %</div></div>' +
+    '<div class="kpi"><div class="v">' + nLav + ' av ' + nAlle + '</div><div class="l">Kommuner med lav sentralitet</div><div class="nh">klasse 5–6, SSBs indeks 2024</div></div>';
+  document.getElementById('mangelGraf').innerHTML = NN.placeholder('hstolper', {format:'pst0', grupper:[{rader: RR36.grupper.map(function(g, i){
+    return {l: g.l, v: g.pst, farge: i === 0 ? 'accent' : 'muted', uthev: i === 0,
+            note: g.n != null ? (g.n < 0 ? 'mangel ' : 'overskudd ') + f0(Math.abs(g.n)) + ' årsverk' : null};
+  })}], kilde: 'SSBs referansealternativ, gjengitt av Riksrevisjonen (figur 1 og 2). Bare gruppene som er tallfestet i rapportteksten, er med.'}, RR36.grupper.length * 34 + 40);
+  document.getElementById('mangelNote').innerHTML = 'Grunnlag: Riksrevisjonen, <a href="' + RR36.url + '" target="_blank" rel="noopener">' + RR36.dok + '</a>, lagt fram ' + RR36.dato + ', s. 8–12, 16–17, 20–22, 33 og 76, med grunnlagsdata fra SSB. ' +
+    'Framskrivingene er ikke prognoser for hvor mange stillinger som står ubesatt i 2040 (s. 12). Mangelen i 2024 (8 700 årsverk) er SSBs anslag; NAVs tall (9 200) gjelder personer, ikke årsverk. Tallene for sentralitet og alder gjelder hele landet; rapporten har ingen tall per kommune eller fylke.';
 
   // ─── Akt 04 ───
   var tot = 0, o60 = 0, o120 = 0, n60 = 0, n120 = 0;

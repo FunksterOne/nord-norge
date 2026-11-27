@@ -16,6 +16,8 @@ const p1 = v => (v == null ? '–' : `${tall(v, 1)} %`);
 const fortegn = v => (v == null ? '–' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${tall(Math.abs(v), 1)} %`);
 const kr = v => (v == null ? '–' : `${heltall(v)} kr`);
 const t0 = v => (v == null ? '–' : tall(v, 0));
+const sentr = nr => { const o = L.ELDRE?.kommuner?.[String(nr)]; return o && o[0] != null ? `Klasse ${o[0]}` : null; };
+const sentrNN = () => { const E = L.ELDRE?.kommuner || {}; const n = Object.values(E).filter(o => o[0] >= 5).length; return n ? `${n} av ${Object.keys(E).length} i klasse 5–6` : null; };
 const ok = v => (v == null || (typeof v === 'number' && !Number.isFinite(v)) ? null : v);
 
 function median(arr) { let t = arr.reduce((a, b) => a + b, 0), c = 0; for (let i = 0; i < arr.length; i++) { c += arr[i]; if (c >= t / 2) return i; } return 0; }
@@ -66,6 +68,8 @@ function rader() {
     ['Befolkning', [
       // Ferskeste kvartal (SSB 01222), som «Folketall i dag» på kommunesiden; øvrige befolkningstall er per 1.1.2026
       { navn: 'Folketall', meta: L.BEFK ? `per ${L.BEFK.dato_norsk}` : '1.1.2026', v: k => L.BEFK?.kommuner?.[k.nr] ?? k.pop, fmt: heltall, nn: () => L.BEFK?.landsdel ?? L.K.reduce((s, k) => s + k.pop, 0) },
+      // SSBs sentralitetsindeks 2024 (KLASS 128, i ELDRE_DATA); Riksrevisjonen regner klasse 5–6 som lav sentralitet
+      { navn: 'Sentralitet', meta: 'SSB-indeks 2024, 1 = mest sentral', tekst: true, v: k => sentr(k.nr), nn: () => sentrNN() },
       { navn: 'Endring i folketall 2026–2050', meta: 'SSB hovedalternativ', v: k => I.endring.verdi(k), fmt: fortegn, nn: () => nnK && I.endring.verdi(nnK) },
       { navn: 'Andel 65 år og over', meta: '1.1.2026', v: k => I.eldre.verdi(k), fmt: p1, nn: () => nnK && I.eldre.verdi(nnK) },
       { navn: 'Medianalder', meta: '1.1.2026', v: k => median(k.alder), fmt: t0, nn: () => nnK && median(nnK.alder) },

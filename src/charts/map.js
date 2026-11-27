@@ -45,6 +45,13 @@ export const INDIKATORER = {
     enhet: 'Innvandrere og norskfødte med innvandrerforeldre, andel av folketallet',
     verdi: k => k.andel, fmt: v => prosent(v, 1), type: 'sequential',
   },
+  sentralitet: {
+    navn: 'Sentralitet', kort: 'Sentralitetsklasse',
+    enhet: 'SSBs sentralitetsindeks 2024, fra klasse 1 (mest sentral) til 6 (minst sentral). Ingen kommuner i Nord-Norge er i klasse 1 eller 2',
+    verdi: k => { const o = L.ELDRE?.kommuner?.[String(k.nr)]; return o && o[0] != null ? o[0] : null; },
+    fmt: v => `klasse ${v}`, akse: v => (Number.isInteger(v) ? `klasse ${v}` : ''), type: 'sequential', utenStolpe: true,
+    kilde: 'Kilde: SSB, sentralitetsindeks 2024 (KLASS 128), via fetch_eldre.py.',
+  },
   folketall: {
     navn: 'Folketall', kort: 'Folketall',
     enhet: 'Folketall 1.1.2026 — sirkelflaten er proporsjonal med folketallet',
@@ -216,7 +223,7 @@ export const INDIKATORER = {
 
 // Gruppene i kartmenyen (hovedkartet på landsdels- og fylkessidene)
 const GRUPPER = [
-  ['Befolkning', ['endring', 'folketall', 'eldre', 'forsorg', 'innv']],
+  ['Befolkning', ['endring', 'folketall', 'eldre', 'forsorg', 'innv', 'sentralitet']],
   ['Arbeid', ['syssRate', 'syssInnv', 'pendNetto', 'arbVekst', 'primaerAndel']],
   ['NAV', ['navLedige', 'navAap', 'navNedsatt', 'navUfore', 'navMinstepensjon']],
   ['Økonomi', ['skattAndel', 'skatteVekst', 'robek']],
