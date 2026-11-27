@@ -2,6 +2,7 @@
 // Spesifikasjon: { ind, highlight, fylke, controls, height, noclick }
 import { Plot, register, spec, redraw } from './core.js';
 import { feature, merge, mesh } from 'topojson-client';
+import { interpolateLab } from 'd3';
 import { L } from '../lib/legacy.js';
 import { tall, heltall, endringPst, prosent, kortNavn } from '../lib/format.js';
 
@@ -49,7 +50,8 @@ export const INDIKATORER = {
     navn: 'Sentralitet', kort: 'Sentralitetsklasse',
     enhet: 'SSBs sentralitetsindeks 2024, fra klasse 1 (mest sentral) til 6 (minst sentral). Ingen kommuner i Nord-Norge er i klasse 1 eller 2',
     verdi: k => { const o = L.ELDRE?.kommuner?.[String(k.nr)]; return o && o[0] != null ? o[0] : null; },
-    fmt: v => `klasse ${v}`, akse: v => (Number.isInteger(v) ? `klasse ${v}` : ''), type: 'sequential', utenStolpe: true,
+    // Faste klasser: fargeprøver i forklaringen i stedet for en skala, så etikettene ikke kuttes i kanten på mobil
+    fmt: v => `klasse ${v}`, type: 'sequential', klasser: [3, 4, 5, 6], utenStolpe: true,
     kilde: 'Kilde: SSB, sentralitetsindeks 2024 (KLASS 128), via fetch_eldre.py.',
   },
   folketall: {
@@ -235,6 +237,10 @@ function colorScale(def, values) {
     const m = Math.max(...nums.map(Math.abs));
     const lim = Math.ceil(m / 5) * 5;
     return { type: 'diverging', domain: [-lim, lim], pivot: 0, range: [css('--neg'), css('--panel'), css('--pos')], interpolate: 'lab', legend: true, tickFormat: v => endringPst(v, 0), label: null };
+  }
+  if (def.type === 'sequential' && def.klasser) {
+    const n = def.klasser.length, f = interpolateLab(css('--line'), css('--accent'));
+    return { type: 'ordinal', domain: def.klasser, range: def.klasser.map((_, i) => f(n > 1 ? i / (n - 1) : 1)), legend: true, tickFormat: v => def.fmt(v), label: null };
   }
   if (def.type === 'sequential') {
     const lo = Math.min(...nums), hi = Math.max(...nums);
